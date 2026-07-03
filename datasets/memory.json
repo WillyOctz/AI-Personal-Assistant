@@ -117,6 +117,46 @@
             "result": "I understand you want to play stardew valley, but game launching is not connected yet.",
             "timestamp": "2026-07-02 17:02:39",
             "importance": 0.8
+        },
+        {
+            "user_input": "calculate 2 + 3",
+            "intent": "calculate",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "result": "The answer is 5",
+            "timestamp": "2026-07-03 16:38:51",
+            "importance": 0.8
+        },
+        {
+            "user_input": "what is 10 / 2",
+            "intent": "calculate",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "result": "The answer is 5.0",
+            "timestamp": "2026-07-03 16:39:03",
+            "importance": 0.8
+        },
+        {
+            "user_input": "calculate 2 ** 3",
+            "intent": "calculate",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "result": "The answer is 8",
+            "timestamp": "2026-07-03 16:39:25",
+            "importance": 0.8
+        },
+        {
+            "user_input": "calculate hello",
+            "intent": "calculate",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "result": "I could not calculate that.",
+            "timestamp": "2026-07-03 16:39:35",
+            "importance": 0.8
         }
     ],
     "conversation": [
@@ -1371,6 +1411,56 @@
             "source": "rule",
             "timestamp": "2026-07-03 15:47:43",
             "importance": 0.6
+        },
+        {
+            "user": "calculate 2 + 3",
+            "assistant": "The answer is 5",
+            "intent": "calculate",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-03 16:38:51",
+            "importance": 0.8
+        },
+        {
+            "user": "what is 10 / 2",
+            "assistant": "The answer is 5.0",
+            "intent": "calculate",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-03 16:39:03",
+            "importance": 0.8
+        },
+        {
+            "user": "what is my goal",
+            "assistant": "Your goal is to build best AI assistant.",
+            "intent": "get_profile_fact",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-03 16:39:11",
+            "importance": 0.6
+        },
+        {
+            "user": "calculate 2 ** 3",
+            "assistant": "The answer is 8",
+            "intent": "calculate",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-03 16:39:25",
+            "importance": 0.8
+        },
+        {
+            "user": "calculate hello",
+            "assistant": "I could not calculate that.",
+            "intent": "calculate",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-03 16:39:35",
+            "importance": 0.8
         }
     ],
     "summaries": [

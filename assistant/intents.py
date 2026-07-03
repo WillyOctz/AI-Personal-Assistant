@@ -221,6 +221,11 @@ INTENT_PREFIXES = {
     "resolve_entity_conflict": [
         "resolve entity ",
     ],
+    "calculate": [
+        "calculate ",
+        "what is ",
+        "what's ",
+    ],
 }
 
 PROFILE_KEY_ALIASES = {

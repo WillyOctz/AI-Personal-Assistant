@@ -1,4 +1,4 @@
-from assistant.tools import get_time, create_reminder, open_app, play_game
+from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate
 from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict
 from assistant.personality import greet, unknown_response
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS
@@ -376,6 +376,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "get_profile_fact"):
         return make_analysis("get_profile_fact")
+    
+    if match_prefix_pattern(text, "calculate"):
+        return make_analysis("calculate")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -692,6 +695,15 @@ def extract_after_keyword(user_input, keywords):
             return text.split(keyword, 1)[1].strip()
         
     return ""
+
+def extract_calculation_expression(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["calculate ", "what is ", "what's "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return text
 
 def extract_entity(user_input, intent):
     if intent == "open_app":
@@ -1413,6 +1425,7 @@ def handle_action_intent(user_input, analysis):
             f"If confirmed, I will: {action_preview}.\n"
             f"Reply yes to confirm, no to reject, or teach me with: teach {user_input} as intent_name"
         )
+    
         
     if intent == "set_reminder":
         reminder_text = extract_entity(user_input, intent)
@@ -1441,6 +1454,16 @@ def handle_action_intent(user_input, analysis):
             return "Which game should I play?"
         
         result = play_game(game_name)
+        log_action(user_input, analysis, result)
+        return result
+    
+    if intent == "calculate":
+        expression = extract_calculation_expression(user_input)
+        
+        if not expression:
+            return "What should I calculate?"
+        
+        result = safe_calculate(expression)
         log_action(user_input, analysis, result)
         return result
         

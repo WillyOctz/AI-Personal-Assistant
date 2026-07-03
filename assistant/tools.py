@@ -1,5 +1,54 @@
 from datetime import datetime
 from assistant.memory import add_reminder
+import ast
+import operator
+
+ALLOWED_OPERATORS = {
+    ast.Add: operator.add,
+    ast.Sub: operator.sub,
+    ast.Mult: operator.mul,
+    ast.Div: operator.truediv,
+    ast.Pow: operator.pow,
+    ast.USub: operator.neg,
+}
+
+def safe_calculate(expression):
+    try:
+        tree = ast.parse(expression, mode="eval")
+        result = evaluate_math_mode(tree.body)
+        return f"The answer is {result}"
+    except ZeroDivisionError:
+        return "I cannot divide by zero."
+    except:
+        return "I could not calculate that."
+    
+def evaluate_math_mode(node):
+    if isinstance(node, ast.Constant):
+        if isinstance(node.value, (int, float)):
+            return node.value
+        
+        raise ValueError("Only numbers are allowed")
+    
+    if isinstance(node, ast.BinOp):
+        left = evaluate_math_mode(node.left)
+        right = evaluate_math_mode(node.right)
+        operator_type = type(node.op)
+        
+        if operator_type not in ALLOWED_OPERATORS:
+            raise ValueError("Operator not allowed")
+        
+        return ALLOWED_OPERATORS[operator_type](left, right)
+    
+    if isinstance(node, ast.UnaryOp):
+        operand = evaluate_math_mode(node.operand)
+        operator_type = type(node.op)
+        
+        if operator_type not in ALLOWED_OPERATORS:
+            raise ValueError("Operator not allowed")
+        
+        return ALLOWED_OPERATORS[operator_type](operand)
+    
+    raise ValueError("Invalid expression")
 
 def get_time():
     now = datetime.now()
