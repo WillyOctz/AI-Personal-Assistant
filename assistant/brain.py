@@ -1,5 +1,5 @@
 from assistant.tools import get_time, create_reminder, open_app, play_game
-from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts
+from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict
 from assistant.personality import greet, unknown_response
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score
@@ -153,6 +153,36 @@ def parse_profile_fact(user_input):
     
     return key, value
 
+def parse_entity_resolution(user_input):
+    text = user_input.lower().strip()
+    
+    if not text.startswith("resolve entity "):
+        return None, None, None
+    
+    text = text.replace("resolve entity ", "", 1)
+    
+    if " as "not in text:
+        return None, None, None
+    
+    left, new_value = text.split(" as ", 1)
+    
+    parts = left.split(" ", 1)
+    
+    if len(parts) < 2:
+        return None, None, None
+    
+    entity_label = parts[0]
+    old_value = parts[1]
+    
+    if entity_label == "game":
+        entity_type = "games"
+    elif entity_label == "app":
+        entity_type = "apps"
+    else:
+        return None, None, None
+    
+    return entity_type, old_value.strip(), new_value.strip()
+
 def format_recall_item(item):
     if item["type"] == "archive_summary":
         return "Archive summary mentions this topic."
@@ -265,6 +295,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "show_entities"):
         return make_analysis("show_entities")
+    
+    if match_prefix_pattern(text, "resolve_entity_conflict"):
+        return make_analysis("resolve_entity_conflict")
 
     if match_prefix_pattern(text, "remember_note"):
         return make_analysis("remember_note")
@@ -1010,6 +1043,16 @@ def handle_memory_intent(user_input, analysis):
             return "No possible entity conflicts found."
         
         return "\n".join(lines)
+    
+    if intent == "resolve_entity_conflict":
+        entity_type, old_value, new_value = parse_entity_resolution(user_input)
+        
+        if not entity_type:
+            return "Use this format: resolve entity game old_name as new_name"
+        
+        result = resolve_entity_conflict(entity_type, old_value, new_value)
+        
+        return f"Resolved {result['old']} as {result['new']} in {entity_type}."
     
     if intent == "remember_app_entity":
         app = user_input.replace("remember app ", "", 1).strip().lower()

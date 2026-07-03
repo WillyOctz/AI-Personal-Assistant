@@ -1321,6 +1321,56 @@
             "source": "rule",
             "timestamp": "2026-07-02 22:00:24",
             "importance": 0.6
+        },
+        {
+            "user": "resolve entity game stardew as stardew valley",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "resolve_entity_conflict",
+            "group": "unknown",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-03 15:44:06",
+            "importance": 0.3
+        },
+        {
+            "user": "resolve entity game stardew as stardew valley",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "resolve_entity_conflict",
+            "group": "unknown",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-03 15:46:11",
+            "importance": 0.3
+        },
+        {
+            "user": "resolve entity game stardew as stardew valley",
+            "assistant": "Resolved stardew as stardew valley in games.",
+            "intent": "resolve_entity_conflict",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-03 15:47:28",
+            "importance": 0.6
+        },
+        {
+            "user": "show entities",
+            "assistant": "Games:\nstardew valley\nApps:\nNone",
+            "intent": "show_entities",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-03 15:47:35",
+            "importance": 0.6
+        },
+        {
+            "user": "entity conflicts",
+            "assistant": "No possible entity conflicts found.",
+            "intent": "preview_entity_conflicts",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-03 15:47:43",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -1340,7 +1390,6 @@
     ],
     "entities": {
         "games": [
-            "stardew",
             "stardew valley"
         ],
         "apps": []

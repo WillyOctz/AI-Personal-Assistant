@@ -189,6 +189,11 @@ def resolve_entity_conflict(entity_type, old_value, new_value):
         values.append(new_clean)
         
     save_memory(memory)
+    
+    return {
+        "old": old_clean,
+        "new": new_clean
+    }
 
 def preview_entity_conflicts():
     memory = load_memory()

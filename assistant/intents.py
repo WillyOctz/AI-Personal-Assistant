@@ -43,7 +43,8 @@ VALID_INTENTS = {
     "remember_app_entity",
     "show_entities",
     "cleanup_entities",
-    "preview_entity_conflicts"
+    "preview_entity_conflicts",
+    "resolve_entity_conflict",
 }
 
 CONTROL_INTENTS = {
@@ -87,7 +88,8 @@ MEMORY_INTENTS = {
     "remember_app_entity",
     "show_entities",
     "cleanup_entities",
-    "preview_entity_conflicts"
+    "preview_entity_conflicts",
+    "resolve_entity_conflict",
 }
 
 ACTION_INTENTS = {
@@ -215,6 +217,9 @@ INTENT_PREFIXES = {
         "show entities",
         "known entities",
         "what entities do you know",
+    ],
+    "resolve_entity_conflict": [
+        "resolve entity ",
     ],
 }
 
