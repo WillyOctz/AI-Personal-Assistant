@@ -1,0 +1,252 @@
+VALID_INTENTS = {
+    "greeting",
+    "get_time",
+    "remember_note",
+    "show_notes",
+    "set_name",
+    "get_name",
+    "teach_intent",
+    "play_music",
+    "open_app",
+    "set_reminder",
+    "calculate",
+    "play_game",
+    "debug_match",
+    "debug_model",
+    "evaluate_model",
+    "confirm_intent",
+    "deny_intent",
+    "show_history",
+    "show_conversation",
+    "summarize_conversation",
+    "show_summaries",
+    "search_memory",
+    "semantic_memory_search",
+    "debug_memory_search",
+    "memory_stats",
+    "preview_memory_cleanup",
+    "archive_memory_cleanup",
+    "search_archive",
+    "archive_stats",
+    "preview_archive_summary",
+    "save_archive_summary",
+    "show_archive_summaries",
+    "prune_archive",
+    "recall_memory",
+    "recall_memory_source",
+    "set_profile_fact",
+    "show_profile",
+    "get_profile_fact",
+    "coding_help",
+    "debug_entity",
+    "remember_game_entity",
+    "remember_app_entity",
+    "show_entities",
+    "cleanup_entities",
+    "preview_entity_conflicts"
+}
+
+CONTROL_INTENTS = {
+    "debug_match",
+    "debug_model",
+    "evaluate_model",
+    "teach_intent",
+    "confirm_intent",
+    "deny_intent",
+    "debug_memory_search",
+    "debug_entity",
+}
+
+MEMORY_INTENTS = {
+    "remember_note",
+    "show_notes",
+    "set_name",
+    "get_name",
+    "show_history",
+    "show_conversation",
+    "summarize_conversation",
+    "show_summaries",
+    "search_memory",
+    "semantic_memory_search",
+    "memory_stats",
+    "preview_memory_cleanup",
+    "archive_memory_cleanup",
+    "search_archive",
+    "archive_stats",
+    "preview_archive_summary",
+    "save_archive_summary",
+    "show_archive_summaries",
+    "prune_archive",
+    "recall_memory",
+    "recall_memory_source",
+    "set_profile_fact",
+    "show_profile",
+    "get_profile_fact",
+    "coding_help",
+    "remember_game_entity",
+    "remember_app_entity",
+    "show_entities",
+    "cleanup_entities",
+    "preview_entity_conflicts"
+}
+
+ACTION_INTENTS = {
+    "play_music",
+    "play_game",
+    "open_app",
+    "set_reminder",
+    "calculate",
+}
+
+SEARCH_IGNORED_INTENTS = {
+    "search_memory",
+    "semantic_memory_search",
+    "debug_memory_search",
+    "show_conversation",
+    "show_history",
+    "show_summaries",
+    "evaluate_model",
+    "debug_model",
+    "debug_match",
+    "search_archive",
+    "archive_stats",
+    "preview_archive_summary",
+    "save_archive_summary",
+    "show_archive_summaries",
+    "prune_archive",
+    "archive_memory_cleanup",
+    "preview_memory_cleanup",
+}
+
+MEMORY_TYPE_PRIORITY = {
+    "note": 5,
+    "reminder": 5,
+    "summary": 4,
+    "history": 3,
+    "conversation": 2,
+    "archive_summary": 3
+}
+
+INTENT_PATTERNS = {
+    "coding_help": [
+        "help me code",
+        "help me program",
+        "teach me coding",
+        "teach me programming",
+    ],
+    "greeting": [
+        "hello",
+        "hi",
+        "hey",
+    ],
+    "evaluate_model": [
+        "evaluate model",
+        "test model",
+        "model accuracy",
+    ],
+    "show_profile": [
+        "show profile",
+        "what do you know about me",
+        "my profile",
+    ],
+    "cleanup_entities": [
+        "cleanup entities",
+        "clean entities",
+        "dedupe entities",
+    ],
+    "preview_entity_conflicts": [
+        "preview entity conflicts",
+        "entity conflicts",
+        "show entity conflicts",
+    ],
+}
+
+INTENT_PREFIXES = {
+    "debug_memory_search": [
+        "debug memory ",
+    ],
+    "debug_model": [
+        "debug model ",
+    ],
+    "debug_match": [
+        "debug ",
+    ],
+    "teach_intent": [
+        "teach ",
+    ],
+    "set_profile_fact": [
+        "remember profile ",
+    ],
+    "remember_note": [
+        "remember ",
+    ],
+    "search_memory": [
+        "search memory ",
+    ],
+    "semantic_memory_search": [
+        "semantic memory ",
+    ],
+    "search_archive": [
+        "search archive ",
+    ],
+    "recall_memory": [
+        "what do you remember about ",
+    ],
+    "recall_memory_source": [
+        "recall notes about ",
+        "recall history about ",
+        "recall archive about ",
+    ],
+    "get_profile_fact": [
+        "what is my ",
+        "what's my ",
+    ],
+    "debug_entity": [
+        "debug entity ",
+    ],
+    "remember_game_entity": [
+        "remember game ",
+    ],
+
+    "remember_app_entity": [
+        "remember app ",
+    ],
+    "show_entities": [
+        "show entities",
+        "known entities",
+        "what entities do you know",
+    ],
+}
+
+PROFILE_KEY_ALIASES = {
+    "favorite language": "favorite_language",
+    "programming language": "favorite_language",
+    "favorite programming language": "favorite_language",
+    "favorite coding language": "favorite_language",
+    "coding language": "favorite_language",
+
+    "goal": "goal",
+    "main goal": "goal",
+    "current goal": "goal",
+    "project goal": "goal",
+    "what i am working toward": "goal",
+
+    "mood": "mood",
+    "current mood": "mood",
+
+    "name": "name",
+}
+
+KNOWN_GAMES = {
+    "minecraft",
+    "valorant",
+    "roblox",
+    
+}
+
+KNOWN_APPS = {
+    "chrome",
+    "vscode",
+    "notepad",
+}
+

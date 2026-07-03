@@ -1,0 +1,1348 @@
+{
+    "notes": [
+        "i want to learn AI",
+        "i want to improve you",
+        "i like music",
+        "profile favorite_language python",
+        "profile goal to build best AI assistant",
+        "i like coffee",
+        "game stardew valley",
+        "app spotify"
+    ],
+    "profile": {
+        "name": "Carlos",
+        "favorite_language": "python",
+        "goal": "to build best AI assistant",
+        "mood": "focused"
+    },
+    "reminders": [
+        "study",
+        "study",
+        "study"
+    ],
+    "state": {
+        "pending_confirmation": {
+            "user_input": "play stardew valley",
+            "analysis": {
+                "intent": "play_music",
+                "group": "action",
+                "confidence": 0.39999999999999997,
+                "source": "model",
+                "scores": {
+                    "play_music": 0.7,
+                    "open_app": 0.0,
+                    "set_reminder": 0.0,
+                    "play_game": 0.7,
+                    "minecraft": 0.35
+                }
+            }
+        }
+    },
+    "history": [
+        {
+            "user_input": "playing game",
+            "intent": "play_game",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "confirmed",
+            "result": "I understand you want to play ing game, but game launching is not connected yet.",
+            "timestamp": "2026-06-21 16:22:46"
+        },
+        {
+            "user_input": "open chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I understand you want to open chrome, but real app launching is not connected yet.",
+            "timestamp": "2026-06-26 15:58:15",
+            "importance": 0.8
+        },
+        {
+            "user_input": "launch chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I understand you want to open chrome, but real app launching is not connected yet.",
+            "timestamp": "2026-06-26 15:58:25",
+            "importance": 0.8
+        },
+        {
+            "user_input": "remind me to study",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Reminder saved: study",
+            "timestamp": "2026-06-26 16:14:24",
+            "importance": 1.0
+        },
+        {
+            "user_input": "remind me to study",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Reminder saved: study",
+            "timestamp": "2026-06-26 16:14:31",
+            "importance": 1.0
+        },
+        {
+            "user_input": "play minecraft",
+            "intent": "play_game",
+            "group": "action",
+            "confidence": 0.8,
+            "source": "entity_hint",
+            "result": "I understand you want to play minecraft, but game launching is not connected yet.",
+            "timestamp": "2026-06-29 16:31:14",
+            "importance": 0.8
+        },
+        {
+            "user_input": "play stardew",
+            "intent": "play_game",
+            "group": "action",
+            "confidence": 0.8,
+            "source": "entity_hint",
+            "result": "I understand you want to play stardew, but game launching is not connected yet.",
+            "timestamp": "2026-06-30 20:59:13",
+            "importance": 0.8
+        },
+        {
+            "user_input": "play stardew valley",
+            "intent": "play_game",
+            "group": "action",
+            "confidence": 0.8,
+            "source": "entity_hint",
+            "result": "I understand you want to play stardew valley, but game launching is not connected yet.",
+            "timestamp": "2026-07-02 17:02:39",
+            "importance": 0.8
+        }
+    ],
+    "conversation": [
+        {
+            "user": "hello",
+            "assistant": "Hello, I am Nebula. What can I help you with?ehe~",
+            "intent": "greeting",
+            "group": "basic",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-21 16:46:46"
+        },
+        {
+            "user": "what time is it",
+            "assistant": "The current time is 16:46.",
+            "intent": "get_time",
+            "group": "basic",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-21 16:46:54"
+        },
+        {
+            "user": "hello",
+            "assistant": "Hello, I am Nebula. What can I help you with?ehe~",
+            "intent": "greeting",
+            "group": "basic",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-21 23:34:17"
+        },
+        {
+            "user": "what time is it",
+            "assistant": "The current time is 23:34.",
+            "intent": "get_time",
+            "group": "basic",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-21 23:34:19"
+        },
+        {
+            "user": "show notes",
+            "assistant": "i want to learn AI\ni want to improve you",
+            "intent": "show_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-21 23:34:22"
+        },
+        {
+            "user": "summarize conversation",
+            "assistant": "Recent conversation had 6 turns. Intent counts: greeting: 2, get_time: 2, show_conversation: 1, show_notes: 1. Last user message was: show notes",
+            "intent": "summarize_conversation",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-21 23:34:30"
+        },
+        {
+            "user": "hello",
+            "assistant": "Hello, I am Nebula. What can I help you with?ehe~",
+            "intent": "greeting",
+            "group": "basic",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-22 14:25:52"
+        },
+        {
+            "user": "hello",
+            "assistant": "Hello, I am Nebula. What can I help you with?ehe~",
+            "intent": "greeting",
+            "group": "basic",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-22 16:24:32"
+        },
+        {
+            "user": "remember i like music",
+            "assistant": "i remembered that.",
+            "intent": "remember_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-22 19:52:57",
+            "importance": 1.0
+        },
+        {
+            "user": "smeantic memory music",
+            "assistant": "I recognize this as 'play_music', but I do not know how to perform that action yet.",
+            "intent": "play_music",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-06-23 15:05:37",
+            "importance": 0.8
+        },
+        {
+            "user": "memory stats",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "memory_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-23 16:32:28",
+            "importance": 0.6
+        },
+        {
+            "user": "memory stats",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "memory_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-23 16:32:54",
+            "importance": 0.6
+        },
+        {
+            "user": "show memory stats",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "memory_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-23 16:33:07",
+            "importance": 0.6
+        },
+        {
+            "user": "memory stats",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "memory_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-23 16:33:27",
+            "importance": 0.6
+        },
+        {
+            "user": "memory stats",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "memory_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-23 16:33:37",
+            "importance": 0.6
+        },
+        {
+            "user": "hell",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-06-23 16:35:42",
+            "importance": 0.3
+        },
+        {
+            "user": "memory stats",
+            "assistant": "Notes: 3\nReminders: 1\nHistory events: 1\nConversation turns: 40\nSummaries: 1",
+            "intent": "memory_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-23 16:35:52",
+            "importance": 0.6
+        },
+        {
+            "user": "preview memory cleanup",
+            "assistant": "Low-importance conversation turns: 5\nControl/debug/search turns: 22",
+            "intent": "preview_memory_cleanup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-23 16:53:01",
+            "importance": 0.6
+        },
+        {
+            "user": "exitt",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-06-23 16:53:22",
+            "importance": 0.3
+        },
+        {
+            "user": "memory stats",
+            "assistant": "Notes: 3\nReminders: 1\nHistory events: 1\nConversation turns: 44\nSummaries: 1Archived conversation turns: 0",
+            "intent": "memory_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-23 17:47:24",
+            "importance": 0.6
+        },
+        {
+            "user": "preview memory cleanup",
+            "assistant": "Low-importance conversation turns: 5\nControl/debug/search turns: 22",
+            "intent": "preview_memory_cleanup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-23 17:47:35",
+            "importance": 0.6
+        },
+        {
+            "user": "archive memory cleanup",
+            "assistant": "Archived 25 conversation turns.",
+            "intent": "archive_memory_cleanup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-23 17:47:43",
+            "importance": 0.6
+        },
+        {
+            "user": "memory stats",
+            "assistant": "Notes: 3\nReminders: 1\nHistory events: 1\nConversation turns: 22\nSummaries: 1Archived conversation turns: 25",
+            "intent": "memory_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-23 17:47:49",
+            "importance": 0.6
+        },
+        {
+            "user": "search archive memory",
+            "assistant": "2026-06-22 14:27:36 | You: search memory game\n2026-06-22 14:27:48 | You: search memory reminder\n2026-06-22 14:28:05 | You: search memory hell\n2026-06-22 16:25:13 | You: semantic memory gaming\n2026-06-22 16:25:50 | You: semantic memory reminder\n2026-06-22 16:26:13 | You: semantic memory music\n2026-06-22 16:26:19 | You: semantic memory chrome\n2026-06-22 16:52:13 | You: debug memory gaming\n2026-06-22 16:52:48 | You: debug memory chrome\n2026-06-22 16:52:54 | You: debug memory music",
+            "intent": "search_archive",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 15:47:37",
+            "importance": 0.6
+        },
+        {
+            "user": "search archive music",
+            "assistant": "2026-06-22 16:26:13 | You: semantic memory music\n2026-06-22 16:52:54 | You: debug memory music\n2026-06-22 17:37:34 | You: semantic memory music \n2026-06-22 17:37:46 | You: debug memory music\n2026-06-22 19:53:03 | You: semantic memory music\n2026-06-22 19:53:09 | You: debug memory music\n2026-06-23 15:06:03 | You: semantic memory music\n2026-06-23 15:21:32 | You: semantic memory music\n2026-06-23 16:12:10 | You: semantic memory music\n2026-06-23 16:15:10 | You: debug memory music",
+            "intent": "search_archive",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 15:47:50",
+            "importance": 0.6
+        },
+        {
+            "user": "search archive debug",
+            "assistant": "2026-06-22 16:52:13 | You: debug memory gaming\n2026-06-22 16:52:48 | You: debug memory chrome\n2026-06-22 16:52:54 | You: debug memory music\n2026-06-22 17:37:38 | You: debug memory chrome\n2026-06-22 17:37:46 | You: debug memory music\n2026-06-22 19:53:09 | You: debug memory music\n2026-06-23 16:15:10 | You: debug memory music",
+            "intent": "search_archive",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 15:47:58",
+            "importance": 0.6
+        },
+        {
+            "user": "search archive game",
+            "assistant": "2026-06-22 14:27:36 | You: search memory game\n2026-06-22 16:25:13 | You: semantic memory gaming\n2026-06-22 16:52:13 | You: debug memory gaming\n2026-06-22 16:52:48 | You: debug memory chrome\n2026-06-22 16:52:54 | You: debug memory music\n2026-06-22 17:37:38 | You: debug memory chrome\n2026-06-22 17:37:46 | You: debug memory music",
+            "intent": "search_archive",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 15:48:09",
+            "importance": 0.6
+        },
+        {
+            "user": "archive stats",
+            "assistant": "Archived conversation turns: 25\nSearch/debug/archive-related turns: 22\nOldest archived turn: 2026-06-21 16:47:21\nNewest archived turn: 2026-06-23 16:52:55",
+            "intent": "archive_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 16:05:46",
+            "importance": 0.6
+        },
+        {
+            "user": "preview archive memory",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-06-24 16:32:56",
+            "importance": 0.3
+        },
+        {
+            "user": "preview archive summary",
+            "assistant": "Archive summary preview:\n25 archived conversation turns.\nMost common intents:\nsemantic_memory_search: 10\ndebug_memory_search: 7\nsearch_memory: 3\ngreeting: 3\nshow_conversation: 1\nMain topics: i, |, game, tokens:, want, memory, music, score:",
+            "intent": "preview_archive_summary",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 16:34:02",
+            "importance": 0.6
+        },
+        {
+            "user": "save archive summary",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "save_archive_summary",
+            "group": "unknown",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 17:57:11",
+            "importance": 0.3
+        },
+        {
+            "user": "show archive summaries",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "show_archive_summaries",
+            "group": "unknown",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 17:58:28",
+            "importance": 0.3
+        },
+        {
+            "user": "save archive summary",
+            "assistant": "Saved archive summary.",
+            "intent": "save_archive_summary",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 18:00:02",
+            "importance": 0.6
+        },
+        {
+            "user": "show archive summaries",
+            "assistant": "2026-06-24 18:00:02 | Archive summary preview:\n25 archived conversation turns.\nMost common intents:\nsemantic_memory_search: 10\ndebug_memory_search: 7\nsearch_memory: 3\ngreeting: 3\nshow_conversation: 1\nMain topics: i, |, game, tokens:, want, memory, music, score:",
+            "intent": "show_archive_summaries",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 18:00:09",
+            "importance": 0.6
+        },
+        {
+            "user": "archive stats",
+            "assistant": "Archived conversation turns: 25\nSearch/debug/archive-related turns: 22\nOldest archived turn: 2026-06-21 16:47:21\nNewest archived turn: 2026-06-23 16:52:55",
+            "intent": "archive_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 19:32:41",
+            "importance": 0.6
+        },
+        {
+            "user": "prune archive",
+            "assistant": "Pruned 25 archived conversation turns. Archive summaries were kept.",
+            "intent": "prune_archive",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 19:32:48",
+            "importance": 0.6
+        },
+        {
+            "user": "archive stats",
+            "assistant": "Archived conversation turns: 0\nSearch/debug/archive-related turns: 0\nOldest archived turn: None\nNewest archived turn: None",
+            "intent": "archive_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 19:32:54",
+            "importance": 0.6
+        },
+        {
+            "user": "show archive summaries",
+            "assistant": "2026-06-24 18:00:02 | Archive summary preview:\n25 archived conversation turns.\nMost common intents:\nsemantic_memory_search: 10\ndebug_memory_search: 7\nsearch_memory: 3\ngreeting: 3\nshow_conversation: 1\nMain topics: i, |, game, tokens:, want, memory, music, score:",
+            "intent": "show_archive_summaries",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 19:33:03",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory debug",
+            "assistant": "0.30 | sim=1.00 | imp=0.60 | rec=0.50 | Conversation: 2026-06-24 15:47:37 | You: search archive memory\n0.30 | sim=1.00 | imp=0.60 | rec=0.50 | Conversation: 2026-06-24 15:47:50 | You: search archive music\n0.30 | sim=1.00 | imp=0.60 | rec=0.50 | Conversation: 2026-06-24 15:47:58 | You: search archive debug\n0.30 | sim=1.00 | imp=0.60 | rec=0.50 | Conversation: 2026-06-24 15:48:09 | You: search archive game",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 19:53:06",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory archive",
+            "assistant": "0.30 | sim=1.00 | imp=0.60 | rec=0.50 | Archive summary: 2026-06-24 18:00:02 | Archive summary preview:\n25 archived conversation turns.\nMost common intents:\nsemantic_memory_search: 10\ndebug_memory_search: 7\nsearch_memory: 3\ngreeting: 3\nshow_conversation: 1\nMain topics: i, |, game, tokens:, want, memory, music, score:\n0.30 | sim=1.00 | imp=0.60 | rec=0.50 | Conversation: 2026-06-23 17:47:43 | You: archive memory cleanup\n0.30 | sim=1.00 | imp=0.60 | rec=0.50 | Conversation: 2026-06-24 15:47:37 | You: search archive memory\n0.30 | sim=1.00 | imp=0.60 | rec=0.50 | Conversation: 2026-06-24 15:47:50 | You: search archive music\n0.30 | sim=1.00 | imp=0.60 | rec=0.50 | Conversation: 2026-06-24 15:47:58 | You: search archive debug",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 19:53:13",
+            "importance": 0.6
+        },
+        {
+            "user": "debug memory debug",
+            "assistant": "Query tokens: ['debug']\n\nScore: 0.30\nType: conversation\nText: search archive memory 2026-06-22 14:27:36 | You: search memory game\n2026-06-22 14:27:48 | You: search memory reminder\n2026-06-22 14:28:05 | You: search memory hell\n2026-06-22 16:25:13 | You: semantic memory gaming\n2026-06-22 16:25:50 | You: semantic memory reminder\n2026-06-22 16:26:13 | You: semantic memory music\n2026-06-22 16:26:19 | You: semantic memory chrome\n2026-06-22 16:52:13 | You: debug memory gaming\n2026-06-22 16:52:48 | You: debug memory chrome\n2026-06-22 16:52:54 | You: debug memory music search_archive\nTokens: ['search', 'archive', 'memory', '2026-06-22', '14:27:36', '|', 'you:', 'search', 'memory', 'game', '2026-06-22', '14:27:48', '|', 'you:', 'search', 'memory', 'reminder', '2026-06-22', '14:28:05', '|', 'you:', 'search', 'memory', 'hell', '2026-06-22', '16:25:13', '|', 'you:', 'semantic', 'memory', 'game', '2026-06-22', '16:25:50', '|', 'you:', 'semantic', 'memory', 'reminder', '2026-06-22', '16:26:13', '|', 'you:', 'semantic', 'memory', 'music', '2026-06-22', '16:26:19', '|', 'you:', 'semantic', 'memory', 'chrome', '2026-06-22', '16:52:13', '|', 'you:', 'debug', 'memory', 'game', '2026-06-22', '16:52:48', '|', 'you:', 'debug', 'memory', 'chrome', '2026-06-22', '16:52:54', '|', 'you:', 'debug', 'memory', 'music', 'search_archive']\nRecency: 0.50\n\nScore: 0.30\nType: conversation\nText: search archive music 2026-06-22 16:26:13 | You: semantic memory music\n2026-06-22 16:52:54 | You: debug memory music\n2026-06-22 17:37:34 | You: semantic memory music \n2026-06-22 17:37:46 | You: debug memory music\n2026-06-22 19:53:03 | You: semantic memory music\n2026-06-22 19:53:09 | You: debug memory music\n2026-06-23 15:06:03 | You: semantic memory music\n2026-06-23 15:21:32 | You: semantic memory music\n2026-06-23 16:12:10 | You: semantic memory music\n2026-06-23 16:15:10 | You: debug memory music search_archive\nTokens: ['search', 'archive', 'music', '2026-06-22', '16:26:13', '|', 'you:', 'semantic', 'memory', 'music', '2026-06-22', '16:52:54', '|', 'you:', 'debug', 'memory', 'music', '2026-06-22', '17:37:34', '|', 'you:', 'semantic', 'memory', 'music', '2026-06-22', '17:37:46', '|', 'you:', 'debug', 'memory', 'music', '2026-06-22', '19:53:03', '|', 'you:', 'semantic', 'memory', 'music', '2026-06-22', '19:53:09', '|', 'you:', 'debug', 'memory', 'music', '2026-06-23', '15:06:03', '|', 'you:', 'semantic', 'memory', 'music', '2026-06-23', '15:21:32', '|', 'you:', 'semantic', 'memory', 'music', '2026-06-23', '16:12:10', '|', 'you:', 'semantic', 'memory', 'music', '2026-06-23', '16:15:10', '|', 'you:', 'debug', 'memory', 'music', 'search_archive']\nRecency: 0.50\n\nScore: 0.30\nType: conversation\nText: search archive debug 2026-06-22 16:52:13 | You: debug memory gaming\n2026-06-22 16:52:48 | You: debug memory chrome\n2026-06-22 16:52:54 | You: debug memory music\n2026-06-22 17:37:38 | You: debug memory chrome\n2026-06-22 17:37:46 | You: debug memory music\n2026-06-22 19:53:09 | You: debug memory music\n2026-06-23 16:15:10 | You: debug memory music search_archive\nTokens: ['search', 'archive', 'debug', '2026-06-22', '16:52:13', '|', 'you:', 'debug', 'memory', 'game', '2026-06-22', '16:52:48', '|', 'you:', 'debug', 'memory', 'chrome', '2026-06-22', '16:52:54', '|', 'you:', 'debug', 'memory', 'music', '2026-06-22', '17:37:38', '|', 'you:', 'debug', 'memory', 'chrome', '2026-06-22', '17:37:46', '|', 'you:', 'debug', 'memory', 'music', '2026-06-22', '19:53:09', '|', 'you:', 'debug', 'memory', 'music', '2026-06-23', '16:15:10', '|', 'you:', 'debug', 'memory', 'music', 'search_archive']\nRecency: 0.50\n\nScore: 0.30\nType: conversation\nText: search archive game 2026-06-22 14:27:36 | You: search memory game\n2026-06-22 16:25:13 | You: semantic memory gaming\n2026-06-22 16:52:13 | You: debug memory gaming\n2026-06-22 16:52:48 | You: debug memory chrome\n2026-06-22 16:52:54 | You: debug memory music\n2026-06-22 17:37:38 | You: debug memory chrome\n2026-06-22 17:37:46 | You: debug memory music search_archive\nTokens: ['search', 'archive', 'game', '2026-06-22', '14:27:36', '|', 'you:', 'search', 'memory', 'game', '2026-06-22', '16:25:13', '|', 'you:', 'semantic', 'memory', 'game', '2026-06-22', '16:52:13', '|', 'you:', 'debug', 'memory', 'game', '2026-06-22', '16:52:48', '|', 'you:', 'debug', 'memory', 'chrome', '2026-06-22', '16:52:54', '|', 'you:', 'debug', 'memory', 'music', '2026-06-22', '17:37:38', '|', 'you:', 'debug', 'memory', 'chrome', '2026-06-22', '17:37:46', '|', 'you:', 'debug', 'memory', 'music', 'search_archive']\nRecency: 0.50\n\nScore: 0.00\nType: note\nText: i want to learn AI\nTokens: ['i', 'want', 'learn', 'ai']\nRecency: 1.00",
+            "intent": "debug_memory_search",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 19:53:19",
+            "importance": 0.1
+        },
+        {
+            "user": "semantic memory debug",
+            "assistant": "I could not find anything similar to 'debug'.",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 19:58:44",
+            "importance": 0.6
+        },
+        {
+            "user": "debug memory debug",
+            "assistant": "Query tokens: ['debug']\n\nScore: 0.00\nType: note\nText: i want to learn AI\nTokens: ['i', 'want', 'learn', 'ai']\nRecency: 1.00\n\nScore: 0.00\nType: note\nText: i want to improve you\nTokens: ['i', 'want', 'improve']\nRecency: 1.00\n\nScore: 0.00\nType: note\nText: i like music\nTokens: ['i', 'like', 'music']\nRecency: 1.00\n\nScore: 0.00\nType: reminder\nText: study\nTokens: ['study']\nRecency: 1.00\n\nScore: 0.00\nType: history\nText: playing game play_game I understand you want to play ing game, but game launching is not connected yet.\nTokens: ['play', 'game', 'play_game', 'i', 'understand', 'want', 'play', 'ing', 'game', 'but', 'game', 'launching', 'is', 'not', 'connected', 'yet']\nRecency: 0.50",
+            "intent": "debug_memory_search",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 19:58:50",
+            "importance": 0.1
+        },
+        {
+            "user": "what do you remember about music",
+            "assistant": "I remember these things about music:\n- Note: i like music\n- Conversation: 2026-06-22 19:52:57 | You: remember i like music\n- Conversation: 2026-06-23 15:05:37 | You: smeantic memory music",
+            "intent": "recall_memory",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 20:16:03",
+            "importance": 0.6
+        },
+        {
+            "user": "what do you remember about game",
+            "assistant": "I remember these things about game:\n- History: 2026-06-21 16:22:46 | play_game | playing game\n- Archive summary: 2026-06-24 18:00:02 | Archive summary preview:\n25 archived conversation turns.\nMost common intents:\nsemantic_memory_search: 10\ndebug_memory_search: 7\nsearch_memory: 3\ngreeting: 3\nshow_conversation: 1\nMain topics: i, |, game, tokens:, want, memory, music, score:",
+            "intent": "recall_memory",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 20:16:19",
+            "importance": 0.6
+        },
+        {
+            "user": "what do you remember about chrome",
+            "assistant": "I do not remember anything clear about chrome.",
+            "intent": "recall_memory",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 20:16:39",
+            "importance": 0.6
+        },
+        {
+            "user": "recall notes about music",
+            "assistant": "I found these note memories about music:\n- Note: i like music\n- Conversation: 2026-06-22 19:52:57 | You: remember i like music\n- Conversation: 2026-06-23 15:05:37 | You: smeantic memory music\n- Archive summary mentions this topic.\n- Conversation: 2026-06-24 20:16:03 | You: what do you remember about music",
+            "intent": "recall_memory_source",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 20:40:05",
+            "importance": 0.6
+        },
+        {
+            "user": "recall history about game",
+            "assistant": "I found these history memories about game:\n- History: 2026-06-21 16:22:46 | play_game | playing game\n- Archive summary mentions this topic.\n- Conversation: 2026-06-24 20:16:19 | You: what do you remember about game",
+            "intent": "recall_memory_source",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 20:40:12",
+            "importance": 0.6
+        },
+        {
+            "user": "recall archive about game",
+            "assistant": "I found these archive_summary memories about game:\n- History: 2026-06-21 16:22:46 | play_game | playing game\n- Archive summary mentions this topic.\n- Conversation: 2026-06-24 20:16:19 | You: what do you remember about game\n- Conversation: 2026-06-24 20:40:12 | You: recall history about game",
+            "intent": "recall_memory_source",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 20:40:18",
+            "importance": 0.6
+        },
+        {
+            "user": "recall archive about chrome",
+            "assistant": "I found these archive_summary memories about chrome:\n- Conversation: 2026-06-24 20:16:39 | You: what do you remember about chrome",
+            "intent": "recall_memory_source",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-24 20:40:29",
+            "importance": 0.6
+        },
+        {
+            "user": "remember profile favorite_language python",
+            "assistant": "i remembered that.",
+            "intent": "remember_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-25 15:00:56",
+            "importance": 1.0
+        },
+        {
+            "user": "remember profile goal to build best AI assistant",
+            "assistant": "i remembered that.",
+            "intent": "remember_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-25 15:01:15",
+            "importance": 1.0
+        },
+        {
+            "user": "what do you know about me",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "show_profile",
+            "group": "unknown",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-25 15:01:23",
+            "importance": 0.3
+        },
+        {
+            "user": "show profile",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "show_profile",
+            "group": "unknown",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-25 15:03:00",
+            "importance": 0.3
+        },
+        {
+            "user": "what do you know about me",
+            "assistant": "name: Carlos",
+            "intent": "show_profile",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-25 15:05:02",
+            "importance": 0.6
+        },
+        {
+            "user": "remember profile favorite_language python",
+            "assistant": "Got it. I saved favorite_language as python.",
+            "intent": "set_profile_fact",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-25 18:04:19",
+            "importance": 0.6
+        },
+        {
+            "user": "remember profile goal to build best AI assistant",
+            "assistant": "Got it. I saved goal as to build best AI assistant.",
+            "intent": "set_profile_fact",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-25 18:04:40",
+            "importance": 0.6
+        },
+        {
+            "user": "what do you know about me",
+            "assistant": "name: Carlos\nfavorite_language: python\ngoal: to build best AI assistant",
+            "intent": "show_profile",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-25 18:04:50",
+            "importance": 0.6
+        },
+        {
+            "user": "what is my favorite language",
+            "assistant": "Your favorite language is python.",
+            "intent": "get_profile_fact",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-25 18:14:16",
+            "importance": 0.6
+        },
+        {
+            "user": "what is my goal",
+            "assistant": "Your goal is to build best AI assistant.",
+            "intent": "get_profile_fact",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-25 18:14:26",
+            "importance": 0.6
+        },
+        {
+            "user": "hello",
+            "assistant": "Hello, I am Nebula. What can I help you with?ehe~ I remember that your name is Carlos, your goal is to build best AI assistant, you like python.",
+            "intent": "greeting",
+            "group": "basic",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-25 18:30:45",
+            "importance": 0.2
+        },
+        {
+            "user": "help me code",
+            "assistant": "Since you like python, we can use it while working toward your goal: to build best AI assistant.\nA good next step is to build one small feature, test it, then improve it.",
+            "intent": "coding_help",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-25 18:50:49",
+            "importance": 0.6
+        },
+        {
+            "user": "teach me coding",
+            "assistant": "Use this format: teach message as intent_name",
+            "intent": "teach_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-25 18:51:01",
+            "importance": 0.1
+        },
+        {
+            "user": "teach me coding",
+            "assistant": "Since you like python, we can use it while working toward your goal: to build best AI assistant.\nA good next step is to build one small feature, test it, then improve it.",
+            "intent": "coding_help",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-25 18:52:36",
+            "importance": 0.6
+        },
+        {
+            "user": "hello",
+            "assistant": "Hello, I am Nebula. What can I help you with?ehe~ I remember that your name is Carlos, your goal is to build best AI assistant, you like python.",
+            "intent": "greeting",
+            "group": "basic",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-25 19:28:18",
+            "importance": 0.2
+        },
+        {
+            "user": "teach me coding",
+            "assistant": "Since you like python, we can use it while working toward your goal: to build best AI assistant.\nA good next step is to build one small feature, test it, then improve it.",
+            "intent": "coding_help",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-25 19:28:27",
+            "importance": 0.6
+        },
+        {
+            "user": "evaluate model",
+            "assistant": "Accuracy: 7/8 = 0.88\n\nConfusion: \nset_reminder -> None: 1\n\nMistakes:\nInput: launch reminder\nExpected: set_reminder\nPredicted: None\nConfidence: 0.00\n",
+            "intent": "evaluate_model",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-25 19:28:38",
+            "importance": 0.1
+        },
+        {
+            "user": "what do you know about me",
+            "assistant": "name: Carlos\nfavorite_language: python\ngoal: to build best AI assistant",
+            "intent": "show_profile",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-25 19:28:47",
+            "importance": 0.6
+        },
+        {
+            "user": "debug model play game",
+            "assistant": "Tokens: ['play', 'game']\nPrediction: play_game\nConfidence: 0.60\nGroup: action\nScores:\nplay_music: 0.70\nopen_app: 0.00\nset_reminder: 0.00\nplay_game: 1.95\nminecraft: 0.60\nWeights:\nplay: 0.35\ngame: 0.25",
+            "intent": "debug_model",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-26 15:15:06",
+            "importance": 0.1
+        },
+        {
+            "user": "remember profile mood focused",
+            "assistant": "Got it. I saved mood as focused.",
+            "intent": "set_profile_fact",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-26 15:15:28",
+            "importance": 0.6
+        },
+        {
+            "user": "remember i like coffee",
+            "assistant": "i remembered that.",
+            "intent": "remember_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-26 15:15:44",
+            "importance": 1.0
+        },
+        {
+            "user": "what is my mood",
+            "assistant": "Your mood is focused.",
+            "intent": "get_profile_fact",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-26 15:15:51",
+            "importance": 0.6
+        },
+        {
+            "user": "search memory coffee",
+            "assistant": "Note: i like coffee\nConversation: 2026-06-26 15:15:44 | You: remember i like coffee",
+            "intent": "search_memory",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-26 15:16:06",
+            "importance": 0.6
+        },
+        {
+            "user": "what is my programming language",
+            "assistant": "Your favorite language is python.",
+            "intent": "get_profile_fact",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-26 15:34:51",
+            "importance": 0.6
+        },
+        {
+            "user": "what is my favorite coding language",
+            "assistant": "Your favorite language is python.",
+            "intent": "get_profile_fact",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-26 15:35:12",
+            "importance": 0.6
+        },
+        {
+            "user": "what is my current mood",
+            "assistant": "Your mood is focused.",
+            "intent": "get_profile_fact",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-26 15:35:55",
+            "importance": 0.6
+        },
+        {
+            "user": "open chrome",
+            "assistant": "I understand you want to open chrome, but real app launching is not connected yet.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-06-26 15:58:15",
+            "importance": 0.8
+        },
+        {
+            "user": "launch chrome",
+            "assistant": "I understand you want to open chrome, but real app launching is not connected yet.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-06-26 15:58:25",
+            "importance": 0.8
+        },
+        {
+            "user": "play minecraft",
+            "assistant": "I think this means 'play_music', but I am only 0.40 confident.\nIf confirmed, I will: play music.\nReply yes to confirm, no to reject, or teach me with: teach play minecraft as intent_name",
+            "intent": "play_music",
+            "group": "action",
+            "confidence": 0.39999999999999997,
+            "source": "model",
+            "timestamp": "2026-06-26 15:58:30",
+            "importance": 0.8
+        },
+        {
+            "user": "no",
+            "assistant": "Okay. Teach me the correct intent with: teach play minecraft as intent_name",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-26 15:58:39",
+            "importance": 0.1
+        },
+        {
+            "user": "start minecraft",
+            "assistant": "I think this means 'play_game', but I am only 0.75 confident.\nIf confirmed, I will: play the game: minecraft.\nReply yes to confirm, no to reject, or teach me with: teach start minecraft as intent_name",
+            "intent": "play_game",
+            "group": "action",
+            "confidence": 0.7499999999999999,
+            "source": "model",
+            "timestamp": "2026-06-26 15:58:47",
+            "importance": 0.8
+        },
+        {
+            "user": "no",
+            "assistant": "Okay. Teach me the correct intent with: teach start minecraft as intent_name",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-26 15:58:55",
+            "importance": 0.1
+        },
+        {
+            "user": "remind me to study",
+            "assistant": "What should I remind you about?",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-06-26 15:59:08",
+            "importance": 1.0
+        },
+        {
+            "user": "remind me to study",
+            "assistant": "What should I remind you about?",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-06-26 15:59:26",
+            "importance": 1.0
+        },
+        {
+            "user": "remind me to study",
+            "assistant": "Reminder saved: study",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-06-26 16:14:24",
+            "importance": 1.0
+        },
+        {
+            "user": "remind me to study",
+            "assistant": "Reminder saved: study",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-06-26 16:14:31",
+            "importance": 1.0
+        },
+        {
+            "user": "debug entity remind me to study",
+            "assistant": "Input: remind me to study\nTokens: ['remind', 'study']\nPredicted intent: set_reminder\nConfidence: 1.00\nExtracted entity: study\nScores:\nplay_music: 0.00\nopen_app: 0.00\nset_reminder: 1.35\nplay_game: 0.00\nminecraft: 0.00",
+            "intent": "debug_entity",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-26 17:14:32",
+            "importance": 0.1
+        },
+        {
+            "user": "debug entity open chrome",
+            "assistant": "Input: open chrome\nTokens: ['open', 'chrome']\nPredicted intent: open_app\nConfidence: 1.00\nExtracted entity: chrome\nScores:\nplay_music: 0.00\nopen_app: 1.35\nset_reminder: 0.00\nplay_game: 0.00\nminecraft: 0.00",
+            "intent": "debug_entity",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-26 17:14:58",
+            "importance": 0.1
+        },
+        {
+            "user": "debug entity play minecraft",
+            "assistant": "Input: play minecraft\nTokens: ['play', 'minecraft']\nPredicted intent: play_music\nConfidence: 0.40\nExtracted entity: \nScores:\nplay_music: 0.70\nopen_app: 0.00\nset_reminder: 0.00\nplay_game: 0.70\nminecraft: 0.35",
+            "intent": "debug_entity",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-26 17:15:14",
+            "importance": 0.1
+        },
+        {
+            "user": "debug entity start minecraft",
+            "assistant": "Input: start minecraft\nTokens: ['start', 'minecraft']\nPredicted intent: play_game\nConfidence: 0.75\nExtracted entity: minecraft\nScores:\nplay_music: 0.35\nopen_app: 0.00\nset_reminder: 0.00\nplay_game: 1.05\nminecraft: 0.00",
+            "intent": "debug_entity",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-26 17:15:26",
+            "importance": 0.1
+        },
+        {
+            "user": "debug entity play minecraft",
+            "assistant": "Input: play minecraft\nTokens: ['play', 'minecraft']\nPredicted intent: play_music\nConfidence: 0.40\nExtracted entity: \nScores:\nplay_music: 0.70\nopen_app: 0.00\nset_reminder: 0.00\nplay_game: 0.70\nminecraft: 0.35",
+            "intent": "debug_entity",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-29 16:30:56",
+            "importance": 0.1
+        },
+        {
+            "user": "play minecraft",
+            "assistant": "I understand you want to play minecraft, but game launching is not connected yet.",
+            "intent": "play_game",
+            "group": "action",
+            "confidence": 0.8,
+            "source": "entity_hint",
+            "timestamp": "2026-06-29 16:31:14",
+            "importance": 0.8
+        },
+        {
+            "user": "debug entity play minecraft",
+            "assistant": "Input: play minecraft\nTokens: ['play', 'minecraft']\nPredicted intent: play_music\nConfidence: 0.40\nExtracted entity: \nScores:\nplay_music: 0.70\nopen_app: 0.00\nset_reminder: 0.00\nplay_game: 0.70\nminecraft: 0.35",
+            "intent": "debug_entity",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-29 16:35:50",
+            "importance": 0.1
+        },
+        {
+            "user": "debug entity play minecraft",
+            "assistant": "Input: play minecraft\nTokens: ['play', 'minecraft']\nPredicted intent: play_music\nConfidence: 0.40\nExtracted entity: \nScores:\nplay_music: 0.70\nopen_app: 0.00\nset_reminder: 0.00\nplay_game: 0.70\nminecraft: 0.35",
+            "intent": "debug_entity",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-29 16:37:18",
+            "importance": 0.1
+        },
+        {
+            "user": "debug entity play minecraft",
+            "assistant": "Input: play minecraft\nTokens: ['play', 'minecraft']\nPredicted intent: play_music\nConfidence: 0.40\nExtracted entity: \nScores:\nplay_music: 0.70\nopen_app: 0.00\nset_reminder: 0.00\nplay_game: 0.70\nminecraft: 0.35",
+            "intent": "debug_entity",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-29 16:38:01",
+            "importance": 0.1
+        },
+        {
+            "user": "debug entity play minecraft",
+            "assistant": "Input: play minecraft\nTokens: ['play', 'minecraft']\nRaw intent: play_music\nRaw confidence: 0.40\nFinal intent: play_game\nFinal confidence: 0.80\nSource: entity_hint\nExpected entity: minecraft",
+            "intent": "debug_entity",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-29 16:49:18",
+            "importance": 0.1
+        },
+        {
+            "user": "debug entity play minecraft",
+            "assistant": "Input: play minecraft\nTokens: ['play', 'minecraft']\nRaw intent: play_music\nRaw confidence: 0.40\nFinal intent: play_game\nFinal confidence: 0.80\nSource: entity_hint\nExpected entity: minecraftHint reason: 'minecraft' is a known game\n",
+            "intent": "debug_entity",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-30 17:05:06",
+            "importance": 0.1
+        },
+        {
+            "user": "debug entity open chrome",
+            "assistant": "Input: open chrome\nTokens: ['open', 'chrome']\nRaw intent: open_app\nRaw confidence: 1.00\nFinal intent: open_app\nFinal confidence: 1.00\nSource: model\nExpected entity: chrome\nHint reason: No entity hint used\n",
+            "intent": "debug_entity",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-30 17:08:51",
+            "importance": 0.1
+        },
+        {
+            "user": "debug entity play minecraft",
+            "assistant": "Input: play minecraft\nTokens: ['play', 'minecraft']\nRaw intent: play_music\nRaw confidence: 0.40\nFinal intent: play_game\nFinal confidence: 0.80\nSource: entity_hint\nExpected entity: minecraft\nHint reason: 'minecraft' is a known game\n",
+            "intent": "debug_entity",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-30 17:09:09",
+            "importance": 0.1
+        },
+        {
+            "user": "debug entity gaming",
+            "assistant": "Input: gaming\nTokens: ['game']\nRaw intent: play_game\nRaw confidence: 0.83\nFinal intent: play_game\nFinal confidence: 0.83\nSource: model\nExpected entity: \nHint reason: No entity hint used\n",
+            "intent": "debug_entity",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-30 17:09:27",
+            "importance": 0.1
+        },
+        {
+            "user": "remember game stardew valley",
+            "assistant": "i remembered that.",
+            "intent": "remember_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-30 17:43:16",
+            "importance": 1.0
+        },
+        {
+            "user": "remember app spotify",
+            "assistant": "i remembered that.",
+            "intent": "remember_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-30 17:43:28",
+            "importance": 1.0
+        },
+        {
+            "user": "play stardew valley",
+            "assistant": "I think this means 'play_music', but I am only 0.40 confident.\nIf confirmed, I will: play music.\nReply yes to confirm, no to reject, or teach me with: teach play stardew valley as intent_name",
+            "intent": "play_music",
+            "group": "action",
+            "confidence": 0.39999999999999997,
+            "source": "model",
+            "timestamp": "2026-06-30 17:43:35",
+            "importance": 0.8
+        },
+        {
+            "user": "remember game stardew",
+            "assistant": "Got it. I will remember stardew as a game.",
+            "intent": "remember_game_entity",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-30 20:58:34",
+            "importance": 0.6
+        },
+        {
+            "user": "show entities",
+            "assistant": "Games:\nstardew\nApps:\nNone",
+            "intent": "show_entities",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-30 20:58:46",
+            "importance": 0.6
+        },
+        {
+            "user": "debug entity play stardew",
+            "assistant": "Input: play stardew\nTokens: ['play', 'stardew']\nRaw intent: play_music\nRaw confidence: 0.40\nFinal intent: play_game\nFinal confidence: 0.80\nSource: entity_hint\nExpected entity: stardew\nHint reason: 'stardew' is a known game\n",
+            "intent": "debug_entity",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-06-30 20:59:02",
+            "importance": 0.1
+        },
+        {
+            "user": "play stardew",
+            "assistant": "I understand you want to play stardew, but game launching is not connected yet.",
+            "intent": "play_game",
+            "group": "action",
+            "confidence": 0.8,
+            "source": "entity_hint",
+            "timestamp": "2026-06-30 20:59:13",
+            "importance": 0.8
+        },
+        {
+            "user": "remember game stardew valley",
+            "assistant": "Got it. I will remember stardew valley as a game.",
+            "intent": "remember_game_entity",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-01 17:41:51",
+            "importance": 0.6
+        },
+        {
+            "user": "show entities",
+            "assistant": "Games:\nstardew\nstardew valley\nApps:\nNone",
+            "intent": "show_entities",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-01 17:42:00",
+            "importance": 0.6
+        },
+        {
+            "user": "remember game stardew valley",
+            "assistant": "Got it. I will remember stardew valley as a game.",
+            "intent": "remember_game_entity",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-02 17:02:04",
+            "importance": 0.6
+        },
+        {
+            "user": "show entities\\",
+            "assistant": "Games:\nstardew\nstardew valley\nApps:\nNone",
+            "intent": "show_entities",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-02 17:02:09",
+            "importance": 0.6
+        },
+        {
+            "user": "debug entity play stardew valley",
+            "assistant": "Input: play stardew valley\nTokens: ['play', 'stardew', 'valley']\nRaw intent: play_music\nRaw confidence: 0.40\nFinal intent: play_game\nFinal confidence: 0.80\nSource: entity_hint\nExpected entity: stardew valley\nHint reason: 'stardew' is a known game\n",
+            "intent": "debug_entity",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-02 17:02:25",
+            "importance": 0.1
+        },
+        {
+            "user": "play stardew valley",
+            "assistant": "I understand you want to play stardew valley, but game launching is not connected yet.",
+            "intent": "play_game",
+            "group": "action",
+            "confidence": 0.8,
+            "source": "entity_hint",
+            "timestamp": "2026-07-02 17:02:39",
+            "importance": 0.8
+        },
+        {
+            "user": "debug entity play stardew valley",
+            "assistant": "Input: play stardew valley\nTokens: ['play', 'stardew', 'valley']\nRaw intent: play_music\nRaw confidence: 0.40\nFinal intent: play_game\nFinal confidence: 0.80\nSource: entity_hint\nExpected entity: stardew valley\nHint reason: 'stardew valley' is a known game\n",
+            "intent": "debug_entity",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-02 17:09:28",
+            "importance": 0.1
+        },
+        {
+            "user": "remember game Stardew Valley",
+            "assistant": "Got it. I will remember None as a game.",
+            "intent": "remember_game_entity",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-02 17:57:03",
+            "importance": 0.6
+        },
+        {
+            "user": "remember game stardew valley",
+            "assistant": "Got it. I will remember None as a game.",
+            "intent": "remember_game_entity",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-02 17:57:12",
+            "importance": 0.6
+        },
+        {
+            "user": "show entities",
+            "assistant": "Games:\nstardew\nstardew valley\nApps:\nNone",
+            "intent": "show_entities",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-02 17:57:17",
+            "importance": 0.6
+        },
+        {
+            "user": "cleanup entities",
+            "assistant": "Entity cleanup finished\ngames: removed 0 duplicate entries\napps: removed 0 duplicate entries",
+            "intent": "cleanup_entities",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-02 20:13:24",
+            "importance": 0.6
+        },
+        {
+            "user": "show entities",
+            "assistant": "Games:\nstardew\nstardew valley\nApps:\nNone",
+            "intent": "show_entities",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-02 20:13:31",
+            "importance": 0.6
+        },
+        {
+            "user": "eit",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-02 20:13:38",
+            "importance": 0.3
+        },
+        {
+            "user": "entity conflicts",
+            "assistant": "Possible entity conflicts:\ngames:\nstardew -> stardew valley\napps:\nNone",
+            "intent": "preview_entity_conflicts",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-02 22:00:24",
+            "importance": 0.6
+        }
+    ],
+    "summaries": [
+        {
+            "summary": "Recent conversation had 6 turns. Intent counts: greeting: 2, get_time: 2, show_conversation: 1, show_notes: 1. Last user message was: show notes",
+            "timestamp": "2026-06-21 23:34:30"
+        }
+    ],
+    "archive": {
+        "conversation": []
+    },
+    "archive_summaries": [
+        {
+            "summary": "Archive summary preview:\n25 archived conversation turns.\nMost common intents:\nsemantic_memory_search: 10\ndebug_memory_search: 7\nsearch_memory: 3\ngreeting: 3\nshow_conversation: 1\nMain topics: i, |, game, tokens:, want, memory, music, score:",
+            "timestamp": "2026-06-24 18:00:02"
+        }
+    ],
+    "entities": {
+        "games": [
+            "stardew",
+            "stardew valley"
+        ],
+        "apps": []
+    }
+}

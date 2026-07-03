@@ -1,0 +1,8 @@
+{"input": "can you play game", "intent": "play_game"}
+{"input": "please play music", "intent": "play_music"}
+{"input": "open chrome for me", "intent": "open_app"}
+{"input": "remind me to study python", "intent": "set_reminder"}
+{"input": "start music", "intent": "play_music"}
+{"input": "play something", "intent": "play_music"}
+{"input": "start game", "intent": "play_game"}
+{"input": "launch reminder", "intent": "set_reminder"}

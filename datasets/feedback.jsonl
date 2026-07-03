@@ -1,0 +1,13 @@
+{"input": "play music", "correct_intent": "play_music"}
+{"input": "open chrome", "correct_intent": "open_app"}
+{"input": "remind me to study", "correct_intent": "set_reminder"}
+{"input": "play music", "correct_intent": "play_music"}
+{"input": "start music", "correct_intent": "play_music"}
+{"input": "gaming", "correct_intent": "play_game"}
+{"input": "play game", "correct_intent": "play_game"}
+{"input": "gaming", "correct_intent": "minecraft"}
+{"input": "playing", "correct_intent": "minecraft"}
+{"input": "playing game", "correct_intent": "play_game"}
+{"input": "start game", "correct_intent": "play_game"}
+{"input": "start game", "correct_intent": "play_game"}
+{"input": "start", "correct_intent": "play_game"}
