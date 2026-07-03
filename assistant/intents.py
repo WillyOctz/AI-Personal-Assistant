@@ -18,6 +18,7 @@ VALID_INTENTS = {
     "deny_intent",
     "show_history",
     "show_conversation",
+    "show_reminders",
     "summarize_conversation",
     "show_summaries",
     "search_memory",
@@ -65,6 +66,7 @@ MEMORY_INTENTS = {
     "get_name",
     "show_history",
     "show_conversation",
+    "show_reminders",
     "summarize_conversation",
     "show_summaries",
     "search_memory",
@@ -160,6 +162,11 @@ INTENT_PATTERNS = {
         "preview entity conflicts",
         "entity conflicts",
         "show entity conflicts",
+    ],
+    "show_reminders": [
+        "show reminders",
+        "list reminders",
+        "what are my reminders",
     ],
 }
 

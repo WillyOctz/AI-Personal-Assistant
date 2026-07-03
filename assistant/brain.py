@@ -1,5 +1,5 @@
 from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate
-from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict
+from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict, get_reminders
 from assistant.personality import greet, unknown_response
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score
@@ -286,6 +286,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "show_profile"):
         return make_analysis("show_profile")
+    
+    if match_exact_pattern(text, "show_reminders"):
+        return make_analysis("show_reminders")
     
     if match_prefix_pattern(text, "remember_game_entity"):
         return make_analysis("remember_game_entity")
@@ -1188,6 +1191,19 @@ def handle_memory_intent(user_input, analysis):
         for summary in summaries:
             lines.append(f"{summary['timestamp']} | {summary['summary']}")
         
+        return "\n".join(lines)
+    
+    if intent == "show_reminders":
+        reminders = get_reminders()
+        
+        if not reminders:
+            return "You have no reminders."
+        
+        lines = ["Your reminders:"]
+        
+        for index, reminder in enumerate(reminders, start=1):
+            lines.append(f"{index}. {reminder}")
+            
         return "\n".join(lines)
     
     if intent == "search_memory":

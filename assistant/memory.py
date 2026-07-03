@@ -120,7 +120,7 @@ def add_reminder(reminder):
     memory["reminders"].append(reminder)
     save_memory(memory)
     
-def get_reminder():
+def get_reminders():
     memory = load_memory()
     return memory["reminders"]
 

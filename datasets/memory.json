@@ -18,6 +18,7 @@
     "reminders": [
         "study",
         "study",
+        "study",
         "study"
     ],
     "state": {
@@ -157,6 +158,16 @@
             "result": "I could not calculate that.",
             "timestamp": "2026-07-03 16:39:35",
             "importance": 0.8
+        },
+        {
+            "user_input": "remind me to study",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Reminder saved: study",
+            "timestamp": "2026-07-03 17:31:34",
+            "importance": 1.0
         }
     ],
     "conversation": [
@@ -1461,6 +1472,36 @@
             "source": "rule",
             "timestamp": "2026-07-03 16:39:35",
             "importance": 0.8
+        },
+        {
+            "user": "remind me to study",
+            "assistant": "Reminder saved: study",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-03 17:31:34",
+            "importance": 1.0
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. study\n2. study\n3. study\n4. study",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-03 17:31:46",
+            "importance": 0.6
+        },
+        {
+            "user": "list reminders",
+            "assistant": "Your reminders:\n1. study\n2. study\n3. study\n4. study",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-03 17:32:45",
+            "importance": 0.6
         }
     ],
     "summaries": [
