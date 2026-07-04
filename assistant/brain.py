@@ -1,5 +1,5 @@
 from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate
-from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict, get_reminders, cleanup_reminders
+from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict, get_reminders, cleanup_reminders, complete_reminder
 from assistant.personality import greet, unknown_response
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score
@@ -16,6 +16,15 @@ def parse_timestamp(timestamp):
         return datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
     except:
         return None
+    
+def parse_complete_reminder(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["complete reminder ", "done reminder ", "finish reminder "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return ""
 
 def should_skip_memory_item(intent):
     return intent in SEARCH_IGNORED_INTENTS
@@ -385,6 +394,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "calculate"):
         return make_analysis("calculate")
+    
+    if match_prefix_pattern(text, "complete_reminder"):
+        return make_analysis("complete_reminder")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -1432,6 +1444,25 @@ def handle_memory_intent(user_input, analysis):
             "We can start with one small coding task.\n"
             "First, choose the feature. Then write the simplest version. Then test it."
         )
+        
+    if intent == "complete_reminder":
+        identifier = parse_complete_reminder(user_input)
+        
+        if not identifier:
+            return "Which reminder should I complete?"
+        
+        result = complete_reminder(identifier)
+        
+        if result["removed"]:
+            return f"Completed reminder: {result['reminder']}"
+        
+        if result["reason"] == "empty":
+            return "You have no reminders to complete."
+        
+        if result["reason"] == "invalid_index":
+            return "That reminder number does not exist."
+        
+        return f"I could not find this reminder: {result['reminder']}"
     
     return unknown_response()
 

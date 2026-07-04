@@ -140,6 +140,56 @@ def get_reminders():
     memory = load_memory()
     return memory["reminders"]
 
+def complete_reminder(identifier):
+    memory = load_memory()
+    reminders = memory["reminders"]
+    
+    if not reminders:
+        return {
+            "removed": False,
+            "reason": "empty",
+            "reminder": None
+        }
+        
+    identifier = identifier.strip().lower()
+    
+    if identifier.isdigit():
+        index = int(identifier) - 1
+        
+        if index < 0 or index >= len(reminders):
+            return {
+                "removed": False,
+                "reason": "invalid_index",
+                "reminder": None
+            }
+            
+        removed_reminder = reminders.pop(index)
+        save_memory(memory)
+        
+        return {
+            "removed": True,
+            "reason": "completed",
+            "reminder": removed_reminder
+        }
+        
+    clean_identifier = normalize_reminder_text(identifier)
+    
+    if clean_identifier in reminders:
+        reminders.remove(clean_identifier)
+        save_memory(memory)
+        
+        return {
+            "removed": True,
+            "reason": "completed",
+            "reminder": clean_identifier
+        }
+        
+    return {
+        "removed": False,
+        "reason": "not_found",
+        "reminder": clean_identifier
+    }
+
 def cleanup_reminders():
     memory = load_memory()
     

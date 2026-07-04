@@ -47,6 +47,7 @@ VALID_INTENTS = {
     "preview_entity_conflicts",
     "resolve_entity_conflict",
     "cleanup_reminders",
+    "complete_reminder",
 }
 
 CONTROL_INTENTS = {
@@ -94,6 +95,7 @@ MEMORY_INTENTS = {
     "preview_entity_conflicts",
     "resolve_entity_conflict",
     "cleanup_reminders",
+    "complete_reminder",
 }
 
 ACTION_INTENTS = {
@@ -239,6 +241,11 @@ INTENT_PREFIXES = {
         "calculate ",
         "what is ",
         "what's ",
+    ],
+    "complete_reminder": [
+        "complete reminder ",
+        "done reminder ",
+        "finish reminder ",
     ],
 }
 

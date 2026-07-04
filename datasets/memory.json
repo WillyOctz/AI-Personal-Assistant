@@ -16,7 +16,7 @@
         "mood": "focused"
     },
     "reminders": [
-        "study"
+        "code"
     ],
     "state": {
         "pending_confirmation": {
@@ -184,6 +184,16 @@
             "source": "model",
             "result": "You already have this reminder: study",
             "timestamp": "2026-07-04 15:49:54",
+            "importance": 1.0
+        },
+        {
+            "user_input": "remind me to code",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Reminder saved: code",
+            "timestamp": "2026-07-04 17:33:13",
             "importance": 1.0
         }
     ],
@@ -1568,6 +1578,56 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-07-04 16:25:34",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. study",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-04 17:32:48",
+            "importance": 0.6
+        },
+        {
+            "user": "complete reminder 1",
+            "assistant": "Completed reminder: study",
+            "intent": "complete_reminder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-04 17:32:59",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "You have no reminders.",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-04 17:33:05",
+            "importance": 0.6
+        },
+        {
+            "user": "remind me to code",
+            "assistant": "Reminder saved: code",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-04 17:33:13",
+            "importance": 1.0
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. code",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-04 17:33:26",
             "importance": 0.6
         }
     ],
