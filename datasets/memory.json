@@ -16,9 +16,6 @@
         "mood": "focused"
     },
     "reminders": [
-        "study",
-        "study",
-        "study",
         "study"
     ],
     "state": {
@@ -1542,6 +1539,36 @@
             "source": "model",
             "timestamp": "2026-07-04 15:49:54",
             "importance": 1.0
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. study\n2. study\n3. study\n4. study",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-04 16:25:15",
+            "importance": 0.6
+        },
+        {
+            "user": "cleanup reminders",
+            "assistant": "Reminder cleanup finished. Removed 3 duplicate reminders.",
+            "intent": "cleanup_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-04 16:25:25",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. study",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-04 16:25:34",
+            "importance": 0.6
         }
     ],
     "summaries": [

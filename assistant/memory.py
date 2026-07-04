@@ -140,6 +140,24 @@ def get_reminders():
     memory = load_memory()
     return memory["reminders"]
 
+def cleanup_reminders():
+    memory = load_memory()
+    
+    cleaned_reminders = []
+    
+    for reminder in memory["reminders"]:
+        clean_reminder = normalize_reminder_text(reminder)
+        
+        if clean_reminder not in cleaned_reminders:
+            cleaned_reminders.append(clean_reminder)
+            
+    removed_count = len(memory["reminders"]) - len(cleaned_reminders)
+    
+    memory["reminders"] = cleaned_reminders
+    save_memory(memory)
+    
+    return removed_count
+
 def add_history_event(event):
     memory = load_memory()
     memory["history"].append(event)

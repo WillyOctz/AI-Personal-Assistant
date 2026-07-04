@@ -1,5 +1,5 @@
 from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate
-from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict, get_reminders
+from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict, get_reminders, cleanup_reminders
 from assistant.personality import greet, unknown_response
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score
@@ -346,6 +346,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "cleanup_entities"):
         return make_analysis("cleanup_entities")
+    
+    if match_exact_pattern(text, "cleanup_reminders"):
+        return make_analysis("cleanup_reminders")
     
     if match_prefix_pattern(text, "search_archive"):
         return make_analysis("search_archive")
@@ -1106,6 +1109,11 @@ def handle_memory_intent(user_input, analysis):
             lines.append(f"{entity_type}: removed {removed_count} duplicate entries")
     
         return "\n".join(lines)
+    
+    if intent == "cleanup_reminders":
+        removed_count = cleanup_reminders()
+        
+        return f"Reminder cleanup finished. Removed {removed_count} duplicate reminders."
         
     if intent == "show_notes":
         notes = get_notes()
