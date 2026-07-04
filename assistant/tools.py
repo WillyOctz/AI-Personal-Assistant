@@ -55,8 +55,12 @@ def get_time():
     return now.strftime("The current time is %H:%M.")
 
 def create_reminder(reminder_text):
-    add_reminder(reminder_text)
-    return f"Reminder saved: {reminder_text}"
+    result = add_reminder(reminder_text)
+    
+    if not result["saved"]:
+        return f"You already have this reminder: {result['reminder']}"
+    
+    return f"Reminder saved: {result['reminder']}"
 
 def open_app(app_name):
     return f"I understand you want to open {app_name}, but real app launching is not connected yet."

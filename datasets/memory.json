@@ -168,6 +168,26 @@
             "result": "Reminder saved: study",
             "timestamp": "2026-07-03 17:31:34",
             "importance": 1.0
+        },
+        {
+            "user_input": "remind me to study",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "You already have this reminder: study",
+            "timestamp": "2026-07-04 15:49:35",
+            "importance": 1.0
+        },
+        {
+            "user_input": "remind me to study",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "You already have this reminder: study",
+            "timestamp": "2026-07-04 15:49:54",
+            "importance": 1.0
         }
     ],
     "conversation": [
@@ -1502,6 +1522,26 @@
             "source": "rule",
             "timestamp": "2026-07-03 17:32:45",
             "importance": 0.6
+        },
+        {
+            "user": "remind me to study",
+            "assistant": "You already have this reminder: study",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-04 15:49:35",
+            "importance": 1.0
+        },
+        {
+            "user": "remind me to study",
+            "assistant": "You already have this reminder: study",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-04 15:49:54",
+            "importance": 1.0
         }
     ],
     "summaries": [

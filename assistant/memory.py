@@ -6,6 +6,9 @@ MEMORY_FILE = Path("datasets/memory.json")
 def normalize_entity_name(value):
     return value.lower().strip()
 
+def normalize_reminder_text(value):
+    return value.lower().strip()
+
 def load_memory():
     if not MEMORY_FILE.exists():
         return ensure_memory_shape({})
@@ -117,8 +120,21 @@ def get_profile():
 
 def add_reminder(reminder):
     memory = load_memory()
-    memory["reminders"].append(reminder)
+    clean_reminder = normalize_reminder_text(reminder)
+    
+    if clean_reminder in memory["reminders"]:
+        return {
+            "saved": False,
+            "reminder": clean_reminder
+        }
+        
+    memory["reminders"].append(clean_reminder)
     save_memory(memory)
+    
+    return {
+        "saved": True,
+        "reminder": clean_reminder
+    }
     
 def get_reminders():
     memory = load_memory()
