@@ -136,6 +136,63 @@ def add_reminder(reminder):
         "reminder": clean_reminder
     }
     
+def edit_reminder(identifier, new_text):
+    memory = load_memory()
+    reminders = memory["reminders"]
+    
+    if not reminders:
+        return {
+            "edited": False,
+            "reason": "empty",
+            "old": None,
+            "new": None
+        }
+        
+    identifier = normalize_reminder_text(identifier)
+    new_clean = normalize_reminder_text(new_text)
+    
+    if identifier.isdigit():
+        index = int(identifier) - 1
+        
+        if index < 0 or index >= len(reminders):
+            return {
+                "edited": False,
+                "reason": "invalid_index",
+                "old": None,
+                "new": None
+            }
+            
+        old_reminder = reminders[index]
+        reminders[index] = new_clean
+        save_memory(memory)
+        
+        return {
+            "edited": True,
+            "reason": "edited",
+            "old": old_reminder,
+            "new": new_clean
+        }
+        
+    if identifier in reminders:
+        index = reminders.index(identifier)
+        old_reminder = reminders[index]
+        reminders[index] = new_clean
+        save_memory(memory)
+        
+        return {
+            "edited": True,
+            "reason": "edited",
+            "old": old_reminder,
+            "new": new_clean
+        }
+        
+    return {
+        "edited": False,
+        "reason": "not_found",
+        "old": identifier,
+        "new": new_clean
+    }
+    
 def get_reminders():
     memory = load_memory()
     return memory["reminders"]

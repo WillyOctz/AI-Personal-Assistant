@@ -50,6 +50,7 @@ VALID_INTENTS = {
     "complete_reminder",
     "reminder_stats",
     "search_reminders",
+    "edit_reminder",
 }
 
 CONTROL_INTENTS = {
@@ -100,6 +101,7 @@ MEMORY_INTENTS = {
     "complete_reminder",
     "reminder_stats",
     "search_reminders",
+    "edit_reminder",
 }
 
 ACTION_INTENTS = {
@@ -259,6 +261,11 @@ INTENT_PREFIXES = {
     "search_reminders": [
         "search reminders ",
         "find reminder ",
+    ],
+    "edit_reminder": [
+        "edit reminder ",
+        "change reminder ",
+        "update reminder ",
     ],
 }
 

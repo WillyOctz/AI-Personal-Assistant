@@ -1,5 +1,5 @@
 from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate
-from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict, get_reminders, cleanup_reminders, get_reminder_stats, search_reminders, complete_reminder
+from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict, get_reminders, cleanup_reminders, get_reminder_stats, search_reminders, complete_reminder, edit_reminder
 from assistant.personality import greet, unknown_response
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score
@@ -34,6 +34,21 @@ def parse_reminder_search(user_input):
             return text.replace(prefix, "", 1).strip()
         
     return ""
+
+def parse_edit_reminder(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["edit reminder ", "change reminder ", "update reminder "]:
+        if text.startswith(prefix):
+            text = text.replace(prefix, "", 1).strip()
+            break
+        
+    if " as " not in text:
+        return "", ""
+    
+    identifier, new_text = text.split(" as ", 1)
+    
+    return identifier.strip(),new_text.strip()
 
 def should_skip_memory_item(intent):
     return intent in SEARCH_IGNORED_INTENTS
@@ -412,6 +427,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "reminder_stats"):
         return make_analysis("reminder_stats")
+    
+    if match_prefix_pattern(text, "edit_reminder"):
+        return make_analysis("edit_reminder")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -1119,6 +1137,25 @@ def handle_memory_intent(user_input, analysis):
             f"First reminder: {stats['first']}\n"
             f"Last reminder: {stats['last']}"
         )
+        
+    if intent == "edit_reminder":
+        identifier, new_text = parse_edit_reminder(user_input)
+        
+        if not identifier or not new_text:
+            return "Use this format: edit reminder old_or_number as new_reminder"
+        
+        result = edit_reminder(identifier, new_text)
+        
+        if result["edited"]:
+            return f"Updated reminder: {result['old']} -> {result['new']}"
+        
+        if result["reason"] == "empty":
+            return "You have no reminders to edit."
+        
+        if result["reason"] == "invalid_index":
+            return "That reminder number does not exist."
+        
+        return f"I could not find this reminder: {result['old']}"
     
     if intent == "remember_note":
         note = user_input.replace("remember ", "", 1)

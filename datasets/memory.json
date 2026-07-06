@@ -16,8 +16,8 @@
         "mood": "focused"
     },
     "reminders": [
-        "code",
-        "sweep"
+        "coding with python",
+        "sweep floor"
     ],
     "state": {
         "pending_confirmation": {
@@ -1699,6 +1699,66 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-07-06 19:16:48",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. code\n2. sweep",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-06 20:56:28",
+            "importance": 0.6
+        },
+        {
+            "user": "edit reminder 1 as coding with python",
+            "assistant": "Updated reminder: code -> coding with python",
+            "intent": "edit_reminder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-06 20:56:46",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. coding with python\n2. sweep",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-06 20:56:54",
+            "importance": 0.6
+        },
+        {
+            "user": "edit reminder 2 as sweep floor",
+            "assistant": "Updated reminder: sweep -> sweep floor",
+            "intent": "edit_reminder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-06 20:57:25",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. coding with python\n2. sweep floor",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-06 20:57:30",
+            "importance": 0.6
+        },
+        {
+            "user": "edit reminder apple as banana",
+            "assistant": "I could not find this reminder: apple",
+            "intent": "edit_reminder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-06 20:57:42",
             "importance": 0.6
         }
     ],
