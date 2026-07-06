@@ -140,6 +140,23 @@ def get_reminders():
     memory = load_memory()
     return memory["reminders"]
 
+def get_reminder_stats():
+    memory = load_memory()
+    reminders = memory["reminders"]
+    
+    if not reminders:
+        return {
+            "total": 0,
+            "first": None,
+            "last": None
+        }
+        
+    return {
+        "total": len(reminders),
+        "first": reminders[0],
+        "last": reminders[-1]
+    }
+
 def complete_reminder(identifier):
     memory = load_memory()
     reminders = memory["reminders"]

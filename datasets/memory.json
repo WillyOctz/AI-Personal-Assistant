@@ -16,7 +16,8 @@
         "mood": "focused"
     },
     "reminders": [
-        "code"
+        "code",
+        "sweep"
     ],
     "state": {
         "pending_confirmation": {
@@ -194,6 +195,16 @@
             "source": "model",
             "result": "Reminder saved: code",
             "timestamp": "2026-07-04 17:33:13",
+            "importance": 1.0
+        },
+        {
+            "user_input": "remind me to sweep",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Reminder saved: sweep",
+            "timestamp": "2026-07-06 18:48:14",
             "importance": 1.0
         }
     ],
@@ -1628,6 +1639,36 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-07-04 17:33:26",
+            "importance": 0.6
+        },
+        {
+            "user": "reminder stats",
+            "assistant": "Total reminders: 1\nFirst reminder: code\nLast reminder: code",
+            "intent": "reminder_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-06 18:47:49",
+            "importance": 0.6
+        },
+        {
+            "user": "remind me to sweep",
+            "assistant": "Reminder saved: sweep",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-06 18:48:14",
+            "importance": 1.0
+        },
+        {
+            "user": "reminder stats",
+            "assistant": "Total reminders: 2\nFirst reminder: code\nLast reminder: sweep",
+            "intent": "reminder_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-06 18:48:21",
             "importance": 0.6
         }
     ],

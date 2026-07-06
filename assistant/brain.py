@@ -1,5 +1,5 @@
 from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate
-from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict, get_reminders, cleanup_reminders, complete_reminder
+from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict, get_reminders, cleanup_reminders, get_reminder_stats
 from assistant.personality import greet, unknown_response
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score
@@ -397,6 +397,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "complete_reminder"):
         return make_analysis("complete_reminder")
+    
+    if match_exact_pattern(text, "reminder_stats"):
+        return make_analysis("reminder_stats")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -1092,6 +1095,18 @@ def handle_memory_intent(user_input, analysis):
         
         saved_apps = add_entity("apps", app)
         return f"Got it. I will remember {saved_apps} as an app."
+    
+    if intent == "reminder_stats":
+        stats = get_reminder_stats()
+        
+        if stats["total"] == 0:
+            return "You have no reminders."
+        
+        return (
+            f"Total reminders: {stats['total']}\n"
+            f"First reminder: {stats['first']}\n"
+            f"Last reminder: {stats['last']}"
+        )
     
     if intent == "remember_note":
         note = user_input.replace("remember ", "", 1)

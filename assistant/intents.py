@@ -48,6 +48,7 @@ VALID_INTENTS = {
     "resolve_entity_conflict",
     "cleanup_reminders",
     "complete_reminder",
+    "reminder_stats",
 }
 
 CONTROL_INTENTS = {
@@ -96,6 +97,7 @@ MEMORY_INTENTS = {
     "resolve_entity_conflict",
     "cleanup_reminders",
     "complete_reminder",
+    "reminder_stats",
 }
 
 ACTION_INTENTS = {
@@ -176,6 +178,11 @@ INTENT_PATTERNS = {
         "cleanup reminders",
         "clean reminders",
         "dedupe reminders",
+    ],
+    "reminder_stats": [
+        "reminder stats",
+        "reminders stats",
+        "show reminder stats",
     ],
 }
 
