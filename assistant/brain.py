@@ -1,5 +1,5 @@
 from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate
-from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict, get_reminders, cleanup_reminders, get_reminder_stats, search_reminders, complete_reminder, edit_reminder
+from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict, get_reminders, cleanup_reminders, get_reminder_stats, search_reminders, complete_reminder, edit_reminder, get_reminder_due, get_reminder_text
 from assistant.personality import greet, unknown_response
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score
@@ -34,6 +34,19 @@ def parse_reminder_search(user_input):
             return text.replace(prefix, "", 1).strip()
         
     return ""
+
+def parse_reminer_details(user_input):
+    reminder_text = extract_entity(user_input, "set_reminder")
+    
+    if " at " in reminder_text:
+        text, due = reminder_text.split(" at ", 1)
+        return text.strip(), due.strip()
+    
+    if " tomorrow" in reminder_text:
+        text = reminder_text.replace(" tomorrow", "", 1).strip()
+        return text, "tomorrow"
+    
+    return reminder_text, None
 
 def parse_edit_reminder(user_input):
     text = user_input.lower().strip()
@@ -1286,7 +1299,13 @@ def handle_memory_intent(user_input, analysis):
         lines = ["Your reminders:"]
         
         for index, reminder in enumerate(reminders, start=1):
-            lines.append(f"{index}. {reminder}")
+            text = get_reminder_text(reminder)
+            due = get_reminder_due(reminder)
+            
+            if due:
+                lines.append(f"{index}. {text} | due: {due}")
+            else:
+                lines.append(f"{index}. {text}")
             
         return "\n".join(lines)
     
@@ -1565,12 +1584,12 @@ def handle_action_intent(user_input, analysis):
     
         
     if intent == "set_reminder":
-        reminder_text = extract_entity(user_input, intent)
+        reminder_text, due = parse_reminer_details(user_input)
 
         if not reminder_text:
             return "What should I remind you about?"
         
-        result = create_reminder(reminder_text)
+        result = create_reminder(reminder_text, due)
         log_action(user_input, analysis, result)
         return result
     

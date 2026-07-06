@@ -54,11 +54,14 @@ def get_time():
     now = datetime.now()
     return now.strftime("The current time is %H:%M.")
 
-def create_reminder(reminder_text):
-    result = add_reminder(reminder_text)
+def create_reminder(reminder_text, due=None):
+    result = add_reminder(reminder_text, due)
     
     if not result["saved"]:
         return f"You already have this reminder: {result['reminder']}"
+    
+    if result["due"]:
+        return f"Reminder saved: {result['reminder']} at {result['due']}"
     
     return f"Reminder saved: {result['reminder']}"
 

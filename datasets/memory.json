@@ -17,7 +17,19 @@
     },
     "reminders": [
         "coding with python",
-        "sweep floor"
+        "sweep floor",
+        {
+            "text": "study",
+            "due": null
+        },
+        {
+            "text": "code",
+            "due": null
+        },
+        {
+            "text": "eat",
+            "due": "7am"
+        }
     ],
     "state": {
         "pending_confirmation": {
@@ -205,6 +217,46 @@
             "source": "model",
             "result": "Reminder saved: sweep",
             "timestamp": "2026-07-06 18:48:14",
+            "importance": 1.0
+        },
+        {
+            "user_input": "remind me to study at 8pm",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Reminder saved: study",
+            "timestamp": "2026-07-06 22:50:53",
+            "importance": 1.0
+        },
+        {
+            "user_input": "remind me to code at 12am",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Reminder saved: code",
+            "timestamp": "2026-07-06 22:51:04",
+            "importance": 1.0
+        },
+        {
+            "user_input": "remind me to study at 8pm",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "You already have this reminder: study",
+            "timestamp": "2026-07-06 22:58:57",
+            "importance": 1.0
+        },
+        {
+            "user_input": "remind me to eat at 7am",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Reminder saved: eat at 7am",
+            "timestamp": "2026-07-06 22:59:07",
             "importance": 1.0
         }
     ],
@@ -1759,6 +1811,106 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-07-06 20:57:42",
+            "importance": 0.6
+        },
+        {
+            "user": "remind me to study at 8pm",
+            "assistant": "Reminder saved: study",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-06 22:50:53",
+            "importance": 1.0
+        },
+        {
+            "user": "remind me to code at 12am",
+            "assistant": "Reminder saved: code",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-06 22:51:04",
+            "importance": 1.0
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. coding with python\n2. sweep floor\n3. study\n4. code",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-06 22:51:11",
+            "importance": 0.6
+        },
+        {
+            "user": "cleanup reminders study",
+            "assistant": "What should I remind you about?",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-06 22:55:00",
+            "importance": 1.0
+        },
+        {
+            "user": "cleanup reminders coding with python",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-06 22:57:11",
+            "importance": 0.3
+        },
+        {
+            "user": "cleanup reminders code",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-06 22:57:20",
+            "importance": 0.3
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. coding with python\n2. sweep floor\n3. study\n4. code",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-06 22:58:27",
+            "importance": 0.6
+        },
+        {
+            "user": "remind me to study at 8pm",
+            "assistant": "You already have this reminder: study",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-06 22:58:57",
+            "importance": 1.0
+        },
+        {
+            "user": "remind me to eat at 7am",
+            "assistant": "Reminder saved: eat at 7am",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-06 22:59:07",
+            "importance": 1.0
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. coding with python\n2. sweep floor\n3. study\n4. code\n5. eat | due: 7am",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-06 22:59:17",
             "importance": 0.6
         }
     ],

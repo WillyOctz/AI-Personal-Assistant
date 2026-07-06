@@ -118,22 +118,25 @@ def get_profile():
     memory = load_memory()
     return memory["profile"]
 
-def add_reminder(reminder):
+def add_reminder(reminder, due=None):
     memory = load_memory()
     clean_reminder = normalize_reminder_text(reminder)
     
-    if clean_reminder in memory["reminders"]:
-        return {
-            "saved": False,
-            "reminder": clean_reminder
-        }
+    for existing in memory["reminders"]:
+        if get_reminder_text(existing) == clean_reminder:
+            return {
+                "saved": False,
+                "reminder": clean_reminder,
+                "due": get_reminder_due(existing)
+            }
         
-    memory["reminders"].append(clean_reminder)
+    memory["reminders"].append(make_reminder(clean_reminder, due))
     save_memory(memory)
     
     return {
         "saved": True,
-        "reminder": clean_reminder
+        "reminder": clean_reminder,
+        "due": due
     }
     
 def edit_reminder(identifier, new_text):
@@ -196,6 +199,24 @@ def edit_reminder(identifier, new_text):
 def get_reminders():
     memory = load_memory()
     return memory["reminders"]
+
+def make_reminder(text, due=None):
+    return {
+        "text": normalize_reminder_text(text),
+        "due": due
+    }
+    
+def get_reminder_text(reminder):
+    if isinstance(reminder, dict):
+        return reminder.get("text", "")
+    
+    return reminder
+
+def get_reminder_due(reminder):
+    if isinstance(reminder, dict):
+        return reminder.get("due")
+    
+    return None
 
 def get_reminder_stats():
     memory = load_memory()
