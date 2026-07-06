@@ -225,6 +225,21 @@ def cleanup_reminders():
     
     return removed_count
 
+def search_reminders(query):
+    memory = load_memory()
+    query = normalize_reminder_text(query)
+    
+    results = []
+    
+    for index, reminder in enumerate(memory["reminders"], start=1):
+        if query in reminder:
+            results.append({
+                "index": index,
+                "reminder": reminder
+            })
+            
+    return results
+
 def add_history_event(event):
     memory = load_memory()
     memory["history"].append(event)

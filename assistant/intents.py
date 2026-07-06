@@ -49,6 +49,7 @@ VALID_INTENTS = {
     "cleanup_reminders",
     "complete_reminder",
     "reminder_stats",
+    "search_reminders",
 }
 
 CONTROL_INTENTS = {
@@ -98,6 +99,7 @@ MEMORY_INTENTS = {
     "cleanup_reminders",
     "complete_reminder",
     "reminder_stats",
+    "search_reminders",
 }
 
 ACTION_INTENTS = {
@@ -253,6 +255,10 @@ INTENT_PREFIXES = {
         "complete reminder ",
         "done reminder ",
         "finish reminder ",
+    ],
+    "search_reminders": [
+        "search reminders ",
+        "find reminder ",
     ],
 }
 

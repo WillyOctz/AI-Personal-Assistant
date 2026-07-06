@@ -1,5 +1,5 @@
 from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate
-from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict, get_reminders, cleanup_reminders, get_reminder_stats
+from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict, get_reminders, cleanup_reminders, get_reminder_stats, search_reminders, complete_reminder
 from assistant.personality import greet, unknown_response
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score
@@ -21,6 +21,15 @@ def parse_complete_reminder(user_input):
     text = user_input.lower().strip()
     
     for prefix in ["complete reminder ", "done reminder ", "finish reminder "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return ""
+
+def parse_reminder_search(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["search reminders ", "find reminder "]:
         if text.startswith(prefix):
             return text.replace(prefix, "", 1).strip()
         
@@ -334,6 +343,9 @@ def analyze_intent(user_input):
     
     if text in ["show summaries", "conversation summaries"]:
         return make_analysis("show_summaries")
+    
+    if match_prefix_pattern(text, "search_reminders"):
+        return make_analysis("search_reminders")
     
     if match_prefix_pattern(text, "search_memory"):
         return make_analysis("search_memory")
@@ -1459,6 +1471,24 @@ def handle_memory_intent(user_input, analysis):
             "We can start with one small coding task.\n"
             "First, choose the feature. Then write the simplest version. Then test it."
         )
+        
+    if intent == "search_reminders":
+        query = parse_reminder_search(user_input)
+        
+        if not query:
+            return "What reminder should I search for?"
+        
+        results = search_reminders(query)
+        
+        if not results:
+            return f"I could not find reminders matching: {query}"
+        
+        lines = ["Matching reminders:"]
+        
+        for result in results:
+            lines.append(f"{result['index']}. {result['reminder']}")
+            
+        return "\n".join(lines)
         
     if intent == "complete_reminder":
         identifier = parse_complete_reminder(user_input)

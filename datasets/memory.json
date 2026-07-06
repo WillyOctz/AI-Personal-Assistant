@@ -1670,6 +1670,36 @@
             "source": "rule",
             "timestamp": "2026-07-06 18:48:21",
             "importance": 0.6
+        },
+        {
+            "user": "search reminders sweep",
+            "assistant": "Matching reminders:\n2. sweep",
+            "intent": "search_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-06 19:16:28",
+            "importance": 0.6
+        },
+        {
+            "user": "search reminders code",
+            "assistant": "Matching reminders:\n1. code",
+            "intent": "search_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-06 19:16:37",
+            "importance": 0.6
+        },
+        {
+            "user": "search reminders banana",
+            "assistant": "I could not find reminders matching: banana",
+            "intent": "search_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-06 19:16:48",
+            "importance": 0.6
         }
     ],
     "summaries": [
