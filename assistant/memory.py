@@ -166,28 +166,33 @@ def edit_reminder(identifier, new_text):
             }
             
         old_reminder = reminders[index]
-        reminders[index] = new_clean
+        old_text = get_reminder_text(old_reminder)
+        old_due = get_reminder_due(old_reminder)
+        
+        reminders[index] = make_reminder(new_clean, old_due)
         save_memory(memory)
         
         return {
             "edited": True,
             "reason": "edited",
-            "old": old_reminder,
+            "old": old_text,
             "new": new_clean
         }
         
-    if identifier in reminders:
-        index = reminders.index(identifier)
-        old_reminder = reminders[index]
-        reminders[index] = new_clean
-        save_memory(memory)
-        
-        return {
-            "edited": True,
-            "reason": "edited",
-            "old": old_reminder,
-            "new": new_clean
-        }
+    for index, reminder in enumerate(reminders):
+        if get_reminder_text(reminder) == identifier:
+            old_text = get_reminder_text(reminder)
+            old_due = get_reminder_due(reminder)
+            
+            reminders[index] = make_reminder(new_clean, old_due)
+            save_memory(memory)
+            
+            return {
+                "edited": True,
+                "reason": "edited",
+                "old": old_text,
+                "new": new_clean
+            }
         
     return {
         "edited": False,
@@ -231,8 +236,8 @@ def get_reminder_stats():
         
     return {
         "total": len(reminders),
-        "first": reminders[0],
-        "last": reminders[-1]
+        "first": get_reminder_text(reminders[0]),
+        "last": get_reminder_text(reminders[-1])
     }
 
 def complete_reminder(identifier):
@@ -264,20 +269,21 @@ def complete_reminder(identifier):
         return {
             "removed": True,
             "reason": "completed",
-            "reminder": removed_reminder
+            "reminder": get_reminder_text(removed_reminder)
         }
         
     clean_identifier = normalize_reminder_text(identifier)
     
-    if clean_identifier in reminders:
-        reminders.remove(clean_identifier)
-        save_memory(memory)
-        
-        return {
-            "removed": True,
-            "reason": "completed",
-            "reminder": clean_identifier
-        }
+    for reminder in reminders:
+        if get_reminder_text(reminder) == clean_identifier:
+            reminders.remove(reminder)
+            save_memory(memory)
+            
+            return {
+                "removed": True,
+                "reason": "completed",
+                "reminder": clean_identifier
+            }
         
     return {
         "removed": False,
@@ -289,12 +295,25 @@ def cleanup_reminders():
     memory = load_memory()
     
     cleaned_reminders = []
+    seen_texts = set()
     
     for reminder in memory["reminders"]:
-        clean_reminder = normalize_reminder_text(reminder)
+        text = get_reminder_text(reminder)
+        clean_text = normalize_reminder_text(text)
         
-        if clean_reminder not in cleaned_reminders:
-            cleaned_reminders.append(clean_reminder)
+        if clean_text in seen_texts:
+            continue
+        
+        seen_texts.add(clean_text)
+        
+        if isinstance(reminder, dict):
+            cleaned_reminders.append({
+                "text": clean_text,
+                "due": get_reminder_due(reminder)
+            })
+            
+        else:
+            cleaned_reminders.append(clean_text)
             
     removed_count = len(memory["reminders"]) - len(cleaned_reminders)
     
@@ -310,10 +329,14 @@ def search_reminders(query):
     results = []
     
     for index, reminder in enumerate(memory["reminders"], start=1):
-        if query in reminder:
+        text = get_reminder_text(reminder)
+        due = get_reminder_due(reminder)
+        
+        if query in text:
             results.append({
                 "index": index,
-                "reminder": reminder
+                "reminder": reminder,
+                "due": due,
             })
             
     return results

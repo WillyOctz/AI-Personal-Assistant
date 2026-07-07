@@ -1542,7 +1542,10 @@ def handle_memory_intent(user_input, analysis):
         lines = ["Matching reminders:"]
         
         for result in results:
-            lines.append(f"{result['index']}. {result['reminder']}")
+            if result["due"]:
+                lines.append(f"{result['index']}. {result['reminder']} | due: {result['due']}")
+            else:
+                lines.append(f"{result['index']}. {result['reminder']}")
             
         return "\n".join(lines)
         

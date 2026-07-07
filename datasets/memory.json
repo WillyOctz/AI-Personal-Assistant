@@ -16,10 +16,9 @@
         "mood": "focused"
     },
     "reminders": [
-        "coding with python",
         "sweep floor",
         {
-            "text": "study",
+            "text": "exam study",
             "due": null
         },
         {
@@ -1911,6 +1910,96 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-07-06 22:59:17",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. coding with python\n2. sweep floor\n3. study\n4. code\n5. eat | due: 7am",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-07 15:47:22",
+            "importance": 0.6
+        },
+        {
+            "user": "search reminders study",
+            "assistant": "Matching reminders:\n3. {'text': 'study', 'due': None}",
+            "intent": "search_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-07 15:47:30",
+            "importance": 0.6
+        },
+        {
+            "user": "edit reminder study as exam study",
+            "assistant": "Updated reminder: study -> exam study",
+            "intent": "edit_reminder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-07 15:47:57",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. coding with python\n2. sweep floor\n3. exam study\n4. code\n5. eat | due: 7am",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-07 15:48:05",
+            "importance": 0.6
+        },
+        {
+            "user": "complete reminder coding with python",
+            "assistant": "Completed reminder: coding with python",
+            "intent": "complete_reminder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-07 15:48:38",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. sweep floor\n2. exam study\n3. code\n4. eat | due: 7am",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-07 15:48:45",
+            "importance": 0.6
+        },
+        {
+            "user": "reminder stats",
+            "assistant": "Total reminders: 4\nFirst reminder: sweep floor\nLast reminder: eat",
+            "intent": "reminder_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-07 15:48:53",
+            "importance": 0.6
+        },
+        {
+            "user": "cleanup reminders",
+            "assistant": "Reminder cleanup finished. Removed 0 duplicate reminders.",
+            "intent": "cleanup_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-07 15:49:01",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. sweep floor\n2. exam study\n3. code\n4. eat | due: 7am",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-07 15:49:26",
             "importance": 0.6
         }
     ],
