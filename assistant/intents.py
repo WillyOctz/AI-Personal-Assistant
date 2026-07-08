@@ -53,6 +53,8 @@ VALID_INTENTS = {
     "edit_reminder",
     "migrate_reminders",
     "search_reminders_by_due",
+    "set_reminder_due",
+    "clear_reminder_due",
 }
 
 CONTROL_INTENTS = {
@@ -106,6 +108,8 @@ MEMORY_INTENTS = {
     "edit_reminder",
     "migrate_reminders",
     "search_reminders_by_due",
+    "set_reminder_due",
+    "clear_reminder_due",
 }
 
 ACTION_INTENTS = {
@@ -280,6 +284,12 @@ INTENT_PREFIXES = {
         "edit reminder ",
         "change reminder ",
         "update reminder ",
+    ],
+    "set_reminder_due": [
+        "set reminder ",
+    ],
+    "clear_reminder_due": [
+        "clear reminder ",
     ],
 }
 

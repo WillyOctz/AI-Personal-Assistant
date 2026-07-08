@@ -205,6 +205,62 @@ def get_reminders():
     memory = load_memory()
     return memory["reminders"]
 
+def set_reminder_due(identifier, due):
+    memory = load_memory()
+    reminders = memory["reminders"]
+    
+    if not reminders:
+        return {
+            "updated": False,
+            "reason": "empty",
+            "reminder": None,
+            "due": None
+        }
+        
+    identifier = normalize_reminder_text(identifier)
+    due = due.lower().strip()
+    
+    if identifier.isdigit():
+        index = int(identifier) - 1
+        
+        if index < 0 or index >= len(reminders):
+            return {
+                "updated": False,
+                "reason": "invalid_index",
+                "reminder": None,
+                "due": None
+            }
+            
+        text = get_reminder_text(reminders[index])
+        reminders[index] = make_reminder(text, due)
+        save_memory(memory)
+        
+        return {
+           "updated": True,
+            "reason": "updated",
+            "reminder": text,
+            "due": due 
+        }
+        
+    for index, reminder in enumerate(reminders):
+        if get_reminder_text(reminder) == identifier:
+            reminders[index] == make_reminder(identifier, due)
+            save_memory(memory)
+            
+            return {
+                "updated": True,
+                "reason": "updated",
+                "reminder": identifier,
+                "due": due
+            }
+            
+    return {
+        "updated": False,
+        "reason": "not_found",
+        "reminder": identifier,
+        "due": due
+    }
+
 def make_reminder(text, due=None):
     return {
         "text": normalize_reminder_text(text),
@@ -311,6 +367,56 @@ def complete_reminder(identifier):
         "removed": False,
         "reason": "not_found",
         "reminder": clean_identifier
+    }
+    
+def clear_reminder_due(identifier):
+    memory = load_memory()
+    reminders = memory["reminders"]
+    
+    if not reminders:
+        return {
+           "updated": False,
+            "reason": "empty",
+            "reminder": None 
+        }
+        
+    identifier = normalize_reminder_text(identifier)
+    
+    if identifier.isdigit():
+        index = int(identifier) - 1
+        
+        if index < 0 or index >= len(reminders):
+            return {
+                "updated": False,
+                "reason": "invalid_index",
+                "reminder": None
+            }
+            
+        text = get_reminder_text(reminders[index])
+        reminders[index] = make_reminder(text, None)
+        save_memory(memory)
+        
+        return {
+            "updated": True,
+            "reason": "updated",
+            "reminder": text
+        }
+        
+    for index, reminder in enumerate(reminders):
+        if get_reminder_text(reminder) == identifier:
+            reminders[index] = make_reminder(identifier, None)
+            save_memory(memory)
+            
+            return {
+               "updated": True,
+                "reason": "updated",
+                "reminder": identifier 
+            }
+            
+    return {
+        "updated": False,
+        "reason": "not_found",
+        "reminder": identifier
     }
 
 def cleanup_reminders():

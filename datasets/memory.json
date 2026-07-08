@@ -2122,6 +2122,66 @@
             "source": "None",
             "timestamp": "2026-07-08 16:22:02",
             "importance": 0.3
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. sweep floor\n2. exam study\n3. code\n4. eat | due: 7am\n5. to study | due: 8pm\n6. sweep | due: tomorrow",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-08 17:51:26",
+            "importance": 0.6
+        },
+        {
+            "user": "set reminder 1 due 9pm",
+            "assistant": "Updated reminder due date: sweep floor | due: 9pm",
+            "intent": "set_reminder_due",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-08 17:51:42",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. sweep floor | due: 9pm\n2. exam study\n3. code\n4. eat | due: 7am\n5. to study | due: 8pm\n6. sweep | due: tomorrow",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-08 17:51:48",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders due tomorrow",
+            "assistant": "Reminders due tomorrow:\n6. sweep | due: tomorrow",
+            "intent": "search_reminders_by_due",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-08 17:52:19",
+            "importance": 0.6
+        },
+        {
+            "user": "clear reminder 1 due",
+            "assistant": "Cleared due date for reminder: sweep floor",
+            "intent": "clear_reminder_due",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-08 17:52:28",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. sweep floor\n2. exam study\n3. code\n4. eat | due: 7am\n5. to study | due: 8pm\n6. sweep | due: tomorrow",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-08 17:52:36",
+            "importance": 0.6
         }
     ],
     "summaries": [

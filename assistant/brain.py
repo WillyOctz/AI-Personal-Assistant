@@ -1,5 +1,5 @@
 from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate
-from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict, get_reminders, cleanup_reminders, get_reminder_stats, search_reminders, complete_reminder, edit_reminder, get_reminder_due, get_reminder_text, migrate_reminders_to_dicts, search_reminders_by_due
+from assistant import memory
 from assistant.personality import greet, unknown_response
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score
@@ -142,7 +142,7 @@ def log_action(user_input, analysis, result):
         "importance": calculate_importance(user_input, analysis),
     }
     
-    add_history_event(event)
+    memory.add_history_event(event)
     
 def log_conversation(user_input, assistant_response, analysis):
     turn = {
@@ -156,7 +156,7 @@ def log_conversation(user_input, assistant_response, analysis):
         "importance": calculate_importance(user_input, analysis),
     }
     
-    add_conversation_turn(turn)
+    memory.add_conversation_turn(turn)
     
 def parse_recall_source(user_input):
     text = user_input.lower()
@@ -238,6 +238,34 @@ def parse_entity_resolution(user_input):
     
     return entity_type, old_value.strip(), new_value.strip()
 
+def parse_set_reminder_due(user_input):
+    text = user_input.lower().strip()
+
+    if not text.startswith("set reminder "):
+        return "", ""
+
+    text = text.replace("set reminder ", "", 1)
+
+    if " due " not in text:
+        return "", ""
+
+    identifier, due = text.split(" due ", 1)
+
+    return identifier.strip(), due.strip()
+
+def parse_clear_reminder_due(user_input):
+    text = user_input.lower().strip()
+
+    if not text.startswith("clear reminder "):
+        return ""
+
+    text = text.replace("clear reminder ", "", 1)
+
+    if not text.endswith(" due"):
+        return ""
+
+    return text.replace(" due", "", 1).strip()
+
 def format_recall_item(item):
     if item["type"] == "archive_summary":
         return "Archive summary mentions this topic."
@@ -263,12 +291,12 @@ def apply_entity_hints(text, analysis):
     tokens = tokenize(text)
     
     known_games = set(KNOWN_GAMES)
-    known_games.update(get_entities("games"))
+    known_games.update(memory.get_entities("games"))
     
     matched_game = find_known_entity(text, known_games)
     
     known_apps = set(KNOWN_APPS)
-    known_apps.update(get_entities("apps"))
+    known_apps.update(memory.get_entities("apps"))
     
     matched_app = find_known_entity(text, known_apps)
     
@@ -458,6 +486,12 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "migrate_reminders"):
         return make_analysis("migrate_reminders")
+    
+    if match_prefix_pattern(text, "clear_reminder_due") and text.endswith(" due"):
+        return make_analysis("clear_reminder_due")
+
+    if match_prefix_pattern(text, "set_reminder_due") and " due " in text:
+        return make_analysis("set_reminder_due")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -475,7 +509,7 @@ def analyze_intent(user_input):
     return apply_entity_hints(text, analysis)
 
 def get_memory_stats():
-    memory = get_all_memory()
+    memory = memory.get_all_memory()
     
     return {
         "notes": len(memory["notes"]),
@@ -487,7 +521,7 @@ def get_memory_stats():
     }
     
 def get_profile_context():
-    profile = get_profile()
+    profile = memory.get_profile()
     
     name = profile.get("name")
     goal = profile.get("goal")
@@ -510,7 +544,7 @@ def get_profile_context():
     return ", ".join(parts)
 
 def collect_memory_search_items():
-    memory = get_all_memory()
+    memory = memory.get_all_memory()
     items = []
     
     for note in memory["notes"]:
@@ -584,7 +618,7 @@ def collect_memory_search_items():
     return items
 
 def preview_memory_cleanup():
-    memory = get_all_memory()
+    memory = memory.get_all_memory()
     
     low_importance_turns = []
     control_turns = []
@@ -646,7 +680,7 @@ def semantic_search_memory(query, limit=5, min_score=0.3, source_type=None):
     return unique_results[:limit]
 
 def search_archive(query):
-    archive = get_archive()
+    archive = memory.get_archive()
     query = query.lower()
     
     results = []
@@ -662,7 +696,7 @@ def search_archive(query):
     return results
 
 def get_archive_stats():
-    archive = get_archive()
+    archive = memory.get_archive()
     conversation = archive["conversation"]
     
     if not conversation:
@@ -827,7 +861,7 @@ def debug_entity_extraction(query):
     )
 
 def search_memory(query):
-    memory = get_all_memory()
+    memory = memory.get_all_memory()
     query = query.lower()
     
     results = []
@@ -859,7 +893,7 @@ def search_memory(query):
     return results
 
 def build_archive_summay_preview():
-    archive = get_archive()
+    archive = memory.get_archive()
     conversation = archive["conversation"]
     
     if not conversation:
@@ -920,13 +954,13 @@ def set_pending_confirmation(user_input, analysis):
         "analysis": analysis
     }
     
-    set_state_value("pending_confirmation", pending)
+    memory.set_state_value("pending_confirmation", pending)
 
 def get_pending_confirmation():
-    return get_state_value("pending_confirmation")
+    return memory.get_state_value("pending_confirmation")
 
 def clear_pending_confirmation():
-    clear_state_value("pending_confirmation")
+    memory.clear_state_value("pending_confirmation")
 
 def handle_basic_intent(user_input, analysis):
     intent = analysis["intent"]
@@ -1108,11 +1142,11 @@ def handle_memory_intent(user_input, analysis):
         if not game:
             return "Which game should I remember?"
         
-        saved_games = add_entity("games", game)
+        saved_games = memory.add_entity("games", game)
         return f"Got it. I will remember {saved_games} as a game."
     
     if intent == "preview_entity_conflicts":
-        conflicts = preview_entity_conflicts()
+        conflicts = memory.preview_entity_conflicts()
         
         lines = ["Possible entity conflicts:"]
         
@@ -1141,7 +1175,7 @@ def handle_memory_intent(user_input, analysis):
         if not entity_type:
             return "Use this format: resolve entity game old_name as new_name"
         
-        result = resolve_entity_conflict(entity_type, old_value, new_value)
+        result = memory.resolve_entity_conflict(entity_type, old_value, new_value)
         
         return f"Resolved {result['old']} as {result['new']} in {entity_type}."
     
@@ -1151,11 +1185,11 @@ def handle_memory_intent(user_input, analysis):
         if not app:
             return "Which app should I remember?"
         
-        saved_apps = add_entity("apps", app)
+        saved_apps = memory.add_entity("apps", app)
         return f"Got it. I will remember {saved_apps} as an app."
     
     if intent == "reminder_stats":
-        stats = get_reminder_stats()
+        stats = memory.get_reminder_stats()
         
         if stats["total"] == 0:
             return "You have no reminders."
@@ -1172,7 +1206,7 @@ def handle_memory_intent(user_input, analysis):
         if not identifier or not new_text:
             return "Use this format: edit reminder old_or_number as new_reminder"
         
-        result = edit_reminder(identifier, new_text)
+        result = memory.edit_reminder(identifier, new_text)
         
         if result["edited"]:
             return f"Updated reminder: {result['old']} -> {result['new']}"
@@ -1187,12 +1221,12 @@ def handle_memory_intent(user_input, analysis):
     
     if intent == "remember_note":
         note = user_input.replace("remember ", "", 1)
-        add_note(note)
+        memory.add_note(note)
         return "i remembered that."
     
     if intent == "show_entities":
-        games = get_entities("games")
-        apps = get_entities("apps")
+        games = memory.get_entities("games")
+        apps = memory.get_entities("apps")
         
         lines = []
         
@@ -1205,7 +1239,7 @@ def handle_memory_intent(user_input, analysis):
         return "\n".join(lines)
     
     if intent == "cleanup_entities":
-        report = cleanup_entities()
+        report = memory.cleanup_entities()
         
         lines = ["Entity cleanup finished"]
         
@@ -1215,18 +1249,18 @@ def handle_memory_intent(user_input, analysis):
         return "\n".join(lines)
     
     if intent == "cleanup_reminders":
-        removed_count = cleanup_reminders()
+        removed_count = memory.cleanup_reminders()
         
         return f"Reminder cleanup finished. Removed {removed_count} duplicate reminders."
         
     if intent == "show_notes":
-        notes = get_notes()
+        notes = memory.get_notes()
         if not notes:
             return "You have no notes yet."
         return "\n".join(notes)
     
     if intent == "show_history":
-        history = get_history()
+        history = memory.get_history()
         
         if not history:
             return "I do not have any action history yet."
@@ -1241,7 +1275,7 @@ def handle_memory_intent(user_input, analysis):
         return "\n".join(lines)
     
     if intent == "show_conversation":
-        conversation = get_conversation()
+        conversation = memory.get_conversation()
         
         if not conversation:
             return "I do not have any conversation history yet."
@@ -1257,7 +1291,7 @@ def handle_memory_intent(user_input, analysis):
         return "\n".join(lines)
     
     if intent == "summarize_conversation":
-        conversation = get_conversation(limit=10)
+        conversation = memory.get_conversation(limit=10)
         summary_text = build_simple_summary(conversation)
         
         summary = {
@@ -1265,7 +1299,7 @@ def handle_memory_intent(user_input, analysis):
             "timestamp": current_timestamp()
         }
         
-        add_summary(summary)
+        memory.add_summary(summary)
         
         return summary_text
     
@@ -1293,7 +1327,7 @@ def handle_memory_intent(user_input, analysis):
         return "\n".join(lines)
     
     if intent == "show_summaries":
-        summaries = get_summaries()
+        summaries = memory.get_summaries()
         
         if not summaries:
             return "I do not have any summaries yet."
@@ -1306,7 +1340,7 @@ def handle_memory_intent(user_input, analysis):
         return "\n".join(lines)
     
     if intent == "show_reminders":
-        reminders = get_reminders()
+        reminders = memory.get_reminders()
         
         if not reminders:
             return "You have no reminders."
@@ -1314,8 +1348,8 @@ def handle_memory_intent(user_input, analysis):
         lines = ["Your reminders:"]
         
         for index, reminder in enumerate(reminders, start=1):
-            text = get_reminder_text(reminder)
-            due = get_reminder_due(reminder)
+            text = memory.get_reminder_text(reminder)
+            due = memory.get_reminder_due(reminder)
             
             if due:
                 lines.append(f"{index}. {text} | due: {due}")
@@ -1338,7 +1372,7 @@ def handle_memory_intent(user_input, analysis):
         return "\n".join(results[:10])
     
     if intent == "migrate_reminders":
-        migrated_count = migrate_reminders_to_dicts()
+        migrated_count = memory.migrate_reminders_to_dicts()
         
         return f"Reminder migration finished. Migrated {migrated_count} old reminders."
     
@@ -1363,7 +1397,7 @@ def handle_memory_intent(user_input, analysis):
             if turn not in turns_to_archive:
                 turns_to_archive.append(turn)
                 
-        archived_count = archive_conversation_turns(turns_to_archive)
+        archived_count = memory.archive_conversation_turns(turns_to_archive)
         
         return f"Archived {archived_count} conversation turns."
     
@@ -1387,12 +1421,12 @@ def handle_memory_intent(user_input, analysis):
             "timestamp": current_timestamp()
         }
         
-        add_archive_summary(summary)
+        memory.add_archive_summary(summary)
         
         return "Saved archive summary."
     
     if intent == "show_archive_summaries":
-        summaries = get_archive_summaries()
+        summaries = memory.get_archive_summaries()
         
         if not summaries:
             return "I do not have any archive summaries yet."
@@ -1431,12 +1465,12 @@ def handle_memory_intent(user_input, analysis):
         )
         
     if intent == "prune_archive":
-        summaries = get_archive_summaries()
+        summaries = memory.get_archive_summaries()
         
         if not summaries:
             return "I will not prune the archive until an archive summary has been saved."
         
-        removed_count = clear_archived_conversation()
+        removed_count = memory.clear_archived_conversation()
         
         return f"Pruned {removed_count} archived conversation turns. Archive summaries were kept."
     
@@ -1480,7 +1514,7 @@ def handle_memory_intent(user_input, analysis):
         
     if intent == "set_name":
         name = user_input.replace("my name is ", "", 1)
-        set_profile_value("name", name)
+        memory.set_profile_value("name", name)
         return f"Got it. i will remember your name is {name}."
     
     if intent == "set_profile_fact":
@@ -1489,9 +1523,47 @@ def handle_memory_intent(user_input, analysis):
         if not key or not value:
             return "Use this format: remember profile key value"
         
-        set_profile_value(key, value)
+        memory.set_profile_value(key, value)
         
         return f"Got it. I saved {key} as {value}."
+    
+    if intent == "set_reminder_due":
+        identifier, due = parse_set_reminder_due(user_input)
+        
+        if not identifier or not due:
+            return "Use this format: set reminder reminder_or_number due time"
+        
+        result = memory.set_reminder_due(identifier, due)
+        
+        if result["updated"]:
+            return f"Updated reminder due date: {result['reminder']} | due: {result['due']}"
+        
+        if result["reason"] == "empty":
+            return "You have no reminders"
+        
+        if result["reason"] == "invalid_index":
+            return "That reminder number does not exist."
+        
+        return f"I could not find this reminder: {result['reminder']}"
+    
+    if intent == "clear_reminder_due":
+        identifier = parse_clear_reminder_due(user_input)
+        
+        if not identifier:
+            return "Use this format: clear reminder reminder_or_number due"
+        
+        result = memory.clear_reminder_due(identifier)
+        
+        if result["updated"]:
+            return f"Cleared due date for reminder: {result['reminder']}"
+        
+        if result["reason"] == "empty":
+            return "You have no reminders."
+        
+        if result["reason"] == "invalid_index":
+            return "That reminder number does not exist."
+        
+        return f"I could not find this reminder: {result['reminder']}"
     
     if intent == "get_profile_fact":
         key = parse_profile_question(user_input)
@@ -1499,7 +1571,7 @@ def handle_memory_intent(user_input, analysis):
         if not key:
             return "What profile fact should I look up?"
         
-        value = get_profile_value(key)
+        value = memory.get_profile_value(key)
         
         if not value:
             readable_key = key.replace("_", " ")
@@ -1509,7 +1581,7 @@ def handle_memory_intent(user_input, analysis):
         return f"Your {readable_key} is {value}."
     
     if intent == "show_profile":
-        profile = get_profile()
+        profile = memory.get_profile()
         
         if not profile:
             return "I do not know much about you yet."
@@ -1522,14 +1594,14 @@ def handle_memory_intent(user_input, analysis):
         return "\n".join(lines)
     
     if intent == "get_name":
-        name = get_profile_value("name")
+        name = memory.get_profile_value("name")
         if name:
             return f"Your name is {name}"
         return "I do not know your name yet."
     
     if intent == "coding_help":
-        favorite_language = get_profile_value("favorite_language")
-        goal = get_profile_value("goal")
+        favorite_language = memory.get_profile_value("favorite_language")
+        goal = memory.get_profile_value("goal")
         
         if favorite_language and goal:
             return (
@@ -1554,7 +1626,7 @@ def handle_memory_intent(user_input, analysis):
         if not due_query:
             return "Which due date should I search for?"
         
-        results = search_reminders_by_due(due_query)
+        results = memory.search_reminders_by_due(due_query)
         
         if not results:
             return f"I could not find reminders due {due_query}."
@@ -1572,7 +1644,7 @@ def handle_memory_intent(user_input, analysis):
         if not query:
             return "What reminder should I search for?"
         
-        results = search_reminders(query)
+        results = memory.search_reminders(query)
         
         if not results:
             return f"I could not find reminders matching: {query}"
@@ -1593,7 +1665,7 @@ def handle_memory_intent(user_input, analysis):
         if not identifier:
             return "Which reminder should I complete?"
         
-        result = complete_reminder(identifier)
+        result = memory.complete_reminder(identifier)
         
         if result["removed"]:
             return f"Completed reminder: {result['reminder']}"
