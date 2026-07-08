@@ -18,11 +18,11 @@
     "reminders": [
         {
             "text": "sweep floor",
-            "due": null
+            "due": "today"
         },
         {
             "text": "exam study",
-            "due": null
+            "due": "tomorrow"
         },
         {
             "text": "code",
@@ -2181,6 +2181,46 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-07-08 17:52:36",
+            "importance": 0.6
+        },
+        {
+            "user": "set reminder 1 due today",
+            "assistant": "Updated reminder due date: sweep floor | due: today",
+            "intent": "set_reminder_due",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-08 18:18:07",
+            "importance": 0.6
+        },
+        {
+            "user": "set reminder 2 due tomorrow",
+            "assistant": "Updated reminder due date: exam study | due: tomorrow",
+            "intent": "set_reminder_due",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-08 18:18:20",
+            "importance": 0.6
+        },
+        {
+            "user": "today reminders",
+            "assistant": "Today's reminders:\n1. sweep floor | due: today",
+            "intent": "today_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-08 18:18:25",
+            "importance": 0.6
+        },
+        {
+            "user": "tomorrow reminders",
+            "assistant": "Tomorrow's reminders:\n2. exam study | due: tomorrow\n6. sweep | due: tomorrow",
+            "intent": "tomorrow_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-08 18:18:33",
             "importance": 0.6
         }
     ],

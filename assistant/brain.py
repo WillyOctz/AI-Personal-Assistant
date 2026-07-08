@@ -266,6 +266,17 @@ def parse_clear_reminder_due(user_input):
 
     return text.replace(" due", "", 1).strip()
 
+def format_reminder_results(title, results):
+    if not results:
+        return f"No reminders found for {title.lower()}."
+    
+    lines = [title]
+    
+    for result in results:
+        lines.append(f"{result['index']}. {result['reminder']} | due: {result['due']}")
+        
+    return "\n".join(lines)
+
 def format_recall_item(item):
     if item["type"] == "archive_summary":
         return "Archive summary mentions this topic."
@@ -492,6 +503,12 @@ def analyze_intent(user_input):
 
     if match_prefix_pattern(text, "set_reminder_due") and " due " in text:
         return make_analysis("set_reminder_due")
+    
+    if match_exact_pattern(text, "today_reminders"):
+        return make_analysis("today_reminders")
+    
+    if match_exact_pattern(text, "tomorrow_reminders"):
+        return make_analysis("tomorrow_reminders")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -1545,6 +1562,14 @@ def handle_memory_intent(user_input, analysis):
             return "That reminder number does not exist."
         
         return f"I could not find this reminder: {result['reminder']}"
+    
+    if intent == "today_reminders":
+        results = memory.search_reminders_by_due("today")
+        return format_reminder_results("Today's reminders:", results)
+    
+    if intent == "tomorrow_reminders":
+        results = memory.search_reminders_by_due("tomorrow")
+        return format_reminder_results("Tomorrow's reminders:", results)
     
     if intent == "clear_reminder_due":
         identifier = parse_clear_reminder_due(user_input)

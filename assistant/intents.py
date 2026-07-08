@@ -55,6 +55,8 @@ VALID_INTENTS = {
     "search_reminders_by_due",
     "set_reminder_due",
     "clear_reminder_due",
+    "today_reminders",
+    "tomorrow_reminders",
 }
 
 CONTROL_INTENTS = {
@@ -110,6 +112,8 @@ MEMORY_INTENTS = {
     "search_reminders_by_due",
     "set_reminder_due",
     "clear_reminder_due",
+    "today_reminders",
+    "tomorrow_reminders",
 }
 
 ACTION_INTENTS = {
@@ -200,6 +204,16 @@ INTENT_PATTERNS = {
         "migrate reminders",
         "upgrade reminders",
         "convert reminders",
+    ],
+    "today_reminders": [
+        "today reminders",
+        "show today reminders",
+        "reminders today",
+    ],
+    "tomorrow_reminders": [
+        "tomorrow reminders",
+        "show tomorrow reminders",
+        "reminders tomorrow",
     ],
 }
 
