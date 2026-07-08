@@ -16,7 +16,10 @@
         "mood": "focused"
     },
     "reminders": [
-        "sweep floor",
+        {
+            "text": "sweep floor",
+            "due": null
+        },
         {
             "text": "exam study",
             "due": null
@@ -2001,6 +2004,36 @@
             "source": "rule",
             "timestamp": "2026-07-07 15:49:26",
             "importance": 0.6
+        },
+        {
+            "user": "migrate reminders",
+            "assistant": "Reminder migration finished. Migrated 1 old reminders.",
+            "intent": "migrate_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-08 15:51:42",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. sweep floor\n2. exam study\n3. code\n4. eat | due: 7am",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-08 15:51:48",
+            "importance": 0.6
+        },
+        {
+            "user": "exi",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-08 15:52:38",
+            "importance": 0.3
         }
     ],
     "summaries": [

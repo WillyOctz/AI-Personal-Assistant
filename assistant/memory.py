@@ -211,6 +211,28 @@ def make_reminder(text, due=None):
         "due": due
     }
     
+def migrate_reminders_to_dicts():
+    memory = load_memory()
+    
+    migrated_count = 0
+    new_reminders = []
+    
+    for reminder in memory["reminders"]:
+        if isinstance(reminder, dict):
+            new_reminders.append({
+                "text": get_reminder_text(reminder),
+                "due": get_reminder_due(reminder)
+            })
+            continue
+        
+        new_reminders.append(make_reminder(reminder))
+        migrated_count += 1
+        
+    memory["reminders"] = new_reminders
+    save_memory(memory)
+    
+    return migrated_count
+    
 def get_reminder_text(reminder):
     if isinstance(reminder, dict):
         return reminder.get("text", "")

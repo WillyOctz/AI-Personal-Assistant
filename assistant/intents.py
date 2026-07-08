@@ -51,6 +51,7 @@ VALID_INTENTS = {
     "reminder_stats",
     "search_reminders",
     "edit_reminder",
+    "migrate_reminders",
 }
 
 CONTROL_INTENTS = {
@@ -102,6 +103,7 @@ MEMORY_INTENTS = {
     "reminder_stats",
     "search_reminders",
     "edit_reminder",
+    "migrate_reminders",
 }
 
 ACTION_INTENTS = {
@@ -187,6 +189,11 @@ INTENT_PATTERNS = {
         "reminder stats",
         "reminders stats",
         "show reminder stats",
+    ],
+    "migrate_reminders": [
+        "migrate reminders",
+        "upgrade reminders",
+        "convert reminders",
     ],
 }
 

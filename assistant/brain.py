@@ -1,5 +1,5 @@
 from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate
-from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict, get_reminders, cleanup_reminders, get_reminder_stats, search_reminders, complete_reminder, edit_reminder, get_reminder_due, get_reminder_text
+from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict, get_reminders, cleanup_reminders, get_reminder_stats, search_reminders, complete_reminder, edit_reminder, get_reminder_due, get_reminder_text, migrate_reminders_to_dicts
 from assistant.personality import greet, unknown_response
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score
@@ -443,6 +443,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "edit_reminder"):
         return make_analysis("edit_reminder")
+    
+    if match_exact_pattern(text, "migrate_reminders"):
+        return make_analysis("migrate_reminders")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -1321,6 +1324,11 @@ def handle_memory_intent(user_input, analysis):
             return f"I could not find anything about '{query}'."
         
         return "\n".join(results[:10])
+    
+    if intent == "migrate_reminders":
+        migrated_count = migrate_reminders_to_dicts()
+        
+        return f"Reminder migration finished. Migrated {migrated_count} old reminders."
     
     if intent == "preview_memory_cleanup":
         preview = preview_memory_cleanup()
