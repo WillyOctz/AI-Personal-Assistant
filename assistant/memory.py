@@ -363,6 +363,27 @@ def search_reminders(query):
             
     return results
 
+def search_reminders_by_due(due_query):
+    memory = load_memory()
+    due_query = due_query.lower().strip()
+    
+    results = []
+    
+    for index, reminder in enumerate(memory["reminders"], start=1):
+        due = get_reminder_due(reminder)
+        
+        if not due:
+            continue
+        
+        if due_query in due.lower():
+            results.append({
+                "index": index,
+                "reminder": get_reminder_text(reminder),
+                "due": due
+            })
+            
+    return results
+
 def add_history_event(event):
     memory = load_memory()
     memory["history"].append(event)

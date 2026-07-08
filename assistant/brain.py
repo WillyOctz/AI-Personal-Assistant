@@ -1,5 +1,5 @@
 from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate
-from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict, get_reminders, cleanup_reminders, get_reminder_stats, search_reminders, complete_reminder, edit_reminder, get_reminder_due, get_reminder_text, migrate_reminders_to_dicts
+from assistant.memory import add_note, get_notes, set_profile_value, get_profile_value, set_state_value, get_state_value, clear_state_value, add_history_event, get_history, add_conversation_turn, get_conversation, add_summary, get_summaries, get_all_memory, archive_conversation_turns, get_archive, add_archive_summary, get_archive_summaries, clear_archived_conversation, get_profile, add_entity, get_entities, cleanup_entities, preview_entity_conflicts, resolve_entity_conflict, get_reminders, cleanup_reminders, get_reminder_stats, search_reminders, complete_reminder, edit_reminder, get_reminder_due, get_reminder_text, migrate_reminders_to_dicts, search_reminders_by_due
 from assistant.personality import greet, unknown_response
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score
@@ -35,7 +35,7 @@ def parse_reminder_search(user_input):
         
     return ""
 
-def parse_reminer_details(user_input):
+def parse_reminder_details(user_input):
     reminder_text = extract_entity(user_input, "set_reminder")
     
     if " at " in reminder_text:
@@ -62,6 +62,15 @@ def parse_edit_reminder(user_input):
     identifier, new_text = text.split(" as ", 1)
     
     return identifier.strip(),new_text.strip()
+
+def parse_due_search(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["show reminders due ", "search reminders due ", "find reminders due "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return ""
 
 def should_skip_memory_item(intent):
     return intent in SEARCH_IGNORED_INTENTS
@@ -371,6 +380,9 @@ def analyze_intent(user_input):
     
     if text in ["show summaries", "conversation summaries"]:
         return make_analysis("show_summaries")
+    
+    if match_prefix_pattern(text, "search_reminders_by_due"):
+        return make_analysis("search_reminders_by_due")
     
     if match_prefix_pattern(text, "search_reminders"):
         return make_analysis("search_reminders")
@@ -1536,6 +1548,24 @@ def handle_memory_intent(user_input, analysis):
             "First, choose the feature. Then write the simplest version. Then test it."
         )
         
+    if intent == "search_reminders_by_due":
+        due_query = parse_due_search(user_input)
+        
+        if not due_query:
+            return "Which due date should I search for?"
+        
+        results = search_reminders_by_due(due_query)
+        
+        if not results:
+            return f"I could not find reminders due {due_query}."
+        
+        lines = [f"Reminders due {due_query}:"]
+        
+        for result in results:
+            lines.append(f"{result['index']}. {result['reminder']} | due: {result['due']}")
+            
+        return "\n".join(lines)
+        
     if intent == "search_reminders":
         query = parse_reminder_search(user_input)
         
@@ -1595,7 +1625,7 @@ def handle_action_intent(user_input, analysis):
     
         
     if intent == "set_reminder":
-        reminder_text, due = parse_reminer_details(user_input)
+        reminder_text, due = parse_reminder_details(user_input)
 
         if not reminder_text:
             return "What should I remind you about?"

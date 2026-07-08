@@ -31,6 +31,14 @@
         {
             "text": "eat",
             "due": "7am"
+        },
+        {
+            "text": "to study",
+            "due": "8pm"
+        },
+        {
+            "text": "sweep",
+            "due": "tomorrow"
         }
     ],
     "state": {
@@ -259,6 +267,26 @@
             "source": "model",
             "result": "Reminder saved: eat at 7am",
             "timestamp": "2026-07-06 22:59:07",
+            "importance": 1.0
+        },
+        {
+            "user_input": "remind me  to study at 8pm",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Reminder saved: to study at 8pm",
+            "timestamp": "2026-07-08 16:20:44",
+            "importance": 1.0
+        },
+        {
+            "user_input": "remind me to sweep tomorrow",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Reminder saved: sweep at tomorrow",
+            "timestamp": "2026-07-08 16:20:53",
             "importance": 1.0
         }
     ],
@@ -2033,6 +2061,66 @@
             "confidence": 0,
             "source": "None",
             "timestamp": "2026-07-08 15:52:38",
+            "importance": 0.3
+        },
+        {
+            "user": "remind me  to study at 8pm",
+            "assistant": "Reminder saved: to study at 8pm",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-08 16:20:44",
+            "importance": 1.0
+        },
+        {
+            "user": "remind me to sweep tomorrow",
+            "assistant": "Reminder saved: sweep at tomorrow",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-08 16:20:53",
+            "importance": 1.0
+        },
+        {
+            "user": "show reminders due 8pm",
+            "assistant": "Reminders due 8pm:\n5. to study | due: 8pm",
+            "intent": "search_reminders_by_due",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-08 16:21:17",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders due monday",
+            "assistant": "I could not find reminders due monday.",
+            "intent": "search_reminders_by_due",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-08 16:21:30",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders due tomorrow",
+            "assistant": "Reminders due tomorrow:\n6. sweep | due: tomorrow",
+            "intent": "search_reminders_by_due",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-08 16:21:59",
+            "importance": 0.6
+        },
+        {
+            "user": "exi",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-08 16:22:02",
             "importance": 0.3
         }
     ],
