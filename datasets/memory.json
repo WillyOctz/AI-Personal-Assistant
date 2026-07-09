@@ -2252,6 +2252,26 @@
             "source": "rule",
             "timestamp": "2026-07-09 16:31:30",
             "importance": 0.6
+        },
+        {
+            "user": "daily briefing",
+            "assistant": "Good day, Carlos.\nGoal: to build best AI assistant\nReminders today: 0\nOverdue reminders: 1",
+            "intent": "daily_briefing",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-09 18:49:13",
+            "importance": 0.6
+        },
+        {
+            "user": "start my day",
+            "assistant": "Good day, Carlos.\nGoal: to build best AI assistant\nReminders today: 0\nOverdue reminders: 1",
+            "intent": "daily_briefing",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-09 18:49:19",
+            "importance": 0.6
         }
     ],
     "summaries": [

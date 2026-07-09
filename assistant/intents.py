@@ -59,6 +59,7 @@ VALID_INTENTS = {
     "tomorrow_reminders",
     "overdue_reminders",
     "reminder_dashboard",
+    "daily_briefing",
 }
 
 CONTROL_INTENTS = {
@@ -118,6 +119,7 @@ MEMORY_INTENTS = {
     "tomorrow_reminders",
     "overdue_reminders",
     "reminder_dashboard",
+    "daily_briefing",
 }
 
 ACTION_INTENTS = {
@@ -228,6 +230,12 @@ INTENT_PATTERNS = {
         "reminder dashboard",
         "reminders dashboard",
         "show reminder dashboard",
+    ],
+    "daily_briefing": [
+        "daily briefing",
+        "today briefing",
+        "start my day",
+        "brief me",
     ],
 }
 

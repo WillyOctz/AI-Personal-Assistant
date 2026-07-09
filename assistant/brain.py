@@ -266,6 +266,12 @@ def parse_clear_reminder_due(user_input):
 
     return text.replace(" due", "", 1).strip()
 
+def get_first_reminder_text(results):
+    if not results:
+        return None
+    
+    return results[0]["reminder"]
+
 def count_reminders_by_due_label(label):
     results = memory.search_reminders_by_due(label)
     return len(results)
@@ -519,6 +525,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "reminder_dashboard"):
         return make_analysis("reminder_dashboard")
+    
+    if match_exact_pattern(text, "daily_briefing"):
+        return make_analysis("daily_briefing")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -1329,6 +1338,33 @@ def handle_memory_intent(user_input, analysis):
         memory.add_summary(summary)
         
         return summary_text
+    
+    if intent == "daily_briefing":
+        name = memory.get_profile_value("name")
+        goal = memory.get_profile_value("goal")
+        
+        today_results = memory.search_reminders_by_due("today")
+        overdue_results = memory.search_reminders_by_due("yesterday")
+        
+        focus = get_first_reminder_text(today_results)
+        
+        lines = []
+        
+        if name:
+            lines.append(f"Good day, {name}.")
+        else:
+            lines.append("Good day.")
+            
+        if goal:
+            lines.append(f"Goal: {goal}")
+            
+        lines.append(f"Reminders today: {len(today_results)}")
+        lines.append(f"Overdue reminders: {len(overdue_results)}")
+        
+        if focus:
+            lines.append(f"Suggested focus: {focus}")
+            
+        return "\n".join(lines)
     
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()
