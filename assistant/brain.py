@@ -272,6 +272,19 @@ def get_first_reminder_text(results):
     
     return results[0]["reminder"]
 
+def get_first_general_reminder():
+    reminders = memory.get_reminders()
+    
+    if not reminders:
+        return None
+    
+    first = reminders[0]
+    
+    return {
+        "reminder": memory.get_reminder_text(first),
+        "due": memory.get_reminder_due(first)
+    }
+
 def count_reminders_by_due_label(label):
     results = memory.search_reminders_by_due(label)
     return len(results)
@@ -525,6 +538,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "reminder_dashboard"):
         return make_analysis("reminder_dashboard")
+    
+    if match_exact_pattern(text, "suggest_next_task"):
+        return make_analysis("suggest_next_task")
     
     if match_exact_pattern(text, "daily_briefing"):
         return make_analysis("daily_briefing")
@@ -1767,6 +1783,34 @@ def handle_memory_intent(user_input, analysis):
             return "That reminder number does not exist."
         
         return f"I could not find this reminder: {result['reminder']}"
+    
+    if intent == "suggest_next_task":
+        overdue_results  = memory.search_reminders_by_due("yesterday")
+        
+        if overdue_results:
+            first = overdue_results[0]
+            return f"Start with overdue reminder: {first['reminder']} | due: {first['due']}"
+        
+        today_results = memory.search_reminders_by_due("today")
+        
+        if today_results:
+            first = today_results[0]
+            return f"Start with today's reminder: {first['reminder']} | due: {first['due']}"
+        
+        general_reminder = get_first_general_reminder()
+        
+        if general_reminder:
+            if general_reminder["due"]:
+                return f"Start with this reminder: {general_reminder['reminder']} | due: {general_reminder['due']}"
+            
+            return f"Start with this reminder: {general_reminder['reminder']}"
+        
+        goal = memory.get_profile_value("goal")
+        
+        if goal:
+            return f"You have no reminders right now. A good next step is to work on your goal: {goal}"
+        
+        return f"You have no reminders right now. A good next step is to choose one small task and start there."
     
     return unknown_response()
 

@@ -60,6 +60,7 @@ VALID_INTENTS = {
     "overdue_reminders",
     "reminder_dashboard",
     "daily_briefing",
+    "suggest_next_task",
 }
 
 CONTROL_INTENTS = {
@@ -120,6 +121,7 @@ MEMORY_INTENTS = {
     "overdue_reminders",
     "reminder_dashboard",
     "daily_briefing",
+    "suggest_next_task",
 }
 
 ACTION_INTENTS = {
@@ -236,6 +238,12 @@ INTENT_PATTERNS = {
         "today briefing",
         "start my day",
         "brief me",
+    ],
+    "suggest_next_task": [
+        "what should i do next",
+        "next task",
+        "suggest next task",
+        "what is next",
     ],
 }
 

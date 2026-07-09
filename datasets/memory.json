@@ -2272,6 +2272,46 @@
             "source": "rule",
             "timestamp": "2026-07-09 18:49:19",
             "importance": 0.6
+        },
+        {
+            "user": "what should i do next",
+            "assistant": "Start with overdue reminder: sweep floor | due: yesterday",
+            "intent": "suggest_next_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-09 20:10:31",
+            "importance": 0.6
+        },
+        {
+            "user": "next tas",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-09 20:10:36",
+            "importance": 0.3
+        },
+        {
+            "user": "next task",
+            "assistant": "Start with overdue reminder: sweep floor | due: yesterday",
+            "intent": "suggest_next_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-09 20:10:38",
+            "importance": 0.6
+        },
+        {
+            "user": "suggest next task",
+            "assistant": "Start with overdue reminder: sweep floor | due: yesterday",
+            "intent": "suggest_next_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-09 20:10:45",
+            "importance": 0.6
         }
     ],
     "summaries": [
