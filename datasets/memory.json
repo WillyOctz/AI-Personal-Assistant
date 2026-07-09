@@ -18,7 +18,7 @@
     "reminders": [
         {
             "text": "sweep floor",
-            "due": "today"
+            "due": "yesterday"
         },
         {
             "text": "exam study",
@@ -2221,6 +2221,26 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-07-08 18:18:33",
+            "importance": 0.6
+        },
+        {
+            "user": "set reminder 1 due yesterday",
+            "assistant": "Updated reminder due date: sweep floor | due: yesterday",
+            "intent": "set_reminder_due",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-09 16:16:13",
+            "importance": 0.6
+        },
+        {
+            "user": "overdue reminders",
+            "assistant": "Overdue reminders:\n1. sweep floor | due: yesterday",
+            "intent": "overdue_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-09 16:16:28",
             "importance": 0.6
         }
     ],

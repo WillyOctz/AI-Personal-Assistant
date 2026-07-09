@@ -57,6 +57,7 @@ VALID_INTENTS = {
     "clear_reminder_due",
     "today_reminders",
     "tomorrow_reminders",
+    "overdue_reminders",
 }
 
 CONTROL_INTENTS = {
@@ -114,6 +115,7 @@ MEMORY_INTENTS = {
     "clear_reminder_due",
     "today_reminders",
     "tomorrow_reminders",
+    "overdue_reminders",
 }
 
 ACTION_INTENTS = {
@@ -214,6 +216,11 @@ INTENT_PATTERNS = {
         "tomorrow reminders",
         "show tomorrow reminders",
         "reminders tomorrow",
+    ],
+    "overdue_reminders": [
+        "overdue reminders",
+        "show overdue reminders",
+        "late reminders",
     ],
 }
 

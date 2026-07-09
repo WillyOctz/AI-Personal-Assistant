@@ -509,6 +509,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "tomorrow_reminders"):
         return make_analysis("tomorrow_reminders")
+    
+    if match_exact_pattern(text, "overdue_reminders"):
+        return make_analysis("overdue_reminders")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -1374,6 +1377,10 @@ def handle_memory_intent(user_input, analysis):
                 lines.append(f"{index}. {text}")
             
         return "\n".join(lines)
+    
+    if intent == "overdue_reminders":
+        results = memory.search_reminders_by_due("yesterday")
+        return format_reminder_results("Overdue reminders:", results)
     
     if intent == "search_memory":
         query = user_input.replace("search memory ", "", 1).strip()
