@@ -266,6 +266,10 @@ def parse_clear_reminder_due(user_input):
 
     return text.replace(" due", "", 1).strip()
 
+def count_reminders_by_due_label(label):
+    results = memory.search_reminders_by_due(label)
+    return len(results)
+
 def format_reminder_results(title, results):
     if not results:
         return f"No reminders found for {title.lower()}."
@@ -512,6 +516,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "overdue_reminders"):
         return make_analysis("overdue_reminders")
+    
+    if match_exact_pattern(text, "reminder_dashboard"):
+        return make_analysis("reminder_dashboard")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -1381,6 +1388,21 @@ def handle_memory_intent(user_input, analysis):
     if intent == "overdue_reminders":
         results = memory.search_reminders_by_due("yesterday")
         return format_reminder_results("Overdue reminders:", results)
+    
+    if intent == "reminder_dashboard":
+        stats = memory.get_reminder_stats()
+        
+        today_count = count_reminders_by_due_label("today")
+        tomorrow_count = count_reminders_by_due_label("tomorrow")
+        overdue_count = count_reminders_by_due_label("yesterday")
+        
+        return (
+            f"Reminder dashboard:\n"
+            f"Total: {stats['total']}\n"
+            f"Today: {today_count}\n"
+            f"Tomorrow: {tomorrow_count}\n"
+            f"Overdue: {overdue_count}"
+        )
     
     if intent == "search_memory":
         query = user_input.replace("search memory ", "", 1).strip()

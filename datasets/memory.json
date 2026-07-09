@@ -2242,6 +2242,16 @@
             "source": "rule",
             "timestamp": "2026-07-09 16:16:28",
             "importance": 0.6
+        },
+        {
+            "user": "reminder dashboard",
+            "assistant": "Reminder dashboard:\nTotal: 6\nToday: 0\nTomorrow: 2\nOverdue: 1",
+            "intent": "reminder_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-09 16:31:30",
+            "importance": 0.6
         }
     ],
     "summaries": [
