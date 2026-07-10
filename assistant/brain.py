@@ -380,6 +380,9 @@ def analyze_intent(user_input):
     if match_exact_pattern(text, "skip_pending_task"):
         return make_analysis("skip_pending_task")
     
+    if match_exact_pattern(text, "show_pending_task"):
+        return make_analysis("show_pending_task")
+    
     if text in ["yes", "yeah", "yep", "correct"]:
         return make_analysis("confirm_intent")
     
@@ -1349,6 +1352,14 @@ def handle_memory_intent(user_input, analysis):
         if not notes:
             return "You have no notes yet."
         return "\n".join(notes)
+    
+    if intent == "show_pending_task":
+        pending_task = get_pending_task()
+        
+        if not pending_task:
+            return "You do not have a pending task."
+        
+        return f"Pending task: {pending_task}"
     
     if intent == "show_history":
         history = memory.get_history()

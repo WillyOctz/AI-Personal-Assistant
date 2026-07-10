@@ -63,6 +63,7 @@ VALID_INTENTS = {
     "suggest_next_task",
     "complete_pending_task",
     "skip_pending_task",
+    "show_pending_task",
 }
 
 CONTROL_INTENTS = {
@@ -126,6 +127,7 @@ MEMORY_INTENTS = {
     "reminder_dashboard",
     "daily_briefing",
     "suggest_next_task",
+    "show_pending_task",
 }
 
 ACTION_INTENTS = {
@@ -260,6 +262,12 @@ INTENT_PATTERNS = {
         "skip task",
         "not now",
         "later",
+    ],
+    "show_pending_task": [
+        "pending task",
+        "show pending task",
+        "what is my pending task",
+        "what task is pending",
     ],
 }
 

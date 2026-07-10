@@ -2389,6 +2389,56 @@
             "source": "rule",
             "timestamp": "2026-07-10 16:21:07",
             "importance": 0.1
+        },
+        {
+            "user": "pending task",
+            "assistant": "You do not have a pending task.",
+            "intent": "show_pending_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 16:29:29",
+            "importance": 0.6
+        },
+        {
+            "user": "next task",
+            "assistant": "Start with this reminder: exam study | due: tomorrow",
+            "intent": "suggest_next_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 16:29:33",
+            "importance": 0.6
+        },
+        {
+            "user": "pending task",
+            "assistant": "Pending task: exam study",
+            "intent": "show_pending_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 16:29:41",
+            "importance": 0.6
+        },
+        {
+            "user": "skip",
+            "assistant": "Okay, I skipped this suggested task for now: exam study",
+            "intent": "skip_pending_task",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 16:29:46",
+            "importance": 0.1
+        },
+        {
+            "user": "pending task",
+            "assistant": "You do not have a pending task.",
+            "intent": "show_pending_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 16:29:51",
+            "importance": 0.6
         }
     ],
     "summaries": [
