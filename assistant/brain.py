@@ -314,6 +314,20 @@ def get_pending_task():
 
 def clear_pending_task():
     memory.clear_state_value("pending_task")
+    
+def start_focus_mode(task):
+    memory.set_state_value("focus_mode", True)
+    memory.set_state_value("focus_task", task)
+    
+def stop_focus_mode():
+    memory.set_state_value("focus_mode", False)
+    memory.clear_state_value("focus_task")
+    
+def get_focus_mode():
+    return memory.get_state_value("focus_mode")
+
+def get_focus_task():
+    return memory.get_state_value("focus_task")
 
 def find_known_entity(text, known_entities):
     text = text.lower()
@@ -370,6 +384,29 @@ def apply_entity_hints(text, analysis):
             return new_analysis
         
     return analysis
+
+def choose_focus_task():
+    pending_task = get_pending_task()
+    
+    if pending_task:
+        return pending_task
+    
+    overdue_results = memory.search_reminders_by_due("yesterday")
+    
+    if overdue_results:
+        return overdue_results[0]["reminder"]
+    
+    today_results =  memory.search_reminders_by_due("today")
+    
+    if today_results:
+        return today_results[0]["reminder"]
+    
+    general_reminder = get_first_general_reminder()
+    
+    if general_reminder:
+        return general_reminder["reminder"]
+    
+    return None
 
 def analyze_intent(user_input):
     text = user_input.lower()
@@ -556,6 +593,15 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "reminder_dashboard"):
         return make_analysis("reminder_dashboard")
+    
+    if match_exact_pattern(text, "start_focus"):
+        return make_analysis("start_focus")
+    
+    if match_exact_pattern(text, "stop_focus"):
+        return make_analysis("stop_focus")
+    
+    if match_exact_pattern(text, "focus_status"):
+        return make_analysis("focus_status")
     
     if match_exact_pattern(text, "suggest_next_task"):
         return make_analysis("suggest_next_task")
@@ -1864,6 +1910,33 @@ def handle_memory_intent(user_input, analysis):
             return f"You have no reminders right now. A good next step is to work on your goal: {goal}"
         
         return f"You have no reminders right now. A good next step is to choose one small task and start there."
+    
+    if intent == "start_focus":
+        task = choose_focus_task()
+        
+        if not task:
+            return "You do not have a task to focus on yet."
+        
+        start_focus_mode(task)
+        set_pending_task(task)
+        
+        return f"Focus mode started. Current focus: {task}"
+    
+    if intent == "stop_focus":
+        if not get_focus_mode():
+            return "Focus mode is not active."
+        
+        task = get_focus_task()
+        stop_focus_mode()
+        
+        return f"Focus mode stopped. Last focus: {task}"
+    
+    if intent == "focus_status":
+        if not get_focus_mode():
+            return "Focus mode is not active."
+        
+        task = get_focus_task()
+        return f"Focus mode is active. Current focus: {task}"
     
     return unknown_response()
 

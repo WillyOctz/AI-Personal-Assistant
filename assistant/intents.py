@@ -64,6 +64,9 @@ VALID_INTENTS = {
     "complete_pending_task",
     "skip_pending_task",
     "show_pending_task",
+    "start_focus",
+    "stop_focus",
+    "focus_status",
 }
 
 CONTROL_INTENTS = {
@@ -128,6 +131,9 @@ MEMORY_INTENTS = {
     "daily_briefing",
     "suggest_next_task",
     "show_pending_task",
+    "start_focus",
+    "stop_focus",
+    "focus_status",
 }
 
 ACTION_INTENTS = {
@@ -268,6 +274,21 @@ INTENT_PATTERNS = {
         "show pending task",
         "what is my pending task",
         "what task is pending",
+    ],
+    "start_focus": [
+        "start focus",
+        "focus mode",
+        "begin focus",
+    ],
+    "stop_focus": [
+        "stop focus",
+        "end focus",
+        "exit focus",
+    ],
+    "focus_status": [
+        "focus status",
+        "am i focusing",
+        "what am i focusing on",
     ],
 }
 

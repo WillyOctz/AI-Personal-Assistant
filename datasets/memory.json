@@ -17,10 +17,6 @@
     },
     "reminders": [
         {
-            "text": "exam study",
-            "due": "tomorrow"
-        },
-        {
             "text": "code",
             "due": null
         },
@@ -54,7 +50,9 @@
                 }
             }
         },
-        "pending_task": null
+        "pending_task": null,
+        "focus_mode": false,
+        "focus_task": null
     },
     "history": [
         {
@@ -2438,6 +2436,76 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-07-10 16:29:51",
+            "importance": 0.6
+        },
+        {
+            "user": "focus status",
+            "assistant": "Focus mode is not active.",
+            "intent": "focus_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 17:32:24",
+            "importance": 0.6
+        },
+        {
+            "user": "start focus",
+            "assistant": "Focus mode started. Current focus: exam study",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 17:32:30",
+            "importance": 0.6
+        },
+        {
+            "user": "focus status",
+            "assistant": "Focus mode is active. Current focus: exam study",
+            "intent": "focus_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 17:33:15",
+            "importance": 0.6
+        },
+        {
+            "user": "done",
+            "assistant": "Completed suggested task: exam study",
+            "intent": "complete_pending_task",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 17:33:19",
+            "importance": 0.1
+        },
+        {
+            "user": "focus status",
+            "assistant": "Focus mode is active. Current focus: exam study",
+            "intent": "focus_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 17:33:23",
+            "importance": 0.6
+        },
+        {
+            "user": "stop focus",
+            "assistant": "Focus mode stopped. Last focus: exam study",
+            "intent": "stop_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 17:33:27",
+            "importance": 0.6
+        },
+        {
+            "user": "focus status",
+            "assistant": "Focus mode is not active.",
+            "intent": "focus_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 17:33:29",
             "importance": 0.6
         }
     ],

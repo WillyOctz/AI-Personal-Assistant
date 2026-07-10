@@ -35,16 +35,22 @@ def clear_state_value(key):
 def ensure_memory_shape(memory):
     if "notes" not in memory:
         memory["notes"] = []
+        
     if "profile" not in memory:
         memory["profile"] = {}
+        
     if "reminders" not in memory:
         memory["reminders"] = []
+        
     if "state" not in memory:
         memory["state"] = {}
+        
     if "history" not in memory:
         memory["history"] = []
+        
     if "conversation" not in memory:
         memory["conversation"] = []
+        
     if "summaries" not in memory:
         memory["summaries"] = []
         
@@ -71,6 +77,12 @@ def ensure_memory_shape(memory):
         
     if "pending_task" not in memory["state"]:
         memory["state"]["pending_task"] = None
+        
+    if "focus_mode" not in memory["state"]:
+        memory["state"]["focus_mode"] = False
+        
+    if "focus_task" not in memory["state"]:
+        memory["state"]["focus_task"] = None
         
     return memory
 
