@@ -17,10 +17,6 @@
     },
     "reminders": [
         {
-            "text": "sweep floor",
-            "due": "yesterday"
-        },
-        {
             "text": "exam study",
             "due": "tomorrow"
         },
@@ -57,7 +53,8 @@
                     "minecraft": 0.35
                 }
             }
-        }
+        },
+        "pending_task": null
     },
     "history": [
         {
@@ -2312,6 +2309,56 @@
             "source": "rule",
             "timestamp": "2026-07-09 20:10:45",
             "importance": 0.6
+        },
+        {
+            "user": "next tas",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-10 16:09:14",
+            "importance": 0.3
+        },
+        {
+            "user": "next task",
+            "assistant": "Start with overdue reminder: sweep floor | due: yesterday",
+            "intent": "suggest_next_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 16:09:18",
+            "importance": 0.6
+        },
+        {
+            "user": "done",
+            "assistant": "Completed suggested task: sweep floor",
+            "intent": "complete_pending_task",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 16:09:21",
+            "importance": 0.1
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. exam study | due: tomorrow\n2. code\n3. eat | due: 7am\n4. to study | due: 8pm\n5. sweep | due: tomorrow",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 16:09:26",
+            "importance": 0.6
+        },
+        {
+            "user": "done",
+            "assistant": "I do not have a suggested task waiting.",
+            "intent": "complete_pending_task",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 16:09:29",
+            "importance": 0.1
         }
     ],
     "summaries": [

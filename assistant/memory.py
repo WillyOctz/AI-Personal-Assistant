@@ -69,6 +69,9 @@ def ensure_memory_shape(memory):
     if "apps" not in memory["entities"]:
         memory["entities"]["apps"] = []
         
+    if "pending_task" not in memory["state"]:
+        memory["state"]["pending_task"] = None
+        
     return memory
 
 def archive_conversation_turns(turns_to_archive):

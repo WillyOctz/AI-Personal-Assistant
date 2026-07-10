@@ -61,6 +61,7 @@ VALID_INTENTS = {
     "reminder_dashboard",
     "daily_briefing",
     "suggest_next_task",
+    "complete_pending_task",
 }
 
 CONTROL_INTENTS = {
@@ -72,6 +73,7 @@ CONTROL_INTENTS = {
     "deny_intent",
     "debug_memory_search",
     "debug_entity",
+    "complete_pending_task",
 }
 
 MEMORY_INTENTS = {
@@ -244,6 +246,12 @@ INTENT_PATTERNS = {
         "next task",
         "suggest next task",
         "what is next",
+    ],
+    "complete_pending_task": [
+        "done",
+        "finished",
+        "completed",
+        "task done",
     ],
 }
 

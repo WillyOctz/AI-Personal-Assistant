@@ -306,6 +306,15 @@ def format_recall_item(item):
     
     return item["display"]
 
+def set_pending_task(reminder_text):
+    memory.set_state_value("pending_task", reminder_text)
+    
+def get_pending_task():
+    return memory.get_state_value("pending_task")
+
+def clear_pending_task():
+    memory.clear_state_value("pending_task")
+
 def find_known_entity(text, known_entities):
     text = text.lower()
     
@@ -364,6 +373,9 @@ def apply_entity_hints(text, analysis):
 
 def analyze_intent(user_input):
     text = user_input.lower()
+    
+    if match_exact_pattern(text, "complete_pending_task"):
+        return make_analysis("complete_pending_task")
     
     if text in ["yes", "yeah", "yep", "correct"]:
         return make_analysis("confirm_intent")
@@ -1175,6 +1187,20 @@ def handle_control_intent(user_input, analysis):
                 
         return "\n".join(lines)
     
+    if intent == "complete_pending_task":
+        pending_task = get_pending_task()
+        
+        if not pending_task:
+            return "I do not have a suggested task waiting."
+        
+        result = memory.complete_reminder(pending_task)
+        clear_pending_task()
+        
+        if result["removed"]:
+            return f"Completed suggested task: {result['reminder']}"
+        
+        return f"I could not complete the suggested task: {pending_task}"
+    
     if intent == "debug_entity":
         query = user_input.replace("debug entity ", "", 1).strip()
         
@@ -1789,17 +1815,20 @@ def handle_memory_intent(user_input, analysis):
         
         if overdue_results:
             first = overdue_results[0]
+            set_pending_task(first["reminder"])
             return f"Start with overdue reminder: {first['reminder']} | due: {first['due']}"
         
         today_results = memory.search_reminders_by_due("today")
         
         if today_results:
             first = today_results[0]
+            set_pending_task(first["reminder"])
             return f"Start with today's reminder: {first['reminder']} | due: {first['due']}"
         
         general_reminder = get_first_general_reminder()
         
         if general_reminder:
+            set_pending_task(general_reminder["reminder"])
             if general_reminder["due"]:
                 return f"Start with this reminder: {general_reminder['reminder']} | due: {general_reminder['due']}"
             
