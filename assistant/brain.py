@@ -1094,6 +1094,18 @@ def handle_basic_intent(user_input, analysis):
 
     return unknown_response()
 
+def stop_focus_if_task_completed(completed_task):
+    focus_task = get_focus_task()
+    
+    if not get_focus_mode():
+        return False
+    
+    if focus_task != completed_task:
+        return False
+    
+    stop_focus_mode()
+    return True
+
 def handle_control_intent(user_input, analysis):
     intent = analysis["intent"]
     teaching_text = user_input.replace("teach ", "", 1)
@@ -1249,7 +1261,10 @@ def handle_control_intent(user_input, analysis):
         clear_pending_task()
         
         if result["removed"]:
-            return f"Completed suggested task: {result['reminder']}"
+            focus_stopped = stop_focus_if_task_completed(result["reminder"])
+            
+            if focus_stopped:
+                return f"Completed suggested task: {result['reminder']}\nFocus mode stopped."
         
         return f"I could not complete the suggested task: {pending_task}"
     

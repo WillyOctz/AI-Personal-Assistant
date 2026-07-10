@@ -17,10 +17,6 @@
     },
     "reminders": [
         {
-            "text": "code",
-            "due": null
-        },
-        {
             "text": "eat",
             "due": "7am"
         },
@@ -2506,6 +2502,46 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-07-10 17:33:29",
+            "importance": 0.6
+        },
+        {
+            "user": "start focus",
+            "assistant": "Focus mode started. Current focus: code",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 17:52:13",
+            "importance": 0.6
+        },
+        {
+            "user": "focus status",
+            "assistant": "Focus mode is active. Current focus: code",
+            "intent": "focus_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 17:52:18",
+            "importance": 0.6
+        },
+        {
+            "user": "done",
+            "assistant": "Completed suggested task: code\nFocus mode stopped.",
+            "intent": "complete_pending_task",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 17:52:20",
+            "importance": 0.1
+        },
+        {
+            "user": "focus status",
+            "assistant": "Focus mode is not active.",
+            "intent": "focus_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 17:52:25",
             "importance": 0.6
         }
     ],
