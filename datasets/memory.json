@@ -2359,6 +2359,36 @@
             "source": "rule",
             "timestamp": "2026-07-10 16:09:29",
             "importance": 0.1
+        },
+        {
+            "user": "next task",
+            "assistant": "Start with this reminder: exam study | due: tomorrow",
+            "intent": "suggest_next_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 16:21:01",
+            "importance": 0.6
+        },
+        {
+            "user": "skip",
+            "assistant": "Okay, I skipped this suggested task for now: exam study",
+            "intent": "skip_pending_task",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 16:21:03",
+            "importance": 0.1
+        },
+        {
+            "user": "done",
+            "assistant": "I do not have a suggested task waiting.",
+            "intent": "complete_pending_task",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-10 16:21:07",
+            "importance": 0.1
         }
     ],
     "summaries": [

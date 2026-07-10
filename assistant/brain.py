@@ -377,6 +377,9 @@ def analyze_intent(user_input):
     if match_exact_pattern(text, "complete_pending_task"):
         return make_analysis("complete_pending_task")
     
+    if match_exact_pattern(text, "skip_pending_task"):
+        return make_analysis("skip_pending_task")
+    
     if text in ["yes", "yeah", "yep", "correct"]:
         return make_analysis("confirm_intent")
     
@@ -1200,6 +1203,16 @@ def handle_control_intent(user_input, analysis):
             return f"Completed suggested task: {result['reminder']}"
         
         return f"I could not complete the suggested task: {pending_task}"
+    
+    if intent == "skip_pending_task":
+        pending_task = get_pending_task()
+        
+        if not pending_task:
+            return "I do not have a suggested task waiting."
+        
+        clear_pending_task()
+        
+        return f"Okay, I skipped this suggested task for now: {pending_task}"
     
     if intent == "debug_entity":
         query = user_input.replace("debug entity ", "", 1).strip()

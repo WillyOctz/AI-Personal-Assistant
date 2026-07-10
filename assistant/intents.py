@@ -62,6 +62,7 @@ VALID_INTENTS = {
     "daily_briefing",
     "suggest_next_task",
     "complete_pending_task",
+    "skip_pending_task",
 }
 
 CONTROL_INTENTS = {
@@ -74,6 +75,7 @@ CONTROL_INTENTS = {
     "debug_memory_search",
     "debug_entity",
     "complete_pending_task",
+    "skip_pending_task",
 }
 
 MEMORY_INTENTS = {
@@ -252,6 +254,12 @@ INTENT_PATTERNS = {
         "finished",
         "completed",
         "task done",
+    ],
+    "skip_pending_task": [
+        "skip",
+        "skip task",
+        "not now",
+        "later",
     ],
 }
 
