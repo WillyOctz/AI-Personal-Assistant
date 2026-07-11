@@ -2781,6 +2781,36 @@
             "source": "rule",
             "timestamp": "2026-07-11 17:05:16",
             "importance": 0.6
+        },
+        {
+            "user": "focus stats for code",
+            "assistant": "I do not have focus sessions for code.",
+            "intent": "focus_stats_for_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 17:34:15",
+            "importance": 0.6
+        },
+        {
+            "user": "focus stats for sweep",
+            "assistant": "Focus stats for sweep:\nSessions: 2\nTotal time: 5 seconds\nLast matching focus: sweep",
+            "intent": "focus_stats_for_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 17:34:26",
+            "importance": 0.6
+        },
+        {
+            "user": "focus summary for banana",
+            "assistant": "I do not have focus sessions for banana.",
+            "intent": "focus_stats_for_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 17:34:38",
+            "importance": 0.6
         }
     ],
     "summaries": [

@@ -82,6 +82,15 @@ def parse_due_search(user_input):
         
     return ""
 
+def parse_focus_task_query(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["focus stats for ", "focus summary for "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return ""
+
 def should_skip_memory_item(intent):
     return intent in SEARCH_IGNORED_INTENTS
 
@@ -385,6 +394,39 @@ def build_focus_stats():
         "total_sessions": len(sessions),
         "total_seconds": total_seconds,
         "last_focus": sessions[-1]["task"]
+    }
+    
+def build_focus_stats_for_task(query):
+    sessions = memory.get_all_focus_sessions()
+    query = query.lower().strip()
+    
+    matched_sessions = []
+    
+    for session in sessions:
+        task = session["task"].lower()
+        
+        if query in task:
+            matched_sessions.append(session)
+            
+    if not matched_sessions:
+        return {
+           "total_sessions": 0,
+            "total_seconds": 0,
+            "last_focus": None 
+        }
+        
+    total_seconds = 0
+    
+    for session in matched_sessions:
+        total_seconds += calculate_duration_seconds(
+            session["started_at"],
+            session["ended_at"]
+        )
+        
+    return {
+        "total_sessions": len(matched_sessions),
+        "total_seconds": total_seconds,
+        "last_focus": matched_sessions[-1]["task"]
     }
     
 def build_today_focus_stats():
@@ -702,6 +744,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "today_focus_stats"):
         return make_analysis("today_focus_stats")
+    
+    if match_prefix_pattern(text, "focus_stats_for_task"):
+        return make_analysis("focus_stats_for_task")
     
     if match_exact_pattern(text, "focus_stats"):
         return make_analysis("focus_stats")
@@ -2121,6 +2166,26 @@ def handle_memory_intent(user_input, analysis):
         task = get_focus_task()
         return f"Focus mode is active. Current focus: {task}"
     
+    if intent == "focus_stats_for_task":
+        query = parse_focus_task_query(user_input)
+        
+        if not query:
+            return "Which task should I summarize focus stats for?"
+        
+        stats = build_focus_stats_for_task(query)
+        
+        if stats["total_sessions"] == 0:
+            return f"I do not have focus sessions for {query}."
+        
+        total_duration = format_duration_from_seconds(stats["total_seconds"])
+        
+        return (
+           f"Focus stats for {query}:\n"
+            f"Sessions: {stats['total_sessions']}\n"
+            f"Total time: {total_duration}\n"
+            f"Last matching focus: {stats['last_focus']}" 
+        )   
+        
     if intent == "today_focus_stats":
         stats = build_today_focus_stats()
         

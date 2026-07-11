@@ -70,6 +70,7 @@ VALID_INTENTS = {
     "show_focus_sessions",
     "focus_stats",
     "today_focus_stats",
+    "focus_stats_for_task",
 }
 
 CONTROL_INTENTS = {
@@ -140,6 +141,7 @@ MEMORY_INTENTS = {
     "show_focus_sessions",
     "focus_stats",
     "today_focus_stats",
+    "focus_stats_for_task",
 }
 
 ACTION_INTENTS = {
@@ -400,6 +402,10 @@ INTENT_PREFIXES = {
     ],
     "clear_reminder_due": [
         "clear reminder ",
+    ],
+    "focus_stats_for_task": [
+        "focus stats for ",
+        "focus summary for ",
     ],
 }
 
