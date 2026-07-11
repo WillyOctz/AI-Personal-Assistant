@@ -318,10 +318,19 @@ def clear_pending_task():
 def start_focus_mode(task):
     memory.set_state_value("focus_mode", True)
     memory.set_state_value("focus_task", task)
+    memory.set_state_value("focus_started_at", current_timestamp())
+    
+def get_focus_started_at():
+    return memory.get_state_value("focus_started_at")
     
 def stop_focus_mode():
+    started_at = get_focus_started_at()
+    
     memory.set_state_value("focus_mode", False)
     memory.clear_state_value("focus_task")
+    memory.clear_state_value("focus_started_at")
+    
+    return started_at
     
 def get_focus_mode():
     return memory.get_state_value("focus_mode")
@@ -901,6 +910,29 @@ def calculate_recency(timestamp):
     
     return 0.4
 
+def format_duration_since(timestamp):
+    parsed_time = parse_timestamp(timestamp)
+    
+    if not parsed_time:
+        return "unknown"
+    
+    now = datetime.now()
+    duration = now - parsed_time
+    total_seconds = int(duration.total_seconds())
+    
+    if total_seconds < 60:
+        return f"{total_seconds} seconds"
+    
+    minutes = total_seconds // 60
+    
+    if minutes < 60:
+        return f"{minutes} minutes"
+    
+    hours = minutes // 60
+    remaining_minutes = minutes % 60
+    
+    return f"{hours} hours {remaining_minutes} minutes"
+
 def get_intent_group(intent):
     if intent in CONTROL_INTENTS:
         return "control"
@@ -1103,8 +1135,8 @@ def stop_focus_if_task_completed(completed_task):
     if focus_task != completed_task:
         return False
     
-    stop_focus_mode()
-    return True
+    started_at = stop_focus_mode()
+    return started_at
 
 def handle_control_intent(user_input, analysis):
     intent = analysis["intent"]
@@ -1264,7 +1296,12 @@ def handle_control_intent(user_input, analysis):
             focus_stopped = stop_focus_if_task_completed(result["reminder"])
             
             if focus_stopped:
-                return f"Completed suggested task: {result['reminder']}\nFocus mode stopped."
+                duration = format_duration_since(focus_stopped)
+                return (
+                    f"Completed suggested task: {result['reminder']}\n"
+                    f"Focus mode stopped.\n"
+                    f"Duration: {duration}"
+                )
         
         return f"I could not complete the suggested task: {pending_task}"
     
@@ -1942,9 +1979,13 @@ def handle_memory_intent(user_input, analysis):
             return "Focus mode is not active."
         
         task = get_focus_task()
-        stop_focus_mode()
+        started_at = stop_focus_mode()
+        duration = format_duration_since(started_at)
         
-        return f"Focus mode stopped. Last focus: {task}"
+        return (
+            f"Focus mode stopped. Last focus: {task}\n"
+            f"Duration: {duration}"
+        )
     
     if intent == "focus_status":
         if not get_focus_mode():

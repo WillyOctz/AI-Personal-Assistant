@@ -84,6 +84,9 @@ def ensure_memory_shape(memory):
     if "focus_task" not in memory["state"]:
         memory["state"]["focus_task"] = None
         
+    if "focus_started_at" not in memory["state"]:
+        memory["state"]["focus_started_at"] = None
+        
     return memory
 
 def archive_conversation_turns(turns_to_archive):

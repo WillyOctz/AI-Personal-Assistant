@@ -17,14 +17,6 @@
     },
     "reminders": [
         {
-            "text": "eat",
-            "due": "7am"
-        },
-        {
-            "text": "to study",
-            "due": "8pm"
-        },
-        {
             "text": "sweep",
             "due": "tomorrow"
         }
@@ -48,7 +40,8 @@
         },
         "pending_task": null,
         "focus_mode": false,
-        "focus_task": null
+        "focus_task": null,
+        "focus_started_at": null
     },
     "history": [
         {
@@ -2543,6 +2536,106 @@
             "source": "rule",
             "timestamp": "2026-07-10 17:52:25",
             "importance": 0.6
+        },
+        {
+            "user": "start focus",
+            "assistant": "Focus mode started. Current focus: eat",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 15:32:15",
+            "importance": 0.6
+        },
+        {
+            "user": "focus status",
+            "assistant": "Focus mode is active. Current focus: eat",
+            "intent": "focus_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 15:32:20",
+            "importance": 0.6
+        },
+        {
+            "user": "stop focus",
+            "assistant": "2026-07-11 15:32:15",
+            "intent": "stop_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 15:32:27",
+            "importance": 0.6
+        },
+        {
+            "user": "start focus",
+            "assistant": "Focus mode started. Current focus: eat",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 15:32:36",
+            "importance": 0.6
+        },
+        {
+            "user": "done",
+            "assistant": "Completed suggested task: eat\nFocus mode stopped.\nDuration: unknown",
+            "intent": "complete_pending_task",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 15:32:38",
+            "importance": 0.1
+        },
+        {
+            "user": "start focus",
+            "assistant": "Focus mode started. Current focus: to study",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 15:36:32",
+            "importance": 0.6
+        },
+        {
+            "user": "focus status",
+            "assistant": "Focus mode is active. Current focus: to study",
+            "intent": "focus_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 15:36:36",
+            "importance": 0.6
+        },
+        {
+            "user": "stop focus",
+            "assistant": "Focus mode stopped. Last focus: to study\nDuration: 10 seconds",
+            "intent": "stop_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 15:36:42",
+            "importance": 0.6
+        },
+        {
+            "user": "start focus",
+            "assistant": "Focus mode started. Current focus: to study",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 15:36:55",
+            "importance": 0.6
+        },
+        {
+            "user": "done",
+            "assistant": "Completed suggested task: to study\nFocus mode stopped.\nDuration: 2 seconds",
+            "intent": "complete_pending_task",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 15:36:57",
+            "importance": 0.1
         }
     ],
     "summaries": [
