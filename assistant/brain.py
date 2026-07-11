@@ -357,6 +357,18 @@ def get_focus_mode():
 def get_focus_task():
     return memory.get_state_value("focus_task")
 
+def get_focus_session_dates():
+    sessions = memory.get_all_focus_sessions()
+    dates = set()
+    
+    for session in sessions:
+        parsed_time = parse_timestamp(session["started_at"])
+        
+        if parsed_time:
+            dates.add(parsed_time.date())
+            
+    return dates
+
 def save_focus_session(task, started_at):
     ended_at = current_timestamp()
     duration = format_duration_since(started_at)
@@ -457,6 +469,13 @@ def build_today_focus_stats():
         "total_sessions": len(today_sessions),
         "total_seconds": total_seconds,
         "last_focus": today_sessions[-1]["task"]
+    }
+    
+def build_simple_focus_streak():
+    dates = get_focus_session_dates()
+    
+    return {
+        "focused_days": len(dates)
     }
 
 def find_known_entity(text, known_entities):
@@ -750,6 +769,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "focus_stats"):
         return make_analysis("focus_stats")
+    
+    if match_exact_pattern(text, "focus_streak"):
+        return make_analysis("focus_streak")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2212,6 +2234,17 @@ def handle_memory_intent(user_input, analysis):
             f"Focus sessions: {stats['total_sessions']}\n"
             f"Total focus time: {total_duration}\n"
             f"Last focus: {stats['last_focus']}"
+        )
+        
+    if intent == "focus_streak":
+        streak = build_simple_focus_streak()
+        
+        if streak["focused_days"] == 0:
+            return "You do not have any focused days yet."
+        
+        return (
+            f"Focused days: {streak['focused_days']}\n"
+            f"Current streak: simple version counts focused days only"
         )
     
     return unknown_response()

@@ -71,6 +71,7 @@ VALID_INTENTS = {
     "focus_stats",
     "today_focus_stats",
     "focus_stats_for_task",
+    "focus_streak",
 }
 
 CONTROL_INTENTS = {
@@ -142,6 +143,7 @@ MEMORY_INTENTS = {
     "focus_stats",
     "today_focus_stats",
     "focus_stats_for_task",
+    "focus_streak",
 }
 
 ACTION_INTENTS = {
@@ -312,6 +314,11 @@ INTENT_PATTERNS = {
         "today focus stats",
         "focus stats today",
         "today focus summary",
+    ],
+    "focus_streak": [
+        "focus streak",
+        "show focus streak",
+        "focused days",
     ],
 }
 

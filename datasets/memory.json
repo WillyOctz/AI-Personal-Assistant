@@ -2811,6 +2811,46 @@
             "source": "rule",
             "timestamp": "2026-07-11 17:34:38",
             "importance": 0.6
+        },
+        {
+            "user": "focus streak",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-11 18:00:39",
+            "importance": 0.3
+        },
+        {
+            "user": "focus streak",
+            "assistant": "Focused days: 1\nCurrent streak: simple version counts focused days only",
+            "intent": "focus_streak",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 18:04:15",
+            "importance": 0.6
+        },
+        {
+            "user": "consecutive-day streak",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-11 18:04:28",
+            "importance": 0.3
+        },
+        {
+            "user": "focused days total",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-11 18:04:32",
+            "importance": 0.3
         }
     ],
     "summaries": [
