@@ -87,6 +87,9 @@ def ensure_memory_shape(memory):
     if "focus_started_at" not in memory["state"]:
         memory["state"]["focus_started_at"] = None
         
+    if "focus_sessions" not in memory:
+        memory["focus_sessions"] = []
+        
     return memory
 
 def archive_conversation_turns(turns_to_archive):
@@ -636,6 +639,15 @@ def add_entity(entity_type, value):
 def get_entities(entity_type):
     memory = load_memory()
     return memory["entities"].get(entity_type, [])
+
+def add_focus_session(session):
+    memory = load_memory()
+    memory["focus_sessions"].append(session)
+    save_memory(memory)
+    
+def get_focus_sessions(limit=5):
+    memory = load_memory()
+    return memory["focus_sessions"][-limit:]
 
 
 

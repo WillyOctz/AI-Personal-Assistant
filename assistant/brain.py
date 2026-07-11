@@ -338,6 +338,21 @@ def get_focus_mode():
 def get_focus_task():
     return memory.get_state_value("focus_task")
 
+def save_focus_session(task, started_at):
+    ended_at = current_timestamp()
+    duration = format_duration_since(started_at)
+    
+    session = {
+        "task": task,
+        "started_at": started_at,
+        "ended_at": ended_at,
+        "duration": duration
+    }
+    
+    memory.add_focus_session(session)
+    
+    return duration
+
 def find_known_entity(text, known_entities):
     text = text.lower()
     
@@ -617,6 +632,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "daily_briefing"):
         return make_analysis("daily_briefing")
+    
+    if match_exact_pattern(text, "show_focus_sessions"):
+        return make_analysis("show_focus_sessions")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -1296,7 +1314,7 @@ def handle_control_intent(user_input, analysis):
             focus_stopped = stop_focus_if_task_completed(result["reminder"])
             
             if focus_stopped:
-                duration = format_duration_since(focus_stopped)
+                duration = save_focus_session(result["reminder"], focus_stopped)
                 return (
                     f"Completed suggested task: {result['reminder']}\n"
                     f"Focus mode stopped.\n"
@@ -1487,6 +1505,21 @@ def handle_memory_intent(user_input, analysis):
             lines.append(f"You: {turn['user']}")
             lines.append(f"Assistant: {turn['assistant']}")
             lines.append("")
+            
+        return "\n".join(lines)
+    
+    if intent == "show_focus_sessions":
+        sessions = memory.get_focus_sessions()
+        
+        if not sessions:
+            return "I do not have any focus sessions yet."
+        
+        lines = ["Recent focus sessions:"]
+        
+        for session in sessions:
+            lines.append(
+                f"- {session['task']} | {session['duration']} | {session['started_at']} -> {session['ended_at']}"
+            )
             
         return "\n".join(lines)
     
@@ -1980,7 +2013,7 @@ def handle_memory_intent(user_input, analysis):
         
         task = get_focus_task()
         started_at = stop_focus_mode()
-        duration = format_duration_since(started_at)
+        duration = save_focus_session(task, started_at)
         
         return (
             f"Focus mode stopped. Last focus: {task}\n"

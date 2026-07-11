@@ -15,12 +15,7 @@
         "goal": "to build best AI assistant",
         "mood": "focused"
     },
-    "reminders": [
-        {
-            "text": "sweep",
-            "due": "tomorrow"
-        }
-    ],
+    "reminders": [],
     "state": {
         "pending_confirmation": {
             "user_input": "play stardew valley",
@@ -2636,6 +2631,66 @@
             "source": "rule",
             "timestamp": "2026-07-11 15:36:57",
             "importance": 0.1
+        },
+        {
+            "user": "start focus",
+            "assistant": "Focus mode started. Current focus: sweep",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 16:08:33",
+            "importance": 0.6
+        },
+        {
+            "user": "stop focus",
+            "assistant": "Focus mode stopped. Last focus: sweep\nDuration: 3 seconds",
+            "intent": "stop_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 16:08:36",
+            "importance": 0.6
+        },
+        {
+            "user": "focus history",
+            "assistant": "Recent focus sessions:\n- sweep | 3 seconds | 2026-07-11 16:08:33 -> 2026-07-11 16:08:36",
+            "intent": "show_focus_sessions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 16:08:41",
+            "importance": 0.6
+        },
+        {
+            "user": "start focus",
+            "assistant": "Focus mode started. Current focus: sweep",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 16:08:48",
+            "importance": 0.6
+        },
+        {
+            "user": "done",
+            "assistant": "Completed suggested task: sweep\nFocus mode stopped.\nDuration: 2 seconds",
+            "intent": "complete_pending_task",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 16:08:50",
+            "importance": 0.1
+        },
+        {
+            "user": "focus history",
+            "assistant": "Recent focus sessions:\n- sweep | 3 seconds | 2026-07-11 16:08:33 -> 2026-07-11 16:08:36\n- sweep | 2 seconds | 2026-07-11 16:08:48 -> 2026-07-11 16:08:50",
+            "intent": "show_focus_sessions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 16:08:55",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -2658,5 +2713,19 @@
             "stardew valley"
         ],
         "apps": []
-    }
+    },
+    "focus_sessions": [
+        {
+            "task": "sweep",
+            "started_at": "2026-07-11 16:08:33",
+            "ended_at": "2026-07-11 16:08:36",
+            "duration": "3 seconds"
+        },
+        {
+            "task": "sweep",
+            "started_at": "2026-07-11 16:08:48",
+            "ended_at": "2026-07-11 16:08:50",
+            "duration": "2 seconds"
+        }
+    ]
 }
