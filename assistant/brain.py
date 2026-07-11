@@ -17,6 +17,16 @@ def parse_timestamp(timestamp):
     except:
         return None
     
+def is_timestamp_today(timestamp):
+    parsed_time = parse_timestamp(timestamp)
+    
+    if not parsed_time:
+        return False
+    
+    now = datetime.now()
+    
+    return parsed_time.date() == now.date()
+    
 def parse_complete_reminder(user_input):
     text = user_input.lower().strip()
     
@@ -376,6 +386,36 @@ def build_focus_stats():
         "total_seconds": total_seconds,
         "last_focus": sessions[-1]["task"]
     }
+    
+def build_today_focus_stats():
+    sessions = memory.get_all_focus_sessions()
+    
+    today_sessions = []
+    
+    for session in sessions:
+        if is_timestamp_today(session["started_at"]):
+            today_sessions.append(session)
+            
+    if not today_sessions:
+        return {
+            "total_sessions": 0,
+            "total_seconds": 0,
+            "last_focus": None
+        }
+        
+    total_seconds = 0
+    
+    for session in today_sessions:
+        total_seconds += calculate_duration_seconds(
+            session["started_at"],
+            session["ended_at"]
+        )
+        
+    return {
+        "total_sessions": len(today_sessions),
+        "total_seconds": total_seconds,
+        "last_focus": today_sessions[-1]["task"]
+    }
 
 def find_known_entity(text, known_entities):
     text = text.lower()
@@ -659,6 +699,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "show_focus_sessions"):
         return make_analysis("show_focus_sessions")
+    
+    if match_exact_pattern(text, "today_focus_stats"):
+        return make_analysis("today_focus_stats")
     
     if match_exact_pattern(text, "focus_stats"):
         return make_analysis("focus_stats")
@@ -2077,6 +2120,20 @@ def handle_memory_intent(user_input, analysis):
         
         task = get_focus_task()
         return f"Focus mode is active. Current focus: {task}"
+    
+    if intent == "today_focus_stats":
+        stats = build_today_focus_stats()
+        
+        if stats["total_sessions"] == 0:
+            return "I do not have any focus sessions for today."
+        
+        total_duration = format_duration_from_seconds(stats["total_seconds"])
+        
+        return (
+            f"Today's focus sessions: {stats['total_sessions']}\n"
+            f"Today's focus time: {total_duration}\n"
+            f"Last focus today: {stats['last_focus']}"
+        )
     
     if intent == "focus_stats":
         stats = build_focus_stats()

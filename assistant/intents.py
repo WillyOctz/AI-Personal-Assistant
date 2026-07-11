@@ -69,6 +69,7 @@ VALID_INTENTS = {
     "focus_status",
     "show_focus_sessions",
     "focus_stats",
+    "today_focus_stats",
 }
 
 CONTROL_INTENTS = {
@@ -138,6 +139,7 @@ MEMORY_INTENTS = {
     "focus_status",
     "show_focus_sessions",
     "focus_stats",
+    "today_focus_stats",
 }
 
 ACTION_INTENTS = {
@@ -303,6 +305,11 @@ INTENT_PATTERNS = {
         "focus stats",
         "show focus stats",
         "focus summary",
+    ],
+    "today_focus_stats": [
+        "today focus stats",
+        "focus stats today",
+        "today focus summary",
     ],
 }
 
