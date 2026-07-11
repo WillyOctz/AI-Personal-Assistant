@@ -353,6 +353,30 @@ def save_focus_session(task, started_at):
     
     return duration
 
+def build_focus_stats():
+    sessions = memory.get_all_focus_sessions()
+    
+    if not sessions:
+        return {
+            "total_sessions": 0,
+            "total_seconds": 0,
+            "last_focus": None
+        }
+        
+    total_seconds = 0
+    
+    for session in sessions:
+        total_seconds += calculate_duration_seconds(
+            session["started_at"],
+            session["ended_at"]
+        )
+        
+    return {
+        "total_sessions": len(sessions),
+        "total_seconds": total_seconds,
+        "last_focus": sessions[-1]["task"]
+    }
+
 def find_known_entity(text, known_entities):
     text = text.lower()
     
@@ -635,6 +659,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "show_focus_sessions"):
         return make_analysis("show_focus_sessions")
+    
+    if match_exact_pattern(text, "focus_stats"):
+        return make_analysis("focus_stats")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -950,6 +977,30 @@ def format_duration_since(timestamp):
     remaining_minutes = minutes % 60
     
     return f"{hours} hours {remaining_minutes} minutes"
+
+def format_duration_from_seconds(total_seconds):
+    if total_seconds < 60:
+        return f"{total_seconds} seconds"
+    
+    minutes = total_seconds // 60
+    
+    if minutes < 60:
+        return f"{minutes} minutes"
+    
+    hours = minutes // 60
+    remaining_minutes = minutes % 60
+    
+    return f"{hours} hours {remaining_minutes} minutes"
+
+def calculate_duration_seconds(started_at, ended_at):
+    start = parse_timestamp(started_at)
+    end = parse_timestamp(ended_at)
+    
+    if not start or not end:
+        return 0
+    
+    duration = end - start
+    return int(duration.total_seconds())
 
 def get_intent_group(intent):
     if intent in CONTROL_INTENTS:
@@ -2026,6 +2077,20 @@ def handle_memory_intent(user_input, analysis):
         
         task = get_focus_task()
         return f"Focus mode is active. Current focus: {task}"
+    
+    if intent == "focus_stats":
+        stats = build_focus_stats()
+        
+        if stats["total_sessions"] == 0:
+            return "I do not have any focus sessions yet."
+        
+        total_duration = format_duration_from_seconds(stats["total_seconds"])
+        
+        return (
+            f"Focus sessions: {stats['total_sessions']}\n"
+            f"Total focus time: {total_duration}\n"
+            f"Last focus: {stats['last_focus']}"
+        )
     
     return unknown_response()
 

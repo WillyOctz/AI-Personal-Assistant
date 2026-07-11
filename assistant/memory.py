@@ -649,5 +649,11 @@ def get_focus_sessions(limit=5):
     memory = load_memory()
     return memory["focus_sessions"][-limit:]
 
+def get_all_focus_sessions():
+    memory = load_memory()
+    return memory["focus_sessions"]
+
+
+
 
 

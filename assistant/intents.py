@@ -68,6 +68,7 @@ VALID_INTENTS = {
     "stop_focus",
     "focus_status",
     "show_focus_sessions",
+    "focus_stats",
 }
 
 CONTROL_INTENTS = {
@@ -136,6 +137,7 @@ MEMORY_INTENTS = {
     "stop_focus",
     "focus_status",
     "show_focus_sessions",
+    "focus_stats",
 }
 
 ACTION_INTENTS = {
@@ -296,6 +298,11 @@ INTENT_PATTERNS = {
         "focus history",
         "show focus history",
         "focus sessions",
+    ],
+    "focus_stats": [
+        "focus stats",
+        "show focus stats",
+        "focus summary",
     ],
 }
 

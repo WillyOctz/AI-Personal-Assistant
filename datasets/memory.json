@@ -2691,6 +2691,46 @@
             "source": "rule",
             "timestamp": "2026-07-11 16:08:55",
             "importance": 0.6
+        },
+        {
+            "user": "focus stats",
+            "assistant": "Focus sessions: 2\nTotal focus time: 5 seconds\nLast focus: sweep",
+            "intent": "focus_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 16:29:45",
+            "importance": 0.6
+        },
+        {
+            "user": "start focus",
+            "assistant": "You do not have a task to focus on yet.",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 16:29:53",
+            "importance": 0.6
+        },
+        {
+            "user": "stop focus",
+            "assistant": "Focus mode is not active.",
+            "intent": "stop_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 16:29:58",
+            "importance": 0.6
+        },
+        {
+            "user": "focus stats",
+            "assistant": "Focus sessions: 2\nTotal focus time: 5 seconds\nLast focus: sweep",
+            "intent": "focus_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-11 16:30:03",
+            "importance": 0.6
         }
     ],
     "summaries": [
