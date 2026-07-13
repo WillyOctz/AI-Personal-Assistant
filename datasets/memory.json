@@ -2851,6 +2851,26 @@
             "source": "None",
             "timestamp": "2026-07-11 18:04:32",
             "importance": 0.3
+        },
+        {
+            "user": "focus streak",
+            "assistant": "Focused days: 1\nCurrent streak: simple version counts focused days only",
+            "intent": "focus_streak",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-13 15:35:34",
+            "importance": 0.6
+        },
+        {
+            "user": "focus streak",
+            "assistant": "Focused days: 1\nCurrent streak: 0 day(s)",
+            "intent": "focus_streak",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-13 16:04:38",
+            "importance": 0.6
         }
     ],
     "summaries": [

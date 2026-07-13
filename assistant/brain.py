@@ -3,7 +3,7 @@ from assistant import memory
 from assistant.personality import greet, unknown_response
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score
-from datetime import datetime
+from datetime import datetime, timedelta
 
 HIGH_CONFIDENCE = 0.75
 LOW_CONFIDENCE = 0.55
@@ -476,6 +476,28 @@ def build_simple_focus_streak():
     
     return {
         "focused_days": len(dates)
+    }
+    
+def build_true_focus_streak():
+    dates = get_focus_session_dates()
+    
+    if not dates:
+        return {
+            "focused_days": 0,
+            "current_streak": 0
+        }
+        
+    today = datetime.now().date()
+    current_day = today
+    current_streak = 0
+    
+    while current_day in dates:
+        current_streak += 1
+        current_day = current_day - timedelta(days=1)
+        
+    return {
+        "focused_days": len(dates),
+        "current_streak": current_streak
     }
 
 def find_known_entity(text, known_entities):
@@ -2237,14 +2259,14 @@ def handle_memory_intent(user_input, analysis):
         )
         
     if intent == "focus_streak":
-        streak = build_simple_focus_streak()
+        streak = build_true_focus_streak()
         
         if streak["focused_days"] == 0:
             return "You do not have any focused days yet."
         
         return (
             f"Focused days: {streak['focused_days']}\n"
-            f"Current streak: simple version counts focused days only"
+            f"Current streak: {streak['current_streak']} day(s)"
         )
     
     return unknown_response()
