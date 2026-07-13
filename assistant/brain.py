@@ -384,6 +384,14 @@ def save_focus_session(task, started_at):
     
     return duration
 
+def parse_focus_goal(user_input):
+    text = user_input.lower().strip()
+    
+    if not text.startswith("set focus goal "):
+        return ""
+    
+    return text.replace("set focus goal ", "", 1).strip()
+
 def build_focus_stats():
     sessions = memory.get_all_focus_sessions()
     
@@ -821,6 +829,12 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "focus_streak"):
         return make_analysis("focus_streak")
+    
+    if match_prefix_pattern(text, "set_focus_goal"):
+        return make_analysis("set_focus_goal")
+    
+    if match_exact_pattern(text, "show_focus_goal"):
+        return make_analysis("show_focus_goal")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2296,6 +2310,24 @@ def handle_memory_intent(user_input, analysis):
             f"Current streak: {streak['current_streak']} day(s)\n"
             f"Longest streak: {streak['longest_streak']} day(s)"
         )
+        
+    if intent == "set_focus_goal":
+        goal = parse_focus_goal(user_input)
+        
+        if not goal:
+            return "Use this format: set focus goal 30 minutes"
+        
+        memory.set_profile_value("focus_goal", goal)
+        
+        return f"Focus goal saved: {goal}"
+    
+    if intent  == "show_focus_goal":
+        goal = memory.get_profile_value("focus_goal")
+        
+        if not goal:
+            return "You do not have a focus goal yet."
+        
+        return f"Your focus goal is {goal}."
     
     return unknown_response()
 

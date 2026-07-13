@@ -72,6 +72,8 @@ VALID_INTENTS = {
     "today_focus_stats",
     "focus_stats_for_task",
     "focus_streak",
+    "set_focus_goal",
+    "show_focus_goal",
 }
 
 CONTROL_INTENTS = {
@@ -144,6 +146,8 @@ MEMORY_INTENTS = {
     "today_focus_stats",
     "focus_stats_for_task",
     "focus_streak",
+    "set_focus_goal",
+    "show_focus_goal",
 }
 
 ACTION_INTENTS = {
@@ -320,6 +324,11 @@ INTENT_PATTERNS = {
         "show focus streak",
         "focused days",
     ],
+    "show_focus_goal": [
+        "show focus goal",
+        "focus goal",
+        "what is my focus goal",
+    ],
 }
 
 INTENT_PREFIXES = {
@@ -413,6 +422,9 @@ INTENT_PREFIXES = {
     "focus_stats_for_task": [
         "focus stats for ",
         "focus summary for ",
+    ],
+    "set_focus_goal": [
+        "set focus goal ",
     ],
 }
 
