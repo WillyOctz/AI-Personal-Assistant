@@ -484,7 +484,8 @@ def build_true_focus_streak():
     if not dates:
         return {
             "focused_days": 0,
-            "current_streak": 0
+            "current_streak": 0,
+            "longest_streak": 0
         }
         
     today = datetime.now().date()
@@ -495,10 +496,36 @@ def build_true_focus_streak():
         current_streak += 1
         current_day = current_day - timedelta(days=1)
         
+    longest_streak = calculate_longest_streak(dates)
+        
     return {
         "focused_days": len(dates),
-        "current_streak": current_streak
+        "current_streak": current_streak,
+        "longest_streak": longest_streak
     }
+    
+def calculate_longest_streak(dates):
+    if not dates:
+        return 0
+    
+    sorted_dates = sorted(dates)
+    
+    longest_streak = 1
+    current_streak = 1
+    
+    for index in range(1, len(sorted_dates)):
+        previous_day = sorted_dates[index - 1]
+        current_day = sorted_dates[index]
+        
+        if current_day == previous_day + timedelta(days=1):
+            current_streak += 1
+        else:
+            current_streak = 1
+            
+        if current_streak > longest_streak:
+            longest_streak = current_streak
+            
+    return longest_streak
 
 def find_known_entity(text, known_entities):
     text = text.lower()
@@ -2266,7 +2293,8 @@ def handle_memory_intent(user_input, analysis):
         
         return (
             f"Focused days: {streak['focused_days']}\n"
-            f"Current streak: {streak['current_streak']} day(s)"
+            f"Current streak: {streak['current_streak']} day(s)\n"
+            f"Longest streak: {streak['longest_streak']} day(s)"
         )
     
     return unknown_response()

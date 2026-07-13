@@ -2871,6 +2871,16 @@
             "source": "rule",
             "timestamp": "2026-07-13 16:04:38",
             "importance": 0.6
+        },
+        {
+            "user": "focus streak",
+            "assistant": "Focused days: 1\nCurrent streak: 0 day(s)\nLongest streak: 1 day(s)",
+            "intent": "focus_streak",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-13 16:53:00",
+            "importance": 0.6
         }
     ],
     "summaries": [
