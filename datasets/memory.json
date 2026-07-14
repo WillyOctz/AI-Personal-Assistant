@@ -18,17 +18,13 @@
     },
     "reminders": [
         {
-            "text": "interview tomorrow",
-            "due": "11am"
-        },
-        {
             "text": "code today",
             "due": null
         }
     ],
     "state": {
         "pending_confirmation": null,
-        "pending_task": "interview tomorrow",
+        "pending_task": null,
         "focus_mode": false,
         "focus_task": null,
         "focus_started_at": null,
@@ -3347,6 +3343,76 @@
             "source": "rule",
             "timestamp": "2026-07-14 18:02:27",
             "importance": 0.6
+        },
+        {
+            "user": "start focus",
+            "assistant": "Focus mode started. Current focus: interview tomorrow",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 18:35:08",
+            "importance": 0.6
+        },
+        {
+            "user": "focus note fixed bug",
+            "assistant": "Focus note added: fixed bug",
+            "intent": "add_focus_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 18:35:28",
+            "importance": 0.6
+        },
+        {
+            "user": "focus note learned summary",
+            "assistant": "Focus note added: learned summary",
+            "intent": "add_focus_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 18:35:43",
+            "importance": 0.6
+        },
+        {
+            "user": "stop focus",
+            "assistant": "Focus session summary:\nTask: interview tomorrow\nDuration: 38 seconds\nNotes: 2\n- fixed bug\n- learned summary",
+            "intent": "stop_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 18:35:46",
+            "importance": 0.6
+        },
+        {
+            "user": "start focus",
+            "assistant": "Focus mode started. Current focus: interview tomorrow",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 18:36:04",
+            "importance": 0.6
+        },
+        {
+            "user": "focus note completed reminder",
+            "assistant": "Focus note added: completed reminder",
+            "intent": "add_focus_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 18:36:11",
+            "importance": 0.6
+        },
+        {
+            "user": "done",
+            "assistant": "Completed suggested task: interview tomorrow\nFocus session summary:\nTask: interview tomorrow\nDuration: 12 seconds\nNotes: 1\n- completed reminder",
+            "intent": "complete_pending_task",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 18:36:16",
+            "importance": 0.1
         }
     ],
     "summaries": [
@@ -3412,6 +3478,44 @@
             "duration": "25 seconds",
             "notes": [
                 "fixed parser bug"
+            ]
+        },
+        {
+            "task": "interview tomorrow",
+            "started_at": "2026-07-14 18:35:08",
+            "ended_at": "2026-07-14 18:35:46",
+            "duration": "38 seconds",
+            "notes": [
+                "fixed bug",
+                "learned summary"
+            ]
+        },
+        {
+            "task": "interview tomorrow",
+            "started_at": "2026-07-14 18:35:08",
+            "ended_at": "2026-07-14 18:35:46",
+            "duration": "38 seconds",
+            "notes": [
+                "fixed bug",
+                "learned summary"
+            ]
+        },
+        {
+            "task": "interview tomorrow",
+            "started_at": "2026-07-14 18:36:04",
+            "ended_at": "2026-07-14 18:36:16",
+            "duration": "12 seconds",
+            "notes": [
+                "completed reminder"
+            ]
+        },
+        {
+            "task": "interview tomorrow",
+            "started_at": "2026-07-14 18:36:04",
+            "ended_at": "2026-07-14 18:36:16",
+            "duration": "12 seconds",
+            "notes": [
+                "completed reminder"
             ]
         }
     ]

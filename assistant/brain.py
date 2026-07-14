@@ -353,6 +353,19 @@ def format_recall_item(item):
     
     return item["display"]
 
+def format_focus_session_summary(task, duration, notes):
+    lines = [
+        "Focus session summary:",
+        f"Task: {task}",
+        f"Duration: {duration}",
+        f"Notes: {len(notes)}"
+    ]
+    
+    for note in notes:
+        lines.append(f"- {note}")
+        
+    return "\n".join(lines)
+
 def set_pending_task(reminder_text):
     memory.set_state_value("pending_task", reminder_text)
     
@@ -412,9 +425,13 @@ def save_focus_session(task, started_at):
     }
     
     memory.add_focus_session(session)
+    memory.add_focus_session(session)
     clear_current_focus_notes()
     
-    return duration
+    return {
+        "duration": duration,
+        "notes": session["notes"]
+    }
 
 def get_focus_goal_progress_summary():
     goal_text = memory.get_profile_value("focus_goal")
@@ -1644,11 +1661,16 @@ def handle_control_intent(user_input, analysis):
             focus_stopped = stop_focus_if_task_completed(result["reminder"])
             
             if focus_stopped:
-                duration = save_focus_session(result["reminder"], focus_stopped)
+                session_result = save_focus_session(result["reminder"], focus_stopped)
+                summary = format_focus_session_summary(
+                    result["reminder"],
+                    session_result["duration"],
+                    session_result["notes"]
+                )
+                
                 return (
                     f"Completed suggested task: {result['reminder']}\n"
-                    f"Focus mode stopped.\n"
-                    f"Duration: {duration}"
+                    f"{summary}"
                 )
         
         return f"I could not complete the suggested task: {pending_task}"
@@ -2378,11 +2400,12 @@ def handle_memory_intent(user_input, analysis):
         
         task = get_focus_task()
         started_at = stop_focus_mode()
-        duration = save_focus_session(task, started_at)
+        session_result = save_focus_session(task, started_at)
         
-        return (
-            f"Focus mode stopped. Last focus: {task}\n"
-            f"Duration: {duration}"
+        return format_focus_session_summary(
+            task,
+            session_result["duration"],
+            session_result["notes"]
         )
     
     if intent == "focus_status":
