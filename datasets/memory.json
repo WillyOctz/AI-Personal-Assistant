@@ -3413,6 +3413,36 @@
             "source": "rule",
             "timestamp": "2026-07-14 18:36:16",
             "importance": 0.1
+        },
+        {
+            "user": "search focus bug",
+            "assistant": "Focus sessions matching bug:\n- interview tomorrow | 30 seconds | 2026-07-14 17:35:06\n  note: learned focus note\n  note: fixed a bug\n- interview tomorrow | 25 seconds | 2026-07-14 18:01:57\n  note: fixed parser bug\n- interview tomorrow | 38 seconds | 2026-07-14 18:35:08\n  note: fixed bug\n  note: learned summary\n- interview tomorrow | 38 seconds | 2026-07-14 18:35:08\n  note: fixed bug\n  note: learned summary",
+            "intent": "search_focus_sessions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 19:18:42",
+            "importance": 0.6
+        },
+        {
+            "user": "search focus summary",
+            "assistant": "Focus sessions matching summary:\n- interview tomorrow | 38 seconds | 2026-07-14 18:35:08\n  note: fixed bug\n  note: learned summary\n- interview tomorrow | 38 seconds | 2026-07-14 18:35:08\n  note: fixed bug\n  note: learned summary",
+            "intent": "search_focus_sessions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 19:18:49",
+            "importance": 0.6
+        },
+        {
+            "user": "search focus banana",
+            "assistant": "I could not find focus sessions matching: banana",
+            "intent": "search_focus_sessions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 19:18:54",
+            "importance": 0.6
         }
     ],
     "summaries": [
