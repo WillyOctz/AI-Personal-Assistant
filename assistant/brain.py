@@ -91,6 +91,15 @@ def parse_focus_task_query(user_input):
         
     return ""
 
+def parse_focus_search(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["search focus ", "find focus "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return ""
+
 def should_skip_memory_item(intent):
     return intent in SEARCH_IGNORED_INTENTS
 
@@ -958,6 +967,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "show_current_focus_notes"):
         return make_analysis("show_current_focus_notes")
+    
+    if match_prefix_pattern(text, "search_focus_sessions"):
+        return make_analysis("search_focus_sessions")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2545,6 +2557,31 @@ def handle_memory_intent(user_input, analysis):
         for note in notes:
             lines.append(f"- {note}")
             
+        return "\n".join(lines)
+    
+    if intent == "search_focus_sessions":
+        query = parse_focus_search(user_input)
+        
+        if not query:
+            return "What focus sessions should I search for?"
+        
+        results = memory.search_focus_sessions(query)
+        
+        if not results:
+            return f"I could not find focus sessions matching: {query}"
+        
+        lines = [f"Focus sessions matching {query}:"]
+        
+        for session in results[-5:]:
+            lines.append(
+                f"- {session['task']} | {session['duration']} | {session['started_at']}"
+            )
+            
+            notes = session.get("notes", [])
+            
+            for note in notes:
+                lines.append(f"  note: {note}")
+                
         return "\n".join(lines)
     
     return unknown_response()

@@ -78,6 +78,7 @@ VALID_INTENTS = {
     "debug_focus_goal",
     "add_focus_note",
     "show_current_focus_notes",
+    "search_focus_sessions",
 }
 
 CONTROL_INTENTS = {
@@ -156,6 +157,7 @@ MEMORY_INTENTS = {
     "focus_goal_progress",
     "add_focus_note",
     "show_current_focus_notes",
+    "search_focus_sessions",
 }
 
 ACTION_INTENTS = {
@@ -450,6 +452,10 @@ INTENT_PREFIXES = {
     ],
     "add_focus_note": [
         "focus note ",
+    ],
+    "search_focus_sessions": [
+        "search focus ",
+        "find focus ",
     ],
 }
 

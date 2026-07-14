@@ -656,6 +656,23 @@ def get_all_focus_sessions():
     memory = load_memory()
     return memory["focus_sessions"]
 
+def search_focus_sessions(query):
+    memory = load_memory()
+    query = query.lower().strip()
+    
+    results = []
+    
+    for session in memory["focus_sessions"]:
+        task = session.get("task", "")
+        notes = session.get("notes", [])
+        
+        combined_text = task.lower() + " " + " ".join(notes).lower()
+        
+        if query in combined_text:
+            results.append(session)
+            
+    return results
+
 
 
 
