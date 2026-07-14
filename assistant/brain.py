@@ -675,6 +675,9 @@ def analyze_intent(user_input):
     if match_exact_pattern(text, "evaluate_model"):
         return make_analysis("evaluate_model")
     
+    if match_exact_pattern(text, "debug_focus_goal"):
+        return make_analysis("debug_focus_goal")
+    
     if match_exact_pattern(text, "coding_help"):
         return make_analysis("coding_help")
 
@@ -1595,6 +1598,23 @@ def handle_control_intent(user_input, analysis):
             return "What entity extraction should I debug?"
         
         return debug_entity_extraction(query)
+    
+    if intent == "debug_focus_goal":
+        goal_text = memory.get_profile_value("focus_goal")
+        goal_seconds = parse_duration_to_seconds(goal_text)
+        
+        today_stats = build_today_focus_stats()
+        all_stats = build_focus_stats()
+        
+        return (
+            f"Focus goal text: {goal_text}\n"
+            f"Goal seconds: {goal_seconds}\n"
+            f"Today seconds: {today_stats['total_seconds']}\n"
+            f"Today sessions: {today_stats['total_sessions']}\n"
+            f"All sessions: {all_stats['total_sessions']}\n"
+            f"Focus mode active: {get_focus_mode()}\n"
+            f"Current focus task: {get_focus_task()}"
+        )
     
     return unknown_response()       
 

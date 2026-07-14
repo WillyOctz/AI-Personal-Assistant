@@ -16,25 +16,19 @@
         "mood": "focused",
         "focus_goal": "10 seconds"
     },
-    "reminders": [],
-    "state": {
-        "pending_confirmation": {
-            "user_input": "play stardew valley",
-            "analysis": {
-                "intent": "play_music",
-                "group": "action",
-                "confidence": 0.39999999999999997,
-                "source": "model",
-                "scores": {
-                    "play_music": 0.7,
-                    "open_app": 0.0,
-                    "set_reminder": 0.0,
-                    "play_game": 0.7,
-                    "minecraft": 0.35
-                }
-            }
+    "reminders": [
+        {
+            "text": "interview tomorrow",
+            "due": "11am"
         },
-        "pending_task": null,
+        {
+            "text": "code today",
+            "due": null
+        }
+    ],
+    "state": {
+        "pending_confirmation": null,
+        "pending_task": "interview tomorrow",
         "focus_mode": false,
         "focus_task": null,
         "focus_started_at": null
@@ -267,6 +261,26 @@
             "source": "model",
             "result": "Reminder saved: sweep at tomorrow",
             "timestamp": "2026-07-08 16:20:53",
+            "importance": 1.0
+        },
+        {
+            "user_input": "remind me to interview tomorrow at 11AM",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Reminder saved: interview tomorrow at 11am",
+            "timestamp": "2026-07-14 16:14:21",
+            "importance": 1.0
+        },
+        {
+            "user_input": "remind me to code today",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Reminder saved: code today",
+            "timestamp": "2026-07-14 16:15:08",
             "importance": 1.0
         }
     ],
@@ -2962,6 +2976,196 @@
             "source": "rule",
             "timestamp": "2026-07-14 15:53:12",
             "importance": 0.6
+        },
+        {
+            "user": "set focus goal 10 seconds",
+            "assistant": "Focus goal saved: 10 seconds",
+            "intent": "set_focus_goal",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 16:09:05",
+            "importance": 0.6
+        },
+        {
+            "user": "debug focus goal",
+            "assistant": "I do not have any feedback examples yet.",
+            "intent": "debug_match",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 16:09:16",
+            "importance": 0.1
+        },
+        {
+            "user": "start focus",
+            "assistant": "You do not have a task to focus on yet.",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 16:09:30",
+            "importance": 0.6
+        },
+        {
+            "user": "debug focus goal",
+            "assistant": "I do not have any feedback examples yet.",
+            "intent": "debug_match",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 16:09:48",
+            "importance": 0.1
+        },
+        {
+            "user": "set task sweep",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-14 16:12:37",
+            "importance": 0.3
+        },
+        {
+            "user": "show my reminders",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-14 16:13:52",
+            "importance": 0.3
+        },
+        {
+            "user": "show reminders",
+            "assistant": "You have no reminders.",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 16:13:58",
+            "importance": 0.6
+        },
+        {
+            "user": "remind me to interview tomorrow at 11AM",
+            "assistant": "Reminder saved: interview tomorrow at 11am",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-14 16:14:21",
+            "importance": 1.0
+        },
+        {
+            "user": "remind me to play games tonight",
+            "assistant": "I think this means 'play_game', but I am only 0.54 confident.\nIf confirmed, I will: play the game: games tonight.\nReply yes to confirm, no to reject, or teach me with: teach remind me to play games tonight as intent_name",
+            "intent": "play_game",
+            "group": "action",
+            "confidence": 0.5416666666666666,
+            "source": "model",
+            "timestamp": "2026-07-14 16:14:32",
+            "importance": 0.8
+        },
+        {
+            "user": "no",
+            "assistant": "Okay. Teach me the correct intent with: teach remind me to play games tonight as intent_name",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 16:14:47",
+            "importance": 0.1
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. interview tomorrow | due: 11am",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 16:14:55",
+            "importance": 0.6
+        },
+        {
+            "user": "remind me to code today",
+            "assistant": "Reminder saved: code today",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-14 16:15:08",
+            "importance": 1.0
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. interview tomorrow | due: 11am\n2. code today",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 16:15:11",
+            "importance": 0.6
+        },
+        {
+            "user": "set focus goal 10 seconds",
+            "assistant": "Focus goal saved: 10 seconds",
+            "intent": "set_focus_goal",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 16:15:28",
+            "importance": 0.6
+        },
+        {
+            "user": "debug focus goal",
+            "assistant": "I do not have any feedback examples yet.",
+            "intent": "debug_match",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 16:15:34",
+            "importance": 0.1
+        },
+        {
+            "user": "start focus",
+            "assistant": "Focus mode started. Current focus: interview tomorrow",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 16:15:58",
+            "importance": 0.6
+        },
+        {
+            "user": "debug focus goal",
+            "assistant": "I do not have any feedback examples yet.",
+            "intent": "debug_match",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 16:16:39",
+            "importance": 0.1
+        },
+        {
+            "user": "stop focus",
+            "assistant": "Focus mode stopped. Last focus: interview tomorrow\nDuration: 54 seconds",
+            "intent": "stop_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 16:16:52",
+            "importance": 0.6
+        },
+        {
+            "user": "focus goal progress",
+            "assistant": "Focus goal: 10 seconds\nToday's focus: 54 seconds\nProgress: 100%",
+            "intent": "focus_goal_progress",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 16:17:02",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -2997,6 +3201,12 @@
             "started_at": "2026-07-11 16:08:48",
             "ended_at": "2026-07-11 16:08:50",
             "duration": "2 seconds"
+        },
+        {
+            "task": "interview tomorrow",
+            "started_at": "2026-07-14 16:15:58",
+            "ended_at": "2026-07-14 16:16:52",
+            "duration": "54 seconds"
         }
     ]
 }

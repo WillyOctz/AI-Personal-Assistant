@@ -75,6 +75,7 @@ VALID_INTENTS = {
     "set_focus_goal",
     "show_focus_goal",
     "focus_goal_progress",
+    "debug_focus_goal",
 }
 
 CONTROL_INTENTS = {
@@ -88,6 +89,7 @@ CONTROL_INTENTS = {
     "debug_entity",
     "complete_pending_task",
     "skip_pending_task",
+    "debug_focus_goal",
 }
 
 MEMORY_INTENTS = {
@@ -335,6 +337,10 @@ INTENT_PATTERNS = {
         "focus goal progress",
         "show focus goal progress",
         "today focus goal",
+    ],
+    "debug_focus_goal": [
+        "debug focus goal",
+        "debug focus progress",
     ],
 }
 
