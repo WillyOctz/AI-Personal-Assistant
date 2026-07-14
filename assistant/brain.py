@@ -367,6 +367,8 @@ def start_focus_mode(task):
     memory.set_state_value("focus_task", task)
     memory.set_state_value("focus_started_at", current_timestamp())
     
+    clear_current_focus_notes()
+    
 def get_focus_started_at():
     return memory.get_state_value("focus_started_at")
     
@@ -405,10 +407,12 @@ def save_focus_session(task, started_at):
         "task": task,
         "started_at": started_at,
         "ended_at": ended_at,
-        "duration": duration
+        "duration": duration,
+        "notes": get_current_focus_notes()
     }
     
     memory.add_focus_session(session)
+    clear_current_focus_notes()
     
     return duration
 
@@ -448,6 +452,14 @@ def parse_focus_goal(user_input):
         return ""
     
     return text.replace("set focus goal ", "", 1).strip()
+
+def parse_focus_note(user_input):
+    text = user_input.strip()
+    
+    if not text.lower().startswith("focus note "):
+        return ""
+    
+    return text[11:].strip()
 
 def build_focus_stats():
     sessions = memory.get_all_focus_sessions()
@@ -676,6 +688,26 @@ def choose_focus_task():
     
     return None
 
+def add_current_focus_note(note):
+    notes = memory.get_state_value("focus_notes")
+    
+    if notes is None:
+        notes = []
+        
+    notes.append(note)
+    memory.set_state_value("focus_notes", notes)
+    
+def get_current_focus_notes():
+    notes = memory.get_state_value("focus_notes")
+    
+    if notes is None:
+        return []
+    
+    return notes
+
+def clear_current_focus_notes():
+    memory.set_state_value("focus_notes", [])
+
 def analyze_intent(user_input):
     text = user_input.lower()
     
@@ -903,6 +935,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "focus_goal_progress"):
         return make_analysis("focus_goal_progress")
+    
+    if match_prefix_pattern(text, "add_focus_note"):
+        return make_analysis("add_focus_note")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -1830,6 +1865,11 @@ def handle_memory_intent(user_input, analysis):
                 f"- {session['task']} | {session['duration']} | {session['started_at']} -> {session['ended_at']}"
             )
             
+        notes = session.get("notes", [])
+        
+        for note in notes:
+            lines.append(f" note: {note}")
+            
         return "\n".join(lines)
     
     if intent == "summarize_conversation":
@@ -2451,6 +2491,19 @@ def handle_memory_intent(user_input, analysis):
             return "You do not have a focus goal yet."
         
         return f"Your focus goal is {goal}."
+    
+    if intent == "add_focus_note":
+        if not get_focus_mode():
+            return "Focus mode is not active."
+        
+        note = parse_focus_note(user_input)
+        
+        if not note:
+            return "What note should I add to this focus session?"
+        
+        add_current_focus_note(note)
+        
+        return f"Focus note added: {note}"
     
     return unknown_response()
 

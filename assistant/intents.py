@@ -76,6 +76,7 @@ VALID_INTENTS = {
     "show_focus_goal",
     "focus_goal_progress",
     "debug_focus_goal",
+    "add_focus_note",
 }
 
 CONTROL_INTENTS = {
@@ -152,6 +153,7 @@ MEMORY_INTENTS = {
     "set_focus_goal",
     "show_focus_goal",
     "focus_goal_progress",
+    "add_focus_note",
 }
 
 ACTION_INTENTS = {
@@ -438,6 +440,9 @@ INTENT_PREFIXES = {
     ],
     "set_focus_goal": [
         "set focus goal ",
+    ],
+    "add_focus_note": [
+        "focus note ",
     ],
 }
 

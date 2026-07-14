@@ -90,6 +90,9 @@ def ensure_memory_shape(memory):
     if "focus_sessions" not in memory:
         memory["focus_sessions"] = []
         
+    if "focus_notes" not in memory["state"]:
+        memory["state"]["focus_notes"] = []
+        
     return memory
 
 def archive_conversation_turns(turns_to_archive):

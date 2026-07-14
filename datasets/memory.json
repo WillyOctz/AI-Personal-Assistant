@@ -31,7 +31,8 @@
         "pending_task": "interview tomorrow",
         "focus_mode": false,
         "focus_task": null,
-        "focus_started_at": null
+        "focus_started_at": null,
+        "focus_notes": []
     },
     "history": [
         {
@@ -3226,6 +3227,56 @@
             "source": "rule",
             "timestamp": "2026-07-14 16:47:57",
             "importance": 0.6
+        },
+        {
+            "user": "start focus",
+            "assistant": "Focus mode started. Current focus: interview tomorrow",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 17:35:06",
+            "importance": 0.6
+        },
+        {
+            "user": "focus note learned focus note",
+            "assistant": "Focus note added: learned focus note",
+            "intent": "add_focus_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 17:35:15",
+            "importance": 0.6
+        },
+        {
+            "user": "focus note fixed a bug",
+            "assistant": "Focus note added: fixed a bug",
+            "intent": "add_focus_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 17:35:27",
+            "importance": 0.6
+        },
+        {
+            "user": "stop focus",
+            "assistant": "Focus mode stopped. Last focus: interview tomorrow\nDuration: 30 seconds",
+            "intent": "stop_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 17:35:36",
+            "importance": 0.6
+        },
+        {
+            "user": "focus history",
+            "assistant": "Recent focus sessions:\n- sweep | 3 seconds | 2026-07-11 16:08:33 -> 2026-07-11 16:08:36\n- sweep | 2 seconds | 2026-07-11 16:08:48 -> 2026-07-11 16:08:50\n- interview tomorrow | 54 seconds | 2026-07-14 16:15:58 -> 2026-07-14 16:16:52\n- interview tomorrow | 10 seconds | 2026-07-14 16:47:42 -> 2026-07-14 16:47:52\n- interview tomorrow | 30 seconds | 2026-07-14 17:35:06 -> 2026-07-14 17:35:36\n note: learned focus note\n note: fixed a bug",
+            "intent": "show_focus_sessions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 17:35:42",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -3273,6 +3324,16 @@
             "started_at": "2026-07-14 16:47:42",
             "ended_at": "2026-07-14 16:47:52",
             "duration": "10 seconds"
+        },
+        {
+            "task": "interview tomorrow",
+            "started_at": "2026-07-14 17:35:06",
+            "ended_at": "2026-07-14 17:35:36",
+            "duration": "30 seconds",
+            "notes": [
+                "learned focus note",
+                "fixed a bug"
+            ]
         }
     ]
 }
