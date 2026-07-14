@@ -938,6 +938,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "add_focus_note"):
         return make_analysis("add_focus_note")
+    
+    if match_exact_pattern(text, "show_current_focus_notes"):
+        return make_analysis("show_current_focus_notes")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2504,6 +2507,22 @@ def handle_memory_intent(user_input, analysis):
         add_current_focus_note(note)
         
         return f"Focus note added: {note}"
+    
+    if intent == "show_current_focus_notes":
+        if not get_focus_mode():
+            return "Focus mode is not active."
+        
+        notes = get_current_focus_notes()
+        
+        if not notes:
+            return "This focus session has no notes yet."
+        
+        lines = ["Current focus notes:"]
+        
+        for note in notes:
+            lines.append(f"- {note}")
+            
+        return "\n".join(lines)
     
     return unknown_response()
 
