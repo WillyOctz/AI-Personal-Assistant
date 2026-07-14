@@ -412,6 +412,35 @@ def save_focus_session(task, started_at):
     
     return duration
 
+def get_focus_goal_progress_summary():
+    goal_text = memory.get_profile_value("focus_goal")
+    
+    if not goal_text:
+        return None
+    
+    goal_seconds = parse_duration_to_seconds(goal_text)
+    
+    if not goal_seconds:
+        return {
+            "goal": goal_text,
+            "progress": None,
+            "today_focus": None
+        }
+        
+    stats = build_today_focus_stats()
+    today_seconds = stats["total_seconds"]
+    
+    progress = int((today_seconds / goal_seconds)* 100)
+    
+    if progress > 100:
+        progress = 100
+        
+    return {
+        "goal": goal_text,
+        "progress": progress,
+        "today_focus": format_duration_from_seconds(today_seconds)
+    }
+
 def parse_focus_goal(user_input):
     text = user_input.lower().strip()
     
@@ -1833,8 +1862,21 @@ def handle_memory_intent(user_input, analysis):
         lines.append(f"Reminders today: {len(today_results)}")
         lines.append(f"Overdue reminders: {len(overdue_results)}")
         
+        focus_progress = get_focus_goal_progress_summary()
+        
+        if focus_progress:
+            lines.append(f"Focus goal: {focus_progress['goal']}")
+            
+            if focus_progress["progress"] is not None:
+                lines.append(f"Focus progress: {focus_progress['progress']}%")
+                lines.append(f"Today's focus: {focus_progress['today_focus']}")
+            else:
+                lines.append("Focus progress: unknown")
+        
         if focus:
             lines.append(f"Suggested focus: {focus}")
+        elif goal:
+            lines.append(f"Suggested focus: work toward your goal - {goal}")
             
         return "\n".join(lines)
     

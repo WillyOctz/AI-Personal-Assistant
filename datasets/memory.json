@@ -3166,6 +3166,26 @@
             "source": "rule",
             "timestamp": "2026-07-14 16:17:02",
             "importance": 0.6
+        },
+        {
+            "user": "daily briefing",
+            "assistant": "Good day, Carlos.\nGoal: to build best AI assistant\nReminders today: 0\nOverdue reminders: 0\nFocus goal: 10 seconds\nFocus progress: 100%\nToday's focus: 54 seconds",
+            "intent": "daily_briefing",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 16:32:32",
+            "importance": 0.6
+        },
+        {
+            "user": "daily briefing",
+            "assistant": "Good day, Carlos.\nGoal: to build best AI assistant\nReminders today: 0\nOverdue reminders: 0\nFocus goal: 10 seconds\nFocus progress: 100%\nToday's focus: 54 seconds\nSuggested focus: work toward your goal - to build best AI assistant",
+            "intent": "daily_briefing",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 16:35:59",
+            "importance": 0.6
         }
     ],
     "summaries": [
