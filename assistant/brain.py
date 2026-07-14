@@ -669,6 +669,11 @@ def choose_focus_task():
     if general_reminder:
         return general_reminder["reminder"]
     
+    goal = memory.get_profile_value("goal")
+    
+    if goal:
+        return f"work toward your goal - {goal}"
+    
     return None
 
 def analyze_intent(user_input):
