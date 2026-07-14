@@ -285,6 +285,34 @@ def parse_clear_reminder_due(user_input):
 
     return text.replace(" due", "", 1).strip()
 
+def parse_duration_to_seconds(text):
+    if not text:
+        return None
+    
+    parts = text.lower().strip().split()
+    
+    if len(parts) < 2:
+        return None
+    
+    number_text = parts[0]
+    unit = parts[1]
+    
+    if not number_text.isdigit():
+        return None
+    
+    number = int(number_text)
+    
+    if unit in ["second", "seconds"]:
+        return number
+    
+    if unit in ["minute", "minutes"]:
+        return number * 60
+    
+    if unit in ["hour", "hours"]:
+        return number * 3600
+    
+    return None
+
 def get_first_reminder_text(results):
     if not results:
         return None
@@ -835,6 +863,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "show_focus_goal"):
         return make_analysis("show_focus_goal")
+    
+    if match_exact_pattern(text, "focus_goal_progress"):
+        return make_analysis("focus_goal_progress")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2297,6 +2328,31 @@ def handle_memory_intent(user_input, analysis):
             f"Focus sessions: {stats['total_sessions']}\n"
             f"Total focus time: {total_duration}\n"
             f"Last focus: {stats['last_focus']}"
+        )
+        
+    if intent == "focus_goal_progress":
+        goal_text = memory.get_profile_value("focus_goal")
+        
+        if not goal_text:
+            return "You do not have a focus goal yet."
+        
+        goal_seconds = parse_duration_to_seconds(goal_text)
+        
+        if not goal_seconds:
+            return f"I could not understand your focus goal: {goal_text}"
+        
+        stats = build_today_focus_stats()
+        today_seconds = stats["total_seconds"]
+        
+        progress = int((today_seconds / goal_seconds) * 100)
+        
+        if progress > 100:
+            progress = 100
+            
+        return (
+            f"Focus goal: {goal_text}\n"
+            f"Today's focus: {format_duration_from_seconds(today_seconds)}\n"
+            f"Progress: {progress}%"
         )
         
     if intent == "focus_streak":

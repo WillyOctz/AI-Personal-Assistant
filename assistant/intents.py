@@ -74,6 +74,7 @@ VALID_INTENTS = {
     "focus_streak",
     "set_focus_goal",
     "show_focus_goal",
+    "focus_goal_progress",
 }
 
 CONTROL_INTENTS = {
@@ -148,6 +149,7 @@ MEMORY_INTENTS = {
     "focus_streak",
     "set_focus_goal",
     "show_focus_goal",
+    "focus_goal_progress",
 }
 
 ACTION_INTENTS = {
@@ -328,6 +330,11 @@ INTENT_PATTERNS = {
         "show focus goal",
         "focus goal",
         "what is my focus goal",
+    ],
+    "focus_goal_progress": [
+        "focus goal progress",
+        "show focus goal progress",
+        "today focus goal",
     ],
 }
 

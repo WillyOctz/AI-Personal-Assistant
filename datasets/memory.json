@@ -14,7 +14,7 @@
         "favorite_language": "python",
         "goal": "to build best AI assistant",
         "mood": "focused",
-        "focus_goal": "30 minutes"
+        "focus_goal": "10 seconds"
     },
     "reminders": [],
     "state": {
@@ -2911,6 +2911,56 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-07-13 17:52:22",
+            "importance": 0.6
+        },
+        {
+            "user": "focus goal progress",
+            "assistant": "Focus goal: 30 minutes\nToday's focus: 0 seconds\nProgress: 0%",
+            "intent": "focus_goal_progress",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 15:52:28",
+            "importance": 0.6
+        },
+        {
+            "user": "set focus goal 30 minutes",
+            "assistant": "Focus goal saved: 30 minutes",
+            "intent": "set_focus_goal",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 15:52:47",
+            "importance": 0.6
+        },
+        {
+            "user": "focus goal progress",
+            "assistant": "Focus goal: 30 minutes\nToday's focus: 0 seconds\nProgress: 0%",
+            "intent": "focus_goal_progress",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 15:52:55",
+            "importance": 0.6
+        },
+        {
+            "user": "set focus goal 10 seconds",
+            "assistant": "Focus goal saved: 10 seconds",
+            "intent": "set_focus_goal",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 15:53:06",
+            "importance": 0.6
+        },
+        {
+            "user": "focus goal progress",
+            "assistant": "Focus goal: 10 seconds\nToday's focus: 0 seconds\nProgress: 0%",
+            "intent": "focus_goal_progress",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-14 15:53:12",
             "importance": 0.6
         }
     ],
