@@ -3483,6 +3483,26 @@
             "source": "rule",
             "timestamp": "2026-07-15 16:04:17",
             "importance": 0.6
+        },
+        {
+            "user": "cleanup focus sessions",
+            "assistant": "Focus session cleanup finished. Removed 0 broken sessions.",
+            "intent": "cleanup_focus_sessions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-15 16:21:09",
+            "importance": 0.6
+        },
+        {
+            "user": "focus history",
+            "assistant": "Recent focus sessions:\n1. interview tomorrow | 30 seconds | 2026-07-14 17:35:06 -> 2026-07-14 17:35:36\n2. interview tomorrow | 38 seconds | 2026-07-14 18:35:08 -> 2026-07-14 18:35:46\n3. interview tomorrow | 38 seconds | 2026-07-14 18:35:08 -> 2026-07-14 18:35:46\n4. interview tomorrow | 12 seconds | 2026-07-14 18:36:04 -> 2026-07-14 18:36:16\n5. interview tomorrow | 12 seconds | 2026-07-14 18:36:04 -> 2026-07-14 18:36:16\n note: completed reminder",
+            "intent": "show_focus_sessions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-15 16:21:17",
+            "importance": 0.6
         }
     ],
     "summaries": [

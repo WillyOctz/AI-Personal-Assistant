@@ -702,6 +702,28 @@ def delete_focus_session(recent_index, limit=5):
         "reason": "deleted",
         "session": removed_session
     }
+    
+def cleanup_focus_sessions():
+    memory = load_memory()
+    sessions = memory["focus_sessions"]
+    
+    cleaned_sessions = []
+    
+    for session in sessions:
+        has_task = bool(session.get("task"))
+        has_started_at = bool(session.get("started_at"))
+        has_ended_at = bool(session.get("ended_at"))
+        has_duration = bool(session.get("duration"))
+        
+        if has_task and has_started_at and has_ended_at and has_duration:
+            cleaned_sessions.append(session)
+            
+    removed_count = len(sessions) - len(cleaned_sessions)
+    
+    memory["focus_sessions"] = cleaned_sessions
+    save_memory(memory)
+    
+    return removed_count
 
 
 

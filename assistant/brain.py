@@ -985,6 +985,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "delete_focus_session"):
         return make_analysis("delete_focus_session")
+    
+    if match_exact_pattern(text, "cleanup_focus_sessions"):
+        return make_analysis("cleanup_focus_sessions")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2615,6 +2618,11 @@ def handle_memory_intent(user_input, analysis):
             return "I do not have any focus sessions to delete."
         
         return "That focus session number does not exist."
+    
+    if intent == "cleanup_focus_sessions":
+        removed_count = memory.cleanup_focus_sessions()
+        
+        return f"Focus session cleanup finished. Removed {removed_count} broken sessions."
     
     return unknown_response()
 
