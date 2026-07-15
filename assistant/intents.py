@@ -82,6 +82,7 @@ VALID_INTENTS = {
     "delete_focus_session",
     "cleanup_focus_sessions",
     "search_focus_notes",
+    "weekly_focus_stats",
 }
 
 CONTROL_INTENTS = {
@@ -164,6 +165,7 @@ MEMORY_INTENTS = {
     "delete_focus_session",
     "cleanup_focus_sessions",
     "search_focus_notes",
+    "weekly_focus_stats",
 }
 
 ACTION_INTENTS = {
@@ -363,6 +365,11 @@ INTENT_PATTERNS = {
         "cleanup focus sessions",
         "clean focus sessions",
         "repair focus sessions",
+    ],
+    "weekly_focus_stats": [
+        "weekly focus stats",
+        "focus stats this week",
+        "week focus summary",
     ],
 }
 

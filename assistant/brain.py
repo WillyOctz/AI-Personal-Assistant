@@ -26,6 +26,17 @@ def is_timestamp_today(timestamp):
     now = datetime.now()
     
     return parsed_time.date() == now.date()
+
+def is_timestamp_within_days(timestamp, days):
+    parsed_time = parse_timestamp(timestamp)
+    
+    if not parsed_time:
+        return False
+    
+    now = datetime.now()
+    age = now - parsed_time
+    
+    return age.days < days
     
 def parse_complete_reminder(user_input):
     text = user_input.lower().strip()
@@ -595,6 +606,36 @@ def build_today_focus_stats():
         "last_focus": today_sessions[-1]["task"]
     }
     
+def build_recent_focus_stats(days):
+    sessions = memory.get_all_focus_sessions()
+    
+    recent_sessions = []
+    
+    for session in sessions:
+        if is_timestamp_within_days(session["started_at"], days):
+            recent_sessions.append(session)
+            
+    if not recent_sessions:
+        return {
+            "total_sessions": 0,
+            "total_seconds": 0,
+            "last_focus": None
+        }
+        
+    total_seconds = 0
+    
+    for session in recent_sessions:
+        total_seconds += calculate_duration_seconds(
+            session["started_at"],
+            session["ended_at"]
+        )
+        
+    return {
+        "total_sessions": len(recent_sessions),
+        "total_seconds": total_seconds,
+        "last_focus": recent_sessions[-1]["task"]
+    }
+    
 def build_simple_focus_streak():
     dates = get_focus_session_dates()
     
@@ -967,6 +1008,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "focus_stats_for_task"):
         return make_analysis("focus_stats_for_task")
+    
+    if match_exact_pattern(text, "weekly_focus_stats"):
+        return make_analysis("weekly_focus_stats")
     
     if match_exact_pattern(text, "focus_stats"):
         return make_analysis("focus_stats")
@@ -2635,6 +2679,20 @@ def handle_memory_intent(user_input, analysis):
                 lines.append(f"  note: {note}")
                 
         return "\n".join(lines)
+    
+    if intent == "weekly_focus_stats":
+        stats = build_recent_focus_stats(7) # can be changed to a month too
+        
+        if stats["total_sessions"] == 0:
+            return "I do not have any focus sessions from the last 7 days."
+        
+        total_duration = format_duration_from_seconds(stats["total_seconds"])
+        
+        return (
+            f"Weekly focus sessions: {stats['total_sessions']}\n"
+            f"Weekly focus time: {total_duration}\n"
+            f"Last focus this week: {stats['last_focus']}" 
+        )
     
     if intent == "delete_focus_session":
         recent_index = parse_delete_focus_session(user_input)

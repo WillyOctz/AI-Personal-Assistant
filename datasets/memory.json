@@ -3533,6 +3533,16 @@
             "source": "rule",
             "timestamp": "2026-07-15 16:45:00",
             "importance": 0.6
+        },
+        {
+            "user": "weekly focus stats",
+            "assistant": "Weekly focus sessions: 9\nWeekly focus time: 3 minutes\nLast focus this week: interview tomorrow",
+            "intent": "weekly_focus_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-15 17:37:55",
+            "importance": 0.6
         }
     ],
     "summaries": [
