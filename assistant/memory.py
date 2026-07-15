@@ -673,6 +673,36 @@ def search_focus_sessions(query):
             
     return results
 
+def delete_focus_session(recent_index, limit=5):
+    memory = load_memory()
+    sessions = memory["focus_sessions"]
+    
+    if not sessions:
+        return {
+            "deleted": False,
+            "reason": "empty",
+            "session": None
+        }
+        
+    if recent_index < 1 or recent_index > min(limit, len(sessions)):
+        return {
+            "deleted": False,
+            "reason": "invalid_index",
+            "session": None
+        }
+        
+    start_index = max(0, len(sessions) - limit)
+    actual_index = start_index + recent_index - 1
+    
+    removed_session = sessions.pop(actual_index)
+    save_memory(memory)
+    
+    return {
+        "deleted": True,
+        "reason": "deleted",
+        "session": removed_session
+    }
+
 
 
 

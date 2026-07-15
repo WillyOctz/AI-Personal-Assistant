@@ -487,6 +487,18 @@ def parse_focus_note(user_input):
     
     return text[11:].strip()
 
+def parse_delete_focus_session(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["delete focus session ", "remove focus session "]:
+        if text.startswith(prefix):
+            value = text.replace(prefix, "", 1).strip()
+            
+            if value.isdigit():
+                return int(value)
+            
+    return None
+
 def build_focus_stats():
     sessions = memory.get_all_focus_sessions()
     
@@ -970,6 +982,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "search_focus_sessions"):
         return make_analysis("search_focus_sessions")
+    
+    if match_prefix_pattern(text, "delete_focus_session"):
+        return make_analysis("delete_focus_session")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -1897,9 +1912,9 @@ def handle_memory_intent(user_input, analysis):
         
         lines = ["Recent focus sessions:"]
         
-        for session in sessions:
+        for index, session in enumerate(sessions, start=1):
             lines.append(
-                f"- {session['task']} | {session['duration']} | {session['started_at']} -> {session['ended_at']}"
+                f"{index}. {session['task']} | {session['duration']} | {session['started_at']} -> {session['ended_at']}"
             )
             
         notes = session.get("notes", [])
@@ -2583,6 +2598,23 @@ def handle_memory_intent(user_input, analysis):
                 lines.append(f"  note: {note}")
                 
         return "\n".join(lines)
+    
+    if intent == "delete_focus_session":
+        recent_index = parse_delete_focus_session(user_input)
+        
+        if recent_index is None:
+            return "Use this format: delete focus session number"
+        
+        result = memory.delete_focus_session(recent_index)
+        
+        if result["deleted"]:
+            session = result["session"]
+            return f"Deleted focus session: {session['task']} | {session['duration']}"
+        
+        if result["reason"] == "empty":
+            return "I do not have any focus sessions to delete."
+        
+        return "That focus session number does not exist."
     
     return unknown_response()
 

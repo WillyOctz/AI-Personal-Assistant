@@ -3443,6 +3443,46 @@
             "source": "rule",
             "timestamp": "2026-07-14 19:18:54",
             "importance": 0.6
+        },
+        {
+            "user": "focus history",
+            "assistant": "Recent focus sessions:\n1. interview tomorrow | 25 seconds | 2026-07-14 18:01:57 -> 2026-07-14 18:02:22\n2. interview tomorrow | 38 seconds | 2026-07-14 18:35:08 -> 2026-07-14 18:35:46\n3. interview tomorrow | 38 seconds | 2026-07-14 18:35:08 -> 2026-07-14 18:35:46\n4. interview tomorrow | 12 seconds | 2026-07-14 18:36:04 -> 2026-07-14 18:36:16\n5. interview tomorrow | 12 seconds | 2026-07-14 18:36:04 -> 2026-07-14 18:36:16\n note: completed reminder",
+            "intent": "show_focus_sessions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-15 16:03:41",
+            "importance": 0.6
+        },
+        {
+            "user": "delete focus session 1",
+            "assistant": "Deleted focus session: interview tomorrow | 25 seconds",
+            "intent": "delete_focus_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-15 16:03:52",
+            "importance": 0.6
+        },
+        {
+            "user": "focus history",
+            "assistant": "Recent focus sessions:\n1. interview tomorrow | 30 seconds | 2026-07-14 17:35:06 -> 2026-07-14 17:35:36\n2. interview tomorrow | 38 seconds | 2026-07-14 18:35:08 -> 2026-07-14 18:35:46\n3. interview tomorrow | 38 seconds | 2026-07-14 18:35:08 -> 2026-07-14 18:35:46\n4. interview tomorrow | 12 seconds | 2026-07-14 18:36:04 -> 2026-07-14 18:36:16\n5. interview tomorrow | 12 seconds | 2026-07-14 18:36:04 -> 2026-07-14 18:36:16\n note: completed reminder",
+            "intent": "show_focus_sessions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-15 16:04:02",
+            "importance": 0.6
+        },
+        {
+            "user": "delete focus session 99",
+            "assistant": "That focus session number does not exist.",
+            "intent": "delete_focus_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-15 16:04:17",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -3499,15 +3539,6 @@
             "notes": [
                 "learned focus note",
                 "fixed a bug"
-            ]
-        },
-        {
-            "task": "interview tomorrow",
-            "started_at": "2026-07-14 18:01:57",
-            "ended_at": "2026-07-14 18:02:22",
-            "duration": "25 seconds",
-            "notes": [
-                "fixed parser bug"
             ]
         },
         {
