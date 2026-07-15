@@ -725,6 +725,29 @@ def cleanup_focus_sessions():
     
     return removed_count
 
+def search_focus_notes(query):
+    memory = load_memory()
+    query = query.lower().strip()
+    
+    results = []
+    
+    for session in memory["focus_sessions"]:
+        notes = session.get("notes", [])
+        
+        matched_notes = []
+        
+        for note in notes:
+            if query in note.lower():
+                matched_notes.append(note)
+                
+        if matched_notes:
+            results.append({
+                "session": session,
+                "notes": matched_notes
+            })
+            
+    return results
+
 
 
 

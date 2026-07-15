@@ -487,6 +487,15 @@ def parse_focus_note(user_input):
     
     return text[11:].strip()
 
+def parse_focus_note_search(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["search focus notes ", "find focus notes "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return ""
+
 def parse_delete_focus_session(user_input):
     text = user_input.lower().strip()
     
@@ -979,6 +988,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "show_current_focus_notes"):
         return make_analysis("show_current_focus_notes")
+    
+    if match_prefix_pattern(text, "search_focus_notes"):
+        return make_analysis("search_focus_notes")
     
     if match_prefix_pattern(text, "search_focus_sessions"):
         return make_analysis("search_focus_sessions")
@@ -2575,6 +2587,28 @@ def handle_memory_intent(user_input, analysis):
         for note in notes:
             lines.append(f"- {note}")
             
+        return "\n".join(lines)
+    
+    if intent == "search_focus_notes":
+        query = parse_focus_note_search(user_input)
+        
+        if not query:
+            return "What focus notes should I search for?"
+        
+        results = memory.search_focus_notes(query)
+        
+        if not results:
+            return f"I could not find focus notes matching: {query}"
+        
+        lines = [f"Focus notes matching {query}:"]
+        
+        for result in results[-5:]:
+            session = result["session"]
+            lines.append(f"- {session['task']} | {session['started_at']}")
+            
+            for note in result["notes"]:
+                lines.append(f"  note: {note}")
+                
         return "\n".join(lines)
     
     if intent == "search_focus_sessions":

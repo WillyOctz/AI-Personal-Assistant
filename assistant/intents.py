@@ -81,6 +81,7 @@ VALID_INTENTS = {
     "search_focus_sessions",
     "delete_focus_session",
     "cleanup_focus_sessions",
+    "search_focus_notes",
 }
 
 CONTROL_INTENTS = {
@@ -162,6 +163,7 @@ MEMORY_INTENTS = {
     "search_focus_sessions",
     "delete_focus_session",
     "cleanup_focus_sessions",
+    "search_focus_notes",
 }
 
 ACTION_INTENTS = {
@@ -469,6 +471,10 @@ INTENT_PREFIXES = {
     "delete_focus_session": [
         "delete focus session ",
         "remove focus session ",
+    ],
+    "search_focus_notes": [
+        "search focus notes ",
+        "find focus notes ",
     ],
 }
 

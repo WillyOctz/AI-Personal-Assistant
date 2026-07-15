@@ -3503,6 +3503,36 @@
             "source": "rule",
             "timestamp": "2026-07-15 16:21:17",
             "importance": 0.6
+        },
+        {
+            "user": "search focus notes bug",
+            "assistant": "Focus notes matching bug:\n- interview tomorrow | 2026-07-14 17:35:06\n  note: fixed a bug\n- interview tomorrow | 2026-07-14 18:35:08\n  note: fixed bug\n- interview tomorrow | 2026-07-14 18:35:08\n  note: fixed bug",
+            "intent": "search_focus_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-15 16:44:34",
+            "importance": 0.6
+        },
+        {
+            "user": "search focus notes learned",
+            "assistant": "Focus notes matching learned:\n- interview tomorrow | 2026-07-14 17:35:06\n  note: learned focus note\n- interview tomorrow | 2026-07-14 18:35:08\n  note: learned summary\n- interview tomorrow | 2026-07-14 18:35:08\n  note: learned summary",
+            "intent": "search_focus_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-15 16:44:51",
+            "importance": 0.6
+        },
+        {
+            "user": "search focus notes banana",
+            "assistant": "I could not find focus notes matching: banana",
+            "intent": "search_focus_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-15 16:45:00",
+            "importance": 0.6
         }
     ],
     "summaries": [
