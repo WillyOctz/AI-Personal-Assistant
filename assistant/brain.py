@@ -636,6 +636,52 @@ def build_recent_focus_stats(days):
         "last_focus": recent_sessions[-1]["task"]
     }
     
+def build_best_focus_day():
+    sessions = memory.get_all_focus_sessions()
+    
+    if not sessions:
+        return None
+    
+    daily_totals = {}
+    
+    for session in sessions:
+        parsed_time = parse_timestamp(session["started_at"])
+        
+        if not parsed_time:
+            continue
+        
+        date_key = parsed_time.strftime("%Y-%m-%d")
+        seconds = calculate_duration_seconds(
+            session["started_at"],
+            session["ended_at"]
+        )
+        
+        if date_key not in daily_totals:
+            daily_totals[date_key] = {
+                "seconds": 0,
+                "sessions": 0
+            }
+            
+        daily_totals[date_key]["seconds"] += seconds
+        daily_totals[date_key]["sessions"] += 1
+        
+    if not daily_totals:
+        return None
+    
+    best_date = None
+    best_data = None
+    
+    for date_key, data in daily_totals.items():
+        if best_data is None or data["seconds"] > best_data["seconds"]:
+            best_date = date_key
+            best_data = data
+            
+    return {
+        "date": best_date,
+        "seconds": best_data["seconds"],
+        "sessions": best_data["sessions"]
+    }
+    
 def build_simple_focus_streak():
     dates = get_focus_session_dates()
     
@@ -1044,6 +1090,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "cleanup_focus_sessions"):
         return make_analysis("cleanup_focus_sessions")
+    
+    if match_exact_pattern(text, "best_focus_day"):
+        return make_analysis("best_focus_day")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2715,6 +2764,18 @@ def handle_memory_intent(user_input, analysis):
         removed_count = memory.cleanup_focus_sessions()
         
         return f"Focus session cleanup finished. Removed {removed_count} broken sessions."
+    
+    if intent == "best_focus_day":
+        best_day = build_best_focus_day()
+        
+        if not best_day:
+            return "I do not have any focus sessions yet."
+        
+        return (
+            f"Best focus day: {best_day['date']}\n"
+            f"Total focus time: {format_duration_from_seconds(best_day['seconds'])}\n"
+            f"Sessions: {best_day['sessions']}"
+        )
     
     return unknown_response()
 

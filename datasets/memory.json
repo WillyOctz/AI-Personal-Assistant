@@ -3543,6 +3543,16 @@
             "source": "rule",
             "timestamp": "2026-07-15 17:37:55",
             "importance": 0.6
+        },
+        {
+            "user": "best focus day",
+            "assistant": "Best focus day: 2026-07-14\nTotal focus time: 3 minutes\nSessions: 7",
+            "intent": "best_focus_day",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 16:19:32",
+            "importance": 0.6
         }
     ],
     "summaries": [

@@ -83,6 +83,7 @@ VALID_INTENTS = {
     "cleanup_focus_sessions",
     "search_focus_notes",
     "weekly_focus_stats",
+    "best_focus_day",
 }
 
 CONTROL_INTENTS = {
@@ -166,6 +167,7 @@ MEMORY_INTENTS = {
     "cleanup_focus_sessions",
     "search_focus_notes",
     "weekly_focus_stats",
+    "best_focus_day",
 }
 
 ACTION_INTENTS = {
@@ -370,6 +372,11 @@ INTENT_PATTERNS = {
         "weekly focus stats",
         "focus stats this week",
         "week focus summary",
+    ],
+    "best_focus_day": [
+        "best focus day",
+        "top focus day",
+        "most focused day",
     ],
 }
 
