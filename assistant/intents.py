@@ -84,6 +84,7 @@ VALID_INTENTS = {
     "search_focus_notes",
     "weekly_focus_stats",
     "best_focus_day",
+    "focus_dashboard",
 }
 
 CONTROL_INTENTS = {
@@ -168,6 +169,7 @@ MEMORY_INTENTS = {
     "search_focus_notes",
     "weekly_focus_stats",
     "best_focus_day",
+    "focus_dashboard",
 }
 
 ACTION_INTENTS = {
@@ -377,6 +379,11 @@ INTENT_PATTERNS = {
         "best focus day",
         "top focus day",
         "most focused day",
+    ],
+    "focus_dashboard": [
+        "focus dashboard",
+        "show focus dashboard",
+        "focus overview",
     ],
 }
 

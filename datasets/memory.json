@@ -19,12 +19,12 @@
     "reminders": [
         {
             "text": "code today",
-            "due": null
+            "due": "tomorrow"
         }
     ],
     "state": {
         "pending_confirmation": null,
-        "pending_task": null,
+        "pending_task": "code today",
         "focus_mode": false,
         "focus_task": null,
         "focus_started_at": null,
@@ -3553,6 +3553,286 @@
             "source": "rule",
             "timestamp": "2026-07-16 16:19:32",
             "importance": 0.6
+        },
+        {
+            "user": "focus dashboard",
+            "assistant": "Focus dashboard:\nStatus: inactive\nToday: 0 session(s), 0 seconds\nWeek: 9 session(s), 3 minutes\nGoal: 10 seconds\nGoal progress: 0%\nCurrent streak: 0 day(s)\nLongest streak: 1 day(s)",
+            "intent": "focus_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 16:37:11",
+            "importance": 0.6
+        },
+        {
+            "user": "start focus",
+            "assistant": "Focus mode started. Current focus: code today",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 16:38:50",
+            "importance": 0.6
+        },
+        {
+            "user": "focus dashboard",
+            "assistant": "Focus dashboard:\nStatus: active\nCurrent focus: code today\nToday: 0 session(s), 0 seconds\nWeek: 9 session(s), 3 minutes\nGoal: 10 seconds\nGoal progress: 0%\nCurrent streak: 0 day(s)\nLongest streak: 1 day(s)",
+            "intent": "focus_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 16:38:58",
+            "importance": 0.6
+        },
+        {
+            "user": "stop focus",
+            "assistant": "Focus session summary:\nTask: code today\nDuration: 17 seconds\nNotes: 0",
+            "intent": "stop_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 16:39:07",
+            "importance": 0.6
+        },
+        {
+            "user": "focus dashboard",
+            "assistant": "Focus dashboard:\nStatus: inactive\nToday: 2 session(s), 34 seconds\nWeek: 11 session(s), 3 minutes\nGoal: 10 seconds\nGoal progress: 100%\nCurrent streak: 1 day(s)\nLongest streak: 1 day(s)",
+            "intent": "focus_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 16:39:19",
+            "importance": 0.6
+        },
+        {
+            "user": "start focus",
+            "assistant": "You do not have a task to focus on yet.",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 18:27:52",
+            "importance": 0.6
+        },
+        {
+            "user": "focus note refactor test",
+            "assistant": "Focus mode is not active.",
+            "intent": "add_focus_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 18:28:01",
+            "importance": 0.6
+        },
+        {
+            "user": "start focus",
+            "assistant": "You do not have a task to focus on yet.",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 18:28:12",
+            "importance": 0.6
+        },
+        {
+            "user": "focus notes",
+            "assistant": "Focus mode is not active.",
+            "intent": "show_current_focus_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 18:28:16",
+            "importance": 0.6
+        },
+        {
+            "user": "focus history",
+            "assistant": "Recent focus sessions:\n1. interview tomorrow | 38 seconds | 2026-07-14 18:35:08 -> 2026-07-14 18:35:46\n2. interview tomorrow | 12 seconds | 2026-07-14 18:36:04 -> 2026-07-14 18:36:16\n3. interview tomorrow | 12 seconds | 2026-07-14 18:36:04 -> 2026-07-14 18:36:16\n4. code today | 17 seconds | 2026-07-16 16:38:50 -> 2026-07-16 16:39:07\n5. code today | 17 seconds | 2026-07-16 16:38:50 -> 2026-07-16 16:39:07",
+            "intent": "show_focus_sessions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 18:28:22",
+            "importance": 0.6
+        },
+        {
+            "user": "focus stats",
+            "assistant": "Focus sessions: 11\nTotal focus time: None\nLast focus: code today",
+            "intent": "focus_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 18:54:19",
+            "importance": 0.6
+        },
+        {
+            "user": "focus stats",
+            "assistant": "Focus sessions: 11\nTotal focus time: 3 minutes\nLast focus: code today",
+            "intent": "focus_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 18:57:18",
+            "importance": 0.6
+        },
+        {
+            "user": "today focus stats",
+            "assistant": "Today's focus sessions: 2\nToday's focus time: 34 seconds\nLast focus today: code today",
+            "intent": "today_focus_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 18:57:25",
+            "importance": 0.6
+        },
+        {
+            "user": "weekly focus stats",
+            "assistant": "Weekly focus sessions: 11\nWeekly focus time: 3 minutes\nLast focus this week: code today",
+            "intent": "weekly_focus_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 18:57:31",
+            "importance": 0.6
+        },
+        {
+            "user": "focus dashboard",
+            "assistant": "Focus dashboard:\nStatus: inactive\nToday: 2 session(s), 34 seconds\nWeek: 11 session(s), 3 minutes\nGoal: 10 seconds\nGoal progress: 100%\nCurrent streak: 1 day(s)\nLongest streak: 1 day(s)",
+            "intent": "focus_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 18:57:38",
+            "importance": 0.6
+        },
+        {
+            "user": "start focus",
+            "assistant": "Focus mode started. Current focus: code today",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 19:31:34",
+            "importance": 0.6
+        },
+        {
+            "user": "focus note refactor check",
+            "assistant": "Focus note added: refactor check",
+            "intent": "add_focus_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 19:31:48",
+            "importance": 0.6
+        },
+        {
+            "user": "focus notes",
+            "assistant": "Current focus notes:\n- refactor check",
+            "intent": "show_current_focus_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 19:31:53",
+            "importance": 0.6
+        },
+        {
+            "user": "stop focus",
+            "assistant": null,
+            "intent": "stop_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 19:31:57",
+            "importance": 0.6
+        },
+        {
+            "user": "stop focus",
+            "assistant": "Focus mode is not active.",
+            "intent": "stop_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 19:32:06",
+            "importance": 0.6
+        },
+        {
+            "user": "focus stats",
+            "assistant": "Focus sessions: 12\nTotal focus time: 4 minutes\nLast focus: code today",
+            "intent": "focus_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 19:32:15",
+            "importance": 0.6
+        },
+        {
+            "user": "focus dashboard",
+            "assistant": "Focus dashboard:\nStatus: inactive\nToday: 3 session(s), 57 seconds\nWeek: 12 session(s), 4 minutes\nGoal: 10 seconds\nGoal progress: 100%\nCurrent streak: 1 day(s)\nLongest streak: 1 day(s)",
+            "intent": "focus_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 19:32:21",
+            "importance": 0.6
+        },
+        {
+            "user": "set reminder code due today",
+            "assistant": "I could not find this reminder: code",
+            "intent": "set_reminder_due",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 19:32:31",
+            "importance": 0.6
+        },
+        {
+            "user": "search reminders code",
+            "assistant": "Matching reminders:\n1. code today",
+            "intent": "search_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 19:32:41",
+            "importance": 0.6
+        },
+        {
+            "user": "set reminder code today due tomorrow",
+            "assistant": "Updated reminder due date: code today | due: tomorrow",
+            "intent": "set_reminder_due",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 19:32:53",
+            "importance": 0.6
+        },
+        {
+            "user": "search reminders code",
+            "assistant": "Matching reminders:\n1. code today | due: tomorrow",
+            "intent": "search_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 19:33:03",
+            "importance": 0.6
+        },
+        {
+            "user": "start focus",
+            "assistant": "Focus mode started. Current focus: code today",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 19:34:21",
+            "importance": 0.6
+        },
+        {
+            "user": "stop focus",
+            "assistant": "Focus session summary:\nTask: code today\nDuration: 2 seconds\nNotes: 0",
+            "intent": "stop_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 19:34:23",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -3648,6 +3928,36 @@
             "notes": [
                 "completed reminder"
             ]
+        },
+        {
+            "task": "code today",
+            "started_at": "2026-07-16 16:38:50",
+            "ended_at": "2026-07-16 16:39:07",
+            "duration": "17 seconds",
+            "notes": []
+        },
+        {
+            "task": "code today",
+            "started_at": "2026-07-16 16:38:50",
+            "ended_at": "2026-07-16 16:39:07",
+            "duration": "17 seconds",
+            "notes": []
+        },
+        {
+            "task": "code today",
+            "started_at": "2026-07-16 19:31:34",
+            "ended_at": "2026-07-16 19:31:57",
+            "duration": "23 seconds",
+            "notes": [
+                "refactor check"
+            ]
+        },
+        {
+            "task": "code today",
+            "started_at": "2026-07-16 19:34:21",
+            "ended_at": "2026-07-16 19:34:23",
+            "duration": "2 seconds",
+            "notes": []
         }
     ]
 }

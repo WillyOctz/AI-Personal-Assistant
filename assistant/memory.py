@@ -268,7 +268,7 @@ def set_reminder_due(identifier, due):
         
     for index, reminder in enumerate(reminders):
         if get_reminder_text(reminder) == identifier:
-            reminders[index] == make_reminder(identifier, due)
+            reminders[index] = make_reminder(identifier, due)
             save_memory(memory)
             
             return {
@@ -487,7 +487,7 @@ def search_reminders(query):
         if query in text:
             results.append({
                 "index": index,
-                "reminder": reminder,
+                "reminder": get_reminder_text(reminder),
                 "due": due,
             })
             
