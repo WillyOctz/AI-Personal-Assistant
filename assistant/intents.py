@@ -85,6 +85,8 @@ VALID_INTENTS = {
     "weekly_focus_stats",
     "best_focus_day",
     "focus_dashboard",
+    "register_app",
+    "show_app_registry",
 }
 
 CONTROL_INTENTS = {
@@ -170,6 +172,8 @@ MEMORY_INTENTS = {
     "weekly_focus_stats",
     "best_focus_day",
     "focus_dashboard",
+    "register_app",
+    "show_app_registry",
 }
 
 ACTION_INTENTS = {
@@ -385,6 +389,11 @@ INTENT_PATTERNS = {
         "show focus dashboard",
         "focus overview",
     ],
+    "show_app_registry": [
+        "show app registry",
+        "registered apps",
+        "app registry",
+    ],
 }
 
 INTENT_PREFIXES = {
@@ -496,6 +505,9 @@ INTENT_PREFIXES = {
     "search_focus_notes": [
         "search focus notes ",
         "find focus notes ",
+    ],
+    "register_app": [
+        "register app ",
     ],
 }
 

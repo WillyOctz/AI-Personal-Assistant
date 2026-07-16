@@ -286,7 +286,22 @@ def parse_clear_reminder_due(user_input):
     return text.replace(" due", "", 1).strip()
 
 def parse_duration_to_seconds(text):
-    return focus.parse_duration_to_seconds()
+    return focus.parse_duration_to_seconds(text)
+
+def parse_register_app(user_input):
+    text = user_input.strip()
+    
+    if not text.lower().startswith("register app "):
+        return "", ""
+    
+    text = text[13:].strip()
+    
+    if " as " not in text:
+        return "", ""
+    
+    name, command = text.split(" as ", 1)
+    
+    return name.strip(), command.strip()
 
 def get_first_reminder_text(results):
     if not results:
@@ -735,6 +750,12 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "focus_dashboard"):
         return make_analysis("focus_dashboard")
+    
+    if match_prefix_pattern(text, "register_app"):
+        return make_analysis("register_app")
+    
+    if match_exact_pattern(text, "show_app_registry"):
+        return make_analysis("show_app_registry")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2411,6 +2432,29 @@ def handle_memory_intent(user_input, analysis):
         lines.append(f"Current streak: {streak['current_streak']} day(s)")
         lines.append(f"Longest streak: {streak['longest_streak']} day(s)")
         
+        return "\n".join(lines)
+    
+    if intent == "register_app":
+        name, command = parse_register_app(user_input)
+        
+        if not name or not command:
+            return "Use this format: register app app_name as command"
+        
+        app = memory.add_app_registry_entry(name, command)
+        
+        return f"Registered app: {app['name']} -> {app['command']}"
+    
+    if intent == "show_app_registry":
+        registry = memory.get_app_registry()
+        
+        if not registry:
+            return "No apps registered yet."
+        
+        lines = ["Registered apps:"]
+        
+        for name, app in registry.items():
+            lines.append(f"- {name}: {app['command']}")
+            
         return "\n".join(lines)
     
     return unknown_response()

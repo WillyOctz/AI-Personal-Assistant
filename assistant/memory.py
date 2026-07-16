@@ -93,6 +93,9 @@ def ensure_memory_shape(memory):
     if "focus_notes" not in memory["state"]:
         memory["state"]["focus_notes"] = []
         
+    if "app_registry" not in memory:
+        memory["app_registry"] = {}
+        
     return memory
 
 def archive_conversation_turns(turns_to_archive):
@@ -747,6 +750,31 @@ def search_focus_notes(query):
             })
             
     return results
+
+def add_app_registry_entry(name, command):
+    memory = load_memory()
+    
+    clean_name = normalize_entity_name(name)
+    clean_command = command.strip()
+    
+    memory["app_registry"][clean_name] = {
+        "name": clean_name,
+        "command": clean_command
+    }
+    
+    save_memory(memory)
+    
+    return memory["app_registry"][clean_name]
+
+def get_app_registry_entry(name):
+    memory = load_memory()
+    clean_name = normalize_entity_name(name)
+    
+    return memory["app_registry"].get(clean_name)
+
+def get_app_registry():
+    memory = load_memory()
+    return memory["app_registry"]
 
 
 

@@ -3833,6 +3833,66 @@
             "source": "rule",
             "timestamp": "2026-07-16 19:34:23",
             "importance": 0.6
+        },
+        {
+            "user": "register app chrome as chrome",
+            "assistant": "Registered app: chrome -> chrome",
+            "intent": "register_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 20:18:08",
+            "importance": 0.6
+        },
+        {
+            "user": "register app spotify as spotify",
+            "assistant": "Registered app: spotify -> spotify",
+            "intent": "register_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 20:18:22",
+            "importance": 0.6
+        },
+        {
+            "user": "app registery",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-16 20:18:28",
+            "importance": 0.3
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- chrome: chrome\n- spotify: spotify",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 20:18:33",
+            "importance": 0.6
+        },
+        {
+            "user": "register app opera as opera",
+            "assistant": "Registered app: opera -> opera",
+            "intent": "register_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 20:18:43",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- chrome: chrome\n- spotify: spotify\n- opera: opera",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-16 20:18:49",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -3959,5 +4019,19 @@
             "duration": "2 seconds",
             "notes": []
         }
-    ]
+    ],
+    "app_registry": {
+        "chrome": {
+            "name": "chrome",
+            "command": "chrome"
+        },
+        "spotify": {
+            "name": "spotify",
+            "command": "spotify"
+        },
+        "opera": {
+            "name": "opera",
+            "command": "opera"
+        }
+    }
 }
