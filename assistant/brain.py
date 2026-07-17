@@ -756,6 +756,15 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "show_app_registry"):
         return make_analysis("show_app_registry")
+    
+    if match_exact_pattern(text, "enable_app_launching"):
+        return make_analysis("enable_app_launching")
+    
+    if match_exact_pattern(text, "disable_app_launching"):
+        return make_analysis("disable_app_launching")
+    
+    if match_exact_pattern(text, "show_settings"):
+        return make_analysis("show_settings")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2457,6 +2466,22 @@ def handle_memory_intent(user_input, analysis):
             
         return "\n".join(lines)
     
+    if intent == "enable_app_launching":
+        memory.set_setting("real_app_launching", True)
+        return "Real app launching enabled."
+    
+    if intent == "disable_app_launching":
+        memory.set_setting("real_app_launching", False)
+        return "Real app launching disabled."
+    
+    if intent == "show_settings":
+        real_launching = memory.get_setting("real_app_launching", False)
+        
+        return (
+            f"Settings:\n"
+            f"real_app_launching: {real_launching}"
+        )
+    
     return unknown_response()
 
 def handle_action_intent(user_input, analysis):
@@ -2494,7 +2519,8 @@ def handle_action_intent(user_input, analysis):
         app_entry = memory.get_app_registry_entry(app_name)
         
         if app_entry:
-            result = open_registered_app(app_name, app_entry)
+            real_launching = memory.get_setting("real_app_launching", False)
+            result = open_registered_app(app_name, app_entry, real_launching)
         else:
             result = open_app(app_name)
             

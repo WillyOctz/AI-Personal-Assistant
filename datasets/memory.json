@@ -319,6 +319,36 @@
             "result": "I understand you want to open unknown, but real app launching is not connected yet.",
             "timestamp": "2026-07-17 16:00:14",
             "importance": 0.8
+        },
+        {
+            "user_input": "open chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Real app launching is disabled. I would open chrome using command: chrome",
+            "timestamp": "2026-07-17 16:42:36",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Real launching is not implemented yet. Command would be: chrome",
+            "timestamp": "2026-07-17 16:42:51",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Real app launching is disabled. I would open chrome using command: chrome",
+            "timestamp": "2026-07-17 16:43:06",
+            "importance": 0.8
         }
     ],
     "conversation": [
@@ -3973,6 +4003,76 @@
             "source": "model",
             "timestamp": "2026-07-17 16:00:14",
             "importance": 0.8
+        },
+        {
+            "user": "settings",
+            "assistant": "Settings:\nreal_app_launching: False",
+            "intent": "show_settings",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-17 16:42:30",
+            "importance": 0.6
+        },
+        {
+            "user": "open chrome",
+            "assistant": "Real app launching is disabled. I would open chrome using command: chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-17 16:42:36",
+            "importance": 0.8
+        },
+        {
+            "user": "enable app launching",
+            "assistant": "Real app launching enabled.",
+            "intent": "enable_app_launching",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-17 16:42:43",
+            "importance": 0.6
+        },
+        {
+            "user": "settings",
+            "assistant": "Settings:\nreal_app_launching: True",
+            "intent": "show_settings",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-17 16:42:47",
+            "importance": 0.6
+        },
+        {
+            "user": "open chrome",
+            "assistant": "Real launching is not implemented yet. Command would be: chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-17 16:42:51",
+            "importance": 0.8
+        },
+        {
+            "user": "disable app launching",
+            "assistant": "Real app launching disabled.",
+            "intent": "disable_app_launching",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-17 16:43:01",
+            "importance": 0.6
+        },
+        {
+            "user": "open chrome",
+            "assistant": "Real app launching is disabled. I would open chrome using command: chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-17 16:43:06",
+            "importance": 0.8
         }
     ],
     "summaries": [
@@ -4113,5 +4213,8 @@
             "name": "opera",
             "command": "opera"
         }
+    },
+    "settings": {
+        "real_app_launching": false
     }
 }

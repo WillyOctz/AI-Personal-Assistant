@@ -96,6 +96,12 @@ def ensure_memory_shape(memory):
     if "app_registry" not in memory:
         memory["app_registry"] = {}
         
+    if "settings" not in memory:
+        memory["settings"] = {}
+        
+    if "real_app_launching" not in memory["settings"]:
+        memory["settings"]["real_app_launching"] = False
+        
     return memory
 
 def archive_conversation_turns(turns_to_archive):
@@ -775,6 +781,15 @@ def get_app_registry_entry(name):
 def get_app_registry():
     memory = load_memory()
     return memory["app_registry"]
+
+def get_setting(key, default=None):
+    memory = load_memory()
+    return memory["settings"].get(key, default)
+
+def set_setting(key, value):
+    memory = load_memory()
+    memory["settings"][key] = value
+    save_memory(memory)
 
 
 

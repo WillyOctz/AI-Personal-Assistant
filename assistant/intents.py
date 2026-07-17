@@ -87,6 +87,9 @@ VALID_INTENTS = {
     "focus_dashboard",
     "register_app",
     "show_app_registry",
+    "enable_app_launching",
+    "disable_app_launching",
+    "show_settings",
 }
 
 CONTROL_INTENTS = {
@@ -174,6 +177,9 @@ MEMORY_INTENTS = {
     "focus_dashboard",
     "register_app",
     "show_app_registry",
+    "enable_app_launching",
+    "disable_app_launching",
+    "show_settings",
 }
 
 ACTION_INTENTS = {
@@ -393,6 +399,18 @@ INTENT_PATTERNS = {
         "show app registry",
         "registered apps",
         "app registry",
+    ],
+    "enable_app_launching": [
+        "enable app launching",
+        "turn on app launching",
+    ],
+    "disable_app_launching": [
+        "disable app launching",
+        "turn off app launching",
+    ],
+    "show_settings": [
+        "show settings",
+        "settings",
     ],
 }
 

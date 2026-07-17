@@ -74,7 +74,10 @@ def play_game(game_name):
 
     return "I understand you want to play a game, but I do not know which game yet."
 
-def open_registered_app(app_name, app_entry):
+def open_registered_app(app_name, app_entry, real_launching=False):
     command = app_entry["command"]
     
-    return f"I would open {app_name} using command: {command}"
+    if not real_launching:
+        return f"Real app launching is disabled. I would open {app_name} using command: {command}"
+    
+    return f"Real launching is not implemented yet. Command would be: {command}"
