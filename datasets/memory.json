@@ -369,6 +369,36 @@
             "result": "Real app launching is disabled. I would open notepad using command: notepad",
             "timestamp": "2026-07-17 16:52:32",
             "importance": 0.8
+        },
+        {
+            "user_input": "open notepad",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Real app launching is disabled. I would open notepad using command: notepad",
+            "timestamp": "2026-07-17 17:08:48",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open notepad",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Opening notepad.",
+            "timestamp": "2026-07-17 17:09:19",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open something",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Opening something.",
+            "timestamp": "2026-07-17 17:10:56",
+            "importance": 0.8
         }
     ],
     "conversation": [
@@ -4143,6 +4173,76 @@
             "source": "model",
             "timestamp": "2026-07-17 16:52:32",
             "importance": 0.8
+        },
+        {
+            "user": "open notepad",
+            "assistant": "Real app launching is disabled. I would open notepad using command: notepad",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-17 17:08:48",
+            "importance": 0.8
+        },
+        {
+            "user": "enable app launch",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-17 17:08:59",
+            "importance": 0.3
+        },
+        {
+            "user": "enable app launching",
+            "assistant": "Real app launching enabled.",
+            "intent": "enable_app_launching",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-17 17:09:14",
+            "importance": 0.6
+        },
+        {
+            "user": "open notepad",
+            "assistant": "Opening notepad.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-17 17:09:19",
+            "importance": 0.8
+        },
+        {
+            "user": "register app \"D:\\Steam\\steam.exe\"",
+            "assistant": "Use this format: register app app_name as command",
+            "intent": "register_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-17 17:10:24",
+            "importance": 0.6
+        },
+        {
+            "user": "register app something as \"D:\\Steam\\steam.exe\"",
+            "assistant": "Registered app: something -> \"D:\\Steam\\steam.exe\"",
+            "intent": "register_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-17 17:10:47",
+            "importance": 0.6
+        },
+        {
+            "user": "open something",
+            "assistant": "Opening something.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-17 17:10:56",
+            "importance": 0.8
         }
     ],
     "summaries": [
@@ -4286,9 +4386,13 @@
         "notepad": {
             "name": "notepad",
             "command": "notepad"
+        },
+        "something": {
+            "name": "something",
+            "command": "\"D:\\Steam\\steam.exe\""
         }
     },
     "settings": {
-        "real_app_launching": false
+        "real_app_launching": true
     }
 }

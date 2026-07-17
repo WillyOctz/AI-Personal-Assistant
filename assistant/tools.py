@@ -3,6 +3,7 @@ from assistant.memory import add_reminder
 import ast
 import operator
 import subprocess
+import shlex
 
 ALLOWED_OPERATORS = {
     ast.Add: operator.add,
@@ -12,6 +13,19 @@ ALLOWED_OPERATORS = {
     ast.Pow: operator.pow,
     ast.USub: operator.neg,
 }
+
+
+## Helper Methods
+#  -------------------------------------------------
+
+def parse_launch_command(command):
+    try:
+        return shlex.split(command)
+    except:
+        return None
+
+
+#  -------------------------------------------------
 
 def safe_calculate(expression):
     try:
@@ -80,6 +94,11 @@ def open_registered_app(app_name, app_entry, real_launching=False):
     
     if not real_launching:
         return f"Real app launching is disabled. I would open {app_name} using command: {command}"
+    
+    parsed_command = parse_launch_command(command)
+    
+    if not parsed_command:
+        return f"I could not understand the app command: {command}"
     
     try:
         subprocess.Popen(command)
