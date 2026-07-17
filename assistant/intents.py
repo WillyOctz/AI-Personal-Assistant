@@ -90,6 +90,7 @@ VALID_INTENTS = {
     "enable_app_launching",
     "disable_app_launching",
     "show_settings",
+    "show_app_launch_history",
 }
 
 CONTROL_INTENTS = {
@@ -180,6 +181,7 @@ MEMORY_INTENTS = {
     "enable_app_launching",
     "disable_app_launching",
     "show_settings",
+    "show_app_launch_history",
 }
 
 ACTION_INTENTS = {
@@ -411,6 +413,11 @@ INTENT_PATTERNS = {
     "show_settings": [
         "show settings",
         "settings",
+    ],
+    "show_app_launch_history": [
+        "app launch history",
+        "show app launch history",
+        "recent app launches",
     ],
 }
 

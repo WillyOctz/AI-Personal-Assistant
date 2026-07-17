@@ -12,6 +12,16 @@ LOW_CONFIDENCE = 0.55
 def current_timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+def log_app_launch(app_name, command, result):
+    event = {
+        "app_name": app_name,
+        "command": command,
+        "result": result,
+        "timestamp": current_timestamp()
+    }
+    
+    memory.add_app_launch(event)
+
 def parse_timestamp(timestamp):
     try:
         return datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
@@ -765,6 +775,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "show_settings"):
         return make_analysis("show_settings")
+    
+    if match_exact_pattern(text, "show_app_launch_history"):
+        return make_analysis("show_app_launch_history")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2481,6 +2494,21 @@ def handle_memory_intent(user_input, analysis):
             f"Settings:\n"
             f"real_app_launching: {real_launching}"
         )
+        
+    if intent == "show_app_launch_history":
+        launches = memory.get_app_launches()
+        
+        if not launches:
+            return "I do not have any app launch history yet."
+        
+        lines = ["Recent app launches:"]
+        
+        for launch in launches:
+            lines.append(
+                f"- {launch['timestamp']} | {launch['app_name']} | {launch['result']}"
+            )
+            
+        return "\n".join(lines)
     
     return unknown_response()
 
@@ -2521,6 +2549,7 @@ def handle_action_intent(user_input, analysis):
         if app_entry:
             real_launching = memory.get_setting("real_app_launching", False)
             result = open_registered_app(app_name, app_entry, real_launching)
+            log_app_launch(app_name, app_entry["command"], result)
         else:
             result = open_app(app_name)
             

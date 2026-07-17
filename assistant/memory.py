@@ -102,6 +102,9 @@ def ensure_memory_shape(memory):
     if "real_app_launching" not in memory["settings"]:
         memory["settings"]["real_app_launching"] = False
         
+    if "app_launches" not in memory:
+        memory["app_launches"] = []
+        
     return memory
 
 def archive_conversation_turns(turns_to_archive):
@@ -790,6 +793,15 @@ def set_setting(key, value):
     memory = load_memory()
     memory["settings"][key] = value
     save_memory(memory)
+    
+def add_app_launch(event):
+    memory = load_memory()
+    memory["app_launches"].append(event)
+    save_memory(memory)
+    
+def get_app_launches(limit=10):
+    memory = load_memory()
+    return memory["app_launches"][-limit:]
 
 
 
