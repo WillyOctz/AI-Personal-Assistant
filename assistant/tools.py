@@ -2,6 +2,7 @@ from datetime import datetime
 from assistant.memory import add_reminder
 import ast
 import operator
+import subprocess
 
 ALLOWED_OPERATORS = {
     ast.Add: operator.add,
@@ -80,4 +81,10 @@ def open_registered_app(app_name, app_entry, real_launching=False):
     if not real_launching:
         return f"Real app launching is disabled. I would open {app_name} using command: {command}"
     
-    return f"Real launching is not implemented yet. Command would be: {command}"
+    try:
+        subprocess.Popen(command)
+        return f"Opening {app_name}."
+    except FileNotFoundError:
+        return f"I could not find the app command: {command}"
+    except:
+        return f"I tried to open {app_name}, but something went wrong."

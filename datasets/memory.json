@@ -349,6 +349,26 @@
             "result": "Real app launching is disabled. I would open chrome using command: chrome",
             "timestamp": "2026-07-17 16:43:06",
             "importance": 0.8
+        },
+        {
+            "user_input": "open notepad",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Opening notepad.",
+            "timestamp": "2026-07-17 16:52:11",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open notepad",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Real app launching is disabled. I would open notepad using command: notepad",
+            "timestamp": "2026-07-17 16:52:32",
+            "importance": 0.8
         }
     ],
     "conversation": [
@@ -4073,6 +4093,56 @@
             "source": "model",
             "timestamp": "2026-07-17 16:43:06",
             "importance": 0.8
+        },
+        {
+            "user": "register app notepad as notepad",
+            "assistant": "Registered app: notepad -> notepad",
+            "intent": "register_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-17 16:51:58",
+            "importance": 0.6
+        },
+        {
+            "user": "enable app launching",
+            "assistant": "Real app launching enabled.",
+            "intent": "enable_app_launching",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-17 16:52:05",
+            "importance": 0.6
+        },
+        {
+            "user": "open notepad",
+            "assistant": "Opening notepad.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-17 16:52:11",
+            "importance": 0.8
+        },
+        {
+            "user": "disable app launching",
+            "assistant": "Real app launching disabled.",
+            "intent": "disable_app_launching",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-17 16:52:26",
+            "importance": 0.6
+        },
+        {
+            "user": "open notepad",
+            "assistant": "Real app launching is disabled. I would open notepad using command: notepad",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-17 16:52:32",
+            "importance": 0.8
         }
     ],
     "summaries": [
@@ -4212,6 +4282,10 @@
         "opera": {
             "name": "opera",
             "command": "opera"
+        },
+        "notepad": {
+            "name": "notepad",
+            "command": "notepad"
         }
     },
     "settings": {
