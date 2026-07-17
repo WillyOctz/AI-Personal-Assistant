@@ -73,3 +73,8 @@ def play_game(game_name):
         return f"I understand you want to play {game_name}, but game launching is not connected yet."
 
     return "I understand you want to play a game, but I do not know which game yet."
+
+def open_registered_app(app_name, app_entry):
+    command = app_entry["command"]
+    
+    return f"I would open {app_name} using command: {command}"

@@ -279,6 +279,46 @@
             "result": "Reminder saved: code today",
             "timestamp": "2026-07-14 16:15:08",
             "importance": 1.0
+        },
+        {
+            "user_input": "open chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I would open chrome using command: chrome",
+            "timestamp": "2026-07-17 15:59:58",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open spotify",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I would open spotify using command: spotify",
+            "timestamp": "2026-07-17 16:00:05",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open opera",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I would open opera using command: opera",
+            "timestamp": "2026-07-17 16:00:09",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open unknown",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I understand you want to open unknown, but real app launching is not connected yet.",
+            "timestamp": "2026-07-17 16:00:14",
+            "importance": 0.8
         }
     ],
     "conversation": [
@@ -3893,6 +3933,46 @@
             "source": "rule",
             "timestamp": "2026-07-16 20:18:49",
             "importance": 0.6
+        },
+        {
+            "user": "open chrome",
+            "assistant": "I would open chrome using command: chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-17 15:59:58",
+            "importance": 0.8
+        },
+        {
+            "user": "open spotify",
+            "assistant": "I would open spotify using command: spotify",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-17 16:00:05",
+            "importance": 0.8
+        },
+        {
+            "user": "open opera",
+            "assistant": "I would open opera using command: opera",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-17 16:00:09",
+            "importance": 0.8
+        },
+        {
+            "user": "open unknown",
+            "assistant": "I understand you want to open unknown, but real app launching is not connected yet.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-17 16:00:14",
+            "importance": 0.8
         }
     ],
     "summaries": [

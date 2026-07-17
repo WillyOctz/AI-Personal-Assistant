@@ -1,4 +1,4 @@
-from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate
+from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app
 from assistant import memory
 from assistant.personality import greet, unknown_response
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS
@@ -2491,7 +2491,13 @@ def handle_action_intent(user_input, analysis):
         if not app_name:
             return "What should i open?"
         
-        result = open_app(app_name)
+        app_entry = memory.get_app_registry_entry(app_name)
+        
+        if app_entry:
+            result = open_registered_app(app_name, app_entry)
+        else:
+            result = open_app(app_name)
+            
         log_action(user_input, analysis, result)
         return result
     
