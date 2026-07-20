@@ -97,6 +97,7 @@ VALID_INTENTS = {
     "update_registered_app",
     "add_app_alias",
     "show_app_aliases",
+    "remove_app_alias",
 }
 
 CONTROL_INTENTS = {
@@ -194,6 +195,7 @@ MEMORY_INTENTS = {
     "update_registered_app",
     "add_app_alias",
     "show_app_aliases",
+    "remove_app_alias",
 }
 
 ACTION_INTENTS = {
@@ -569,6 +571,10 @@ INTENT_PREFIXES = {
     ],
     "add_app_alias": [
         "alias app ",
+    ],
+    "remove_app_alias": [
+        "remove app alias ",
+        "delete app alias ",
     ],
 }
 

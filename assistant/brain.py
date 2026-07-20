@@ -328,6 +328,15 @@ def parse_app_alias(user_input):
     
     return alias.strip(), app_name.strip()
 
+def parse_remove_app_alias(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["remove app alias ", "delete app alias "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return ""
+
 def parse_update_app(user_input):
     text = user_input.strip()
     
@@ -817,6 +826,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "add_app_alias"):
         return make_analysis("add_app_alias")
+    
+    if match_prefix_pattern(text, "remove_app_alias"):
+        return make_analysis("remove_app_alias")
     
     if match_exact_pattern(text, "show_app_aliases"):
         return make_analysis("show_app_aliases")
@@ -2547,6 +2559,19 @@ def handle_memory_intent(user_input, analysis):
         result = memory.add_app_alias(alias, app_entry["name"])
         
         return f"App alias saved: {result['alias']} -> {result['app_name']}"
+    
+    if intent == "remove_app_alias":
+        alias = parse_remove_app_alias(user_input)
+        
+        if not alias:
+            return "Use this format: remove app alias alias_name"
+        
+        result = memory.remove_app_alias(alias)
+        
+        if not result["removed"]:
+            return f"I could not find app alias: {result['alias']}"
+        
+        return f"Removed app alias: {result['alias']} -> {result['app_name']}"
     
     if intent == "show_app_aliases":
         aliases = memory.get_app_aliases()

@@ -802,6 +802,26 @@ def get_app_aliases():
     memory = load_memory()
     return memory["app_aliases"]
 
+def remove_app_alias(alias):
+    memory = load_memory()
+    clean_alias = normalize_entity_name(alias)
+    
+    if clean_alias not in memory["app_aliases"]:
+        return {
+            "removed": False,
+            "alias": clean_alias,
+            "app_name": None
+        }
+        
+    app_name = memory["app_aliases"].pop(clean_alias)
+    save_memory(memory)
+    
+    return {
+        "removed": True,
+        "alias": clean_alias,
+        "app_name": app_name
+    }
+
 def get_app_registry_entry(name):
     memory = load_memory()
     clean_name = normalize_entity_name(name)
