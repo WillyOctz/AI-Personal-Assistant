@@ -313,6 +313,15 @@ def parse_register_app(user_input):
     
     return name.strip(), command.strip()
 
+def parse_unregister_app(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["unregister app ", "remove app "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return ""
+
 def get_first_reminder_text(results):
     if not results:
         return None
@@ -763,6 +772,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "register_app"):
         return make_analysis("register_app")
+    
+    if match_prefix_pattern(text, "unregister_app"):
+        return make_analysis("unregister_app")
     
     if match_exact_pattern(text, "show_app_registry"):
         return make_analysis("show_app_registry")
@@ -2468,6 +2480,20 @@ def handle_memory_intent(user_input, analysis):
         app = memory.add_app_registry_entry(name, command)
         
         return f"Registered app: {app['name']} -> {app['command']}"
+    
+    if intent == "unregister_app":
+        app_name = parse_unregister_app(user_input)
+        
+        if not app_name:
+            return "Use this format: unregister app app_name"
+        
+        result = memory.remove_app_registry_entry(app_name)
+        
+        if not result["removed"]:
+            return f"I could not find registered app: {result['app']}"
+        
+        app = result["app"]
+        return f"Unregistered app: {app['name']} -> {app['command']}"
     
     if intent == "show_app_registry":
         registry = memory.get_app_registry()

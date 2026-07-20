@@ -785,6 +785,24 @@ def get_app_registry():
     memory = load_memory()
     return memory["app_registry"]
 
+def remove_app_registry_entry(name):
+    memory = load_memory()
+    clean_name = normalize_entity_name(name)
+    
+    if clean_name not in memory["app_registry"]:
+        return {
+           "removed": False,
+            "app": clean_name 
+        }
+        
+    removed_app = memory["app_registry"].pop(clean_name)
+    save_memory(memory)
+    
+    return {
+        "removed": True,
+        "app": removed_app
+    }
+
 def get_setting(key, default=None):
     memory = load_memory()
     return memory["settings"].get(key, default)

@@ -459,6 +459,16 @@
             "result": "Opening notepad.",
             "timestamp": "2026-07-20 17:51:48",
             "importance": 0.8
+        },
+        {
+            "user_input": "open opera",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I understand you want to open opera, but real app launching is not connected yet.",
+            "timestamp": "2026-07-20 18:09:10",
+            "importance": 0.8
         }
     ],
     "conversation": [
@@ -4413,6 +4423,66 @@
             "source": "rule",
             "timestamp": "2026-07-20 17:51:56",
             "importance": 0.6
+        },
+        {
+            "user": "app registery",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-20 18:06:06",
+            "importance": 0.3
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- chrome: chrome\n- spotify: spotify\n- opera: opera\n- notepad: notepad\n- something: \"D:\\Steam\\steam.exe\"",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 18:06:13",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- chrome: chrome\n- spotify: spotify\n- opera: opera\n- notepad: notepad\n- something: \"D:\\Steam\\steam.exe\"",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 18:08:49",
+            "importance": 0.6
+        },
+        {
+            "user": "unregister app opera",
+            "assistant": "Unregistered app: opera -> opera",
+            "intent": "unregister_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 18:08:56",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- chrome: chrome\n- spotify: spotify\n- notepad: notepad\n- something: \"D:\\Steam\\steam.exe\"",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 18:09:00",
+            "importance": 0.6
+        },
+        {
+            "user": "open opera",
+            "assistant": "I understand you want to open opera, but real app launching is not connected yet.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-20 18:09:10",
+            "importance": 0.8
         }
     ],
     "summaries": [
@@ -4548,10 +4618,6 @@
         "spotify": {
             "name": "spotify",
             "command": "spotify"
-        },
-        "opera": {
-            "name": "opera",
-            "command": "opera"
         },
         "notepad": {
             "name": "notepad",

@@ -92,6 +92,7 @@ VALID_INTENTS = {
     "show_settings",
     "show_app_launch_history",
     "app_launch_stats",
+    "unregister_app",
 }
 
 CONTROL_INTENTS = {
@@ -184,6 +185,7 @@ MEMORY_INTENTS = {
     "show_settings",
     "show_app_launch_history",
     "app_launch_stats",
+    "unregister_app",
 }
 
 ACTION_INTENTS = {
@@ -540,6 +542,10 @@ INTENT_PREFIXES = {
     ],
     "register_app": [
         "register app ",
+    ],
+    "unregister_app": [
+        "unregister app ",
+        "remove app ",
     ],
 }
 
