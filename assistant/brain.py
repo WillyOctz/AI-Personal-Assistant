@@ -778,6 +778,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "show_app_launch_history"):
         return make_analysis("show_app_launch_history")
+    
+    if match_exact_pattern(text, "app_launch_stats"):
+        return make_analysis("app_launch_stats")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2509,6 +2512,18 @@ def handle_memory_intent(user_input, analysis):
             )
             
         return "\n".join(lines)
+    
+    if intent == "app_launch_stats":
+        stats = memory.get_app_launch_stats()
+        
+        if stats["total"] == 0:
+            return "I do not have any app launch stats yet."
+        
+        return (
+            f"Total app launches: {stats['total']}\n"
+            f"Most launched app: {stats['most_launched']} ({stats['most_count']} time(s))\n"
+            f"Last launched app: {stats['last_launched']}"
+        )
     
     return unknown_response()
 

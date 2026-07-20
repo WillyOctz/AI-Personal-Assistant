@@ -449,6 +449,16 @@
             "result": "Opening notepad.",
             "timestamp": "2026-07-17 17:53:05",
             "importance": 0.8
+        },
+        {
+            "user_input": "open notepad",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Opening notepad.",
+            "timestamp": "2026-07-20 17:51:48",
+            "importance": 0.8
         }
     ],
     "conversation": [
@@ -4373,6 +4383,36 @@
             "source": "rule",
             "timestamp": "2026-07-17 17:53:14",
             "importance": 0.6
+        },
+        {
+            "user": "app launch stats",
+            "assistant": "Total app launches: 1\nMost launched app: notepad (1 time(s))\nLast launched app: notepad",
+            "intent": "app_launch_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 17:51:41",
+            "importance": 0.6
+        },
+        {
+            "user": "open notepad",
+            "assistant": "Opening notepad.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-20 17:51:48",
+            "importance": 0.8
+        },
+        {
+            "user": "app launch stats",
+            "assistant": "Total app launches: 2\nMost launched app: notepad (2 time(s))\nLast launched app: notepad",
+            "intent": "app_launch_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 17:51:56",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -4531,6 +4571,12 @@
             "command": "notepad",
             "result": "Opening notepad.",
             "timestamp": "2026-07-17 17:53:05"
+        },
+        {
+            "app_name": "notepad",
+            "command": "notepad",
+            "result": "Opening notepad.",
+            "timestamp": "2026-07-20 17:51:48"
         }
     ]
 }

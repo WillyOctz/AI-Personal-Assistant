@@ -803,6 +803,42 @@ def get_app_launches(limit=10):
     memory = load_memory()
     return memory["app_launches"][-limit:]
 
+def get_app_launch_stats():
+    memory = load_memory()
+    launches = memory["app_launches"]
+    
+    if not launches:
+        return {
+           "total": 0,
+            "most_launched": None,
+            "last_launched": None 
+        }
+        
+    counts = {}
+    
+    for launch in launches:
+        app_name = launch["app_name"]
+        
+        if app_name not in counts:
+            counts[app_name] = 0
+            
+        counts[app_name] += 1
+        
+    most_launched = None
+    most_count = 0
+    
+    for app_name, count in counts.items():
+        if count > most_count:
+            most_launched = app_name
+            most_count = count
+            
+    return {
+        "total": len(launches),
+        "most_launched": most_launched,
+        "most_count": most_count,
+        "last_launched": launches[-1]["app_name"] 
+    }
+
 
 
 
