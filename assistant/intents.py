@@ -95,6 +95,8 @@ VALID_INTENTS = {
     "app_launch_stats",
     "unregister_app",
     "update_registered_app",
+    "add_app_alias",
+    "show_app_aliases",
 }
 
 CONTROL_INTENTS = {
@@ -190,6 +192,8 @@ MEMORY_INTENTS = {
     "app_launch_stats",
     "unregister_app",
     "update_registered_app",
+    "add_app_alias",
+    "show_app_aliases",
 }
 
 ACTION_INTENTS = {
@@ -432,6 +436,10 @@ INTENT_PATTERNS = {
         "app stats",
         "show app stats",
     ],
+    "show_app_aliases": [
+        "show app aliases",
+        "app aliases",
+    ],
 }
 
 INTENT_PREFIXES = {
@@ -558,6 +566,9 @@ INTENT_PREFIXES = {
     "update_registered_app": [
         "update app ",
         "change app ",
+    ],
+    "add_app_alias": [
+        "alias app ",
     ],
 }
 

@@ -313,6 +313,21 @@ def parse_register_app(user_input):
     
     return name.strip(), command.strip()
 
+def parse_app_alias(user_input):
+    text = user_input.strip()
+    
+    if not text.lower().startswith("alias app "):
+        return "", ""
+    
+    text = text[10:].strip()
+    
+    if " as " not in text:
+        return "", ""
+    
+    alias, app_name = text.split(" as ", 1)
+    
+    return alias.strip(), app_name.strip()
+
 def parse_update_app(user_input):
     text = user_input.strip()
     
@@ -799,6 +814,12 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "register_app"):
         return make_analysis("register_app")
+    
+    if match_prefix_pattern(text, "add_app_alias"):
+        return make_analysis("add_app_alias")
+    
+    if match_exact_pattern(text, "show_app_aliases"):
+        return make_analysis("show_app_aliases")
     
     if match_prefix_pattern(text, "update_registered_app"):
         return make_analysis("update_registered_app")
@@ -2511,6 +2532,35 @@ def handle_memory_intent(user_input, analysis):
         
         return f"Registered app: {app['name']} -> {app['command']}"
     
+    if intent == "add_app_alias":
+        alias, app_name = parse_app_alias(user_input)
+        
+        if not alias or not app_name:
+            return "Use this format: alias app alias_name as registered_app_name"
+        
+        app_name = memory.resolve_app_alias(app_name)
+        app_entry = memory.get_app_registry_entry(app_name)
+        
+        if not app_entry:
+            return f"I could not find registered app: {app_name}"
+        
+        result = memory.add_app_alias(alias, app_entry["name"])
+        
+        return f"App alias saved: {result['alias']} -> {result['app_name']}"
+    
+    if intent == "show_app_aliases":
+        aliases = memory.get_app_aliases()
+        
+        if not aliases:
+            return "No app aliases saved yet."
+        
+        lines = ["App aliases:"]
+        
+        for alias, app_name in aliases.items():
+            lines.append(f"- {alias} -> {app_name}")
+            
+        return "\n".join(lines)
+    
     if intent == "update_registered_app":
         name, command = parse_update_app(user_input)
         
@@ -2647,12 +2697,13 @@ def handle_action_intent(user_input, analysis):
         if not app_name:
             return "What should i open?"
         
-        app_entry = memory.get_app_registry_entry(app_name)
+        resolved_app_name =  memory.resolve_app_alias(app_name)
+        app_entry = memory.get_app_registry_entry(resolved_app_name)
         
         if app_entry:
             real_launching = memory.get_setting("real_app_launching", False)
-            result = open_registered_app(app_name, app_entry, real_launching)
-            log_app_launch(app_name, app_entry["command"], result)
+            result = open_registered_app(resolved_app_name, app_entry, real_launching)
+            log_app_launch(resolved_app_name, app_entry["command"], result)
         else:
             result = open_app(app_name)
             

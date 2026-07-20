@@ -479,6 +479,66 @@
             "result": "Opening notepad.",
             "timestamp": "2026-07-20 18:28:02",
             "importance": 0.8
+        },
+        {
+            "user_input": "open browser",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I could not find the app command: chrome",
+            "timestamp": "2026-07-20 19:11:32",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open steam",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I could not find the app command: steam.exe",
+            "timestamp": "2026-07-20 19:14:41",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open google",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I could not find the app command: chrome",
+            "timestamp": "2026-07-20 19:17:12",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I could not find the app command: chrome",
+            "timestamp": "2026-07-20 19:17:18",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open google",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I understand you want to open google, but real app launching is not connected yet.",
+            "timestamp": "2026-07-20 19:17:43",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I understand you want to open chrome, but real app launching is not connected yet.",
+            "timestamp": "2026-07-20 19:17:51",
+            "importance": 0.8
         }
     ],
     "conversation": [
@@ -4603,6 +4663,266 @@
             "source": "rule",
             "timestamp": "2026-07-20 18:46:53",
             "importance": 0.6
+        },
+        {
+            "user": "register app chrome as chrome",
+            "assistant": "Registered app: chrome -> chrome",
+            "intent": "register_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:11:13",
+            "importance": 0.6
+        },
+        {
+            "user": "alias app browser as chrome",
+            "assistant": "App alias saved: browser -> chrome",
+            "intent": "add_app_alias",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:11:24",
+            "importance": 0.6
+        },
+        {
+            "user": "app aliases",
+            "assistant": "App aliases:\n- browser -> chrome",
+            "intent": "show_app_aliases",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:11:29",
+            "importance": 0.6
+        },
+        {
+            "user": "open browser",
+            "assistant": "I could not find the app command: chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-20 19:11:32",
+            "importance": 0.8
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- chrome: chrome\n- spotify: spotify\n- notepad: notepad\n- something: \"D:\\Steam\\steam.exe\"",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:12:12",
+            "importance": 0.6
+        },
+        {
+            "user": "alias app something as steam",
+            "assistant": "I could not find registered app: steam",
+            "intent": "add_app_alias",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:12:28",
+            "importance": 0.6
+        },
+        {
+            "user": "alias app steam as steam",
+            "assistant": "I could not find registered app: steam",
+            "intent": "add_app_alias",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:13:00",
+            "importance": 0.6
+        },
+        {
+            "user": "register app something as steam.exe",
+            "assistant": "Registered app: something -> steam.exe",
+            "intent": "register_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:13:16",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- chrome: chrome\n- spotify: spotify\n- notepad: notepad\n- something: steam.exe",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:13:23",
+            "importance": 0.6
+        },
+        {
+            "user": "alias app something as steam",
+            "assistant": "I could not find registered app: steam",
+            "intent": "add_app_alias",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:13:53",
+            "importance": 0.6
+        },
+        {
+            "user": "alias app steam as something",
+            "assistant": "App alias saved: steam -> something",
+            "intent": "add_app_alias",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:14:10",
+            "importance": 0.6
+        },
+        {
+            "user": "app aliases",
+            "assistant": "App aliases:\n- browser -> chrome\n- steam -> something",
+            "intent": "show_app_aliases",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:14:19",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- chrome: chrome\n- spotify: spotify\n- notepad: notepad\n- something: steam.exe",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:14:34",
+            "importance": 0.6
+        },
+        {
+            "user": "open steam",
+            "assistant": "I could not find the app command: steam.exe",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-20 19:14:41",
+            "importance": 0.8
+        },
+        {
+            "user": "register app \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" as chrome",
+            "assistant": "Registered app: \"c:\\program files\\google\\chrome\\application\\chrome.exe\" -> chrome",
+            "intent": "register_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:16:17",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- chrome: chrome\n- spotify: spotify\n- notepad: notepad\n- something: steam.exe\n- \"c:\\program files\\google\\chrome\\application\\chrome.exe\": chrome",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:16:24",
+            "importance": 0.6
+        },
+        {
+            "user": "alias app google as chrome",
+            "assistant": "App alias saved: google -> chrome",
+            "intent": "add_app_alias",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:17:00",
+            "importance": 0.6
+        },
+        {
+            "user": "app aliases",
+            "assistant": "App aliases:\n- browser -> chrome\n- steam -> something\n- google -> chrome",
+            "intent": "show_app_aliases",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:17:05",
+            "importance": 0.6
+        },
+        {
+            "user": "open google",
+            "assistant": "I could not find the app command: chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-20 19:17:12",
+            "importance": 0.8
+        },
+        {
+            "user": "open chrome",
+            "assistant": "I could not find the app command: chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-20 19:17:18",
+            "importance": 0.8
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- chrome: chrome\n- spotify: spotify\n- notepad: notepad\n- something: steam.exe\n- \"c:\\program files\\google\\chrome\\application\\chrome.exe\": chrome",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:17:23",
+            "importance": 0.6
+        },
+        {
+            "user": "unregister app chrome",
+            "assistant": "Unregistered app: chrome -> chrome",
+            "intent": "unregister_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:17:32",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- spotify: spotify\n- notepad: notepad\n- something: steam.exe\n- \"c:\\program files\\google\\chrome\\application\\chrome.exe\": chrome",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:17:36",
+            "importance": 0.6
+        },
+        {
+            "user": "open google",
+            "assistant": "I understand you want to open google, but real app launching is not connected yet.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-20 19:17:43",
+            "importance": 0.8
+        },
+        {
+            "user": "open chrome",
+            "assistant": "I understand you want to open chrome, but real app launching is not connected yet.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-20 19:17:51",
+            "importance": 0.8
+        },
+        {
+            "user": "app aliases",
+            "assistant": "App aliases:\n- browser -> chrome\n- steam -> something\n- google -> chrome",
+            "intent": "show_app_aliases",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 19:18:55",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -4731,10 +5051,6 @@
         }
     ],
     "app_registry": {
-        "chrome": {
-            "name": "chrome",
-            "command": "chrome"
-        },
         "spotify": {
             "name": "spotify",
             "command": "spotify"
@@ -4745,7 +5061,11 @@
         },
         "something": {
             "name": "something",
-            "command": "\"D:\\Steam\\steam.exe\""
+            "command": "steam.exe"
+        },
+        "\"c:\\program files\\google\\chrome\\application\\chrome.exe\"": {
+            "name": "\"c:\\program files\\google\\chrome\\application\\chrome.exe\"",
+            "command": "chrome"
         }
     },
     "settings": {
@@ -4769,6 +5089,35 @@
             "command": "notepad",
             "result": "Opening notepad.",
             "timestamp": "2026-07-20 18:28:02"
+        },
+        {
+            "app_name": "chrome",
+            "command": "chrome",
+            "result": "I could not find the app command: chrome",
+            "timestamp": "2026-07-20 19:11:32"
+        },
+        {
+            "app_name": "something",
+            "command": "steam.exe",
+            "result": "I could not find the app command: steam.exe",
+            "timestamp": "2026-07-20 19:14:41"
+        },
+        {
+            "app_name": "chrome",
+            "command": "chrome",
+            "result": "I could not find the app command: chrome",
+            "timestamp": "2026-07-20 19:17:12"
+        },
+        {
+            "app_name": "chrome",
+            "command": "chrome",
+            "result": "I could not find the app command: chrome",
+            "timestamp": "2026-07-20 19:17:18"
         }
-    ]
+    ],
+    "app_aliases": {
+        "browser": "chrome",
+        "steam": "something",
+        "google": "chrome"
+    }
 }

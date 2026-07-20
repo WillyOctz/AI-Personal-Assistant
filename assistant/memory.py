@@ -105,6 +105,9 @@ def ensure_memory_shape(memory):
     if "app_launches" not in memory:
         memory["app_launches"] = []
         
+    if "app_aliases" not in memory:
+        memory["app_aliases"] = {}
+        
     return memory
 
 def archive_conversation_turns(turns_to_archive):
@@ -774,6 +777,30 @@ def add_app_registry_entry(name, command):
     save_memory(memory)
     
     return memory["app_registry"][clean_name]
+
+def add_app_alias(alias, app_name):
+    memory = load_memory()
+    
+    clean_alias = normalize_entity_name(alias)
+    clean_app_name = normalize_entity_name(app_name)
+    
+    memory["app_aliases"][clean_alias] = clean_app_name
+    save_memory(memory)
+    
+    return {
+        "alias": clean_alias,
+        "app_name": clean_app_name
+    }
+    
+def resolve_app_alias(name):
+    memory = load_memory()
+    clean_name = normalize_entity_name(name)
+    
+    return memory["app_aliases"].get(clean_name, clean_name)
+
+def get_app_aliases():
+    memory = load_memory()
+    return memory["app_aliases"]
 
 def get_app_registry_entry(name):
     memory = load_memory()
