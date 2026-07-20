@@ -21,6 +21,7 @@ VALID_INTENTS = {
     "show_reminders",
     "summarize_conversation",
     "show_summaries",
+    "search_app_registry",
     "search_memory",
     "semantic_memory_search",
     "debug_memory_search",
@@ -120,6 +121,7 @@ MEMORY_INTENTS = {
     "show_reminders",
     "summarize_conversation",
     "show_summaries",
+    "search_app_registry",
     "search_memory",
     "semantic_memory_search",
     "memory_stats",
@@ -450,6 +452,10 @@ INTENT_PREFIXES = {
     ],
     "remember_note": [
         "remember ",
+    ],
+    "search_app_registry": [
+        "search apps ",
+        "find app ",
     ],
     "search_memory": [
         "search memory ",

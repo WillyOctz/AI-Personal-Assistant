@@ -821,6 +821,20 @@ def update_app_registry_entry(name, command):
         "updated": True,
         "app": memory["app_registry"][clean_name]
     }
+    
+def search_app_registry(query):
+    memory = load_memory()
+    query = normalize_entity_name(query)
+    
+    results = []
+    
+    for name, app in memory["app_registry"].items():
+        command = app["command"].lower()
+        
+        if query in name or query in command:
+            results.append(app)
+            
+    return results
 
 def get_setting(key, default=None):
     memory = load_memory()

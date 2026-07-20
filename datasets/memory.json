@@ -4563,6 +4563,46 @@
             "source": "model",
             "timestamp": "2026-07-20 18:28:02",
             "importance": 0.8
+        },
+        {
+            "user": "search apps note",
+            "assistant": "Registered apps matching note:\n- notepad: notepad",
+            "intent": "search_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 18:46:23",
+            "importance": 0.6
+        },
+        {
+            "user": "find app steam",
+            "assistant": "Registered apps matching steam:\n- something: \"D:\\Steam\\steam.exe\"",
+            "intent": "search_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 18:46:29",
+            "importance": 0.6
+        },
+        {
+            "user": "search apps opera",
+            "assistant": "I could not find registered apps matching: opera",
+            "intent": "search_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 18:46:39",
+            "importance": 0.6
+        },
+        {
+            "user": "search apps chrome",
+            "assistant": "Registered apps matching chrome:\n- chrome: chrome",
+            "intent": "search_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 18:46:53",
+            "importance": 0.6
         }
     ],
     "summaries": [

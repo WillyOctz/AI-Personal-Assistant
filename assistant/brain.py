@@ -337,6 +337,15 @@ def parse_unregister_app(user_input):
         
     return ""
 
+def parse_app_search(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["search apps ", "find app "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return ""
+
 def get_first_reminder_text(results):
     if not results:
         return None
@@ -628,6 +637,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "search_reminders"):
         return make_analysis("search_reminders")
+    
+    if match_prefix_pattern(text, "search_app_registry"):
+        return make_analysis("search_app_registry")
     
     if match_prefix_pattern(text, "search_memory"):
         return make_analysis("search_memory")
@@ -2526,6 +2538,24 @@ def handle_memory_intent(user_input, analysis):
         
         app = result["app"]
         return f"Unregistered app: {app['name']} -> {app['command']}"
+    
+    if intent == "search_app_registry":
+        query = parse_app_search(user_input)
+        
+        if not query:
+            return "What app should I search for?"
+        
+        results = memory.search_app_registry(query)
+        
+        if not results:
+            return f"I could not find registered apps matching: {query}"
+        
+        lines = [f"Registered apps matching {query}:"]
+        
+        for app in results:
+            lines.append(f"- {app['name']}: {app['command']}")
+            
+        return "\n".join(lines)
     
     if intent == "show_app_registry":
         registry = memory.get_app_registry()
