@@ -469,6 +469,16 @@
             "result": "I understand you want to open opera, but real app launching is not connected yet.",
             "timestamp": "2026-07-20 18:09:10",
             "importance": 0.8
+        },
+        {
+            "user_input": "open notepad",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Opening notepad.",
+            "timestamp": "2026-07-20 18:28:02",
+            "importance": 0.8
         }
     ],
     "conversation": [
@@ -4483,6 +4493,76 @@
             "source": "model",
             "timestamp": "2026-07-20 18:09:10",
             "importance": 0.8
+        },
+        {
+            "user": "register app notepad as notepad",
+            "assistant": "Registered app: notepad -> notepad",
+            "intent": "register_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 18:27:14",
+            "importance": 0.6
+        },
+        {
+            "user": "update app notepad as notepad.exe",
+            "assistant": "Updated app: notepad -> notepad.exe",
+            "intent": "update_registered_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 18:27:29",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- chrome: chrome\n- spotify: spotify\n- notepad: notepad.exe\n- something: \"D:\\Steam\\steam.exe\"",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 18:27:34",
+            "importance": 0.6
+        },
+        {
+            "user": "update notepad as notepad",
+            "assistant": "What should i open?",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 0.8,
+            "source": "entity_hint",
+            "timestamp": "2026-07-20 18:27:44",
+            "importance": 0.8
+        },
+        {
+            "user": "update app notepad as notepad",
+            "assistant": "Updated app: notepad -> notepad",
+            "intent": "update_registered_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 18:27:53",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- chrome: chrome\n- spotify: spotify\n- notepad: notepad\n- something: \"D:\\Steam\\steam.exe\"",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-20 18:27:57",
+            "importance": 0.6
+        },
+        {
+            "user": "open notepad",
+            "assistant": "Opening notepad.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-20 18:28:02",
+            "importance": 0.8
         }
     ],
     "summaries": [
@@ -4643,6 +4723,12 @@
             "command": "notepad",
             "result": "Opening notepad.",
             "timestamp": "2026-07-20 17:51:48"
+        },
+        {
+            "app_name": "notepad",
+            "command": "notepad",
+            "result": "Opening notepad.",
+            "timestamp": "2026-07-20 18:28:02"
         }
     ]
 }

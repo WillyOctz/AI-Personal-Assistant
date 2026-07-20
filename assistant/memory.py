@@ -802,6 +802,25 @@ def remove_app_registry_entry(name):
         "removed": True,
         "app": removed_app
     }
+    
+def update_app_registry_entry(name, command):
+    memory = load_memory()
+    clean_name = normalize_entity_name(name)
+    clean_command = command.strip()
+    
+    if clean_name not in memory["app_registry"]:
+        return {
+            "updated": False,
+            "app": clean_name
+        }
+        
+    memory["app_registry"][clean_name]["command"] = clean_command
+    save_memory(memory)
+    
+    return {
+        "updated": True,
+        "app": memory["app_registry"][clean_name]
+    }
 
 def get_setting(key, default=None):
     memory = load_memory()

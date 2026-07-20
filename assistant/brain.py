@@ -313,6 +313,21 @@ def parse_register_app(user_input):
     
     return name.strip(), command.strip()
 
+def parse_update_app(user_input):
+    text = user_input.strip()
+    
+    for prefix in ["update app ", "change app "]:
+        if text.lower().startswith(prefix):
+            text = text[len(prefix):].strip()
+            break
+        
+    if " as " not in text:
+        return "", ""
+    
+    name, command = text.split(" as ", 1)
+    
+    return name.strip(), command.strip()
+
 def parse_unregister_app(user_input):
     text = user_input.lower().strip()
     
@@ -772,6 +787,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "register_app"):
         return make_analysis("register_app")
+    
+    if match_prefix_pattern(text, "update_registered_app"):
+        return make_analysis("update_registered_app")
     
     if match_prefix_pattern(text, "unregister_app"):
         return make_analysis("unregister_app")
@@ -2480,6 +2498,20 @@ def handle_memory_intent(user_input, analysis):
         app = memory.add_app_registry_entry(name, command)
         
         return f"Registered app: {app['name']} -> {app['command']}"
+    
+    if intent == "update_registered_app":
+        name, command = parse_update_app(user_input)
+        
+        if not name or not command:
+            return "Use this format: update app app_name as command"
+        
+        result = memory.update_app_registry_entry(name, command)
+        
+        if not result["updated"]:
+            return f"I could not find registered app: {result['app']}"
+        
+        app = result["app"]
+        return f"Updated app: {app['name']} -> {app['command']}"
     
     if intent == "unregister_app":
         app_name = parse_unregister_app(user_input)
