@@ -559,6 +559,16 @@
             "result": "I understand you want to open google, but real app launching is not connected yet.",
             "timestamp": "2026-07-20 21:23:15",
             "importance": 0.8
+        },
+        {
+            "user_input": "open steamapp",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I could not find the app command: steam.exe",
+            "timestamp": "2026-07-21 15:58:09",
+            "importance": 0.8
         }
     ],
     "conversation": [
@@ -5003,6 +5013,96 @@
             "source": "rule",
             "timestamp": "2026-07-20 21:23:24",
             "importance": 0.6
+        },
+        {
+            "user": "set default app browser as chrome",
+            "assistant": "I could not find registered app: chrome",
+            "intent": "set_default_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 15:55:30",
+            "importance": 0.6
+        },
+        {
+            "user": "default apps",
+            "assistant": "No default apps saved yet.",
+            "intent": "show_default_apps",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 15:55:50",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- spotify: spotify\n- notepad: notepad\n- something: steam.exe\n- \"c:\\program files\\google\\chrome\\application\\chrome.exe\": chrome",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 15:55:53",
+            "importance": 0.6
+        },
+        {
+            "user": "set default app chrome as browser",
+            "assistant": "I could not find registered app: browser",
+            "intent": "set_default_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 15:56:19",
+            "importance": 0.6
+        },
+        {
+            "user": "set default app google as chrome",
+            "assistant": "I could not find registered app: chrome",
+            "intent": "set_default_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 15:56:49",
+            "importance": 0.6
+        },
+        {
+            "user": "set default steamapps as steam",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-21 15:57:16",
+            "importance": 0.3
+        },
+        {
+            "user": "set default app steamapp as steam",
+            "assistant": "Default app saved: steamapp -> something",
+            "intent": "set_default_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 15:57:33",
+            "importance": 0.6
+        },
+        {
+            "user": "default apps",
+            "assistant": "Default apps:\n- steamapp -> something",
+            "intent": "show_default_apps",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 15:57:59",
+            "importance": 0.6
+        },
+        {
+            "user": "open steamapp",
+            "assistant": "I could not find the app command: steam.exe",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-21 15:58:09",
+            "importance": 0.8
         }
     ],
     "summaries": [
@@ -5193,10 +5293,19 @@
             "command": "chrome",
             "result": "I could not find the app command: chrome",
             "timestamp": "2026-07-20 19:17:18"
+        },
+        {
+            "app_name": "something",
+            "command": "steam.exe",
+            "result": "I could not find the app command: steam.exe",
+            "timestamp": "2026-07-21 15:58:09"
         }
     ],
     "app_aliases": {
         "browser": "chrome",
         "steam": "something"
+    },
+    "default_apps": {
+        "steamapp": "something"
     }
 }

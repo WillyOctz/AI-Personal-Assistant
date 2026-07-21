@@ -98,6 +98,8 @@ VALID_INTENTS = {
     "add_app_alias",
     "show_app_aliases",
     "remove_app_alias",
+    "set_default_app",
+    "show_default_apps",
 }
 
 CONTROL_INTENTS = {
@@ -196,6 +198,8 @@ MEMORY_INTENTS = {
     "add_app_alias",
     "show_app_aliases",
     "remove_app_alias",
+    "set_default_app",
+    "show_default_apps",
 }
 
 ACTION_INTENTS = {
@@ -442,6 +446,10 @@ INTENT_PATTERNS = {
         "show app aliases",
         "app aliases",
     ],
+    "show_default_apps": [
+        "show default apps",
+        "default apps",
+    ],
 }
 
 INTENT_PREFIXES = {
@@ -575,6 +583,9 @@ INTENT_PREFIXES = {
     "remove_app_alias": [
         "remove app alias ",
         "delete app alias ",
+    ],
+    "set_default_app": [
+        "set default app ",
     ],
 }
 

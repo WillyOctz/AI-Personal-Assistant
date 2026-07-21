@@ -352,6 +352,21 @@ def parse_update_app(user_input):
     
     return name.strip(), command.strip()
 
+def parse_default_app(user_input):
+    text = user_input.strip()
+    
+    if not text.lower().startswith("set default app "):
+        return "", ""
+    
+    text = text[16:].strip()
+    
+    if " as " not in text:
+        return "", ""
+    
+    category, app_name = text.split(" as ", 1)
+    
+    return category.strip(), app_name.strip()
+
 def parse_unregister_app(user_input):
     text = user_input.lower().strip()
     
@@ -832,6 +847,12 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "show_app_aliases"):
         return make_analysis("show_app_aliases")
+    
+    if match_prefix_pattern(text, "set_default_app"):
+        return make_analysis("set_default_app")
+    
+    if match_exact_pattern(text, "show_default_apps"):
+        return make_analysis("show_default_apps")
     
     if match_prefix_pattern(text, "update_registered_app"):
         return make_analysis("update_registered_app")
@@ -2544,6 +2565,35 @@ def handle_memory_intent(user_input, analysis):
         
         return f"Registered app: {app['name']} -> {app['command']}"
     
+    if intent == "set_default_app":
+        category, app_name = parse_default_app(user_input)
+        
+        if not category or not app_name:
+            return "Use this format: set default app category as registered_app"
+        
+        resolved_app_name = memory.resolve_app_alias(app_name)
+        app_entry = memory.get_app_registry_entry(resolved_app_name)
+        
+        if not app_entry:
+            return f"I could not find registered app: {app_name}"
+        
+        result = memory.set_default_app(category, app_entry["name"])
+        
+        return f"Default app saved: {result['category']} -> {result['app_name']}"
+    
+    if intent == "show_default_apps":
+        defaults = memory.get_default_apps()
+        
+        if not defaults:
+            return "No default apps saved yet."
+        
+        lines = ["Default apps:"]
+        
+        for category, app_name in defaults.items():
+            lines.append(f"- {category} -> {app_name}")
+            
+        return "\n".join(lines)
+    
     if intent == "add_app_alias":
         alias, app_name = parse_app_alias(user_input)
         
@@ -2723,6 +2773,11 @@ def handle_action_intent(user_input, analysis):
             return "What should i open?"
         
         resolved_app_name =  memory.resolve_app_alias(app_name)
+        default_app = memory.get_default_app(resolved_app_name)
+        
+        if default_app:
+            resolved_app_name = default_app
+
         app_entry = memory.get_app_registry_entry(resolved_app_name)
         
         if app_entry:

@@ -108,6 +108,9 @@ def ensure_memory_shape(memory):
     if "app_aliases" not in memory:
         memory["app_aliases"] = {}
         
+    if "default_apps" not in memory:
+        memory["default_apps"] = {}
+        
     return memory
 
 def archive_conversation_turns(turns_to_archive):
@@ -936,6 +939,30 @@ def get_app_launch_stats():
         "most_count": most_count,
         "last_launched": launches[-1]["app_name"] 
     }
+    
+def set_default_app(category, app_name):
+    memory = load_memory()
+    
+    clean_category = normalize_entity_name(category)
+    clean_app_name = normalize_entity_name(app_name)
+    
+    memory["default_apps"][clean_category] = clean_app_name
+    save_memory(memory)
+    
+    return {
+        "category": clean_category,
+        "app_name": clean_app_name
+    }
+    
+def get_default_app(category):
+    memory = load_memory()
+    clean_category = normalize_entity_name(category)
+    
+    return memory["default_apps"].get(clean_category)
+
+def get_default_apps():
+    memory = load_memory()
+    return memory["default_apps"]
 
 
 
