@@ -11,6 +11,7 @@ VALID_INTENTS = {
     "set_reminder",
     "calculate",
     "play_game",
+    "debug_app_resolution",
     "debug_match",
     "debug_model",
     "evaluate_model",
@@ -104,6 +105,7 @@ VALID_INTENTS = {
 }
 
 CONTROL_INTENTS = {
+    "debug_app_resolution",
     "debug_match",
     "debug_model",
     "evaluate_model",
@@ -460,6 +462,9 @@ INTENT_PREFIXES = {
     ],
     "debug_model": [
         "debug model ",
+    ],
+    "debug_app_resolution": [
+        "debug app ",
     ],
     "debug_match": [
         "debug ",

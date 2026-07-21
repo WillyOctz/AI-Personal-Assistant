@@ -5163,6 +5163,106 @@
             "source": "model",
             "timestamp": "2026-07-21 16:34:28",
             "importance": 0.8
+        },
+        {
+            "user": "debug app browser",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "debug_app_resolution",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 17:37:25",
+            "importance": 0.1
+        },
+        {
+            "user": "debug app browser",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "debug_app_resolution",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 17:38:38",
+            "importance": 0.1
+        },
+        {
+            "user": "debug app google",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "debug_app_resolution",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 17:38:59",
+            "importance": 0.1
+        },
+        {
+            "user": "debug app steam",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "debug_app_resolution",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 17:39:03",
+            "importance": 0.1
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- spotify: spotify\n- notepad: notepad\n- something: steam.exe\n- \"c:\\program files\\google\\chrome\\application\\chrome.exe\": chrome",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 17:41:27",
+            "importance": 0.6
+        },
+        {
+            "user": "debug app spotify",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "debug_app_resolution",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 17:41:38",
+            "importance": 0.1
+        },
+        {
+            "user": "debug app resolution",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "debug_app_resolution",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 17:42:28",
+            "importance": 0.1
+        },
+        {
+            "user": "debug app steam",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "debug_app_resolution",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 17:43:35",
+            "importance": 0.1
+        },
+        {
+            "user": "debug app browser",
+            "assistant": "Input: browser\nAfter alias: chrome\nAfter default: chrome\nRegistered: False",
+            "intent": "debug_app_resolution",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 17:51:17",
+            "importance": 0.1
+        },
+        {
+            "user": "debug app chrome",
+            "assistant": "Input: chrome\nAfter alias: chrome\nAfter default: chrome\nRegistered: False",
+            "intent": "debug_app_resolution",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 17:51:22",
+            "importance": 0.1
         }
     ],
     "summaries": [

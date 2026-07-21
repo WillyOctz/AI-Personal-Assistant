@@ -367,6 +367,14 @@ def parse_default_app(user_input):
     
     return category.strip(), app_name.strip()
 
+def parse_debug_app(user_input):
+    text = user_input.lower().strip()
+    
+    if not text.startswith("debug app "):
+        return ""
+    
+    return text.replace("debug app ", "", 1).strip()
+
 def parse_remove_default_app(user_input):
     text = user_input.lower().strip()
     
@@ -375,6 +383,26 @@ def parse_remove_default_app(user_input):
             return text.replace(prefix, "", 1).strip()
         
     return ""
+
+def resolve_app_name_for_open(app_name):
+    alias_result = memory.resolve_app_alias(app_name)
+    
+    default_result = memory.get_default_app(alias_result)
+    
+    if default_result:
+        final_name = default_result
+    else:
+        final_name = alias_result
+        
+    app_entry = memory.get_app_registry_entry(final_name)
+    
+    return {
+       "input": app_name,
+        "after_alias": alias_result,
+        "after_default": final_name,
+        "registered": app_entry is not None,
+        "app_entry": app_entry 
+    }
 
 def parse_unregister_app(user_input):
     text = user_input.lower().strip()
@@ -613,6 +641,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "debug_model"):
         return make_analysis("debug_model")
+    
+    if match_prefix_pattern(text, "debug_app_resolution"):
+        return make_analysis("debug_app_resolution")
 
     if match_prefix_pattern(text, "debug_match"):
         return make_analysis("debug_match")
@@ -1484,6 +1515,27 @@ def handle_control_intent(user_input, analysis):
             f"Scores:\n" + "\n".join(score_lines) +
             f"\nWeights:\n" + "\n".join(weight_lines)
         )
+        
+    if intent == "debug_app_resolution":
+        app_name = parse_debug_app(user_input)
+        
+        if not app_name:
+            return "What app should I debug?"
+        
+        resolution = resolve_app_name_for_open(app_name)
+        app_entry = resolution["app_entry"]
+        
+        lines = [
+            f"Input: {resolution['input']}",
+            f"After alias: {resolution['after_alias']}",
+            f"After default: {resolution['after_default']}",
+            f"Registered: {resolution['registered']}",
+        ]
+        
+        if app_entry:
+            lines.append(f"Command: {app_entry['command']}")
+            
+        return "\n".join(lines)
         
     if intent == "debug_match":
         query = user_input[6:].strip()
@@ -2803,12 +2855,13 @@ def handle_action_intent(user_input, analysis):
         if default_app:
             resolved_app_name = default_app
 
-        app_entry = memory.get_app_registry_entry(resolved_app_name)
+        resolution = resolve_app_name_for_open(app_name)
+        app_entry = resolution["app_entry"]
         
         if app_entry:
             real_launching = memory.get_setting("real_app_launching", False)
-            result = open_registered_app(resolved_app_name, app_entry, real_launching)
-            log_app_launch(resolved_app_name, app_entry["command"], result)
+            result = open_registered_app(resolution["after_default"], app_entry, real_launching)
+            log_app_launch(resolution["after_default"], app_entry["command"], result)
         else:
             result = open_app(app_name)
             
