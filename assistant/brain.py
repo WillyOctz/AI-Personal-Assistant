@@ -367,6 +367,15 @@ def parse_default_app(user_input):
     
     return category.strip(), app_name.strip()
 
+def parse_remove_default_app(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["remove default app ", "delete default app "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return ""
+
 def parse_unregister_app(user_input):
     text = user_input.lower().strip()
     
@@ -853,6 +862,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "show_default_apps"):
         return make_analysis("show_default_apps")
+    
+    if match_prefix_pattern(text, "remove_default_app"):
+        return make_analysis("remove_default_app")
     
     if match_prefix_pattern(text, "update_registered_app"):
         return make_analysis("update_registered_app")
@@ -2580,6 +2592,19 @@ def handle_memory_intent(user_input, analysis):
         result = memory.set_default_app(category, app_entry["name"])
         
         return f"Default app saved: {result['category']} -> {result['app_name']}"
+    
+    if intent == "remove_default_app":
+        category = parse_remove_default_app(user_input)
+        
+        if not category:
+            return "Use this format: remove default app category"
+        
+        result = memory.remove_default_app(category)
+        
+        if not result["removed"]:
+            return f"I could not find default app category: {result['category']}"
+        
+        return f"Removed default app: {result['category']} -> {result['app_name']}"
     
     if intent == "show_default_apps":
         defaults = memory.get_default_apps()

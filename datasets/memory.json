@@ -569,6 +569,16 @@
             "result": "I could not find the app command: steam.exe",
             "timestamp": "2026-07-21 15:58:09",
             "importance": 0.8
+        },
+        {
+            "user_input": "open browser",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I understand you want to open browser, but real app launching is not connected yet.",
+            "timestamp": "2026-07-21 16:34:28",
+            "importance": 0.8
         }
     ],
     "conversation": [
@@ -5103,6 +5113,56 @@
             "source": "model",
             "timestamp": "2026-07-21 15:58:09",
             "importance": 0.8
+        },
+        {
+            "user": "default apps",
+            "assistant": "Default apps:\n- steamapp -> something",
+            "intent": "show_default_apps",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 16:34:02",
+            "importance": 0.6
+        },
+        {
+            "user": "remove default app steamapp",
+            "assistant": "Removed default app: steamapp -> something",
+            "intent": "remove_default_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 16:34:13",
+            "importance": 0.6
+        },
+        {
+            "user": "deault apps",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-21 16:34:19",
+            "importance": 0.3
+        },
+        {
+            "user": "default apps",
+            "assistant": "No default apps saved yet.",
+            "intent": "show_default_apps",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-21 16:34:23",
+            "importance": 0.6
+        },
+        {
+            "user": "open browser",
+            "assistant": "I understand you want to open browser, but real app launching is not connected yet.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-21 16:34:28",
+            "importance": 0.8
         }
     ],
     "summaries": [
@@ -5305,7 +5365,5 @@
         "browser": "chrome",
         "steam": "something"
     },
-    "default_apps": {
-        "steamapp": "something"
-    }
+    "default_apps": {}
 }

@@ -954,6 +954,26 @@ def set_default_app(category, app_name):
         "app_name": clean_app_name
     }
     
+def remove_default_app(category):
+    memory = load_memory()
+    clean_category = normalize_entity_name(category)
+    
+    if clean_category not in memory["default_apps"]:
+        return {
+            "removed": False,
+            "category": clean_category,
+            "app_name": None
+        }
+        
+    app_name = memory["default_apps"].pop(clean_category)
+    save_memory(memory)
+    
+    return {
+        "removed": True,
+        "category": clean_category,
+        "app_name": app_name
+    }
+    
 def get_default_app(category):
     memory = load_memory()
     clean_category = normalize_entity_name(category)

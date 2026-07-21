@@ -100,6 +100,7 @@ VALID_INTENTS = {
     "remove_app_alias",
     "set_default_app",
     "show_default_apps",
+    "remove_default_app",
 }
 
 CONTROL_INTENTS = {
@@ -200,6 +201,7 @@ MEMORY_INTENTS = {
     "remove_app_alias",
     "set_default_app",
     "show_default_apps",
+    "remove_default_app",
 }
 
 ACTION_INTENTS = {
@@ -586,6 +588,10 @@ INTENT_PREFIXES = {
     ],
     "set_default_app": [
         "set default app ",
+    ],
+    "remove_default_app": [
+        "remove default app ",
+        "delete default app ",
     ],
 }
 
