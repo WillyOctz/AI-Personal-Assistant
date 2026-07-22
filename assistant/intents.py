@@ -109,6 +109,7 @@ VALID_INTENTS = {
     "clear_pending_app_launch",
     "allow_app",
     "disallow_app",
+    "app_safety_dashboard",
 }
 
 CONTROL_INTENTS = {
@@ -218,6 +219,7 @@ MEMORY_INTENTS = {
     "show_pending_app_launch",
     "allow_app",
     "disallow_app",
+    "app_safety_dashboard",
 }
 
 ACTION_INTENTS = {
@@ -489,6 +491,11 @@ INTENT_PATTERNS = {
     "clear_pending_app_launch": [
         "clear pending app launch",
         "forget pending app launch",
+    ],
+    "app_safety_dashboard": [
+        "app safety dashboard",
+        "app safety",
+        "launch safety",
     ],
 }
 

@@ -972,6 +972,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "allow_app"):
         return make_analysis("allow_app")
+    
+    if match_exact_pattern(text, "app_safety_dashboard"):
+        return make_analysis("app_safety_dashboard")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2967,6 +2970,36 @@ def handle_memory_intent(user_input, analysis):
             return f"I could not find registered app: {resolved_name}"
         
         return f"Disallowed app for launching: {result['app']['name']}"
+    
+    if intent == "app_safety_dashboard":
+        registry = memory.get_app_registry()
+        real_launching = memory.get_setting("real_app_launching", False)
+        confirm_launching = memory.get_setting("confirm_app_launching", True)
+        pending_app = get_pending_app_launch()
+        
+        allowed_count = 0
+        
+        for app in registry.values():
+            if app.get("allowed", False):
+                allowed_count += 1
+                
+        blocked_count = len(registry) - allowed_count
+        
+        lines = [
+            "App safety dashboard:",
+            f"Real launching: {real_launching}",
+            f"Launch confirmation: {confirm_launching}",
+            f"Registered apps: {len(registry)}",
+            f"Allowed apps: {allowed_count}",
+            f"Blocked apps: {blocked_count}",
+        ]
+        
+        if pending_app:
+            lines.append(f"Pending launch: {pending_app['app_name']}")
+        else:
+            lines.append("Pending launch: None")
+            
+        return "\n".join(lines)
     
     return unknown_response()
 

@@ -5774,6 +5774,16 @@
             "source": "model",
             "timestamp": "2026-07-22 18:33:43",
             "importance": 0.8
+        },
+        {
+            "user": "app safety",
+            "assistant": "App safety dashboard:\nReal launching: True\nLaunch confirmation: True\nRegistered apps: 4\nAllowed apps: 0\nBlocked apps: 4\nPending launch: None",
+            "intent": "app_safety_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 20:32:23",
+            "importance": 0.6
         }
     ],
     "summaries": [
