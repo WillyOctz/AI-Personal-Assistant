@@ -946,6 +946,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "show_pending_app_launch"):
         return make_analysis("show_pending_app_launch")
+    
+    if match_exact_pattern(text, "clear_pending_app_launch"):
+        return make_analysis("clear_pending_app_launch")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -1688,6 +1691,16 @@ def handle_control_intent(user_input, analysis):
             f"Focus mode active: {get_focus_mode()}\n"
             f"Current focus task: {get_focus_task()}"
         )
+        
+    if intent == "clear_pending_app_launch":
+        pending_app = get_pending_app_launch()
+        
+        if not pending_app:
+            return "No app launch is pending."
+        
+        clear_pending_app_launch()
+        
+        return f"Cleared pending app launch: {pending_app['app_name']}"
     
     return unknown_response()       
 

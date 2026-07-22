@@ -580,6 +580,16 @@
             "result": "I understand you want to open browser, but real app launching is not connected yet.",
             "timestamp": "2026-07-21 16:34:28",
             "importance": 0.8
+        },
+        {
+            "user_input": "open chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I understand you want to open chrome, but real app launching is not connected yet.",
+            "timestamp": "2026-07-22 18:00:39",
+            "importance": 0.8
         }
     ],
     "conversation": [
@@ -5534,6 +5544,76 @@
             "source": "rule",
             "timestamp": "2026-07-22 17:42:36",
             "importance": 0.6
+        },
+        {
+            "user": "open chrome",
+            "assistant": "I understand you want to open chrome, but real app launching is not connected yet.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-22 18:00:39",
+            "importance": 0.8
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- spotify: spotify\n- notepad: notepad\n- something: steam.exe\n- \"c:\\program files\\google\\chrome\\application\\chrome.exe\": chrome",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 18:00:46",
+            "importance": 0.6
+        },
+        {
+            "user": "open notepad",
+            "assistant": "I am ready to open notepad using command: notepad.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-22 18:00:53",
+            "importance": 0.8
+        },
+        {
+            "user": "pending app launch",
+            "assistant": "Pending app launch: notepad\nCommand: notepad",
+            "intent": "show_pending_app_launch",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 18:00:59",
+            "importance": 0.6
+        },
+        {
+            "user": "clear pending app launch",
+            "assistant": "Cleared pending app launch: notepad",
+            "intent": "clear_pending_app_launch",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 18:01:07",
+            "importance": 0.1
+        },
+        {
+            "user": "pending app launch",
+            "assistant": "No app launch is pending.",
+            "intent": "show_pending_app_launch",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 18:01:12",
+            "importance": 0.6
+        },
+        {
+            "user": "yes",
+            "assistant": "There is nothing waiting for confirmation.",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 18:01:14",
+            "importance": 0.1
         }
     ],
     "summaries": [

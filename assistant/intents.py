@@ -106,6 +106,7 @@ VALID_INTENTS = {
     "enable_app_launch_confirmation",
     "disable_app_launch_confirmation",
     "show_pending_app_launch",
+    "clear_pending_app_launch",
 }
 
 CONTROL_INTENTS = {
@@ -121,6 +122,7 @@ CONTROL_INTENTS = {
     "complete_pending_task",
     "skip_pending_task",
     "debug_focus_goal",
+    "clear_pending_app_launch",
 }
 
 MEMORY_INTENTS = {
@@ -479,6 +481,10 @@ INTENT_PATTERNS = {
         "pending app launch",
         "show pending app launch",
         "what app is pending",
+    ],
+    "clear_pending_app_launch": [
+        "clear pending app launch",
+        "forget pending app launch",
     ],
 }
 
