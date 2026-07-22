@@ -943,6 +943,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "disable_app_launch_confirmation"):
         return make_analysis("disable_app_launch_confirmation")
+    
+    if match_exact_pattern(text, "show_pending_app_launch"):
+        return make_analysis("show_pending_app_launch")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -1503,7 +1506,6 @@ def handle_control_intent(user_input, analysis):
         clear_pending_confirmation()
         
         return f"Okay. Teach me the correct intent with: teach {original_input} as intent_name"
-
 
     if intent == "debug_memory_search":
         query = user_input.replace("debug memory ", "", 1).strip()
@@ -2889,6 +2891,17 @@ def handle_memory_intent(user_input, analysis):
     if intent == "disable_app_launch_confirmation":
         memory.set_setting("confirm_app_launching", False)
         return "App launch confirmation disabled."
+    
+    if intent == "show_pending_app_launch":
+        pending_app = get_pending_app_launch()
+        
+        if not pending_app:
+            return "No app launch is pending."
+        
+        return (
+            f"Pending app launch: {pending_app['app_name']}\n"
+            f"Command: {pending_app['command']}"
+        )
     
     return unknown_response()
 

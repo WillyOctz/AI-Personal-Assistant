@@ -105,6 +105,7 @@ VALID_INTENTS = {
     "app_dashboard",
     "enable_app_launch_confirmation",
     "disable_app_launch_confirmation",
+    "show_pending_app_launch",
 }
 
 CONTROL_INTENTS = {
@@ -210,6 +211,7 @@ MEMORY_INTENTS = {
     "app_dashboard",
     "enable_app_launch_confirmation",
     "disable_app_launch_confirmation",
+    "show_pending_app_launch",
 }
 
 ACTION_INTENTS = {
@@ -472,6 +474,11 @@ INTENT_PATTERNS = {
     "disable_app_launch_confirmation": [
         "disable app launch confirmation",
         "turn off app launch confirmation",
+    ],
+    "show_pending_app_launch": [
+        "pending app launch",
+        "show pending app launch",
+        "what app is pending",
     ],
 }
 

@@ -5494,6 +5494,46 @@
             "source": "rule",
             "timestamp": "2026-07-22 16:57:58",
             "importance": 0.1
+        },
+        {
+            "user": "open spotify",
+            "assistant": "I am ready to open spotify using command: spotify.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-22 17:42:19",
+            "importance": 0.8
+        },
+        {
+            "user": "pending app launch",
+            "assistant": "Pending app launch: spotify\nCommand: spotify",
+            "intent": "show_pending_app_launch",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 17:42:25",
+            "importance": 0.6
+        },
+        {
+            "user": "no",
+            "assistant": "Cancelled app launch: spotify",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 17:42:30",
+            "importance": 0.1
+        },
+        {
+            "user": "pending app launch",
+            "assistant": "No app launch is pending.",
+            "intent": "show_pending_app_launch",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 17:42:36",
+            "importance": 0.6
         }
     ],
     "summaries": [
