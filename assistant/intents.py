@@ -102,6 +102,7 @@ VALID_INTENTS = {
     "set_default_app",
     "show_default_apps",
     "remove_default_app",
+    "app_dashboard",
 }
 
 CONTROL_INTENTS = {
@@ -204,6 +205,7 @@ MEMORY_INTENTS = {
     "set_default_app",
     "show_default_apps",
     "remove_default_app",
+    "app_dashboard",
 }
 
 ACTION_INTENTS = {
@@ -453,6 +455,11 @@ INTENT_PATTERNS = {
     "show_default_apps": [
         "show default apps",
         "default apps",
+    ],
+    "app_dashboard": [
+        "app dashboard",
+        "apps dashboard",
+        "app overview",
     ],
 }
 

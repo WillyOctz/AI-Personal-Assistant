@@ -5263,6 +5263,16 @@
             "source": "rule",
             "timestamp": "2026-07-21 17:51:22",
             "importance": 0.1
+        },
+        {
+            "user": "app dashboard",
+            "assistant": "App dashboard:\nRegistered apps: 4\nAliases: 2\nDefault apps: 0\nReal launching: True\nTotal launches: 8\nMost launched: notepad (3 time(s))\nLast launched: something",
+            "intent": "app_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 15:50:38",
+            "importance": 0.6
         }
     ],
     "summaries": [

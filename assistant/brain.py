@@ -920,6 +920,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "app_launch_stats"):
         return make_analysis("app_launch_stats")
+    
+    if match_exact_pattern(text, "app_dashboard"):
+        return make_analysis("app_dashboard")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2814,6 +2817,30 @@ def handle_memory_intent(user_input, analysis):
             f"Most launched app: {stats['most_launched']} ({stats['most_count']} time(s))\n"
             f"Last launched app: {stats['last_launched']}"
         )
+        
+    if intent == "app_dashboard":
+        registry = memory.get_app_registry()
+        aliases = memory.get_app_aliases()
+        defaults = memory.get_default_apps()
+        real_launching = memory.get_setting("real_app_launching", False)
+        launch_stats = memory.get_app_launch_stats()
+        
+        lines = [
+            "App dashboard:",
+            f"Registered apps: {len(registry)}",
+            f"Aliases: {len(aliases)}",
+            f"Default apps: {len(defaults)}",
+            f"Real launching: {real_launching}",
+            f"Total launches: {launch_stats['total']}",
+        ]
+        
+        if launch_stats["total"] > 0:
+            lines.append(
+                f"Most launched: {launch_stats['most_launched']} ({launch_stats['most_count']} time(s))"
+            )
+            lines.append(f"Last launched: {launch_stats['last_launched']}")
+            
+        return "\n".join(lines)
     
     return unknown_response()
 
