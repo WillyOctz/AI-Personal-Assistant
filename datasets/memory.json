@@ -590,6 +590,16 @@
             "result": "I understand you want to open chrome, but real app launching is not connected yet.",
             "timestamp": "2026-07-22 18:00:39",
             "importance": 0.8
+        },
+        {
+            "user_input": "open note",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I understand you want to open note, but real app launching is not connected yet.",
+            "timestamp": "2026-07-22 18:32:12",
+            "importance": 0.8
         }
     ],
     "conversation": [
@@ -5614,6 +5624,156 @@
             "source": "rule",
             "timestamp": "2026-07-22 18:01:14",
             "importance": 0.1
+        },
+        {
+            "user": "enable app launching",
+            "assistant": "Real app launching enabled.",
+            "intent": "enable_app_launching",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 18:31:59",
+            "importance": 0.6
+        },
+        {
+            "user": "register app notepad as note",
+            "assistant": "Registered app: notepad -> note",
+            "intent": "register_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 18:32:08",
+            "importance": 0.6
+        },
+        {
+            "user": "open note",
+            "assistant": "I understand you want to open note, but real app launching is not connected yet.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-22 18:32:12",
+            "importance": 0.8
+        },
+        {
+            "user": "allow app note",
+            "assistant": "I could not find registered app: note",
+            "intent": "allow_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 18:32:18",
+            "importance": 0.6
+        },
+        {
+            "user": "open notepad",
+            "assistant": "notepad is registered but not allowed for real launching.\nUse: allow app notepad",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-22 18:32:26",
+            "importance": 0.8
+        },
+        {
+            "user": "allow app notepad",
+            "assistant": "Allowed app for launching: notepad",
+            "intent": "allow_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 18:32:37",
+            "importance": 0.6
+        },
+        {
+            "user": "open notepad",
+            "assistant": "I am ready to open notepad using command: note.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-22 18:32:56",
+            "importance": 0.8
+        },
+        {
+            "user": "yes",
+            "assistant": "I could not find the app command: note",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 18:32:59",
+            "importance": 0.1
+        },
+        {
+            "user": "register app notepad as notepad",
+            "assistant": "Registered app: notepad -> notepad",
+            "intent": "register_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 18:33:12",
+            "importance": 0.6
+        },
+        {
+            "user": "open notepad",
+            "assistant": "notepad is registered but not allowed for real launching.\nUse: allow app notepad",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-22 18:33:19",
+            "importance": 0.8
+        },
+        {
+            "user": "allow app notepad",
+            "assistant": "Allowed app for launching: notepad",
+            "intent": "allow_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 18:33:23",
+            "importance": 0.6
+        },
+        {
+            "user": "open notepad",
+            "assistant": "I am ready to open notepad using command: notepad.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-22 18:33:27",
+            "importance": 0.8
+        },
+        {
+            "user": "yes",
+            "assistant": "Opening notepad.",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 18:33:30",
+            "importance": 0.1
+        },
+        {
+            "user": "disallow app notepad",
+            "assistant": "Disallowed app for launching: notepad",
+            "intent": "disallow_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 18:33:40",
+            "importance": 0.6
+        },
+        {
+            "user": "open notepad",
+            "assistant": "notepad is registered but not allowed for real launching.\nUse: allow app notepad",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-22 18:33:43",
+            "importance": 0.8
         }
     ],
     "summaries": [
@@ -5748,7 +5908,8 @@
         },
         "notepad": {
             "name": "notepad",
-            "command": "notepad"
+            "command": "notepad",
+            "allowed": false
         },
         "something": {
             "name": "something",
@@ -5823,6 +5984,18 @@
             "command": "notepad",
             "result": "Opening notepad.",
             "timestamp": "2026-07-22 16:57:54"
+        },
+        {
+            "app_name": "notepad",
+            "command": "note",
+            "result": "I could not find the app command: note",
+            "timestamp": "2026-07-22 18:32:59"
+        },
+        {
+            "app_name": "notepad",
+            "command": "notepad",
+            "result": "Opening notepad.",
+            "timestamp": "2026-07-22 18:33:30"
         }
     ],
     "app_aliases": {

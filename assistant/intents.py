@@ -107,6 +107,8 @@ VALID_INTENTS = {
     "disable_app_launch_confirmation",
     "show_pending_app_launch",
     "clear_pending_app_launch",
+    "allow_app",
+    "disallow_app",
 }
 
 CONTROL_INTENTS = {
@@ -214,6 +216,8 @@ MEMORY_INTENTS = {
     "enable_app_launch_confirmation",
     "disable_app_launch_confirmation",
     "show_pending_app_launch",
+    "allow_app",
+    "disallow_app",
 }
 
 ACTION_INTENTS = {
@@ -629,6 +633,13 @@ INTENT_PREFIXES = {
     "remove_default_app": [
         "remove default app ",
         "delete default app ",
+    ],
+    "allow_app": [
+        "allow app ",
+    ],
+    "disallow_app": [
+        "disallow app ",
+        "block app ",
     ],
 }
 

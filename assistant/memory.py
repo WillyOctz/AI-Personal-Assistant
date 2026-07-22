@@ -780,7 +780,8 @@ def add_app_registry_entry(name, command):
     
     memory["app_registry"][clean_name] = {
         "name": clean_name,
-        "command": clean_command
+        "command": clean_command,
+        "allowed": False
     }
     
     save_memory(memory)
@@ -900,6 +901,32 @@ def set_setting(key, value):
     memory = load_memory()
     memory["settings"][key] = value
     save_memory(memory)
+    
+def set_app_allowed(name, allowed):
+    memory = load_memory()
+    clean_name = normalize_entity_name(name)
+    
+    if clean_name not in memory["app_registry"]:
+        return {
+            "updated": False,
+            "app": clean_name
+        }
+        
+    memory["app_registry"][clean_name]["allowed"] = allowed
+    save_memory(memory)
+    
+    return {
+        "updated": True,
+        "app": memory["app_registry"][clean_name]
+    }
+    
+def is_app_allowed(name):
+    app = get_app_registry_entry(name)
+    
+    if not app:
+        return False
+    
+    return app.get("allowed", False)
     
 def add_app_launch(event):
     memory = load_memory()

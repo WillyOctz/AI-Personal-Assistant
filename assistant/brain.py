@@ -422,6 +422,23 @@ def parse_app_search(user_input):
         
     return ""
 
+def parse_allow_app(user_input):
+    text = user_input.lower().strip()
+    
+    if text.startswith("allow app "):
+        return text.replace("allow app ", "", 1).strip()
+    
+    return ""
+
+def parse_disallow_app(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["disallow app ", "block app "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return ""
+
 def get_first_reminder_text(results):
     if not results:
         return None
@@ -949,6 +966,12 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "clear_pending_app_launch"):
         return make_analysis("clear_pending_app_launch")
+    
+    if match_prefix_pattern(text, "disallow_app"):
+        return make_analysis("disallow_app")
+    
+    if match_prefix_pattern(text, "allow_app"):
+        return make_analysis("allow_app")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2824,7 +2847,8 @@ def handle_memory_intent(user_input, analysis):
         lines = ["Registered apps:"]
         
         for name, app in registry.items():
-            lines.append(f"- {name}: {app['command']}")
+            allowed = app.get("allowed", False)
+            lines.append(f"- {name}: {app['command']} | allowed: {allowed}")
             
         return "\n".join(lines)
     
@@ -2915,6 +2939,34 @@ def handle_memory_intent(user_input, analysis):
             f"Pending app launch: {pending_app['app_name']}\n"
             f"Command: {pending_app['command']}"
         )
+        
+    if intent == "allow_app":
+        app_name = parse_allow_app(user_input)
+        
+        if not app_name:
+            return "Use this format: allow app app_name"
+        
+        resolved_name = memory.resolve_app_alias(app_name)
+        result = memory.set_app_allowed(resolved_name, True)
+        
+        if not result["updated"]:
+            return f"I could not find registered app: {resolved_name}"
+        
+        return f"Allowed app for launching: {result['app']['name']}"
+    
+    if intent == "disallow_app":
+        app_name = parse_disallow_app(user_input)
+        
+        if not app_name:
+            return "Use this format: disallow app app_name"
+        
+        resolved_name = memory.resolve_app_alias(app_name)
+        result = memory.set_app_allowed(resolved_name, False)
+        
+        if not result["updated"]:
+            return f"I could not find registered app: {resolved_name}"
+        
+        return f"Disallowed app for launching: {result['app']['name']}"
     
     return unknown_response()
 
@@ -2962,6 +3014,12 @@ def handle_action_intent(user_input, analysis):
         if app_entry:
             real_launching = memory.get_setting("real_app_launching", False)
             confirm_launching = memory.get_setting("confirm_app_launching", True)
+            
+            if real_launching and not app_entry.get("allowed", False):
+                return (
+                    f"{resolution['after_default']} is registered but not allowed for real launching.\n"
+                    f"Use: allow app {resolution['after_default']}"
+                )
             
             if real_launching and confirm_launching:
                 set_pending_app_launch(resolution["after_default"], app_entry["command"]) 
