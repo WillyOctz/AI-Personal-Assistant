@@ -103,6 +103,8 @@ VALID_INTENTS = {
     "show_default_apps",
     "remove_default_app",
     "app_dashboard",
+    "enable_app_launch_confirmation",
+    "disable_app_launch_confirmation",
 }
 
 CONTROL_INTENTS = {
@@ -206,6 +208,8 @@ MEMORY_INTENTS = {
     "show_default_apps",
     "remove_default_app",
     "app_dashboard",
+    "enable_app_launch_confirmation",
+    "disable_app_launch_confirmation",
 }
 
 ACTION_INTENTS = {
@@ -460,6 +464,14 @@ INTENT_PATTERNS = {
         "app dashboard",
         "apps dashboard",
         "app overview",
+    ],
+    "enable_app_launch_confirmation": [
+        "enable app launch confirmation",
+        "turn on app launch confirmation",
+    ],
+    "disable_app_launch_confirmation": [
+        "disable app launch confirmation",
+        "turn off app launch confirmation",
     ],
 }
 

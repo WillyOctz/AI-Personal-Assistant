@@ -28,7 +28,8 @@
         "focus_mode": false,
         "focus_task": null,
         "focus_started_at": null,
-        "focus_notes": []
+        "focus_notes": [],
+        "pending_app_launch": null
     },
     "history": [
         {
@@ -5273,6 +5274,226 @@
             "source": "rule",
             "timestamp": "2026-07-22 15:50:38",
             "importance": 0.6
+        },
+        {
+            "user": "enable app launching",
+            "assistant": "Real app launching enabled.",
+            "intent": "enable_app_launching",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 16:50:52",
+            "importance": 0.6
+        },
+        {
+            "user": "enable app launch confirmation",
+            "assistant": "App launch confirmation enabled.",
+            "intent": "enable_app_launch_confirmation",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 16:51:03",
+            "importance": 0.6
+        },
+        {
+            "user": "enable app launching",
+            "assistant": "Real app launching enabled.",
+            "intent": "enable_app_launching",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 16:52:33",
+            "importance": 0.6
+        },
+        {
+            "user": "enable app launch confirmation",
+            "assistant": "App launch confirmation enabled.",
+            "intent": "enable_app_launch_confirmation",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 16:52:44",
+            "importance": 0.6
+        },
+        {
+            "user": "open spotify",
+            "assistant": "I am ready to open spotify using command: spotify.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-22 16:52:49",
+            "importance": 0.8
+        },
+        {
+            "user": "no",
+            "assistant": "There is nothing waiting for rejection.",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 16:52:54",
+            "importance": 0.1
+        },
+        {
+            "user": "open spotify",
+            "assistant": "I am ready to open spotify using command: spotify.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-22 16:53:12",
+            "importance": 0.8
+        },
+        {
+            "user": "yes",
+            "assistant": "There is nothing waiting for confirmation.",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 16:53:15",
+            "importance": 0.1
+        },
+        {
+            "user": "enable app launching",
+            "assistant": "Real app launching enabled.",
+            "intent": "enable_app_launching",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 16:55:34",
+            "importance": 0.6
+        },
+        {
+            "user": "enable app launch confirmation",
+            "assistant": "App launch confirmation enabled.",
+            "intent": "enable_app_launch_confirmation",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 16:55:37",
+            "importance": 0.6
+        },
+        {
+            "user": "open spotify",
+            "assistant": "I am ready to open spotify using command: spotify.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-22 16:55:44",
+            "importance": 0.8
+        },
+        {
+            "user": "no",
+            "assistant": "There is nothing waiting for rejection.",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 16:55:48",
+            "importance": 0.1
+        },
+        {
+            "user": "enable app launching",
+            "assistant": "Real app launching enabled.",
+            "intent": "enable_app_launching",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 16:57:10",
+            "importance": 0.6
+        },
+        {
+            "user": "enable app launch confirmation",
+            "assistant": "App launch confirmation enabled.",
+            "intent": "enable_app_launch_confirmation",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 16:57:14",
+            "importance": 0.6
+        },
+        {
+            "user": "open spotify",
+            "assistant": "I am ready to open spotify using command: spotify.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-22 16:57:21",
+            "importance": 0.8
+        },
+        {
+            "user": "no",
+            "assistant": "Cancelled app launch: spotify",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 16:57:24",
+            "importance": 0.1
+        },
+        {
+            "user": "open spotify",
+            "assistant": "I am ready to open spotify using command: spotify.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-22 16:57:32",
+            "importance": 0.8
+        },
+        {
+            "user": "yes",
+            "assistant": "I could not find the app command: spotify",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 16:57:35",
+            "importance": 0.1
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- spotify: spotify\n- notepad: notepad\n- something: steam.exe\n- \"c:\\program files\\google\\chrome\\application\\chrome.exe\": chrome",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 16:57:46",
+            "importance": 0.6
+        },
+        {
+            "user": "open notepad",
+            "assistant": "I am ready to open notepad using command: notepad.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-22 16:57:51",
+            "importance": 0.8
+        },
+        {
+            "user": "yes",
+            "assistant": "Opening notepad.",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 16:57:54",
+            "importance": 0.1
+        },
+        {
+            "user": "no",
+            "assistant": "There is nothing waiting for rejection.",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-22 16:57:58",
+            "importance": 0.1
         }
     ],
     "summaries": [
@@ -5419,7 +5640,8 @@
         }
     },
     "settings": {
-        "real_app_launching": true
+        "real_app_launching": true,
+        "confirm_app_launching": true
     },
     "app_launches": [
         {
@@ -5469,6 +5691,18 @@
             "command": "steam.exe",
             "result": "I could not find the app command: steam.exe",
             "timestamp": "2026-07-21 15:58:09"
+        },
+        {
+            "app_name": "spotify",
+            "command": "spotify",
+            "result": "I could not find the app command: spotify",
+            "timestamp": "2026-07-22 16:57:35"
+        },
+        {
+            "app_name": "notepad",
+            "command": "notepad",
+            "result": "Opening notepad.",
+            "timestamp": "2026-07-22 16:57:54"
         }
     ],
     "app_aliases": {

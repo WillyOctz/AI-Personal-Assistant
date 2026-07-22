@@ -474,6 +474,20 @@ def get_pending_task():
 def clear_pending_task():
     memory.clear_state_value("pending_task")
     
+def set_pending_app_launch(app_name, command):
+    pending = {
+        "app_name": app_name,
+        "command": command
+    }
+    
+    memory.set_state_value("pending_app_launch", pending)
+    
+def get_pending_app_launch():
+    return memory.get_state_value("pending_app_launch")
+
+def clear_pending_app_launch():
+    memory.clear_state_value("pending_app_launch")
+    
 def get_focus_started_at():
     return focus.get_focus_started_at()
     
@@ -923,6 +937,12 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "app_dashboard"):
         return make_analysis("app_dashboard")
+    
+    if match_exact_pattern(text, "enable_app_launch_confirmation"):
+        return make_analysis("enable_app_launch_confirmation")
+    
+    if match_exact_pattern(text, "disable_app_launch_confirmation"):
+        return make_analysis("disable_app_launch_confirmation")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -1438,6 +1458,19 @@ def handle_control_intent(user_input, analysis):
     
     if intent == "confirm_intent":
         pending = get_pending_confirmation()
+        pending_app = get_pending_app_launch()
+        
+        if pending_app:
+            app_entry = {
+                "name": pending_app["app_name"],
+                "command": pending_app["command"]
+            }
+            
+            result = open_registered_app(pending_app["app_name"], app_entry, True)
+            log_app_launch(pending_app["app_name"], pending_app["command"], result)
+            clear_pending_app_launch()
+            
+            return result
         
         if not pending:
             return "There is nothing waiting for confirmation."
@@ -1457,6 +1490,11 @@ def handle_control_intent(user_input, analysis):
             
     if intent == "deny_intent":
         pending = get_pending_confirmation()
+        pending_app = get_pending_app_launch()
+        
+        if pending_app:
+            clear_pending_app_launch()
+            return f"Cancelled app launch: {pending_app['app_name']}"
         
         if not pending:
             return "There is nothing waiting for rejection."
@@ -2785,10 +2823,12 @@ def handle_memory_intent(user_input, analysis):
     
     if intent == "show_settings":
         real_launching = memory.get_setting("real_app_launching", False)
+        confirm_launching = memory.get_setting("confirm_app_launching", True)
         
         return (
             f"Settings:\n"
             f"real_app_launching: {real_launching}"
+            f"confirm_app_launching: {confirm_launching}"
         )
         
     if intent == "show_app_launch_history":
@@ -2842,6 +2882,14 @@ def handle_memory_intent(user_input, analysis):
             
         return "\n".join(lines)
     
+    if intent == "enable_app_launch_confirmation":
+        memory.set_setting("confirm_app_launching", True)
+        return "App launch confirmation enabled."
+    
+    if intent == "disable_app_launch_confirmation":
+        memory.set_setting("confirm_app_launching", False)
+        return "App launch confirmation disabled."
+    
     return unknown_response()
 
 def handle_action_intent(user_input, analysis):
@@ -2887,6 +2935,15 @@ def handle_action_intent(user_input, analysis):
         
         if app_entry:
             real_launching = memory.get_setting("real_app_launching", False)
+            confirm_launching = memory.get_setting("confirm_app_launching", True)
+            
+            if real_launching and confirm_launching:
+                set_pending_app_launch(resolution["after_default"], app_entry["command"]) 
+                return (
+                    f"I am ready to open {resolution['after_default']} using command: {app_entry['command']}.\n"
+                    f"Reply yes to launch or no to cancel."
+                )   
+                
             result = open_registered_app(resolution["after_default"], app_entry, real_launching)
             log_app_launch(resolution["after_default"], app_entry["command"], result)
         else:

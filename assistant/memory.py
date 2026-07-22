@@ -111,6 +111,12 @@ def ensure_memory_shape(memory):
     if "default_apps" not in memory:
         memory["default_apps"] = {}
         
+    if "confirm_app_launching" not in memory["settings"]:
+        memory["settings"]["confirm_app_launching"] = True
+        
+    if "pending_app_launch" not in memory["state"]:
+        memory["state"]["pending_app_launch"] = None
+        
     return memory
 
 def archive_conversation_turns(turns_to_archive):
