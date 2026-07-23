@@ -115,6 +115,8 @@ VALID_INTENTS = {
     "repair_app_cleanup",
     "delete_app_registry_by_index",
     "rename_app_registry_by_index",
+    "backup_app_registry",
+    "show_app_registry_backups",
 }
 
 CONTROL_INTENTS = {
@@ -230,6 +232,8 @@ MEMORY_INTENTS = {
     "repair_app_cleanup",
     "delete_app_registry_by_index",
     "rename_app_registry_by_index",
+    "backup_app_registry",
+    "show_app_registry_backups",
 }
 
 ACTION_INTENTS = {
@@ -519,6 +523,14 @@ INTENT_PATTERNS = {
         "repair app cleanup",
         "fix app cleanup",
         "cleanup apps",
+    ],
+    "backup_app_registry": [
+        "backup app registry",
+        "save app registry backup",
+    ],
+    "show_app_registry_backups": [
+        "show app registry backups",
+        "app registry backups",
     ],
 }
 

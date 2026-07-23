@@ -117,6 +117,9 @@ def ensure_memory_shape(memory):
     if "pending_app_launch" not in memory["state"]:
         memory["state"]["pending_app_launch"] = None
         
+    if "app_registry_backups" not in memory:
+        memory["app_registry_backups"] = []
+        
     return memory
 
 def archive_conversation_turns(turns_to_archive):
@@ -787,6 +790,25 @@ def add_app_registry_entry(name, command):
     save_memory(memory)
     
     return memory["app_registry"][clean_name]
+
+def backup_app_registry(timestamp):
+    memory = load_memory()
+    
+    backup = {
+        "timestamp": timestamp,
+        "app_registry": memory["app_registry"],
+        "app_aliases": memory["app_aliases"],
+        "default_apps": memory["default_apps"]
+    }
+    
+    memory["app_registry_backups"].append(backup)
+    save_memory(memory)
+    
+    return backup
+
+def get_app_registry_backups(limit=5):
+    memory = load_memory()
+    return memory["app_registry_backups"][-limit:]
 
 def add_app_alias(alias, app_name):
     memory = load_memory()

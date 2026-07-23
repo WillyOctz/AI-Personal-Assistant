@@ -1020,6 +1020,12 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "rename_app_registry_by_index"):
         return make_analysis("rename_app_registry_by_index")
+    
+    if match_exact_pattern(text, "backup_app_registry"):
+        return make_analysis("backup_app_registry")
+    
+    if match_exact_pattern(text, "show_app_registry_backups"):
+        return make_analysis("show_app_registry_backups")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -3141,6 +3147,34 @@ def handle_memory_intent(user_input, analysis):
             f"Removed broken defaults: {result['removed_defaults']}\n"
             f"Skipped missing command entries: {result['skipped_missing_command']}"
         )
+        
+    if intent == "backup_app_registry":
+        backup = memory.backup_app_registry(current_timestamp())
+        
+        return (
+            f"App registry backup saved: {backup['timestamp']}\n"
+            f"Apps: {len(backup['app_registry'])}\n"
+            f"Aliases: {len(backup['app_aliases'])}\n"
+            f"Defaults: {len(backup['default_apps'])}"
+        )
+        
+    if intent == "show_app_registry_backups":
+        backups = memory.get_app_registry_backups()
+        
+        if not backups:
+            return "No app registry backups saved yet."
+        
+        lines = ["App registry backups:"]
+        
+        for index, backup in enumerate(backups, start=1):
+            lines.append(
+                f"{index}. {backup['timestamp']} | "
+                f"apps: {len(backup['app_registry'])}, "
+                f"aliases: {len(backup['app_aliases'])}, "
+                f"defaults: {len(backup['default_apps'])}"
+            )
+            
+        return "\n".join(lines)
     
     return unknown_response()
 

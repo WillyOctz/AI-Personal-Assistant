@@ -5994,6 +5994,26 @@
             "source": "rule",
             "timestamp": "2026-07-23 17:16:31",
             "importance": 0.6
+        },
+        {
+            "user": "backup app registry",
+            "assistant": "App registry backup saved: 2026-07-23 18:37:32\nApps: 4\nAliases: 1\nDefaults: 0",
+            "intent": "backup_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 18:37:32",
+            "importance": 0.6
+        },
+        {
+            "user": "show app registry backups",
+            "assistant": "App registry backups:\n1. 2026-07-23 18:37:32 | apps: 4, aliases: 1, defaults: 0",
+            "intent": "show_app_registry_backups",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 18:37:44",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -6224,5 +6244,36 @@
     "app_aliases": {
         "steam": "something"
     },
-    "default_apps": {}
+    "default_apps": {},
+    "app_registry_backups": [
+        {
+            "timestamp": "2026-07-23 18:37:32",
+            "app_registry": {
+                "spotify": {
+                    "name": "spotify",
+                    "command": "spotify",
+                    "allowed": false
+                },
+                "notepad": {
+                    "name": "notepad",
+                    "command": "notepad",
+                    "allowed": false
+                },
+                "something": {
+                    "name": "something",
+                    "command": "steam.exe",
+                    "allowed": false
+                },
+                "google chrome": {
+                    "name": "google chrome",
+                    "command": "chrome",
+                    "allowed": false
+                }
+            },
+            "app_aliases": {
+                "steam": "something"
+            },
+            "default_apps": {}
+        }
+    ]
 }
