@@ -117,6 +117,7 @@ VALID_INTENTS = {
     "rename_app_registry_by_index",
     "backup_app_registry",
     "show_app_registry_backups",
+    "preview_restore_app_registry_backup",
 }
 
 CONTROL_INTENTS = {
@@ -234,6 +235,7 @@ MEMORY_INTENTS = {
     "rename_app_registry_by_index",
     "backup_app_registry",
     "show_app_registry_backups",
+    "preview_restore_app_registry_backup",
 }
 
 ACTION_INTENTS = {
@@ -689,6 +691,9 @@ INTENT_PREFIXES = {
     ],
     "rename_app_registry_by_index": [
         "rename app registry ",
+    ],
+    "preview_restore_app_registry_backup": [
+        "preview app registry restore ",
     ],
 }
 

@@ -396,6 +396,19 @@ def parse_delete_app_registry_index(user_input):
             
     return None
 
+def parse_backup_index(user_input, prefix):
+    text = user_input.lower().strip()
+    
+    if not text.startswith(prefix):
+        return None
+    
+    value = text.replace(prefix, "", 1).strip()
+    
+    if not value.isdigit():
+        return None
+    
+    return int(value)
+
 def resolve_app_name_for_open(app_name):
     alias_result = memory.resolve_app_alias(app_name)
     
@@ -1026,6 +1039,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "show_app_registry_backups"):
         return make_analysis("show_app_registry_backups")
+    
+    if match_prefix_pattern(text, "preview_restore_app_registry_backup"):
+        return make_analysis("preview_restore_app_registry_backup")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -3175,6 +3191,27 @@ def handle_memory_intent(user_input, analysis):
             )
             
         return "\n".join(lines)
+    
+    if intent == "preview_restore_app_registry_backup":
+        index = parse_backup_index(user_input, "preview app registry restore ")
+        
+        if index is None:
+            return "Use this format: preview app registry restore number"
+        
+        preview = memory.preview_restore_app_registry_backup(index)
+        
+        if not preview["found"]:
+            if preview["reason"] == "empty":
+                return "No app registry backups found."
+            
+            return "That app registry backup number does not exist."
+        
+        return (
+            f"Restore preview for backup: {preview['backup_timestamp']}\n"
+            f"Apps: current {preview['current_apps']} -> backup {preview['backup_apps']}\n"
+            f"Aliases: current {preview['current_aliases']} -> backup {preview['backup_aliases']}\n"
+            f"Defaults: current {preview['current_defaults']} -> backup {preview['backup_defaults']}"
+        )
     
     return unknown_response()
 

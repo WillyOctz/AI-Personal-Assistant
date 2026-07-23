@@ -806,6 +806,35 @@ def backup_app_registry(timestamp):
     
     return backup
 
+def preview_restore_app_registry_backup(recent_index, limit=5):
+    memory = load_memory()
+    backups = memory["app_registry_backups"][-limit:]
+    
+    if not backups:
+        return {
+            "found": False,
+            "reason": "empty"
+        }
+        
+    if recent_index < 1 or recent_index > len(backups):
+        return {
+            "found": False,
+            "reason": "invalid_index"
+        }
+        
+    backup = backups[recent_index - 1]
+    
+    return {
+        "found": True,
+        "backup_timestamp": backup["timestamp"],
+        "current_apps": len(memory["app_registry"]),
+        "backup_apps": len(backup["app_registry"]),
+        "current_aliases": len(memory["app_aliases"]),
+        "backup_aliases": len(backup["app_aliases"]),
+        "current_defaults": len(memory["default_apps"]),
+        "backup_defaults": len(backup["default_apps"])
+    }
+
 def get_app_registry_backups(limit=5):
     memory = load_memory()
     return memory["app_registry_backups"][-limit:]

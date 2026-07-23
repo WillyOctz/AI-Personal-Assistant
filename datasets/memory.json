@@ -6014,6 +6014,26 @@
             "source": "rule",
             "timestamp": "2026-07-23 18:37:44",
             "importance": 0.6
+        },
+        {
+            "user": "show app registry backups",
+            "assistant": "App registry backups:\n1. 2026-07-23 18:37:32 | apps: 4, aliases: 1, defaults: 0",
+            "intent": "show_app_registry_backups",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 18:51:24",
+            "importance": 0.6
+        },
+        {
+            "user": "preview app registry restore 1",
+            "assistant": "Restore preview for backup: 2026-07-23 18:37:32\nApps: current 4 -> backup 4\nAliases: current 1 -> backup 1\nDefaults: current 0 -> backup 0",
+            "intent": "preview_restore_app_registry_backup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 18:51:39",
+            "importance": 0.6
         }
     ],
     "summaries": [
