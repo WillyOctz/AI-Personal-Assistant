@@ -1042,6 +1042,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "preview_restore_app_registry_backup"):
         return make_analysis("preview_restore_app_registry_backup")
+    
+    if match_prefix_pattern(text, "restore_app_registry_backup"):
+        return make_analysis("restore_app_registry_backup")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -3211,6 +3214,29 @@ def handle_memory_intent(user_input, analysis):
             f"Apps: current {preview['current_apps']} -> backup {preview['backup_apps']}\n"
             f"Aliases: current {preview['current_aliases']} -> backup {preview['backup_aliases']}\n"
             f"Defaults: current {preview['current_defaults']} -> backup {preview['backup_defaults']}"
+        )
+        
+    if intent == "restore_app_registry_backup":
+        index = parse_backup_index(user_input, "restore app registry backup ")
+        
+        if index is None:
+            return "Use this format: restore app registry backup number"
+        
+        result = memory.restore_app_registry_backup(index)
+        
+        if not result["restored"]:
+            if result["reason"] == "empty":
+                return "No app registry backups found."
+            
+            return "That app registry backup number does not exist."
+        
+        backup = result["backup"]
+        
+        return (
+            f"Restored app registry backup: {backup['timestamp']}\n"
+            f"Apps: {len(backup['app_registry'])}\n"
+            f"Aliases: {len(backup['app_aliases'])}\n"
+            f"Defaults: {len(backup['default_apps'])}"
         )
     
     return unknown_response()

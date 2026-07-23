@@ -839,6 +839,38 @@ def get_app_registry_backups(limit=5):
     memory = load_memory()
     return memory["app_registry_backups"][-limit:]
 
+def restore_app_registry_backup(recent_index, limit=5):
+    memory = load_memory()
+    backups = memory["app_registry_backups"][-limit:]
+    
+    if not backups:
+        return {
+            "restored": False,
+            "reason": "empty",
+            "backup": None
+        }
+        
+    if recent_index < 1 or recent_index > len(backups):
+        return {
+            "restored": False,
+            "reason": "invalid_index",
+            "backup": None 
+        }
+        
+    backup = backups[recent_index - 1]
+    
+    memory["app_registry"] = backup["app_registry"]
+    memory["app_aliases"] = backup["app_aliases"]
+    memory["default_apps"] = backup["default_apps"]
+    
+    save_memory(memory)
+    
+    return {
+        "restored": True,
+        "reason": "restored",
+        "backup": backup
+    }
+
 def add_app_alias(alias, app_name):
     memory = load_memory()
     
