@@ -113,6 +113,7 @@ VALID_INTENTS = {
     "app_safety_dashboard",
     "preview_app_cleanup",
     "repair_app_cleanup",
+    "delete_app_registry_by_index",
 }
 
 CONTROL_INTENTS = {
@@ -226,6 +227,7 @@ MEMORY_INTENTS = {
     "app_safety_dashboard",
     "preview_app_cleanup",
     "repair_app_cleanup",
+    "delete_app_registry_by_index",
 }
 
 ACTION_INTENTS = {
@@ -637,6 +639,10 @@ INTENT_PREFIXES = {
     ],
     "register_app": [
         "register app ",
+    ],
+    "delete_app_registry_by_index": [
+        "delete app registry ",
+        "remove app registry ",
     ],
     "unregister_app": [
         "unregister app ",

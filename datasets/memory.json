@@ -5844,6 +5844,46 @@
             "source": "rule",
             "timestamp": "2026-07-23 16:14:10",
             "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- spotify: spotify | allowed: False\n- notepad: notepad | allowed: False\n- something: steam.exe | allowed: False\n- \"c:\\program files\\google\\chrome\\application\\chrome.exe\": chrome | allowed: False",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 16:47:55",
+            "importance": 0.6
+        },
+        {
+            "user": "delete app registry 4",
+            "assistant": "Removed app registry entry: \"c:\\program files\\google\\chrome\\application\\chrome.exe\" -> chrome",
+            "intent": "delete_app_registry_by_index",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 16:48:16",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- spotify: spotify | allowed: False\n- notepad: notepad | allowed: False\n- something: steam.exe | allowed: False",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 16:48:22",
+            "importance": 0.6
+        },
+        {
+            "user": "debug app cleanup",
+            "assistant": "App cleanup details:\nMissing command:\n- None\nMissing allowed field:\n- None\nBroken aliases:\n- None\nBroken defaults:\n- None",
+            "intent": "debug_app_cleanup",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 16:48:33",
+            "importance": 0.1
         }
     ],
     "summaries": [
@@ -5985,11 +6025,6 @@
         "something": {
             "name": "something",
             "command": "steam.exe",
-            "allowed": false
-        },
-        "\"c:\\program files\\google\\chrome\\application\\chrome.exe\"": {
-            "name": "\"c:\\program files\\google\\chrome\\application\\chrome.exe\"",
-            "command": "chrome",
             "allowed": false
         }
     },

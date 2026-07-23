@@ -384,6 +384,18 @@ def parse_remove_default_app(user_input):
         
     return ""
 
+def parse_delete_app_registry_index(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["delete app registry ", "remove app registry "]:
+        if text.startswith(prefix):
+            value = text.replace(prefix, "", 1).strip()
+            
+            if value.isdigit():
+                return int(value)
+            
+    return None
+
 def resolve_app_name_for_open(app_name):
     alias_result = memory.resolve_app_alias(app_name)
     
@@ -984,6 +996,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "repair_app_cleanup"):
         return make_analysis("repair_app_cleanup")
+    
+    if match_prefix_pattern(text, "delete_app_registry_by_index"):
+        return make_analysis("delete_app_registry_by_index")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2867,6 +2882,23 @@ def handle_memory_intent(user_input, analysis):
         app = result["app"]
         return f"Unregistered app: {app['name']} -> {app['command']}"
     
+    if intent == "delete_app_registry_by_index":
+        index = parse_delete_app_registry_index(user_input)
+        
+        if index is None:
+            return "Use this format: delete app registry number"
+        
+        result = memory.remove_app_registry_entry_by_index(index)
+        
+        if result["removed"]:
+            app = result["app"]
+            return f"Removed app registry entry: {app['name']} -> {app['command']}"
+        
+        if result["reason"] == "empty":
+            return "No registered apps to remove."
+        
+        return "That app registry number does not exist."
+    
     if intent == "search_app_registry":
         query = parse_app_search(user_input)
         
@@ -2893,7 +2925,7 @@ def handle_memory_intent(user_input, analysis):
         
         lines = ["Registered apps:"]
         
-        for name, app in registry.items():
+        for index, (name, app) in enumerate(registry.items(), start=1):
             allowed = app.get("allowed", False)
             lines.append(f"- {name}: {app['command']} | allowed: {allowed}")
             

@@ -860,6 +860,36 @@ def remove_app_registry_entry(name):
         "app": removed_app
     }
     
+def remove_app_registry_entry_by_index(index):
+    memory = load_memory()
+    registry = memory["app_registry"]
+    
+    if not registry:
+        return {
+            "removed": False,
+            "reason": "empty",
+            "app": None
+        }
+        
+    if index < 1 or index > len(registry):
+        return {
+            "removed": False,
+            "reason": "invalid_index",
+            "app": None
+        }
+        
+    names = list(registry.keys())
+    app_name = names[index - 1]
+    
+    removed_app = registry.pop(app_name)
+    save_memory(memory)
+    
+    return {
+        "removed": True,
+        "reason": "removed",
+        "app": removed_app
+    }
+    
 def update_app_registry_entry(name, command):
     memory = load_memory()
     clean_name = normalize_entity_name(name)
@@ -1092,6 +1122,7 @@ def repair_app_cleanup():
         "removed_defaults": removed_defaults,
         "skipped_missing_command": len(preview["missing_command"])
     }
+
 
 
 
