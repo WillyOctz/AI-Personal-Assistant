@@ -112,6 +112,7 @@ VALID_INTENTS = {
     "disallow_app",
     "app_safety_dashboard",
     "preview_app_cleanup",
+    "repair_app_cleanup",
 }
 
 CONTROL_INTENTS = {
@@ -224,6 +225,7 @@ MEMORY_INTENTS = {
     "disallow_app",
     "app_safety_dashboard",
     "preview_app_cleanup",
+    "repair_app_cleanup",
 }
 
 ACTION_INTENTS = {
@@ -508,6 +510,11 @@ INTENT_PATTERNS = {
     "debug_app_cleanup": [
         "debug app cleanup",
         "show app cleanup details",
+    ],
+    "repair_app_cleanup": [
+        "repair app cleanup",
+        "fix app cleanup",
+        "cleanup apps",
     ],
 }
 

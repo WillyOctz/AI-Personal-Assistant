@@ -5814,6 +5814,36 @@
             "source": "rule",
             "timestamp": "2026-07-23 15:48:01",
             "importance": 0.1
+        },
+        {
+            "user": "repair app cleanup",
+            "assistant": "App cleanup repair finished.\nAdded missing allowed fields: 3\nRemoved broken aliases: 1\nRemoved broken defaults: 0\nSkipped missing command entries: 0",
+            "intent": "repair_app_cleanup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 16:13:42",
+            "importance": 0.6
+        },
+        {
+            "user": "debug app cleanup",
+            "assistant": "App cleanup details:\nMissing command:\n- None\nMissing allowed field:\n- None\nBroken aliases:\n- None\nBroken defaults:\n- None",
+            "intent": "debug_app_cleanup",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 16:13:54",
+            "importance": 0.1
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- spotify: spotify | allowed: False\n- notepad: notepad | allowed: False\n- something: steam.exe | allowed: False\n- \"c:\\program files\\google\\chrome\\application\\chrome.exe\": chrome | allowed: False",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 16:14:10",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -5944,7 +5974,8 @@
     "app_registry": {
         "spotify": {
             "name": "spotify",
-            "command": "spotify"
+            "command": "spotify",
+            "allowed": false
         },
         "notepad": {
             "name": "notepad",
@@ -5953,11 +5984,13 @@
         },
         "something": {
             "name": "something",
-            "command": "steam.exe"
+            "command": "steam.exe",
+            "allowed": false
         },
         "\"c:\\program files\\google\\chrome\\application\\chrome.exe\"": {
             "name": "\"c:\\program files\\google\\chrome\\application\\chrome.exe\"",
-            "command": "chrome"
+            "command": "chrome",
+            "allowed": false
         }
     },
     "settings": {
@@ -6039,7 +6072,6 @@
         }
     ],
     "app_aliases": {
-        "browser": "chrome",
         "steam": "something"
     },
     "default_apps": {}

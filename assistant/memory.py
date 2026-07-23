@@ -1056,6 +1056,42 @@ def preview_app_cleanup():
         "broken_aliases": broken_aliases,
         "broken_defaults": broken_defaults
     }
+    
+def repair_app_cleanup():
+    memory = load_memory()
+    preview = preview_app_cleanup()
+    
+    repaired_allowed = 0
+    removed_aliases = 0
+    removed_defaults = 0
+
+    for name in preview["missing_allowed"]:
+        if name in memory["app_registry"]:
+            memory["app_registry"][name]["allowed"] = False
+            repaired_allowed += 1
+            
+    for item in preview["broken_aliases"]:
+        alias = item["alias"]
+        
+        if alias in memory["app_aliases"]:
+            memory["app_aliases"].pop(alias)
+            removed_aliases += 1
+            
+    for item in preview["broken_defaults"]:
+        category = item["category"]
+        
+        if category in memory["default_apps"]:
+            memory["default_apps"].pop(category)
+            removed_defaults += 1
+            
+    save_memory(memory)
+    
+    return {
+        "repaired_allowed": repaired_allowed,
+        "removed_aliases": removed_aliases,
+        "removed_defaults": removed_defaults,
+        "skipped_missing_command": len(preview["missing_command"])
+    }
 
 
 

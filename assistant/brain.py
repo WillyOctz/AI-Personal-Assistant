@@ -981,6 +981,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "preview_app_cleanup"):
         return make_analysis("preview_app_cleanup")
+    
+    if match_exact_pattern(text, "repair_app_cleanup"):
+        return make_analysis("repair_app_cleanup")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -3051,6 +3054,17 @@ def handle_memory_intent(user_input, analysis):
             f"Missing allowed field: {len(preview['missing_allowed'])}\n"
             f"Broken aliases: {len(preview['broken_aliases'])}\n"
             f"Broken defaults: {len(preview['broken_defaults'])}"
+        )
+        
+    if intent == "repair_app_cleanup":
+        result = memory.repair_app_cleanup()
+        
+        return (
+            f"App cleanup repair finished.\n"
+            f"Added missing allowed fields: {result['repaired_allowed']}\n"
+            f"Removed broken aliases: {result['removed_aliases']}\n"
+            f"Removed broken defaults: {result['removed_defaults']}\n"
+            f"Skipped missing command entries: {result['skipped_missing_command']}"
         )
     
     return unknown_response()
