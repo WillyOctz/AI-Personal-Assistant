@@ -1017,6 +1017,46 @@ def get_default_apps():
     memory = load_memory()
     return memory["default_apps"]
 
+def preview_app_cleanup():
+    memory = load_memory()
+    
+    registry = memory["app_registry"]
+    aliases = memory["app_aliases"]
+    defaults = memory["default_apps"]
+    
+    missing_command = []
+    missing_allowed = []
+    broken_aliases = []
+    broken_defaults = []
+    
+    for name, app in registry.items():
+        if not app.get("command"):
+            missing_command.append(name)
+            
+        if "allowed" not in app:
+            missing_allowed.append(name)
+            
+    for alias, app_name in aliases.items():
+        if app_name not in registry:
+            broken_aliases.append({
+                "alias": alias,
+                "app_name": app_name
+            })
+            
+    for category, app_name in defaults.items():
+        if app_name not in registry:
+            broken_defaults.append({
+                "category": category,
+                "app_name": app_name
+            })
+            
+    return {
+        "missing_command": missing_command,
+        "missing_allowed": missing_allowed,
+        "broken_aliases": broken_aliases,
+        "broken_defaults": broken_defaults
+    }
+
 
 
 

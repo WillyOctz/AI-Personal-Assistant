@@ -5784,6 +5784,16 @@
             "source": "rule",
             "timestamp": "2026-07-22 20:32:23",
             "importance": 0.6
+        },
+        {
+            "user": "preview app cleanup",
+            "assistant": "App cleanup preview:\nMissing command: 0\nMissing allowed field: 3\nBroken aliases: 1\nBroken defaults: 0",
+            "intent": "preview_app_cleanup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 15:26:34",
+            "importance": 0.6
         }
     ],
     "summaries": [

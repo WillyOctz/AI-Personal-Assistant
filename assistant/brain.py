@@ -975,6 +975,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "app_safety_dashboard"):
         return make_analysis("app_safety_dashboard")
+    
+    if match_exact_pattern(text, "preview_app_cleanup"):
+        return make_analysis("preview_app_cleanup")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -3000,6 +3003,17 @@ def handle_memory_intent(user_input, analysis):
             lines.append("Pending launch: None")
             
         return "\n".join(lines)
+    
+    if intent == "preview_app_cleanup":
+        preview = memory.preview_app_cleanup()
+        
+        return (
+            f"App cleanup preview:\n"
+            f"Missing command: {len(preview['missing_command'])}\n"
+            f"Missing allowed field: {len(preview['missing_allowed'])}\n"
+            f"Broken aliases: {len(preview['broken_aliases'])}\n"
+            f"Broken defaults: {len(preview['broken_defaults'])}"
+        )
     
     return unknown_response()
 
