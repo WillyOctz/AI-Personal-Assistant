@@ -415,6 +415,24 @@ def resolve_app_name_for_open(app_name):
         "registered": app_entry is not None,
         "app_entry": app_entry 
     }
+    
+def parse_rename_app_registry_index(user_input):
+    text = user_input.lower().strip()
+    
+    if not text.startswith("rename app registry "):
+        return None, ""
+    
+    text = text.replace("rename app registry ", "", 1).strip()
+    
+    if " as " not in text:
+        return None, ""
+    
+    index_text, new_name = text.split(" as ", 1)
+    
+    if not index_text.strip().isdigit():
+        return None, ""
+    
+    return int(index_text.strip()), new_name.strip()
 
 def parse_unregister_app(user_input):
     text = user_input.lower().strip()
@@ -999,6 +1017,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "delete_app_registry_by_index"):
         return make_analysis("delete_app_registry_by_index")
+    
+    if match_prefix_pattern(text, "rename_app_registry_by_index"):
+        return make_analysis("rename_app_registry_by_index")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2881,6 +2902,28 @@ def handle_memory_intent(user_input, analysis):
         
         app = result["app"]
         return f"Unregistered app: {app['name']} -> {app['command']}"
+    
+    if intent == "rename_app_registry_by_index":
+        index, new_name = parse_rename_app_registry_index(user_input)
+        
+        if index is None or not new_name:
+            return "Use this format: rename app registry number as new_name"
+        
+        result = memory.rename_app_registry_entry_by_index(index, new_name)
+        
+        if result["renamed"]:
+            return f"Renamed app registry entry: {result['old_name']} -> {result['new_name']}"
+        
+        if result["reason"]:
+            return "No registered apps to rename."
+        
+        if result["reason"] == "invalid_index":
+            return "That app registry number does not exist."
+        
+        if result["reason"] == "name_exists":
+            return f"An app named {result['new_name']} already exists."
+        
+        return "I could not rename that app."
     
     if intent == "delete_app_registry_by_index":
         index = parse_delete_app_registry_index(user_input)

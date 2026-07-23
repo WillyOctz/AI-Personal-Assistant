@@ -842,6 +842,56 @@ def get_app_registry():
     memory = load_memory()
     return memory["app_registry"]
 
+def rename_app_registry_entry_by_index(index, new_name):
+    memory = load_memory()
+    registry = memory["app_registry"]
+    
+    if not registry:
+        return {
+            "renamed": False,
+            "reason": "empty",
+            "old_name": None,
+            "new_name": None,
+            "app": None
+        }
+        
+    if index < 1 or index > len(registry):
+        return {
+            "renamed": False,
+            "reason": "invalid_index",
+            "old_name": None,
+            "new_name": None,
+            "app": None
+        }
+        
+    clean_new_name = normalize_entity_name(new_name)
+    
+    if clean_new_name in registry:
+        return {
+            "renamed": False,
+            "reason": "name_exists",
+            "old_name": None,
+            "new_name": clean_new_name,
+            "app": None
+        }
+        
+    names = list(registry.keys())
+    old_name = names[index - 1]
+    
+    app = registry.pop(old_name)
+    app["name"] = clean_new_name
+    registry[clean_new_name] = app
+    
+    save_memory(memory)
+    
+    return {
+         "renamed": True,
+        "reason": "renamed",
+        "old_name": old_name,
+        "new_name": clean_new_name,
+        "app": app
+    }
+
 def remove_app_registry_entry(name):
     memory = load_memory()
     clean_name = normalize_entity_name(name)

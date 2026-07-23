@@ -114,6 +114,7 @@ VALID_INTENTS = {
     "preview_app_cleanup",
     "repair_app_cleanup",
     "delete_app_registry_by_index",
+    "rename_app_registry_by_index",
 }
 
 CONTROL_INTENTS = {
@@ -228,6 +229,7 @@ MEMORY_INTENTS = {
     "preview_app_cleanup",
     "repair_app_cleanup",
     "delete_app_registry_by_index",
+    "rename_app_registry_by_index",
 }
 
 ACTION_INTENTS = {
@@ -672,6 +674,9 @@ INTENT_PREFIXES = {
     "disallow_app": [
         "disallow app ",
         "block app ",
+    ],
+    "rename_app_registry_by_index": [
+        "rename app registry ",
     ],
 }
 

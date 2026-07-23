@@ -600,6 +600,16 @@
             "result": "I understand you want to open note, but real app launching is not connected yet.",
             "timestamp": "2026-07-22 18:32:12",
             "importance": 0.8
+        },
+        {
+            "user_input": "open chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I understand you want to open chrome, but real app launching is not connected yet.",
+            "timestamp": "2026-07-23 16:54:45",
+            "importance": 0.8
         }
     ],
     "conversation": [
@@ -5884,6 +5894,106 @@
             "source": "rule",
             "timestamp": "2026-07-23 16:48:33",
             "importance": 0.1
+        },
+        {
+            "user": "register app \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" as chrome",
+            "assistant": "Registered app: \"c:\\program files\\google\\chrome\\application\\chrome.exe\" -> chrome",
+            "intent": "register_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 16:53:49",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- spotify: spotify | allowed: False\n- notepad: notepad | allowed: False\n- something: steam.exe | allowed: False\n- \"c:\\program files\\google\\chrome\\application\\chrome.exe\": chrome | allowed: False",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 16:53:54",
+            "importance": 0.6
+        },
+        {
+            "user": "open chrome",
+            "assistant": "I understand you want to open chrome, but real app launching is not connected yet.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-23 16:54:45",
+            "importance": 0.8
+        },
+        {
+            "user": "enable real app launching",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-23 16:54:59",
+            "importance": 0.3
+        },
+        {
+            "user": "enable real app launch",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-23 16:55:08",
+            "importance": 0.3
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- spotify: spotify | allowed: False\n- notepad: notepad | allowed: False\n- something: steam.exe | allowed: False\n- \"c:\\program files\\google\\chrome\\application\\chrome.exe\": chrome | allowed: False",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 17:14:08",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- spotify: spotify | allowed: False\n- notepad: notepad | allowed: False\n- something: steam.exe | allowed: False\n- \"c:\\program files\\google\\chrome\\application\\chrome.exe\": chrome | allowed: False",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 17:15:58",
+            "importance": 0.6
+        },
+        {
+            "user": "rename app registry 4 as google chrome",
+            "assistant": "Renamed app registry entry: \"c:\\program files\\google\\chrome\\application\\chrome.exe\" -> google chrome",
+            "intent": "rename_app_registry_by_index",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 17:16:13",
+            "importance": 0.6
+        },
+        {
+            "user": "open google chrome",
+            "assistant": "google chrome is registered but not allowed for real launching.\nUse: allow app google chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-23 17:16:20",
+            "importance": 0.8
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- spotify: spotify | allowed: False\n- notepad: notepad | allowed: False\n- something: steam.exe | allowed: False\n- google chrome: chrome | allowed: False",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 17:16:31",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -6025,6 +6135,11 @@
         "something": {
             "name": "something",
             "command": "steam.exe",
+            "allowed": false
+        },
+        "google chrome": {
+            "name": "google chrome",
+            "command": "chrome",
             "allowed": false
         }
     },
