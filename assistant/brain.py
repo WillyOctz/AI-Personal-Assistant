@@ -673,6 +673,9 @@ def analyze_intent(user_input):
     if match_prefix_pattern(text, "debug_model"):
         return make_analysis("debug_model")
     
+    if match_exact_pattern(text, "debug_app_cleanup"):
+        return make_analysis("debug_app_cleanup")
+    
     if match_prefix_pattern(text, "debug_app_resolution"):
         return make_analysis("debug_app_resolution")
 
@@ -1720,6 +1723,41 @@ def handle_control_intent(user_input, analysis):
             f"Focus mode active: {get_focus_mode()}\n"
             f"Current focus task: {get_focus_task()}"
         )
+        
+    if intent == "debug_app_cleanup":
+        preview = memory.preview_app_cleanup()
+        
+        lines = ["App cleanup details:"]
+        
+        lines.append("Missing command:")
+        if preview["missing_command"]:
+            for name in preview["missing_command"]:
+                lines.append(f"- {name}")
+        else:
+            lines.append("- None")
+            
+        lines.append("Missing allowed field:")
+        if preview["missing_allowed"]:
+            for name in preview["missing_allowed"]:
+                lines.append(f"- {name}")
+        else:
+            lines.append("- None")
+            
+        lines.append("Broken aliases:")
+        if preview["broken_aliases"]:
+            for item in preview["broken_aliases"]:
+                lines.append(f"- {item['alias']} -> {item['app_name']}")
+        else:
+            lines.append("- None")
+            
+        lines.append("Broken defaults:")
+        if preview["broken_defaults"]:
+            for item in preview["broken_defaults"]:
+                lines.append(f"- {item['category']} -> {item['app_name']}")
+        else:
+            lines.append("- None")
+            
+        return "\n".join(lines)
         
     if intent == "clear_pending_app_launch":
         pending_app = get_pending_app_launch()

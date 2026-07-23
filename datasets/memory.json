@@ -5794,6 +5794,26 @@
             "source": "rule",
             "timestamp": "2026-07-23 15:26:34",
             "importance": 0.6
+        },
+        {
+            "user": "debug app cleanup",
+            "assistant": "Input: cleanup\nAfter alias: cleanup\nAfter default: cleanup\nRegistered: False",
+            "intent": "debug_app_resolution",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 15:43:12",
+            "importance": 0.1
+        },
+        {
+            "user": "debug app cleanup",
+            "assistant": "App cleanup details:\nMissing command:\n- None\nMissing allowed field:\n- spotify\n- something\n- \"c:\\program files\\google\\chrome\\application\\chrome.exe\"\nBroken aliases:\n- browser -> chrome\nBroken defaults:\n- None",
+            "intent": "debug_app_cleanup",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-23 15:48:01",
+            "importance": 0.1
         }
     ],
     "summaries": [

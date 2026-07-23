@@ -11,6 +11,7 @@ VALID_INTENTS = {
     "set_reminder",
     "calculate",
     "play_game",
+    "debug_app_cleanup",
     "debug_app_resolution",
     "debug_match",
     "debug_model",
@@ -114,6 +115,7 @@ VALID_INTENTS = {
 }
 
 CONTROL_INTENTS = {
+    "debug_app_cleanup",
     "debug_app_resolution",
     "debug_match",
     "debug_model",
@@ -502,6 +504,10 @@ INTENT_PATTERNS = {
     "preview_app_cleanup": [
         "preview app cleanup",
         "app cleanup preview",
+    ],
+    "debug_app_cleanup": [
+        "debug app cleanup",
+        "show app cleanup details",
     ],
 }
 
