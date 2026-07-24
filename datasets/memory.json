@@ -610,6 +610,16 @@
             "result": "I understand you want to open chrome, but real app launching is not connected yet.",
             "timestamp": "2026-07-23 16:54:45",
             "importance": 0.8
+        },
+        {
+            "user_input": "open browser",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I understand you want to open browser, but real app launching is not connected yet.",
+            "timestamp": "2026-07-24 15:56:10",
+            "importance": 0.8
         }
     ],
     "conversation": [
@@ -6204,6 +6214,236 @@
             "source": "rule",
             "timestamp": "2026-07-24 15:16:32",
             "importance": 0.6
+        },
+        {
+            "user": "debug app browser",
+            "assistant": "Input: browser\nAfter alias: browser\nAfter default: browser\nRegistered: False",
+            "intent": "debug_app_resolution",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:55:37",
+            "importance": 0.1
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n- spotify: spotify | allowed: False\n- notepad: notepad | allowed: False\n- something: steam.exe | allowed: False\n- google chrome: chrome | allowed: False",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:55:51",
+            "importance": 0.6
+        },
+        {
+            "user": "search apps chrome",
+            "assistant": "Registered apps matching chrome:\n- google chrome: chrome",
+            "intent": "search_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:55:59",
+            "importance": 0.6
+        },
+        {
+            "user": "app aliases",
+            "assistant": "App aliases:\n- steam -> something",
+            "intent": "show_app_aliases",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:56:04",
+            "importance": 0.6
+        },
+        {
+            "user": "open browser",
+            "assistant": "I understand you want to open browser, but real app launching is not connected yet.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-24 15:56:10",
+            "importance": 0.8
+        },
+        {
+            "user": "pending app launch",
+            "assistant": "No app launch is pending.",
+            "intent": "show_pending_app_launch",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:56:17",
+            "importance": 0.6
+        },
+        {
+            "user": "no",
+            "assistant": "There is nothing waiting for rejection.",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:56:21",
+            "importance": 0.1
+        },
+        {
+            "user": "open notepad",
+            "assistant": "notepad is registered but not allowed for real launching.\nUse: allow app notepad",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-24 15:56:27",
+            "importance": 0.8
+        },
+        {
+            "user": "pending app launch",
+            "assistant": "No app launch is pending.",
+            "intent": "show_pending_app_launch",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:56:40",
+            "importance": 0.6
+        },
+        {
+            "user": "default apps",
+            "assistant": "No default apps saved yet.",
+            "intent": "show_default_apps",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:57:12",
+            "importance": 0.6
+        },
+        {
+            "user": "pending app launch",
+            "assistant": "No app launch is pending.",
+            "intent": "show_pending_app_launch",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:57:20",
+            "importance": 0.6
+        },
+        {
+            "user": "open notepad",
+            "assistant": "notepad is registered but not allowed for real launching.\nUse: allow app notepad",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-24 15:57:24",
+            "importance": 0.8
+        },
+        {
+            "user": "allow app notepad",
+            "assistant": "Allowed app for launching: notepad",
+            "intent": "allow_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:57:30",
+            "importance": 0.6
+        },
+        {
+            "user": "pending app launch",
+            "assistant": "No app launch is pending.",
+            "intent": "show_pending_app_launch",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:57:36",
+            "importance": 0.6
+        },
+        {
+            "user": "open notepad",
+            "assistant": "I am ready to open notepad using command: notepad.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-24 15:57:41",
+            "importance": 0.8
+        },
+        {
+            "user": "pending app launch",
+            "assistant": "Pending app launch: notepad\nCommand: notepad",
+            "intent": "show_pending_app_launch",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:57:49",
+            "importance": 0.6
+        },
+        {
+            "user": "no",
+            "assistant": "Cancelled app launch: notepad",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:57:51",
+            "importance": 0.1
+        },
+        {
+            "user": "pending app launch",
+            "assistant": "No app launch is pending.",
+            "intent": "show_pending_app_launch",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:57:57",
+            "importance": 0.6
+        },
+        {
+            "user": "backup app registry",
+            "assistant": "App registry backup saved: 2026-07-24 15:58:08\nApps: 4\nAliases: 1\nDefaults: 0",
+            "intent": "backup_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:58:09",
+            "importance": 0.6
+        },
+        {
+            "user": "preview app registry",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-24 15:58:17",
+            "importance": 0.3
+        },
+        {
+            "user": "preview app registry restore 1",
+            "assistant": "Restore preview for backup: 2026-07-23 18:37:32\nApps: current 4 -> backup 4\nAliases: current 1 -> backup 1\nDefaults: current 0 -> backup 0",
+            "intent": "preview_restore_app_registry_backup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:58:25",
+            "importance": 0.6
+        },
+        {
+            "user": "app dashboard",
+            "assistant": "App dashboard:\nRegistered apps: 4\nAliases: 1\nDefault apps: 0\nReal launching: True\nTotal launches: 12\nMost launched: notepad (6 time(s))\nLast launched: notepad",
+            "intent": "app_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:58:33",
+            "importance": 0.6
+        },
+        {
+            "user": "app safety",
+            "assistant": "App safety dashboard:\nReal launching: True\nLaunch confirmation: True\nRegistered apps: 4\nAllowed apps: 1\nBlocked apps: 3\nPending launch: None",
+            "intent": "app_safety_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:58:40",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -6340,7 +6580,7 @@
         "notepad": {
             "name": "notepad",
             "command": "notepad",
-            "allowed": false
+            "allowed": true
         },
         "something": {
             "name": "something",
@@ -6477,6 +6717,35 @@
                     "name": "notepad",
                     "command": "notepad",
                     "allowed": false
+                },
+                "something": {
+                    "name": "something",
+                    "command": "steam.exe",
+                    "allowed": false
+                },
+                "google chrome": {
+                    "name": "google chrome",
+                    "command": "chrome",
+                    "allowed": false
+                }
+            },
+            "app_aliases": {
+                "steam": "something"
+            },
+            "default_apps": {}
+        },
+        {
+            "timestamp": "2026-07-24 15:58:08",
+            "app_registry": {
+                "spotify": {
+                    "name": "spotify",
+                    "command": "spotify",
+                    "allowed": false
+                },
+                "notepad": {
+                    "name": "notepad",
+                    "command": "notepad",
+                    "allowed": true
                 },
                 "something": {
                     "name": "something",
