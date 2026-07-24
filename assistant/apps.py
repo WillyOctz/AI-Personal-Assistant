@@ -205,3 +205,19 @@ def set_pending_app_launch(app_name, command):
     }
     
     memory.set_state_value("pending_app_launch", pending)
+    
+def get_pending_app_launch():
+    return memory.get_state_value("pending_app_launch")
+
+def clear_pending_app_launch():
+    memory.clear_state_value("pending_app_launch")
+    
+def log_app_launch(app_name, command, result):
+    event = {
+        "app_name": app_name,
+        "command": command,
+        "result": result,
+        "timestamp": current_timestamp()
+    }
+    
+    memory.add_app_launch(event)

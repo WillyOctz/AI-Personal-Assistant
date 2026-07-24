@@ -14,14 +14,7 @@ def current_timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 def log_app_launch(app_name, command, result):
-    event = {
-        "app_name": app_name,
-        "command": command,
-        "result": result,
-        "timestamp": current_timestamp()
-    }
-    
-    memory.add_app_launch(event)
+    return apps.log_app_launch(app_name, command, result)
 
 def parse_timestamp(timestamp):
     try:
@@ -400,10 +393,10 @@ def set_pending_app_launch(app_name, command):
     return apps.set_pending_app_launch(app_name, command)
     
 def get_pending_app_launch():
-    return memory.get_state_value("pending_app_launch")
+    return apps.get_pending_app_launch()
 
 def clear_pending_app_launch():
-    memory.clear_state_value("pending_app_launch")
+    return apps.clear_pending_app_launch()
     
 def get_focus_started_at():
     return focus.get_focus_started_at()

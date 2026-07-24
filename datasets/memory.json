@@ -6444,6 +6444,76 @@
             "source": "rule",
             "timestamp": "2026-07-24 15:58:40",
             "importance": 0.6
+        },
+        {
+            "user": "open notepad",
+            "assistant": "I am ready to open notepad using command: notepad.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-24 16:05:02",
+            "importance": 0.8
+        },
+        {
+            "user": "pending app launch",
+            "assistant": "Pending app launch: notepad\nCommand: notepad",
+            "intent": "show_pending_app_launch",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 16:05:07",
+            "importance": 0.6
+        },
+        {
+            "user": "no",
+            "assistant": "Cancelled app launch: notepad",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 16:05:10",
+            "importance": 0.1
+        },
+        {
+            "user": "open notepad",
+            "assistant": "I am ready to open notepad using command: notepad.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-24 16:05:13",
+            "importance": 0.8
+        },
+        {
+            "user": "yes",
+            "assistant": "Opening notepad.",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 16:05:16",
+            "importance": 0.1
+        },
+        {
+            "user": "app launch history",
+            "assistant": "Recent app launches:\n- 2026-07-20 19:11:32 | chrome | I could not find the app command: chrome\n- 2026-07-20 19:14:41 | something | I could not find the app command: steam.exe\n- 2026-07-20 19:17:12 | chrome | I could not find the app command: chrome\n- 2026-07-20 19:17:18 | chrome | I could not find the app command: chrome\n- 2026-07-21 15:58:09 | something | I could not find the app command: steam.exe\n- 2026-07-22 16:57:35 | spotify | I could not find the app command: spotify\n- 2026-07-22 16:57:54 | notepad | Opening notepad.\n- 2026-07-22 18:32:59 | notepad | I could not find the app command: note\n- 2026-07-22 18:33:30 | notepad | Opening notepad.\n- 2026-07-24 16:05:16 | notepad | Opening notepad.",
+            "intent": "show_app_launch_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 16:05:26",
+            "importance": 0.6
+        },
+        {
+            "user": "debug app notepad",
+            "assistant": "Input: notepad\nAfter alias: notepad\nAfter default: notepad\nRegistered: True\nCommand: notepad",
+            "intent": "debug_app_resolution",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 16:05:33",
+            "importance": 0.1
         }
     ],
     "summaries": [
@@ -6669,6 +6739,12 @@
             "command": "notepad",
             "result": "Opening notepad.",
             "timestamp": "2026-07-22 18:33:30"
+        },
+        {
+            "app_name": "notepad",
+            "command": "notepad",
+            "result": "Opening notepad.",
+            "timestamp": "2026-07-24 16:05:16"
         }
     ],
     "app_aliases": {
