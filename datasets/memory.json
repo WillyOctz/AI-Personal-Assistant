@@ -6164,6 +6164,46 @@
             "source": "rule",
             "timestamp": "2026-07-24 15:00:52",
             "importance": 0.6
+        },
+        {
+            "user": "show app registry backups",
+            "assistant": "App registry backups:\n1. 2026-07-23 18:37:32 | apps: 4, aliases: 1, defaults: 0\n2. 2026-07-23 19:16:25 | apps: 4, aliases: 1, defaults: 0",
+            "intent": "show_app_registry_backups",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:16:05",
+            "importance": 0.6
+        },
+        {
+            "user": "preview app backup cleanup",
+            "assistant": "App backup cleanup preview:\nTotal backups: 2\nKeep latest: 5\nWould remove: 0",
+            "intent": "preview_app_backup_cleanup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:16:15",
+            "importance": 0.6
+        },
+        {
+            "user": "cleanup app backups",
+            "assistant": "App backup cleanup finished.\nRemoved backups: 0\nKept backups: 2",
+            "intent": "cleanup_app_backups",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:16:23",
+            "importance": 0.6
+        },
+        {
+            "user": "show app registry backups",
+            "assistant": "App registry backups:\n1. 2026-07-23 18:37:32 | apps: 4, aliases: 1, defaults: 0\n2. 2026-07-23 19:16:25 | apps: 4, aliases: 1, defaults: 0",
+            "intent": "show_app_registry_backups",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:16:32",
+            "importance": 0.6
         }
     ],
     "summaries": [

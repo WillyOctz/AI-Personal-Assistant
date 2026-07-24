@@ -1048,6 +1048,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "restore_app_registry_backup"):
         return make_analysis("restore_app_registry_backup")
+    
+    if match_exact_pattern(text, "cleanup_app_backups"):
+        return make_analysis("cleanup_app_backups")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -3250,6 +3253,15 @@ def handle_memory_intent(user_input, analysis):
             f"Apps: {len(backup['app_registry'])}\n"
             f"Aliases: {len(backup['app_aliases'])}\n"
             f"Defaults: {len(backup['default_apps'])}"
+        )
+        
+    if intent == "cleanup_app_backups":
+        result = memory.cleanup_app_registry_backups()
+        
+        return (
+            f"App backup cleanup finished.\n"
+            f"Removed backups: {result['removed']}\n"
+            f"Kept backups: {result['kept']}"
         )
     
     return unknown_response()
