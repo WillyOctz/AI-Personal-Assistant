@@ -1220,6 +1220,27 @@ def preview_app_cleanup():
         "broken_defaults": broken_defaults
     }
     
+def preview_app_registry_backup_cleanup(keep_latest=5):
+    memory = load_memory()
+    backups = memory["app_registry_backups"]
+    
+    if len(backups) <= keep_latest:
+        return {
+            "total": len(backups),
+            "keep_latest": keep_latest,
+            "remove_count": 0,
+            "remove_candidates": []
+        }
+        
+    remove_candidates = backups[:-keep_latest]
+    
+    return {
+        "total": len(backups),
+        "keep_latest": keep_latest,
+        "remove_count": len(remove_candidates),
+        "remove_candidates": remove_candidates
+    }
+    
 def repair_app_cleanup():
     memory = load_memory()
     preview = preview_app_cleanup()

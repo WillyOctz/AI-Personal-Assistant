@@ -119,6 +119,7 @@ VALID_INTENTS = {
     "show_app_registry_backups",
     "preview_restore_app_registry_backup",
     "restore_app_registry_backup",
+    "preview_app_backup_cleanup",
 }
 
 CONTROL_INTENTS = {
@@ -238,6 +239,7 @@ MEMORY_INTENTS = {
     "show_app_registry_backups",
     "preview_restore_app_registry_backup",
     "restore_app_registry_backup",
+    "preview_app_backup_cleanup",
 }
 
 ACTION_INTENTS = {
@@ -535,6 +537,10 @@ INTENT_PATTERNS = {
     "show_app_registry_backups": [
         "show app registry backups",
         "app registry backups",
+    ],
+    "preview_app_backup_cleanup": [
+        "preview app backup cleanup",
+        "preview app registry backup cleanup",
     ],
 }
 

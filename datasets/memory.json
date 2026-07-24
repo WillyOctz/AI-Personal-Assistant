@@ -6154,6 +6154,16 @@
             "source": "rule",
             "timestamp": "2026-07-23 19:19:38",
             "importance": 0.6
+        },
+        {
+            "user": "preview app backup cleanup",
+            "assistant": "App backup cleanup preview:\nTotal backups: 2\nKeep latest: 5\nWould remove: 0",
+            "intent": "preview_app_backup_cleanup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 15:00:52",
+            "importance": 0.6
         }
     ],
     "summaries": [
