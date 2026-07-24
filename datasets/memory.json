@@ -6514,6 +6514,66 @@
             "source": "rule",
             "timestamp": "2026-07-24 16:05:33",
             "importance": 0.1
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n1. spotify: spotify | allowed: False\n2. notepad: notepad | allowed: True\n3. something: steam.exe | allowed: False\n4. google chrome: chrome | allowed: False",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 16:34:12",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n1. spotify: spotify | allowed: False\n2. notepad: notepad | allowed: True\n3. something: steam.exe | allowed: False\n4. google chrome: chrome | allowed: False",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 16:37:06",
+            "importance": 0.6
+        },
+        {
+            "user": "app aliases",
+            "assistant": "App aliases:\n- steam -> something",
+            "intent": "show_app_aliases",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 16:37:09",
+            "importance": 0.6
+        },
+        {
+            "user": "default apps",
+            "assistant": "No default apps saved yet.",
+            "intent": "show_default_apps",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 16:37:12",
+            "importance": 0.6
+        },
+        {
+            "user": "app dashboard",
+            "assistant": "App dashboard:\nRegistered apps: 4\nAliases: 1\nDefault apps: 0\nReal launching: True\nTotal launches: 13\nMost launched: notepad (7 time(s))\nLast launched: notepad",
+            "intent": "app_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 16:37:16",
+            "importance": 0.6
+        },
+        {
+            "user": "app safety",
+            "assistant": "App safety dashboard:\nReal launching: True\nLaunch confirmation: True\nRegistered apps: 4\nAllowed apps: 1\nBlocked apps: 3\nPending launch: None",
+            "intent": "app_safety_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-24 16:37:20",
+            "importance": 0.6
         }
     ],
     "summaries": [

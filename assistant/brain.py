@@ -1692,7 +1692,7 @@ def handle_control_intent(user_input, analysis):
     return unknown_response()       
 
 def handle_memory_intent(user_input, analysis):
-    global focus
+    global focus, apps
     intent = analysis["intent"]
     
     if intent == "remember_game_entity":
@@ -2702,17 +2702,7 @@ def handle_memory_intent(user_input, analysis):
         return f"Removed default app: {result['category']} -> {result['app_name']}"
     
     if intent == "show_default_apps":
-        defaults = memory.get_default_apps()
-        
-        if not defaults:
-            return "No default apps saved yet."
-        
-        lines = ["Default apps:"]
-        
-        for category, app_name in defaults.items():
-            lines.append(f"- {category} -> {app_name}")
-            
-        return "\n".join(lines)
+        return apps.format_default_apps()
     
     if intent == "add_app_alias":
         alias, app_name = parse_app_alias(user_input)
@@ -2744,17 +2734,7 @@ def handle_memory_intent(user_input, analysis):
         return f"Removed app alias: {result['alias']} -> {result['app_name']}"
     
     if intent == "show_app_aliases":
-        aliases = memory.get_app_aliases()
-        
-        if not aliases:
-            return "No app aliases saved yet."
-        
-        lines = ["App aliases:"]
-        
-        for alias, app_name in aliases.items():
-            lines.append(f"- {alias} -> {app_name}")
-            
-        return "\n".join(lines)
+        return apps.format_app_aliases()
     
     if intent == "update_registered_app":
         name, command = parse_update_app(user_input)
@@ -2842,18 +2822,7 @@ def handle_memory_intent(user_input, analysis):
         return "\n".join(lines)
     
     if intent == "show_app_registry":
-        registry = memory.get_app_registry()
-        
-        if not registry:
-            return "No apps registered yet."
-        
-        lines = ["Registered apps:"]
-        
-        for index, (name, app) in enumerate(registry.items(), start=1):
-            allowed = app.get("allowed", False)
-            lines.append(f"- {name}: {app['command']} | allowed: {allowed}")
-            
-        return "\n".join(lines)
+        return apps.format_app_registry()
     
     if intent == "enable_app_launching":
         memory.set_setting("real_app_launching", True)
@@ -2901,28 +2870,7 @@ def handle_memory_intent(user_input, analysis):
         )
         
     if intent == "app_dashboard":
-        registry = memory.get_app_registry()
-        aliases = memory.get_app_aliases()
-        defaults = memory.get_default_apps()
-        real_launching = memory.get_setting("real_app_launching", False)
-        launch_stats = memory.get_app_launch_stats()
-        
-        lines = [
-            "App dashboard:",
-            f"Registered apps: {len(registry)}",
-            f"Aliases: {len(aliases)}",
-            f"Default apps: {len(defaults)}",
-            f"Real launching: {real_launching}",
-            f"Total launches: {launch_stats['total']}",
-        ]
-        
-        if launch_stats["total"] > 0:
-            lines.append(
-                f"Most launched: {launch_stats['most_launched']} ({launch_stats['most_count']} time(s))"
-            )
-            lines.append(f"Last launched: {launch_stats['last_launched']}")
-            
-        return "\n".join(lines)
+        return apps.format_app_dashboard()
     
     if intent == "enable_app_launch_confirmation":
         memory.set_setting("confirm_app_launching", True)
@@ -2972,34 +2920,7 @@ def handle_memory_intent(user_input, analysis):
         return f"Disallowed app for launching: {result['app']['name']}"
     
     if intent == "app_safety_dashboard":
-        registry = memory.get_app_registry()
-        real_launching = memory.get_setting("real_app_launching", False)
-        confirm_launching = memory.get_setting("confirm_app_launching", True)
-        pending_app = get_pending_app_launch()
-        
-        allowed_count = 0
-        
-        for app in registry.values():
-            if app.get("allowed", False):
-                allowed_count += 1
-                
-        blocked_count = len(registry) - allowed_count
-        
-        lines = [
-            "App safety dashboard:",
-            f"Real launching: {real_launching}",
-            f"Launch confirmation: {confirm_launching}",
-            f"Registered apps: {len(registry)}",
-            f"Allowed apps: {allowed_count}",
-            f"Blocked apps: {blocked_count}",
-        ]
-        
-        if pending_app:
-            lines.append(f"Pending launch: {pending_app['app_name']}")
-        else:
-            lines.append("Pending launch: None")
-            
-        return "\n".join(lines)
+        return apps.format_app_safety_dashboard()
     
     if intent == "preview_app_cleanup":
         preview = memory.preview_app_cleanup()
