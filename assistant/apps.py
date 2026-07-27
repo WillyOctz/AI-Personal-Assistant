@@ -222,6 +222,8 @@ def log_app_launch(app_name, command, result):
     
     memory.add_app_launch(event)
     
+## -------------------Format Debug/Preview Handlers for apps----------------
+    
 def format_app_registry():
     registry = memory.get_app_registry()
     
@@ -431,3 +433,101 @@ def format_app_backup_cleanup_preview():
         f"Keep latest: {preview['keep_latest']}\n"
         f"Would remove: {preview['remove_count']}"
     )
+    
+## -------------------App Action Handlers for apps----------------
+
+def handle_register_app(user_input):
+    name, command = parse_register_app(user_input)
+
+    if not name or not command:
+        return "Use this format: register app app_name as command"
+
+    app = memory.add_app_registry_entry(name, command)
+
+    return f"Registered app: {app['name']} -> {app['command']}"
+
+def handle_update_registered_app(user_input):
+    name, command = parse_update_app(user_input)
+
+    if not name or not command:
+        return "Use this format: update app app_name as command"
+
+    result = memory.update_app_registry_entry(name, command)
+
+    if not result["updated"]:
+        return f"I could not find registered app: {result['app']}"
+
+    app = result["app"]
+    return f"Updated app: {app['name']} -> {app['command']}"
+
+def handle_unregister_app(user_input):
+    app_name = parse_unregister_app(user_input)
+
+    if not app_name:
+        return "Use this format: unregister app app_name"
+
+    result = memory.remove_app_registry_entry(app_name)
+
+    if not result["removed"]:
+        return f"I could not find registered app: {result['app']}"
+
+    app = result["app"]
+    return f"Unregistered app: {app['name']} -> {app['command']}"
+
+def handle_set_default_app(user_input):
+    category, app_name = parse_default_app(user_input)
+
+    if not category or not app_name:
+        return "Use this format: set default app category as registered_app"
+
+    resolved_app_name = memory.resolve_app_alias(app_name)
+    app_entry = memory.get_app_registry_entry(resolved_app_name)
+
+    if not app_entry:
+        return f"I could not find registered app: {app_name}"
+
+    result = memory.set_default_app(category, app_entry["name"])
+
+    return f"Default app saved: {result['category']} -> {result['app_name']}"
+
+def handle_remove_default_app(user_input):
+    category = parse_remove_default_app(user_input)
+
+    if not category:
+        return "Use this format: remove default app category"
+
+    result = memory.remove_default_app(category)
+
+    if not result["removed"]:
+        return f"I could not find default app category: {result['category']}"
+
+    return f"Removed default app: {result['category']} -> {result['app_name']}"
+
+def handle_add_app_alias(user_input):
+    alias, app_name = parse_app_alias(user_input)
+
+    if not alias or not app_name:
+        return "Use this format: alias app alias_name as registered_app_name"
+
+    app_name = memory.resolve_app_alias(app_name)
+    app_entry = memory.get_app_registry_entry(app_name)
+
+    if not app_entry:
+        return f"I could not find registered app: {app_name}"
+
+    result = memory.add_app_alias(alias, app_entry["name"])
+
+    return f"App alias saved: {result['alias']} -> {result['app_name']}"
+
+def handle_remove_app_alias(user_input):
+    alias = parse_remove_app_alias(user_input)
+
+    if not alias:
+        return "Use this format: remove app alias alias_name"
+
+    result = memory.remove_app_alias(alias)
+
+    if not result["removed"]:
+        return f"I could not find app alias: {result['alias']}"
+
+    return f"Removed app alias: {result['alias']} -> {result['app_name']}"

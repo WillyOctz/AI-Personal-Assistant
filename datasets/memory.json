@@ -6634,6 +6634,126 @@
             "source": "rule",
             "timestamp": "2026-07-27 15:27:59",
             "importance": 0.6
+        },
+        {
+            "user": "register app testapp as notepad",
+            "assistant": "Registered app: testapp -> notepad",
+            "intent": "register_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 15:50:33",
+            "importance": 0.6
+        },
+        {
+            "user": "update app testpad as notepad.exe",
+            "assistant": "I could not find registered app: testpad",
+            "intent": "update_registered_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 15:50:44",
+            "importance": 0.6
+        },
+        {
+            "user": "update app testapp as notepad.exe",
+            "assistant": "Updated app: testapp -> notepad.exe",
+            "intent": "update_registered_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 15:51:02",
+            "importance": 0.6
+        },
+        {
+            "user": "unregister app testapp",
+            "assistant": "Unregistered app: testapp -> notepad.exe",
+            "intent": "unregister_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 15:51:08",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n1. spotify: spotify | allowed: False\n2. notepad: notepad | allowed: True\n3. something: steam.exe | allowed: False\n4. google chrome: chrome | allowed: False",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 15:51:13",
+            "importance": 0.6
+        },
+        {
+            "user": "alias app tempalias as chrome",
+            "assistant": "I could not find registered app: chrome",
+            "intent": "add_app_alias",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:03:25",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n1. spotify: spotify | allowed: False\n2. notepad: notepad | allowed: True\n3. something: steam.exe | allowed: False\n4. google chrome: chrome | allowed: False",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:03:34",
+            "importance": 0.6
+        },
+        {
+            "user": "alias app tempalias as spotify",
+            "assistant": "App alias saved: tempalias -> spotify",
+            "intent": "add_app_alias",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:03:54",
+            "importance": 0.6
+        },
+        {
+            "user": "remove app alias tempalias",
+            "assistant": "Removed app alias: tempalias -> spotify",
+            "intent": "remove_app_alias",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:04:03",
+            "importance": 0.6
+        },
+        {
+            "user": "set default app tempbrowser as google chrome",
+            "assistant": "Default app saved: tempbrowser -> google chrome",
+            "intent": "set_default_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:04:17",
+            "importance": 0.6
+        },
+        {
+            "user": "remove default app tempbrowser",
+            "assistant": "Removed default app: tempbrowser -> google chrome",
+            "intent": "remove_default_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:04:27",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n1. spotify: spotify | allowed: False\n2. notepad: notepad | allowed: True\n3. something: steam.exe | allowed: False\n4. google chrome: chrome | allowed: False",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:04:32",
+            "importance": 0.6
         }
     ],
     "summaries": [
