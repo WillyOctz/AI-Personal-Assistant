@@ -681,3 +681,86 @@ def handle_repair_app_cleanup():
         f"Removed broken defaults: {result['removed_defaults']}\n"
         f"Skipped missing command entries: {result['skipped_missing_command']}"
     )
+    
+## =========================================================================
+## -------------------App Opening Logic for apps----------------
+## =========================================================================
+
+def handle_open_app(app_name, open_registered_app, fallback_open_app):
+    resolution = resolve_app_name_for_open(app_name)
+    app_entry = resolution["app_entry"]
+
+    if not app_entry:
+        return fallback_open_app(app_name)
+
+    real_launching = memory.get_setting("real_app_launching", False)
+
+    if real_launching and not app_entry.get("allowed", False):
+        return (
+            f"{resolution['after_default']} is registered but not allowed for real launching.\n"
+            f"Use: allow app {resolution['after_default']}"
+        )
+
+    confirm_launching = memory.get_setting("confirm_app_launching", True)
+
+    if real_launching and confirm_launching:
+        set_pending_app_launch(resolution["after_default"], app_entry["command"])
+        return (
+            f"I am ready to open {resolution['after_default']} using command: {app_entry['command']}.\n"
+            f"Reply yes to launch or no to cancel."
+        )
+
+    result = open_registered_app(
+        resolution["after_default"],
+        app_entry,
+        real_launching
+    )
+
+    log_app_launch(
+        resolution["after_default"],
+        app_entry["command"],
+        result
+    )
+
+    return result
+
+## =========================================================================
+## -------------------App Yes/No Pending Logic for apps----------------
+## =========================================================================
+
+def confirm_pending_app_launch(open_registered_app):
+    pending_app = get_pending_app_launch()
+
+    if not pending_app:
+        return None
+
+    app_entry = {
+        "name": pending_app["app_name"],
+        "command": pending_app["command"]
+    }
+
+    result = open_registered_app(
+        pending_app["app_name"],
+        app_entry,
+        True
+    )
+
+    log_app_launch(
+        pending_app["app_name"],
+        pending_app["command"],
+        result
+    )
+
+    clear_pending_app_launch()
+
+    return result
+
+def deny_pending_app_launch():
+    pending_app = get_pending_app_launch()
+
+    if not pending_app:
+        return None
+
+    clear_pending_app_launch()
+
+    return f"Cancelled app launch: {pending_app['app_name']}"

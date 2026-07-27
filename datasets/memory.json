@@ -620,6 +620,76 @@
             "result": "I understand you want to open browser, but real app launching is not connected yet.",
             "timestamp": "2026-07-24 15:56:10",
             "importance": 0.8
+        },
+        {
+            "user_input": "open browser",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I understand you want to open browser, but real app launching is not connected yet.",
+            "timestamp": "2026-07-27 16:31:50",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open notepad",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I am ready to open notepad using command: notepad.\nReply yes to launch or no to cancel.",
+            "timestamp": "2026-07-27 16:31:56",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open notepad",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I am ready to open notepad using command: notepad.\nReply yes to launch or no to cancel.",
+            "timestamp": "2026-07-27 16:32:22",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open notepad",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Opening notepad.",
+            "timestamp": "2026-07-27 16:32:50",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open notepad",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I am ready to open notepad using command: notepad.\nReply yes to launch or no to cancel.",
+            "timestamp": "2026-07-27 16:33:05",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open notepad",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I am ready to open notepad using command: notepad.\nReply yes to launch or no to cancel.",
+            "timestamp": "2026-07-27 16:46:11",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open notepad",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I am ready to open notepad using command: notepad.\nReply yes to launch or no to cancel.",
+            "timestamp": "2026-07-27 16:46:20",
+            "importance": 0.8
         }
     ],
     "conversation": [
@@ -6924,6 +6994,166 @@
             "source": "rule",
             "timestamp": "2026-07-27 16:25:25",
             "importance": 0.6
+        },
+        {
+            "user": "open browser",
+            "assistant": "I understand you want to open browser, but real app launching is not connected yet.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-27 16:31:51",
+            "importance": 0.8
+        },
+        {
+            "user": "open notepad",
+            "assistant": "I am ready to open notepad using command: notepad.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-27 16:31:56",
+            "importance": 0.8
+        },
+        {
+            "user": "pending app launch",
+            "assistant": "Pending app launch: notepad\nCommand: notepad",
+            "intent": "show_pending_app_launch",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:32:01",
+            "importance": 0.6
+        },
+        {
+            "user": "no",
+            "assistant": "Cancelled app launch: notepad",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:32:04",
+            "importance": 0.1
+        },
+        {
+            "user": "allow app google chrome",
+            "assistant": "Allowed app for launching: google chrome",
+            "intent": "allow_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:32:11",
+            "importance": 0.6
+        },
+        {
+            "user": "open notepad",
+            "assistant": "I am ready to open notepad using command: notepad.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-27 16:32:22",
+            "importance": 0.8
+        },
+        {
+            "user": "yes",
+            "assistant": "Opening notepad.",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:32:26",
+            "importance": 0.1
+        },
+        {
+            "user": "disable app launch confirmation",
+            "assistant": "App launch confirmation disabled.",
+            "intent": "disable_app_launch_confirmation",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:32:44",
+            "importance": 0.6
+        },
+        {
+            "user": "open notepad",
+            "assistant": "Opening notepad.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-27 16:32:50",
+            "importance": 0.8
+        },
+        {
+            "user": "enable app launch confirmation",
+            "assistant": "App launch confirmation enabled.",
+            "intent": "enable_app_launch_confirmation",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:33:01",
+            "importance": 0.6
+        },
+        {
+            "user": "open notepad",
+            "assistant": "I am ready to open notepad using command: notepad.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-27 16:33:05",
+            "importance": 0.8
+        },
+        {
+            "user": "no",
+            "assistant": "Cancelled app launch: notepad",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:33:07",
+            "importance": 0.1
+        },
+        {
+            "user": "open notepad",
+            "assistant": "I am ready to open notepad using command: notepad.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-27 16:46:11",
+            "importance": 0.8
+        },
+        {
+            "user": "yes",
+            "assistant": "Opening notepad.",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:46:13",
+            "importance": 0.1
+        },
+        {
+            "user": "open notepad",
+            "assistant": "I am ready to open notepad using command: notepad.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-07-27 16:46:20",
+            "importance": 0.8
+        },
+        {
+            "user": "no",
+            "assistant": "Cancelled app launch: notepad",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:46:21",
+            "importance": 0.1
         }
     ],
     "summaries": [
@@ -7070,7 +7300,7 @@
         "google chrome": {
             "name": "google chrome",
             "command": "chrome",
-            "allowed": false
+            "allowed": true
         }
     },
     "settings": {
@@ -7155,6 +7385,24 @@
             "command": "notepad",
             "result": "Opening notepad.",
             "timestamp": "2026-07-24 16:05:16"
+        },
+        {
+            "app_name": "notepad",
+            "command": "notepad",
+            "result": "Opening notepad.",
+            "timestamp": "2026-07-27 16:32:26"
+        },
+        {
+            "app_name": "notepad",
+            "command": "notepad",
+            "result": "Opening notepad.",
+            "timestamp": "2026-07-27 16:32:50"
+        },
+        {
+            "app_name": "notepad",
+            "command": "notepad",
+            "result": "Opening notepad.",
+            "timestamp": "2026-07-27 16:46:13"
         }
     ],
     "app_aliases": {

@@ -1416,19 +1416,10 @@ def handle_control_intent(user_input, analysis):
     
     if intent == "confirm_intent":
         pending = get_pending_confirmation()
-        pending_app = get_pending_app_launch()
+        app_result = apps.confirm_pending_app_launch(open_registered_app)
         
-        if pending_app:
-            app_entry = {
-                "name": pending_app["app_name"],
-                "command": pending_app["command"]
-            }
-            
-            result = open_registered_app(pending_app["app_name"], app_entry, True)
-            log_app_launch(pending_app["app_name"], pending_app["command"], result)
-            clear_pending_app_launch()
-            
-            return result
+        if app_result:
+            return app_result
         
         if not pending:
             return "There is nothing waiting for confirmation."
@@ -1448,11 +1439,10 @@ def handle_control_intent(user_input, analysis):
             
     if intent == "deny_intent":
         pending = get_pending_confirmation()
-        pending_app = get_pending_app_launch()
+        app_result = apps.deny_pending_app_launch()
         
-        if pending_app:
-            clear_pending_app_launch()
-            return f"Cancelled app launch: {pending_app['app_name']}"
+        if app_result:
+            return app_result
         
         if not pending:
             return "There is nothing waiting for rejection."
@@ -2783,36 +2773,7 @@ def handle_action_intent(user_input, analysis):
         if not app_name:
             return "What should i open?"
         
-        resolved_app_name =  memory.resolve_app_alias(app_name)
-        default_app = memory.get_default_app(resolved_app_name)
-        
-        if default_app:
-            resolved_app_name = default_app
-
-        resolution = resolve_app_name_for_open(app_name)
-        app_entry = resolution["app_entry"]
-        
-        if app_entry:
-            real_launching = memory.get_setting("real_app_launching", False)
-            confirm_launching = memory.get_setting("confirm_app_launching", True)
-            
-            if real_launching and not app_entry.get("allowed", False):
-                return (
-                    f"{resolution['after_default']} is registered but not allowed for real launching.\n"
-                    f"Use: allow app {resolution['after_default']}"
-                )
-            
-            if real_launching and confirm_launching:
-                set_pending_app_launch(resolution["after_default"], app_entry["command"]) 
-                return (
-                    f"I am ready to open {resolution['after_default']} using command: {app_entry['command']}.\n"
-                    f"Reply yes to launch or no to cancel."
-                )   
-                
-            result = open_registered_app(resolution["after_default"], app_entry, real_launching)
-            log_app_launch(resolution["after_default"], app_entry["command"], result)
-        else:
-            result = open_app(app_name)
+        result = apps.handle_open_app(app_name, open_registered_app, open_app)
             
         log_action(user_input, analysis, result)
         return result
