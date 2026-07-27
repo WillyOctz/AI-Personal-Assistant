@@ -7204,6 +7204,86 @@
             "source": "None",
             "timestamp": "2026-07-27 18:13:40",
             "importance": 0.3
+        },
+        {
+            "user": "list files assistant",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "list_folder_files",
+            "group": "unknown",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 19:03:00",
+            "importance": 0.3
+        },
+        {
+            "user": "list files assistan",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "list_folder_files",
+            "group": "unknown",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 19:03:11",
+            "importance": 0.3
+        },
+        {
+            "user": "register search folder assistant as C:\\Users\\User\\AI_Personal_Assistant",
+            "assistant": "Registered search folder: assistant -> C:\\Users\\User\\AI_Personal_Assistant",
+            "intent": "register_search_folder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 19:03:47",
+            "importance": 0.6
+        },
+        {
+            "user": "search folders",
+            "assistant": "Search folders:\n- assistan: C:\\Users\\User\\AI_Personal_Assistant\n- assistant: C:\\Users\\User\\AI_Personal_Assistant",
+            "intent": "show_search_folders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 19:03:51",
+            "importance": 0.6
+        },
+        {
+            "user": "list files assistant",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "list_folder_files",
+            "group": "unknown",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 19:04:07",
+            "importance": 0.3
+        },
+        {
+            "user": "list files assistant",
+            "assistant": "Files in assistant:\n- folder: .git\n- folder: assistant\n- folder: datasets\n- folder: db\n- file: main.py\n- file: README.MD",
+            "intent": "list_folder_files",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 19:05:18",
+            "importance": 0.6
+        },
+        {
+            "user": "show files assistant",
+            "assistant": "Files in assistant:\n- folder: .git\n- folder: assistant\n- folder: datasets\n- folder: db\n- file: main.py\n- file: README.MD",
+            "intent": "list_folder_files",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 19:05:33",
+            "importance": 0.6
+        },
+        {
+            "user": "list files known",
+            "assistant": "I could not find registered search folder: known",
+            "intent": "list_folder_files",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 19:05:41",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -7607,6 +7687,7 @@
         }
     ],
     "search_folders": {
-        "assistan": "C:\\Users\\User\\AI_Personal_Assistant"
+        "assistan": "C:\\Users\\User\\AI_Personal_Assistant",
+        "assistant": "C:\\Users\\User\\AI_Personal_Assistant"
     }
 }

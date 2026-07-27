@@ -1,4 +1,4 @@
-from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app
+from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items
 from assistant import memory
 from assistant import apps
 from assistant.personality import greet, unknown_response
@@ -470,6 +470,15 @@ def parse_register_search_folder(user_input):
     name, path = text.split(" as ", 1)
     
     return name.strip(), path.strip()
+
+def parse_list_folder_files(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["list files ", "show files "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return ""
     
 def build_focus_stats_for_task(query):
     return focus.build_focus_stats_for_task(query)
@@ -922,6 +931,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "show_search_folders"):
         return make_analysis("show_search_folders")
+    
+    if match_prefix_pattern(text, "list_folder_files"):
+        return make_analysis("list_folder_files")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2782,6 +2794,35 @@ def handle_memory_intent(user_input, analysis):
         
         for name, path in folders.items():
             lines.append(f"- {name}: {path}")
+            
+        return "\n".join(lines)
+    
+    if intent == "list_folder_files":
+        folder_name = parse_list_folder_files(user_input)
+        
+        if not folder_name:
+            return "Which registered folder should I list?"
+        
+        folder_path = memory.get_search_folder(folder_name)
+        
+        if not folder_path:
+            return f"I could not find registered search folder: {folder_name}"
+        
+        result = list_folder_items(folder_path)
+        
+        if not result["ok"]:
+            if result["reason"] == "not_found":
+                return f"Folder path does not exist: {folder_path}"
+            
+            return f"Path is not a folder: {folder_path}"
+        
+        if not result["items"]:
+            return f"No files found in folder: {folder_name}"
+    
+        lines = [f"Files in {folder_name}:"]
+        
+        for item in result["items"]:
+            lines.append(f"- {item['type']}: {item['name']}")
             
         return "\n".join(lines)
 

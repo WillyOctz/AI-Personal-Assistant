@@ -123,6 +123,7 @@ VALID_INTENTS = {
     "cleanup_app_backups",
     "register_search_folder",
     "show_search_folders",
+    "list_folder_files",
 }
 
 CONTROL_INTENTS = {
@@ -246,6 +247,7 @@ MEMORY_INTENTS = {
     "cleanup_app_backups",
     "register_search_folder",
     "show_search_folders",
+    "list_folder_files",
 }
 
 ACTION_INTENTS = {
@@ -723,6 +725,10 @@ INTENT_PREFIXES = {
     ],
     "register_search_folder": [
         "register search folder ",
+    ],
+    "list_folder_files": [
+        "list files ",
+        "show files ",
     ],
 }
 

@@ -1,5 +1,6 @@
 from datetime import datetime
 from assistant.memory import add_reminder
+from pathlib import Path
 import ast
 import operator
 import subprocess
@@ -25,6 +26,7 @@ def parse_launch_command(command):
         return None
 
 
+## Functions logic
 #  -------------------------------------------------
 
 def safe_calculate(expression):
@@ -107,3 +109,39 @@ def open_registered_app(app_name, app_entry, real_launching=False):
         return f"I could not find the app command: {command}"
     except:
         return f"I tried to open {app_name}, but something went wrong."
+    
+def list_folder_items(folder_path, limit=20):
+    path = Path(folder_path)
+    
+    if not path.exists():
+        return {
+            "ok": False,
+            "reason": "not_found",
+            "items": []
+        }
+        
+    if not path.is_dir():
+        return {
+            "ok": False,
+            "reason": "not_directory",
+            "items": []
+        }
+        
+    items = []
+    
+    for item in path.iterdir():
+        item_type = "folder" if item.is_dir() else "file"
+        
+        items.append({
+            "name": item.name,
+            "type": item_type
+        })
+        
+        if len(items) >= limit:
+            break
+        
+    return {
+        "ok": True,
+        "reason": "ok",
+        "items": items
+    }
