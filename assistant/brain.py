@@ -1,4 +1,4 @@
-from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name
+from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp
 from assistant import memory
 from assistant import apps
 from assistant.personality import greet, unknown_response
@@ -497,6 +497,24 @@ def parse_file_search(user_input):
     query = parts[1]
     
     return folder_name.strip(), query.strip()
+
+def parse_file_info(user_input):
+    text = user_input.strip()
+    
+    for prefix in ["file info ", "show file info "]:
+        if text.lower().startswith(prefix):
+            text = text[len(prefix):].strip()
+            break
+        
+    parts = text.split(" ", 1)
+    
+    if len(parts) < 2:
+        return "", ""
+    
+    folder_name = parts[0]
+    filename = parts[1]
+    
+    return folder_name.strip(), filename.strip()
     
 def build_focus_stats_for_task(query):
     return focus.build_focus_stats_for_task(query)
@@ -955,6 +973,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "search_files_by_name"):
         return make_analysis("search_files_by_name")
+    
+    if match_prefix_pattern(text, "file_info"):
+        return make_analysis("file_info")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2875,6 +2896,39 @@ def handle_memory_intent(user_input, analysis):
             lines.append(f"- {match['type']}: {match['path']}")
             
         return "\n".join(lines)
+    
+    if intent == "file_info":
+        folder_name, filename = parse_file_info(user_input)
+        
+        if not folder_name or not filename:
+            return "Use this format: file info folder_name filename"
+        
+        folder_path = memory.get_search_folder(folder_name)
+        
+        if not folder_path:
+            return f"I could not find registered search folder: {folder_name}"
+        
+        result = get_file_info(folder_path, filename)
+        
+        if not result["ok"]:
+            if result["reason"] == "folder_not_found":
+                return f"Folder path does not exist: {folder_path}"
+            
+            if result["reason"] == "not_directory":
+                return f"Path is not a folder: {folder_path}"
+            
+            return f"I could not find file: {filename}"
+        
+        file = result["file"]
+        
+        return (
+            f"File info:\n"
+            f"Name: {file['name']}\n"
+            f"Type: {file['type']}\n"
+            f"Path: {file['path']}\n"
+            f"Size: {file['size']} bytes\n"
+            f"Modified: {format_timestamp(file['modified'])}"
+        )
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

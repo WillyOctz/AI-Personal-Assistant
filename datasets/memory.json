@@ -7334,6 +7334,36 @@
             "source": "rule",
             "timestamp": "2026-07-27 19:44:04",
             "importance": 0.6
+        },
+        {
+            "user": "file info assistant brain.py",
+            "assistant": "File info:\nName: brain.py\nType: file\nPath: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py\nSize: 100905 bytes\nModified: 2026-07-27 20:40:36",
+            "intent": "file_info",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 20:41:07",
+            "importance": 0.6
+        },
+        {
+            "user": "file info assistant memory.json",
+            "assistant": "File info:\nName: memory.json\nType: file\nPath: C:\\Users\\User\\AI_Personal_Assistant\\datasets\\memory.json\nSize: 308127 bytes\nModified: 2026-07-27 20:41:07",
+            "intent": "file_info",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 20:41:17",
+            "importance": 0.6
+        },
+        {
+            "user": "file info assistant banana.txt",
+            "assistant": "I could not find file: banana.txt",
+            "intent": "file_info",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 20:42:01",
+            "importance": 0.6
         }
     ],
     "summaries": [

@@ -24,6 +24,9 @@ def parse_launch_command(command):
         return shlex.split(command)
     except:
         return None
+    
+def format_timestamp(timestamp):
+    return datetime.fromtimestamp(timestamp).strftime("%Y-%m-%d %H:%M:%S")
 
 
 ## Functions logic
@@ -185,4 +188,44 @@ def search_files_by_name(folder_path, query, limit=20):
         "matches": matches 
     }
     
+def get_file_info(folder_path, filename):
+    path = Path(folder_path)
     
+    if not path.exists():
+        return {
+            "ok": False,
+            "reason": "folder_not_found",
+            "file": None
+        }
+        
+    if not path.is_dir():
+        return {
+           "ok": False,
+            "reason": "not_directory",
+            "file": None 
+        }
+        
+    filename = filename.lower().strip()
+    
+    for item in path.rglob("*"):
+        if item.name.lower() == filename:
+            stats = item.stat()
+            item_type = "folder" if item.is_dir() else "file"
+            
+            return {
+                "ok": True,
+                "reason": "ok",
+                "file": {
+                    "name": item.name,
+                    "path": str(item),
+                    "type": item_type,
+                    "size": stats.st_size,
+                    "modified": stats.st_mtime
+                }
+            }
+            
+    return {
+        "ok": False,
+        "reason": "file_not_found",
+        "file": None
+    }
