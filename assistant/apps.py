@@ -222,7 +222,9 @@ def log_app_launch(app_name, command, result):
     
     memory.add_app_launch(event)
     
+## =========================================================================
 ## -------------------Format Debug/Preview Handlers for apps----------------
+## =========================================================================
     
 def format_app_registry():
     registry = memory.get_app_registry()
@@ -434,7 +436,9 @@ def format_app_backup_cleanup_preview():
         f"Would remove: {preview['remove_count']}"
     )
     
+## ===============================================================
 ## -------------------App Action Handlers for apps----------------
+## ===============================================================
 
 def handle_register_app(user_input):
     name, command = parse_register_app(user_input)
@@ -531,3 +535,149 @@ def handle_remove_app_alias(user_input):
         return f"I could not find app alias: {result['alias']}"
 
     return f"Removed app alias: {result['alias']} -> {result['app_name']}"
+
+## =========================================================================
+## -------------------App Operation Handlers for apps----------------
+## =========================================================================
+
+def handle_rename_app_registry_by_index(user_input):
+    index, new_name = parse_rename_app_registry_index(user_input)
+
+    if index is None or not new_name:
+        return "Use this format: rename app registry number as new_name"
+
+    result = memory.rename_app_registry_entry_by_index(index, new_name)
+
+    if result["renamed"]:
+        return f"Renamed app registry entry: {result['old_name']} -> {result['new_name']}"
+
+    if result["reason"] == "empty":
+        return "No registered apps to rename."
+
+    if result["reason"] == "invalid_index":
+        return "That app registry number does not exist."
+
+    if result["reason"] == "name_exists":
+        return f"An app named {result['new_name']} already exists."
+
+    return "I could not rename that app."
+
+def handle_delete_app_registry_by_index(user_input):
+    index = parse_delete_app_registry_index(user_input)
+
+    if index is None:
+        return "Use this format: delete app registry number"
+
+    result = memory.remove_app_registry_entry_by_index(index)
+
+    if result["removed"]:
+        app = result["app"]
+        return f"Removed app registry entry: {app['name']} -> {app['command']}"
+
+    if result["reason"] == "empty":
+        return "No registered apps to remove."
+
+    return "That app registry number does not exist."
+
+def handle_search_app_registry(user_input):
+    query = parse_app_search(user_input)
+
+    if not query:
+        return "What app should I search for?"
+
+    results = memory.search_app_registry(query)
+
+    if not results:
+        return f"I could not find registered apps matching: {query}"
+
+    lines = [f"Registered apps matching {query}:"]
+
+    for app in results:
+        lines.append(f"- {app['name']}: {app['command']}")
+
+    return "\n".join(lines)
+
+def handle_allow_app(user_input):
+    app_name = parse_allow_app(user_input)
+
+    if not app_name:
+        return "Use this format: allow app app_name"
+
+    resolved_name = memory.resolve_app_alias(app_name)
+    result = memory.set_app_allowed(resolved_name, True)
+
+    if not result["updated"]:
+        return f"I could not find registered app: {resolved_name}"
+
+    return f"Allowed app for launching: {result['app']['name']}"
+
+def handle_disallow_app(user_input):
+    app_name = parse_disallow_app(user_input)
+
+    if not app_name:
+        return "Use this format: disallow app app_name"
+
+    resolved_name = memory.resolve_app_alias(app_name)
+    result = memory.set_app_allowed(resolved_name, False)
+
+    if not result["updated"]:
+        return f"I could not find registered app: {resolved_name}"
+
+    return f"Disallowed app for launching: {result['app']['name']}"
+
+## =========================================================================
+## -----------App Backup/Cleanup Operation Handlers for apps--------------
+## =========================================================================
+
+def handle_backup_app_registry(timestamp):
+    backup = memory.backup_app_registry(timestamp)
+
+    return (
+        f"App registry backup saved: {backup['timestamp']}\n"
+        f"Apps: {len(backup['app_registry'])}\n"
+        f"Aliases: {len(backup['app_aliases'])}\n"
+        f"Defaults: {len(backup['default_apps'])}"
+    )
+
+def handle_restore_app_registry_backup(user_input):
+    index = parse_backup_index(user_input, "restore app registry backup ")
+
+    if index is None:
+        return "Use this format: restore app registry backup number"
+
+    result = memory.restore_app_registry_backup(index)
+
+    if not result["restored"]:
+        if result["reason"] == "empty":
+            return "No app registry backups found."
+
+        return "That app registry backup number does not exist."
+
+    backup = result["backup"]
+
+    return (
+        f"Restored app registry backup: {backup['timestamp']}\n"
+        f"Apps: {len(backup['app_registry'])}\n"
+        f"Aliases: {len(backup['app_aliases'])}\n"
+        f"Defaults: {len(backup['default_apps'])}"
+    )
+
+def handle_cleanup_app_backups():
+    result = memory.cleanup_app_registry_backups()
+
+    return (
+        f"App backup cleanup finished.\n"
+        f"Removed backups: {result['removed']}\n"
+        f"Kept backups: {result['kept']}"
+    )
+
+def handle_repair_app_cleanup():
+    result = memory.repair_app_cleanup()
+
+    return (
+        f"App cleanup repair finished.\n"
+        f"Added missing allowed fields: {result['repaired_allowed']}\n"
+        f"Removed broken aliases: {result['removed_aliases']}\n"
+        f"Removed broken defaults: {result['removed_defaults']}\n"
+        f"Skipped missing command entries: {result['skipped_missing_command']}"
+    )

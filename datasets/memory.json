@@ -6754,6 +6754,176 @@
             "source": "rule",
             "timestamp": "2026-07-27 16:04:32",
             "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n1. spotify: spotify | allowed: False\n2. notepad: notepad | allowed: True\n3. something: steam.exe | allowed: False\n4. google chrome: chrome | allowed: False",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:17:46",
+            "importance": 0.6
+        },
+        {
+            "user": "search apps spotify",
+            "assistant": "Registered apps matching spotify:\n- spotify: spotify",
+            "intent": "search_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:17:53",
+            "importance": 0.6
+        },
+        {
+            "user": "allow app something",
+            "assistant": "Allowed app for launching: something",
+            "intent": "allow_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:18:10",
+            "importance": 0.6
+        },
+        {
+            "user": "disallow app something",
+            "assistant": "Disallowed app for launching: something",
+            "intent": "disallow_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:18:25",
+            "importance": 0.6
+        },
+        {
+            "user": "register app tempapp as notepad",
+            "assistant": "Registered app: tempapp -> notepad",
+            "intent": "register_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:18:39",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n1. spotify: spotify | allowed: False\n2. notepad: notepad | allowed: True\n3. something: steam.exe | allowed: False\n4. google chrome: chrome | allowed: False\n5. tempapp: notepad | allowed: False",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:18:45",
+            "importance": 0.6
+        },
+        {
+            "user": "rename app registry 5 as temptemp",
+            "assistant": "Renamed app registry entry: tempapp -> temptemp",
+            "intent": "rename_app_registry_by_index",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:19:02",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n1. spotify: spotify | allowed: False\n2. notepad: notepad | allowed: True\n3. something: steam.exe | allowed: False\n4. google chrome: chrome | allowed: False\n5. temptemp: notepad | allowed: False",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:19:06",
+            "importance": 0.6
+        },
+        {
+            "user": "delete app registry 5",
+            "assistant": "Removed app registry entry: temptemp -> notepad",
+            "intent": "delete_app_registry_by_index",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:19:13",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n1. spotify: spotify | allowed: False\n2. notepad: notepad | allowed: True\n3. something: steam.exe | allowed: False\n4. google chrome: chrome | allowed: False",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:19:17",
+            "importance": 0.6
+        },
+        {
+            "user": "backupp app registry",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-27 16:24:23",
+            "importance": 0.3
+        },
+        {
+            "user": "backup app registry",
+            "assistant": "App registry backup saved: 2026-07-27 16:24:31\nApps: 4\nAliases: 1\nDefaults: 0",
+            "intent": "backup_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:24:31",
+            "importance": 0.6
+        },
+        {
+            "user": "show app registry backups",
+            "assistant": "App registry backups:\n1. 2026-07-23 18:37:32 | apps: 4, aliases: 1, defaults: 0\n2. 2026-07-23 19:16:25 | apps: 4, aliases: 1, defaults: 0\n3. 2026-07-24 15:58:08 | apps: 4, aliases: 1, defaults: 0\n4. 2026-07-27 16:24:31 | apps: 4, aliases: 1, defaults: 0",
+            "intent": "show_app_registry_backups",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:24:41",
+            "importance": 0.6
+        },
+        {
+            "user": "preview app backup cleanup",
+            "assistant": "App backup cleanup preview:\nTotal backups: 4\nKeep latest: 5\nWould remove: 0",
+            "intent": "preview_app_backup_cleanup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:24:52",
+            "importance": 0.6
+        },
+        {
+            "user": "cleanup app backups",
+            "assistant": "App backup cleanup finished.\nRemoved backups: 0\nKept backups: 4",
+            "intent": "cleanup_app_backups",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:25:01",
+            "importance": 0.6
+        },
+        {
+            "user": "repair app cleanup",
+            "assistant": "App cleanup repair finished.\nAdded missing allowed fields: 0\nRemoved broken aliases: 0\nRemoved broken defaults: 0\nSkipped missing command entries: 0",
+            "intent": "repair_app_cleanup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:25:09",
+            "importance": 0.6
+        },
+        {
+            "user": "backup app registry",
+            "assistant": "App registry backup saved: 2026-07-27 16:25:25\nApps: 4\nAliases: 1\nDefaults: 0",
+            "intent": "backup_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 16:25:25",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -7052,6 +7222,64 @@
         },
         {
             "timestamp": "2026-07-24 15:58:08",
+            "app_registry": {
+                "spotify": {
+                    "name": "spotify",
+                    "command": "spotify",
+                    "allowed": false
+                },
+                "notepad": {
+                    "name": "notepad",
+                    "command": "notepad",
+                    "allowed": true
+                },
+                "something": {
+                    "name": "something",
+                    "command": "steam.exe",
+                    "allowed": false
+                },
+                "google chrome": {
+                    "name": "google chrome",
+                    "command": "chrome",
+                    "allowed": false
+                }
+            },
+            "app_aliases": {
+                "steam": "something"
+            },
+            "default_apps": {}
+        },
+        {
+            "timestamp": "2026-07-27 16:24:31",
+            "app_registry": {
+                "spotify": {
+                    "name": "spotify",
+                    "command": "spotify",
+                    "allowed": false
+                },
+                "notepad": {
+                    "name": "notepad",
+                    "command": "notepad",
+                    "allowed": true
+                },
+                "something": {
+                    "name": "something",
+                    "command": "steam.exe",
+                    "allowed": false
+                },
+                "google chrome": {
+                    "name": "google chrome",
+                    "command": "chrome",
+                    "allowed": false
+                }
+            },
+            "app_aliases": {
+                "steam": "something"
+            },
+            "default_apps": {}
+        },
+        {
+            "timestamp": "2026-07-27 16:25:25",
             "app_registry": {
                 "spotify": {
                     "name": "spotify",
