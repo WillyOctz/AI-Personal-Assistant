@@ -121,6 +121,8 @@ VALID_INTENTS = {
     "restore_app_registry_backup",
     "preview_app_backup_cleanup",
     "cleanup_app_backups",
+    "register_search_folder",
+    "show_search_folders",
 }
 
 CONTROL_INTENTS = {
@@ -242,6 +244,8 @@ MEMORY_INTENTS = {
     "restore_app_registry_backup",
     "preview_app_backup_cleanup",
     "cleanup_app_backups",
+    "register_search_folder",
+    "show_search_folders",
 }
 
 ACTION_INTENTS = {
@@ -549,6 +553,10 @@ INTENT_PATTERNS = {
         "cleanup app registry backups",
         "prune app backups",
     ],
+    "show_search_folders": [
+        "show search folders",
+        "search folders",
+    ],
 }
 
 INTENT_PREFIXES = {
@@ -712,6 +720,9 @@ INTENT_PREFIXES = {
     ],
     "restore_app_registry_backup": [
         "restore app registry backup ",
+    ],
+    "register_search_folder": [
+        "register search folder ",
     ],
 }
 

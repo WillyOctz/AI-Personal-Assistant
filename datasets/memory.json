@@ -7154,6 +7154,56 @@
             "source": "rule",
             "timestamp": "2026-07-27 16:46:21",
             "importance": 0.1
+        },
+        {
+            "user": "register search folder assistan as C:\\Users\\User\\AI_Personal_Assistant",
+            "assistant": "Registered search folder: assistan -> C:\\Users\\User\\AI_Personal_Assistant",
+            "intent": "register_search_folder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 18:09:39",
+            "importance": 0.6
+        },
+        {
+            "user": "search folders",
+            "assistant": null,
+            "intent": "show_search_folders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 18:09:46",
+            "importance": 0.6
+        },
+        {
+            "user": "search folders",
+            "assistant": null,
+            "intent": "show_search_folders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 18:10:20",
+            "importance": 0.6
+        },
+        {
+            "user": "search folders",
+            "assistant": "Search folders:\n- assistan: C:\\Users\\User\\AI_Personal_Assistant",
+            "intent": "show_search_folders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 18:13:37",
+            "importance": 0.6
+        },
+        {
+            "user": "eit",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-27 18:13:40",
+            "importance": 0.3
         }
     ],
     "summaries": [
@@ -7555,5 +7605,8 @@
             },
             "default_apps": {}
         }
-    ]
+    ],
+    "search_folders": {
+        "assistan": "C:\\Users\\User\\AI_Personal_Assistant"
+    }
 }

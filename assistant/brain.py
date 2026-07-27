@@ -455,6 +455,21 @@ def parse_delete_focus_session(user_input):
                 return int(value)
             
     return None
+
+def parse_register_search_folder(user_input):
+    text = user_input.strip()
+    
+    if not text.lower().startswith("register search folder "):
+        return "", ""
+    
+    text = text[23:].strip()
+    
+    if " as " not in text:
+        return "", ""
+    
+    name, path = text.split(" as ", 1)
+    
+    return name.strip(), path.strip()
     
 def build_focus_stats_for_task(query):
     return focus.build_focus_stats_for_task(query)
@@ -901,6 +916,12 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "cleanup_app_backups"):
         return make_analysis("cleanup_app_backups")
+    
+    if match_prefix_pattern(text, "register_search_folder"):
+        return make_analysis("register_search_folder")
+    
+    if match_exact_pattern(text, "show_search_folders"):
+        return make_analysis("show_search_folders")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2740,6 +2761,29 @@ def handle_memory_intent(user_input, analysis):
         
     if intent == "cleanup_app_backups":
         return apps.handle_cleanup_app_backups()
+    
+    if intent == "register_search_folder":
+        name, path = parse_register_search_folder(user_input)
+        
+        if not name or not path:
+            return "Use this format: register search folder name as path"
+        
+        folder = memory.add_search_folder(name, path)
+        
+        return f"Registered search folder: {folder['name']} -> {folder['path']}"
+    
+    if intent == "show_search_folders":
+        folders = memory.get_search_folders()
+        
+        if not folders:
+            return "No search folders registered yet."
+        
+        lines = ["Search folders:"]
+        
+        for name, path in folders.items():
+            lines.append(f"- {name}: {path}")
+            
+        return "\n".join(lines)
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

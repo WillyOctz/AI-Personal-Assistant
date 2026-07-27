@@ -120,6 +120,9 @@ def ensure_memory_shape(memory):
     if "app_registry_backups" not in memory:
         memory["app_registry_backups"] = []
         
+    if "search_folders" not in memory:
+        memory["search_folders"] = {}
+        
     return memory
 
 def archive_conversation_turns(turns_to_archive):
@@ -1297,6 +1300,30 @@ def repair_app_cleanup():
         "removed_defaults": removed_defaults,
         "skipped_missing_command": len(preview["missing_command"])
     }
+    
+def add_search_folder(name, path):
+    memory = load_memory()
+    
+    clean_name = normalize_entity_name(name)
+    clean_path = path.strip()
+    
+    memory["search_folders"][clean_name] = clean_path
+    save_memory(memory)
+    
+    return {
+        "name": clean_name,
+        "path": clean_path
+    }
+    
+def get_search_folders():
+    memory = load_memory()
+    return memory["search_folders"]
+
+def get_search_folder(name):
+    memory = load_memory()
+    clean_name = normalize_entity_name(name)
+    
+    return memory["search_folders"].get(clean_name)
 
 
 
