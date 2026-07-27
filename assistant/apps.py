@@ -315,3 +315,119 @@ def format_app_safety_dashboard():
         lines.append("Pending launch: None")
         
     return "\n".join(lines)
+
+def format_debug_app_resolution(user_input):
+    app_name = parse_debug_app(user_input)
+    
+    if not app_name:
+        return "What app should I debug?"
+    
+    resolution = resolve_app_name_for_open(app_name)
+    app_entry = resolution["app_entry"]
+    
+    lines = [
+        f"Input: {resolution['input']}",
+        f"After alias: {resolution['after_alias']}",
+        f"After default: {resolution['after_default']}",
+        f"Registered: {resolution['registered']}", 
+    ]
+    
+    if app_entry:
+        lines.append(f"Command: {app_entry['command']}")
+        
+    return "\n".join(lines)
+
+def format_app_cleanup_preview():
+    preview = memory.preview_app_cleanup()
+    
+    return (
+       f"App cleanup preview:\n"
+        f"Missing command: {len(preview['missing_command'])}\n"
+        f"Missing allowed field: {len(preview['missing_allowed'])}\n"
+        f"Broken aliases: {len(preview['broken_aliases'])}\n"
+        f"Broken defaults: {len(preview['broken_defaults'])}" 
+    )
+    
+def format_debug_app_cleanup():
+    preview = memory.preview_app_cleanup()
+    
+    lines = ["App cleanup details:"]
+    
+    lines.append("Missing command:")
+    if preview["missing_command"]:
+        for name in preview["missing_command"]:
+            lines.append(f"- {name}")
+    else:
+        lines.append("- None")
+        
+    lines.append("Missing allowed field:")
+    if preview["missing_allowed"]:
+        for name in preview["missing_allowed"]:
+            lines.append(f"- {name}")
+    else:
+        lines.append("- None")
+        
+    lines.append("Broken aliases:")
+    if preview["broken_aliases"]:
+        for item in preview["broken_aliases"]:
+            lines.append(f"- {item['alias']} -> {item['app_name']}")
+    else:
+        lines.append("- None")
+
+    lines.append("Broken defaults:")
+    if preview["broken_defaults"]:
+        for item in preview["broken_defaults"]:
+            lines.append(f"- {item['category']} -> {item['app_name']}")
+    else:
+        lines.append("- None")
+        
+    return "\n".join(lines)
+
+def format_app_registry_backups():
+    backups = memory.get_app_registry_backups()
+    
+    if not backups:
+        return "No app registry backups saved yet."
+    
+    lines = ["App registry backups:"]
+    
+    for index, backup in enumerate(backups, start=1):
+        lines.append(
+            f"{index}. {backup['timestamp']} | "
+            f"apps: {len(backup['app_registry'])}, "
+            f"aliases: {len(backup['app_aliases'])}, "
+            f"defaults: {len(backup['default_apps'])}"
+        )
+        
+    return "\n".join(lines)
+
+def format_restore_app_registry_preview(user_input):
+    index = parse_backup_index(user_input, "preview app registry restore ")
+    
+    if index is None:
+        return "Use this format: preview app registry restore number"
+    
+    preview = memory.preview_restore_app_registry_backup(index)
+    
+    if not preview["found"]:
+        if preview["reason"] == "empty":
+            return "No app registry backups found."
+        
+        return "That app registry backup number does not exist."
+    
+    return (
+        f"Restore preview for backup: {preview['backup_timestamp']}\n"
+        f"Apps: current {preview['current_apps']} -> backup {preview['backup_apps']}\n"
+        f"Aliases: current {preview['current_aliases']} -> backup {preview['backup_aliases']}\n"
+        f"Defaults: current {preview['current_defaults']} -> backup {preview['backup_defaults']}"
+    )
+    
+def format_app_backup_cleanup_preview():
+    preview = memory.preview_app_registry_backup_cleanup()
+    
+    return (
+        f"App backup cleanup preview:\n"
+        f"Total backups: {preview['total']}\n"
+        f"Keep latest: {preview['keep_latest']}\n"
+        f"Would remove: {preview['remove_count']}"
+    )

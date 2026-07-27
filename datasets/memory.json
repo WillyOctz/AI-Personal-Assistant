@@ -6574,6 +6574,66 @@
             "source": "rule",
             "timestamp": "2026-07-24 16:37:20",
             "importance": 0.6
+        },
+        {
+            "user": "debug app browser",
+            "assistant": "Input: browser\nAfter alias: browser\nAfter default: browser\nRegistered: False",
+            "intent": "debug_app_resolution",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 15:26:55",
+            "importance": 0.1
+        },
+        {
+            "user": "preview app cleanup",
+            "assistant": "App cleanup preview:\nMissing command: 0\nMissing allowed field: 0\nBroken aliases: 0\nBroken defaults: 0",
+            "intent": "preview_app_cleanup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 15:27:02",
+            "importance": 0.6
+        },
+        {
+            "user": "debug app cleanup",
+            "assistant": "App cleanup details:\nMissing command:\n- None\nMissing allowed field:\n- None\nBroken aliases:\n- None\nBroken defaults:\n- None",
+            "intent": "debug_app_cleanup",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 15:27:12",
+            "importance": 0.1
+        },
+        {
+            "user": "show app registry backups",
+            "assistant": "App registry backups:\n1. 2026-07-23 18:37:32 | apps: 4, aliases: 1, defaults: 0\n2. 2026-07-23 19:16:25 | apps: 4, aliases: 1, defaults: 0\n3. 2026-07-24 15:58:08 | apps: 4, aliases: 1, defaults: 0",
+            "intent": "show_app_registry_backups",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 15:27:21",
+            "importance": 0.6
+        },
+        {
+            "user": "preview app registry restore 1",
+            "assistant": "Restore preview for backup: 2026-07-23 18:37:32\nApps: current 4 -> backup 4\nAliases: current 1 -> backup 1\nDefaults: current 0 -> backup 0",
+            "intent": "preview_restore_app_registry_backup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 15:27:43",
+            "importance": 0.6
+        },
+        {
+            "user": "preview app backup cleanup",
+            "assistant": "App backup cleanup preview:\nTotal backups: 3\nKeep latest: 5\nWould remove: 0",
+            "intent": "preview_app_backup_cleanup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 15:27:59",
+            "importance": 0.6
         }
     ],
     "summaries": [
