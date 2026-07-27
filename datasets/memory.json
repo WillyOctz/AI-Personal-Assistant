@@ -7364,6 +7364,36 @@
             "source": "rule",
             "timestamp": "2026-07-27 20:42:01",
             "importance": 0.6
+        },
+        {
+            "user": "preview file assistant README.MD",
+            "assistant": "Preview: C:\\Users\\User\\AI_Personal_Assistant\\README.MD\n**AI PERSONAL ASSISTANT**\n\n## Basic AI Personal Assistant\n### Version 1.0 \n- Task, reminders, archive, summary and conversation feature\n- Basic and greeting with personality \n- Intent, state and entity classification\n- Basic Calculator feature\n- Still using basic .jsonl as datasets and simple trainer\n- Basic CRUD of reminders\n\n## More updated version still on going...\ud83d\ude00\ud83d\ude00\ud83d\ude00",
+            "intent": "preview_file",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 21:10:04",
+            "importance": 0.6
+        },
+        {
+            "user": "preview file assistant brain.py",
+            "assistant": "Preview: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py\nfrom assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file\nfrom assistant import memory\nfrom assistant import apps\nfrom assistant.personality import greet, unknown_response\nfrom assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS\nfrom assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score\nfrom datetime import datetime, timedelta\nfrom assistant import focus\n\nHIGH_CONFIDENCE = 0.75\nLOW_CONFIDENCE = 0.55\n\ndef current_timestamp():\n    return datetime.now().strftime(\"%Y-%m-%d %H:%M:%S\")\n\ndef log_app_launch(app_name, command, result):\n    return apps.log_app_launch(app_name, command, result)\n\ndef parse_timestamp(timestamp):\n    try:",
+            "intent": "preview_file",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 21:10:14",
+            "importance": 0.6
+        },
+        {
+            "user": "preview file assistant feedback.jsonl",
+            "assistant": "Preview: C:\\Users\\User\\AI_Personal_Assistant\\datasets\\feedback.jsonl\n{\"input\": \"play music\", \"correct_intent\": \"play_music\"}\n{\"input\": \"open chrome\", \"correct_intent\": \"open_app\"}\n{\"input\": \"remind me to study\", \"correct_intent\": \"set_reminder\"}\n{\"input\": \"play music\", \"correct_intent\": \"play_music\"}\n{\"input\": \"start music\", \"correct_intent\": \"play_music\"}\n{\"input\": \"gaming\", \"correct_intent\": \"play_game\"}\n{\"input\": \"play game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"gaming\", \"correct_intent\": \"minecraft\"}\n{\"input\": \"playing\", \"correct_intent\": \"minecraft\"}\n{\"input\": \"playing game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"start game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"start game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"start\", \"correct_intent\": \"play_game\"}",
+            "intent": "preview_file",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 21:10:40",
+            "importance": 0.6
         }
     ],
     "summaries": [

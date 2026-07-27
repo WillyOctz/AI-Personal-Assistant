@@ -1,4 +1,4 @@
-from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp
+from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file
 from assistant import memory
 from assistant import apps
 from assistant.personality import greet, unknown_response
@@ -515,6 +515,24 @@ def parse_file_info(user_input):
     filename = parts[1]
     
     return folder_name.strip(), filename.strip()
+
+def parse_preview_file(user_input):
+    text = user_input.strip()
+    
+    for prefix in ["preview file ", "read file preview "]:
+        if text.lower().startswith(prefix):
+            text = text[len(prefix):].strip()
+            break
+        
+    parts = text.split(" ", 1)
+    
+    if len(parts) < 2:
+        return "", ""
+    
+    folder_name = parts[0]
+    filename = parts[1]
+    
+    return folder_name.strip(), filename.strip()
     
 def build_focus_stats_for_task(query):
     return focus.build_focus_stats_for_task(query)
@@ -976,6 +994,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "file_info"):
         return make_analysis("file_info")
+    
+    if match_prefix_pattern(text, "preview_file"):
+        return make_analysis("preview_file")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2929,6 +2950,44 @@ def handle_memory_intent(user_input, analysis):
             f"Size: {file['size']} bytes\n"
             f"Modified: {format_timestamp(file['modified'])}"
         )
+        
+    if intent == "preview_file":
+        folder_name, filename = parse_preview_file(user_input)
+        
+        if not folder_name or not filename:
+            return "Use this format: preview file folder_name filename"
+        
+        folder_path = memory.get_search_folder(folder_name)
+        
+        if not folder_path:
+            return f"I could not find registered search folder: {folder_name}"
+        
+        result = preview_text_file(folder_path, filename)
+        
+        if not result["ok"]:
+            if result["reason"] == "folder_not_found":
+                return f"Folder path does not exist: {folder_path}"
+            
+            if result["reason"] == "not_directory":
+                return f"Path is not a folder: {folder_path}"
+
+            if result["reason"] == "not_file":
+                return f"That path is not a file: {filename}"
+
+            if result["reason"] == "not_text":
+                return f"I will only preview text-like files."
+
+            if result["reason"] == "decode_error":
+                return f"I could not decode that file as text."
+            
+            return f"I could not find file: {filename}"
+        
+        lines = [f"Preview: {result['path']}"]
+        
+        for line in result["lines"]:
+            lines.append(line)
+            
+        return "\n".join(lines)
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

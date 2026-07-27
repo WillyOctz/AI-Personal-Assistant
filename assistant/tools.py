@@ -15,6 +15,17 @@ ALLOWED_OPERATORS = {
     ast.USub: operator.neg,
 }
 
+TEXT_EXTENSIONS = {
+    ".txt",
+    ".md",
+    ".py",
+    ".json",
+    ".jsonl",
+    ".csv",
+    ".html",
+    ".css",
+    ".js",
+}
 
 ## Helper Methods
 #  -------------------------------------------------
@@ -27,7 +38,6 @@ def parse_launch_command(command):
     
 def format_timestamp(timestamp):
     return datetime.fromtimestamp(timestamp).strftime("%Y-%m-%d %H:%M:%S")
-
 
 ## Functions logic
 #  -------------------------------------------------
@@ -112,6 +122,10 @@ def open_registered_app(app_name, app_entry, real_launching=False):
         return f"I could not find the app command: {command}"
     except:
         return f"I tried to open {app_name}, but something went wrong."
+    
+#======================================================================
+## File Search/Path Logic Functions
+#======================================================================
     
 def list_folder_items(folder_path, limit=20):
     path = Path(folder_path)
@@ -228,4 +242,68 @@ def get_file_info(folder_path, filename):
         "ok": False,
         "reason": "file_not_found",
         "file": None
+    }
+    
+def preview_text_file(folder_path, filename, max_lines=20):
+    path = Path(folder_path)
+    
+    if not path.exists():
+        return {
+           "ok": False,
+            "reason": "folder_not_found",
+            "lines": [] 
+        }
+        
+    if not path.is_dir():
+        return {
+            "ok": False,
+            "reason": "not_directory",
+            "lines": []
+        }
+        
+    filename = filename.lower().strip()
+    
+    for item in path.rglob("*"):
+        if item.name.lower() == filename:
+            if not item.is_file():
+                return {
+                    "ok": False,
+                    "reason": "not_file",
+                    "lines": []
+                }
+                
+            if item.suffix.lower() not in TEXT_EXTENSIONS:
+                return {
+                   "ok": False,
+                    "reason": "not_text",
+                    "lines": [] 
+                }
+                
+            lines = []
+            
+            try:
+                with open(item, "r", encoding="utf-8") as file:
+                    for index, line in enumerate(file):
+                        if index >= max_lines:
+                            break
+                        
+                        lines.append(line.rstrip("\n"))
+                        
+                return {
+                    "ok": True,
+                    "reason": "ok",
+                    "path": str(item),
+                    "lines": lines 
+                }
+            except UnicodeDecodeError:
+                return {
+                   "ok": False,
+                    "reason": "decode_error",
+                    "lines": [] 
+                }
+                
+    return {
+        "ok": False,
+        "reason": "file_not_found",
+        "lines": []
     }
