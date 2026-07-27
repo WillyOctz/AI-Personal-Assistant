@@ -124,6 +124,7 @@ VALID_INTENTS = {
     "register_search_folder",
     "show_search_folders",
     "list_folder_files",
+    "search_files_by_name",
 }
 
 CONTROL_INTENTS = {
@@ -248,6 +249,7 @@ MEMORY_INTENTS = {
     "register_search_folder",
     "show_search_folders",
     "list_folder_files",
+    "search_files_by_name",
 }
 
 ACTION_INTENTS = {
@@ -729,6 +731,10 @@ INTENT_PREFIXES = {
     "list_folder_files": [
         "list files ",
         "show files ",
+    ],
+    "search_files_by_name": [
+        "search files ",
+        "find files ",
     ],
 }
 

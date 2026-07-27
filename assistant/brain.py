@@ -1,4 +1,4 @@
-from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items
+from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name
 from assistant import memory
 from assistant import apps
 from assistant.personality import greet, unknown_response
@@ -479,6 +479,24 @@ def parse_list_folder_files(user_input):
             return text.replace(prefix, "", 1).strip()
         
     return ""
+
+def parse_file_search(user_input):
+    text = user_input.strip()
+    
+    for prefix in ["search files ", "find files "]:
+        if text.lower().startswith(prefix):
+            text = text[len(prefix):].strip()
+            break
+        
+    parts = text.split(" ", 1)
+    
+    if len(parts) < 2:
+        return "", ""
+    
+    folder_name = parts[0]
+    query = parts[1]
+    
+    return folder_name.strip(), query.strip()
     
 def build_focus_stats_for_task(query):
     return focus.build_focus_stats_for_task(query)
@@ -934,6 +952,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "list_folder_files"):
         return make_analysis("list_folder_files")
+    
+    if match_prefix_pattern(text, "search_files_by_name"):
+        return make_analysis("search_files_by_name")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2823,6 +2844,35 @@ def handle_memory_intent(user_input, analysis):
         
         for item in result["items"]:
             lines.append(f"- {item['type']}: {item['name']}")
+            
+        return "\n".join(lines)
+    
+    if intent == "search_files_by_name":
+        folder_name, query = parse_file_search(user_input)
+        
+        if not folder_name or not query:
+            return "Use this format: search files folder_name query"
+        
+        folder_path = memory.get_search_folder(folder_name)
+        
+        if not folder_path:
+            return f"I could not find registered search folder: {folder_name}"
+        
+        result = search_files_by_name(folder_path, query)
+        
+        if not result["ok"]:
+            if result["reason"] == "not_found":
+                return f"Folder path does not exist: {folder_path}"
+            
+            return f"Path is not a folder: {folder_path}"
+        
+        if not result["matches"]:
+            return f"No files matched: {query}"
+        
+        lines = [f"Files matching {query}:"]
+        
+        for match in result["matches"]:
+            lines.append(f"- {match['type']}: {match['path']}")
             
         return "\n".join(lines)
 

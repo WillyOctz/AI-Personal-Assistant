@@ -145,3 +145,44 @@ def list_folder_items(folder_path, limit=20):
         "reason": "ok",
         "items": items
     }
+    
+def search_files_by_name(folder_path, query, limit=20):
+    path = Path(folder_path)
+    
+    if not path.exists():
+        return {
+            "ok": False,
+            "reason": "not_found",
+            "matches": []
+        }
+        
+    if not path.is_dir():
+        return {
+            "ok": False,
+            "reason": "not_directory",
+            "matches": []
+        }
+        
+    query = query.lower().strip()
+    matches = []
+    
+    for item in path.rglob("*"):
+        if query in item.name.lower():
+            item_type = "folder" if item.is_dir() else "file"
+            
+            matches.append({
+                "name": item.name,
+                "path": str(item),
+                "type": item_type
+            })
+            
+            if len(matches) >= limit:
+                break
+            
+    return {
+        "ok": True,
+        "reason": "ok",
+        "matches": matches 
+    }
+    
+    

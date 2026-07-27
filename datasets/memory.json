@@ -7284,6 +7284,56 @@
             "source": "rule",
             "timestamp": "2026-07-27 19:05:41",
             "importance": 0.6
+        },
+        {
+            "user": "search files assistant brain",
+            "assistant": "Files matching brain:\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\__pycache__\\brain.cpython-310.pyc",
+            "intent": "search_files_by_name",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 19:43:13",
+            "importance": 0.6
+        },
+        {
+            "user": "search files assistant .py",
+            "assistant": "Files matching .py:\n- file: C:\\Users\\User\\AI_Personal_Assistant\\main.py\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\focus.py\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\intents.py\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\memory.py\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\personality.py\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\tools.py\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\trainer.py\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\__pycache__\\apps.cpython-310.pyc\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\__pycache__\\brain.cpython-310.pyc\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\__pycache__\\focus.cpython-310.pyc\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\__pycache__\\intents.cpython-310.pyc\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\__pycache__\\memory.cpython-310.pyc\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\__pycache__\\personality.cpython-310.pyc\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\__pycache__\\tools.cpython-310.pyc\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\__pycache__\\trainer.cpython-310.pyc",
+            "intent": "search_files_by_name",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 19:43:27",
+            "importance": 0.6
+        },
+        {
+            "user": "find files assistant memory",
+            "assistant": "Files matching memory:\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\memory.py\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\__pycache__\\memory.cpython-310.pyc\n- file: C:\\Users\\User\\AI_Personal_Assistant\\datasets\\memory.json",
+            "intent": "search_files_by_name",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 19:43:42",
+            "importance": 0.6
+        },
+        {
+            "user": "find files assistant memory.pu",
+            "assistant": "No files matched: memory.pu",
+            "intent": "search_files_by_name",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 19:43:54",
+            "importance": 0.6
+        },
+        {
+            "user": "find files assistant memory.py",
+            "assistant": "Files matching memory.py:\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\memory.py",
+            "intent": "search_files_by_name",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-27 19:44:04",
+            "importance": 0.6
         }
     ],
     "summaries": [
