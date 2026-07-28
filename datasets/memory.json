@@ -7434,6 +7434,26 @@
             "source": "rule",
             "timestamp": "2026-07-28 16:33:45",
             "importance": 0.6
+        },
+        {
+            "user": "file search dashboard",
+            "assistant": "File search dashboard:\nRegistered folders: 2\n- assistan -> C:\\Users\\User\\AI_Personal_Assistant\n- assistant -> C:\\Users\\User\\AI_Personal_Assistant",
+            "intent": "file_search_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-28 17:01:20",
+            "importance": 0.6
+        },
+        {
+            "user": "file dashboard",
+            "assistant": "File search dashboard:\nRegistered folders: 2\n- assistan -> C:\\Users\\User\\AI_Personal_Assistant\n- assistant -> C:\\Users\\User\\AI_Personal_Assistant",
+            "intent": "file_search_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-28 17:01:30",
+            "importance": 0.6
         }
     ],
     "summaries": [

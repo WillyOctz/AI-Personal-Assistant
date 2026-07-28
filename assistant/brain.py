@@ -1018,6 +1018,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "search_text_files"):
         return make_analysis("search_text_files")
+    
+    if match_exact_pattern(text, "file_search_dashboard"):
+        return make_analysis("file_search_dashboard")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -3038,6 +3041,22 @@ def handle_memory_intent(user_input, analysis):
             lines.append(
                 f"- {match['path']}:{match['line']} | {match['text']}"
             )
+            
+        return "\n".join(lines)
+    
+    if intent == "file_search_dashboard":
+        folders = memory.get_search_folders()
+        
+        lines = [
+            "File search dashboard:",
+            f"Registered folders: {len(folders)}"
+        ]
+        
+        if not folders:
+            return "\n".join(lines)
+        
+        for name, path in folders.items():
+            lines.append(f"- {name} -> {path}")
             
         return "\n".join(lines)
 

@@ -128,6 +128,7 @@ VALID_INTENTS = {
     "file_info",
     "preview_file",
     "search_text_files",
+    "file_search_dashboard",
 }
 
 CONTROL_INTENTS = {
@@ -256,6 +257,7 @@ MEMORY_INTENTS = {
     "file_info",
     "preview_file",
     "search_text_files",
+    "file_search_dashboard",
 }
 
 ACTION_INTENTS = {
@@ -566,6 +568,11 @@ INTENT_PATTERNS = {
     "show_search_folders": [
         "show search folders",
         "search folders",
+    ],
+    "file_search_dashboard": [
+        "file search dashboard",
+        "file dashboard",
+        "search folder dashboard",
     ],
 }
 
