@@ -1,4 +1,4 @@
-from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file
+from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files
 from assistant import memory
 from assistant import apps
 from assistant.personality import greet, unknown_response
@@ -533,6 +533,24 @@ def parse_preview_file(user_input):
     filename = parts[1]
     
     return folder_name.strip(), filename.strip()
+
+def parse_text_search(user_input):
+    text = user_input.strip()
+    
+    for prefix in ["search text ", "search inside files "]:
+        if text.lower().startswith(prefix):
+            text = text[len(prefix):].strip()
+            break
+        
+    parts = text.split(" ", 1)
+    
+    if len(parts) < 2:
+        return "", ""
+    
+    folder_name = parts[0]
+    query = parts[1]
+    
+    return folder_name.strip(), query.strip()
     
 def build_focus_stats_for_task(query):
     return focus.build_focus_stats_for_task(query)
@@ -997,6 +1015,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "preview_file"):
         return make_analysis("preview_file")
+    
+    if match_prefix_pattern(text, "search_text_files"):
+        return make_analysis("search_text_files")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2986,6 +3007,37 @@ def handle_memory_intent(user_input, analysis):
         
         for line in result["lines"]:
             lines.append(line)
+            
+        return "\n".join(lines)
+    
+    if intent == "search_text_files":
+        folder_name, query = parse_text_search(user_input)
+        
+        if not folder_name or not query:
+            return "Use this format: search text folder_name query"
+        
+        folder_path = memory.get_search_folder(folder_name)
+        
+        if not folder_path:
+            return f"I could not find registered search folder: {folder_name}"
+        
+        result = search_text_in_files(folder_path, query)
+        
+        if not result["ok"]:
+            if result["reason"] == "folder_not_found":
+                return f"Folder path does not exist: {folder_path}"
+            
+            return f"Path is not a folder: {folder_path}"
+        
+        if not result["matches"]:
+            return f"No text matches found for: {query}"
+        
+        lines = [f"Text matches for {query}:"]
+        
+        for match in result["matches"]:
+            lines.append(
+                f"- {match['path']}:{match['line']} | {match['text']}"
+            )
             
         return "\n".join(lines)
 

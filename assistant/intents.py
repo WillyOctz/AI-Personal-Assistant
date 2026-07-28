@@ -127,6 +127,7 @@ VALID_INTENTS = {
     "search_files_by_name",
     "file_info",
     "preview_file",
+    "search_text_files",
 }
 
 CONTROL_INTENTS = {
@@ -254,6 +255,7 @@ MEMORY_INTENTS = {
     "search_files_by_name",
     "file_info",
     "preview_file",
+    "search_text_files",
 }
 
 ACTION_INTENTS = {
@@ -747,6 +749,10 @@ INTENT_PREFIXES = {
     "preview_file": [
         "preview file ",
         "read file preview ",
+    ],
+    "search_text_files": [
+        "search text ",
+        "search inside files ",
     ],
 }
 

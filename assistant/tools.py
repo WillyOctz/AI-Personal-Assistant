@@ -307,3 +307,56 @@ def preview_text_file(folder_path, filename, max_lines=20):
         "reason": "file_not_found",
         "lines": []
     }
+    
+def search_text_in_files(folder_path, query, limit=20):
+    path = Path(folder_path)
+    
+    
+    if not path.exists():
+        return {
+           "ok": False,
+            "reason": "folder_not_found",
+            "matches": [] 
+        }
+        
+    if not path.is_dir():
+        return {
+            "ok": False,
+            "reason": "not_directory",
+            "matches": []
+        }
+        
+    query = query.lower().strip()
+    matches = []
+    
+    for item in path.rglob("*"):
+        if not item.is_file():
+            continue
+        
+        if item.suffix.lower() not in TEXT_EXTENSIONS:
+            continue
+        
+        try:
+            with open(item, "r", encoding="utf-8") as file:
+                for line_number, line in enumerate(file, start=1):
+                    if query in line.lower():
+                        matches.append({
+                            "path": str(item),
+                            "line": line_number,
+                            "text": line.strip()
+                        })
+                        
+                        if len(matches) >= limit:
+                            return {
+                               "ok": True,
+                                "reason": "ok",
+                                "matches": matches 
+                            }
+        except UnicodeDecodeError:
+            continue
+        
+    return {
+        "ok": True,
+        "reason": "ok",
+        "matches": matches 
+    }
