@@ -534,6 +534,21 @@ def parse_preview_file(user_input):
     
     return folder_name.strip(), filename.strip()
 
+def parse_update_search_folder(user_input):
+    text = user_input.strip()
+    
+    for prefix in ["update search folder ", "change search folder "]:
+        if text.lower().startswith(prefix):
+            text = text[len(prefix):].strip()
+            break
+        
+    if " as " not in text:
+        return "", ""
+    
+    name, path = text.split(" as ", 1)
+    
+    return name.strip(), path.strip()
+
 def parse_unregister_search_folder(user_input):
     text = user_input.lower().strip()
     
@@ -1033,6 +1048,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "unregister_search_folder"):
         return make_analysis("unregister_search_folder")
+    
+    if match_prefix_pattern(text, "update_search_folder"):
+        return make_analysis("update_search_folder")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -3071,6 +3089,19 @@ def handle_memory_intent(user_input, analysis):
             lines.append(f"- {name} -> {path}")
             
         return "\n".join(lines)
+    
+    if intent == "update_search_folder":
+        name, path = parse_update_search_folder(user_input)
+        
+        if not name or not path:
+            return "Use this format: update search folder name as path"
+        
+        result = memory.update_search_folder(name, path)
+        
+        if not result["updated"]:
+            return f"I could not find registered search folder: {result['name']}"
+        
+        return f"Updated search folder: {result['name']} -> {result['path']}"
     
     if intent == "unregister_search_folder":
         folder_name = parse_unregister_search_folder(user_input)
