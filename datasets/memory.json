@@ -7624,6 +7624,16 @@
             "source": "rule",
             "timestamp": "2026-07-29 18:22:29",
             "importance": 0.6
+        },
+        {
+            "user": "file search stats",
+            "assistant": "File search stats:\nTotal events: 23\nMost used action: preview_file (13 time(s))\nMost used folder: assistant (23 time(s))\nLast action: preview_file",
+            "intent": "file_search_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-29 21:06:09",
+            "importance": 0.6
         }
     ],
     "summaries": [

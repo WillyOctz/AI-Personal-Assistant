@@ -1378,6 +1378,46 @@ def get_file_search_history(limit=10):
     memory = load_memory()
     return memory["file_search_history"][-limit:]
 
+def get_file_search_stats():
+    memory = load_memory()
+    history = memory["file_search_history"]
+    
+    if not history:
+        return {
+           "total": 0,
+            "most_action": None,
+            "most_folder": None,
+            "last_action": None 
+        }
+        
+    action_counts = {}
+    folder_counts = {}
+    
+    for event in history:
+        action = event["action"]
+        folder = event["folder"]
+        
+        if action not in action_counts:
+            action_counts[action] = 0
+            
+        if folder not in folder_counts:
+            folder_counts[folder] = 0
+            
+        action_counts[action] += 1
+        folder_counts[folder] += 1
+        
+    most_action = max(action_counts, key=action_counts.get)
+    most_folder = max(folder_counts, key=folder_counts.get)
+    
+    return {
+        "total": len(history),
+        "most_action": most_action,
+        "most_action_count": action_counts[most_action],
+        "most_folder": most_folder,
+        "most_folder_count": folder_counts[most_folder],
+        "last_action": history[-1]["action"] 
+    }
+
 
 
 

@@ -1068,6 +1068,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "show_file_search_history"):
         return make_analysis("show_file_search_history")
+    
+    if match_exact_pattern(text, "file_search_stats"):
+        return make_analysis("file_search_stats")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -3175,6 +3178,20 @@ def handle_memory_intent(user_input, analysis):
             )
         
         return "\n".join(lines)
+    
+    if intent == "file_search_stats":
+        stats = memory.get_file_search_stats()
+        
+        if stats["total"] == 0:
+            return "I do not have any file search stats yet."
+        
+        return (
+            f"File search stats:\n"
+            f"Total events: {stats['total']}\n"
+            f"Most used action: {stats['most_action']} ({stats['most_action_count']} time(s))\n"
+            f"Most used folder: {stats['most_folder']} ({stats['most_folder_count']} time(s))\n"
+            f"Last action: {stats['last_action']}"
+        )
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]
