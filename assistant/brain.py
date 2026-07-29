@@ -1,4 +1,4 @@
-from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files
+from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path
 from assistant import memory
 from assistant import apps
 from assistant.personality import greet, unknown_response
@@ -1051,6 +1051,9 @@ def analyze_intent(user_input):
     
     if match_prefix_pattern(text, "update_search_folder"):
         return make_analysis("update_search_folder")
+    
+    if match_exact_pattern(text, "validate_search_folders"):
+        return make_analysis("validate_search_folders")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -3115,6 +3118,24 @@ def handle_memory_intent(user_input, analysis):
             return f"I could not find registered search folder: {result['name']}"
         
         return f"Unregistered search folder: {result['name']} -> {result['path']}"
+    
+    if intent == "validate_search_folders":
+        folders = memory.get_search_folders()
+        
+        if not folders:
+            return "No search folders registered yet."
+        
+        lines = ["Search folder validation:"]
+        
+        for name, path in folders.items():
+            result = validate_folder_path(path)
+            
+            if result["valid"]:
+                lines.append(f"- {name}: ok")
+            else:
+                lines.append(f"- {name}: {result['reason']} | {path}")
+                
+        return "\n".join(lines)
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

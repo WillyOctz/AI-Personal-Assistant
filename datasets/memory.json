@@ -7524,6 +7524,16 @@
             "source": "rule",
             "timestamp": "2026-07-29 16:01:07",
             "importance": 0.6
+        },
+        {
+            "user": "validate search folders",
+            "assistant": "Search folder validation:\n- assistant: ok",
+            "intent": "validate_search_folders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-29 16:45:47",
+            "importance": 0.6
         }
     ],
     "summaries": [

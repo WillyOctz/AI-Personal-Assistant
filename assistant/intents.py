@@ -131,6 +131,7 @@ VALID_INTENTS = {
     "file_search_dashboard",
     "unregister_search_folder",
     "update_search_folder",
+    "validate_search_folders",
 }
 
 CONTROL_INTENTS = {
@@ -262,6 +263,7 @@ MEMORY_INTENTS = {
     "file_search_dashboard",
     "unregister_search_folder",
     "update_search_folder",
+    "validate_search_folders",
 }
 
 ACTION_INTENTS = {
@@ -577,6 +579,10 @@ INTENT_PATTERNS = {
         "file search dashboard",
         "file dashboard",
         "search folder dashboard",
+    ],
+    "validate_search_folders": [
+        "validate search folders",
+        "check search folders",
     ],
 }
 

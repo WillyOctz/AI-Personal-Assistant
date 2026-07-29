@@ -360,3 +360,23 @@ def search_text_in_files(folder_path, query, limit=20):
         "reason": "ok",
         "matches": matches 
     }
+    
+def validate_folder_path(folder_path):
+    path = Path(folder_path)
+    
+    if not path.exists():
+        return {
+            "valid": False,
+            "reason": "not_found" 
+        }
+        
+    if not path.is_dir():
+        return {
+            "valid": False,
+            "reason": "not_directory"
+        }
+        
+    return {
+        "valid": True,
+        "reason": "ok" 
+    }
