@@ -534,6 +534,15 @@ def parse_preview_file(user_input):
     
     return folder_name.strip(), filename.strip()
 
+def parse_unregister_search_folder(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["unregister search folder ", "remove search folder "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return ""
+
 def parse_text_search(user_input):
     text = user_input.strip()
     
@@ -1021,6 +1030,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "file_search_dashboard"):
         return make_analysis("file_search_dashboard")
+    
+    if match_prefix_pattern(text, "unregister_search_folder"):
+        return make_analysis("unregister_search_folder")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -3059,6 +3071,19 @@ def handle_memory_intent(user_input, analysis):
             lines.append(f"- {name} -> {path}")
             
         return "\n".join(lines)
+    
+    if intent == "unregister_search_folder":
+        folder_name = parse_unregister_search_folder(user_input)
+        
+        if not folder_name:
+            return "Use this format: unregister search folder folder_name"
+        
+        result = memory.remove_search_folder(folder_name)
+        
+        if not result["removed"]:
+            return f"I could not find registered search folder: {result['name']}"
+        
+        return f"Unregistered search folder: {result['name']} -> {result['path']}"
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

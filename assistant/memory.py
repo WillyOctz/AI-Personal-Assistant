@@ -1315,6 +1315,26 @@ def add_search_folder(name, path):
         "path": clean_path
     }
     
+def remove_search_folder(name):
+    memory = load_memory()
+    clean_name = normalize_entity_name(name)
+    
+    if clean_name not in memory["search_folders"]:
+        return {
+            "removed": False,
+            "name": clean_name,
+            "path": None
+        }
+        
+    path = memory["search_folders"].pop(clean_name)
+    save_memory(memory)
+    
+    return {
+        "removed": True,
+        "name": clean_name,
+        "path": path
+    }
+    
 def get_search_folders():
     memory = load_memory()
     return memory["search_folders"]

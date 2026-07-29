@@ -7454,6 +7454,36 @@
             "source": "rule",
             "timestamp": "2026-07-28 17:01:30",
             "importance": 0.6
+        },
+        {
+            "user": "search folders",
+            "assistant": "Search folders:\n- assistan: C:\\Users\\User\\AI_Personal_Assistant\n- assistant: C:\\Users\\User\\AI_Personal_Assistant",
+            "intent": "show_search_folders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-29 15:04:44",
+            "importance": 0.6
+        },
+        {
+            "user": "unregister search folder assistan",
+            "assistant": "Unregistered search folder: assistan -> C:\\Users\\User\\AI_Personal_Assistant",
+            "intent": "unregister_search_folder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-29 15:05:01",
+            "importance": 0.6
+        },
+        {
+            "user": "search folders",
+            "assistant": "Search folders:\n- assistant: C:\\Users\\User\\AI_Personal_Assistant",
+            "intent": "show_search_folders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-29 15:05:07",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -7857,7 +7887,6 @@
         }
     ],
     "search_folders": {
-        "assistan": "C:\\Users\\User\\AI_Personal_Assistant",
         "assistant": "C:\\Users\\User\\AI_Personal_Assistant"
     }
 }

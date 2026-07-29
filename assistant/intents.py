@@ -129,6 +129,7 @@ VALID_INTENTS = {
     "preview_file",
     "search_text_files",
     "file_search_dashboard",
+    "unregister_search_folder",
 }
 
 CONTROL_INTENTS = {
@@ -258,6 +259,7 @@ MEMORY_INTENTS = {
     "preview_file",
     "search_text_files",
     "file_search_dashboard",
+    "unregister_search_folder",
 }
 
 ACTION_INTENTS = {
@@ -760,6 +762,10 @@ INTENT_PREFIXES = {
     "search_text_files": [
         "search text ",
         "search inside files ",
+    ],
+    "unregister_search_folder": [
+        "unregister search folder ",
+        "remove search folder ",
     ],
 }
 
