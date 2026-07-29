@@ -123,6 +123,9 @@ def ensure_memory_shape(memory):
     if "search_folders" not in memory:
         memory["search_folders"] = {}
         
+    if "file_search_history" not in memory:
+        memory["file_search_history"] = []
+        
     return memory
 
 def archive_conversation_turns(turns_to_archive):
@@ -1365,6 +1368,15 @@ def get_search_folder(name):
     clean_name = normalize_entity_name(name)
     
     return memory["search_folders"].get(clean_name)
+
+def add_file_search_event(event):
+    memory = load_memory()
+    memory["file_search_history"].append(event)
+    save_memory(memory)
+    
+def get_file_search_history(limit=10):
+    memory = load_memory()
+    return memory["file_search_history"][-limit:]
 
 
 

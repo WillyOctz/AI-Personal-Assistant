@@ -16,6 +16,17 @@ def current_timestamp():
 def log_app_launch(app_name, command, result):
     return apps.log_app_launch(app_name, command, result)
 
+def log_file_search(action, folder_name, query, result_summary):
+    event = {
+        "action": action,
+        "folder": folder_name,
+        "query": query,
+        "result": result_summary,
+        "timestamp": current_timestamp()
+    }
+    
+    memory.add_file_search_event(event)
+
 def parse_timestamp(timestamp):
     try:
         return datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
@@ -1054,6 +1065,9 @@ def analyze_intent(user_input):
     
     if match_exact_pattern(text, "validate_search_folders"):
         return make_analysis("validate_search_folders")
+    
+    if match_exact_pattern(text, "show_file_search_history"):
+        return make_analysis("show_file_search_history")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
     
@@ -2943,6 +2957,8 @@ def handle_memory_intent(user_input, analysis):
         
         for item in result["items"]:
             lines.append(f"- {item['type']}: {item['name']}")
+        
+        log_file_search("list_files", folder_name, "", f"{len(result['items'])} item(s)")
             
         return "\n".join(lines)
     
@@ -2972,6 +2988,8 @@ def handle_memory_intent(user_input, analysis):
         
         for match in result["matches"]:
             lines.append(f"- {match['type']}: {match['path']}")
+        
+        log_file_search("search_files", folder_name, query, f"{len(result['matches'])} match(es)")
             
         return "\n".join(lines)
     
@@ -2998,6 +3016,7 @@ def handle_memory_intent(user_input, analysis):
             return f"I could not find file: {filename}"
         
         file = result["file"]
+        log_file_search("file_info", folder_name, filename, file["path"])
         
         return (
             f"File info:\n"
@@ -3043,6 +3062,8 @@ def handle_memory_intent(user_input, analysis):
         
         for line in result["lines"]:
             lines.append(line)
+        
+        log_file_search("preview_file", folder_name, filename, f"{len(result['lines'])} line(s)")
             
         return "\n".join(lines)
     
@@ -3074,6 +3095,8 @@ def handle_memory_intent(user_input, analysis):
             lines.append(
                 f"- {match['path']}:{match['line']} | {match['text']}"
             )
+        
+        log_file_search("search_text", folder_name, query, f"{len(result['matches'])} match(es)")
             
         return "\n".join(lines)
     
@@ -3135,6 +3158,22 @@ def handle_memory_intent(user_input, analysis):
             else:
                 lines.append(f"- {name}: {result['reason']} | {path}")
                 
+        return "\n".join(lines)
+    
+    if intent == "show_file_search_history":
+        history = memory.get_file_search_history()
+        
+        if not history:
+            return "I do not have any file search history yet."
+        
+        lines = ["Recent file search activity:"]
+        
+        for event in history:
+            lines.append(
+                f"- {event['timestamp']} | {event['action']} | "
+                f"{event['folder']} | {event['query']} | {event['result']}"
+            )
+        
         return "\n".join(lines)
 
 def handle_action_intent(user_input, analysis):
