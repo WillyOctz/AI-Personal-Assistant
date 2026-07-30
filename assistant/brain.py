@@ -3241,6 +3241,16 @@ def handle_memory_intent(user_input, analysis):
             f"Keep latest: {preview['keep_latest']}\n"
             f"Would remove: {preview['remove_count']}"
         )
+        
+    if intent == "cleanup_file_search_history":
+        result = memory.cleanup_file_search_history()
+        
+        return (
+            f"File search cleanup finished.\n"
+            f"Total before cleanup: {result['total']}\n"
+            f"Kept latest: {result['kept']}\n"
+            f"Removed events: {result['removed']}"
+        )
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

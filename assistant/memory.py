@@ -1434,6 +1434,31 @@ def preview_file_search_cleanup(keep_latest=50):
         "keep_latest": keep_latest,
         "remove_count": len(history) - keep_latest 
     }
+    
+def cleanup_file_search_history(keep_latest=50):
+    memory = load_memory()
+    history = memory["file_search_history"]
+    
+    if len(history) <= keep_latest:
+        return {
+            "total": len(history),
+            "keep_latest": keep_latest,
+            "removed": 0,
+            "kept": len(history) 
+        }
+        
+    kept_history = history[-keep_latest:]
+    removed_count = len(history) - len(kept_history)
+    
+    memory["file_search_history"] = kept_history
+    save_memory(memory)
+    
+    return {
+        "total": len(history),
+        "keep_latest": keep_latest,
+        "removed": removed_count,
+        "kept": len(kept_history)
+    }
 
 
 

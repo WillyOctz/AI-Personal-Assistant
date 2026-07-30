@@ -7734,6 +7734,56 @@
             "source": "rule",
             "timestamp": "2026-07-30 16:51:54",
             "importance": 0.1
+        },
+        {
+            "user": "cleanup file search history",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-30 16:55:17",
+            "importance": 0.3
+        },
+        {
+            "user": "preview file search cleanup",
+            "assistant": "File search cleanup preview:\nTotal events: 23\nKeep latest: 50\nWould remove: 0",
+            "intent": "preview_file_search_cleanup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-30 17:32:51",
+            "importance": 0.6
+        },
+        {
+            "user": "debug route cleanup file search history",
+            "assistant": "Input: cleanup file search history\nExact intent: cleanup_file_search_history\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-30 17:33:24",
+            "importance": 0.1
+        },
+        {
+            "user": "cleanup file search history",
+            "assistant": "File search cleanup finished.\nTotal before cleanup: 23\nKept latest: 23\nRemoved events: 0",
+            "intent": "cleanup_file_search_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-30 17:33:54",
+            "importance": 0.6
+        },
+        {
+            "user": "file search history",
+            "assistant": "Recent file search activity:\n- 2026-07-29 18:06:52 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:06:52 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:06:52 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:06:52 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:06:53 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:06:53 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:06:53 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:22:04 | list_files | assistant |  | 6 item(s)\n- 2026-07-29 18:22:11 | search_files | assistant | brain | 2 match(es)\n- 2026-07-29 18:22:23 | preview_file | assistant | README.MD | 12 line(s)",
+            "intent": "show_file_search_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-30 17:34:04",
+            "importance": 0.6
         }
     ],
     "summaries": [
