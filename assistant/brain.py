@@ -1048,6 +1048,9 @@ def analyze_intent(user_input):
     if match_prefix_pattern(text, "file_info"):
         return make_analysis("file_info")
     
+    if match_exact_pattern(text, "preview_file_search_cleanup"):
+        return make_analysis("preview_file_search_cleanup")
+    
     if match_prefix_pattern(text, "preview_file"):
         return make_analysis("preview_file")
     
@@ -3191,6 +3194,16 @@ def handle_memory_intent(user_input, analysis):
             f"Most used action: {stats['most_action']} ({stats['most_action_count']} time(s))\n"
             f"Most used folder: {stats['most_folder']} ({stats['most_folder_count']} time(s))\n"
             f"Last action: {stats['last_action']}"
+        )
+        
+    if intent == "preview_file_search_cleanup":
+        preview = memory.preview_file_search_cleanup()
+        
+        return (
+            f"File search cleanup preview:\n"
+            f"Total events: {preview['total']}\n"
+            f"Keep latest: {preview['keep_latest']}\n"
+            f"Would remove: {preview['remove_count']}"
         )
 
 def handle_action_intent(user_input, analysis):

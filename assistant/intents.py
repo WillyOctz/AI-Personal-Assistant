@@ -134,6 +134,7 @@ VALID_INTENTS = {
     "validate_search_folders",
     "show_file_search_history",
     "file_search_stats",
+    "preview_file_search_cleanup",
 }
 
 CONTROL_INTENTS = {
@@ -268,6 +269,7 @@ MEMORY_INTENTS = {
     "validate_search_folders",
     "show_file_search_history",
     "file_search_stats",
+    "preview_file_search_cleanup",
 }
 
 ACTION_INTENTS = {
@@ -597,6 +599,10 @@ INTENT_PATTERNS = {
         "file search stats",
         "file stats",
         "search file stats",
+    ],
+    "preview_file_search_cleanup": [
+        "preview file search cleanup",
+        "file search cleanup preview",
     ],
 }
 

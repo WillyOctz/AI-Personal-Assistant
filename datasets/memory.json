@@ -7634,6 +7634,76 @@
             "source": "rule",
             "timestamp": "2026-07-29 21:06:09",
             "importance": 0.6
+        },
+        {
+            "user": "preview file search cleanup",
+            "assistant": "I could not find registered search folder: search",
+            "intent": "preview_file",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-30 16:01:51",
+            "importance": 0.6
+        },
+        {
+            "user": "preview file search cleanup",
+            "assistant": "I could not find registered search folder: search",
+            "intent": "preview_file",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-30 16:04:44",
+            "importance": 0.6
+        },
+        {
+            "user": "file search stats",
+            "assistant": "File search stats:\nTotal events: 23\nMost used action: preview_file (13 time(s))\nMost used folder: assistant (23 time(s))\nLast action: preview_file",
+            "intent": "file_search_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-30 16:05:09",
+            "importance": 0.6
+        },
+        {
+            "user": "preview file search cleanup",
+            "assistant": "I could not find registered search folder: search",
+            "intent": "preview_file",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-30 16:05:23",
+            "importance": 0.6
+        },
+        {
+            "user": "preview file search cleanup",
+            "assistant": "I could not find registered search folder: search",
+            "intent": "preview_file",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-30 16:06:25",
+            "importance": 0.6
+        },
+        {
+            "user": "exi",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-30 16:06:29",
+            "importance": 0.3
+        },
+        {
+            "user": "preview file search cleanup",
+            "assistant": "File search cleanup preview:\nTotal events: 23\nKeep latest: 50\nWould remove: 0",
+            "intent": "preview_file_search_cleanup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-30 16:13:45",
+            "importance": 0.6
         }
     ],
     "summaries": [

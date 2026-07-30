@@ -1417,6 +1417,23 @@ def get_file_search_stats():
         "most_folder_count": folder_counts[most_folder],
         "last_action": history[-1]["action"] 
     }
+    
+def preview_file_search_cleanup(keep_latest=50):
+    memory = load_memory()
+    history = memory["file_search_history"]
+    
+    if len(history) <= keep_latest:
+        return {
+            "total": len(history),
+            "keep_latest": keep_latest,
+            "remove_count": 0 
+        }
+        
+    return {
+        "total": len(history),
+        "keep_latest": keep_latest,
+        "remove_count": len(history) - keep_latest 
+    }
 
 
 
