@@ -11,6 +11,7 @@ VALID_INTENTS = {
     "set_reminder",
     "calculate",
     "play_game",
+    "debug_route",
     "debug_app_cleanup",
     "debug_app_resolution",
     "debug_match",
@@ -138,6 +139,7 @@ VALID_INTENTS = {
 }
 
 CONTROL_INTENTS = {
+    "debug_route",
     "debug_app_cleanup",
     "debug_app_resolution",
     "debug_match",
@@ -607,6 +609,9 @@ INTENT_PATTERNS = {
 }
 
 INTENT_PREFIXES = {
+    "debug_route": [
+        "debug route ",
+    ],
     "debug_memory_search": [
         "debug memory ",
     ],
@@ -800,6 +805,69 @@ INTENT_PREFIXES = {
         "change search folder ",
     ],
 }
+
+PREFIX_INTENT_ORDER = [
+    "debug_route",
+    "debug_memory_search",
+    "debug_app_resolution",
+    "debug_entity",
+    "debug_model",
+    "debug_match",
+
+    "search_reminders_by_due",
+    "search_reminders",
+
+    "search_focus_notes",
+    "search_focus_sessions",
+
+    "preview_restore_app_registry_backup",
+    "restore_app_registry_backup",
+
+    "delete_app_registry_by_index",
+    "rename_app_registry_by_index",
+
+    "register_search_folder",
+    "unregister_search_folder",
+    "update_search_folder",
+
+    "search_text_files",
+    "search_files_by_name",
+    "file_info",
+    "preview_file",
+    "list_folder_files",
+
+    "set_profile_fact",
+    "remember_game_entity",
+    "remember_app_entity",
+    "remember_note",
+
+    "recall_memory_source",
+    "recall_memory",
+
+    "clear_reminder_due",
+    "set_reminder_due",
+    "complete_reminder",
+    "edit_reminder",
+
+    "set_default_app",
+    "remove_default_app",
+    "add_app_alias",
+    "remove_app_alias",
+    "update_registered_app",
+    "unregister_app",
+    "register_app",
+    "search_app_registry",
+    "allow_app",
+    "disallow_app",
+
+    "focus_stats_for_task",
+    "set_focus_goal",
+    "add_focus_note",
+    "delete_focus_session",
+
+    "get_profile_fact",
+    "calculate",
+]
 
 PROFILE_KEY_ALIASES = {
     "favorite language": "favorite_language",

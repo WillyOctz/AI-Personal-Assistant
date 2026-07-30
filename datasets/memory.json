@@ -7704,6 +7704,36 @@
             "source": "rule",
             "timestamp": "2026-07-30 16:13:45",
             "importance": 0.6
+        },
+        {
+            "user": "debug route preview file search cleanup",
+            "assistant": "I do not have any feedback examples yet.",
+            "intent": "debug_match",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-30 16:41:12",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route preview file search cleanup",
+            "assistant": "I do not have any feedback examples yet.",
+            "intent": "debug_match",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-30 16:45:27",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route preview file search cleanup",
+            "assistant": "Input: preview file search cleanup\nExact intent: preview_file_search_cleanup\nPrefix intent: preview_file",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-30 16:51:54",
+            "importance": 0.1
         }
     ],
     "summaries": [

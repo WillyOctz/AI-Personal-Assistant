@@ -2,7 +2,7 @@ from assistant.tools import get_time, create_reminder, open_app, play_game, safe
 from assistant import memory
 from assistant import apps
 from assistant.personality import greet, unknown_response
-from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS
+from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score
 from datetime import datetime, timedelta
 from assistant import focus
@@ -127,6 +127,20 @@ def make_analysis(intent, confidence=1.0, source="rule", scores=None):
 def match_exact_pattern(text, intent):
     patterns = INTENT_PATTERNS.get(intent, [])
     return text in patterns
+
+def find_exact_intent(text):
+    for intent, patterns in INTENT_PATTERNS.items():
+        if text in patterns:
+            return intent
+        
+    return None
+
+def find_prefix_intent(text):
+    for intent in PREFIX_INTENT_ORDER:
+        if match_prefix_pattern(text, intent):
+            return intent
+        
+    return None
 
 def match_prefix_pattern(text, intent):
     prefixes = INTENT_PREFIXES.get(intent, [])
@@ -687,6 +701,16 @@ def analyze_intent(user_input):
     
     if text in ["no", "nope", "wrong"]:
         return make_analysis("deny_intent")
+    
+    exact_intent = find_exact_intent(text)
+    
+    if exact_intent:
+        return make_analysis(exact_intent)
+    
+    prefix_intent = find_prefix_intent(text)
+    
+    if prefix_intent:
+        return make_analysis(prefix_intent)
     
     if match_prefix_pattern(text, "debug_memory_search"):
         return make_analysis("debug_memory_search")
@@ -1624,6 +1648,18 @@ def handle_control_intent(user_input, analysis):
         clear_pending_confirmation()
         
         return f"Okay. Teach me the correct intent with: teach {original_input} as intent_name"
+    
+    if intent == "debug_route":
+        query = user_input.replace("debug route ", "", 1).strip().lower()
+            
+        exact_intent = find_exact_intent(query)
+        prefix_intent = find_prefix_intent(query)
+            
+        return (
+            f"Input: {query}\n"
+            f"Exact intent: {exact_intent}\n"
+            f"Prefix intent: {prefix_intent}" 
+        )
 
     if intent == "debug_memory_search":
         query = user_input.replace("debug memory ", "", 1).strip()
@@ -3221,7 +3257,6 @@ def handle_action_intent(user_input, analysis):
             f"Reply yes to confirm, no to reject, or teach me with: teach {user_input} as intent_name"
         )
     
-        
     if intent == "set_reminder":
         reminder_text, due = parse_reminder_details(user_input)
 
