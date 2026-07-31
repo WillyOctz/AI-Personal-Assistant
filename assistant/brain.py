@@ -1,4 +1,4 @@
-from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range
+from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around
 from assistant import memory
 from assistant import apps
 from assistant.personality import greet, unknown_response
@@ -46,6 +46,32 @@ def parse_file_range_command(user_input):
         start_line, end_line = end_line, start_line
         
     return folder_name, filename, start_line, end_line
+
+def parse_file_around_command(user_input):
+    parts = user_input.split()
+    
+    if len(parts) < 5:
+        return None
+    
+    if parts[0] == "preview" and parts[1] == "around":
+        folder_name = parts[2]
+        filename = parts[3]
+        line_text = parts[4]
+        
+    elif parts[0] == "preview" and parts[1] == "file" and parts[2] == "around":
+        folder_name = parts[3]
+        filename = parts[4]
+        line_text = parts[5] if len(parts) > 5 else ""
+        
+    else:
+        return None
+    
+    if not line_text.isdigit():
+        return None
+    
+    center_line = int(line_text)
+    
+    return folder_name, filename, center_line
 
 def parse_timestamp(timestamp):
     try:
@@ -3271,6 +3297,31 @@ def handle_memory_intent(user_input, analysis):
             f"Keep latest: {preview['keep_latest']}\n"
             f"Would remove: {preview['remove_count']}"
         )
+        
+    if intent == "preview_file_around":
+        parsed = parse_file_around_command(user_input)
+        
+        if not parsed:
+            return "Use this format: preview around folder_name filename line_number"
+        
+        folder_name, filename, center_line = parsed
+        folder_path = memory.get_search_folder(folder_name)
+        
+        if not folder_path:
+            return f"I do not know that search folder: {folder_name}"
+        
+        result = preview_text_file_around(folder_path, filename, center_line)
+        
+        if not result["ok"]:
+            return f"I could not preview around that line: {result['reason']}"
+        
+        lines = [f"Preview: {result['path']}"]
+        
+        for line in result["lines"]:
+            marker = ">" if line["number"] == center_line else " "
+            lines.append(f"{marker} {line['number']} | {line['text']}")
+            
+        return "\n".join(lines)
         
     if intent == "preview_file_range":
         parsed = parse_file_range_command(user_input)

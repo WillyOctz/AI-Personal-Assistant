@@ -7984,6 +7984,56 @@
             "source": "rule",
             "timestamp": "2026-07-31 16:50:59",
             "importance": 0.6
+        },
+        {
+            "user": "preview around assistant brain.py 3241",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-31 17:22:52",
+            "importance": 0.3
+        },
+        {
+            "user": "preview around assistant brain.py 3201",
+            "assistant": "Use this format: preview around folder_name filename line_number",
+            "intent": "preview_file_around",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 17:38:22",
+            "importance": 0.6
+        },
+        {
+            "user": "preview arond assistant tools.py 300",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-31 17:39:08",
+            "importance": 0.3
+        },
+        {
+            "user": "preview around assistant tools.py 300",
+            "assistant": "Use this format: preview around folder_name filename line_number",
+            "intent": "preview_file_around",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 17:39:22",
+            "importance": 0.6
+        },
+        {
+            "user": "preview around assistant tools.py 200",
+            "assistant": "Preview: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\tools.py\n  195 |     query = query.lower().strip()\n  196 |     matches = []\n  197 | \n  198 |     for item in path.rglob(\"*\"):\n  199 |         if is_inside_ignored_folder(item):\n> 200 |             continue\n  201 | \n  202 |         if query in item.name.lower():\n  203 |             item_type = \"folder\" if item.is_dir() else \"file\"\n  204 | \n  205 |             matches.append({",
+            "intent": "preview_file_around",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 17:41:59",
+            "importance": 0.6
         }
     ],
     "summaries": [

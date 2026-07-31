@@ -137,6 +137,7 @@ VALID_INTENTS = {
     "file_search_stats",
     "preview_file_search_cleanup",
     "cleanup_file_search_history",
+    "preview_file_around",
     "preview_file_range",
 }
 
@@ -275,6 +276,7 @@ MEMORY_INTENTS = {
     "file_search_stats",
     "preview_file_search_cleanup",
     "cleanup_file_search_history",
+    "preview_file_around",
     "preview_file_range",
 }
 
@@ -822,6 +824,10 @@ INTENT_PREFIXES = {
         "cleanup file searches ",
         "prune file search history ",
     ],
+    "preview_file_around": [
+        "preview around ",
+        "preview file around ",
+    ],
     "preview_file_range": [
         "preview file range ",
     ],
@@ -853,6 +859,7 @@ PREFIX_INTENT_ORDER = [
     
     "preview_file_search_cleanup",
     "cleanup_file_search_history",
+    "preview_file_around",
     "preview_file_range",
 
     "search_text_files",

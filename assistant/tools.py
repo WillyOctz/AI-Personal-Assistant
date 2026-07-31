@@ -397,6 +397,15 @@ def preview_text_file_range(folder_path, filename, start_line, end_line):
         "lines": []
     }
     
+def preview_text_file_around(folder_path, filename, center_line, radius=5):
+    start_line = center_line - radius
+    end_line = center_line + radius
+    
+    if start_line < 1:
+        start_line = 1
+        
+    return preview_text_file_range(folder_path, filename, start_line, end_line)
+    
 def search_text_in_files(folder_path, query, limit=20):
     path = Path(folder_path)
     
