@@ -7894,6 +7894,76 @@
             "source": "rule",
             "timestamp": "2026-07-31 15:26:59",
             "importance": 0.6
+        },
+        {
+            "user": "search files assistant",
+            "assistant": "Use this format: search files folder_name query",
+            "intent": "search_files_by_name",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 15:44:57",
+            "importance": 0.6
+        },
+        {
+            "user": "search file assistant",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-31 15:45:09",
+            "importance": 0.3
+        },
+        {
+            "user": "search files assistant brain",
+            "assistant": "Files matching brain:\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py",
+            "intent": "search_files_by_name",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 15:45:22",
+            "importance": 0.6
+        },
+        {
+            "user": "app registry",
+            "assistant": "Registered apps:\n1. spotify: spotify | allowed: False\n2. notepad: notepad | allowed: True\n3. something: steam.exe | allowed: False\n4. google chrome: chrome | allowed: True",
+            "intent": "show_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 15:45:41",
+            "importance": 0.6
+        },
+        {
+            "user": "file registry",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-07-31 15:45:50",
+            "importance": 0.3
+        },
+        {
+            "user": "list files assistant",
+            "assistant": "Files in assistant:\n- folder: assistant\n- folder: datasets\n- folder: db\n- file: main.py\n- file: README.MD",
+            "intent": "list_folder_files",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 15:46:00",
+            "importance": 0.6
+        },
+        {
+            "user": "file search dashboard",
+            "assistant": "File search dashboard:\nRegistered folders: 1\n- assistant -> C:\\Users\\User\\AI_Personal_Assistant",
+            "intent": "file_search_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 15:46:41",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -8334,6 +8404,20 @@
             "query": "README.MD",
             "result": "12 line(s)",
             "timestamp": "2026-07-29 18:22:23"
+        },
+        {
+            "action": "search_files",
+            "folder": "assistant",
+            "query": "brain",
+            "result": "1 match(es)",
+            "timestamp": "2026-07-31 15:45:22"
+        },
+        {
+            "action": "list_files",
+            "folder": "assistant",
+            "query": "",
+            "result": "5 item(s)",
+            "timestamp": "2026-07-31 15:46:00"
         }
     ]
 }

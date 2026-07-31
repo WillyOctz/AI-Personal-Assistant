@@ -127,6 +127,15 @@ def open_registered_app(app_name, app_entry, real_launching=False):
 ## File Search/Path Logic Functions
 #======================================================================
     
+IGNORED_FILE_FOLDERS = {".git", "__pycache__", "node_modules", ".venv", "venv"}
+
+def is_inside_ignored_folder(path):
+    for part in path.parts:
+        if part in IGNORED_FILE_FOLDERS:
+            return True
+        
+    return False
+
 def list_folder_items(folder_path, limit=20):
     path = Path(folder_path)
     
@@ -147,6 +156,9 @@ def list_folder_items(folder_path, limit=20):
     items = []
     
     for item in path.iterdir():
+        if item.name in IGNORED_FILE_FOLDERS:
+            continue
+        
         item_type = "folder" if item.is_dir() else "file"
         
         items.append({
@@ -184,6 +196,9 @@ def search_files_by_name(folder_path, query, limit=20):
     matches = []
     
     for item in path.rglob("*"):
+        if is_inside_ignored_folder(item):
+            continue
+        
         if query in item.name.lower():
             item_type = "folder" if item.is_dir() else "file"
             
@@ -264,6 +279,9 @@ def preview_text_file(folder_path, filename, max_lines=20):
     filename = filename.lower().strip()
     
     for item in path.rglob("*"):
+        if is_inside_ignored_folder(item):
+            continue
+        
         if item.name.lower() == filename:
             if not item.is_file():
                 return {
@@ -311,7 +329,6 @@ def preview_text_file(folder_path, filename, max_lines=20):
 def search_text_in_files(folder_path, query, limit=20):
     path = Path(folder_path)
     
-    
     if not path.exists():
         return {
            "ok": False,
@@ -330,6 +347,9 @@ def search_text_in_files(folder_path, query, limit=20):
     matches = []
     
     for item in path.rglob("*"):
+        if is_inside_ignored_folder(item):
+            continue
+        
         if not item.is_file():
             continue
         
