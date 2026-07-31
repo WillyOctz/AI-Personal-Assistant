@@ -73,6 +73,24 @@ def parse_file_around_command(user_input):
     
     return folder_name, filename, center_line
 
+def parse_file_search_command(user_input):
+    parts = user_input.split()
+    
+    if len(parts) < 4:
+        return None
+    
+    folder_name = parts[2]
+    query = parts[3]
+    extension = None
+    
+    if len(parts) >= 5:
+        extension = parts[4].lower()
+        
+        if not extension.startswith("."):
+            extension = "." + extension
+            
+    return folder_name, query, extension
+
 def parse_timestamp(timestamp):
     try:
         return datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
@@ -3061,16 +3079,21 @@ def handle_memory_intent(user_input, analysis):
     
     if intent == "search_files_by_name":
         folder_name, query = parse_file_search(user_input)
+        parsed = parse_file_search_command(user_input)
+        
+        if not parsed:
+            return "Use this format: search files folder_name query optional_extension"
         
         if not folder_name or not query:
             return "Use this format: search files folder_name query"
         
+        folder_name, query, extension = parsed
         folder_path = memory.get_search_folder(folder_name)
         
         if not folder_path:
             return f"I could not find registered search folder: {folder_name}"
         
-        result = search_files_by_name(folder_path, query)
+        result = search_files_by_name(folder_path, query, extension)
         
         if not result["ok"]:
             if result["reason"] == "not_found":

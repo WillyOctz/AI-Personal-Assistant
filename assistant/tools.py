@@ -175,7 +175,7 @@ def list_folder_items(folder_path, limit=20):
         "items": items
     }
     
-def search_files_by_name(folder_path, query, limit=20):
+def search_files_by_name(folder_path, query, extension=None, limit=20):
     path = Path(folder_path)
     
     if not path.exists():
@@ -197,6 +197,13 @@ def search_files_by_name(folder_path, query, limit=20):
     
     for item in path.rglob("*"):
         if is_inside_ignored_folder(item):
+            continue
+        
+        if extension and item.is_file():
+            if item.suffix.lower() != extension:
+                continue
+            
+        if extension and item.is_dir():
             continue
         
         if query in item.name.lower():
