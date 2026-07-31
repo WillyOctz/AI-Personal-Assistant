@@ -413,7 +413,7 @@ def preview_text_file_around(folder_path, filename, center_line, radius=5):
         
     return preview_text_file_range(folder_path, filename, start_line, end_line)
     
-def search_text_in_files(folder_path, query, limit=20):
+def search_text_in_files(folder_path, query, extension=None, limit=20):
     path = Path(folder_path)
     
     if not path.exists():
@@ -439,6 +439,10 @@ def search_text_in_files(folder_path, query, limit=20):
         
         if not item.is_file():
             continue
+        
+        if extension:
+            if item.suffix.lower() != extension:
+                continue
         
         if item.suffix.lower() not in TEXT_EXTENSIONS:
             continue
