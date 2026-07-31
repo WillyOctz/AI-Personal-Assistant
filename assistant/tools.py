@@ -326,6 +326,77 @@ def preview_text_file(folder_path, filename, max_lines=20):
         "lines": []
     }
     
+def preview_text_file_range(folder_path, filename, start_line, end_line):
+    path = Path(folder_path)
+    
+    if not path.exists():
+        return {
+            "ok": False,
+            "reason": "folder_not_found",
+            "lines": [] 
+        }
+        
+    if not path.is_dir():
+        return {
+            "ok": False,
+            "reason": "not_directory",
+            "lines": [] 
+        }
+        
+    filename = filename.lower().strip()
+    
+    for item in path.rglob("*"):
+        if is_inside_ignored_folder(item):
+            continue
+        
+        if item.name.lower() == filename:
+            if not item.is_file():
+                return {
+                    "ok": False,
+                    "reason": "not_file",
+                    "lines": [] 
+                }
+                
+            if item.suffix.lower() not in TEXT_EXTENSIONS:
+                return {
+                    "ok": False,
+                    "reason": "not_text",
+                    "lines": []
+                }
+                
+            lines = []
+            
+            try:
+                with open(item, "r", encoding="utf-8") as file:
+                    for line_number, line in enumerate(file, start=1):
+                        if start_line <= line_number <= end_line:
+                            lines.append({
+                                "number": line_number,
+                                "text": line.rstrip() 
+                            })
+                            
+                        if line_number > end_line:
+                            break
+            except:
+                return {
+                    "ok": False,
+                    "reason": "read_error",
+                    "lines": []
+                }
+                
+            return {
+                "ok": True,
+                "reason": "ok",
+                "path": str(item),
+                "lines": lines 
+            }
+    
+    return {
+        "ok": False,
+        "reason": "file_not_found",
+        "lines": []
+    }
+    
 def search_text_in_files(folder_path, query, limit=20):
     path = Path(folder_path)
     

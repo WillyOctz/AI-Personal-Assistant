@@ -1,4 +1,4 @@
-from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path
+from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range
 from assistant import memory
 from assistant import apps
 from assistant.personality import greet, unknown_response
@@ -26,6 +26,26 @@ def log_file_search(action, folder_name, query, result_summary):
     }
     
     memory.add_file_search_event(event)
+    
+def parse_file_range_command(user_input):
+    parts = user_input.split()
+    
+    if len(parts) < 6:
+        return None
+    
+    folder_name = parts[3]
+    filename = parts[4]
+    
+    if not parts[-2].isdigit() or not parts[-1].isdigit():
+        return None
+    
+    start_line = int(parts[-2])
+    end_line = int(parts[-1])
+    
+    if start_line > end_line:
+        start_line, end_line = end_line, start_line
+        
+    return folder_name, filename, start_line, end_line
 
 def parse_timestamp(timestamp):
     try:
@@ -3251,6 +3271,30 @@ def handle_memory_intent(user_input, analysis):
             f"Keep latest: {preview['keep_latest']}\n"
             f"Would remove: {preview['remove_count']}"
         )
+        
+    if intent == "preview_file_range":
+        parsed = parse_file_range_command(user_input)
+        
+        if not parsed:
+            return "Use this format: preview file range folder_name filename start_line end_line"
+        
+        folder_name, filename, start_line, end_line = parsed
+        folder_path = memory.get_search_folder(folder_name)
+        
+        if not folder_path:
+            return f"I do not know that search folder: {folder_name}"
+        
+        result = preview_text_file_range(folder_path, filename, start_line, end_line)
+        
+        if not result["ok"]:
+            return f"I could not preview that file range: {result['reason']}"
+        
+        lines = [f"Preview: {result['path']}"]
+        
+        for line in result["lines"]:
+            lines.append(f"{line['number']} | {line['text']}")
+            
+        return "\n".join(lines)
         
     if intent == "cleanup_file_search_history":
         keep_latest = parse_optional_number(user_input, 50)
