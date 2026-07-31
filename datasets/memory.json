@@ -8094,6 +8094,66 @@
             "source": "rule",
             "timestamp": "2026-07-31 19:12:32",
             "importance": 0.6
+        },
+        {
+            "user": "search text assistant a",
+            "assistant": "Search text query must be at least 3 characters.",
+            "intent": "search_text_files",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 19:19:30",
+            "importance": 0.6
+        },
+        {
+            "user": "search text assistant the",
+            "assistant": "'the' is too common for text search. Use a more specific word.",
+            "intent": "search_text_files",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 19:19:35",
+            "importance": 0.6
+        },
+        {
+            "user": "search text assistant cleanup",
+            "assistant": "Text matches for cleanup:\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:344 | def format_app_cleanup_preview():\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:345 | preview = memory.preview_app_cleanup()\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:348 | f\"App cleanup preview:\\n\"\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:355 | def format_debug_app_cleanup():\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:356 | preview = memory.preview_app_cleanup()\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:358 | lines = [\"App cleanup details:\"]\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:429 | def format_app_backup_cleanup_preview():\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:430 | preview = memory.preview_app_registry_backup_cleanup()\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:433 | f\"App backup cleanup preview:\\n\"\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:629 | ## -----------App Backup/Cleanup Operation Handlers for apps--------------\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:665 | def handle_cleanup_app_backups():\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:666 | result = memory.cleanup_app_registry_backups()\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:669 | f\"App backup cleanup finished.\\n\"\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:674 | def handle_repair_app_cleanup():\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:675 | result = memory.repair_app_cleanup()\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:678 | f\"App cleanup repair finished.\\n\"\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py:815 | if match_exact_pattern(text, \"debug_app_cleanup\"):\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py:816 | return make_analysis(\"debug_app_cleanup\")\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py:908 | if text in [\"preview memory cleanup\", \"memory cleanup preview\"]:\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py:909 | return make_analysis(\"preview_memory_cleanup\")",
+            "intent": "search_text_files",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 19:19:41",
+            "importance": 0.6
+        },
+        {
+            "user": "search text assistant cleanup .py 5",
+            "assistant": "Text matches for cleanup:\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:344 | def format_app_cleanup_preview():\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:345 | preview = memory.preview_app_cleanup()\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:348 | f\"App cleanup preview:\\n\"\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:355 | def format_debug_app_cleanup():\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:356 | preview = memory.preview_app_cleanup()",
+            "intent": "search_text_files",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 19:29:38",
+            "importance": 0.6
+        },
+        {
+            "user": "search text assistant cleanup 3",
+            "assistant": "Text matches for cleanup:\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:344 | def format_app_cleanup_preview():\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:345 | preview = memory.preview_app_cleanup()\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:348 | f\"App cleanup preview:\\n\"",
+            "intent": "search_text_files",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 19:29:53",
+            "importance": 0.6
+        },
+        {
+            "user": "search text assistant cleanup .md 2",
+            "assistant": "No text matches found for: cleanup",
+            "intent": "search_text_files",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 19:29:56",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -8590,6 +8650,27 @@
             "query": "md",
             "result": "20 match(es)",
             "timestamp": "2026-07-31 19:12:32"
+        },
+        {
+            "action": "search_text",
+            "folder": "assistant",
+            "query": "cleanup",
+            "result": "20 match(es)",
+            "timestamp": "2026-07-31 19:19:41"
+        },
+        {
+            "action": "search_text",
+            "folder": "assistant",
+            "query": "cleanup",
+            "result": "5 match(es)",
+            "timestamp": "2026-07-31 19:29:38"
+        },
+        {
+            "action": "search_text",
+            "folder": "assistant",
+            "query": "cleanup",
+            "result": "3 match(es)",
+            "timestamp": "2026-07-31 19:29:53"
         }
     ]
 }
