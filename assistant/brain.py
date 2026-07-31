@@ -82,14 +82,26 @@ def parse_file_search_command(user_input):
     folder_name = parts[2]
     query = parts[3]
     extension = None
+    limit = 20
     
     if len(parts) >= 5:
-        extension = parts[4].lower()
+        extra = parts[4].lower()
         
-        if not extension.startswith("."):
-            extension = "." + extension
+        if extra.isdigit():
+            limit = int(extra)
+        else:
+            extension = extra
+        
+            if not extension.startswith("."):
+                extension = "." + extension
+                
+    if len(parts) >= 6:
+        extra_limit = parts[5]
+        
+        if extra_limit.isdigit():
+            limit = int(extra_limit)
             
-    return folder_name, query, extension
+    return folder_name, query, extension, limit
 
 def parse_text_search_command(user_input):
     parts = user_input.split()
@@ -3117,13 +3129,19 @@ def handle_memory_intent(user_input, analysis):
         if not folder_name or not query:
             return "Use this format: search files folder_name query"
         
-        folder_name, query, extension = parsed
+        folder_name, query, extension, limit = parsed
         folder_path = memory.get_search_folder(folder_name)
         
         if not folder_path:
             return f"I could not find registered search folder: {folder_name}"
         
-        result = search_files_by_name(folder_path, query, extension)
+        if limit < 1:
+            limit = 1
+            
+        if limit > 50:
+            limit = 50
+        
+        result = search_files_by_name(folder_path, query, extension, limit)
         
         if not result["ok"]:
             if result["reason"] == "not_found":

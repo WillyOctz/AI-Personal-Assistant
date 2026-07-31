@@ -8154,6 +8154,66 @@
             "source": "rule",
             "timestamp": "2026-07-31 19:29:56",
             "importance": 0.6
+        },
+        {
+            "user": "search files assistant brain .py 5",
+            "assistant": "Files matching brain:\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py",
+            "intent": "search_files_by_name",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 19:40:31",
+            "importance": 0.6
+        },
+        {
+            "user": "search files assistant brain 1",
+            "assistant": "Files matching brain:\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py",
+            "intent": "search_files_by_name",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 19:40:36",
+            "importance": 0.6
+        },
+        {
+            "user": "search files assistant brain py 10",
+            "assistant": "Files matching brain:\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py",
+            "intent": "search_files_by_name",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 19:40:45",
+            "importance": 0.6
+        },
+        {
+            "user": "search files assistant brain 1",
+            "assistant": "Files matching brain:\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py",
+            "intent": "search_files_by_name",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 19:40:54",
+            "importance": 0.6
+        },
+        {
+            "user": "search files assistant .py 1",
+            "assistant": "Files matching .py:\n- file: C:\\Users\\User\\AI_Personal_Assistant\\main.py",
+            "intent": "search_files_by_name",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 19:41:04",
+            "importance": 0.6
+        },
+        {
+            "user": "search files assistant .py 6",
+            "assistant": "Files matching .py:\n- file: C:\\Users\\User\\AI_Personal_Assistant\\main.py\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\focus.py\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\intents.py\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\memory.py",
+            "intent": "search_files_by_name",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 19:41:11",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -8671,6 +8731,48 @@
             "query": "cleanup",
             "result": "3 match(es)",
             "timestamp": "2026-07-31 19:29:53"
+        },
+        {
+            "action": "search_files",
+            "folder": "assistant",
+            "query": "brain",
+            "result": "1 match(es)",
+            "timestamp": "2026-07-31 19:40:31"
+        },
+        {
+            "action": "search_files",
+            "folder": "assistant",
+            "query": "brain",
+            "result": "1 match(es)",
+            "timestamp": "2026-07-31 19:40:36"
+        },
+        {
+            "action": "search_files",
+            "folder": "assistant",
+            "query": "brain",
+            "result": "1 match(es)",
+            "timestamp": "2026-07-31 19:40:45"
+        },
+        {
+            "action": "search_files",
+            "folder": "assistant",
+            "query": "brain",
+            "result": "1 match(es)",
+            "timestamp": "2026-07-31 19:40:54"
+        },
+        {
+            "action": "search_files",
+            "folder": "assistant",
+            "query": ".py",
+            "result": "1 match(es)",
+            "timestamp": "2026-07-31 19:41:04"
+        },
+        {
+            "action": "search_files",
+            "folder": "assistant",
+            "query": ".py",
+            "result": "6 match(es)",
+            "timestamp": "2026-07-31 19:41:11"
         }
     ]
 }
