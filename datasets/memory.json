@@ -7784,6 +7784,116 @@
             "source": "rule",
             "timestamp": "2026-07-30 17:34:04",
             "importance": 0.6
+        },
+        {
+            "user": "preview file search cleanup 5",
+            "assistant": "File search cleanup preview:\nTotal events: 23\nKeep latest: 5\nWould remove: 18",
+            "intent": "preview_file_search_cleanup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 15:22:25",
+            "importance": 0.6
+        },
+        {
+            "user": "cleanup file search history 5",
+            "assistant": "File search cleanup finished.\nTotal before cleanup: 23\nKept latest: 23\nRemoved events: 0",
+            "intent": "cleanup_file_search_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 15:22:50",
+            "importance": 0.6
+        },
+        {
+            "user": "file search history",
+            "assistant": "Recent file search activity:\n- 2026-07-29 18:06:52 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:06:52 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:06:52 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:06:52 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:06:53 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:06:53 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:06:53 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:22:04 | list_files | assistant |  | 6 item(s)\n- 2026-07-29 18:22:11 | search_files | assistant | brain | 2 match(es)\n- 2026-07-29 18:22:23 | preview_file | assistant | README.MD | 12 line(s)",
+            "intent": "show_file_search_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 15:23:03",
+            "importance": 0.6
+        },
+        {
+            "user": "cleanup file search history 1",
+            "assistant": "File search cleanup finished.\nTotal before cleanup: 23\nKept latest: 23\nRemoved events: 0",
+            "intent": "cleanup_file_search_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 15:23:44",
+            "importance": 0.6
+        },
+        {
+            "user": "cleanup file search history 2",
+            "assistant": "File search cleanup finished.\nTotal before cleanup: 23\nKept latest: 23\nRemoved events: 0",
+            "intent": "cleanup_file_search_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 15:23:56",
+            "importance": 0.6
+        },
+        {
+            "user": "cleanup file search history 3",
+            "assistant": "File search cleanup finished.\nTotal before cleanup: 23\nKept latest: 23\nRemoved events: 0",
+            "intent": "cleanup_file_search_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 15:24:00",
+            "importance": 0.6
+        },
+        {
+            "user": "cleanup file search history 4",
+            "assistant": "File search cleanup finished.\nTotal before cleanup: 23\nKept latest: 23\nRemoved events: 0",
+            "intent": "cleanup_file_search_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 15:24:02",
+            "importance": 0.6
+        },
+        {
+            "user": "cleanup file search history 5",
+            "assistant": "File search cleanup finished.\nTotal before cleanup: 23\nKept latest: 23\nRemoved events: 0",
+            "intent": "cleanup_file_search_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 15:24:04",
+            "importance": 0.6
+        },
+        {
+            "user": "file search history",
+            "assistant": "Recent file search activity:\n- 2026-07-29 18:06:52 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:06:52 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:06:52 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:06:52 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:06:53 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:06:53 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:06:53 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:22:04 | list_files | assistant |  | 6 item(s)\n- 2026-07-29 18:22:11 | search_files | assistant | brain | 2 match(es)\n- 2026-07-29 18:22:23 | preview_file | assistant | README.MD | 12 line(s)",
+            "intent": "show_file_search_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 15:24:10",
+            "importance": 0.6
+        },
+        {
+            "user": "cleanup file search history 5",
+            "assistant": "File search cleanup finished.\nTotal before cleanup: 23\nKept latest: 5\nRemoved events: 18",
+            "intent": "cleanup_file_search_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 15:26:50",
+            "importance": 0.6
+        },
+        {
+            "user": "file search history",
+            "assistant": "Recent file search activity:\n- 2026-07-29 18:06:53 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:06:53 | preview_file | assistant | README.MD | 12 line(s)\n- 2026-07-29 18:22:04 | list_files | assistant |  | 6 item(s)\n- 2026-07-29 18:22:11 | search_files | assistant | brain | 2 match(es)\n- 2026-07-29 18:22:23 | preview_file | assistant | README.MD | 12 line(s)",
+            "intent": "show_file_search_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 15:26:59",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -8190,132 +8300,6 @@
         "assistant": "C:\\Users\\User\\AI_Personal_Assistant"
     },
     "file_search_history": [
-        {
-            "action": "list_files",
-            "folder": "assistant",
-            "query": "",
-            "result": "6 item(s)",
-            "timestamp": "2026-07-29 18:06:08"
-        },
-        {
-            "action": "list_files",
-            "folder": "assistant",
-            "query": "",
-            "result": "6 item(s)",
-            "timestamp": "2026-07-29 18:06:08"
-        },
-        {
-            "action": "list_files",
-            "folder": "assistant",
-            "query": "",
-            "result": "6 item(s)",
-            "timestamp": "2026-07-29 18:06:08"
-        },
-        {
-            "action": "list_files",
-            "folder": "assistant",
-            "query": "",
-            "result": "6 item(s)",
-            "timestamp": "2026-07-29 18:06:08"
-        },
-        {
-            "action": "list_files",
-            "folder": "assistant",
-            "query": "",
-            "result": "6 item(s)",
-            "timestamp": "2026-07-29 18:06:08"
-        },
-        {
-            "action": "list_files",
-            "folder": "assistant",
-            "query": "",
-            "result": "6 item(s)",
-            "timestamp": "2026-07-29 18:06:08"
-        },
-        {
-            "action": "search_files",
-            "folder": "assistant",
-            "query": "brain",
-            "result": "2 match(es)",
-            "timestamp": "2026-07-29 18:06:38"
-        },
-        {
-            "action": "search_files",
-            "folder": "assistant",
-            "query": "brain",
-            "result": "2 match(es)",
-            "timestamp": "2026-07-29 18:06:38"
-        },
-        {
-            "action": "preview_file",
-            "folder": "assistant",
-            "query": "README.MD",
-            "result": "12 line(s)",
-            "timestamp": "2026-07-29 18:06:52"
-        },
-        {
-            "action": "preview_file",
-            "folder": "assistant",
-            "query": "README.MD",
-            "result": "12 line(s)",
-            "timestamp": "2026-07-29 18:06:52"
-        },
-        {
-            "action": "preview_file",
-            "folder": "assistant",
-            "query": "README.MD",
-            "result": "12 line(s)",
-            "timestamp": "2026-07-29 18:06:52"
-        },
-        {
-            "action": "preview_file",
-            "folder": "assistant",
-            "query": "README.MD",
-            "result": "12 line(s)",
-            "timestamp": "2026-07-29 18:06:52"
-        },
-        {
-            "action": "preview_file",
-            "folder": "assistant",
-            "query": "README.MD",
-            "result": "12 line(s)",
-            "timestamp": "2026-07-29 18:06:52"
-        },
-        {
-            "action": "preview_file",
-            "folder": "assistant",
-            "query": "README.MD",
-            "result": "12 line(s)",
-            "timestamp": "2026-07-29 18:06:52"
-        },
-        {
-            "action": "preview_file",
-            "folder": "assistant",
-            "query": "README.MD",
-            "result": "12 line(s)",
-            "timestamp": "2026-07-29 18:06:52"
-        },
-        {
-            "action": "preview_file",
-            "folder": "assistant",
-            "query": "README.MD",
-            "result": "12 line(s)",
-            "timestamp": "2026-07-29 18:06:52"
-        },
-        {
-            "action": "preview_file",
-            "folder": "assistant",
-            "query": "README.MD",
-            "result": "12 line(s)",
-            "timestamp": "2026-07-29 18:06:52"
-        },
-        {
-            "action": "preview_file",
-            "folder": "assistant",
-            "query": "README.MD",
-            "result": "12 line(s)",
-            "timestamp": "2026-07-29 18:06:53"
-        },
         {
             "action": "preview_file",
             "folder": "assistant",

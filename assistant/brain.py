@@ -33,6 +33,15 @@ def parse_timestamp(timestamp):
     except:
         return None
     
+def parse_optional_number(user_input, default_number):
+    words = user_input.split()
+    
+    for word in reversed(words):
+        if word.isdigit():
+            return int(word)
+        
+    return default_number
+    
 def parse_complete_reminder(user_input):
     text = user_input.lower().strip()
     
@@ -3233,7 +3242,8 @@ def handle_memory_intent(user_input, analysis):
         )
         
     if intent == "preview_file_search_cleanup":
-        preview = memory.preview_file_search_cleanup()
+        keep_latest = parse_optional_number(user_input, 50)
+        preview = memory.preview_file_search_cleanup(keep_latest)
         
         return (
             f"File search cleanup preview:\n"
@@ -3243,7 +3253,8 @@ def handle_memory_intent(user_input, analysis):
         )
         
     if intent == "cleanup_file_search_history":
-        result = memory.cleanup_file_search_history()
+        keep_latest = parse_optional_number(user_input, 50)
+        result = memory.cleanup_file_search_history(keep_latest)
         
         return (
             f"File search cleanup finished.\n"

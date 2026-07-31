@@ -811,6 +811,15 @@ INTENT_PREFIXES = {
         "update search folder ",
         "change search folder ",
     ],
+    "preview_file_search_cleanup": [
+        "preview file search cleanup ",
+        "file search cleanup preview ",
+    ],
+    "cleanup_file_search_history": [
+        "cleanup file search history ",
+        "cleanup file searches ",
+        "prune file search history ",
+    ],
 }
 
 PREFIX_INTENT_ORDER = [
@@ -836,6 +845,9 @@ PREFIX_INTENT_ORDER = [
     "register_search_folder",
     "unregister_search_folder",
     "update_search_folder",
+    
+    "preview_file_search_cleanup",
+    "cleanup_file_search_history",
 
     "search_text_files",
     "search_files_by_name",
