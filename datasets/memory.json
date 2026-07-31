@@ -8214,6 +8214,26 @@
             "source": "rule",
             "timestamp": "2026-07-31 19:41:11",
             "importance": 0.6
+        },
+        {
+            "user": "preview file assistant brain.py 5",
+            "assistant": "Preview: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py\nfrom assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around\nfrom assistant import memory\nfrom assistant import apps\nfrom assistant.personality import greet, unknown_response\nfrom assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER",
+            "intent": "preview_file",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 19:51:35",
+            "importance": 0.6
+        },
+        {
+            "user": "preview file assistant brain.py 200",
+            "assistant": "Preview: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py\nfrom assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around\nfrom assistant import memory\nfrom assistant import apps\nfrom assistant.personality import greet, unknown_response\nfrom assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER\nfrom assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score\nfrom datetime import datetime, timedelta\nfrom assistant import focus\n\nHIGH_CONFIDENCE = 0.75\nLOW_CONFIDENCE = 0.55\n\ndef current_timestamp():\n    return datetime.now().strftime(\"%Y-%m-%d %H:%M:%S\")\n\ndef log_app_launch(app_name, command, result):\n    return apps.log_app_launch(app_name, command, result)\n\ndef log_file_search(action, folder_name, query, result_summary):\n    event = {\n        \"action\": action,\n        \"folder\": folder_name,\n        \"query\": query,\n        \"result\": result_summary,\n        \"timestamp\": current_timestamp()\n    }\n    \n    memory.add_file_search_event(event)\n    \ndef parse_file_range_command(user_input):\n    parts = user_input.split()\n    \n    if len(parts) < 6:\n        return None\n    \n    folder_name = parts[3]\n    filename = parts[4]\n    \n    if not parts[-2].isdigit() or not parts[-1].isdigit():\n        return None\n    \n    start_line = int(parts[-2])\n    end_line = int(parts[-1])\n    \n    if start_line > end_line:\n        start_line, end_line = end_line, start_line\n        \n    return folder_name, filename, start_line, end_line\n\ndef parse_file_around_command(user_input):\n    parts = user_input.split()\n    \n    if len(parts) < 5:\n        return None\n    \n    if parts[0] == \"preview\" and parts[1] == \"around\":\n        folder_name = parts[2]\n        filename = parts[3]\n        line_text = parts[4]\n        \n    elif parts[0] == \"preview\" and parts[1] == \"file\" and parts[2] == \"around\":\n        folder_name = parts[3]\n        filename = parts[4]\n        line_text = parts[5] if len(parts) > 5 else \"\"\n        \n    else:\n        return None\n    \n    if not line_text.isdigit():\n        return None\n    \n    center_line = int(line_text)\n    \n    return folder_name, filename, center_line\n\ndef parse_file_search_command(user_input):\n    parts = user_input.split()\n    \n    if len(parts) < 4:\n        return None\n    \n    folder_name = parts[2]\n    query = parts[3]\n    extension = None\n    limit = 20\n    \n    if len(parts) >= 5:\n        extra = parts[4].lower()\n        \n        if extra.isdigit():\n            limit = int(extra)\n        else:\n            extension = extra\n        \n            if not extension.startswith(\".\"):\n                extension = \".\" + extension\n                \n    if len(parts) >= 6:\n        extra_limit = parts[5]\n        ",
+            "intent": "preview_file",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-07-31 19:51:42",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -8773,6 +8793,20 @@
             "query": ".py",
             "result": "6 match(es)",
             "timestamp": "2026-07-31 19:41:11"
+        },
+        {
+            "action": "preview_file",
+            "folder": "assistant",
+            "query": "brain.py",
+            "result": "5 line(s)",
+            "timestamp": "2026-07-31 19:51:35"
+        },
+        {
+            "action": "preview_file",
+            "folder": "assistant",
+            "query": "brain.py",
+            "result": "100 line(s)",
+            "timestamp": "2026-07-31 19:51:41"
         }
     ]
 }

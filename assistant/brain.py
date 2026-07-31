@@ -103,6 +103,22 @@ def parse_file_search_command(user_input):
             
     return folder_name, query, extension, limit
 
+def parse_preview_file_command(user_input):
+    parts = user_input.split()
+    
+    if len(parts) < 4:
+        return None
+    
+    folder_name = parts[2]
+    filename = parts[3]
+    max_lines = 20
+    
+    if len(parts) >= 5:
+        if parts[4].isdigit():
+            max_lines = int(parts[4])
+            
+    return folder_name, filename, max_lines
+
 def parse_text_search_command(user_input):
     parts = user_input.split()
     
@@ -3196,17 +3212,24 @@ def handle_memory_intent(user_input, analysis):
         )
         
     if intent == "preview_file":
-        folder_name, filename = parse_preview_file(user_input)
+        parsed = parse_preview_file_command(user_input)
         
-        if not folder_name or not filename:
-            return "Use this format: preview file folder_name filename"
+        if not parsed:
+            return "Use this format: preview file folder_name filename optional_line_count"
         
+        folder_name, filename, max_lines = parsed
         folder_path = memory.get_search_folder(folder_name)
         
         if not folder_path:
             return f"I could not find registered search folder: {folder_name}"
         
-        result = preview_text_file(folder_path, filename)
+        if max_lines < 1:
+            max_lines = 1
+            
+        if max_lines > 100:
+            max_lines = 100
+        
+        result = preview_text_file(folder_path, filename, max_lines)
         
         if not result["ok"]:
             if result["reason"] == "folder_not_found":
