@@ -8234,6 +8234,36 @@
             "source": "rule",
             "timestamp": "2026-07-31 19:51:42",
             "importance": 0.6
+        },
+        {
+            "user": "preview file assistant assistant/brain.py 5",
+            "assistant": "Preview: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py\nfrom assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around\nfrom assistant import memory\nfrom assistant import apps\nfrom assistant.personality import greet, unknown_response\nfrom assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER",
+            "intent": "preview_file",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-02 20:12:28",
+            "importance": 0.6
+        },
+        {
+            "user": "preview file range assistant assistant/brain.py 3200 3210",
+            "assistant": "Preview: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py\n3200 |             return f\"I could not find file: {filename}\"\n3201 | \n3202 |         file = result[\"file\"]\n3203 |         log_file_search(\"file_info\", folder_name, filename, file[\"path\"])\n3204 | \n3205 |         return (\n3206 |             f\"File info:\\n\"\n3207 |             f\"Name: {file['name']}\\n\"\n3208 |             f\"Type: {file['type']}\\n\"\n3209 |             f\"Path: {file['path']}\\n\"\n3210 |             f\"Size: {file['size']} bytes\\n\"",
+            "intent": "preview_file_range",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-02 20:12:36",
+            "importance": 0.6
+        },
+        {
+            "user": "preview around assistant assistant/brain.py 3244",
+            "assistant": "Preview: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py\n  3239 |                 return f\"Path is not a folder: {folder_path}\"\n  3240 | \n  3241 |             if result[\"reason\"] == \"not_file\":\n  3242 |                 return f\"That path is not a file: {filename}\"\n  3243 | \n> 3244 |             if result[\"reason\"] == \"not_text\":\n  3245 |                 return f\"I will only preview text-like files.\"\n  3246 | \n  3247 |             if result[\"reason\"] == \"decode_error\":\n  3248 |                 return f\"I could not decode that file as text.\"\n  3249 | ",
+            "intent": "preview_file_around",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-02 20:12:44",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -8807,6 +8837,13 @@
             "query": "brain.py",
             "result": "100 line(s)",
             "timestamp": "2026-07-31 19:51:41"
+        },
+        {
+            "action": "preview_file",
+            "folder": "assistant",
+            "query": "assistant/brain.py",
+            "result": "5 line(s)",
+            "timestamp": "2026-08-02 20:12:28"
         }
     ]
 }

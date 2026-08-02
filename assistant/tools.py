@@ -283,6 +283,46 @@ def preview_text_file(folder_path, filename, max_lines=20):
             "lines": []
         }
         
+    direct_path = path / filename
+    
+    if direct_path.exists():
+        if not direct_path.is_file():
+            return {
+                "ok": False,
+                "reason": "not_file",
+                "lines": [] 
+            }
+            
+        if direct_path.suffix.lower() not in TEXT_EXTENSIONS:
+            return {
+                "ok": False,
+                "reason": "not_text",
+                "lines": [] 
+            }
+            
+        lines = []
+        
+        try:
+            with open(direct_path, "r", encoding="utf-8") as file:
+                for line_number, line in enumerate(file, start=1):
+                    if line_number > max_lines:
+                        break
+                    
+                    lines.append(line.rstrip())
+        except:
+            return {
+               "ok": False,
+                "reason": "read_error",
+                "lines": [] 
+            }
+            
+        return {
+            "ok": True,
+            "reason": "ok",
+            "path": str(direct_path),
+            "lines": lines 
+        }
+        
     filename = filename.lower().strip()
     
     for item in path.rglob("*"):
@@ -348,6 +388,50 @@ def preview_text_file_range(folder_path, filename, start_line, end_line):
             "ok": False,
             "reason": "not_directory",
             "lines": [] 
+        }
+        
+    direct_path = path / filename
+
+    if direct_path.exists():
+        if not direct_path.is_file():
+            return {
+                "ok": False,
+                "reason": "not_file",
+                "lines": []
+            }
+
+        if direct_path.suffix.lower() not in TEXT_EXTENSIONS:
+            return {
+                "ok": False,
+                "reason": "not_text",
+                "lines": []
+            }
+
+        lines = []
+
+        try:
+            with open(direct_path, "r", encoding="utf-8") as file:
+                for line_number, line in enumerate(file, start=1):
+                    if start_line <= line_number <= end_line:
+                        lines.append({
+                            "number": line_number,
+                            "text": line.rstrip()
+                        })
+
+                    if line_number > end_line:
+                        break
+        except:
+            return {
+                "ok": False,
+                "reason": "read_error",
+                "lines": []
+            }
+
+        return {
+            "ok": True,
+            "reason": "ok",
+            "path": str(direct_path),
+            "lines": lines
         }
         
     filename = filename.lower().strip()
