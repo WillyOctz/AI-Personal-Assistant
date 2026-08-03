@@ -8374,6 +8374,76 @@
             "source": "rule",
             "timestamp": "2026-08-03 19:46:36",
             "importance": 0.6
+        },
+        {
+            "user": "preview file assistant ../README.MD",
+            "assistant": "That path is outside the registered folder: ../README.MD",
+            "intent": "preview_file",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 20:04:35",
+            "importance": 0.6
+        },
+        {
+            "user": "preview file assistant .git",
+            "assistant": "That path is inside an ignored folder: .git",
+            "intent": "preview_file",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 20:04:41",
+            "importance": 0.6
+        },
+        {
+            "user": "preview file assistant memory.json",
+            "assistant": "Preview: C:\\Users\\User\\AI_Personal_Assistant\\datasets\\memory.json\n{\n    \"notes\": [\n        \"i want to learn AI\",\n        \"i want to improve you\",\n        \"i like music\",\n        \"profile favorite_language python\",\n        \"profile goal to build best AI assistant\",\n        \"i like coffee\",\n        \"game stardew valley\",\n        \"app spotify\"\n    ],\n    \"profile\": {\n        \"name\": \"Carlos\",\n        \"favorite_language\": \"python\",\n        \"goal\": \"to build best AI assistant\",\n        \"mood\": \"focused\",\n        \"focus_goal\": \"10 seconds\"\n    },\n    \"reminders\": [\n        {",
+            "intent": "preview_file",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 20:04:47",
+            "importance": 0.6
+        },
+        {
+            "user": "file info assistant",
+            "assistant": "Use this format: file info folder_name filename",
+            "intent": "file_info",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 20:05:07",
+            "importance": 0.6
+        },
+        {
+            "user": "file registerr",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-08-03 20:05:20",
+            "importance": 0.3
+        },
+        {
+            "user": "file register",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-08-03 20:05:25",
+            "importance": 0.3
+        },
+        {
+            "user": "file dashboard",
+            "assistant": "File search dashboard:\nRegistered folders: 1\n- assistant -> C:\\Users\\User\\AI_Personal_Assistant",
+            "intent": "file_search_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 20:06:46",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -9010,6 +9080,13 @@
             "query": "assistant",
             "result": "C:\\Users\\User\\AI_Personal_Assistant\\assistant",
             "timestamp": "2026-08-03 19:12:29"
+        },
+        {
+            "action": "preview_file",
+            "folder": "assistant",
+            "query": "memory.json",
+            "result": "20 line(s)",
+            "timestamp": "2026-08-03 20:04:47"
         }
     ]
 }

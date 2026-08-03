@@ -335,6 +335,13 @@ def preview_text_file(folder_path, filename, max_lines=20):
             "reason": "unsafe_path",
             "lines": [] 
         }
+        
+    if is_inside_ignored_folder(direct_path):
+        return {
+            "ok": False,
+            "reason": "ignored_folder",
+            "lines": []
+        }
     
     if direct_path.exists():
         if not direct_path.is_file():

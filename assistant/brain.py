@@ -27,6 +27,33 @@ def log_file_search(action, folder_name, query, result_summary):
     
     memory.add_file_search_event(event)
     
+def format_file_preview_error(reason, filename):
+    if reason == "folder_not_found":
+        return "Folder path does not exist."
+
+    if reason == "not_directory":
+        return "Registered path is not a folder."
+
+    if reason == "unsafe_path":
+        return f"That path is outside the registered folder: {filename}"
+
+    if reason == "ignored_folder":
+        return f"That path is inside an ignored folder: {filename}"
+
+    if reason == "not_file":
+        return f"That path is not a file: {filename}"
+
+    if reason == "not_text":
+        return f"That file is not a supported text file: {filename}"
+
+    if reason == "read_error":
+        return f"I found the file, but could not read it: {filename}"
+
+    if reason == "file_not_found":
+        return f"I could not find file: {filename}"
+
+    return f"I could not preview that file: {reason}"
+    
 def parse_file_range_command(user_input):
     parts = user_input.split()
     
@@ -3242,23 +3269,8 @@ def handle_memory_intent(user_input, analysis):
         
         result = preview_text_file(folder_path, filename, max_lines)
         
-        if not result["ok"]:
-            if result["reason"] == "folder_not_found":
-                return f"Folder path does not exist: {folder_path}"
-            
-            if result["reason"] == "not_directory":
-                return f"Path is not a folder: {folder_path}"
-
-            if result["reason"] == "not_file":
-                return f"That path is not a file: {filename}"
-
-            if result["reason"] == "not_text":
-                return f"I will only preview text-like files."
-
-            if result["reason"] == "decode_error":
-                return f"I could not decode that file as text."
-            
-            return f"I could not find file: {filename}"
+        if not result["ok"]:   
+            return format_file_preview_error(result["reason"], filename)
         
         lines = [f"Preview: {result['path']}"]
         
@@ -3436,7 +3448,7 @@ def handle_memory_intent(user_input, analysis):
         result = preview_text_file_around(folder_path, filename, center_line)
         
         if not result["ok"]:
-            return f"I could not preview around that line: {result['reason']}"
+            return format_file_preview_error(result["reason"], filename)
         
         lines = [f"Preview: {result['path']}"]
         
@@ -3461,7 +3473,7 @@ def handle_memory_intent(user_input, analysis):
         result = preview_text_file_range(folder_path, filename, start_line, end_line)
         
         if not result["ok"]:
-            return f"I could not preview that file range: {result['reason']}"
+            return format_file_preview_error(result["reason"], filename)
         
         lines = [f"Preview: {result['path']}"]
         
