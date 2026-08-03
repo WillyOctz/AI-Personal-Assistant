@@ -140,6 +140,7 @@ VALID_INTENTS = {
     "preview_file_around",
     "preview_file_range",
     "chat_how_are_you",
+    "chat_feeling_statement",
 }
 
 CONTROL_INTENTS = {
@@ -162,6 +163,7 @@ CONTROL_INTENTS = {
 
 CHAT_INTENTS = {
     "chat_how_are_you",
+    "chat_feeling_statement",
 }
 
 MEMORY_INTENTS = {
@@ -844,6 +846,11 @@ INTENT_PREFIXES = {
     "preview_file_range": [
         "preview file range ",
     ],
+    "chat_feeling_statement": [
+        "i feel ",
+        "i am feeling ",
+        "i am ",
+    ],
 }
 
 PREFIX_INTENT_ORDER = [
@@ -909,6 +916,8 @@ PREFIX_INTENT_ORDER = [
     "set_focus_goal",
     "add_focus_note",
     "delete_focus_session",
+    
+    "chat_feeling_statement",
 
     "get_profile_fact",
     "calculate",

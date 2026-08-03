@@ -785,6 +785,15 @@ def parse_text_search(user_input):
     query = parts[1]
     
     return folder_name.strip(), query.strip()
+
+def parse_feeling_statement(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["i feel ", "i am feeling ", "i am "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return ""
     
 def build_focus_stats_for_task(query):
     return focus.build_focus_stats_for_task(query)
@@ -3531,6 +3540,16 @@ def handle_chat_intent(user_input, analysis):
             lines.append(f"We are still working toward your goal: {goal}.")
             
         return " ".join(lines)
+    
+    if intent == "chat_feeling_statement":
+        feeling = parse_feeling_statement(user_input)
+        
+        if not feeling:
+            return "I hear you. Tell me a little more."
+        
+        memory.set_profile_value("mood", feeling)
+        
+        return f"I hear you. I will remember that you are feeling {feeling}."
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

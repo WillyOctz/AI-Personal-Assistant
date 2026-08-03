@@ -13,7 +13,7 @@
         "name": "Carlos",
         "favorite_language": "python",
         "goal": "to build best AI assistant",
-        "mood": "focused",
+        "mood": "tired",
         "focus_goal": "10 seconds"
     },
     "reminders": [],
@@ -8758,6 +8758,16 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-03 22:39:56",
+            "importance": 0.3
+        },
+        {
+            "user": "i feel tired",
+            "assistant": "I hear you. I will remember that you are feeling tired.",
+            "intent": "chat_feeling_statement",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 22:53:41",
             "importance": 0.3
         }
     ],
