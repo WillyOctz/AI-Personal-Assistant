@@ -53,6 +53,24 @@ def format_file_preview_error(reason, filename):
         return f"I could not find file: {filename}"
 
     return f"I could not preview that file: {reason}"
+
+def format_text_search_error(reason, folder_name):
+    if reason == "folder_not_found":
+        return f"Search folder does not exist: {folder_name}"
+    
+    if reason == "not_directory":
+        return f"Registered search path is not a folder: {folder_name}"
+    
+    return f"I could not search text files: {reason}"
+
+def format_file_name_search_error(reason, folder_name):
+    if reason == "not_found":
+        return f"Search folder does not exist: {folder_name}"
+
+    if reason == "not_directory":
+        return f"Registered search path is not a folder: {folder_name}"
+
+    return f"I could not search files: {reason}"
     
 def parse_file_range_command(user_input):
     parts = user_input.split()
@@ -3187,10 +3205,7 @@ def handle_memory_intent(user_input, analysis):
         result = search_files_by_name(folder_path, query, extension, limit)
         
         if not result["ok"]:
-            if result["reason"] == "not_found":
-                return f"Folder path does not exist: {folder_path}"
-            
-            return f"Path is not a folder: {folder_path}"
+            return format_file_name_search_error(result["reason"],folder_name)
         
         if not result["matches"]:
             return f"No files matched: {query}"
@@ -3313,10 +3328,7 @@ def handle_memory_intent(user_input, analysis):
         result = search_text_in_files(folder_path, query, extension, limit)
         
         if not result["ok"]:
-            if result["reason"] == "folder_not_found":
-                return f"Folder path does not exist: {folder_path}"
-            
-            return f"Path is not a folder: {folder_path}"
+            return format_text_search_error(result["reason"], folder_name)
         
         if not result["matches"]:
             return f"No text matches found for: {query}"

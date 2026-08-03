@@ -8444,6 +8444,26 @@
             "source": "rule",
             "timestamp": "2026-08-03 20:06:46",
             "importance": 0.6
+        },
+        {
+            "user": "search text fake cleanup",
+            "assistant": "I could not find registered search folder: fake",
+            "intent": "search_text_files",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 20:21:26",
+            "importance": 0.6
+        },
+        {
+            "user": "search files fake brain",
+            "assistant": "I could not find registered search folder: fake",
+            "intent": "search_files_by_name",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 20:23:45",
+            "importance": 0.6
         }
     ],
     "summaries": [
