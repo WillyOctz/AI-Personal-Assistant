@@ -136,6 +136,15 @@ def is_inside_ignored_folder(path):
         
     return False
 
+def is_safe_child_path(base_path, target_path):
+    try:
+        base_path = base_path.resolve()
+        target_path = target_path.resolve()
+        
+        return target_path == base_path or base_path in target_path.parents
+    except:
+        return False
+
 def list_folder_items(folder_path, limit=20):
     path = Path(folder_path)
     
@@ -284,6 +293,12 @@ def preview_text_file(folder_path, filename, max_lines=20):
         }
         
     direct_path = path / filename
+    if not is_safe_child_path(path, direct_path):
+        return {
+            "ok": False,
+            "reason": "unsafe_path",
+            "lines": [] 
+        }
     
     if direct_path.exists():
         if not direct_path.is_file():

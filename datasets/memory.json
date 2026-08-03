@@ -8264,6 +8264,36 @@
             "source": "rule",
             "timestamp": "2026-08-02 20:12:44",
             "importance": 0.6
+        },
+        {
+            "user": "preview file assistant assistant/brain.py 5",
+            "assistant": "Preview: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py\nfrom assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around\nfrom assistant import memory\nfrom assistant import apps\nfrom assistant.personality import greet, unknown_response\nfrom assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER",
+            "intent": "preview_file",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 17:12:52",
+            "importance": 0.6
+        },
+        {
+            "user": "preview file assistant ../README.MD 5",
+            "assistant": "I could not find file: ../README.MD",
+            "intent": "preview_file",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 17:13:05",
+            "importance": 0.6
+        },
+        {
+            "user": "preview file range assistant ../README.MD 1 5",
+            "assistant": "I could not preview that file range: file_not_found",
+            "intent": "preview_file_range",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 17:13:10",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -8844,6 +8874,13 @@
             "query": "assistant/brain.py",
             "result": "5 line(s)",
             "timestamp": "2026-08-02 20:12:28"
+        },
+        {
+            "action": "preview_file",
+            "folder": "assistant",
+            "query": "assistant/brain.py",
+            "result": "5 line(s)",
+            "timestamp": "2026-08-03 17:12:52"
         }
     ]
 }
