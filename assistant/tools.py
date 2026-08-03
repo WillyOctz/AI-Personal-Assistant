@@ -258,16 +258,17 @@ def get_file_info(folder_path, filename):
             "reason": "unsafe_path",
             "file": None
         }
+        
+    if is_inside_ignored_folder(direct_path):
+        return {
+            "ok": False,
+            "reason": "ignored_folder",
+            "file": None 
+        }
 
     if direct_path.exists():
-        if not direct_path.is_file():
-            return {
-                "ok": False,
-                "reason": "not_file",
-                "file": None
-            }
-
         stat = direct_path.stat()
+        item_type = "folder" if direct_path.is_dir() else "file"
 
         return {
             "ok": True,
@@ -276,7 +277,7 @@ def get_file_info(folder_path, filename):
                 "name": direct_path.name,
                 "path": str(direct_path),
                 "size": stat.st_size,
-                "type": "file",
+                "type": item_type,
                 "modified": stat.st_mtime,
                 "extension": direct_path.suffix.lower()
             }
@@ -285,6 +286,9 @@ def get_file_info(folder_path, filename):
     filename = filename.lower().strip()
     
     for item in path.rglob("*"):
+        if is_inside_ignored_folder(item):
+            continue
+        
         if item.name.lower() == filename:
             stats = item.stat()
             item_type = "folder" if item.is_dir() else "file"
