@@ -8464,6 +8464,16 @@
             "source": "rule",
             "timestamp": "2026-08-03 20:23:45",
             "importance": 0.6
+        },
+        {
+            "user": "list files fake",
+            "assistant": "I could not find registered search folder: fake",
+            "intent": "list_folder_files",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 20:44:06",
+            "importance": 0.6
         }
     ],
     "summaries": [
