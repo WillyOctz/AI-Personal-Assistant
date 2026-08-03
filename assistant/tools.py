@@ -245,9 +245,41 @@ def get_file_info(folder_path, filename):
         
     if not path.is_dir():
         return {
-           "ok": False,
+            "ok": False,
             "reason": "not_directory",
             "file": None 
+        }
+        
+    direct_path = path / filename
+
+    if not is_safe_child_path(path, direct_path):
+        return {
+            "ok": False,
+            "reason": "unsafe_path",
+            "file": None
+        }
+
+    if direct_path.exists():
+        if not direct_path.is_file():
+            return {
+                "ok": False,
+                "reason": "not_file",
+                "file": None
+            }
+
+        stat = direct_path.stat()
+
+        return {
+            "ok": True,
+            "reason": "ok",
+            "file": {
+                "name": direct_path.name,
+                "path": str(direct_path),
+                "size": stat.st_size,
+                "type": "file",
+                "modified": stat.st_mtime,
+                "extension": direct_path.suffix.lower()
+            }
         }
         
     filename = filename.lower().strip()
