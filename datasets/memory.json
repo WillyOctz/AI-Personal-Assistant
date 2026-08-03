@@ -8354,6 +8354,26 @@
             "source": "rule",
             "timestamp": "2026-08-03 19:12:29",
             "importance": 0.6
+        },
+        {
+            "user": "file info assistant ../README.MD",
+            "assistant": "That path is outside the registered folder: ../README.MD",
+            "intent": "file_info",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 19:46:30",
+            "importance": 0.6
+        },
+        {
+            "user": "file info assistant .git",
+            "assistant": "That path is inside an ignored folder: .git",
+            "intent": "file_info",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 19:46:36",
+            "importance": 0.6
         }
     ],
     "summaries": [

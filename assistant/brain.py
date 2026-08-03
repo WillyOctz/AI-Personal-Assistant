@@ -3191,11 +3191,22 @@ def handle_memory_intent(user_input, analysis):
         result = get_file_info(folder_path, filename)
         
         if not result["ok"]:
-            if result["reason"] == "folder_not_found":
+            reason = result["reason"]
+            
+            if reason == "folder_not_found":
                 return f"Folder path does not exist: {folder_path}"
             
-            if result["reason"] == "not_directory":
+            if reason == "not_directory":
                 return f"Path is not a folder: {folder_path}"
+
+            if reason == "unsafe_path":
+                return f"That path is outside the registered folder: {filename}"
+
+            if reason == "ignored_folder":
+                return f"That path is inside an ignored folder: {filename}"
+
+            if reason == "file_not_found":
+                return f"I could not find file or folder: {filename}"
             
             return f"I could not find file: {filename}"
         
