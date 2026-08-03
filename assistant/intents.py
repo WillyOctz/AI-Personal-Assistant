@@ -139,6 +139,7 @@ VALID_INTENTS = {
     "cleanup_file_search_history",
     "preview_file_around",
     "preview_file_range",
+    "chat_how_are_you",
 }
 
 CONTROL_INTENTS = {
@@ -157,6 +158,10 @@ CONTROL_INTENTS = {
     "skip_pending_task",
     "debug_focus_goal",
     "clear_pending_app_launch",
+}
+
+CHAT_INTENTS = {
+    "chat_how_are_you",
 }
 
 MEMORY_INTENTS = {
@@ -396,7 +401,9 @@ INTENT_PATTERNS = {
         "brief me",
     ],
     "suggest_next_task": [
+        "what should i do now",
         "what should i do next",
+        "what should i work on",
         "next task",
         "suggest next task",
         "what is next",
@@ -616,6 +623,12 @@ INTENT_PATTERNS = {
         "cleanup file search history",
         "cleanup file searches",
         "prune file search history",
+    ],
+    "chat_how_are_you": [
+        "how are you",
+        "how are you doing",
+        "how do you feel",
+        "are you okay",
     ],
 }
 

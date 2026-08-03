@@ -16,18 +16,13 @@
         "mood": "focused",
         "focus_goal": "10 seconds"
     },
-    "reminders": [
-        {
-            "text": "code today",
-            "due": "tomorrow"
-        }
-    ],
+    "reminders": [],
     "state": {
         "pending_confirmation": null,
-        "pending_task": "code today",
-        "focus_mode": false,
-        "focus_task": null,
-        "focus_started_at": null,
+        "pending_task": "work toward your goal - to build best AI assistant",
+        "focus_mode": true,
+        "focus_task": "work toward your goal - to build best AI assistant",
+        "focus_started_at": "2026-08-03 22:15:03",
         "focus_notes": [],
         "pending_app_launch": null
     },
@@ -8474,6 +8469,296 @@
             "source": "rule",
             "timestamp": "2026-08-03 20:44:06",
             "importance": 0.6
+        },
+        {
+            "user": "list files assistant",
+            "assistant": "Files in assistant:\n- folder: assistant\n- folder: datasets\n- folder: db\n- file: main.py\n- file: README.MD",
+            "intent": "list_folder_files",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 20:54:56",
+            "importance": 0.6
+        },
+        {
+            "user": "search files assistant brain .py 5",
+            "assistant": "Files matching brain:\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py",
+            "intent": "search_files_by_name",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 20:55:00",
+            "importance": 0.6
+        },
+        {
+            "user": "search text assistant cleanup .py 5",
+            "assistant": "Text matches for cleanup:\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:344 | def format_app_cleanup_preview():\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:345 | preview = memory.preview_app_cleanup()\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:348 | f\"App cleanup preview:\\n\"\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:355 | def format_debug_app_cleanup():\n- C:\\Users\\User\\AI_Personal_Assistant\\assistant\\apps.py:356 | preview = memory.preview_app_cleanup()",
+            "intent": "search_text_files",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 20:55:04",
+            "importance": 0.6
+        },
+        {
+            "user": "preview file assistant assistant/brain.py 5",
+            "assistant": "Preview: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py\nfrom assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around\nfrom assistant import memory\nfrom assistant import apps\nfrom assistant.personality import greet, unknown_response\nfrom assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER",
+            "intent": "preview_file",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 20:55:09",
+            "importance": 0.6
+        },
+        {
+            "user": "preview file range assistant assistant/brain.py 1 5",
+            "assistant": "Preview: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py\n1 | from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around\n2 | from assistant import memory\n3 | from assistant import apps\n4 | from assistant.personality import greet, unknown_response\n5 | from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER",
+            "intent": "preview_file_range",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 20:55:17",
+            "importance": 0.6
+        },
+        {
+            "user": "preview around assistant assistant/brain.py 10",
+            "assistant": "Preview: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py\n  5 | from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER\n  6 | from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score\n  7 | from datetime import datetime, timedelta\n  8 | from assistant import focus\n  9 | \n> 10 | HIGH_CONFIDENCE = 0.75\n  11 | LOW_CONFIDENCE = 0.55\n  12 | \n  13 | def current_timestamp():\n  14 |     return datetime.now().strftime(\"%Y-%m-%d %H:%M:%S\")\n  15 | ",
+            "intent": "preview_file_around",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 20:55:22",
+            "importance": 0.6
+        },
+        {
+            "user": "file info assistant assistant/brain.py\\",
+            "assistant": "File info:\nName: brain.py\nType: file\nPath: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py\nSize: 119727 bytes\nModified: 2026-08-03 20:43:14",
+            "intent": "file_info",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 20:55:34",
+            "importance": 0.6
+        },
+        {
+            "user": "file search history",
+            "assistant": "Recent file search activity:\n- 2026-08-03 18:40:58 | file_info | assistant | assistant/brain.py | C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py\n- 2026-08-03 18:46:03 | file_info | assistant | assistant/brain.py | C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py\n- 2026-08-03 18:49:09 | file_info | assistant | assistant/brain.py | C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py\n- 2026-08-03 19:12:29 | file_info | assistant | assistant | C:\\Users\\User\\AI_Personal_Assistant\\assistant\n- 2026-08-03 20:04:47 | preview_file | assistant | memory.json | 20 line(s)\n- 2026-08-03 20:54:56 | list_files | assistant |  | 5 item(s)\n- 2026-08-03 20:55:00 | search_files | assistant | brain | 1 match(es)\n- 2026-08-03 20:55:04 | search_text | assistant | cleanup | 5 match(es)\n- 2026-08-03 20:55:09 | preview_file | assistant | assistant/brain.py | 5 line(s)\n- 2026-08-03 20:55:34 | file_info | assistant | assistant/brain.py\\ | C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py",
+            "intent": "show_file_search_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 20:55:41",
+            "importance": 0.6
+        },
+        {
+            "user": "file search stats",
+            "assistant": "File search stats:\nTotal events: 39\nMost used action: search_files (11 time(s))\nMost used folder: assistant (39 time(s))\nLast action: file_info",
+            "intent": "file_search_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 20:55:46",
+            "importance": 0.6
+        },
+        {
+            "user": "preview file search cleanup 5",
+            "assistant": "File search cleanup preview:\nTotal events: 39\nKeep latest: 5\nWould remove: 34",
+            "intent": "preview_file_search_cleanup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 20:55:51",
+            "importance": 0.6
+        },
+        {
+            "user": "exi",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-08-03 20:55:54",
+            "importance": 0.3
+        },
+        {
+            "user": "debug route what should i do now",
+            "assistant": "Input: what should i do now\nExact intent: suggest_next_task\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 21:11:52",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route what should i do next",
+            "assistant": "Input: what should i do next\nExact intent: suggest_next_task\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 21:12:00",
+            "importance": 0.1
+        },
+        {
+            "user": "what should i do now",
+            "assistant": "Start with this reminder: code today | due: tomorrow",
+            "intent": "suggest_next_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 21:12:07",
+            "importance": 0.6
+        },
+        {
+            "user": "next task",
+            "assistant": "Start with this reminder: code today | due: tomorrow",
+            "intent": "suggest_next_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 22:03:00",
+            "importance": 0.6
+        },
+        {
+            "user": "daily briefing",
+            "assistant": "Good day, Carlos.\nGoal: to build best AI assistant\nReminders today: 0\nOverdue reminders: 0\nFocus goal: 10 seconds\nFocus progress: 0%\nToday's focus: 0 seconds\nSuggested focus: work toward your goal - to build best AI assistant",
+            "intent": "daily_briefing",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 22:14:04",
+            "importance": 0.6
+        },
+        {
+            "user": "pending task",
+            "assistant": "Pending task: code today",
+            "intent": "show_pending_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 22:14:20",
+            "importance": 0.6
+        },
+        {
+            "user": "done",
+            "assistant": "I could not complete the suggested task: code today",
+            "intent": "complete_pending_task",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 22:14:26",
+            "importance": 0.1
+        },
+        {
+            "user": "skip",
+            "assistant": "I do not have a suggested task waiting.",
+            "intent": "skip_pending_task",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 22:14:34",
+            "importance": 0.1
+        },
+        {
+            "user": "pending task",
+            "assistant": "You do not have a pending task.",
+            "intent": "show_pending_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 22:14:40",
+            "importance": 0.6
+        },
+        {
+            "user": "start focus",
+            "assistant": "Focus mode started. Current focus: work toward your goal - to build best AI assistant",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 22:15:03",
+            "importance": 0.6
+        },
+        {
+            "user": "focus status",
+            "assistant": "Focus mode is active. Current focus: work toward your goal - to build best AI assistant",
+            "intent": "focus_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 22:15:08",
+            "importance": 0.6
+        },
+        {
+            "user": "focus dashboard",
+            "assistant": "Focus dashboard:\nStatus: active\nCurrent focus: work toward your goal - to build best AI assistant\nToday: 0 session(s), 0 seconds\nWeek: 0 session(s), 0 seconds\nGoal: 10 seconds\nGoal progress: 0%\nCurrent streak: 0 day(s)\nLongest streak: 1 day(s)",
+            "intent": "focus_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 22:15:11",
+            "importance": 0.6
+        },
+        {
+            "user": "daily briefing",
+            "assistant": "Good day, Carlos.\nGoal: to build best AI assistant\nReminders today: 0\nOverdue reminders: 0\nFocus goal: 10 seconds\nFocus progress: 0%\nToday's focus: 0 seconds\nSuggested focus: work toward your goal - to build best AI assistant",
+            "intent": "daily_briefing",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 22:15:33",
+            "importance": 0.6
+        },
+        {
+            "user": "how are you",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "chat_how_are_you",
+            "group": "unknown",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 22:31:01",
+            "importance": 0.3
+        },
+        {
+            "user": "how are you",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "chat_how_are_you",
+            "group": "unknown",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 22:34:39",
+            "importance": 0.3
+        },
+        {
+            "user": "how are you",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "chat_how_are_you",
+            "group": "unknown",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 22:35:47",
+            "importance": 0.3
+        },
+        {
+            "user": "debug route how are you",
+            "assistant": "Input: how are you\nExact intent: chat_how_are_you\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 22:39:51",
+            "importance": 0.1
+        },
+        {
+            "user": "how are you",
+            "assistant": "I am doing alright. I remember your current mood is focused. We are still working toward your goal: to build best AI assistant.",
+            "intent": "chat_how_are_you",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-03 22:39:56",
+            "importance": 0.3
         }
     ],
     "summaries": [
@@ -9117,6 +9402,41 @@
             "query": "memory.json",
             "result": "20 line(s)",
             "timestamp": "2026-08-03 20:04:47"
+        },
+        {
+            "action": "list_files",
+            "folder": "assistant",
+            "query": "",
+            "result": "5 item(s)",
+            "timestamp": "2026-08-03 20:54:56"
+        },
+        {
+            "action": "search_files",
+            "folder": "assistant",
+            "query": "brain",
+            "result": "1 match(es)",
+            "timestamp": "2026-08-03 20:55:00"
+        },
+        {
+            "action": "search_text",
+            "folder": "assistant",
+            "query": "cleanup",
+            "result": "5 match(es)",
+            "timestamp": "2026-08-03 20:55:04"
+        },
+        {
+            "action": "preview_file",
+            "folder": "assistant",
+            "query": "assistant/brain.py",
+            "result": "5 line(s)",
+            "timestamp": "2026-08-03 20:55:09"
+        },
+        {
+            "action": "file_info",
+            "folder": "assistant",
+            "query": "assistant/brain.py\\",
+            "result": "C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py",
+            "timestamp": "2026-08-03 20:55:34"
         }
     ]
 }

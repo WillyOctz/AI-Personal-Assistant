@@ -2,9 +2,9 @@ from assistant.tools import get_time, create_reminder, open_app, play_game, safe
 from assistant import memory
 from assistant import apps
 from assistant.personality import greet, unknown_response
-from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER
+from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score
-from datetime import datetime, timedelta
+from datetime import datetime
 from assistant import focus
 
 HIGH_CONFIDENCE = 0.75
@@ -1595,6 +1595,9 @@ def get_intent_group(intent):
     if intent in ACTION_INTENTS:
         return "action"
     
+    if intent in CHAT_INTENTS:
+        return "chat"
+    
     if intent == "greeting" or intent == "get_time":
         return "basic"
     
@@ -2231,7 +2234,7 @@ def handle_memory_intent(user_input, analysis):
         today_results = memory.search_reminders_by_due("today")
         overdue_results = memory.search_reminders_by_due("yesterday")
         
-        focus = get_first_reminder_text(today_results)
+        focus_brief = get_first_reminder_text(today_results)
         
         lines = []
         
@@ -2257,8 +2260,8 @@ def handle_memory_intent(user_input, analysis):
             else:
                 lines.append("Focus progress: unknown")
         
-        if focus:
-            lines.append(f"Suggested focus: {focus}")
+        if focus_brief:
+            lines.append(f"Suggested focus: {focus_brief}")
         elif goal:
             lines.append(f"Suggested focus: work toward your goal - {goal}")
             
@@ -3510,6 +3513,24 @@ def handle_memory_intent(user_input, analysis):
             f"Kept latest: {result['kept']}\n"
             f"Removed events: {result['removed']}"
         )
+        
+def handle_chat_intent(user_input, analysis):
+    intent = analysis["intent"]
+    global memory
+    
+    if intent == "chat_how_are_you":
+        mood = memory.get_profile_value("mood")
+        goal = memory.get_profile_value("goal")
+        
+        lines = ["I am doing alright."]
+        
+        if mood:
+            lines.append(f"I remember your current mood is {mood}.")
+            
+        if goal:
+            lines.append(f"We are still working toward your goal: {goal}.")
+            
+        return " ".join(lines)
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]
@@ -3615,6 +3636,9 @@ def get_response(user_input):
     
     elif group == "action":
         response = handle_action_intent(user_input, analysis) 
+    
+    elif group == "chat":
+        response = handle_chat_intent(user_input, analysis)
     
     else:
         response = unknown_response()
