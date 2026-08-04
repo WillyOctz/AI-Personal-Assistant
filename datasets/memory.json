@@ -8849,6 +8849,16 @@
             "source": "rule",
             "timestamp": "2026-08-04 16:16:41",
             "importance": 0.3
+        },
+        {
+            "user": "thanks",
+            "assistant": "You are welcome. I am here with you.",
+            "intent": "chat_thanks",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-04 16:24:16",
+            "importance": 0.3
         }
     ],
     "summaries": [

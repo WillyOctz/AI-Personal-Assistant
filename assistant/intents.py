@@ -143,6 +143,7 @@ VALID_INTENTS = {
     "chat_feeling_statement",
     "chat_need_help",
     "chat_stuck",
+    "chat_thanks",
 }
 
 CONTROL_INTENTS = {
@@ -168,6 +169,7 @@ CHAT_INTENTS = {
     "chat_feeling_statement",
     "chat_need_help",
     "chat_stuck",
+    "chat_thanks",
 }
 
 MEMORY_INTENTS = {
@@ -648,6 +650,13 @@ INTENT_PATTERNS = {
         "i feel stuck",
         "i do not know what to do",
         "i don't know what to do",
+    ],
+    "chat_thanks": [
+        "thank you",
+        "thanks",
+        "ty",
+        "thank you nebula",
+        "thanks nebula",
     ],
 }
 

@@ -43,3 +43,6 @@ def respond_to_stuck(goal=None):
         return f"Okay. Let us reduce the problem. What is the smallest part of {goal} that feels stuck?"
     
     return "Okay. Let us reduce the problem. What is the smallest part that feels stuck?"
+
+def respond_to_thanks():
+    return "You are welcome. I am here with you."
