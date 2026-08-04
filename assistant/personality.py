@@ -49,3 +49,28 @@ def respond_to_thanks():
 
 def respond_to_goodbye():
     return "Alright. I will be here when you come back."
+
+def respond_to_day_greeting(user_input, mood=None, goal=None):
+    text = user_input.lower()
+    
+    if "morning" in text:
+        greeting = "Good morning."
+    elif "afternoon" in text:
+        greeting = "Good afternoon."
+    elif "evening" in text:
+        greeting = "Good evening."
+    else:
+        greeting = "Hello."
+        
+    details = []
+    
+    if mood:
+        details.append(f"I remember you were feeling {mood}.")
+        
+    if goal:
+        details.append(f"We are still working toward your goal: {goal}.")
+        
+    if details:
+        return greeting + " " + " ".join(details)
+    
+    return greeting

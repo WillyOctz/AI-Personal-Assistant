@@ -145,6 +145,7 @@ VALID_INTENTS = {
     "chat_stuck",
     "chat_thanks",
     "chat_goodbye",
+    "chat_day_greeting",
 }
 
 CONTROL_INTENTS = {
@@ -172,6 +173,7 @@ CHAT_INTENTS = {
     "chat_stuck",
     "chat_thanks",
     "chat_goodbye",
+    "chat_day_greeting",
 }
 
 MEMORY_INTENTS = {
@@ -667,6 +669,14 @@ INTENT_PATTERNS = {
         "see you later",
         "talk later",
         "talk to you later",
+    ],
+    "chat_day_greeting": [
+        "good morning",
+        "good afternoon",
+        "good evening",
+        "morning",
+        "afternoon",
+        "evening",
     ],
 }
 
