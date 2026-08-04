@@ -13,7 +13,7 @@
         "name": "Carlos",
         "favorite_language": "python",
         "goal": "to build best AI assistant",
-        "mood": "tired",
+        "mood": "excited",
         "focus_goal": "10 seconds"
     },
     "reminders": [],
@@ -8769,6 +8769,46 @@
             "source": "rule",
             "timestamp": "2026-08-03 22:53:41",
             "importance": 0.3
+        },
+        {
+            "user": "i feel tired",
+            "assistant": "I hear you. Take it slow for a moment. We can choose one small thing and keep it manageable.",
+            "intent": "chat_feeling_statement",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-04 15:43:51",
+            "importance": 0.3
+        },
+        {
+            "user": "i feel confused",
+            "assistant": "I hear you. Let us slow it down and untangle one piece at a time.",
+            "intent": "chat_feeling_statement",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-04 15:43:58",
+            "importance": 0.3
+        },
+        {
+            "user": "i feel excited",
+            "assistant": "That is good energy. Let us aim it at one useful step.",
+            "intent": "chat_feeling_statement",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-04 15:44:05",
+            "importance": 0.3
+        },
+        {
+            "user": "what is my mood",
+            "assistant": "Your mood is excited.",
+            "intent": "get_profile_fact",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-04 15:44:12",
+            "importance": 0.6
         }
     ],
     "summaries": [
