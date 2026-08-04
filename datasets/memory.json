@@ -8809,6 +8809,26 @@
             "source": "rule",
             "timestamp": "2026-08-04 15:44:12",
             "importance": 0.6
+        },
+        {
+            "user": "i need help",
+            "assistant": "Tell me what part is stuck. We can connect it back to your goal: to build best AI assistant.",
+            "intent": "chat_need_help",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-04 16:00:22",
+            "importance": 0.3
+        },
+        {
+            "user": "help me",
+            "assistant": "Tell me what part is stuck. We can connect it back to your goal: to build best AI assistant.",
+            "intent": "chat_need_help",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-04 16:00:28",
+            "importance": 0.3
         }
     ],
     "summaries": [

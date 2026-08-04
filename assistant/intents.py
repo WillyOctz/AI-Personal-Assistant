@@ -141,6 +141,7 @@ VALID_INTENTS = {
     "preview_file_range",
     "chat_how_are_you",
     "chat_feeling_statement",
+    "chat_need_help",
 }
 
 CONTROL_INTENTS = {
@@ -164,6 +165,7 @@ CONTROL_INTENTS = {
 CHAT_INTENTS = {
     "chat_how_are_you",
     "chat_feeling_statement",
+    "chat_need_help",
 }
 
 MEMORY_INTENTS = {
@@ -631,6 +633,12 @@ INTENT_PATTERNS = {
         "how are you doing",
         "how do you feel",
         "are you okay",
+    ],
+    "chat_need_help": [
+        "i need help",
+        "help me",
+        "can you help me",
+        "please help me",
     ],
 }
 

@@ -31,3 +31,9 @@ def respond_to_feeling(feeling):
         return "Good. Let us protect that focus and keep the next step clear."
 
     return f"I hear you. I will remember that you are feeling {feeling}."
+
+def respond_to_help_request(goal=None):
+    if goal:
+        return f"Tell me what part is stuck. We can connect it back to your goal: {goal}."
+    
+    return "Tell me what part is stuck. We can break it into one small step."
