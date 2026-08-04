@@ -37,3 +37,9 @@ def respond_to_help_request(goal=None):
         return f"Tell me what part is stuck. We can connect it back to your goal: {goal}."
     
     return "Tell me what part is stuck. We can break it into one small step."
+
+def respond_to_stuck(goal=None):
+    if goal:
+        return f"Okay. Let us reduce the problem. What is the smallest part of {goal} that feels stuck?"
+    
+    return "Okay. Let us reduce the problem. What is the smallest part that feels stuck?"

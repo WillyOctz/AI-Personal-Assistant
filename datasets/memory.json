@@ -8829,6 +8829,26 @@
             "source": "rule",
             "timestamp": "2026-08-04 16:00:28",
             "importance": 0.3
+        },
+        {
+            "user": "i am stuck",
+            "assistant": "Okay. Let us reduce the problem. What is the smallest part of to build best AI assistant that feels stuck?",
+            "intent": "chat_stuck",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-04 16:16:36",
+            "importance": 0.3
+        },
+        {
+            "user": "i don't know what to do",
+            "assistant": "Okay. Let us reduce the problem. What is the smallest part of to build best AI assistant that feels stuck?",
+            "intent": "chat_stuck",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-04 16:16:41",
+            "importance": 0.3
         }
     ],
     "summaries": [
