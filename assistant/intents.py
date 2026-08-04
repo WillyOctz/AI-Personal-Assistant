@@ -144,6 +144,7 @@ VALID_INTENTS = {
     "chat_need_help",
     "chat_stuck",
     "chat_thanks",
+    "chat_goodbye",
 }
 
 CONTROL_INTENTS = {
@@ -170,6 +171,7 @@ CHAT_INTENTS = {
     "chat_need_help",
     "chat_stuck",
     "chat_thanks",
+    "chat_goodbye",
 }
 
 MEMORY_INTENTS = {
@@ -657,6 +659,14 @@ INTENT_PATTERNS = {
         "ty",
         "thank you nebula",
         "thanks nebula",
+    ],
+    "chat_goodbye": [
+        "bye",
+        "goodbye",
+        "see you",
+        "see you later",
+        "talk later",
+        "talk to you later",
     ],
 }
 

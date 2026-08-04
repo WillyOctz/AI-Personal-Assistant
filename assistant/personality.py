@@ -46,3 +46,6 @@ def respond_to_stuck(goal=None):
 
 def respond_to_thanks():
     return "You are welcome. I am here with you."
+
+def respond_to_goodbye():
+    return "Alright. I will be here when you come back."

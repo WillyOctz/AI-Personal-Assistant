@@ -8859,6 +8859,16 @@
             "source": "rule",
             "timestamp": "2026-08-04 16:24:16",
             "importance": 0.3
+        },
+        {
+            "user": "bye",
+            "assistant": "Alright. I will be here when you come back.",
+            "intent": "chat_goodbye",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-04 16:57:43",
+            "importance": 0.3
         }
     ],
     "summaries": [
