@@ -110,23 +110,37 @@ def respond_about_user(profile):
         
     return "Here is what I remember about you:\n" + "\n".join(details)
 
-def explain_response(intent, group):
+def explain_response(intent, group, source=None, confidence=None):
     if not intent:
         return "I do not have a previous response to explain yet."
     
     if group == "chat":
-        return f"I answered conversationally because I recognized this as {intent}."
+        explanation = f"I answered conversationally because I recognized this as {intent}."
 
-    if group == "memory":
-        return f"I used memory-related logic because I recognized this as {intent}."
+    elif group == "memory":
+        explanation = f"I used memory-related logic because I recognized this as {intent}."
 
-    if group == "action":
-        return f"I used action logic because I recognized this as {intent}."
+    elif group == "action":
+        explanation = f"I used action logic because I recognized this as {intent}."
 
-    if group == "control":
-        return f"I used control/debug logic because I recognized this as {intent}."
+    elif group == "control":
+        explanation = f"I used control/debug logic because I recognized this as {intent}."
 
-    if group == "basic":
-        return f"I used basic assistant logic because I recognized this as {intent}."
+    elif group == "basic":
+        explanation = f"I used basic assistant logic because I recognized this as {intent}."
+    
+    else:
+        explanation = f"I recognized the intent as {intent}, but I do not have a detailed explanation yet."
+        
+    details = []
+    
+    if source:
+        details.append(f"Source: {source}")
+        
+    if confidence is not None:
+        details.append(f"Confidence: {confidence:.2f}")
+        
+    if details:
+        return explanation + "\n" + "\n".join(details)
 
-    return f"I recognized the intent as {intent}, but I do not have a detailed explanation yet."
+    return explanation
