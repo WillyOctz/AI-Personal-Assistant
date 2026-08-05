@@ -147,6 +147,7 @@ VALID_INTENTS = {
     "chat_goodbye",
     "chat_day_greeting",
     "chat_capabilities",
+    "chat_identity",
 }
 
 CONTROL_INTENTS = {
@@ -176,6 +177,7 @@ CHAT_INTENTS = {
     "chat_goodbye",
     "chat_day_greeting",
     "chat_capabilities",
+    "chat_identity",
 }
 
 MEMORY_INTENTS = {
@@ -685,6 +687,12 @@ INTENT_PATTERNS = {
         "what are your abilities",
         "what can you help with",
         "what do you do",
+    ],
+    "chat_identity": [
+        "who are you",
+        "what are you",
+        "are you nebula",
+        "what is nebula",
     ],
 }
 

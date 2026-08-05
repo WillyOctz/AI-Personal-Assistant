@@ -80,3 +80,9 @@ def respond_to_capabilities():
         "I can help with reminders, memory notes, profile facts, focus sessions, "
         "planning, app launching, file search, simple calculations, and learning new intents."
     )
+    
+def respond_to_identity():
+    return (
+        "I am Nebula, your personal assistant. "
+        "I help you remember things, plan tasks, focus, search files, open apps, and keep learning with you."
+    )

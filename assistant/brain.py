@@ -1,7 +1,7 @@
 from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around
 from assistant import memory
 from assistant import apps
-from assistant.personality import greet, unknown_response, respond_to_feeling, respond_to_help_request, respond_to_stuck, respond_to_thanks, respond_to_goodbye, respond_to_day_greeting, respond_to_capabilities
+from assistant.personality import greet, unknown_response, respond_to_feeling, respond_to_help_request, respond_to_stuck, respond_to_thanks, respond_to_goodbye, respond_to_day_greeting, respond_to_capabilities, respond_to_identity
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score
 from datetime import datetime
@@ -3572,6 +3572,9 @@ def handle_chat_intent(user_input, analysis):
     
     if intent == "chat_capabilities":
         return respond_to_capabilities()
+    
+    if intent == "chat_identity":
+        return respond_to_identity()
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

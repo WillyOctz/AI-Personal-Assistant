@@ -8899,6 +8899,16 @@
             "source": "rule",
             "timestamp": "2026-08-05 14:49:53",
             "importance": 0.3
+        },
+        {
+            "user": "who are you",
+            "assistant": "I am Nebula, your personal assistant. I help you remember things, plan tasks, focus, search files, open apps, and keep learning with you.",
+            "intent": "chat_identity",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-05 16:10:33",
+            "importance": 0.3
         }
     ],
     "summaries": [
