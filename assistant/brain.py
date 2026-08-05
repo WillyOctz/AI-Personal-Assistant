@@ -181,6 +181,15 @@ def parse_chat_remember_that(user_input):
     
     return ""
 
+def parse_topic_statement(user_input):
+    text = user_input.lower()
+    
+    for prefix in ["i am learning ", "i'm learning ", "we are learning ", "we are working on "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return ""
+
 def parse_text_search_command(user_input):
     parts = user_input.split()
     
@@ -3605,6 +3614,23 @@ def handle_chat_intent(user_input, analysis):
         
         memory.add_note(fact)
         return f"I will remember that: {fact}"
+    
+    if intent == "chat_topic_statement":
+        topic = parse_topic_statement(user_input)
+        
+        if not topic:
+            return "What topic are we working on?"
+        
+        memory.set_state_value("current_topic", topic)
+        return f"Got it. We are working on {topic}."
+    
+    if intent == "chat_current_topic":
+        topic = memory.get_state_value("current_topic")
+        
+        if not topic:
+            return "I do not have a current topic saved yet."
+        
+        return f"We are currently working on {topic}."
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

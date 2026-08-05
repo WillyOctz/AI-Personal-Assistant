@@ -25,7 +25,8 @@
         "focus_task": "work toward your goal - to build best AI assistant",
         "focus_started_at": "2026-08-03 22:15:03",
         "focus_notes": [],
-        "pending_app_launch": null
+        "pending_app_launch": null,
+        "current_topic": "file search"
     },
     "history": [
         {
@@ -8999,6 +9000,26 @@
             "confidence": 0,
             "source": "None",
             "timestamp": "2026-08-05 17:01:23",
+            "importance": 0.3
+        },
+        {
+            "user": "i am learning file search",
+            "assistant": "Got it. We are working on file search.",
+            "intent": "chat_topic_statement",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-05 17:39:52",
+            "importance": 0.3
+        },
+        {
+            "user": "what are we talking about",
+            "assistant": "We are currently working on file search.",
+            "intent": "chat_current_topic",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-05 17:39:59",
             "importance": 0.3
         }
     ],

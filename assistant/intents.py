@@ -150,6 +150,8 @@ VALID_INTENTS = {
     "chat_identity",
     "chat_about_user",
     "chat_remember_that",
+    "chat_topic_statement",
+    "chat_current_topic",
 }
 
 CONTROL_INTENTS = {
@@ -182,6 +184,8 @@ CHAT_INTENTS = {
     "chat_identity",
     "chat_about_user",
     "chat_remember_that",
+    "chat_topic_statement",
+    "chat_current_topic",
 }
 
 MEMORY_INTENTS = {
@@ -703,6 +707,12 @@ INTENT_PATTERNS = {
         "tell me about me",
         "what do you remember about me",
     ],
+    "chat_current_topic": [
+        "what are we talking about",
+        "what are we working on",
+        "what is the current topic",
+        "current topic",
+    ],
 }
 
 INTENT_PREFIXES = {
@@ -925,6 +935,12 @@ INTENT_PREFIXES = {
         "i am feeling ",
         "i am ",
     ],
+    "chat_topic_statement": [
+        "i am learning ",
+        "i'm learning ",
+        "we are learning ",
+        "we are working on ",
+    ],
 }
 
 PREFIX_INTENT_ORDER = [
@@ -992,6 +1008,7 @@ PREFIX_INTENT_ORDER = [
     "add_focus_note",
     "delete_focus_session",
     
+    "chat_topic_statement",
     "chat_feeling_statement",
 
     "get_profile_fact",
