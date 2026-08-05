@@ -148,6 +148,7 @@ VALID_INTENTS = {
     "chat_day_greeting",
     "chat_capabilities",
     "chat_identity",
+    "chat_about_user",
 }
 
 CONTROL_INTENTS = {
@@ -178,6 +179,7 @@ CHAT_INTENTS = {
     "chat_day_greeting",
     "chat_capabilities",
     "chat_identity",
+    "chat_about_user",
 }
 
 MEMORY_INTENTS = {
@@ -693,6 +695,11 @@ INTENT_PATTERNS = {
         "what are you",
         "are you nebula",
         "what is nebula",
+    ],
+    "chat_about_user": [
+        "do you remember me",
+        "tell me about me",
+        "what do you remember about me",
     ],
 }
 

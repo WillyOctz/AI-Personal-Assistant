@@ -86,3 +86,14 @@ def respond_to_identity():
         "I am Nebula, your personal assistant. "
         "I help you remember things, plan tasks, focus, search files, open apps, and keep learning with you."
     )
+    
+def respond_about_user(profile):
+    if not profile:
+        return "I do not know much about you yet."
+    
+    details = []
+    
+    for key, value in profile.items():
+        details.append(f"{key}: {value}")
+        
+    return "Here is what I remember about you:\n" + "\n".join(details)

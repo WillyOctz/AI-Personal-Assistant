@@ -8909,6 +8909,26 @@
             "source": "rule",
             "timestamp": "2026-08-05 16:10:33",
             "importance": 0.3
+        },
+        {
+            "user": "do you remember me",
+            "assistant": "Here is what I remember about you:\nname: Carlos\nfavorite_language: python\ngoal: to build best AI assistant\nmood: excited\nfocus_goal: 10 seconds",
+            "intent": "chat_about_user",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-05 16:29:35",
+            "importance": 0.3
+        },
+        {
+            "user": "what do you know about me",
+            "assistant": "name: Carlos\nfavorite_language: python\ngoal: to build best AI assistant\nmood: excited\nfocus_goal: 10 seconds",
+            "intent": "show_profile",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-05 16:29:54",
+            "importance": 0.6
         }
     ],
     "summaries": [
