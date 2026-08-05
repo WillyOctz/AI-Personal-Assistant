@@ -27,10 +27,10 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "debug_model",
-        "last_response_group": "control",
-        "last_response_source": "rule",
-        "last_response_confidence": 1.0,
+        "last_response_intent": "unknown",
+        "last_response_group": "unknown",
+        "last_response_source": "None",
+        "last_response_confidence": 0,
         "last_response_scores": {}
     },
     "history": [
@@ -9245,6 +9245,16 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-05 19:34:49",
+            "importance": 0.3
+        },
+        {
+            "user": "this is kind of weird",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: this is kind of weird\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-08-05 20:01:44",
             "importance": 0.3
         }
     ],

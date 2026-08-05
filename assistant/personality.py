@@ -153,3 +153,16 @@ def explain_response(intent, group, source=None, confidence=None, scores=None):
         return explanation + "\n" + "\n".join(details)
 
     return explanation
+
+def unknown_chat_response(user_input=None):
+    if user_input:
+        return (
+            "I am not sure if that was a command or conversation yet.\n"
+            f"You said: {user_input}\n"
+            "You can rephrase it, or teach me with: teach message as intent_name" 
+        )
+        
+    return (
+        "I am not sure if that was a command or conversation yet.\n"
+        "You can rephrase it, or teach me with: teach message as intent_name" 
+    )
