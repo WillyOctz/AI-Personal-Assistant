@@ -7,13 +7,14 @@
         "profile goal to build best AI assistant",
         "i like coffee",
         "game stardew valley",
-        "app spotify"
+        "app spotify",
+        "i like black coffee"
     ],
     "profile": {
         "name": "Carlos",
         "favorite_language": "python",
         "goal": "to build best AI assistant",
-        "mood": "excited",
+        "mood": "tired",
         "focus_goal": "10 seconds"
     },
     "reminders": [],
@@ -684,6 +685,16 @@
             "source": "model",
             "result": "I am ready to open notepad using command: notepad.\nReply yes to launch or no to cancel.",
             "timestamp": "2026-07-27 16:46:20",
+            "importance": 0.8
+        },
+        {
+            "user_input": "what is the thing i like",
+            "intent": "calculate",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "result": "I could not calculate that.",
+            "timestamp": "2026-08-05 17:01:11",
             "importance": 0.8
         }
     ],
@@ -8929,6 +8940,66 @@
             "source": "rule",
             "timestamp": "2026-08-05 16:29:54",
             "importance": 0.6
+        },
+        {
+            "user": "remember that i am tired",
+            "assistant": "I will remember that you are tired.",
+            "intent": "chat_remember_that",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-05 17:00:12",
+            "importance": 0.3
+        },
+        {
+            "user": "what is my mood",
+            "assistant": "Your mood is tired.",
+            "intent": "get_profile_fact",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-05 17:00:17",
+            "importance": 0.6
+        },
+        {
+            "user": "remember that i like black coffee",
+            "assistant": "I will remember that i like black coffee.",
+            "intent": "chat_remember_that",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-05 17:00:28",
+            "importance": 0.3
+        },
+        {
+            "user": "what is my mood",
+            "assistant": "Your mood is tired.",
+            "intent": "get_profile_fact",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-05 17:01:03",
+            "importance": 0.6
+        },
+        {
+            "user": "what is the thing i like",
+            "assistant": "I could not calculate that.",
+            "intent": "calculate",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-05 17:01:11",
+            "importance": 0.8
+        },
+        {
+            "user": "what do i like",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-08-05 17:01:23",
+            "importance": 0.3
         }
     ],
     "summaries": [

@@ -173,6 +173,14 @@ def parse_preview_file_command(user_input):
             
     return folder_name, filename, max_lines
 
+def parse_chat_remember_that(user_input):
+    text = user_input.lower().strip()
+    
+    if text.startswith("remember that "):
+        return text.replace("remember that ", "", 1).strip()
+    
+    return ""
+
 def parse_text_search_command(user_input):
     parts = user_input.split()
     
@@ -3579,6 +3587,24 @@ def handle_chat_intent(user_input, analysis):
     if intent == "chat_about_user":
         profile = memory.get_profile()
         return respond_about_user(profile)
+    
+    if intent == "chat_remember_that":
+        fact = parse_chat_remember_that(user_input)
+        
+        if not fact:
+            return "What should I remember?"
+        
+        if fact.startswith("i am "):
+            mood = fact.replace("i am", "", 1).strip()
+            memory.set_profile_value("mood", mood)
+            return f"I will remember that you are {mood}."
+        
+        if fact.startswith("i like "):
+            memory.add_note(fact)
+            return f"I will remember that {fact}."
+        
+        memory.add_note(fact)
+        return f"I will remember that: {fact}"
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

@@ -149,6 +149,7 @@ VALID_INTENTS = {
     "chat_capabilities",
     "chat_identity",
     "chat_about_user",
+    "chat_remember_that",
 }
 
 CONTROL_INTENTS = {
@@ -180,6 +181,7 @@ CHAT_INTENTS = {
     "chat_capabilities",
     "chat_identity",
     "chat_about_user",
+    "chat_remember_that",
 }
 
 MEMORY_INTENTS = {
@@ -725,6 +727,9 @@ INTENT_PREFIXES = {
     "set_profile_fact": [
         "remember profile ",
     ],
+    "chat_remember_that": [
+        "remember that ",
+    ],
     "remember_note": [
         "remember ",
     ],
@@ -960,6 +965,7 @@ PREFIX_INTENT_ORDER = [
     "set_profile_fact",
     "remember_game_entity",
     "remember_app_entity",
+    "chat_remember_that",
     "remember_note",
 
     "recall_memory_source",
