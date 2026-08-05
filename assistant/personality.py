@@ -32,13 +32,25 @@ def respond_to_feeling(feeling):
 
     return f"I hear you. I will remember that you are feeling {feeling}."
 
-def respond_to_help_request(goal=None):
+def respond_to_help_request(goal=None, topic=None):
+    if topic and goal:
+        return f"Tell me what part is stuck in {topic}. We can connect it back to your goal: {goal}."
+    
+    if topic:
+        return f"Tell me what part is stuck in {topic}. We can break it into one small step."
+    
     if goal:
         return f"Tell me what part is stuck. We can connect it back to your goal: {goal}."
     
     return "Tell me what part is stuck. We can break it into one small step."
 
-def respond_to_stuck(goal=None):
+def respond_to_stuck(goal=None, topic=None):
+    if topic and goal:
+        return f"Okay. Let us reduce the problem. What is the smallest part of {topic} that feels stuck, and how does it connect to {goal}?"
+    
+    if topic:
+        return f"Okay. Let us reduce the problem. What is the smallest part of {topic} that feels stuck?"
+
     if goal:
         return f"Okay. Let us reduce the problem. What is the smallest part of {goal} that feels stuck?"
     

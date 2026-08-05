@@ -3570,11 +3570,13 @@ def handle_chat_intent(user_input, analysis):
     
     if intent == "chat_need_help":
         goal = memory.get_profile_value("goal")
-        return respond_to_help_request(goal)
+        topic = memory.get_state_value("current_topic")
+        return respond_to_help_request(goal, topic)
     
     if intent == "chat_stuck":
         goal = memory.get_profile_value("goal")
-        return respond_to_stuck(goal)
+        topic = memory.get_state_value("current_topic")
+        return respond_to_stuck(goal, topic)
     
     if intent == "chat_thanks":
         return respond_to_thanks()
