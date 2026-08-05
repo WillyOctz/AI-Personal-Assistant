@@ -1,7 +1,7 @@
 from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around
 from assistant import memory
 from assistant import apps
-from assistant.personality import greet, unknown_response, respond_to_feeling, respond_to_help_request, respond_to_stuck, respond_to_thanks, respond_to_goodbye, respond_to_day_greeting, respond_to_capabilities, respond_to_identity, respond_about_user
+from assistant.personality import greet, unknown_response, respond_to_feeling, respond_to_help_request, respond_to_stuck, respond_to_thanks, respond_to_goodbye, respond_to_day_greeting, respond_to_capabilities, respond_to_identity, respond_about_user, explain_response
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score
 from datetime import datetime
@@ -3642,6 +3642,12 @@ def handle_chat_intent(user_input, analysis):
         
         memory.clear_state_value("current_topic")
         return f"Cleared current topic: {topic}"
+    
+    if intent == "chat_explain_last":
+        last_intent = memory.get_state_value("last_response_intent")
+        last_group = memory.get_state_value("last_response_group")
+        
+        return explain_response(last_intent, last_group)
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]
@@ -3754,7 +3760,10 @@ def get_response(user_input):
     else:
         response = unknown_response()
         
+    if analysis["intent"] != "chat_explain_last":
+        memory.set_state_value("last_response_intent", analysis["intent"])
+        memory.set_state_value("last_response_group", analysis["group"])
+        
     log_conversation(user_input, response, analysis)
-    
     return response
     

@@ -109,3 +109,24 @@ def respond_about_user(profile):
         details.append(f"{key}: {value}")
         
     return "Here is what I remember about you:\n" + "\n".join(details)
+
+def explain_response(intent, group):
+    if not intent:
+        return "I do not have a previous response to explain yet."
+    
+    if group == "chat":
+        return f"I answered conversationally because I recognized this as {intent}."
+
+    if group == "memory":
+        return f"I used memory-related logic because I recognized this as {intent}."
+
+    if group == "action":
+        return f"I used action logic because I recognized this as {intent}."
+
+    if group == "control":
+        return f"I used control/debug logic because I recognized this as {intent}."
+
+    if group == "basic":
+        return f"I used basic assistant logic because I recognized this as {intent}."
+
+    return f"I recognized the intent as {intent}, but I do not have a detailed explanation yet."
