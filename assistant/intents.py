@@ -146,6 +146,7 @@ VALID_INTENTS = {
     "chat_thanks",
     "chat_goodbye",
     "chat_day_greeting",
+    "chat_capabilities",
 }
 
 CONTROL_INTENTS = {
@@ -174,6 +175,7 @@ CHAT_INTENTS = {
     "chat_thanks",
     "chat_goodbye",
     "chat_day_greeting",
+    "chat_capabilities",
 }
 
 MEMORY_INTENTS = {
@@ -677,6 +679,12 @@ INTENT_PATTERNS = {
         "morning",
         "afternoon",
         "evening",
+    ],
+    "chat_capabilities": [
+        "what can you do",
+        "what are your abilities",
+        "what can you help with",
+        "what do you do",
     ],
 }
 

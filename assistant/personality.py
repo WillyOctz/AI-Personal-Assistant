@@ -74,3 +74,9 @@ def respond_to_day_greeting(user_input, mood=None, goal=None):
         return greeting + " " + " ".join(details)
     
     return greeting
+
+def respond_to_capabilities():
+    return (
+        "I can help with reminders, memory notes, profile facts, focus sessions, "
+        "planning, app launching, file search, simple calculations, and learning new intents."
+    )

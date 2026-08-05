@@ -8889,6 +8889,16 @@
             "source": "rule",
             "timestamp": "2026-08-04 17:33:01",
             "importance": 0.3
+        },
+        {
+            "user": "what can you do",
+            "assistant": "I can help with reminders, memory notes, profile facts, focus sessions, planning, app launching, file search, simple calculations, and learning new intents.",
+            "intent": "chat_capabilities",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-05 14:49:53",
+            "importance": 0.3
         }
     ],
     "summaries": [
