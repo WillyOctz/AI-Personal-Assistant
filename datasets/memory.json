@@ -27,10 +27,11 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "chat_feeling_statement",
-        "last_response_group": "chat",
+        "last_response_intent": "debug_model",
+        "last_response_group": "control",
         "last_response_source": "rule",
-        "last_response_confidence": 1.0
+        "last_response_confidence": 1.0,
+        "last_response_scores": {}
     },
     "history": [
         {
@@ -9224,6 +9225,26 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-05 19:25:14",
+            "importance": 0.3
+        },
+        {
+            "user": "debug model play game",
+            "assistant": "Tokens: ['play', 'game']\nPrediction: play_game\nConfidence: 0.60\nGroup: action\nScores:\nplay_music: 0.70\nopen_app: 0.00\nset_reminder: 0.00\nplay_game: 1.95\nminecraft: 0.60\nWeights:\nplay: 0.35\ngame: 0.25",
+            "intent": "debug_model",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-05 19:34:44",
+            "importance": 0.1
+        },
+        {
+            "user": "explain that",
+            "assistant": "I used control/debug logic because I recognized this as debug_model.\nSource: rule\nConfidence: 1.00",
+            "intent": "chat_explain_last",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-05 19:34:49",
             "importance": 0.3
         }
     ],

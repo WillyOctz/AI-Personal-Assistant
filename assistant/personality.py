@@ -110,7 +110,7 @@ def respond_about_user(profile):
         
     return "Here is what I remember about you:\n" + "\n".join(details)
 
-def explain_response(intent, group, source=None, confidence=None):
+def explain_response(intent, group, source=None, confidence=None, scores=None):
     if not intent:
         return "I do not have a previous response to explain yet."
     
@@ -139,6 +139,15 @@ def explain_response(intent, group, source=None, confidence=None):
         
     if confidence is not None:
         details.append(f"Confidence: {confidence:.2f}")
+        
+    if scores:
+        sorted_scores = sorted(scores.items(), key=lambda item: item[1], reverse=True)
+        top_scores = sorted_scores[:5]
+            
+        details.append("Scores:")
+            
+        for intent_name, score in top_scores:
+            details.append(f"- {intent_name}: {score:.2f}")
         
     if details:
         return explanation + "\n" + "\n".join(details)

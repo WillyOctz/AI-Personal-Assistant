@@ -3648,8 +3648,9 @@ def handle_chat_intent(user_input, analysis):
         last_group = memory.get_state_value("last_response_group")
         last_source = memory.get_state_value("last_response_source")
         last_confidence = memory.get_state_value("last_response_confidence")
+        last_scores = memory.get_state_value("last_response_scores")
         
-        return explain_response(last_intent, last_group, last_source, last_confidence)
+        return explain_response(last_intent, last_group, last_source, last_confidence, last_scores)
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]
@@ -3767,6 +3768,7 @@ def get_response(user_input):
         memory.set_state_value("last_response_group", analysis["group"])
         memory.set_state_value("last_response_source", analysis["source"])
         memory.set_state_value("last_response_confidence", analysis["confidence"])
+        memory.set_state_value("last_response_scores", analysis.get("scores"))
         
     log_conversation(user_input, response, analysis)
     return response
