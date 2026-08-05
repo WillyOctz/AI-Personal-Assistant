@@ -152,6 +152,7 @@ VALID_INTENTS = {
     "chat_remember_that",
     "chat_topic_statement",
     "chat_current_topic",
+    "chat_clear_topic",
 }
 
 CONTROL_INTENTS = {
@@ -186,6 +187,7 @@ CHAT_INTENTS = {
     "chat_remember_that",
     "chat_topic_statement",
     "chat_current_topic",
+    "chat_clear_topic",
 }
 
 MEMORY_INTENTS = {
@@ -712,6 +714,12 @@ INTENT_PATTERNS = {
         "what are we working on",
         "what is the current topic",
         "current topic",
+    ],
+    "chat_clear_topic": [
+        "clear topic",
+        "clear current topic",
+        "forget current topic",
+        "forget topic",
     ],
 }
 

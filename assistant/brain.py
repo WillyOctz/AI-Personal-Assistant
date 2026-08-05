@@ -3633,6 +3633,15 @@ def handle_chat_intent(user_input, analysis):
             return "I do not have a current topic saved yet."
         
         return f"We are currently working on {topic}."
+    
+    if intent == "chat_clear_topic":
+        topic = memory.get_state_value("current_topic")
+        
+        if not topic:
+            return "There is no current topic to clear."
+        
+        memory.clear_state_value("current_topic")
+        return f"Cleared current topic: {topic}"
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

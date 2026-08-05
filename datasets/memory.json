@@ -26,7 +26,7 @@
         "focus_started_at": "2026-08-03 22:15:03",
         "focus_notes": [],
         "pending_app_launch": null,
-        "current_topic": "conversation intelligence"
+        "current_topic": null
     },
     "history": [
         {
@@ -9050,6 +9050,66 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-05 18:00:54",
+            "importance": 0.3
+        },
+        {
+            "user": "what are we talking about",
+            "assistant": "We are currently working on conversation intelligence.",
+            "intent": "chat_current_topic",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-05 18:13:32",
+            "importance": 0.3
+        },
+        {
+            "user": "clear topic",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-08-05 18:13:37",
+            "importance": 0.3
+        },
+        {
+            "user": "what are we talking about",
+            "assistant": "We are currently working on conversation intelligence.",
+            "intent": "chat_current_topic",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-05 18:14:25",
+            "importance": 0.3
+        },
+        {
+            "user": "clear topic",
+            "assistant": "Cleared current topic: conversation intelligence",
+            "intent": "chat_clear_topic",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-05 18:14:28",
+            "importance": 0.3
+        },
+        {
+            "user": "what are talking about",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-08-05 18:14:34",
+            "importance": 0.3
+        },
+        {
+            "user": "what are we talking about",
+            "assistant": "I do not have a current topic saved yet.",
+            "intent": "chat_current_topic",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-05 18:14:40",
             "importance": 0.3
         }
     ],
