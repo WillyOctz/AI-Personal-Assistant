@@ -166,3 +166,9 @@ def unknown_chat_response(user_input=None, topic=None):
     lines.append("You can rephrase it, or teach me with: teach message as intent_name")
     
     return "\n".join(lines)
+
+def repeat_last_response(last_response):
+    if not last_response:
+        return "I do not have a previous response to repeat yet."
+    
+    return last_response

@@ -154,6 +154,7 @@ VALID_INTENTS = {
     "chat_current_topic",
     "chat_clear_topic",
     "chat_explain_last",
+    "chat_repeat_last",
 }
 
 CONTROL_INTENTS = {
@@ -190,6 +191,7 @@ CHAT_INTENTS = {
     "chat_current_topic",
     "chat_clear_topic",
     "chat_explain_last",
+    "chat_repeat_last",
 }
 
 MEMORY_INTENTS = {
@@ -728,6 +730,12 @@ INTENT_PATTERNS = {
         "explain your last response",
         "why did you say that",
         "why that answer",
+    ],
+    "chat_repeat_last": [
+        "repeat that",
+        "say that again",
+        "what did you say",
+        "repeat your last response",
     ],
 }
 

@@ -27,11 +27,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": "conversation intelligence",
-        "last_response_intent": "unknown",
-        "last_response_group": "unknown",
-        "last_response_source": "None",
-        "last_response_confidence": 0,
-        "last_response_scores": {}
+        "last_response_intent": "chat_how_are_you",
+        "last_response_group": "chat",
+        "last_response_source": "rule",
+        "last_response_confidence": 1.0,
+        "last_response_scores": {},
+        "last_response_text": "I am doing alright. I remember your current mood is sad. We are still working toward your goal: to build best AI assistant."
     },
     "history": [
         {
@@ -9275,6 +9276,26 @@
             "confidence": 0,
             "source": "None",
             "timestamp": "2026-08-06 16:10:27",
+            "importance": 0.3
+        },
+        {
+            "user": "how are you",
+            "assistant": "I am doing alright. I remember your current mood is sad. We are still working toward your goal: to build best AI assistant.",
+            "intent": "chat_how_are_you",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-06 16:26:24",
+            "importance": 0.3
+        },
+        {
+            "user": "repeat that",
+            "assistant": "I am doing alright. I remember your current mood is sad. We are still working toward your goal: to build best AI assistant.",
+            "intent": "chat_repeat_last",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-06 16:26:28",
             "importance": 0.3
         }
     ],
