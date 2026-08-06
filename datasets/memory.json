@@ -26,7 +26,7 @@
         "focus_started_at": "2026-08-03 22:15:03",
         "focus_notes": [],
         "pending_app_launch": null,
-        "current_topic": null,
+        "current_topic": "conversation intelligence",
         "last_response_intent": "unknown",
         "last_response_group": "unknown",
         "last_response_source": "None",
@@ -9255,6 +9255,26 @@
             "confidence": 0,
             "source": "None",
             "timestamp": "2026-08-05 20:01:44",
+            "importance": 0.3
+        },
+        {
+            "user": "we are working on conversation intelligence",
+            "assistant": "Got it. We are working on conversation intelligence.",
+            "intent": "chat_topic_statement",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-06 16:10:21",
+            "importance": 0.3
+        },
+        {
+            "user": "random weird sentence",
+            "assistant": "I am not sure if that was a command or conversation yet.\nCurrent topic: conversation intelligence\nYou said: random weird sentence\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-08-06 16:10:27",
             "importance": 0.3
         }
     ],

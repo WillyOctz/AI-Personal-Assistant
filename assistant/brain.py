@@ -3761,7 +3761,8 @@ def get_response(user_input):
         response = handle_chat_intent(user_input, analysis)
     
     else:
-        response = unknown_chat_response(user_input)
+        topic = memory.get_state_value("current_topic")
+        response = unknown_chat_response(user_input, topic)
         
     if analysis["intent"] != "chat_explain_last":
         memory.set_state_value("last_response_intent", analysis["intent"])
