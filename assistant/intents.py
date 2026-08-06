@@ -157,6 +157,7 @@ VALID_INTENTS = {
     "chat_repeat_last",
     "chat_response_helpful",
     "chat_response_not_helpful",
+    "show_response_feedback_stats",
 }
 
 CONTROL_INTENTS = {
@@ -196,6 +197,7 @@ CHAT_INTENTS = {
     "chat_repeat_last",
     "chat_response_helpful",
     "chat_response_not_helpful",
+    "show_response_feedback_stats",
 }
 
 MEMORY_INTENTS = {
@@ -752,6 +754,11 @@ INTENT_PATTERNS = {
         "that didn't help",
         "this did not help",
         "bad answer",
+    ],
+    "show_response_feedback_stats": [
+        "response feedback stats",
+        "show response feedback",
+        "chat feedback stats",
     ],
 }
 

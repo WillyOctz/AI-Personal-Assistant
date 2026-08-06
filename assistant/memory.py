@@ -27,6 +27,26 @@ def add_response_feedback(feedback):
     memory["response_feedback"].append(feedback)
     save_memory(memory)
     
+def get_response_feedback_stats():
+    memory = load_memory()
+    feedback_items = memory.get("response_feedback", [])
+    
+    helpful = 0
+    not_helpful = 0
+    
+    for item in feedback_items:
+        if item.get("feedback") == "helpful":
+            helpful += 1
+            
+        if item.get("feedback") == "not_helpful":
+            not_helpful += 1
+            
+    return {
+        "total": len(feedback_items),
+        "helpful": helpful,
+        "not_helpful": not_helpful
+    }
+    
 def set_state_value(key, value):
     memory = load_memory()
     memory["state"][key] = value

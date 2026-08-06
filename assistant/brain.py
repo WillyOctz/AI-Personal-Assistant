@@ -3677,6 +3677,16 @@ def handle_chat_intent(user_input, analysis):
             return "Good. I will remember that response helped."
         
         return "Got it. I will remember that response did not help."
+    
+    if intent == "show_response_feedback_stats":
+        stats = memory.get_response_feedback_stats()
+        
+        return (
+            f"Response feedback stats:\n"
+            f"Total: {stats['total']}\n"
+            f"Helpful: {stats['helpful']}\n"
+            f"Not helpful: {stats['not_helpful']}"
+        )
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]
