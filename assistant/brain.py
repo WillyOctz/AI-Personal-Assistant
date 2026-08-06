@@ -3711,6 +3711,15 @@ def handle_chat_intent(user_input, analysis):
     if intent == "clear_response_feedback":
         removed_count = memory.clear_response_feedback()
         return f"Cleared {removed_count} response feedback item(s)."
+    
+    if intent == "preview_clear_response_feedback":
+        preview = memory.preview_clear_response_feedback()
+        
+        return (
+            f"Response feedback clear preview:\n"
+            f"Total feedback items: {preview['total']}\n"
+            f"Would remove: {preview['would_remove']}"
+        )
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

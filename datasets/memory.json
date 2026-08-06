@@ -27,12 +27,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": "conversation intelligence",
-        "last_response_intent": "unknown",
-        "last_response_group": "unknown",
-        "last_response_source": "None",
-        "last_response_confidence": 0,
+        "last_response_intent": "preview_clear_response_feedback",
+        "last_response_group": "chat",
+        "last_response_source": "rule",
+        "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I am not sure if that was a command or conversation yet.\nCurrent topic: conversation intelligence\nYou said: exitt\nYou can rephrase it, or teach me with: teach message as intent_name"
+        "last_response_text": "Response feedback clear preview:\nTotal feedback items: 0\nWould remove: 0"
     },
     "history": [
         {
@@ -9446,6 +9446,16 @@
             "confidence": 0,
             "source": "None",
             "timestamp": "2026-08-06 18:58:57",
+            "importance": 0.3
+        },
+        {
+            "user": "preview clear response feedback",
+            "assistant": "Response feedback clear preview:\nTotal feedback items: 0\nWould remove: 0",
+            "intent": "preview_clear_response_feedback",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-06 19:15:50",
             "importance": 0.3
         }
     ],
