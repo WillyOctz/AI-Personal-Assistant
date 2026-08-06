@@ -47,6 +47,12 @@ def get_response_feedback_stats():
         "not_helpful": not_helpful
     }
     
+def get_recent_response_feedback(limit=5):
+    memory = load_memory()
+    feedback_items = memory.get("response_feedback", [])
+    
+    return feedback_items[-limit:]
+    
 def set_state_value(key, value):
     memory = load_memory()
     memory["state"][key] = value

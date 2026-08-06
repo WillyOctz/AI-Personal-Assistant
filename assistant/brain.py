@@ -3687,6 +3687,22 @@ def handle_chat_intent(user_input, analysis):
             f"Helpful: {stats['helpful']}\n"
             f"Not helpful: {stats['not_helpful']}"
         )
+        
+    if intent == "show_recent_response_feedback":
+        feedback_items = memory.get_recent_response_feedback()
+        
+        if not feedback_items:
+            return "I do not have any response feedback yet."
+        
+        lines = ["Recent response feedback:"]
+        
+        for item in feedback_items:
+            lines.append(
+                f"- {item['timestamp']} | {item['feedback']} | "
+                f"{item['last_intent']} | {item['last_group']}"
+            )
+            
+        return "\n".join(lines)
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]
