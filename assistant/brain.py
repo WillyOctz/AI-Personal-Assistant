@@ -3708,6 +3708,10 @@ def handle_chat_intent(user_input, analysis):
         removed_count = memory.cleanup_response_feedback()
         return f"Response feedback cleanup finished. Removed {removed_count} broken item(s)."
 
+    if intent == "clear_response_feedback":
+        removed_count = memory.clear_response_feedback()
+        return f"Cleared {removed_count} response feedback item(s)."
+
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]
     confidence = analysis["confidence"]

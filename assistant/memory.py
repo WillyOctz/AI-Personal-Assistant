@@ -74,6 +74,17 @@ def cleanup_response_feedback():
     save_memory(memory)
     
     return removed_count
+
+def clear_response_feedback():
+    memory = load_memory()
+    feedback_items = memory.get("response_feedback", [])
+    
+    removed_count = len(feedback_items)
+    
+    memory["response_feedback"] = []
+    save_memory(memory)
+    
+    return removed_count
     
 def set_state_value(key, value):
     memory = load_memory()
