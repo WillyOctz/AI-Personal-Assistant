@@ -3655,6 +3655,28 @@ def handle_chat_intent(user_input, analysis):
     if intent == "chat_repeat_last":
         last_response = memory.get_state_value("last_response_text")
         return repeat_last_response(last_response)
+    
+    if intent in ["chat_response_helpful", "chat_response_not_helpful"]:
+        last_intent = memory.get_state_value("last_response_intent")
+        last_group = memory.get_state_value("last_response_group")
+        last_text = memory.get_state_value("last_response_text")
+        
+        feedback_value = "helpful" if intent == "chat_response_helpful" else "not_helpful"
+        
+        feedback = {
+            "timestamp": current_timestamp(),
+            "feedback": feedback_value,
+            "last_intent": last_intent,
+            "last_group": last_group,
+            "last_text": last_text
+        }
+        
+        memory.add_response_feedback(feedback)
+        
+        if feedback_value == "helpful":
+            return "Good. I will remember that response helped."
+        
+        return "Got it. I will remember that response did not help."
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

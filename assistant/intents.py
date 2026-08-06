@@ -155,6 +155,8 @@ VALID_INTENTS = {
     "chat_clear_topic",
     "chat_explain_last",
     "chat_repeat_last",
+    "chat_response_helpful",
+    "chat_response_not_helpful",
 }
 
 CONTROL_INTENTS = {
@@ -192,6 +194,8 @@ CHAT_INTENTS = {
     "chat_clear_topic",
     "chat_explain_last",
     "chat_repeat_last",
+    "chat_response_helpful",
+    "chat_response_not_helpful",
 }
 
 MEMORY_INTENTS = {
@@ -736,6 +740,18 @@ INTENT_PATTERNS = {
         "say that again",
         "what did you say",
         "repeat your last response",
+    ],
+    "chat_response_helpful": [
+        "that helped",
+        "that was helpful",
+        "this helped",
+        "good answer",
+    ],
+    "chat_response_not_helpful": [
+        "that did not help",
+        "that didn't help",
+        "this did not help",
+        "bad answer",
     ],
 }
 

@@ -17,6 +17,15 @@ def load_memory():
         memory = json.load(file)
     
     return ensure_memory_shape(memory)
+
+def add_response_feedback(feedback):
+    memory = load_memory()
+    
+    if "response_feedback" not in memory:
+        memory["response_feedback"] = []
+        
+    memory["response_feedback"].append(feedback)
+    save_memory(memory)
     
 def set_state_value(key, value):
     memory = load_memory()
@@ -125,6 +134,9 @@ def ensure_memory_shape(memory):
         
     if "file_search_history" not in memory:
         memory["file_search_history"] = []
+        
+    if "response_feedback" not in memory:
+        memory["response_feedback"] = []
         
     return memory
 
