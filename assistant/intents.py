@@ -159,6 +159,7 @@ VALID_INTENTS = {
     "chat_response_not_helpful",
     "show_response_feedback_stats",
     "show_recent_response_feedback",
+    "cleanup_response_feedback",
 }
 
 CONTROL_INTENTS = {
@@ -200,6 +201,7 @@ CHAT_INTENTS = {
     "chat_response_not_helpful",
     "show_response_feedback_stats",
     "show_recent_response_feedback",
+    "cleanup_response_feedback",
 }
 
 MEMORY_INTENTS = {
@@ -766,6 +768,11 @@ INTENT_PATTERNS = {
         "recent response feedback",
         "show recent response feedback",
         "latest response feedback",
+    ],
+    "cleanup_response_feedback": [
+        "response feedback cleanup",
+        "cleanup response feedback",
+        "clean response feedback",
     ],
 }
 

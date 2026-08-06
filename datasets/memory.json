@@ -27,12 +27,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": "conversation intelligence",
-        "last_response_intent": "show_recent_response_feedback",
+        "last_response_intent": "cleanup_response_feedback",
         "last_response_group": "chat",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Recent response feedback:\n- 2026-08-06 16:57:36 | helpful | chat_stuck | chat\n- 2026-08-06 16:57:50 | not_helpful | chat_need_help | chat"
+        "last_response_text": "Response feedback cleanup finished. Removed 0 broken item(s)."
     },
     "history": [
         {
@@ -9356,6 +9356,46 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-06 17:31:23",
+            "importance": 0.3
+        },
+        {
+            "user": "response feedback cleanup",
+            "assistant": "Response feedback cleanup finished. Removed 0 broken item(s).",
+            "intent": "cleanup_response_feedback",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-06 18:29:36",
+            "importance": 0.3
+        },
+        {
+            "user": "response feedback stats\\",
+            "assistant": "I am not sure if that was a command or conversation yet.\nCurrent topic: conversation intelligence\nYou said: response feedback stats\\\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-08-06 18:29:54",
+            "importance": 0.3
+        },
+        {
+            "user": "response feedback stats",
+            "assistant": "Response feedback stats:\nTotal: 2\nHelpful: 1\nNot helpful: 1",
+            "intent": "show_response_feedback_stats",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-06 18:30:04",
+            "importance": 0.3
+        },
+        {
+            "user": "response feedback cleanup",
+            "assistant": "Response feedback cleanup finished. Removed 0 broken item(s).",
+            "intent": "cleanup_response_feedback",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-06 18:30:52",
             "importance": 0.3
         }
     ],

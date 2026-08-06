@@ -3703,6 +3703,10 @@ def handle_chat_intent(user_input, analysis):
             )
             
         return "\n".join(lines)
+    
+    if intent == "cleanup_response_feedback":
+        removed_count = memory.cleanup_response_feedback()
+        return f"Response feedback cleanup finished. Removed {removed_count} broken item(s)."
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

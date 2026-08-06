@@ -52,6 +52,28 @@ def get_recent_response_feedback(limit=5):
     feedback_items = memory.get("response_feedback", [])
     
     return feedback_items[-limit:]
+
+def cleanup_response_feedback():
+    memory = load_memory()
+    feedback_items = memory.get("response_feedback", [])
+    
+    cleaned = []
+    
+    for item in feedback_items:
+        if not item.get("timestamp"):
+            continue
+        
+        if item.get("feedback") not in ["helpful", "not_helpful"]:
+            continue
+        
+        cleaned.append(item)
+        
+    removed_count = len(feedback_items) - len(cleaned)
+    
+    memory["response_feedback"] = cleaned
+    save_memory(memory)
+    
+    return removed_count
     
 def set_state_value(key, value):
     memory = load_memory()
