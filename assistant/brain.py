@@ -624,6 +624,15 @@ def get_pending_app_launch():
 
 def clear_pending_app_launch():
     return apps.clear_pending_app_launch()
+
+def set_pending_response_feedback_clear():
+    memory.set_state_value("pending_response_feedback_clear", True)
+    
+def get_pending_response_feedback_clear():
+    return memory.get_state_value("pending_response_feedback_clear")
+
+def clear_pending_response_feedback_clear():
+    memory.clear_state_value("pending_response_feedback_clear")
     
 def get_focus_started_at():
     return focus.get_focus_started_at()
@@ -1826,6 +1835,11 @@ def handle_control_intent(user_input, analysis):
         return f"I already knew that '{example_input}' means '{correct_intent}'"
     
     if intent == "confirm_intent":
+        if get_pending_response_feedback_clear():
+            removed_count = memory.clear_response_feedback()
+            clear_pending_response_feedback_clear()
+            return f"Cleared {removed_count} response feedback item(s)."
+        
         pending = get_pending_confirmation()
         app_result = apps.confirm_pending_app_launch(open_registered_app)
         
@@ -1848,7 +1862,11 @@ def handle_control_intent(user_input, analysis):
     
         return handle_action_intent(original_input, confirmed_analysis)
             
-    if intent == "deny_intent":
+    if intent == "deny_intent":  
+        if get_pending_response_feedback_clear():
+            clear_pending_response_feedback_clear()
+            return "Okay. Response feedback was not cleared."
+                  
         pending = get_pending_confirmation()
         app_result = apps.deny_pending_app_launch()
         
@@ -3709,8 +3727,17 @@ def handle_chat_intent(user_input, analysis):
         return f"Response feedback cleanup finished. Removed {removed_count} broken item(s)."
 
     if intent == "clear_response_feedback":
-        removed_count = memory.clear_response_feedback()
-        return f"Cleared {removed_count} response feedback item(s)."
+        preview = memory.preview_clear_response_feedback()
+        
+        if preview["total"] == 0:
+            return "There is no response feedback to clear."
+        
+        set_pending_response_feedback_clear()
+        
+        return (
+            f"This will clear {preview['total']} response feedback item(s).\n"
+            f"Reply yes to confirm or no to cancel."
+        )
     
     if intent == "preview_clear_response_feedback":
         preview = memory.preview_clear_response_feedback()

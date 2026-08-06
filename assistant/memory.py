@@ -206,6 +206,9 @@ def ensure_memory_shape(memory):
     if "response_feedback" not in memory:
         memory["response_feedback"] = []
         
+    if "pending_response_feedback_clear" not in memory["state"]:
+        memory["state"]["pending_response_feedback_clear"] = False
+        
     return memory
 
 def archive_conversation_turns(turns_to_archive):
