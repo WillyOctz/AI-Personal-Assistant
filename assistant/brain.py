@@ -752,6 +752,15 @@ def parse_file_info(user_input):
     
     return folder_name.strip(), filename.strip()
 
+def parse_response_feedback_search(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["search feedback ", "search response feedback "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return ""
+
 def parse_preview_file(user_input):
     text = user_input.strip()
     
@@ -3808,6 +3817,27 @@ def handle_chat_intent(user_input, analysis):
             f"Helpful: {helpful}\n"
             f"Not helpful: {not_helpful}" 
         )
+        
+    if intent == "search_response_feedback":
+        query = parse_response_feedback_search(user_input)
+        
+        if not query:
+            return "What feedback should I search for?"
+        
+        results = memory.search_response_feedback(query)
+        
+        if not results:
+            return f"I could not find response feedback matching: {query}"
+        
+        lines = [f"Response feedback matching {query}:"]
+        
+        for item in results[-5:]:
+            lines.append(
+                f"- {item['timestamp']} | {item['feedback']} | "
+                f"{item['last_intent']} | {item['last_group']}"
+            )
+            
+        return "\n".join(lines)
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

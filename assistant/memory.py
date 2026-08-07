@@ -1555,7 +1555,25 @@ def get_response_feedback_for_intent(intent_name):
             
     return matches
 
-
+def search_response_feedback(query):
+    memory = load_memory()
+    feedback_items = memory.get("response_feedback", [])
+    query = query.lower().strip()
+    
+    results = []
+    
+    for item in feedback_items:
+        combined = " ".join([
+            str(item.get("feedback", "")),
+            str(item.get("last_intent", "")),
+            str(item.get("last_group", "")),
+            str(item.get("last_text", "")),
+        ]).lower()
+        
+        if query in combined:
+            results.append(item)
+            
+    return results
 
 
 
