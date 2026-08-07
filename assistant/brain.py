@@ -3914,6 +3914,19 @@ def handle_chat_intent(user_input, analysis):
     if intent == "response_feedback_summary":
         stats = memory.get_response_feedback_stats()
         return summarize_response_feedback(stats)
+    
+    if intent == "problem_feedback_intents":
+        results = memory.get_problem_feedback_intents()
+        
+        if not results:
+            return "I do not have any not helpful feedback by intent yet."
+        
+        lines = ["Problem feedback intents:"]
+        
+        for intent_name, count in results:
+            lines.append(f"- {intent_name}: {count}")
+            
+        return "\n".join(lines)
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

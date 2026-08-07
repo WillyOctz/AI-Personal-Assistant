@@ -27,12 +27,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": "conversation intelligence",
-        "last_response_intent": "response_feedback_summary",
+        "last_response_intent": "problem_feedback_intents",
         "last_response_group": "chat",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Response feedback summary:\nTotal: 1\nHelpful: 1\nNot helpful: 0\nHelpful rate: 1.00\nConclusion: Most responses seem helpful.",
+        "last_response_text": "I do not have any not helpful feedback by intent yet.",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -9747,6 +9747,16 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-07 18:44:53",
+            "importance": 0.3
+        },
+        {
+            "user": "problem feedback intents",
+            "assistant": "I do not have any not helpful feedback by intent yet.",
+            "intent": "problem_feedback_intents",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-07 18:59:40",
             "importance": 0.3
         }
     ],
