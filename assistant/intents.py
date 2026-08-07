@@ -162,6 +162,7 @@ VALID_INTENTS = {
     "cleanup_response_feedback",
     "clear_response_feedback",
     "preview_clear_response_feedback",
+    "chat_feedback_dashboard",
 }
 
 CONTROL_INTENTS = {
@@ -206,6 +207,7 @@ CHAT_INTENTS = {
     "cleanup_response_feedback",
     "clear_response_feedback",
     "preview_clear_response_feedback",
+    "chat_feedback_dashboard",
 }
 
 MEMORY_INTENTS = {
@@ -787,6 +789,11 @@ INTENT_PATTERNS = {
         "preview clear response feedback",
         "preview delete response feedback",
         "response feedback clear preview",
+    ],
+    "chat_feedback_dashboard": [
+        "chat feedback dashboard",
+        "response feedback dashboard",
+        "feedback dashboard",
     ],
 }
 

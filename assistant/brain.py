@@ -3747,6 +3747,31 @@ def handle_chat_intent(user_input, analysis):
             f"Total feedback items: {preview['total']}\n"
             f"Would remove: {preview['would_remove']}"
         )
+        
+    if intent == "chat_feedback_dashboard":
+        stats = memory.get_response_feedback_stats()
+        recent = memory.get_recent_response_feedback()
+        
+        lines = [
+            "Chat feedback dashboard:",
+            f"Total: {stats['total']}",
+            f"Helpful: {stats['helpful']}",
+            f"Not helpful: {stats['not_helpful']}", 
+        ]
+        
+        if not recent:
+            lines.append("Recent feedback: None")
+            return "\n".join(lines)
+        
+        lines.append("Recent feedback:")
+        
+        for item in recent:
+            lines.append(
+                f"- {item['timestamp']} | {item['feedback']} | "
+                f"{item['last_intent']} | {item['last_group']}"
+            )
+            
+        return "\n".join(lines)
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]
