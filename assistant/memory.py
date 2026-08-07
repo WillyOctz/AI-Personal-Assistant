@@ -1575,6 +1575,19 @@ def search_response_feedback(query):
             
     return results
 
+def get_response_feedback_by_value(value):
+    memory = load_memory()
+    feedback_items = memory.get("response_feedback", [])
+    value = value.lower().strip()
+    
+    results = []
+    
+    for item in feedback_items:
+        if item.get("feedback") == value:
+            results.append(item)
+            
+    return results
+
 
 
 

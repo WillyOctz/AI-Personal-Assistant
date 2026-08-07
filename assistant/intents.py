@@ -165,6 +165,7 @@ VALID_INTENTS = {
     "chat_feedback_dashboard",
     "chat_feedback_for_intent",
     "search_response_feedback",
+    "filter_response_feedback_by_value",
 }
 
 CONTROL_INTENTS = {
@@ -212,6 +213,7 @@ CHAT_INTENTS = {
     "chat_feedback_dashboard",
     "chat_feedback_for_intent",
     "search_response_feedback",
+    "filter_response_feedback_by_value",
 }
 
 MEMORY_INTENTS = {
@@ -1034,6 +1036,9 @@ INTENT_PREFIXES = {
         "search feedback ",
         "search response feedback ",
     ],
+    "filter_response_feedback_by_value": [
+        "feedback value ",
+    ],
 }
 
 PREFIX_INTENT_ORDER = [
@@ -1101,6 +1106,7 @@ PREFIX_INTENT_ORDER = [
     "add_focus_note",
     "delete_focus_session",
     
+    "filter_response_feedback_by_value",
     "chat_topic_statement",
     "search_response_feedback",
     "chat_feedback_for_intent",
