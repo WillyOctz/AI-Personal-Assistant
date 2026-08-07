@@ -1601,6 +1601,47 @@ def get_response_feedback_by_group(group):
             
     return results
 
+def get_response_feedback_health():
+    memory = load_memory()
+    feedback_items = memory.get("response_feedback", [])
+    
+    broken = 0
+    missing_timestamp = 0
+    invalid_feedback = 0
+    missing_last_intent = 0
+    missing_last_group = 0
+    
+    for item in feedback_items:
+        item_broken = False
+        
+        if not item.get("timestamp"):
+            missing_timestamp += 1
+            item_broken = True
+            
+        if item.get("feedback") not in ["helpful", "not_helpful"]:
+            invalid_feedback += 1
+            item_broken = True
+            
+        if not item.get("last_intent"):
+            missing_last_intent += 1
+            item_broken = True
+            
+        if not item.get("last_group"):
+            missing_last_group += 1
+            item_broken = True
+            
+        if item_broken:
+            broken += 1
+            
+    return {
+        "total": len(feedback_items),
+        "broken": broken,
+        "missing_timestamp": missing_timestamp,
+        "invalid_feedback": invalid_feedback,
+        "missing_last_intent": missing_last_intent,
+        "missing_last_group": missing_last_group
+    }
+
 
 
 

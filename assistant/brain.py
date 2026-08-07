@@ -3897,6 +3897,19 @@ def handle_chat_intent(user_input, analysis):
             )
             
         return "\n".join(lines)
+    
+    if intent == "response_feedback_health":
+        health = memory.get_response_feedback_health()
+        
+        return (
+            f"Response feedback health:\n"
+            f"Total: {health['total']}\n"
+            f"Broken: {health['broken']}\n"
+            f"Missing timestamp: {health['missing_timestamp']}\n"
+            f"Invalid feedback: {health['invalid_feedback']}\n"
+            f"Missing last intent: {health['missing_last_intent']}\n"
+            f"Missing last group: {health['missing_last_group']}"
+        )
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

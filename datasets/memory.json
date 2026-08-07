@@ -27,12 +27,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": "conversation intelligence",
-        "last_response_intent": "filter_response_feedback_by_group",
+        "last_response_intent": "response_feedback_health",
         "last_response_group": "chat",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Response feedback for group chat:\n- 2026-08-07 16:36:27 | helpful | chat_stuck",
+        "last_response_text": "Response feedback health:\nTotal: 1\nBroken: 0\nMissing timestamp: 0\nInvalid feedback: 0\nMissing last intent: 0\nMissing last group: 0",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -9727,6 +9727,16 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-07 18:00:33",
+            "importance": 0.3
+        },
+        {
+            "user": "response feedback health",
+            "assistant": "Response feedback health:\nTotal: 1\nBroken: 0\nMissing timestamp: 0\nInvalid feedback: 0\nMissing last intent: 0\nMissing last group: 0",
+            "intent": "response_feedback_health",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-07 18:14:01",
             "importance": 0.3
         }
     ],
