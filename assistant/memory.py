@@ -1588,6 +1588,19 @@ def get_response_feedback_by_value(value):
             
     return results
 
+def get_response_feedback_by_group(group):
+    memory = load_memory()
+    feedback_items = memory.get("response_feedback", [])
+    group = group.lower().strip()
+    
+    results = []
+    
+    for item in feedback_items:
+        if item.get("last_group") == group:
+            results.append(item)
+            
+    return results
+
 
 
 

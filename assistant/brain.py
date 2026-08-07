@@ -845,6 +845,14 @@ def parse_feedback_value_filter(user_input):
         return text.replace("feedback value ", "", 1).strip()
     
     return ""
+
+def parse_feedback_group_filter(user_input):
+    text = user_input.lower().strip()
+    
+    if text.startswith("feedback group "):
+        return text.replace("feedback group ", "", 1).strip()
+    
+    return ""
     
 def build_focus_stats_for_task(query):
     return focus.build_focus_stats_for_task(query)
@@ -3866,6 +3874,26 @@ def handle_chat_intent(user_input, analysis):
         for item in results[-5:]:
             lines.append(
                 f"- {item['timestamp']} | {item['last_intent']} | {item['last_group']}"
+            )
+            
+        return "\n".join(lines)
+    
+    if intent == "filter_response_feedback_by_group":
+        group = parse_feedback_group_filter(user_input)
+        
+        if group not in ["chat", "memory", "action", "control", "basic", "unknown"]:
+            return "Use this format: feedback group chat/memory/action/control/basic/unknown"
+        
+        results = memory.get_response_feedback_by_group(group)
+        
+        if not results:
+            return f"I do not have response feedback for group: {group}"
+        
+        lines = [f"Response feedback for group {group}:"]
+        
+        for item in results[-5:]:
+            lines.append(
+                f"- {item['timestamp']} | {item['feedback']} | {item['last_intent']}"
             )
             
         return "\n".join(lines)

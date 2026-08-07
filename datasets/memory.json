@@ -27,12 +27,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": "conversation intelligence",
-        "last_response_intent": "show_response_feedback_stats",
+        "last_response_intent": "filter_response_feedback_by_group",
         "last_response_group": "chat",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Response feedback stats:\nTotal: 1\nHelpful: 1\nNot helpful: 0",
+        "last_response_text": "Response feedback for group chat:\n- 2026-08-07 16:36:27 | helpful | chat_stuck",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -9717,6 +9717,16 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-07 17:24:34",
+            "importance": 0.3
+        },
+        {
+            "user": "feedback group chat",
+            "assistant": "Response feedback for group chat:\n- 2026-08-07 16:36:27 | helpful | chat_stuck",
+            "intent": "filter_response_feedback_by_group",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-07 18:00:33",
             "importance": 0.3
         }
     ],
