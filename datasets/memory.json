@@ -27,12 +27,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": "conversation intelligence",
-        "last_response_intent": "problem_feedback_intents",
+        "last_response_intent": "helpful_feedback_intents",
         "last_response_group": "chat",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I do not have any not helpful feedback by intent yet.",
+        "last_response_text": "Helpful feedback intents:\n- chat_stuck: 1",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -9757,6 +9757,16 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-07 18:59:40",
+            "importance": 0.3
+        },
+        {
+            "user": "helpful feedback intents",
+            "assistant": "Helpful feedback intents:\n- chat_stuck: 1",
+            "intent": "helpful_feedback_intents",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-07 20:11:08",
             "importance": 0.3
         }
     ],

@@ -1666,6 +1666,30 @@ def get_problem_feedback_intents(limit=5):
     
     return sorted_counts[:limit]
 
+def get_helpful_feedback_intents(limit=5):
+    memory = load_memory()
+    feedback_items = memory.get("response_feedback", [])
+    
+    counts = {}
+    
+    for item in feedback_items:
+        if item.get("feedback") != "helpful":
+            continue
+        
+        intent = item.get("last_intent")
+        
+        if not intent:
+            continue
+        
+        if intent not in counts:
+            counts[intent] = 0
+            
+        counts[intent] += 1
+        
+    sorted_counts = sorted(counts.items(), key=lambda item: item[1], reverse=True)
+    
+    return sorted_counts[:limit]
+
 
 
 

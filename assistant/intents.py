@@ -170,6 +170,7 @@ VALID_INTENTS = {
     "response_feedback_health",
     "response_feedback_summary",
     "problem_feedback_intents",
+    "helpful_feedback_intents",
 }
 
 CONTROL_INTENTS = {
@@ -222,6 +223,7 @@ CHAT_INTENTS = {
     "response_feedback_health",
     "response_feedback_summary",
     "problem_feedback_intents",
+    "helpful_feedback_intents",
 }
 
 MEMORY_INTENTS = {
@@ -823,6 +825,11 @@ INTENT_PATTERNS = {
         "problem feedback intents",
         "bad feedback intents",
         "not helpful intents",
+    ],
+    "helpful_feedback_intents": [
+        "helpful feedback intents",
+        "good feedback intents",
+        "positive feedback intents",
     ],
 }
 
