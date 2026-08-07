@@ -1542,6 +1542,20 @@ def cleanup_file_search_history(keep_latest=50):
         "removed": removed_count,
         "kept": len(kept_history)
     }
+    
+def get_response_feedback_for_intent(intent_name):
+    memory = load_memory()
+    feedback_items = memory.get("response_feedback", [])
+    
+    matches = []
+    
+    for item in feedback_items:
+        if item.get("last_intent") == intent_name:
+            matches.append(item)
+            
+    return matches
+
+
 
 
 

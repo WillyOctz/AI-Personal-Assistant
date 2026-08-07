@@ -820,6 +820,14 @@ def parse_feeling_statement(user_input):
             return text.replace(prefix, "", 1).strip()
         
     return ""
+
+def parse_feedback_intent_query(user_input):
+    text = user_input.lower().strip()
+    
+    if text.startswith("feedback for "):
+        return text.replace("feedback for ",  "", 1).strip()
+    
+    return ""
     
 def build_focus_stats_for_task(query):
     return focus.build_focus_stats_for_task(query)
@@ -3772,6 +3780,34 @@ def handle_chat_intent(user_input, analysis):
             )
             
         return "\n".join(lines)
+    
+    if intent == "chat_feedback_for_intent":
+        intent_name = parse_feedback_intent_query(user_input)
+        
+        if not intent_name:
+            return "Use this format: feedback for intent_name"
+        
+        feedback_items = memory.get_response_feedback_for_intent(intent_name)
+        
+        if not feedback_items:
+            return f"I do not have response feedback for {intent_name}."
+        
+        helpful = 0
+        not_helpful = 0
+        
+        for item in feedback_items:
+            if item.get("feedback") == "helpful":
+                helpful += 1
+                
+            if item.get("feedback") == "not_helpful":
+                not_helpful += 1
+                
+        return (
+            f"Feedback for {intent_name}:\n"
+            f"Total: {len(feedback_items)}\n"
+            f"Helpful: {helpful}\n"
+            f"Not helpful: {not_helpful}" 
+        )
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]
