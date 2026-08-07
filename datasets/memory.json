@@ -27,12 +27,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": "conversation intelligence",
-        "last_response_intent": "response_feedback_health",
+        "last_response_intent": "response_feedback_summary",
         "last_response_group": "chat",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Response feedback health:\nTotal: 1\nBroken: 0\nMissing timestamp: 0\nInvalid feedback: 0\nMissing last intent: 0\nMissing last group: 0",
+        "last_response_text": "Response feedback summary:\nTotal: 1\nHelpful: 1\nNot helpful: 0\nHelpful rate: 1.00\nConclusion: Most responses seem helpful.",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -9737,6 +9737,16 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-07 18:14:01",
+            "importance": 0.3
+        },
+        {
+            "user": "response feedback summary",
+            "assistant": "Response feedback summary:\nTotal: 1\nHelpful: 1\nNot helpful: 0\nHelpful rate: 1.00\nConclusion: Most responses seem helpful.",
+            "intent": "response_feedback_summary",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-07 18:44:53",
             "importance": 0.3
         }
     ],

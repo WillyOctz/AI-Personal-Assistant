@@ -168,6 +168,7 @@ VALID_INTENTS = {
     "filter_response_feedback_by_value",
     "filter_response_feedback_by_group",
     "response_feedback_health",
+    "response_feedback_summary",
 }
 
 CONTROL_INTENTS = {
@@ -218,6 +219,7 @@ CHAT_INTENTS = {
     "filter_response_feedback_by_value",
     "filter_response_feedback_by_group",
     "response_feedback_health",
+    "response_feedback_summary",
 }
 
 MEMORY_INTENTS = {
@@ -809,6 +811,11 @@ INTENT_PATTERNS = {
         "response feedback health",
         "check response feedback",
         "response feedback check",
+    ],
+    "response_feedback_summary": [
+        "response feedback summary",
+        "summarize response feedback",
+        "chat feedback summary",
     ],
 }
 

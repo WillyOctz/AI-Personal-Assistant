@@ -172,3 +172,32 @@ def repeat_last_response(last_response):
         return "I do not have a previous response to repeat yet."
     
     return last_response
+
+def summarize_response_feedback(stats):
+    total = stats["total"]
+    
+    if total == 0:
+        return "I do not have enough response feedback to summarize yet."
+    
+    helpful = stats["helpful"]
+    not_helpful = stats["not_helpful"]
+    
+    helpful_rate = helpful / total
+    
+    if helpful_rate >= 0.8:
+        conclusion = "Most responses seem helpful."
+    elif helpful_rate >= 0.5:
+        conclusion = "Responses are somewhat helpful, but there is room to improve."
+        
+    else:
+        conclusion = "Many responses may need improvement."
+        
+    return (
+        f"Response feedback summary:\n"
+        f"Total: {total}\n"
+        f"Helpful: {helpful}\n"
+        f"Not helpful: {not_helpful}\n"
+        f"Helpful rate: {helpful_rate:.2f}\n"
+        f"Conclusion: {conclusion}"
+    )
+    
