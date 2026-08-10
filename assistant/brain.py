@@ -3818,16 +3818,7 @@ def handle_chat_intent(user_input, analysis):
     
     if intent == "show_feedback_notes":
         notes = memory.get_response_feedback_notes()
-        
-        if not notes:
-            return "I do not have any feedback notes yet."
-        
-        lines = ["Feedback notes:"]
-        
-        for note in notes:
-            lines.append(f"- {note['timestamp']} | {note['note']}")
-            
-        return "\n".join(lines)
+        return chat.format_feedback_notes(notes)
     
     if intent == "delete_feedback_note":
         recent_index = chat.parse_delete_feedback_note(user_input)
@@ -3836,14 +3827,7 @@ def handle_chat_intent(user_input, analysis):
             return "Use this format: delete feedback note number"
         
         result = memory.delete_response_feedback_note(recent_index)
-        
-        if result["deleted"]:
-            return f"Deleted feedback note: {result['note']['note']}"
-        
-        if result["reason"] == "empty":
-            return "I do not have any feedback notes to delete."
-        
-        return "That feedback note number does not exist."
+        return chat.format_delete_feedback_note_result(result)
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

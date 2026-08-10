@@ -194,3 +194,24 @@ def format_feedback_by_group(group, results):
         )
 
     return "\n".join(lines)
+
+def format_feedback_notes(notes):
+    if not notes:
+        return "I do not have any feedback notes yet."
+
+    lines = ["Feedback notes:"]
+
+    for note in notes:
+        lines.append(f"- {note['timestamp']} | {note['note']}")
+
+    return "\n".join(lines)
+
+
+def format_delete_feedback_note_result(result):
+    if result["deleted"]:
+        return f"Deleted feedback note: {result['note']['note']}"
+
+    if result["reason"] == "empty":
+        return "I do not have any feedback notes to delete."
+
+    return "That feedback note number does not exist."

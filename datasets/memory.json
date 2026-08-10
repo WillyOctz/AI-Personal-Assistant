@@ -29,12 +29,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": "chat refactor",
-        "last_response_intent": "filter_response_feedback_by_group",
+        "last_response_intent": "show_feedback_notes",
         "last_response_group": "chat",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Response feedback for group chat:\n- 2026-08-07 16:36:27 | helpful | chat_stuck",
+        "last_response_text": "Feedback notes:\n- 2026-08-10 17:25:50 | make stuck response more detailed\n- 2026-08-10 18:05:09 | fine tuning feedback response",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -10149,6 +10149,46 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-10 18:47:01",
+            "importance": 0.3
+        },
+        {
+            "user": "feedback note test refactor",
+            "assistant": "Saved feedback note: test refactor",
+            "intent": "chat_feedback_note",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 18:58:19",
+            "importance": 0.3
+        },
+        {
+            "user": "show feedback notes",
+            "assistant": "Feedback notes:\n- 2026-08-10 17:25:50 | make stuck response more detailed\n- 2026-08-10 18:05:09 | fine tuning feedback response\n- 2026-08-10 18:58:19 | test refactor",
+            "intent": "show_feedback_notes",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 18:58:28",
+            "importance": 0.3
+        },
+        {
+            "user": "delete feedback note 3",
+            "assistant": "Deleted feedback note: test refactor",
+            "intent": "delete_feedback_note",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 18:58:34",
+            "importance": 0.3
+        },
+        {
+            "user": "show feedback notes",
+            "assistant": "Feedback notes:\n- 2026-08-10 17:25:50 | make stuck response more detailed\n- 2026-08-10 18:05:09 | fine tuning feedback response",
+            "intent": "show_feedback_notes",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 18:58:39",
             "importance": 0.3
         }
     ],
