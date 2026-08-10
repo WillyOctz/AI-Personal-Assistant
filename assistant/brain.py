@@ -2,7 +2,8 @@ from assistant.tools import get_time, create_reminder, open_app, play_game, safe
 from assistant import memory
 from assistant import chat
 from assistant import apps
-from assistant.personality import greet, unknown_response, respond_to_feeling, respond_to_help_request, respond_to_stuck, respond_to_thanks, respond_to_goodbye, respond_to_day_greeting, respond_to_capabilities, respond_to_identity, respond_about_user, explain_response, unknown_chat_response, repeat_last_response, summarize_response_feedback, respond_to_improvement_taget
+from assistant import personality
+from assistant.personality import greet, unknown_response, respond_to_feeling, respond_to_help_request, respond_to_stuck, respond_to_thanks, respond_to_goodbye, respond_to_day_greeting, respond_to_capabilities, respond_to_identity, respond_about_user, explain_response, unknown_chat_response, repeat_last_response, summarize_response_feedback, respond_to_improvement_target
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score
 from datetime import datetime
@@ -3545,103 +3546,10 @@ def handle_chat_intent(user_input, analysis):
     intent = analysis["intent"]
     global memory, chat
     
-    if intent == "chat_how_are_you":
-        mood = memory.get_profile_value("mood")
-        goal = memory.get_profile_value("goal")
-        
-        lines = ["I am doing alright."]
-        
-        if mood:
-            lines.append(f"I remember your current mood is {mood}.")
-            
-        if goal:
-            lines.append(f"We are still working toward your goal: {goal}.")
-            
-        return " ".join(lines)
+    handled = chat.handle_chat_intent(user_input, analysis, memory, personality, current_timestamp)
     
-    if intent == "chat_feeling_statement":
-        feeling = chat.parse_feeling_statement(user_input)
-        
-        if not feeling:
-            return "I hear you. Tell me a little more."
-        
-        memory.set_profile_value("mood", feeling)
-        
-        return respond_to_feeling(feeling)
-    
-    if intent == "chat_need_help":
-        goal = memory.get_profile_value("goal")
-        topic = memory.get_state_value("current_topic")
-        return respond_to_help_request(goal, topic)
-    
-    if intent == "chat_stuck":
-        goal = memory.get_profile_value("goal")
-        topic = memory.get_state_value("current_topic")
-        return respond_to_stuck(goal, topic)
-    
-    if intent == "chat_thanks":
-        return respond_to_thanks()
-    
-    if intent == "chat_goodbye":
-        return respond_to_goodbye()
-    
-    if intent == "chat_day_greeting":
-        mood = memory.get_profile_value("mood")
-        goal = memory.get_profile_value("goal")
-        return respond_to_day_greeting(user_input, mood, goal)
-    
-    if intent == "chat_capabilities":
-        return respond_to_capabilities()
-    
-    if intent == "chat_identity":
-        return respond_to_identity()
-    
-    if intent == "chat_about_user":
-        profile = memory.get_profile()
-        return respond_about_user(profile)
-    
-    if intent == "chat_remember_that":
-        fact = chat.parse_chat_remember_that(user_input)
-        
-        if not fact:
-            return "What should I remember?"
-        
-        if fact.startswith("i am "):
-            mood = fact.replace("i am", "", 1).strip()
-            memory.set_profile_value("mood", mood)
-            return chat.format_mood_saved(mood)
-        
-        if fact.startswith("i like "):
-            memory.add_note(fact)
-            return chat.format_general_remembered_fact(fact)
-        
-        memory.add_note(fact)
-        return f"I will remember that: {fact}"
-    
-    if intent == "chat_topic_statement":
-        topic = chat.parse_topic_statement(user_input)
-        
-        if not topic:
-            return "What topic are we working on?"
-        
-        memory.set_state_value("current_topic", topic)
-        return chat.format_topic_saved(topic)
-    
-    if intent == "chat_current_topic":
-        topic = memory.get_state_value("current_topic")
-        
-        if not topic:
-            return "I do not have a current topic saved yet."
-        
-        return chat.format_current_topic(topic)
-    
-    if intent == "chat_clear_topic":
-        topic = memory.get_state_value("current_topic")
-        
-        if topic:
-            memory.clear_state_value("current_topic")
-            
-        return chat.format_topic_cleared(topic)
+    if handled is not None:
+        return handled
     
     if intent == "chat_explain_last":
         last_intent = memory.get_state_value("last_response_intent")
@@ -3655,142 +3563,6 @@ def handle_chat_intent(user_input, analysis):
     if intent == "chat_repeat_last":
         last_response = memory.get_state_value("last_response_text")
         return repeat_last_response(last_response)
-    
-    if intent in ["chat_response_helpful", "chat_response_not_helpful"]:
-        last_intent = memory.get_state_value("last_response_intent")
-        last_group = memory.get_state_value("last_response_group")
-        last_text = memory.get_state_value("last_response_text")
-        
-        feedback_value = "helpful" if intent == "chat_response_helpful" else "not_helpful"
-        
-        feedback = chat.build_response_feedback(
-            feedback_value,
-            last_intent,
-            last_group,
-            last_text,
-            current_timestamp()
-        )
-        
-        memory.add_response_feedback(feedback)
-        return chat.format_response_feedback_saved(feedback_value)
-    
-    if intent == "show_response_feedback_stats":
-        stats = memory.get_response_feedback_stats()
-        
-        return chat.format_response_feedback_stats(stats)
-        
-    if intent == "show_recent_response_feedback":
-        feedback_items = memory.get_recent_response_feedback()
-            
-        return chat.format_recent_response_feedback(feedback_items)
-    
-    if intent == "cleanup_response_feedback":
-        removed_count = memory.cleanup_response_feedback()
-        return chat.format_response_feedback_cleanup(removed_count)
-
-    if intent == "clear_response_feedback":
-        preview = memory.preview_clear_response_feedback()
-        
-        if preview["total"] == 0:
-            return "There is no response feedback to clear."
-
-        set_pending_response_feedback_clear()
-        return chat.format_clear_response_feedback_prompt(preview["total"])
-    
-    if intent == "preview_clear_response_feedback":
-        preview = memory.preview_clear_response_feedback()
-        
-        return chat.format_clear_response_feedback_preview(preview)
-        
-    if intent == "chat_feedback_dashboard":
-        stats = memory.get_response_feedback_stats()
-        recent = memory.get_recent_response_feedback()
-            
-        return chat.format_chat_feedback_dashboard(stats, recent)
-    
-    if intent == "chat_feedback_for_intent":
-        intent_name = chat.parse_feedback_intent_query(user_input)
-        
-        if not intent_name:
-            return "Use this format: feedback for intent_name"
-        
-        feedback_items = memory.get_response_feedback_for_intent(intent_name)
-        return chat.format_feedback_for_intent(intent_name, feedback_items)
-        
-    if intent == "search_response_feedback":
-        query = chat.parse_response_feedback_search(user_input)
-        
-        if not query:
-            return "What feedback should I search for?"
-        
-        results = memory.search_response_feedback(query)
-        return chat.format_feedback_search_results(query, results)
-    
-    if intent == "filter_response_feedback_by_value":
-        value = chat.parse_feedback_value_filter(user_input)
-        
-        if value == "not helpful":
-            value = "not helpful"
-            
-        if value not in ["helpful", "not_helpful"]:
-            return "Use this format: feedback value helpful or feedback value not_helpful"
-        
-        results = memory.get_response_feedback_by_value(value)
-        return chat.format_feedback_by_value(value, results)
-    
-    if intent == "filter_response_feedback_by_group":
-        group = chat.parse_feedback_group_filter(user_input)
-        
-        if group not in ["chat", "memory", "action", "control", "basic", "unknown"]:
-            return "Use this format: feedback group chat/memory/action/control/basic/unknown"
-        
-        results = memory.get_response_feedback_by_group(group)
-        return chat.format_feedback_by_group(group, results)
-    
-    if intent == "response_feedback_health":
-        health = memory.get_response_feedback_health()
-        
-        return chat.format_response_feedback_health(health)
-    
-    if intent == "response_feedback_summary":
-        stats = memory.get_response_feedback_stats()
-        return summarize_response_feedback(stats)
-    
-    if intent == "problem_feedback_intents":
-        results = memory.get_problem_feedback_intents()
-        
-        return chat.format_problem_feedback_intents(results)
-    
-    if intent == "helpful_feedback_intents":
-        results = memory.get_helpful_feedback_intents()
-        
-        return chat.format_helpful_feedback_intents(results)
-    
-    if intent == "chat_improvement_target":
-        target = memory.get_response_improvement_target()
-        return respond_to_improvement_taget(target)
-    
-    if intent == "chat_feedback_note":
-        note = chat.parse_feedback_note(user_input)
-        
-        if not note:
-            return "What feedback note should I save?"
-        
-        memory.add_response_feedback_note(note)
-        return chat.format_feedback_note_saved(note)
-    
-    if intent == "show_feedback_notes":
-        notes = memory.get_response_feedback_notes()
-        return chat.format_feedback_notes(notes)
-    
-    if intent == "delete_feedback_note":
-        recent_index = chat.parse_delete_feedback_note(user_input)
-        
-        if recent_index is None:
-            return "Use this format: delete feedback note number"
-        
-        result = memory.delete_response_feedback_note(recent_index)
-        return chat.format_delete_feedback_note_result(result)
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

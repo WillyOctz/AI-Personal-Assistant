@@ -71,6 +71,8 @@ def respond_to_day_greeting(user_input, mood=None, goal=None):
         greeting = "Good afternoon."
     elif "evening" in text:
         greeting = "Good evening."
+    elif "night" in text:
+        greeting = "Good night"
     else:
         greeting = "Hello."
         
@@ -173,7 +175,7 @@ def repeat_last_response(last_response):
     
     return last_response
 
-def respond_to_improvement_taget(target):
+def respond_to_improvement_target(target):
     if not target:
         return "I do not have enough negative feedback to know what to improve yet."
     

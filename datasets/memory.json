@@ -11,13 +11,15 @@
         "i like black coffee",
         "i like coffee",
         "i like milk",
-        "i like milk"
+        "i like milk",
+        "i like coffee",
+        "i like coffee"
     ],
     "profile": {
         "name": "Carlos",
         "favorite_language": "python",
         "goal": "to build best AI assistant",
-        "mood": "focused",
+        "mood": "tired",
         "focus_goal": "10 seconds"
     },
     "reminders": [],
@@ -30,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "chat_remember_that",
+        "last_response_intent": "show_feedback_notes",
         "last_response_group": "chat",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I will remember that: i like milk",
+        "last_response_text": "Feedback notes:\n- 2026-08-10 18:05:09 | fine tuning feedback response\n- 2026-08-10 22:21:01 | sanity check",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -10391,6 +10393,666 @@
             "source": "rule",
             "timestamp": "2026-08-10 20:48:28",
             "importance": 0.3
+        },
+        {
+            "user": "how are you",
+            "assistant": "I am doing alright. I remember your current mood is focused. We are still working toward your goal: to build best AI assistant.",
+            "intent": "chat_how_are_you",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:07:47",
+            "importance": 0.3
+        },
+        {
+            "user": "how are you",
+            "assistant": null,
+            "intent": "chat_how_are_you",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:12:07",
+            "importance": 0.3
+        },
+        {
+            "user": "how are you",
+            "assistant": "I am doing alright. I remember your current mood is focused. We are still working toward your goal: to build best AI assistant.",
+            "intent": "chat_how_are_you",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:13:58",
+            "importance": 0.3
+        },
+        {
+            "user": "i need help",
+            "assistant": "Tell me what part is stuck. We can connect it back to your goal: to build best AI assistant.",
+            "intent": "chat_need_help",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:14:02",
+            "importance": 0.3
+        },
+        {
+            "user": "i am stuck",
+            "assistant": "Okay. Let us reduce the problem. What is the smallest part of to build best AI assistant that feels stuck?",
+            "intent": "chat_stuck",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:14:06",
+            "importance": 0.3
+        },
+        {
+            "user": "thanks",
+            "assistant": "You are welcome. I am here with you.",
+            "intent": "chat_thanks",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:14:08",
+            "importance": 0.3
+        },
+        {
+            "user": "bye",
+            "assistant": "Alright. I will be here when you come back.",
+            "intent": "chat_goodbye",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:14:11",
+            "importance": 0.3
+        },
+        {
+            "user": "good night",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: good night\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-08-10 21:14:15",
+            "importance": 0.3
+        },
+        {
+            "user": "good morning",
+            "assistant": "Good morning. I remember you were feeling focused. We are still working toward your goal: to build best AI assistant.",
+            "intent": "chat_day_greeting",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:14:21",
+            "importance": 0.3
+        },
+        {
+            "user": "what can you do",
+            "assistant": "I can help with reminders, memory notes, profile facts, focus sessions, planning, app launching, file search, simple calculations, and learning new intents.",
+            "intent": "chat_capabilities",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:14:28",
+            "importance": 0.3
+        },
+        {
+            "user": "who are you",
+            "assistant": "I am Nebula, your personal assistant. I help you remember things, plan tasks, focus, search files, open apps, and keep learning with you.",
+            "intent": "chat_identity",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:14:34",
+            "importance": 0.3
+        },
+        {
+            "user": "do you remember me",
+            "assistant": "Here is what I remember about you:\nname: Carlos\nfavorite_language: python\ngoal: to build best AI assistant\nmood: focused\nfocus_goal: 10 seconds",
+            "intent": "chat_about_user",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:14:41",
+            "importance": 0.3
+        },
+        {
+            "user": "i feel tired",
+            "assistant": "I hear you. Take it slow for a moment. We can choose one small thing and keep it manageable.",
+            "intent": "chat_feeling_statement",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:18:11",
+            "importance": 0.3
+        },
+        {
+            "user": "remember that i am focused",
+            "assistant": "I will remember that you are focused.",
+            "intent": "chat_remember_that",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:19:00",
+            "importance": 0.3
+        },
+        {
+            "user": "remember that i like coffee",
+            "assistant": "I will remember that i like coffee.",
+            "intent": "chat_remember_that",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:19:05",
+            "importance": 0.3
+        },
+        {
+            "user": "we are working on chat refactor",
+            "assistant": "Got it. We are working on chat refactor.",
+            "intent": "chat_topic_statement",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:19:10",
+            "importance": 0.3
+        },
+        {
+            "user": "what are we talking about",
+            "assistant": "We are currently working on chat refactor.",
+            "intent": "chat_current_topic",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:19:14",
+            "importance": 0.3
+        },
+        {
+            "user": "clear topic",
+            "assistant": "Cleared current topic: chat refactor",
+            "intent": "chat_clear_topic",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:19:17",
+            "importance": 0.3
+        },
+        {
+            "user": "response feedback stats",
+            "assistant": null,
+            "intent": "show_response_feedback_stats",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:25:16",
+            "importance": 0.3
+        },
+        {
+            "user": "response feedback stats",
+            "assistant": "Response feedback stats:\nTotal: 4\nHelpful: 3\nNot helpful: 1",
+            "intent": "show_response_feedback_stats",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:27:03",
+            "importance": 0.3
+        },
+        {
+            "user": "recent response feedback",
+            "assistant": "Recent response feedback:\n- 2026-08-07 16:36:27 | helpful | chat_stuck | chat\n- 2026-08-10 20:30:04 | helpful | chat_feedback_note | chat\n- 2026-08-10 20:30:43 | helpful | chat_stuck | chat\n- 2026-08-10 20:31:23 | not_helpful | chat_stuck | chat",
+            "intent": "show_recent_response_feedback",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:27:07",
+            "importance": 0.3
+        },
+        {
+            "user": "chat feedback dashboard",
+            "assistant": "Chat feedback dashboard:\nTotal: 4\nHelpful: 3\nNot helpful: 1\nRecent feedback:\n- 2026-08-07 16:36:27 | helpful | chat_stuck | chat\n- 2026-08-10 20:30:04 | helpful | chat_feedback_note | chat\n- 2026-08-10 20:30:43 | helpful | chat_stuck | chat\n- 2026-08-10 20:31:23 | not_helpful | chat_stuck | chat",
+            "intent": "chat_feedback_dashboard",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:27:12",
+            "importance": 0.3
+        },
+        {
+            "user": "feedback for chat_stuck",
+            "assistant": "Feedback for chat_stuck:\nTotal: 3\nHelpful: 2\nNot helpful: 1",
+            "intent": "chat_feedback_for_intent",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:27:30",
+            "importance": 0.3
+        },
+        {
+            "user": "search feedback helpful",
+            "assistant": "Response feedback matching helpful:\n- 2026-08-07 16:36:27 | helpful | chat_stuck | chat\n- 2026-08-10 20:30:04 | helpful | chat_feedback_note | chat\n- 2026-08-10 20:30:43 | helpful | chat_stuck | chat\n- 2026-08-10 20:31:23 | not_helpful | chat_stuck | chat",
+            "intent": "search_response_feedback",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:27:35",
+            "importance": 0.3
+        },
+        {
+            "user": "feedback value helpful",
+            "assistant": "helpful response feedback:\n- 2026-08-07 16:36:27 | chat_stuck | chat\n- 2026-08-10 20:30:04 | chat_feedback_note | chat\n- 2026-08-10 20:30:43 | chat_stuck | chat",
+            "intent": "filter_response_feedback_by_value",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:27:42",
+            "importance": 0.3
+        },
+        {
+            "user": "feedback group chat",
+            "assistant": "Response feedback for group chat:\n- 2026-08-07 16:36:27 | helpful | chat_stuck\n- 2026-08-10 20:30:04 | helpful | chat_feedback_note\n- 2026-08-10 20:30:43 | helpful | chat_stuck\n- 2026-08-10 20:31:23 | not_helpful | chat_stuck",
+            "intent": "filter_response_feedback_by_group",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:27:47",
+            "importance": 0.3
+        },
+        {
+            "user": "response feedback health",
+            "assistant": "Response feedback health:\nTotal: 4\nBroken: 0\nMissing timestamp: 0\nInvalid feedback: 0\nMissing last intent: 0\nMissing last group: 0",
+            "intent": "response_feedback_health",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:27:52",
+            "importance": 0.3
+        },
+        {
+            "user": "response feedback summary",
+            "assistant": "Response feedback summary:\nTotal: 4\nHelpful: 3\nNot helpful: 1\nHelpful rate: 0.75\nConclusion: Responses are somewhat helpful, but there is room to improve.",
+            "intent": "response_feedback_summary",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:27:57",
+            "importance": 0.3
+        },
+        {
+            "user": "problem feedback intents",
+            "assistant": "Problem feedback intents:\n- chat_stuck: 1",
+            "intent": "problem_feedback_intents",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:28:05",
+            "importance": 0.3
+        },
+        {
+            "user": "helpful feedback intents",
+            "assistant": "Helpful feedback intents:\n- chat_stuck: 2\n- chat_feedback_note: 1",
+            "intent": "helpful_feedback_intents",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:28:10",
+            "importance": 0.3
+        },
+        {
+            "user": "what should you improve",
+            "assistant": "I should improve responses for chat_stuck first. It has 1 not helpful feedback item(s).",
+            "intent": "chat_improvement_target",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:35:11",
+            "importance": 0.3
+        },
+        {
+            "user": "show feedback notes",
+            "assistant": "Feedback notes:\n- 2026-08-10 17:25:50 | make stuck response more detailed\n- 2026-08-10 18:05:09 | fine tuning feedback response\n- 2026-08-10 19:52:03 | test formatter",
+            "intent": "show_feedback_notes",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 21:35:22",
+            "importance": 0.3
+        },
+        {
+            "user": "i am stuck",
+            "assistant": "Okay. Let us reduce the problem. What is the smallest part of to build best AI assistant that feels stuck?",
+            "intent": "chat_stuck",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:11:38",
+            "importance": 0.3
+        },
+        {
+            "user": "that helped",
+            "assistant": "Good. I will remember that response helped.",
+            "intent": "chat_response_helpful",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:11:42",
+            "importance": 0.3
+        },
+        {
+            "user": "response feedback cleanup",
+            "assistant": "Response feedback cleanup finished. Removed 0 broken item(s).",
+            "intent": "cleanup_response_feedback",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:11:53",
+            "importance": 0.3
+        },
+        {
+            "user": "preview clear response feedback",
+            "assistant": "Response feedback clear preview:\nTotal feedback items: 5\nWould remove: 5",
+            "intent": "preview_clear_response_feedback",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:12:19",
+            "importance": 0.3
+        },
+        {
+            "user": "clear response feedback",
+            "assistant": "This will clear 5 response feedback item(s).\nReply yes to confirm or no to cancel.",
+            "intent": "clear_response_feedback",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:12:25",
+            "importance": 0.3
+        },
+        {
+            "user": "no",
+            "assistant": "Okay. Response feedback was not cleared.",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:12:31",
+            "importance": 0.1
+        },
+        {
+            "user": "feedback note test after move",
+            "assistant": "Saved feedback note: test after move",
+            "intent": "chat_feedback_note",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:12:40",
+            "importance": 0.3
+        },
+        {
+            "user": "show feedback notes",
+            "assistant": "Feedback notes:\n- 2026-08-10 17:25:50 | make stuck response more detailed\n- 2026-08-10 18:05:09 | fine tuning feedback response\n- 2026-08-10 19:52:03 | test formatter\n- 2026-08-10 22:12:40 | test after move",
+            "intent": "show_feedback_notes",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:12:47",
+            "importance": 0.3
+        },
+        {
+            "user": "delete feedback note 3",
+            "assistant": "Deleted feedback note: test formatter",
+            "intent": "delete_feedback_note",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:12:53",
+            "importance": 0.3
+        },
+        {
+            "user": "delete feedback note 3",
+            "assistant": "Deleted feedback note: test after move",
+            "intent": "delete_feedback_note",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:13:06",
+            "importance": 0.3
+        },
+        {
+            "user": "show feedback notes",
+            "assistant": "Feedback notes:\n- 2026-08-10 17:25:50 | make stuck response more detailed\n- 2026-08-10 18:05:09 | fine tuning feedback response",
+            "intent": "show_feedback_notes",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:13:12",
+            "importance": 0.3
+        },
+        {
+            "user": "how are you",
+            "assistant": "I am doing alright. I remember your current mood is focused. We are still working toward your goal: to build best AI assistant.",
+            "intent": "chat_how_are_you",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:19:12",
+            "importance": 0.3
+        },
+        {
+            "user": "i feel tired",
+            "assistant": "I hear you. Take it slow for a moment. We can choose one small thing and keep it manageable.",
+            "intent": "chat_feeling_statement",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:19:18",
+            "importance": 0.3
+        },
+        {
+            "user": "i need help",
+            "assistant": "Tell me what part is stuck. We can connect it back to your goal: to build best AI assistant.",
+            "intent": "chat_need_help",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:19:20",
+            "importance": 0.3
+        },
+        {
+            "user": "i am stuck",
+            "assistant": "Okay. Let us reduce the problem. What is the smallest part of to build best AI assistant that feels stuck?",
+            "intent": "chat_stuck",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:19:25",
+            "importance": 0.3
+        },
+        {
+            "user": "thanks",
+            "assistant": "You are welcome. I am here with you.",
+            "intent": "chat_thanks",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:19:28",
+            "importance": 0.3
+        },
+        {
+            "user": "bye",
+            "assistant": "Alright. I will be here when you come back.",
+            "intent": "chat_goodbye",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:19:31",
+            "importance": 0.3
+        },
+        {
+            "user": "good night",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: good night\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-08-10 22:19:34",
+            "importance": 0.3
+        },
+        {
+            "user": "good evening",
+            "assistant": "Good evening. I remember you were feeling tired. We are still working toward your goal: to build best AI assistant.",
+            "intent": "chat_day_greeting",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:19:40",
+            "importance": 0.3
+        },
+        {
+            "user": "what can you do",
+            "assistant": "I can help with reminders, memory notes, profile facts, focus sessions, planning, app launching, file search, simple calculations, and learning new intents.",
+            "intent": "chat_capabilities",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:19:46",
+            "importance": 0.3
+        },
+        {
+            "user": "who are you",
+            "assistant": "I am Nebula, your personal assistant. I help you remember things, plan tasks, focus, search files, open apps, and keep learning with you.",
+            "intent": "chat_identity",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:19:50",
+            "importance": 0.3
+        },
+        {
+            "user": "do you remember me",
+            "assistant": "Here is what I remember about you:\nname: Carlos\nfavorite_language: python\ngoal: to build best AI assistant\nmood: tired\nfocus_goal: 10 seconds",
+            "intent": "chat_about_user",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:19:54",
+            "importance": 0.3
+        },
+        {
+            "user": "remember that i like coffee",
+            "assistant": "I will remember that i like coffee.",
+            "intent": "chat_remember_that",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:20:09",
+            "importance": 0.3
+        },
+        {
+            "user": "we are working on chat refactor",
+            "assistant": "Got it. We are working on chat refactor.",
+            "intent": "chat_topic_statement",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:20:24",
+            "importance": 0.3
+        },
+        {
+            "user": "what are we talking about",
+            "assistant": "We are currently working on chat refactor.",
+            "intent": "chat_current_topic",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:20:29",
+            "importance": 0.3
+        },
+        {
+            "user": "clear topic",
+            "assistant": "Cleared current topic: chat refactor",
+            "intent": "chat_clear_topic",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:20:34",
+            "importance": 0.3
+        },
+        {
+            "user": "i am stuck",
+            "assistant": "Okay. Let us reduce the problem. What is the smallest part of to build best AI assistant that feels stuck?",
+            "intent": "chat_stuck",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:20:38",
+            "importance": 0.3
+        },
+        {
+            "user": "that helped",
+            "assistant": "Good. I will remember that response helped.",
+            "intent": "chat_response_helpful",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:20:42",
+            "importance": 0.3
+        },
+        {
+            "user": "response feedback stats",
+            "assistant": "Response feedback stats:\nTotal: 6\nHelpful: 5\nNot helpful: 1",
+            "intent": "show_response_feedback_stats",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:20:48",
+            "importance": 0.3
+        },
+        {
+            "user": "chat feedback dashboard",
+            "assistant": "Chat feedback dashboard:\nTotal: 6\nHelpful: 5\nNot helpful: 1\nRecent feedback:\n- 2026-08-10 20:30:04 | helpful | chat_feedback_note | chat\n- 2026-08-10 20:30:43 | helpful | chat_stuck | chat\n- 2026-08-10 20:31:23 | not_helpful | chat_stuck | chat\n- 2026-08-10 22:11:42 | helpful | chat_stuck | chat\n- 2026-08-10 22:20:42 | helpful | chat_stuck | chat",
+            "intent": "chat_feedback_dashboard",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:20:55",
+            "importance": 0.3
+        },
+        {
+            "user": "feedback note sanity check",
+            "assistant": "Saved feedback note: sanity check",
+            "intent": "chat_feedback_note",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:21:01",
+            "importance": 0.3
+        },
+        {
+            "user": "show feedback notes",
+            "assistant": "Feedback notes:\n- 2026-08-10 17:25:50 | make stuck response more detailed\n- 2026-08-10 18:05:09 | fine tuning feedback response\n- 2026-08-10 22:21:01 | sanity check",
+            "intent": "show_feedback_notes",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:21:08",
+            "importance": 0.3
+        },
+        {
+            "user": "delete feedback note 1",
+            "assistant": "Deleted feedback note: make stuck response more detailed",
+            "intent": "delete_feedback_note",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:21:17",
+            "importance": 0.3
+        },
+        {
+            "user": "show feedback notes",
+            "assistant": "Feedback notes:\n- 2026-08-10 18:05:09 | fine tuning feedback response\n- 2026-08-10 22:21:01 | sanity check",
+            "intent": "show_feedback_notes",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:21:23",
+            "importance": 0.3
         }
     ],
     "summaries": [
@@ -11099,20 +11761,30 @@
             "last_intent": "chat_stuck",
             "last_group": "chat",
             "last_text": "Okay. Let us reduce the problem. What is the smallest part of chat refactor that feels stuck, and how does it connect to to build best AI assistant?"
+        },
+        {
+            "timestamp": "2026-08-10 22:11:42",
+            "feedback": "helpful",
+            "last_intent": "chat_stuck",
+            "last_group": "chat",
+            "last_text": "Okay. Let us reduce the problem. What is the smallest part of to build best AI assistant that feels stuck?"
+        },
+        {
+            "timestamp": "2026-08-10 22:20:42",
+            "feedback": "helpful",
+            "last_intent": "chat_stuck",
+            "last_group": "chat",
+            "last_text": "Okay. Let us reduce the problem. What is the smallest part of to build best AI assistant that feels stuck?"
         }
     ],
     "response_feedback_notes": [
-        {
-            "timestamp": "2026-08-10 17:25:50",
-            "note": "make stuck response more detailed"
-        },
         {
             "timestamp": "2026-08-10 18:05:09",
             "note": "fine tuning feedback response"
         },
         {
-            "timestamp": "2026-08-10 19:52:03",
-            "note": "test formatter"
+            "timestamp": "2026-08-10 22:21:01",
+            "note": "sanity check"
         }
     ]
 }
