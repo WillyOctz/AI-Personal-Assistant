@@ -3961,6 +3961,19 @@ def handle_chat_intent(user_input, analysis):
         
         memory.add_response_feedback_note(note)
         return f"Saved feedback note: {note}"
+    
+    if intent == "show_feedback_notes":
+        notes = memory.get_response_feedback_notes()
+        
+        if not notes:
+            return "I do not have any feedback notes yet."
+        
+        lines = ["Feedback notes:"]
+        
+        for note in notes:
+            lines.append(f"- {note['timestamp']} | {note['note']}")
+            
+        return "\n".join(lines)
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

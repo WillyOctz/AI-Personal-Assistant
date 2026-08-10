@@ -173,6 +173,7 @@ VALID_INTENTS = {
     "helpful_feedback_intents",
     "chat_improvement_target",
     "chat_feedback_note",
+    "show_feedback_notes",
 }
 
 CONTROL_INTENTS = {
@@ -228,6 +229,7 @@ CHAT_INTENTS = {
     "helpful_feedback_intents",
     "chat_improvement_target",
     "chat_feedback_note",
+    "show_feedback_notes",
 }
 
 MEMORY_INTENTS = {
@@ -840,6 +842,11 @@ INTENT_PATTERNS = {
         "what do you need to improve",
         "what should nebula improve",
         "where are you weak",
+    ],
+    "show_feedback_notes": [
+        "show feedback notes",
+        "feedback notes",
+        "response feedback notes",
     ],
 }
 

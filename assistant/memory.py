@@ -39,6 +39,8 @@ def add_response_feedback_note(note):
         "note": note
     })
     
+    save_memory(memory)
+    
 def get_response_feedback_stats():
     memory = load_memory()
     feedback_items = memory.get("response_feedback", [])
@@ -64,6 +66,12 @@ def get_recent_response_feedback(limit=5):
     feedback_items = memory.get("response_feedback", [])
     
     return feedback_items[-limit:]
+
+def get_response_feedback_notes(limit=5):
+    memory = load_memory()
+    notes = memory.get("response_feedback_notes", [])
+    
+    return notes[-limit:]
 
 def cleanup_response_feedback():
     memory = load_memory()

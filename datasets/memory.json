@@ -32,7 +32,7 @@
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Saved feedback note: make stuck responses softer",
+        "last_response_text": "Saved feedback note: make stuck response more detailed",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -9798,6 +9798,66 @@
             "source": "rule",
             "timestamp": "2026-08-10 17:02:58",
             "importance": 0.3
+        },
+        {
+            "user": "show feedback notes",
+            "assistant": "I do not have any feedback notes yet.",
+            "intent": "show_feedback_notes",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 17:17:15",
+            "importance": 0.3
+        },
+        {
+            "user": "feedback note make stuck response softer",
+            "assistant": "Saved feedback note: make stuck response softer",
+            "intent": "chat_feedback_note",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 17:18:12",
+            "importance": 0.3
+        },
+        {
+            "user": "feedback note make stuck response more detail",
+            "assistant": "Saved feedback note: make stuck response more detail",
+            "intent": "chat_feedback_note",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 17:18:24",
+            "importance": 0.3
+        },
+        {
+            "user": "show feedback notes",
+            "assistant": "I do not have any feedback notes yet.",
+            "intent": "show_feedback_notes",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 17:18:31",
+            "importance": 0.3
+        },
+        {
+            "user": "feedback note make stuck response softerr",
+            "assistant": "Saved feedback note: make stuck response softerr",
+            "intent": "chat_feedback_note",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 17:22:49",
+            "importance": 0.3
+        },
+        {
+            "user": "feedback note make stuck response more detailed",
+            "assistant": "Saved feedback note: make stuck response more detailed",
+            "intent": "chat_feedback_note",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 17:25:50",
+            "importance": 0.3
         }
     ],
     "summaries": [
@@ -10487,5 +10547,10 @@
             "last_text": "Okay. Let us reduce the problem. What is the smallest part of conversation intelligence that feels stuck, and how does it connect to to build best AI assistant?"
         }
     ],
-    "response_feedback_notes": []
+    "response_feedback_notes": [
+        {
+            "timestamp": "2026-08-10 17:25:50",
+            "note": "make stuck response more detailed"
+        }
+    ]
 }
