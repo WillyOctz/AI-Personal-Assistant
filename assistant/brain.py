@@ -861,6 +861,18 @@ def parse_feedback_note(user_input):
         return text[14:].strip()
     
     return ""
+
+def parse_delete_feedback_note(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["delete feedback note ", "remove feedback note "]:
+        if text.startswith(prefix):
+            value = text.replace(prefix, "", 1).strip()
+            
+            if value.isdigit():
+                return int(value)
+            
+    return None
     
 def build_focus_stats_for_task(query):
     return focus.build_focus_stats_for_task(query)
@@ -3974,6 +3986,22 @@ def handle_chat_intent(user_input, analysis):
             lines.append(f"- {note['timestamp']} | {note['note']}")
             
         return "\n".join(lines)
+    
+    if intent == "delete_feedback_note":
+        recent_index = parse_delete_feedback_note(user_input)
+        
+        if recent_index is None:
+            return "Use this format: delete feedback note number"
+        
+        result = memory.delete_response_feedback_note(recent_index)
+        
+        if result["deleted"]:
+            return f"Deleted feedback note: {result['note']['note']}"
+        
+        if result["reason"] == "empty":
+            return "I do not have any feedback notes to delete."
+        
+        return "That feedback note number does not exist."
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]

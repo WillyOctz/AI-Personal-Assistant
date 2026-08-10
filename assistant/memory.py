@@ -73,6 +73,36 @@ def get_response_feedback_notes(limit=5):
     
     return notes[-limit:]
 
+def delete_response_feedback_note(recent_index, limit=5):
+    memory = load_memory()
+    notes = memory.get("response_feedback_notes", [])
+    
+    recent_notes = notes[-limit:]
+    
+    if not recent_notes:
+        return {
+            "deleted": False,
+            "reason": "empty",
+            "note": None
+        }
+        
+    if recent_index < 1 or recent_index > len(recent_notes):
+        return {
+            "deleted": False,
+            "reason": "invalid_index",
+            "note": None
+        }
+        
+    note_to_delete = recent_notes[recent_index - 1]
+    notes.remove(note_to_delete)
+    save_memory(memory)
+    
+    return {
+        "deleted": True,
+        "reason": "deleted",
+        "note": note_to_delete
+    }
+
 def cleanup_response_feedback():
     memory = load_memory()
     feedback_items = memory.get("response_feedback", [])

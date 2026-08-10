@@ -27,12 +27,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": "conversation intelligence",
-        "last_response_intent": "chat_feedback_note",
+        "last_response_intent": "show_feedback_notes",
         "last_response_group": "chat",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Saved feedback note: make stuck response more detailed",
+        "last_response_text": "Feedback notes:\n- 2026-08-10 17:25:50 | make stuck response more detailed",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -9857,6 +9857,56 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-10 17:25:50",
+            "importance": 0.3
+        },
+        {
+            "user": "show feedback notes",
+            "assistant": "Feedback notes:\n- 2026-08-10 17:25:50 | make stuck response more detailed",
+            "intent": "show_feedback_notes",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 17:44:56",
+            "importance": 0.3
+        },
+        {
+            "user": "feedback note make stuck response more softer",
+            "assistant": "Saved feedback note: make stuck response more softer",
+            "intent": "chat_feedback_note",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 17:45:15",
+            "importance": 0.3
+        },
+        {
+            "user": "show feedback notes",
+            "assistant": "Feedback notes:\n- 2026-08-10 17:25:50 | make stuck response more detailed\n- 2026-08-10 17:45:15 | make stuck response more softer",
+            "intent": "show_feedback_notes",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 17:45:20",
+            "importance": 0.3
+        },
+        {
+            "user": "delete feedback note 2",
+            "assistant": "Deleted feedback note: make stuck response more softer",
+            "intent": "delete_feedback_note",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 17:45:27",
+            "importance": 0.3
+        },
+        {
+            "user": "show feedback notes",
+            "assistant": "Feedback notes:\n- 2026-08-10 17:25:50 | make stuck response more detailed",
+            "intent": "show_feedback_notes",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 17:45:34",
             "importance": 0.3
         }
     ],

@@ -174,6 +174,7 @@ VALID_INTENTS = {
     "chat_improvement_target",
     "chat_feedback_note",
     "show_feedback_notes",
+    "delete_feedback_note",
 }
 
 CONTROL_INTENTS = {
@@ -230,6 +231,7 @@ CHAT_INTENTS = {
     "chat_improvement_target",
     "chat_feedback_note",
     "show_feedback_notes",
+    "delete_feedback_note",
 }
 
 MEMORY_INTENTS = {
@@ -1092,6 +1094,10 @@ INTENT_PREFIXES = {
     "chat_feedback_note": [
         "feedback note ",
     ],
+    "delete_feedback_note": [
+        "delete feedback note ",
+        "remove feedback note ",
+    ],
 }
 
 PREFIX_INTENT_ORDER = [
@@ -1159,6 +1165,7 @@ PREFIX_INTENT_ORDER = [
     "add_focus_note",
     "delete_focus_session",
     
+    "delete_feedback_note",
     "chat_feedback_note",
     "filter_response_feedback_by_group",
     "filter_response_feedback_by_value",
