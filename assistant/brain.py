@@ -1,5 +1,6 @@
 from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around
 from assistant import memory
+from assistant import chat
 from assistant import apps
 from assistant.personality import greet, unknown_response, respond_to_feeling, respond_to_help_request, respond_to_stuck, respond_to_thanks, respond_to_goodbye, respond_to_day_greeting, respond_to_capabilities, respond_to_identity, respond_about_user, explain_response, unknown_chat_response, repeat_last_response, summarize_response_feedback, respond_to_improvement_taget
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS
@@ -172,23 +173,6 @@ def parse_preview_file_command(user_input):
             max_lines = int(parts[4])
             
     return folder_name, filename, max_lines
-
-def parse_chat_remember_that(user_input):
-    text = user_input.lower().strip()
-    
-    if text.startswith("remember that "):
-        return text.replace("remember that ", "", 1).strip()
-    
-    return ""
-
-def parse_topic_statement(user_input):
-    text = user_input.lower()
-    
-    for prefix in ["i am learning ", "i'm learning ", "we are learning ", "we are working on "]:
-        if text.startswith(prefix):
-            return text.replace(prefix, "", 1).strip()
-        
-    return ""
 
 def parse_text_search_command(user_input):
     parts = user_input.split()
@@ -752,15 +736,6 @@ def parse_file_info(user_input):
     
     return folder_name.strip(), filename.strip()
 
-def parse_response_feedback_search(user_input):
-    text = user_input.lower().strip()
-    
-    for prefix in ["search feedback ", "search response feedback "]:
-        if text.startswith(prefix):
-            return text.replace(prefix, "", 1).strip()
-        
-    return ""
-
 def parse_preview_file(user_input):
     text = user_input.strip()
     
@@ -821,15 +796,6 @@ def parse_text_search(user_input):
     
     return folder_name.strip(), query.strip()
 
-def parse_feeling_statement(user_input):
-    text = user_input.lower().strip()
-    
-    for prefix in ["i feel ", "i am feeling ", "i am "]:
-        if text.startswith(prefix):
-            return text.replace(prefix, "", 1).strip()
-        
-    return ""
-
 def parse_feedback_intent_query(user_input):
     text = user_input.lower().strip()
     
@@ -837,42 +803,6 @@ def parse_feedback_intent_query(user_input):
         return text.replace("feedback for ",  "", 1).strip()
     
     return ""
-
-def parse_feedback_value_filter(user_input):
-    text = user_input.lower().strip()
-    
-    if text.startswith("feedback value "):
-        return text.replace("feedback value ", "", 1).strip()
-    
-    return ""
-
-def parse_feedback_group_filter(user_input):
-    text = user_input.lower().strip()
-    
-    if text.startswith("feedback group "):
-        return text.replace("feedback group ", "", 1).strip()
-    
-    return ""
-
-def parse_feedback_note(user_input):
-    text = user_input.strip()
-    
-    if text.lower().startswith("feedback note "):
-        return text[14:].strip()
-    
-    return ""
-
-def parse_delete_feedback_note(user_input):
-    text = user_input.lower().strip()
-    
-    for prefix in ["delete feedback note ", "remove feedback note "]:
-        if text.startswith(prefix):
-            value = text.replace(prefix, "", 1).strip()
-            
-            if value.isdigit():
-                return int(value)
-            
-    return None
     
 def build_focus_stats_for_task(query):
     return focus.build_focus_stats_for_task(query)
@@ -3613,7 +3543,7 @@ def handle_memory_intent(user_input, analysis):
         
 def handle_chat_intent(user_input, analysis):
     intent = analysis["intent"]
-    global memory
+    global memory, chat
     
     if intent == "chat_how_are_you":
         mood = memory.get_profile_value("mood")
@@ -3630,7 +3560,7 @@ def handle_chat_intent(user_input, analysis):
         return " ".join(lines)
     
     if intent == "chat_feeling_statement":
-        feeling = parse_feeling_statement(user_input)
+        feeling = chat.parse_feeling_statement(user_input)
         
         if not feeling:
             return "I hear you. Tell me a little more."
@@ -3671,7 +3601,7 @@ def handle_chat_intent(user_input, analysis):
         return respond_about_user(profile)
     
     if intent == "chat_remember_that":
-        fact = parse_chat_remember_that(user_input)
+        fact = chat.parse_chat_remember_that(user_input)
         
         if not fact:
             return "What should I remember?"
@@ -3689,7 +3619,7 @@ def handle_chat_intent(user_input, analysis):
         return f"I will remember that: {fact}"
     
     if intent == "chat_topic_statement":
-        topic = parse_topic_statement(user_input)
+        topic = chat.parse_topic_statement(user_input)
         
         if not topic:
             return "What topic are we working on?"
@@ -3827,7 +3757,7 @@ def handle_chat_intent(user_input, analysis):
         return "\n".join(lines)
     
     if intent == "chat_feedback_for_intent":
-        intent_name = parse_feedback_intent_query(user_input)
+        intent_name = chat.parse_feedback_intent_query(user_input)
         
         if not intent_name:
             return "Use this format: feedback for intent_name"
@@ -3855,7 +3785,7 @@ def handle_chat_intent(user_input, analysis):
         )
         
     if intent == "search_response_feedback":
-        query = parse_response_feedback_search(user_input)
+        query = chat.parse_response_feedback_search(user_input)
         
         if not query:
             return "What feedback should I search for?"
@@ -3876,7 +3806,7 @@ def handle_chat_intent(user_input, analysis):
         return "\n".join(lines)
     
     if intent == "filter_response_feedback_by_value":
-        value = parse_feedback_value_filter(user_input)
+        value = chat.parse_feedback_value_filter(user_input)
         
         if value == "not helpful":
             value = "not helpful"
@@ -3899,7 +3829,7 @@ def handle_chat_intent(user_input, analysis):
         return "\n".join(lines)
     
     if intent == "filter_response_feedback_by_group":
-        group = parse_feedback_group_filter(user_input)
+        group = chat.parse_feedback_group_filter(user_input)
         
         if group not in ["chat", "memory", "action", "control", "basic", "unknown"]:
             return "Use this format: feedback group chat/memory/action/control/basic/unknown"
@@ -3966,7 +3896,7 @@ def handle_chat_intent(user_input, analysis):
         return respond_to_improvement_taget(target)
     
     if intent == "chat_feedback_note":
-        note = parse_feedback_note(user_input)
+        note = chat.parse_feedback_note(user_input)
         
         if not note:
             return "What feedback note should I save?"
@@ -3988,7 +3918,7 @@ def handle_chat_intent(user_input, analysis):
         return "\n".join(lines)
     
     if intent == "delete_feedback_note":
-        recent_index = parse_delete_feedback_note(user_input)
+        recent_index = chat.parse_delete_feedback_note(user_input)
         
         if recent_index is None:
             return "Use this format: delete feedback note number"
