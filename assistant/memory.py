@@ -1,7 +1,11 @@
 import json
 from pathlib import Path
+from datetime import datetime
 
 MEMORY_FILE = Path("datasets/memory.json")
+
+def current_timestamp():
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 def normalize_entity_name(value):
     return value.lower().strip()
@@ -26,6 +30,14 @@ def add_response_feedback(feedback):
         
     memory["response_feedback"].append(feedback)
     save_memory(memory)
+    
+def add_response_feedback_note(note):
+    memory = load_memory()
+    
+    memory["response_feedback_notes"].append({
+        "timestamp": current_timestamp(),
+        "note": note
+    })
     
 def get_response_feedback_stats():
     memory = load_memory()
@@ -208,6 +220,9 @@ def ensure_memory_shape(memory):
         
     if "pending_response_feedback_clear" not in memory["state"]:
         memory["state"]["pending_response_feedback_clear"] = False
+        
+    if "response_feedback_notes"  not in memory:
+        memory["response_feedback_notes"] = []
         
     return memory
 

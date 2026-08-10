@@ -853,6 +853,14 @@ def parse_feedback_group_filter(user_input):
         return text.replace("feedback group ", "", 1).strip()
     
     return ""
+
+def parse_feedback_note(user_input):
+    text = user_input.strip()
+    
+    if text.lower().startswith("feedback note "):
+        return text[14:].strip()
+    
+    return ""
     
 def build_focus_stats_for_task(query):
     return focus.build_focus_stats_for_task(query)
@@ -3944,6 +3952,15 @@ def handle_chat_intent(user_input, analysis):
     if intent == "chat_improvement_target":
         target = memory.get_response_improvement_target()
         return respond_to_improvement_taget(target)
+    
+    if intent == "chat_feedback_note":
+        note = parse_feedback_note(user_input)
+        
+        if not note:
+            return "What feedback note should I save?"
+        
+        memory.add_response_feedback_note(note)
+        return f"Saved feedback note: {note}"
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]
