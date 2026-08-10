@@ -215,3 +215,64 @@ def format_delete_feedback_note_result(result):
         return "I do not have any feedback notes to delete."
 
     return "That feedback note number does not exist."
+
+def format_response_feedback_health(health):
+    return (
+        f"Response feedback health:\n"
+        f"Total: {health['total']}\n"
+        f"Broken: {health['broken']}\n"
+        f"Missing timestamp: {health['missing_timestamp']}\n"
+        f"Invalid feedback: {health['invalid_feedback']}\n"
+        f"Missing last intent: {health['missing_last_intent']}\n"
+        f"Missing last group: {health['missing_last_group']}"
+    )
+
+
+def format_problem_feedback_intents(results):
+    if not results:
+        return "I do not have any not helpful feedback by intent yet."
+
+    lines = ["Problem feedback intents:"]
+
+    for intent_name, count in results:
+        lines.append(f"- {intent_name}: {count}")
+
+    return "\n".join(lines)
+
+
+def format_helpful_feedback_intents(results):
+    if not results:
+        return "I do not have any helpful feedback by intent yet."
+
+    lines = ["Helpful feedback intents:"]
+
+    for intent_name, count in results:
+        lines.append(f"- {intent_name}: {count}")
+
+    return "\n".join(lines)
+
+def format_response_feedback_cleanup(removed_count):
+    return f"Response feedback cleanup finished. Removed {removed_count} broken item(s)."
+
+
+def format_clear_response_feedback_preview(preview):
+    return (
+        f"Response feedback clear preview:\n"
+        f"Total feedback items: {preview['total']}\n"
+        f"Would remove: {preview['would_remove']}"
+    )
+
+
+def format_clear_response_feedback_prompt(total):
+    return (
+        f"This will clear {total} response feedback item(s).\n"
+        f"Reply yes to confirm or no to cancel."
+    )
+
+
+def format_clear_response_feedback_result(removed_count):
+    return f"Cleared {removed_count} response feedback item(s)."
+
+
+def format_feedback_note_saved(note):
+    return f"Saved feedback note: {note}"

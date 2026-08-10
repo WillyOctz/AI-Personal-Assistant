@@ -29,12 +29,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": "chat refactor",
-        "last_response_intent": "show_feedback_notes",
+        "last_response_intent": "chat_feedback_note",
         "last_response_group": "chat",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Feedback notes:\n- 2026-08-10 17:25:50 | make stuck response more detailed\n- 2026-08-10 18:05:09 | fine tuning feedback response",
+        "last_response_text": "Saved feedback note: test formatter",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -10190,6 +10190,86 @@
             "source": "rule",
             "timestamp": "2026-08-10 18:58:39",
             "importance": 0.3
+        },
+        {
+            "user": "response feedback health",
+            "assistant": "Response feedback health:\nTotal: 1\nBroken: 0\nMissing timestamp: 0\nInvalid feedback: 0\nMissing last intent: 0\nMissing last group: 0",
+            "intent": "response_feedback_health",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 19:43:28",
+            "importance": 0.3
+        },
+        {
+            "user": "problem feedback intents",
+            "assistant": "I do not have any not helpful feedback by intent yet.",
+            "intent": "problem_feedback_intents",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 19:43:40",
+            "importance": 0.3
+        },
+        {
+            "user": "helpful feedback intents",
+            "assistant": "Helpful feedback intents:\n- chat_stuck: 1",
+            "intent": "helpful_feedback_intents",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 19:43:52",
+            "importance": 0.3
+        },
+        {
+            "user": "response feedback cleanup",
+            "assistant": "Response feedback cleanup finished. Removed 0 broken item(s).",
+            "intent": "cleanup_response_feedback",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 19:51:31",
+            "importance": 0.3
+        },
+        {
+            "user": "preview clear response feedback",
+            "assistant": "Response feedback clear preview:\nTotal feedback items: 1\nWould remove: 1",
+            "intent": "preview_clear_response_feedback",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 19:51:41",
+            "importance": 0.3
+        },
+        {
+            "user": "clear response feedback",
+            "assistant": "This will clear 1 response feedback item(s).\nReply yes to confirm or no to cancel.",
+            "intent": "clear_response_feedback",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 19:51:52",
+            "importance": 0.3
+        },
+        {
+            "user": "no",
+            "assistant": "Okay. Response feedback was not cleared.",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 19:51:54",
+            "importance": 0.1
+        },
+        {
+            "user": "feedback note test formatter",
+            "assistant": "Saved feedback note: test formatter",
+            "intent": "chat_feedback_note",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 19:52:03",
+            "importance": 0.3
         }
     ],
     "summaries": [
@@ -10887,6 +10967,10 @@
         {
             "timestamp": "2026-08-10 18:05:09",
             "note": "fine tuning feedback response"
+        },
+        {
+            "timestamp": "2026-08-10 19:52:03",
+            "note": "test formatter"
         }
     ]
 }

@@ -1821,7 +1821,7 @@ def handle_control_intent(user_input, analysis):
         if get_pending_response_feedback_clear():
             removed_count = memory.clear_response_feedback()
             clear_pending_response_feedback_clear()
-            return f"Cleared {removed_count} response feedback item(s)."
+            return chat.format_clear_response_feedback_result(removed_count)
         
         pending = get_pending_confirmation()
         app_result = apps.confirm_pending_app_launch(open_registered_app)
@@ -3691,29 +3691,21 @@ def handle_chat_intent(user_input, analysis):
     
     if intent == "cleanup_response_feedback":
         removed_count = memory.cleanup_response_feedback()
-        return f"Response feedback cleanup finished. Removed {removed_count} broken item(s)."
+        return chat.format_response_feedback_cleanup(removed_count)
 
     if intent == "clear_response_feedback":
         preview = memory.preview_clear_response_feedback()
         
         if preview["total"] == 0:
             return "There is no response feedback to clear."
-        
+
         set_pending_response_feedback_clear()
-        
-        return (
-            f"This will clear {preview['total']} response feedback item(s).\n"
-            f"Reply yes to confirm or no to cancel."
-        )
+        return chat.format_clear_response_feedback_prompt(preview["total"])
     
     if intent == "preview_clear_response_feedback":
         preview = memory.preview_clear_response_feedback()
         
-        return (
-            f"Response feedback clear preview:\n"
-            f"Total feedback items: {preview['total']}\n"
-            f"Would remove: {preview['would_remove']}"
-        )
+        return chat.format_clear_response_feedback_preview(preview)
         
     if intent == "chat_feedback_dashboard":
         stats = memory.get_response_feedback_stats()
@@ -3763,15 +3755,7 @@ def handle_chat_intent(user_input, analysis):
     if intent == "response_feedback_health":
         health = memory.get_response_feedback_health()
         
-        return (
-            f"Response feedback health:\n"
-            f"Total: {health['total']}\n"
-            f"Broken: {health['broken']}\n"
-            f"Missing timestamp: {health['missing_timestamp']}\n"
-            f"Invalid feedback: {health['invalid_feedback']}\n"
-            f"Missing last intent: {health['missing_last_intent']}\n"
-            f"Missing last group: {health['missing_last_group']}"
-        )
+        return chat.format_response_feedback_health(health)
     
     if intent == "response_feedback_summary":
         stats = memory.get_response_feedback_stats()
@@ -3780,28 +3764,12 @@ def handle_chat_intent(user_input, analysis):
     if intent == "problem_feedback_intents":
         results = memory.get_problem_feedback_intents()
         
-        if not results:
-            return "I do not have any not helpful feedback by intent yet."
-        
-        lines = ["Problem feedback intents:"]
-        
-        for intent_name, count in results:
-            lines.append(f"- {intent_name}: {count}")
-            
-        return "\n".join(lines)
+        return chat.format_problem_feedback_intents(results)
     
     if intent == "helpful_feedback_intents":
         results = memory.get_helpful_feedback_intents()
         
-        if not results:
-            return "I do not have any helpful feedback by intent yet."
-        
-        lines = ["Helpful feedback intents:"]
-        
-        for intent_name, count in results:
-            lines.append(f"- {intent_name}: {count}")
-            
-        return "\n".join(lines)
+        return chat.format_helpful_feedback_intents(results)
     
     if intent == "chat_improvement_target":
         target = memory.get_response_improvement_target()
@@ -3814,7 +3782,7 @@ def handle_chat_intent(user_input, analysis):
             return "What feedback note should I save?"
         
         memory.add_response_feedback_note(note)
-        return f"Saved feedback note: {note}"
+        return chat.format_feedback_note_saved(note)
     
     if intent == "show_feedback_notes":
         notes = memory.get_response_feedback_notes()
