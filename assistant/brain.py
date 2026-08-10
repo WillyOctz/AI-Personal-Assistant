@@ -3682,28 +3682,12 @@ def handle_chat_intent(user_input, analysis):
     if intent == "show_response_feedback_stats":
         stats = memory.get_response_feedback_stats()
         
-        return (
-            f"Response feedback stats:\n"
-            f"Total: {stats['total']}\n"
-            f"Helpful: {stats['helpful']}\n"
-            f"Not helpful: {stats['not_helpful']}"
-        )
+        return chat.format_response_feedback_stats(stats)
         
     if intent == "show_recent_response_feedback":
         feedback_items = memory.get_recent_response_feedback()
-        
-        if not feedback_items:
-            return "I do not have any response feedback yet."
-        
-        lines = ["Recent response feedback:"]
-        
-        for item in feedback_items:
-            lines.append(
-                f"- {item['timestamp']} | {item['feedback']} | "
-                f"{item['last_intent']} | {item['last_group']}"
-            )
             
-        return "\n".join(lines)
+        return chat.format_recent_response_feedback(feedback_items)
     
     if intent == "cleanup_response_feedback":
         removed_count = memory.cleanup_response_feedback()
@@ -3734,27 +3718,8 @@ def handle_chat_intent(user_input, analysis):
     if intent == "chat_feedback_dashboard":
         stats = memory.get_response_feedback_stats()
         recent = memory.get_recent_response_feedback()
-        
-        lines = [
-            "Chat feedback dashboard:",
-            f"Total: {stats['total']}",
-            f"Helpful: {stats['helpful']}",
-            f"Not helpful: {stats['not_helpful']}", 
-        ]
-        
-        if not recent:
-            lines.append("Recent feedback: None")
-            return "\n".join(lines)
-        
-        lines.append("Recent feedback:")
-        
-        for item in recent:
-            lines.append(
-                f"- {item['timestamp']} | {item['feedback']} | "
-                f"{item['last_intent']} | {item['last_group']}"
-            )
             
-        return "\n".join(lines)
+        return chat.format_chat_feedback_dashboard(stats, recent)
     
     if intent == "chat_feedback_for_intent":
         intent_name = chat.parse_feedback_intent_query(user_input)
@@ -3763,26 +3728,7 @@ def handle_chat_intent(user_input, analysis):
             return "Use this format: feedback for intent_name"
         
         feedback_items = memory.get_response_feedback_for_intent(intent_name)
-        
-        if not feedback_items:
-            return f"I do not have response feedback for {intent_name}."
-        
-        helpful = 0
-        not_helpful = 0
-        
-        for item in feedback_items:
-            if item.get("feedback") == "helpful":
-                helpful += 1
-                
-            if item.get("feedback") == "not_helpful":
-                not_helpful += 1
-                
-        return (
-            f"Feedback for {intent_name}:\n"
-            f"Total: {len(feedback_items)}\n"
-            f"Helpful: {helpful}\n"
-            f"Not helpful: {not_helpful}" 
-        )
+        return chat.format_feedback_for_intent(intent_name, feedback_items)
         
     if intent == "search_response_feedback":
         query = chat.parse_response_feedback_search(user_input)
@@ -3791,19 +3737,7 @@ def handle_chat_intent(user_input, analysis):
             return "What feedback should I search for?"
         
         results = memory.search_response_feedback(query)
-        
-        if not results:
-            return f"I could not find response feedback matching: {query}"
-        
-        lines = [f"Response feedback matching {query}:"]
-        
-        for item in results[-5:]:
-            lines.append(
-                f"- {item['timestamp']} | {item['feedback']} | "
-                f"{item['last_intent']} | {item['last_group']}"
-            )
-            
-        return "\n".join(lines)
+        return chat.format_feedback_search_results(query, results)
     
     if intent == "filter_response_feedback_by_value":
         value = chat.parse_feedback_value_filter(user_input)
@@ -3815,18 +3749,7 @@ def handle_chat_intent(user_input, analysis):
             return "Use this format: feedback value helpful or feedback value not_helpful"
         
         results = memory.get_response_feedback_by_value(value)
-        
-        if not results:
-            return f"I do not have {value} response feedback."
-        
-        lines = [f"{value} response feedback:"]
-        
-        for item in results[-5:]:
-            lines.append(
-                f"- {item['timestamp']} | {item['last_intent']} | {item['last_group']}"
-            )
-            
-        return "\n".join(lines)
+        return chat.format_feedback_by_value(value, results)
     
     if intent == "filter_response_feedback_by_group":
         group = chat.parse_feedback_group_filter(user_input)
@@ -3835,18 +3758,7 @@ def handle_chat_intent(user_input, analysis):
             return "Use this format: feedback group chat/memory/action/control/basic/unknown"
         
         results = memory.get_response_feedback_by_group(group)
-        
-        if not results:
-            return f"I do not have response feedback for group: {group}"
-        
-        lines = [f"Response feedback for group {group}:"]
-        
-        for item in results[-5:]:
-            lines.append(
-                f"- {item['timestamp']} | {item['feedback']} | {item['last_intent']}"
-            )
-            
-        return "\n".join(lines)
+        return chat.format_feedback_by_group(group, results)
     
     if intent == "response_feedback_health":
         health = memory.get_response_feedback_health()

@@ -29,12 +29,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": "chat refactor",
-        "last_response_intent": "show_feedback_notes",
+        "last_response_intent": "filter_response_feedback_by_group",
         "last_response_group": "chat",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Feedback notes:\n- 2026-08-10 17:25:50 | make stuck response more detailed\n- 2026-08-10 18:05:09 | fine tuning feedback response",
+        "last_response_text": "Response feedback for group chat:\n- 2026-08-07 16:36:27 | helpful | chat_stuck",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -10079,6 +10079,76 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-10 18:05:15",
+            "importance": 0.3
+        },
+        {
+            "user": "response feedback stats",
+            "assistant": "Response feedback stats:\nTotal: 1\nHelpful: 1\nNot helpful: 0",
+            "intent": "show_response_feedback_stats",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 18:27:13",
+            "importance": 0.3
+        },
+        {
+            "user": "recent response feedback",
+            "assistant": "Recent response feedback:\n- 2026-08-07 16:36:27 | helpful | chat_stuck | chat",
+            "intent": "show_recent_response_feedback",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 18:27:20",
+            "importance": 0.3
+        },
+        {
+            "user": "chat feedback dashboard",
+            "assistant": "Chat feedback dashboard:\nTotal: 1\nHelpful: 1\nNot helpful: 0\nRecent feedback:\n- 2026-08-07 16:36:27 | helpful | chat_stuck | chat",
+            "intent": "chat_feedback_dashboard",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 18:27:26",
+            "importance": 0.3
+        },
+        {
+            "user": "feedback for chat_stuck",
+            "assistant": "Feedback for chat_stuck:\nTotal: 1\nHelpful: 1\nNot helpful: 0",
+            "intent": "chat_feedback_for_intent",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 18:46:39",
+            "importance": 0.3
+        },
+        {
+            "user": "search feedback helpful",
+            "assistant": "Response feedback matching helpful:\n- 2026-08-07 16:36:27 | helpful | chat_stuck | chat",
+            "intent": "search_response_feedback",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 18:46:47",
+            "importance": 0.3
+        },
+        {
+            "user": "feedback value helpful",
+            "assistant": "helpful response feedback:\n- 2026-08-07 16:36:27 | chat_stuck | chat",
+            "intent": "filter_response_feedback_by_value",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 18:46:55",
+            "importance": 0.3
+        },
+        {
+            "user": "feedback group chat",
+            "assistant": "Response feedback for group chat:\n- 2026-08-07 16:36:27 | helpful | chat_stuck",
+            "intent": "filter_response_feedback_by_group",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 18:47:01",
             "importance": 0.3
         }
     ],
