@@ -276,3 +276,48 @@ def format_clear_response_feedback_result(removed_count):
 
 def format_feedback_note_saved(note):
     return f"Saved feedback note: {note}"
+
+def build_response_feedback(feedback_value, last_intent, last_group, last_text, timestamp):
+    return {
+        "timestamp": timestamp,
+        "feedback": feedback_value,
+        "last_intent": last_intent,
+        "last_group": last_group,
+        "last_text": last_text
+    }
+
+
+def format_response_feedback_saved(feedback_value):
+    if feedback_value == "helpful":
+        return "Good. I will remember that response helped."
+
+    return "Got it. I will remember that response did not help."
+
+def format_current_topic(topic):
+    if not topic:
+        return "I do not have a current topic saved yet."
+
+    return f"We are currently working on {topic}."
+
+
+def format_topic_saved(topic):
+    return f"Got it. We are working on {topic}."
+
+
+def format_topic_cleared(topic):
+    if not topic:
+        return "There is no current topic to clear."
+
+    return f"Cleared current topic: {topic}"
+
+
+def format_mood_saved(mood):
+    return f"I will remember that you are {mood}."
+
+
+def format_note_saved_from_chat(fact):
+    return f"I will remember that {fact}."
+
+
+def format_general_remembered_fact(fact):
+    return f"I will remember that: {fact}"

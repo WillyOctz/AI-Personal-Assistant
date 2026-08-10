@@ -3609,11 +3609,11 @@ def handle_chat_intent(user_input, analysis):
         if fact.startswith("i am "):
             mood = fact.replace("i am", "", 1).strip()
             memory.set_profile_value("mood", mood)
-            return f"I will remember that you are {mood}."
+            return chat.format_mood_saved(mood)
         
         if fact.startswith("i like "):
             memory.add_note(fact)
-            return f"I will remember that {fact}."
+            return chat.format_general_remembered_fact(fact)
         
         memory.add_note(fact)
         return f"I will remember that: {fact}"
@@ -3625,7 +3625,7 @@ def handle_chat_intent(user_input, analysis):
             return "What topic are we working on?"
         
         memory.set_state_value("current_topic", topic)
-        return f"Got it. We are working on {topic}."
+        return chat.format_topic_saved(topic)
     
     if intent == "chat_current_topic":
         topic = memory.get_state_value("current_topic")
@@ -3633,16 +3633,15 @@ def handle_chat_intent(user_input, analysis):
         if not topic:
             return "I do not have a current topic saved yet."
         
-        return f"We are currently working on {topic}."
+        return chat.format_current_topic(topic)
     
     if intent == "chat_clear_topic":
         topic = memory.get_state_value("current_topic")
         
-        if not topic:
-            return "There is no current topic to clear."
-        
-        memory.clear_state_value("current_topic")
-        return f"Cleared current topic: {topic}"
+        if topic:
+            memory.clear_state_value("current_topic")
+            
+        return chat.format_topic_cleared(topic)
     
     if intent == "chat_explain_last":
         last_intent = memory.get_state_value("last_response_intent")
@@ -3664,20 +3663,16 @@ def handle_chat_intent(user_input, analysis):
         
         feedback_value = "helpful" if intent == "chat_response_helpful" else "not_helpful"
         
-        feedback = {
-            "timestamp": current_timestamp(),
-            "feedback": feedback_value,
-            "last_intent": last_intent,
-            "last_group": last_group,
-            "last_text": last_text
-        }
+        feedback = chat.build_response_feedback(
+            feedback_value,
+            last_intent,
+            last_group,
+            last_text,
+            current_timestamp()
+        )
         
         memory.add_response_feedback(feedback)
-        
-        if feedback_value == "helpful":
-            return "Good. I will remember that response helped."
-        
-        return "Got it. I will remember that response did not help."
+        return chat.format_response_feedback_saved(feedback_value)
     
     if intent == "show_response_feedback_stats":
         stats = memory.get_response_feedback_stats()
