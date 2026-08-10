@@ -1690,6 +1690,19 @@ def get_helpful_feedback_intents(limit=5):
     
     return sorted_counts[:limit]
 
+def get_response_improvement_target():
+    problems = get_problem_feedback_intents(limit=1)
+    
+    if not problems:
+        return None
+    
+    intent_name, count = problems[0]
+    
+    return {
+        "intent": intent_name,
+        "not_helpful_count": count 
+    }
+
 
 
 

@@ -173,6 +173,15 @@ def repeat_last_response(last_response):
     
     return last_response
 
+def respond_to_improvement_taget(target):
+    if not target:
+        return "I do not have enough negative feedback to know what to improve yet."
+    
+    return (
+        f"I should improve responses for {target['intent']} first. "
+        f"It has {target['not_helpful_count']} not helpful feedback item(s)."
+    )
+
 def summarize_response_feedback(stats):
     total = stats["total"]
     
