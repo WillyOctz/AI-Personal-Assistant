@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_feedback_notes",
-        "last_response_group": "chat",
+        "last_response_intent": "dataset_stats",
+        "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Feedback notes:\n- 2026-08-10 18:05:09 | fine tuning feedback response\n- 2026-08-10 22:21:01 | sanity check",
+        "last_response_text": "Dataset stats:\n- feedback: exists, total=13, valid=13, broken=0\n- examples: exists, total=25, valid=25, broken=0\n- test_intents: exists, total=8, valid=8, broken=0",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11053,6 +11053,76 @@
             "source": "rule",
             "timestamp": "2026-08-10 22:21:23",
             "importance": 0.3
+        },
+        {
+            "user": "how are you",
+            "assistant": "I am doing alright. I remember your current mood is tired. We are still working toward your goal: to build best AI assistant.",
+            "intent": "chat_how_are_you",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:36:42",
+            "importance": 0.3
+        },
+        {
+            "user": "how are you",
+            "assistant": "I am doing alright. I remember your current mood is tired. We are still working toward your goal: to build best AI assistant.",
+            "intent": "chat_how_are_you",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:39:02",
+            "importance": 0.3
+        },
+        {
+            "user": "explain that",
+            "assistant": "I answered conversationally because I recognized this as chat_how_are_you.\nSource: rule\nConfidence: 1.00",
+            "intent": "chat_explain_last",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:39:06",
+            "importance": 0.3
+        },
+        {
+            "user": "repeat that",
+            "assistant": "I am doing alright. I remember your current mood is tired. We are still working toward your goal: to build best AI assistant.",
+            "intent": "chat_repeat_last",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:39:11",
+            "importance": 0.3
+        },
+        {
+            "user": "response feedback summary",
+            "assistant": "Response feedback summary:\nTotal: 6\nHelpful: 5\nNot helpful: 1\nHelpful rate: 0.83\nConclusion: Most responses seem helpful.",
+            "intent": "response_feedback_summary",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:39:17",
+            "importance": 0.3
+        },
+        {
+            "user": "what should you improve",
+            "assistant": "I should improve responses for chat_stuck first. It has 1 not helpful feedback item(s).",
+            "intent": "chat_improvement_target",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-10 22:39:26",
+            "importance": 0.3
+        },
+        {
+            "user": "dataset stats",
+            "assistant": "Dataset stats:\n- feedback: exists, total=13, valid=13, broken=0\n- examples: exists, total=25, valid=25, broken=0\n- test_intents: exists, total=8, valid=8, broken=0",
+            "intent": "dataset_stats",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-11 16:03:26",
+            "importance": 0.1
         }
     ],
     "summaries": [

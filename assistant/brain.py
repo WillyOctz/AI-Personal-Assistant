@@ -3,9 +3,8 @@ from assistant import memory
 from assistant import chat
 from assistant import apps
 from assistant import personality
-from assistant.personality import greet, unknown_response, respond_to_feeling, respond_to_help_request, respond_to_stuck, respond_to_thanks, respond_to_goodbye, respond_to_day_greeting, respond_to_capabilities, respond_to_identity, respond_about_user, explain_response, unknown_chat_response, repeat_last_response, summarize_response_feedback, respond_to_improvement_target
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS
-from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score
+from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats
 from datetime import datetime
 from assistant import focus
 
@@ -1791,14 +1790,14 @@ def handle_basic_intent(user_input, analysis):
         context = get_profile_context()
         
         if context:
-            return f"{greet()} I remember that {context}."
+            return f"{personality.greet()} I remember that {context}."
         
-        return greet()
+        return personality.greet()
 
     if intent == "get_time":
         return get_time()
 
-    return unknown_response()
+    return personality.unknown_response()
 
 def stop_focus_if_task_completed(completed_task):
     return focus.stop_focus_if_task_completed(completed_task)
@@ -2054,7 +2053,21 @@ def handle_control_intent(user_input, analysis):
         
         return f"Cleared pending app launch: {pending_app['app_name']}"
     
-    return unknown_response()       
+    if intent == "dataset_stats":
+        stats = get_dataset_stats()
+        
+        lines = ["Dataset stats:"]
+        
+        for name, item in stats.items():
+            status = "exists" if item["exists"] else "missing"
+            lines.append(
+                f"- {name}: {status}, total={item['total']}, "
+                f"valid={item['valid']}, broken={item['broken']}"
+            )
+            
+        return "\n".join(lines)
+    
+    return personality.unknown_response()       
 
 def handle_memory_intent(user_input, analysis):
     global focus, apps
@@ -3558,11 +3571,11 @@ def handle_chat_intent(user_input, analysis):
         last_confidence = memory.get_state_value("last_response_confidence")
         last_scores = memory.get_state_value("last_response_scores")
         
-        return explain_response(last_intent, last_group, last_source, last_confidence, last_scores)
+        return personality.explain_response(last_intent, last_group, last_source, last_confidence, last_scores)
 
     if intent == "chat_repeat_last":
         last_response = memory.get_state_value("last_response_text")
-        return repeat_last_response(last_response)
+        return personality.repeat_last_response(last_response)
 
 def handle_action_intent(user_input, analysis):
     intent = analysis["intent"]
@@ -3674,7 +3687,7 @@ def get_response(user_input):
     
     else:
         topic = memory.get_state_value("current_topic")
-        response = unknown_chat_response(user_input, topic)
+        response = personality.unknown_chat_response(user_input, topic)
         
     if analysis["intent"] not in ["chat_explain_last", "chat_repeat_last"]:
         memory.set_state_value("last_response_intent", analysis["intent"])

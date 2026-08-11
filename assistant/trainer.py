@@ -5,6 +5,55 @@ EXAMPLES_FILE = Path("datasets/examples.jsonl")
 FEEDBACK_FILE = Path("datasets/feedback.jsonl")
 TEST_FILE = Path("datasets/test_intents.jsonl")
 
+DATASET_FILES = {
+    "feedback": Path("datasets/feedback.jsonl"),
+    "examples": Path("datasets/examples.jsonl"),
+    "test_intents": Path("datasets/test_intents.jsonl"),
+}
+
+def count_jsonl_lines(path):
+    if not path.exists():
+        return {
+            "exists": False,
+            "total": 0,
+            "valid": 0,
+            "broken": 0
+        }
+        
+    total = 0
+    valid = 0
+    broken = 0
+    
+    with open(path, "r", encoding="utf-8") as file:
+        for line in file:
+            clean_line = line.strip()
+            
+            if not clean_line:
+                continue
+            
+            total += 1
+            
+            try:
+                json.loads(clean_line)
+                valid += 1
+            except:
+                broken += 1
+                
+    return {
+        "exists": True,
+        "total": total,
+        "valid": valid,
+        "broken": broken
+    }
+    
+def get_dataset_stats():
+    stats = {}
+    
+    for name, path in DATASET_FILES.items():
+        stats[name] = count_jsonl_lines(path)
+        
+    return stats
+
 STOP_WORDS = {
     "can",
     "you",
