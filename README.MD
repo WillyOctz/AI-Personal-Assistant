@@ -1,6 +1,7 @@
 # AI Personal Assistant - Nebula
 
 Nebula is a learning-focused AI personal assistant built from basic Python logic before using advanced AI models.
+(I'm still learning more about engineering an AI while making this, if any Senior or AI Developers or Engineers spot some mistakes or giving me advice on what to upgrade or to develop, feel free to tag or chat with me. Thank you 😀)
 
 ## Current Version
 
