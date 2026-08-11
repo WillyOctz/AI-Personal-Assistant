@@ -178,6 +178,7 @@ VALID_INTENTS = {
     "dataset_stats",
     "dataset_intent_counts",
     "dataset_duplicates",
+    "dataset_conflicts",
 }
 
 CONTROL_INTENTS = {
@@ -199,6 +200,7 @@ CONTROL_INTENTS = {
     "dataset_stats",
     "dataset_intent_counts",
     "dataset_duplicates",
+    "dataset_conflicts",
 }
 
 CHAT_INTENTS = {
@@ -870,6 +872,11 @@ INTENT_PATTERNS = {
         "dataset duplicates",
         "training duplicates",
         "duplicate examples",
+    ],
+    "dataset_conflicts": [
+        "dataset conflicts",
+        "training conflicts",
+        "conflicting examples",
     ],
 }
 

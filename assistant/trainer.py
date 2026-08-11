@@ -141,6 +141,42 @@ def get_dataset_duplicates():
                 
     return duplicates
 
+def get_dataset_conflicts():
+    seen = {}
+    conflicts = []
+    
+    for dataset_name, path in DATASET_FILES.items():
+        records = read_jsonl_records(path)
+        
+        for record in records:
+            text = get_record_input(record)
+            intent = get_record_intent(record)
+            
+            if not text or not intent:
+                continue
+            
+            clean_text = text.lower().strip()
+            
+            if clean_text in seen:
+                previous = seen[clean_text]
+                
+                if previous["intent"] != intent:
+                    conflicts.append({
+                        "input": clean_text,
+                        "first_dataset": previous["dataset"],
+                        "first_intent": previous["intent"],
+                        "conflict_dataset": dataset_name,
+                        "conflict_intent": intent
+                    })
+                    
+            else:
+                seen[clean_text] = {
+                    "dataset": dataset_name,
+                    "intent": intent
+                }
+                
+    return conflicts
+
 STOP_WORDS = {
     "can",
     "you",
