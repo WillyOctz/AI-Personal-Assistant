@@ -102,6 +102,45 @@ def get_dataset_intent_counts():
     
     return sorted_counts
 
+def get_record_input(record):
+    
+    for key in ["input", "message", "text", "query"]:
+        if key in record:
+            return record.get(key)
+        
+    return None
+
+def get_dataset_duplicates():
+    seen = {}
+    duplicates = []
+    
+    for dataset_name, path in DATASET_FILES.items():
+        records = read_jsonl_records(path)
+        
+        for record in records:
+            text = get_record_input(record)
+            
+            if not text:
+                continue
+            
+            clean_text = text.lower().strip()
+            
+            if clean_text in seen:
+                duplicates.append({
+                    "input": clean_text,
+                    "first_dataset": seen[clean_text]["dataset"],
+                    "duplicate_dataset": dataset_name,
+                    "first_intent": seen[clean_text]["intent"],
+                    "duplicate_intent": get_record_intent(record)
+                })
+            else:
+                seen[clean_text] = {
+                    "dataset": dataset_name,
+                    "intent": get_record_intent(record)
+                }
+                
+    return duplicates
+
 STOP_WORDS = {
     "can",
     "you",

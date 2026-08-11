@@ -4,7 +4,7 @@ from assistant import chat
 from assistant import apps
 from assistant import personality
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS
-from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts
+from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates
 from datetime import datetime
 from assistant import focus
 
@@ -2077,6 +2077,26 @@ def handle_control_intent(user_input, analysis):
         
         for intent_name, count in counts:
             lines.append(f"- {intent_name}: {count}")
+            
+        return "\n".join(lines)
+    
+    if intent == "dataset_duplicates":
+        duplicates = get_dataset_duplicates()
+        
+        if not duplicates:
+            return "I did not find duplicate dataset examples."
+        
+        lines = ["Duplicate dataset examples:"]
+        
+        for item in duplicates[:10]:
+            lines.append(
+                f"- {item['input']} | "
+                f"{item['first_dataset']}:{item['first_intent']} -> "
+                f"{item['duplicate_dataset']}:{item['duplicate_intent']}"
+            )
+            
+        if len(duplicates) > 10:
+            lines.append(f"...and {len(duplicates) - 10} more.")
             
         return "\n".join(lines)
     
