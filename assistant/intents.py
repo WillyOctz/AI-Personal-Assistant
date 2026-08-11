@@ -176,6 +176,7 @@ VALID_INTENTS = {
     "show_feedback_notes",
     "delete_feedback_note",
     "dataset_stats",
+    "dataset_intent_counts",
 }
 
 CONTROL_INTENTS = {
@@ -195,6 +196,7 @@ CONTROL_INTENTS = {
     "debug_focus_goal",
     "clear_pending_app_launch",
     "dataset_stats",
+    "dataset_intent_counts",
 }
 
 CHAT_INTENTS = {
@@ -856,6 +858,11 @@ INTENT_PATTERNS = {
         "dataset stats",
         "training data stats",
         "show dataset stats",
+    ],
+    "dataset_intent_counts": [
+        "dataset intent counts",
+        "training intent counts",
+        "intent data counts",
     ],
 }
 

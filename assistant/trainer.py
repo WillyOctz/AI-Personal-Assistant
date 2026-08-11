@@ -54,6 +54,54 @@ def get_dataset_stats():
         
     return stats
 
+def read_jsonl_records(path):
+    records = []
+    
+    if not path.exists():
+        return records
+    
+    with open(path, "r", encoding="utf-8") as file:
+        for line in file:
+            clean_line = line.strip()
+            
+            if not clean_line:
+                continue
+            
+            try:
+                records.append(json.loads(clean_line))
+            except:
+                continue
+            
+    return records
+
+def get_record_intent(record):
+    for key in ["correct_intent", "intent", "expected"]:
+        if key in record:
+            return record.get(key)
+        
+    return None
+
+def get_dataset_intent_counts():
+    counts = {}
+    
+    for dataset_name, path in DATASET_FILES.items():
+        records = read_jsonl_records(path)
+        
+        for record in records:
+            intent = get_record_intent(record)
+            
+            if not intent:
+                intent = "unknown"
+                
+            if intent not in counts:
+                counts[intent] = 0
+                
+            counts[intent] = 1
+            
+    sorted_counts = sorted(counts.items(), key=lambda item: item[1], reverse=True)
+    
+    return sorted_counts
+
 STOP_WORDS = {
     "can",
     "you",

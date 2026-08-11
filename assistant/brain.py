@@ -4,7 +4,7 @@ from assistant import chat
 from assistant import apps
 from assistant import personality
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS
-from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats
+from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts
 from datetime import datetime
 from assistant import focus
 
@@ -2064,6 +2064,19 @@ def handle_control_intent(user_input, analysis):
                 f"- {name}: {status}, total={item['total']}, "
                 f"valid={item['valid']}, broken={item['broken']}"
             )
+            
+        return "\n".join(lines)
+    
+    if intent == "dataset_intent_counts":
+        counts = get_dataset_intent_counts()
+        
+        if not counts:
+            return "I do not have any dataset intent records yet."
+        
+        lines = ["Dataset intent counts:"]
+        
+        for intent_name, count in counts:
+            lines.append(f"- {intent_name}: {count}")
             
         return "\n".join(lines)
     
