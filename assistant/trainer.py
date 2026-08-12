@@ -251,6 +251,21 @@ def get_dataset_unknown_intents(valid_intents):
                 
     return unknown
 
+def get_dataset_coverage(valid_intents):
+    counts = dict(get_dataset_intent_counts())
+    
+    missing = []
+    
+    for intent in sorted(valid_intents):
+        if intent not in counts:
+            missing.append(intent)
+            
+    return {
+        "total_intents": len(valid_intents),
+        "covered_intents": len(valid_intents) - len(missing),
+        "missing_intents": missing
+    }
+
 STOP_WORDS = {
     "can",
     "you",

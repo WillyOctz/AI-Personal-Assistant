@@ -183,6 +183,7 @@ VALID_INTENTS = {
     "dataset_missing_fields",
     "dataset_unknown_intents",
     "dataset_health",
+    "dataset_coverage",
 }
 
 CONTROL_INTENTS = {
@@ -209,6 +210,7 @@ CONTROL_INTENTS = {
     "dataset_missing_fields",
     "dataset_unknown_intents",
     "dataset_health",
+    "dataset_coverage",
 }
 
 CHAT_INTENTS = {
@@ -905,6 +907,11 @@ INTENT_PATTERNS = {
         "dataset health",
         "training data health",
         "dataset dashboard",
+    ],
+    "dataset_coverage": [
+        "dataset coverage",
+        "training coverage",
+        "intent coverage",
     ],
 }
 

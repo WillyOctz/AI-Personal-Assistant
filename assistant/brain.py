@@ -4,7 +4,7 @@ from assistant import chat
 from assistant import apps
 from assistant import personality
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS
-from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records, get_dataset_missing_fields, get_dataset_unknown_intents
+from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records, get_dataset_missing_fields, get_dataset_unknown_intents, get_dataset_coverage
 from datetime import datetime
 from assistant import focus
 
@@ -2174,6 +2174,27 @@ def handle_control_intent(user_input, analysis):
         if len(unknown) > 10:
             lines.append(f"...and {len(unknown) - 10} more.")
             
+        return "\n".join(lines)
+    
+    if intent == "dataset_coverage":
+        coverage = get_dataset_coverage(VALID_INTENTS)
+        
+        lines = [
+            "Dataset coverage:",
+            f"Total valid intents: {coverage['total_intents']}",
+            f"Covered intents: {coverage['covered_intents']}",
+            f"Missing intents: {len(coverage['missing_intents'])}",
+        ]
+        
+        if coverage["missing_intents"]:
+            lines.append("Missing examples for:")
+            
+            for intent_name in coverage["missing_intents"][:20]:
+                lines.append(f"- {intent_name}")
+                
+            if len(coverage["missing_intents"]) > 20:
+                lines.append(f"...and {len(coverage['missing_intents']) - 20} more.")
+                
         return "\n".join(lines)
     
     if intent == "dataset_health":
