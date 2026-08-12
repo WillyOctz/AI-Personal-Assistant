@@ -2176,6 +2176,36 @@ def handle_control_intent(user_input, analysis):
             
         return "\n".join(lines)
     
+    if intent == "dataset_health":
+        stats = get_dataset_stats()
+        duplicates = get_dataset_duplicates()
+        conflicts = get_dataset_conflicts()
+        broken = get_dataset_broken_records()
+        missing = get_dataset_missing_fields()
+        unknown = get_dataset_unknown_intents(VALID_INTENTS)
+        
+        total_records = 0
+        
+        for item in stats.values():
+            total_records += item["total"]
+            
+        lines = [
+            "Dataset health:",
+            f"Total records: {total_records}",
+            f"Duplicate inputs: {len(duplicates)}",
+            f"Conflicting duplicates: {len(conflicts)}",
+            f"Broken records: {len(broken)}",
+            f"Missing field records: {len(missing)}",
+            f"Unknown intent records: {len(unknown)}",
+        ]
+        
+        if len(broken) == 0 and len(missing) == 0 and len(unknown) == 0 and len(conflicts) == 0:
+            lines.append("Status: healthy")
+        else:
+            lines.append("Status: needs cleanup")
+            
+        return "\n".join(lines)
+    
     return personality.unknown_response()       
 
 def handle_memory_intent(user_input, analysis):
