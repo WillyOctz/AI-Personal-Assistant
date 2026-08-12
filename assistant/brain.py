@@ -4,7 +4,7 @@ from assistant import chat
 from assistant import apps
 from assistant import personality
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS
-from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records, get_dataset_missing_fields
+from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records, get_dataset_missing_fields, get_dataset_unknown_intents
 from datetime import datetime
 from assistant import focus
 
@@ -2154,6 +2154,25 @@ def handle_control_intent(user_input, analysis):
             
         if len(missing) > 10:
             lines.append(f"...and {len(missing) - 10} more.")
+            
+        return "\n".join(lines)
+    
+    if intent == "dataset_unknown_intents":
+        unknown = get_dataset_unknown_intents(VALID_INTENTS)
+        
+        if not unknown:
+            return "I did not find dataset records with unknown intents."
+        
+        lines = ["Dataset unknown intents:"]
+        
+        for item in unknown[:10]:
+            lines.append(
+                f"- {item['dataset']} record {item['record']}: "
+                f"{item['intent']} | {item['input']}"
+            )
+            
+        if len(unknown) > 10:
+            lines.append(f"...and {len(unknown) - 10} more.")
             
         return "\n".join(lines)
     

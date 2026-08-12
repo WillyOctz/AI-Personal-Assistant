@@ -229,6 +229,28 @@ def get_dataset_missing_fields():
                 
     return missing
 
+def get_dataset_unknown_intents(valid_intents):
+    unknown = []
+    
+    for dataset_name, path in DATASET_FILES.items():
+        records = read_jsonl_records(path)
+        
+        for index, record in enumerate(records, start=1):
+            intent = get_record_intent(record)
+            
+            if not intent:
+                continue
+            
+            if intent not in valid_intents:
+                unknown.append({
+                    "dataset": dataset_name,
+                    "record": index,
+                    "intent": intent,
+                    "input": get_record_input(record)
+                })
+                
+    return unknown
+
 STOP_WORDS = {
     "can",
     "you",

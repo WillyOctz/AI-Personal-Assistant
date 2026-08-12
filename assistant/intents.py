@@ -181,6 +181,7 @@ VALID_INTENTS = {
     "dataset_conflicts",
     "dataset_broken_records",
     "dataset_missing_fields",
+    "dataset_unknown_intents",
 }
 
 CONTROL_INTENTS = {
@@ -205,6 +206,7 @@ CONTROL_INTENTS = {
     "dataset_conflicts",
     "dataset_broken_records",
     "dataset_missing_fields",
+    "dataset_unknown_intents",
 }
 
 CHAT_INTENTS = {
@@ -891,6 +893,11 @@ INTENT_PATTERNS = {
         "dataset missing fields",
         "missing dataset fields",
         "training missing fields",
+    ],
+    "dataset_unknown_intents": [
+        "dataset unknown intents",
+        "unknown dataset intents",
+        "training unknown intents",
     ],
 }
 

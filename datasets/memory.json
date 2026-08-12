@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "dataset_missing_fields",
+        "last_response_intent": "dataset_unknown_intents",
         "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I did not find dataset records with missing fields.",
+        "last_response_text": "Dataset unknown intents:\n- feedback record 8: minecraft | gaming\n- feedback record 9: minecraft | playing\n- examples record 1: unknown | can you order pizza for me\n- examples record 2: unknown | can you do push ups for me?\n- examples record 3: unknown | play music\n- examples record 4: unknown | open chrome\n- examples record 5: unknown | remind me to study",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11182,6 +11182,16 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-12 15:10:22",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset unknown intents",
+            "assistant": "Dataset unknown intents:\n- feedback record 8: minecraft | gaming\n- feedback record 9: minecraft | playing\n- examples record 1: unknown | can you order pizza for me\n- examples record 2: unknown | can you do push ups for me?\n- examples record 3: unknown | play music\n- examples record 4: unknown | open chrome\n- examples record 5: unknown | remind me to study",
+            "intent": "dataset_unknown_intents",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-12 15:28:00",
             "importance": 0.1
         }
     ],
