@@ -363,6 +363,27 @@ def get_dataset_weakest_intent(valid_intents):
         "intent": weakest_intent,
         "count": weakest_count
     }
+    
+def get_dataset_strongest_intent(valid_intents):
+    counts = dict(get_dataset_intent_counts())
+    
+    strongest_intent = None
+    strongest_count = None
+    
+    for intent in sorted(valid_intents):
+        count = counts.get(intent, 0)
+        
+        if strongest_count is None or count > strongest_count:
+            strongest_intent = intent
+            strongest_count = count
+            
+    if strongest_intent is None:
+        return None
+    
+    return {
+        "intent": strongest_intent,
+        "count": strongest_count
+    }
 
 STOP_WORDS = {
     "can",
