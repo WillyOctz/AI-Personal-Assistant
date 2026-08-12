@@ -202,6 +202,33 @@ def get_dataset_broken_records():
                     
     return broken_records
 
+def get_dataset_missing_fields():
+    missing = []
+    
+    for dataset_name, path in DATASET_FILES.items():
+        records = read_jsonl_records(path)
+        
+        for index, record in enumerate(records, start=1):
+            text = get_record_input(record)
+            intent = get_record_intent(record)
+            
+            missing_fields = []
+            
+            if not text:
+                missing_fields.append("input")
+                
+            if not intent:
+                missing_fields.append("intent")
+                
+            if missing_fields:
+                missing.append({
+                    "dataset": dataset_name,
+                    "record": index,
+                    "missing": missing_fields
+                })
+                
+    return missing
+
 STOP_WORDS = {
     "can",
     "you",

@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "dataset_broken_records",
+        "last_response_intent": "dataset_missing_fields",
         "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I did not find broken dataset records.",
+        "last_response_text": "I did not find dataset records with missing fields.",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11162,6 +11162,26 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-12 14:55:20",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset missing fields",
+            "assistant": "I did not find dataset records with missing fields.",
+            "intent": "dataset_missing_fields",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-12 15:10:13",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset missing fields",
+            "assistant": "I did not find dataset records with missing fields.",
+            "intent": "dataset_missing_fields",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-12 15:10:22",
             "importance": 0.1
         }
     ],
