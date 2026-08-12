@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "dataset_examples_for_intent",
+        "last_response_intent": "dataset_intent_health",
         "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Dataset examples for play_music:\n- feedback | play music\n- feedback | play music\n- feedback | start music\n- examples | play music\n- examples | play music\n- examples | please play some music\n- examples | please play music\n- examples | let's start the music\n- examples | play music\n- examples | start music",
+        "last_response_text": "Dataset intent health: play_music\nExample count: 1\nConflicts: 1\nExamples:\n- feedback | play music\n- feedback | play music\n- feedback | start music\n- examples | play music\n- examples | play music",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11252,6 +11252,26 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-12 18:09:50",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset intent health play_game",
+            "assistant": "Dataset intent health: play_game\nExample count: 1\nConflicts: 1\nExamples:\n- feedback | gaming\n- feedback | play game\n- feedback | playing game\n- feedback | start game\n- feedback | start game",
+            "intent": "dataset_intent_health",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-12 18:38:52",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset intent health play_music",
+            "assistant": "Dataset intent health: play_music\nExample count: 1\nConflicts: 1\nExamples:\n- feedback | play music\n- feedback | play music\n- feedback | start music\n- examples | play music\n- examples | play music",
+            "intent": "dataset_intent_health",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-12 18:39:00",
             "importance": 0.1
         }
     ],

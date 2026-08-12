@@ -324,6 +324,25 @@ def get_dataset_examples_for_intent(intent_name, limit=10):
             
     return examples
 
+def get_dataset_intent_health(intent_name):
+    intent_name = intent_name.lower().strip()
+    counts = dict(get_dataset_intent_counts())
+    examples = get_dataset_examples_for_intent(intent_name, limit=5)
+    conflicts = get_dataset_conflicts()
+    
+    related_conflicts = []
+    
+    for conflict in conflicts:
+        if conflict["first_intent"] == intent_name or conflict["conflict_intent"] == intent_name:
+            related_conflicts.append(conflict)
+            
+    return {
+        "intent": intent_name,
+        "count": counts.get(intent_name, 0),
+        "examples": examples,
+        "conflicts": related_conflicts
+    }
+
 STOP_WORDS = {
     "can",
     "you",

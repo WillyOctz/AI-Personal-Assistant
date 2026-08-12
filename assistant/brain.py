@@ -4,7 +4,7 @@ from assistant import chat
 from assistant import apps
 from assistant import personality
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS
-from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records, get_dataset_missing_fields, get_dataset_unknown_intents, get_dataset_coverage, get_dataset_low_coverage, get_dataset_suggestions, get_dataset_examples_for_intent
+from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records, get_dataset_missing_fields, get_dataset_unknown_intents, get_dataset_coverage, get_dataset_low_coverage, get_dataset_suggestions, get_dataset_examples_for_intent, get_dataset_intent_health
 from datetime import datetime
 from assistant import focus
 
@@ -296,6 +296,15 @@ def parse_dataset_examples_query(user_input):
     text = user_input.lower().strip()
     
     for prefix in ["dataset examples ", "training examples "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return ""
+
+def parse_dataset_intent_health_query(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["dataset intent health ", "training intent health "]:
         if text.startswith(prefix):
             return text.replace(prefix, "", 1).strip()
         
@@ -2256,6 +2265,28 @@ def handle_control_intent(user_input, analysis):
         for item in examples:
             lines.append(f"- {item['dataset']} | {item['input']}")
             
+        return "\n".join(lines)
+    
+    if intent == "dataset_intent_health":
+        intent_name = parse_dataset_intent_health_query(user_input)
+        
+        if not intent_name:
+            return "Use this format: dataset intent health intent_name"
+        
+        health = get_dataset_intent_health(intent_name)
+        
+        lines = [
+            f"Dataset intent health: {health['intent']}",
+            f"Example count: {health['count']}",
+            f"Conflicts: {len(health['conflicts'])}",
+        ]
+        
+        if health["examples"]:
+            lines.append("Examples:")
+            
+            for item in health["examples"]:
+                lines.append(f"- {item['dataset']} | {item['input']}")
+                
         return "\n".join(lines)
     
     if intent == "dataset_health":

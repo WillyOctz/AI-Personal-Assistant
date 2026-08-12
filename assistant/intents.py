@@ -187,6 +187,7 @@ VALID_INTENTS = {
     "dataset_low_coverage",
     "dataset_suggestions",
     "dataset_examples_for_intent",
+    "dataset_intent_health",
 }
 
 CONTROL_INTENTS = {
@@ -217,6 +218,7 @@ CONTROL_INTENTS = {
     "dataset_low_coverage",
     "dataset_suggestions",
     "dataset_examples_for_intent",
+    "dataset_intent_health",
 }
 
 CHAT_INTENTS = {
@@ -1181,9 +1183,14 @@ INTENT_PREFIXES = {
         "dataset examples ",
         "training examples ",
     ],
+    "dataset_intent_health": [
+        "dataset intent health ",
+        "training intent health ",
+    ],
 }
 
 PREFIX_INTENT_ORDER = [
+    "dataset_intent_health",
     "dataset_examples_for_intent",
     "debug_route",
     "debug_memory_search",
