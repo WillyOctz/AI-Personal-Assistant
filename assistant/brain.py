@@ -4,7 +4,7 @@ from assistant import chat
 from assistant import apps
 from assistant import personality
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS
-from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records, get_dataset_missing_fields, get_dataset_unknown_intents, get_dataset_coverage
+from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records, get_dataset_missing_fields, get_dataset_unknown_intents, get_dataset_coverage, get_dataset_low_coverage
 from datetime import datetime
 from assistant import focus
 
@@ -2195,6 +2195,24 @@ def handle_control_intent(user_input, analysis):
             if len(coverage["missing_intents"]) > 20:
                 lines.append(f"...and {len(coverage['missing_intents']) - 20} more.")
                 
+        return "\n".join(lines)
+    
+    if intent == "dataset_low_coverage":
+        low_coverage = get_dataset_low_coverage(VALID_INTENTS)
+        
+        if not low_coverage:
+            return "All intents have enough dataset coverage."
+        
+        lines = ["Low dataset coverage intents:"]
+        
+        for item in low_coverage[:20]:
+            lines.append(
+                f"- {item['intent']}: {item['count']}/{item['minimum']}"
+            )
+            
+        if len(low_coverage) > 20:
+            lines.append(f"...and {len(low_coverage) - 20} more.")
+            
         return "\n".join(lines)
     
     if intent == "dataset_health":

@@ -265,6 +265,23 @@ def get_dataset_coverage(valid_intents):
         "covered_intents": len(valid_intents) - len(missing),
         "missing_intents": missing
     }
+    
+def get_dataset_low_coverage(valid_intents, minimum=3):
+    counts = dict(get_dataset_intent_counts())
+    
+    low_coverage = []
+    
+    for intent in sorted(valid_intents):
+        count = counts.get(intent, 0)
+        
+        if count < minimum:
+            low_coverage.append({
+                "intent": intent,
+                "count": count,
+                "minimum": minimum
+            })
+            
+    return low_coverage
 
 STOP_WORDS = {
     "can",

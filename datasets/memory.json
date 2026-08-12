@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "dataset_coverage",
+        "last_response_intent": "dataset_low_coverage",
         "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Dataset coverage:\nTotal valid intents: 185\nCovered intents: 4\nMissing intents: 181\nMissing examples for:\n- add_app_alias\n- add_focus_note\n- allow_app\n- app_dashboard\n- app_launch_stats\n- app_safety_dashboard\n- archive_memory_cleanup\n- archive_stats\n- backup_app_registry\n- best_focus_day\n- calculate\n- chat_about_user\n- chat_capabilities\n- chat_clear_topic\n- chat_current_topic\n- chat_day_greeting\n- chat_explain_last\n- chat_feedback_dashboard\n- chat_feedback_for_intent\n- chat_feedback_note\n...and 161 more.",
+        "last_response_text": "Low dataset coverage intents:\n- add_app_alias: 0/3\n- add_focus_note: 0/3\n- allow_app: 0/3\n- app_dashboard: 0/3\n- app_launch_stats: 0/3\n- app_safety_dashboard: 0/3\n- archive_memory_cleanup: 0/3\n- archive_stats: 0/3\n- backup_app_registry: 0/3\n- best_focus_day: 0/3\n- calculate: 0/3\n- chat_about_user: 0/3\n- chat_capabilities: 0/3\n- chat_clear_topic: 0/3\n- chat_current_topic: 0/3\n- chat_day_greeting: 0/3\n- chat_explain_last: 0/3\n- chat_feedback_dashboard: 0/3\n- chat_feedback_for_intent: 0/3\n- chat_feedback_note: 0/3\n...and 166 more.",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11212,6 +11212,16 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-12 15:56:42",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset low coverage",
+            "assistant": "Low dataset coverage intents:\n- add_app_alias: 0/3\n- add_focus_note: 0/3\n- allow_app: 0/3\n- app_dashboard: 0/3\n- app_launch_stats: 0/3\n- app_safety_dashboard: 0/3\n- archive_memory_cleanup: 0/3\n- archive_stats: 0/3\n- backup_app_registry: 0/3\n- best_focus_day: 0/3\n- calculate: 0/3\n- chat_about_user: 0/3\n- chat_capabilities: 0/3\n- chat_clear_topic: 0/3\n- chat_current_topic: 0/3\n- chat_day_greeting: 0/3\n- chat_explain_last: 0/3\n- chat_feedback_dashboard: 0/3\n- chat_feedback_for_intent: 0/3\n- chat_feedback_note: 0/3\n...and 166 more.",
+            "intent": "dataset_low_coverage",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-12 17:05:21",
             "importance": 0.1
         }
     ],
