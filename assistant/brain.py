@@ -4,7 +4,7 @@ from assistant import chat
 from assistant import apps
 from assistant import personality
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS
-from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records, get_dataset_missing_fields, get_dataset_unknown_intents, get_dataset_coverage, get_dataset_low_coverage, get_dataset_suggestions, get_dataset_examples_for_intent, get_dataset_intent_health, get_dataset_weakest_intent, get_dataset_strongest_intent
+from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records, get_dataset_missing_fields, get_dataset_unknown_intents, get_dataset_coverage, get_dataset_low_coverage, get_dataset_suggestions, get_dataset_examples_for_intent, get_dataset_intent_health, get_dataset_weakest_intent, get_dataset_strongest_intent, get_dataset_balance
 from datetime import datetime
 from assistant import focus
 
@@ -2311,6 +2311,19 @@ def handle_control_intent(user_input, analysis):
             f"Strongest dataset intent:\n"
             f"Intent: {strongest['intent']}\n"
             f"Examples: {strongest['count']}"
+        )
+        
+    if intent == "dataset_balance":
+        balance = get_dataset_balance(VALID_INTENTS)
+        
+        if not balance:
+            return "I could not calculate dataset balance."
+        
+        return (
+            f"Dataset balance:\n"
+            f"Weakest: {balance['weakest']['intent']} ({balance['weakest']['count']})\n"
+            f"Strongest: {balance['strongest']['intent']} ({balance['strongest']['count']})\n"
+            f"Spread: {balance['spread']}"
         )
     
     if intent == "dataset_health":

@@ -190,6 +190,7 @@ VALID_INTENTS = {
     "dataset_intent_health",
     "dataset_weakest_intent",
     "dataset_strongest_intent",
+    "dataset_balance",
 }
 
 CONTROL_INTENTS = {
@@ -223,6 +224,7 @@ CONTROL_INTENTS = {
     "dataset_intent_health",
     "dataset_weakest_intent",
     "dataset_strongest_intent",
+    "dataset_balance",
 }
 
 CHAT_INTENTS = {
@@ -944,6 +946,11 @@ INTENT_PATTERNS = {
         "dataset strongest intent",
         "strongest intent",
         "most trained intent",
+    ],
+    "dataset_balance": [
+        "dataset balance",
+        "training balance",
+        "intent balance",
     ],
 }
 

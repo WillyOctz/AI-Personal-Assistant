@@ -384,6 +384,19 @@ def get_dataset_strongest_intent(valid_intents):
         "intent": strongest_intent,
         "count": strongest_count
     }
+    
+def get_dataset_balance(valid_intents):
+    weakest = get_dataset_weakest_intent(valid_intents)
+    strongest = get_dataset_strongest_intent(valid_intents)
+    
+    if not weakest or not strongest:
+        return None
+    
+    return {
+        "weakest": weakest,
+        "strongest": strongest,
+        "spread": strongest["count"] - weakest["count"]
+    }
 
 STOP_WORDS = {
     "can",

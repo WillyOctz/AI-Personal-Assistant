@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "dataset_strongest_intent",
+        "last_response_intent": "dataset_balance",
         "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Strongest dataset intent:\nIntent: open_app\nExamples: 1",
+        "last_response_text": "Dataset balance:\nWeakest: add_app_alias (0)\nStrongest: open_app (1)\nSpread: 1",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11292,6 +11292,16 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-12 19:40:57",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset balance",
+            "assistant": "Dataset balance:\nWeakest: add_app_alias (0)\nStrongest: open_app (1)\nSpread: 1",
+            "intent": "dataset_balance",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-12 20:06:57",
             "importance": 0.1
         }
     ],
