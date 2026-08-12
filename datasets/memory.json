@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "dataset_intent_health",
+        "last_response_intent": "dataset_weakest_intent",
         "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Dataset intent health: play_music\nExample count: 1\nConflicts: 1\nExamples:\n- feedback | play music\n- feedback | play music\n- feedback | start music\n- examples | play music\n- examples | play music",
+        "last_response_text": "Weakest dataset intent:\nIntent: add_app_alias\nExamples: 0",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11272,6 +11272,16 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-12 18:39:00",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset weakest intent",
+            "assistant": "Weakest dataset intent:\nIntent: add_app_alias\nExamples: 0",
+            "intent": "dataset_weakest_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-12 18:56:30",
             "importance": 0.1
         }
     ],

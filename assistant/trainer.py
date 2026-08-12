@@ -342,6 +342,27 @@ def get_dataset_intent_health(intent_name):
         "examples": examples,
         "conflicts": related_conflicts
     }
+    
+def get_dataset_weakest_intent(valid_intents):
+    counts = dict(get_dataset_intent_counts())
+    
+    weakest_intent = None
+    weakest_count = None
+    
+    for intent in sorted(valid_intents):
+        count = counts.get(intent, 0)
+        
+        if weakest_count is None or count < weakest_count:
+            weakest_intent = intent
+            weakest_count = count
+            
+    if weakest_intent is None:
+        return None
+    
+    return {
+        "intent": weakest_intent,
+        "count": weakest_count
+    }
 
 STOP_WORDS = {
     "can",
