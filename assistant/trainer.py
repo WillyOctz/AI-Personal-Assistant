@@ -298,6 +298,32 @@ def get_dataset_suggestions(valid_intents, minimum=3, limit=10):
         
     return suggestions
 
+def get_dataset_examples_for_intent(intent_name, limit=10):
+    examples = []
+    intent_name = intent_name.lower().strip()
+    
+    for dataset_name, path in DATASET_FILES.items():
+        records = read_jsonl_records(path)
+        
+        for record in records:
+            intent = get_record_intent(record)
+            
+            if intent != intent_name:
+                continue
+            
+            text = get_record_input(record)
+            
+            examples.append({
+                "dataset": dataset_name,
+                "input": text,
+                "intent": intent
+            })
+            
+            if len(examples) >= limit:
+                return examples
+            
+    return examples
+
 STOP_WORDS = {
     "can",
     "you",

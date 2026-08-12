@@ -4,7 +4,7 @@ from assistant import chat
 from assistant import apps
 from assistant import personality
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS
-from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records, get_dataset_missing_fields, get_dataset_unknown_intents, get_dataset_coverage, get_dataset_low_coverage, get_dataset_suggestions
+from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records, get_dataset_missing_fields, get_dataset_unknown_intents, get_dataset_coverage, get_dataset_low_coverage, get_dataset_suggestions, get_dataset_examples_for_intent
 from datetime import datetime
 from assistant import focus
 
@@ -287,6 +287,15 @@ def parse_focus_search(user_input):
     text = user_input.lower().strip()
     
     for prefix in ["search focus ", "find focus "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return ""
+
+def parse_dataset_examples_query(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["dataset examples ", "training examples "]:
         if text.startswith(prefix):
             return text.replace(prefix, "", 1).strip()
         
@@ -2228,6 +2237,24 @@ def handle_control_intent(user_input, analysis):
                 f"- {item['intent']}: needs {item['needed']} more | "
                 f"{item['example_command']}"
             )
+            
+        return "\n".join(lines)
+    
+    if intent == "dataset_examples_for_intent":
+        intent_name = parse_dataset_examples_query(user_input)
+        
+        if not intent_name:
+            return "Use this format: dataset examples intent_name"
+        
+        examples = get_dataset_examples_for_intent(intent_name)
+        
+        if not examples:
+            return f"I do not have dataset examples for {intent_name}."
+        
+        lines = [f"Dataset examples for {intent_name}:"]
+        
+        for item in examples:
+            lines.append(f"- {item['dataset']} | {item['input']}")
             
         return "\n".join(lines)
     

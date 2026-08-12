@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "dataset_suggestions",
+        "last_response_intent": "dataset_examples_for_intent",
         "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Dataset suggestions:\n- add_app_alias: needs 3 more | teach example phrase as add_app_alias\n- add_focus_note: needs 3 more | teach example phrase as add_focus_note\n- allow_app: needs 3 more | teach example phrase as allow_app\n- app_dashboard: needs 3 more | teach example phrase as app_dashboard\n- app_launch_stats: needs 3 more | teach example phrase as app_launch_stats\n- app_safety_dashboard: needs 3 more | teach example phrase as app_safety_dashboard\n- archive_memory_cleanup: needs 3 more | teach example phrase as archive_memory_cleanup\n- archive_stats: needs 3 more | teach example phrase as archive_stats\n- backup_app_registry: needs 3 more | teach example phrase as backup_app_registry\n- best_focus_day: needs 3 more | teach example phrase as best_focus_day",
+        "last_response_text": "Dataset examples for play_music:\n- feedback | play music\n- feedback | play music\n- feedback | start music\n- examples | play music\n- examples | play music\n- examples | please play some music\n- examples | please play music\n- examples | let's start the music\n- examples | play music\n- examples | start music",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11232,6 +11232,26 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-12 17:29:28",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset examples play_game",
+            "assistant": "Dataset examples for play_game:\n- feedback | gaming\n- feedback | play game\n- feedback | playing game\n- feedback | start game\n- feedback | start game\n- feedback | start\n- examples | gaming\n- examples | let's play game\n- examples | please play game\n- examples | play game",
+            "intent": "dataset_examples_for_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-12 18:09:40",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset examples play_music",
+            "assistant": "Dataset examples for play_music:\n- feedback | play music\n- feedback | play music\n- feedback | start music\n- examples | play music\n- examples | play music\n- examples | please play some music\n- examples | please play music\n- examples | let's start the music\n- examples | play music\n- examples | start music",
+            "intent": "dataset_examples_for_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-12 18:09:50",
             "importance": 0.1
         }
     ],

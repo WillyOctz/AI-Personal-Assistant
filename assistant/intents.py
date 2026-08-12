@@ -186,6 +186,7 @@ VALID_INTENTS = {
     "dataset_coverage",
     "dataset_low_coverage",
     "dataset_suggestions",
+    "dataset_examples_for_intent",
 }
 
 CONTROL_INTENTS = {
@@ -215,6 +216,7 @@ CONTROL_INTENTS = {
     "dataset_coverage",
     "dataset_low_coverage",
     "dataset_suggestions",
+    "dataset_examples_for_intent",
 }
 
 CHAT_INTENTS = {
@@ -1175,9 +1177,14 @@ INTENT_PREFIXES = {
         "delete feedback note ",
         "remove feedback note ",
     ],
+    "dataset_examples_for_intent": [
+        "dataset examples ",
+        "training examples ",
+    ],
 }
 
 PREFIX_INTENT_ORDER = [
+    "dataset_examples_for_intent",
     "debug_route",
     "debug_memory_search",
     "debug_app_resolution",
