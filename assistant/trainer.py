@@ -283,6 +283,21 @@ def get_dataset_low_coverage(valid_intents, minimum=3):
             
     return low_coverage
 
+def get_dataset_suggestions(valid_intents, minimum=3, limit=10):
+    low_coverage = get_dataset_low_coverage(valid_intents, minimum)
+    suggestions = []
+    
+    for item in low_coverage[:limit]:
+        intent = item["intent"]
+        
+        suggestions.append({
+            "intent": intent,
+            "needed": minimum - item["count"],
+            "example_command": f"teach example phrase as {intent}"
+        })
+        
+    return suggestions
+
 STOP_WORDS = {
     "can",
     "you",

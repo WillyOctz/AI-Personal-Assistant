@@ -185,6 +185,7 @@ VALID_INTENTS = {
     "dataset_health",
     "dataset_coverage",
     "dataset_low_coverage",
+    "dataset_suggestions",
 }
 
 CONTROL_INTENTS = {
@@ -213,6 +214,7 @@ CONTROL_INTENTS = {
     "dataset_health",
     "dataset_coverage",
     "dataset_low_coverage",
+    "dataset_suggestions",
 }
 
 CHAT_INTENTS = {
@@ -919,6 +921,11 @@ INTENT_PATTERNS = {
         "dataset low coverage",
         "low training coverage",
         "low intent coverage",
+    ],
+    "dataset_suggestions": [
+        "dataset suggestions",
+        "training suggestions",
+        "suggest training examples",
     ],
 }
 
