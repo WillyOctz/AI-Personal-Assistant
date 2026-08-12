@@ -4,7 +4,7 @@ from assistant import chat
 from assistant import apps
 from assistant import personality
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS
-from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts
+from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records
 from datetime import datetime
 from assistant import focus
 
@@ -2117,6 +2117,24 @@ def handle_control_intent(user_input, analysis):
             
         if len(conflicts) > 10:
             lines.append(f"...and {len(conflicts) - 10} more.")
+            
+        return "\n".join(lines)
+    
+    if intent == "dataset_broken_records":
+        records = get_dataset_broken_records()
+        
+        if not records:
+            return "I did not find broken dataset records."
+        
+        lines = ["Broken dataset records:"]
+        
+        for item in records[:10]:
+            lines.append(
+                f"- {item['dataset']} line {item['line']}: {item['error']}"
+            )
+            
+        if len(records) > 10:
+            lines.append(f"...and {len(records) - 10} more.")
             
         return "\n".join(lines)
     

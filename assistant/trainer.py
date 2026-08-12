@@ -177,6 +177,31 @@ def get_dataset_conflicts():
                 
     return conflicts
 
+def get_dataset_broken_records():
+    broken_records = []
+    
+    for dataset_name, path in DATASET_FILES.items():
+        if not path.exists():
+            continue
+        
+        with open(path, "r", encoding="utf-8") as file:
+            for line_number, line in enumerate(file, start=1):
+                clean_line = line.strip()
+                
+                if not clean_line:
+                    continue
+                
+                try:
+                    json.loads(clean_line)
+                except Exception as error:
+                    broken_records.append({
+                        "dataset": dataset_name,
+                        "line": line_number,
+                        "error": str(error)
+                    })
+                    
+    return broken_records
+
 STOP_WORDS = {
     "can",
     "you",

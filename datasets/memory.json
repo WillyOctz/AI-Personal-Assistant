@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "dataset_conflicts",
+        "last_response_intent": "dataset_broken_records",
         "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Conflicting dataset examples:\n- gaming | feedback:play_game vs feedback:minecraft\n- play music | feedback:play_music vs examples:unknown\n- open chrome | feedback:open_app vs examples:unknown\n- remind me to study | feedback:set_reminder vs examples:unknown",
+        "last_response_text": "I did not find broken dataset records.",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11152,6 +11152,16 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-11 17:48:39",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset broken records",
+            "assistant": "I did not find broken dataset records.",
+            "intent": "dataset_broken_records",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-12 14:55:20",
             "importance": 0.1
         }
     ],
