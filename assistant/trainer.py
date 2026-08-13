@@ -398,8 +398,36 @@ def get_dataset_balance(valid_intents):
         "spread": strongest["count"] - weakest["count"]
     }
     
-def suggest_example_phrases_for_intent(intent_name):
+def suggest_example_phrases_for_intent(intent_name, limit=10):
     intent_name = intent_name.lower().strip()
+    existing = get_dataset_examples_for_intent(intent_name, limit=20)
+    
+    suggestions = []
+    
+    for item in existing:
+        text = item["input"]
+        
+        if not text:
+            continue
+        
+        clean_text = text.lower().strip()
+        
+        variants = [
+            clean_text,
+            f"please {clean_text}",
+            f"can you {clean_text}",
+            f"i want to {clean_text}",
+        ]
+        
+        for variant in variants:
+            if variant not in suggestions:
+                suggestions.append(variant)
+                
+            if len(suggestions) >= limit:
+                return suggestions
+            
+    if suggestions:
+        return suggestions
     
     words = intent_name.split("_")
     readable = " ".join(words)
