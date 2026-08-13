@@ -37,7 +37,7 @@
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Suggested examples for play_music:\n- teach play music as play_music\n- teach please play music as play_music\n- teach can you play music as play_music\n- teach i want to play music as play_music\n- teach start music as play_music\n- teach please start music as play_music\n- teach can you start music as play_music\n- teach i want to start music as play_music\n- teach please play some music as play_music\n- teach please please play some music as play_music",
+        "last_response_text": "Suggested examples for play_game:\n- teach please start gaming as play_game\n- teach can you start gaming as play_game\n- teach i want to start gaming as play_game\n- teach i want to play game as play_game\n- teach please start playing game as play_game\n- teach can you start playing game as play_game\n- teach i want to start playing game as play_game\n- teach please start game as play_game\n- teach can you start game as play_game\n- teach i want to start game as play_game",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11342,6 +11342,36 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-13 15:47:05",
+            "importance": 0.1
+        },
+        {
+            "user": "suggest examples for play_game",
+            "assistant": "Suggested examples for play_game:\n- teach please gaming as play_game\n- teach can you gaming as play_game\n- teach i want to gaming as play_game\n- teach i want to play game as play_game\n- teach please playing game as play_game\n- teach can you playing game as play_game\n- teach i want to playing game as play_game\n- teach please start game as play_game\n- teach can you start game as play_game\n- teach i want to start game as play_game",
+            "intent": "dataset_suggest_examples_for_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-13 15:57:45",
+            "importance": 0.1
+        },
+        {
+            "user": "suggest examples for play_music",
+            "assistant": "Suggested examples for play_music:\n- teach can you play music as play_music\n- teach i want to play music as play_music\n- teach please start music as play_music\n- teach can you start music as play_music\n- teach i want to start music as play_music\n- teach please please play some music as play_music\n- teach can you please play some music as play_music\n- teach i want to please play some music as play_music\n- teach please please play music as play_music\n- teach can you please play music as play_music",
+            "intent": "dataset_suggest_examples_for_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-13 15:58:17",
+            "importance": 0.1
+        },
+        {
+            "user": "suggest examples for play_game",
+            "assistant": "Suggested examples for play_game:\n- teach please start gaming as play_game\n- teach can you start gaming as play_game\n- teach i want to start gaming as play_game\n- teach i want to play game as play_game\n- teach please start playing game as play_game\n- teach can you start playing game as play_game\n- teach i want to start playing game as play_game\n- teach please start game as play_game\n- teach can you start game as play_game\n- teach i want to start game as play_game",
+            "intent": "dataset_suggest_examples_for_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-13 16:28:30",
             "importance": 0.1
         }
     ],

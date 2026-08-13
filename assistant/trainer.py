@@ -403,6 +403,7 @@ def suggest_example_phrases_for_intent(intent_name, limit=10):
     existing = get_dataset_examples_for_intent(intent_name, limit=20)
     
     suggestions = []
+    existing_inputs = get_all_dataset_inputs()
     
     for item in existing:
         text = item["input"]
@@ -412,15 +413,23 @@ def suggest_example_phrases_for_intent(intent_name, limit=10):
         
         clean_text = text.lower().strip()
         
-        variants = [
-            clean_text,
-            f"please {clean_text}",
-            f"can you {clean_text}",
-            f"i want to {clean_text}",
-        ]
+        variants = [clean_text]
+        
+        if clean_text.startswith(("play ", "open ", "start ", "launch ", "set ", "show ", "search ")):
+            variants.extend([
+                f"please {clean_text}",
+                f"can you {clean_text}",
+                f"i want to {clean_text}",
+            ])
+        else:
+            variants.extend([
+                f"please start {clean_text}",
+                f"can you start {clean_text}",
+                f"i want to start {clean_text}",
+            ])
         
         for variant in variants:
-            if variant not in suggestions:
+            if variant not in existing_inputs and variant not in suggestions:
                 suggestions.append(variant)
                 
             if len(suggestions) >= limit:
@@ -432,13 +441,31 @@ def suggest_example_phrases_for_intent(intent_name, limit=10):
     words = intent_name.split("_")
     readable = " ".join(words)
     
-    return [
+    fallbacks = [
         readable,
         f"please {readable}",
         f"can you {readable}",
         f"i want to {readable}",
         f"help me {readable}",
     ]
+    
+    return [phrase for phrase in fallbacks if phrase not in existing_inputs]
+    
+def get_all_dataset_inputs():
+    inputs = set()
+    
+    for dataset_name, path in DATASET_FILES.items():
+        records = read_jsonl_records(path)
+        
+        for record in records:
+            text = get_record_input(record)
+            
+            if not text:
+                continue
+            
+            inputs.add(text.lower().strip())
+            
+    return inputs
 
 STOP_WORDS = {
     "can",
