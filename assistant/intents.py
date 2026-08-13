@@ -193,6 +193,7 @@ VALID_INTENTS = {
     "dataset_balance",
     "dataset_suggest_examples_for_intent",
     "dataset_conflicts_for_intent",
+    "dataset_conflict_summary",
 }
 
 CONTROL_INTENTS = {
@@ -229,6 +230,7 @@ CONTROL_INTENTS = {
     "dataset_balance",
     "dataset_suggest_examples_for_intent",
     "dataset_conflicts_for_intent",
+    "dataset_conflict_summary",
 }
 
 CHAT_INTENTS = {
@@ -955,6 +957,11 @@ INTENT_PATTERNS = {
         "dataset balance",
         "training balance",
         "intent balance",
+    ],
+    "dataset_conflict_summary": [
+        "dataset conflict summary",
+        "training conflict summary",
+        "conflict summary",
     ],
 }
 

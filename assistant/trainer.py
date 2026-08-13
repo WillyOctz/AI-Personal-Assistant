@@ -479,6 +479,21 @@ def get_conflicts_for_intent(intent_name):
             
     return results
 
+def get_dataset_conflict_summary():
+    conflicts = get_dataset_conflicts()
+    counts = {}
+    
+    for conflict in conflicts:
+        for intent in [conflict["first_intent"], conflict["conflict_intent"]]:
+            if intent not in counts:
+                counts[intent] = 0
+                
+            counts[intent] += 1
+            
+    sorted_counts = sorted(counts.items(), key=lambda item: item[1], reverse=True)
+    
+    return sorted_counts
+
 STOP_WORDS = {
     "can",
     "you",
