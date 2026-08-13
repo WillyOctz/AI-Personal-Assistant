@@ -191,6 +191,7 @@ VALID_INTENTS = {
     "dataset_weakest_intent",
     "dataset_strongest_intent",
     "dataset_balance",
+    "dataset_suggest_examples_for_intent",
 }
 
 CONTROL_INTENTS = {
@@ -225,6 +226,7 @@ CONTROL_INTENTS = {
     "dataset_weakest_intent",
     "dataset_strongest_intent",
     "dataset_balance",
+    "dataset_suggest_examples_for_intent",
 }
 
 CHAT_INTENTS = {
@@ -1208,9 +1210,14 @@ INTENT_PREFIXES = {
         "dataset intent health ",
         "training intent health ",
     ],
+    "dataset_suggest_examples_for_intent": [
+        "suggest examples for ",
+        "suggest training for ",
+    ],
 }
 
 PREFIX_INTENT_ORDER = [
+    "dataset_suggest_examples_for_intent",
     "dataset_intent_health",
     "dataset_examples_for_intent",
     "debug_route",

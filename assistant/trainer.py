@@ -397,6 +397,20 @@ def get_dataset_balance(valid_intents):
         "strongest": strongest,
         "spread": strongest["count"] - weakest["count"]
     }
+    
+def suggest_example_phrases_for_intent(intent_name):
+    intent_name = intent_name.lower().strip()
+    
+    words = intent_name.split("_")
+    readable = " ".join(words)
+    
+    return [
+        readable,
+        f"please {readable}",
+        f"can you {readable}",
+        f"i want to {readable}",
+        f"help me {readable}",
+    ]
 
 STOP_WORDS = {
     "can",

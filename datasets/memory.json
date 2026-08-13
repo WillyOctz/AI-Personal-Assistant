@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "dataset_balance",
+        "last_response_intent": "dataset_suggest_examples_for_intent",
         "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Dataset balance:\nWeakest: add_app_alias (0)\nStrongest: open_app (1)\nSpread: 1",
+        "last_response_text": "Suggested examples for play_music:\n- teach play music as play_music\n- teach please play music as play_music\n- teach can you play music as play_music\n- teach i want to play music as play_music\n- teach help me play music as play_music",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11302,6 +11302,26 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-12 20:06:57",
+            "importance": 0.1
+        },
+        {
+            "user": "suggest examples for play_game",
+            "assistant": "Suggested examples for play_game:\n- teach play game as play_game\n- teach please play game as play_game\n- teach can you play game as play_game\n- teach i want to play game as play_game\n- teach help me play game as play_game",
+            "intent": "dataset_suggest_examples_for_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-13 15:38:51",
+            "importance": 0.1
+        },
+        {
+            "user": "suggest examples for play_music",
+            "assistant": "Suggested examples for play_music:\n- teach play music as play_music\n- teach please play music as play_music\n- teach can you play music as play_music\n- teach i want to play music as play_music\n- teach help me play music as play_music",
+            "intent": "dataset_suggest_examples_for_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-13 15:39:05",
             "importance": 0.1
         }
     ],
