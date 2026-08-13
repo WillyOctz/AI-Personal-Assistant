@@ -37,7 +37,7 @@
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Suggested examples for play_game:\n- teach please start gaming as play_game\n- teach can you start gaming as play_game\n- teach i want to start gaming as play_game\n- teach i want to play game as play_game\n- teach please start playing game as play_game\n- teach can you start playing game as play_game\n- teach i want to start playing game as play_game\n- teach please start game as play_game\n- teach can you start game as play_game\n- teach i want to start game as play_game",
+        "last_response_text": "Suggested examples for play_music:\nWarning: this intent has 1 dataset conflict(s).\nFix conflicts before adding too many more examples.\n- teach can you play music as play_music\n- teach i want to play music as play_music\n- teach please start music as play_music\n- teach can you start music as play_music\n- teach i want to start music as play_music\n- teach please start please play some music as play_music\n- teach can you start please play some music as play_music\n- teach i want to start please play some music as play_music\n- teach please start please play music as play_music\n- teach can you start please play music as play_music",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11372,6 +11372,26 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-13 16:28:30",
+            "importance": 0.1
+        },
+        {
+            "user": "suggest examples for play_game",
+            "assistant": "Suggested examples for play_game:\nWarning: this intent has 1 dataset conflict(s).\nFix conflicts before adding too many more examples.\n- teach please start gaming as play_game\n- teach can you start gaming as play_game\n- teach i want to start gaming as play_game\n- teach i want to play game as play_game\n- teach please start playing game as play_game\n- teach can you start playing game as play_game\n- teach i want to start playing game as play_game\n- teach please start game as play_game\n- teach can you start game as play_game\n- teach i want to start game as play_game",
+            "intent": "dataset_suggest_examples_for_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-13 16:54:46",
+            "importance": 0.1
+        },
+        {
+            "user": "suggest examples for play_music",
+            "assistant": "Suggested examples for play_music:\nWarning: this intent has 1 dataset conflict(s).\nFix conflicts before adding too many more examples.\n- teach can you play music as play_music\n- teach i want to play music as play_music\n- teach please start music as play_music\n- teach can you start music as play_music\n- teach i want to start music as play_music\n- teach please start please play some music as play_music\n- teach can you start please play some music as play_music\n- teach i want to start please play some music as play_music\n- teach please start please play music as play_music\n- teach can you start please play music as play_music",
+            "intent": "dataset_suggest_examples_for_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-13 16:55:13",
             "importance": 0.1
         }
     ],

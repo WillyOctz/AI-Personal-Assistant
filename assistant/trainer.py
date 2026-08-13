@@ -467,6 +467,18 @@ def get_all_dataset_inputs():
             
     return inputs
 
+def get_conflicts_for_intent(intent_name):
+    intent_name = intent_name.lower().strip()
+    conflicts = get_dataset_conflicts()
+    
+    results = []
+    
+    for conflict in conflicts:
+        if conflict["first_intent"] == intent_name or conflict["conflict_intent"] == intent_name:
+            results.append(conflict)
+            
+    return results
+
 STOP_WORDS = {
     "can",
     "you",
