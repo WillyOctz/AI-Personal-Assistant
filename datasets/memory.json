@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "dataset_suggest_examples_for_intent",
+        "last_response_intent": "dataset_conflicts_for_intent",
         "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Suggested examples for play_music:\nWarning: this intent has 1 dataset conflict(s).\nFix conflicts before adding too many more examples.\n- teach can you play music as play_music\n- teach i want to play music as play_music\n- teach please start music as play_music\n- teach can you start music as play_music\n- teach i want to start music as play_music\n- teach please start please play some music as play_music\n- teach can you start please play some music as play_music\n- teach i want to start please play some music as play_music\n- teach please start please play music as play_music\n- teach can you start please play music as play_music",
+        "last_response_text": "Dataset conflicts for play_music:\n- play music | feedback:play_music vs examples:unknown",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11392,6 +11392,26 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-13 16:55:13",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset conflicts for play_game",
+            "assistant": "Dataset conflicts for play_game:\n- gaming | feedback:play_game vs feedback:minecraft",
+            "intent": "dataset_conflicts_for_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-13 17:17:20",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset conflicts for play_music",
+            "assistant": "Dataset conflicts for play_music:\n- play music | feedback:play_music vs examples:unknown",
+            "intent": "dataset_conflicts_for_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-13 17:17:30",
             "importance": 0.1
         }
     ],

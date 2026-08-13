@@ -319,6 +319,15 @@ def parse_dataset_suggest_examples_query(user_input):
         
     return ""
 
+def parse_dataset_conflicts_for_intent_query(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["dataset conflicts for ", "training conflicts for "]:
+        if text.startswith(prefix):
+            return text.replace(prefix, "", 1).strip()
+        
+    return ""
+
 def should_skip_memory_item(intent):
     return intent in SEARCH_IGNORED_INTENTS
 
@@ -2355,6 +2364,31 @@ def handle_control_intent(user_input, analysis):
         
         for phrase in suggestions:
             lines.append(f"- teach {phrase} as {intent_name}")
+            
+        return "\n".join(lines)
+    
+    if intent == "dataset_conflicts_for_intent":
+        intent_name = parse_dataset_conflicts_for_intent_query(user_input)
+        
+        if not intent_name:
+            return "Use this format: dataset conflicts for intent_name"
+        
+        conflicts = get_conflicts_for_intent(intent_name)
+        
+        if not conflicts:
+            return f"I did not find dataset conflicts for {intent_name}."
+        
+        lines = [f"Dataset conflicts for {intent_name}:"]
+        
+        for item in conflicts[:10]:
+            lines.append(
+                f"- {item['input']} | "
+                f"{item['first_dataset']}:{item['first_intent']} vs "
+                f"{item['conflict_dataset']}:{item['conflict_intent']}"
+            )
+            
+        if len(conflicts) > 10:
+            lines.append(f"...and {len(conflicts) - 10} more.")
             
         return "\n".join(lines)
     
