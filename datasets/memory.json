@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "backup_datasets",
+        "last_response_intent": "show_dataset_backups",
         "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Dataset backups created:\n- feedback: datasets\\backups\\feedback_20260814_174939.jsonl\n- examples: datasets\\backups\\examples_20260814_174939.jsonl\n- test_intents: datasets\\backups\\test_intents_20260814_174939.jsonl",
+        "last_response_text": "Dataset backups:\n- feedback_20260814_174939.jsonl | 728 bytes | 2026-08-14 17:31:06\n- examples_20260814_174939.jsonl | 1328 bytes | 2026-06-29 16:35:13\n- test_intents_20260814_174939.jsonl | 437 bytes | 2026-06-18 19:42:12",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11492,6 +11492,16 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-14 17:49:40",
+            "importance": 0.1
+        },
+        {
+            "user": "show dataset backups",
+            "assistant": "Dataset backups:\n- feedback_20260814_174939.jsonl | 728 bytes | 2026-08-14 17:31:06\n- examples_20260814_174939.jsonl | 1328 bytes | 2026-06-29 16:35:13\n- test_intents_20260814_174939.jsonl | 437 bytes | 2026-06-18 19:42:12",
+            "intent": "show_dataset_backups",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-14 18:12:56",
             "importance": 0.1
         }
     ],

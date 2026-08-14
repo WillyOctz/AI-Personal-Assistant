@@ -91,6 +91,28 @@ def get_dataset_stats():
         
     return stats
 
+def get_dataset_backups(limit=10):
+    backup_folder = Path("datasets/backups")
+    
+    if not backup_folder.exists():
+        return []
+    
+    backups = []
+    
+    for path in backup_folder.glob("*.jsonl"):
+        stat = path.stat()
+        
+        backups.append({
+            "name": path.name,
+            "path": str(path),
+            "size": stat.st_size,
+            "modified": stat.st_mtime
+        })
+        
+    backups.sort(key=lambda item: item["modified"], reverse=True)
+    
+    return backups[:limit]
+
 def read_jsonl_records(path):
     records = []
     

@@ -197,6 +197,7 @@ VALID_INTENTS = {
     "preview_resolve_dataset_conflict",
     "resolve_dataset_conflict",
     "backup_datasets",
+    "show_dataset_backups",
 }
 
 CONTROL_INTENTS = {
@@ -237,6 +238,7 @@ CONTROL_INTENTS = {
     "preview_resolve_dataset_conflict",
     "resolve_dataset_conflict",
     "backup_datasets",
+    "show_dataset_backups",
 }
 
 CHAT_INTENTS = {
@@ -973,6 +975,11 @@ INTENT_PATTERNS = {
         "backup datasets",
         "backup training data",
         "backup dataset files",
+    ],
+    "show_dataset_backups": [
+        "show dataset backups",
+        "dataset backups",
+        "training backups",
     ],
 }
 
