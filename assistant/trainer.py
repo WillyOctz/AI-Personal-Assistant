@@ -1,5 +1,30 @@
 import json
 from pathlib import Path
+import shutil
+from datetime import datetime
+
+def backup_datasets():
+    backup_folder = Path("datasets/backups")
+    backup_folder.mkdir(parents=True, exist_ok=True)
+    
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    
+    backed_up = []
+    
+    for dataset_name, path in DATASET_FILES.items():
+        if not path.exists():
+            continue
+        
+        backup_path = backup_folder / f"{path.stem}_{timestamp}{path.suffix}"
+        shutil.copy2(path, backup_path)
+        
+        backed_up.append({
+            "dataset": dataset_name,
+            "source": str(path),
+            "backup": str(backup_path)
+        })
+        
+    return backed_up
 
 EXAMPLES_FILE = Path("datasets/examples.jsonl")
 FEEDBACK_FILE = Path("datasets/feedback.jsonl")

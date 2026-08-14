@@ -1,0 +1,25 @@
+{"input": "can you order pizza for me", "intent": "unknown"}
+{"input": "can you do push ups for me?", "intent": "unknown"}
+{"input": "play music", "intent": "unknown"}
+{"input": "open chrome", "intent": "unknown"}
+{"input": "remind me to study", "intent": "unknown"}
+{"input": "play music", "intent": "play_music"}
+{"input": "play music", "intent": "play_music"}
+{"input": "please play some music", "intent": "play_music"}
+{"input": "please play music", "intent": "play_music"}
+{"input": "please remind me to study", "intent": "set_reminder"}
+{"input": "please open chrome", "intent": "open_app"}
+{"input": "let's start the music", "intent": "play_music"}
+{"input": "play music", "intent": "play_music"}
+{"input": "start music", "intent": "play_music"}
+{"input": "gaming", "intent": "play_game"}
+{"input": "let's play game", "intent": "play_game"}
+{"input": "please play game", "intent": "play_game"}
+{"input": "debug play music", "intent": "play_music"}
+{"input": "debug model music", "intent": "play_music"}
+{"input": "please play music", "intent": "play_music"}
+{"input": "start music", "intent": "play_music"}
+{"input": "play music", "intent": "play_music"}
+{"input": "play music", "intent": "play_music"}
+{"input": "start music", "intent": "play_music"}
+{"input": "play game", "intent": "play_game"}
