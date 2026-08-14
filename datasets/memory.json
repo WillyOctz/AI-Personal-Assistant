@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "preview_dataset_backup_cleanup",
+        "last_response_intent": "show_dataset_backups",
         "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Dataset backup cleanup preview:\nTotal backups: 3\nKeep latest: 9\nWould remove: 0",
+        "last_response_text": "Dataset backups:\n- feedback_20260814_174939.jsonl | 728 bytes | 2026-08-14 17:31:06\n- examples_20260814_174939.jsonl | 1328 bytes | 2026-06-29 16:35:13\n- test_intents_20260814_174939.jsonl | 437 bytes | 2026-06-18 19:42:12",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11582,6 +11582,36 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-14 19:02:21",
+            "importance": 0.1
+        },
+        {
+            "user": "preview dataset backup cleanup",
+            "assistant": "Dataset backup cleanup preview:\nTotal backups: 3\nKeep latest: 9\nWould remove: 0",
+            "intent": "preview_dataset_backup_cleanup",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-14 19:18:38",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset backup cleanup",
+            "assistant": "Dataset backup cleanup finished.\nTotal backups before cleanup: 3\nKept latest: 9\nRemoved backups: 0",
+            "intent": "cleanup_dataset_backups",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-14 19:18:46",
+            "importance": 0.1
+        },
+        {
+            "user": "show dataset backups",
+            "assistant": "Dataset backups:\n- feedback_20260814_174939.jsonl | 728 bytes | 2026-08-14 17:31:06\n- examples_20260814_174939.jsonl | 1328 bytes | 2026-06-29 16:35:13\n- test_intents_20260814_174939.jsonl | 437 bytes | 2026-06-18 19:42:12",
+            "intent": "show_dataset_backups",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-14 19:18:59",
             "importance": 0.1
         }
     ],

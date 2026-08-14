@@ -197,6 +197,34 @@ def preview_dataset_backup_cleanup(keep_latest=9):
         "keep_latest": keep_latest,
         "would_remove": len(backups) - keep_latest
     }
+    
+def cleanup_dataset_backups(keep_latest=9):
+    backups = get_dataset_backups(limit=1000)
+    
+    if len(backups) <= keep_latest:
+        return {
+            "total": len(backups),
+            "keep_latest": keep_latest,
+            "removed": 0
+        }
+        
+    backups_to_remove = backups[keep_latest]
+    removed = 0
+    
+    for backup in backups_to_remove:
+        path = Path(backup["path"])
+        
+        if not path.exists():
+            continue
+        
+        path.unlink()
+        removed += 1
+        
+    return {
+        "total": len(backups),
+        "keep_latest": keep_latest,
+        "removed": removed
+    }
 
 def read_jsonl_records(path):
     records = []
