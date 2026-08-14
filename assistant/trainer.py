@@ -494,6 +494,34 @@ def get_dataset_conflict_summary():
     
     return sorted_counts
 
+def preview_resolve_dataset_conflict(input_text, target_intent):
+    input_text = input_text.lower().strip()
+    target_intent = target_intent.lower().strip()
+    
+    matches = []
+    
+    for dataset_name, path in DATASET_FILES.items():
+        records = read_jsonl_records(path)
+        
+        for index, record in enumerate(records, start=1):
+            text = get_record_input(record)
+            intent = get_record_intent(record)
+            
+            if not text:
+                continue
+            
+            if text.lower().strip() == input_text:
+                matches.append({
+                    "dataset": dataset_name,
+                    "record": index,
+                    "input": text,
+                    "current_intent": intent,
+                    "target_intent": target_intent,
+                    "would_change": intent != target_intent
+                })
+                
+    return matches
+
 STOP_WORDS = {
     "can",
     "you",

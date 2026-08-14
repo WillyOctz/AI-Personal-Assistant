@@ -4,7 +4,7 @@ from assistant import chat
 from assistant import apps
 from assistant import personality
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS
-from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records, get_dataset_missing_fields, get_dataset_unknown_intents, get_dataset_coverage, get_dataset_low_coverage, get_dataset_suggestions, get_dataset_examples_for_intent, get_dataset_intent_health, get_dataset_weakest_intent, get_dataset_strongest_intent, get_dataset_balance, suggest_example_phrases_for_intent, get_conflicts_for_intent, get_dataset_conflict_summary
+from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records, get_dataset_missing_fields, get_dataset_unknown_intents, get_dataset_coverage, get_dataset_low_coverage, get_dataset_suggestions, get_dataset_examples_for_intent, get_dataset_intent_health, get_dataset_weakest_intent, get_dataset_strongest_intent, get_dataset_balance, suggest_example_phrases_for_intent, get_conflicts_for_intent, get_dataset_conflict_summary, preview_resolve_dataset_conflict
 from datetime import datetime
 from assistant import focus
 
@@ -327,6 +327,23 @@ def parse_dataset_conflicts_for_intent_query(user_input):
             return text.replace(prefix, "", 1).strip()
         
     return ""
+
+def parse_preview_resolve_conflict(user_input):
+    text = user_input.lower().strip()
+    
+    prefix = "preview resolve conflict "
+    
+    if not text.startswith(prefix):
+        return None
+    
+    remaining = text.replace(prefix, "", 1).strip()
+    
+    if " as " not in remaining:
+        return None
+    
+    input_text, target_intent = remaining.split(" as ", 1)
+    
+    return input_text.strip(), target_intent.strip()
 
 def should_skip_memory_item(intent):
     return intent in SEARCH_IGNORED_INTENTS
@@ -2402,6 +2419,33 @@ def handle_control_intent(user_input, analysis):
         
         for intent_name, count in summary[:10]:
             lines.append(f"- {intent_name}: {count}")
+            
+        return "\n".join(lines)
+    
+    if intent == "preview_resolve_dataset_conflict":
+        parsed = parse_preview_resolve_conflict(user_input)
+        
+        if not parsed:
+            return "Use this format: preview resolve conflict input text as intent_name"
+        
+        input_text, target_intent = parsed
+        
+        if target_intent not in VALID_INTENTS:
+            return f"That is not a valid intent: {target_intent}"
+        
+        matches = preview_resolve_dataset_conflict(input_text, target_intent)
+        
+        if not matches:
+            return f"I did not find dataset records for: {input_text}"
+        
+        lines = [f"Conflict resolution preview for '{input_text}' -> {target_intent}:"]
+        
+        for item in matches:
+            action = "change" if item["would_change"] else "keep"
+            lines.append(
+                f"- {item['dataset']} record {item['record']}: "
+                f"{item['current_intent']} -> {item['target_intent']} | {action}"
+            )
             
         return "\n".join(lines)
     
