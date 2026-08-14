@@ -5,7 +5,7 @@
 {"input": "start music", "correct_intent": "play_music"}
 {"input": "gaming", "correct_intent": "play_game"}
 {"input": "play game", "correct_intent": "play_game"}
-{"input": "gaming", "correct_intent": "minecraft"}
+{"input": "gaming", "correct_intent": "play_game"}
 {"input": "playing", "correct_intent": "minecraft"}
 {"input": "playing game", "correct_intent": "play_game"}
 {"input": "start game", "correct_intent": "play_game"}

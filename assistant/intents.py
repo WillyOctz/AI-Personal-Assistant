@@ -195,6 +195,7 @@ VALID_INTENTS = {
     "dataset_conflicts_for_intent",
     "dataset_conflict_summary",
     "preview_resolve_dataset_conflict",
+    "resolve_dataset_conflict",
 }
 
 CONTROL_INTENTS = {
@@ -233,6 +234,7 @@ CONTROL_INTENTS = {
     "dataset_conflicts_for_intent",
     "dataset_conflict_summary",
     "preview_resolve_dataset_conflict",
+    "resolve_dataset_conflict",
 }
 
 CHAT_INTENTS = {
@@ -1232,10 +1234,14 @@ INTENT_PREFIXES = {
     "preview_resolve_dataset_conflict": [
         "preview resolve conflict ",
     ],
+    "resolve_dataset_conflict": [
+        "resolve conflict ",
+    ],
 }
 
 PREFIX_INTENT_ORDER = [
     "preview_resolve_dataset_conflict",
+    "resolve_dataset_conflict",
     "dataset_conflicts_for_intent",
     "dataset_suggest_examples_for_intent",
     "dataset_intent_health",

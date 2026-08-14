@@ -46,6 +46,18 @@ def count_jsonl_lines(path):
         "broken": broken
     }
     
+def write_jsonl_records(path, records):
+    with open(path, "w", encoding="utf-8") as file:
+        for record in records:
+            file.write(json.dumps(record) + "\n")
+    
+def get_intent_field_name(record):
+    for key in ["correct_intent", "intent", "expected"]:
+        if key in record:
+            return key
+        
+    return None
+    
 def get_dataset_stats():
     stats = {}
     
@@ -521,6 +533,64 @@ def preview_resolve_dataset_conflict(input_text, target_intent):
                 })
                 
     return matches
+
+def resolve_dataset_conflict(input_text, target_intent):
+    input_text = input_text.lower().strip()
+    target_intent = target_intent.lower().strip()
+    
+    changed = []
+    unchanged = []
+    
+    for dataset_name, path in DATASET_FILES.items():
+        records = read_jsonl_records(path)
+        file_changed = False
+        
+        for index, record in enumerate(records, start=1):
+            text = get_record_input(record)
+            
+            if not text:
+                continue
+            
+            if text.lower().strip() != input_text:
+                continue
+            
+            intent_field = get_intent_field_name(record)
+            
+            if not intent_field:
+                unchanged.append({
+                    "dataset": dataset_name,
+                    "record": index,
+                    "reason": "missing_intent_field"
+                })
+                continue
+            
+            old_intent = record.get(intent_field)
+            
+            if old_intent == target_intent:
+                unchanged.append({
+                    "dataset": dataset_name,
+                    "record": index,
+                    "reason": "already_target"
+                })
+                continue
+            
+            record[intent_field] = target_intent
+            file_changed = True
+            
+            changed.append({
+                "dataset": dataset_name,
+                "record": index,
+                "old_intent": old_intent,
+                "new_intent": target_intent
+            })
+            
+        if file_changed:
+            write_jsonl_records(path, records)
+            
+    return {
+        "changed": changed,
+        "unchanged": unchanged
+    }
 
 STOP_WORDS = {
     "can",

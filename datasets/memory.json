@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "preview_resolve_dataset_conflict",
+        "last_response_intent": "dataset_conflicts_for_intent",
         "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I did not find dataset records for: music",
+        "last_response_text": "I did not find dataset conflicts for play_game.",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11452,6 +11452,36 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-14 16:01:58",
+            "importance": 0.1
+        },
+        {
+            "user": "preview resolve conflict gaming as play_game",
+            "assistant": "Conflict resolution preview for 'gaming' -> play_game:\n- feedback record 6: play_game -> play_game | keep\n- feedback record 8: minecraft -> play_game | change\n- examples record 15: play_game -> play_game | keep",
+            "intent": "preview_resolve_dataset_conflict",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-14 17:31:02",
+            "importance": 0.1
+        },
+        {
+            "user": "resolve conflict gaming as play_game",
+            "assistant": "Dataset conflict resolved for 'gaming' -> play_game:\n- changed feedback record 8: minecraft -> play_game\n- kept feedback record 6: already_target\n- kept examples record 15: already_target",
+            "intent": "resolve_dataset_conflict",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-14 17:31:06",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset conflicts for play_game",
+            "assistant": "I did not find dataset conflicts for play_game.",
+            "intent": "dataset_conflicts_for_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-14 17:31:13",
             "importance": 0.1
         }
     ],
