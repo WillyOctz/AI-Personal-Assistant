@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "preview_restore_dataset_backup",
+        "last_response_intent": "dataset_stats",
         "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Dataset backup restore preview:\nBackup: feedback_20260814_174939.jsonl\nDataset: feedback\nWould restore to: datasets\\feedback.jsonl",
+        "last_response_text": "Dataset stats:\n- feedback: exists, total=13, valid=13, broken=0\n- examples: exists, total=25, valid=25, broken=0\n- test_intents: exists, total=8, valid=8, broken=0",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11522,6 +11522,56 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-14 18:35:01",
+            "importance": 0.1
+        },
+        {
+            "user": "show dataset backups",
+            "assistant": "Dataset backups:\n- feedback_20260814_174939.jsonl | 728 bytes | 2026-08-14 17:31:06\n- examples_20260814_174939.jsonl | 1328 bytes | 2026-06-29 16:35:13\n- test_intents_20260814_174939.jsonl | 437 bytes | 2026-06-18 19:42:12",
+            "intent": "show_dataset_backups",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-14 18:51:02",
+            "importance": 0.1
+        },
+        {
+            "user": "preview rerstore dataset backup ",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: preview rerstore dataset backup \nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-08-14 18:51:11",
+            "importance": 0.3
+        },
+        {
+            "user": "preview restore dataset backup 1",
+            "assistant": "Dataset backup restore preview:\nBackup: feedback_20260814_174939.jsonl\nDataset: feedback\nWould restore to: datasets\\feedback.jsonl",
+            "intent": "preview_restore_dataset_backup",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-14 18:51:18",
+            "importance": 0.1
+        },
+        {
+            "user": "restore dataset backup 1",
+            "assistant": "Dataset backup restored.\nBackup: feedback_20260814_174939.jsonl\nDataset: feedback\nRestored to: datasets\\feedback.jsonl",
+            "intent": "restore_dataset_backup",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-14 18:51:25",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset stats",
+            "assistant": "Dataset stats:\n- feedback: exists, total=13, valid=13, broken=0\n- examples: exists, total=25, valid=25, broken=0\n- test_intents: exists, total=8, valid=8, broken=0",
+            "intent": "dataset_stats",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-14 18:51:47",
             "importance": 0.1
         }
     ],

@@ -156,6 +156,31 @@ def preview_restore_dataset_backup(index):
         "target": str(target),
         "dataset": dataset_name
     }
+    
+def restore_dataset_backup(index):
+    preview = preview_restore_dataset_backup(index)
+    
+    if not preview["ok"]:
+        return {
+            "restored": False,
+            "reason": preview["reason"],
+            "backup": preview.get("backup"),
+            "target": preview.get("target"),
+            "dataset": preview.get("dataset")
+        }
+        
+    backup_path = Path(preview["backup"]["path"])
+    target_path = Path(preview["target"])
+    
+    shutil.copy2(backup_path, target_path)
+    
+    return {
+        "restored": True,
+        "reason": "restored",
+        "backup": preview["backup"],
+        "target": preview["target"],
+        "dataset": preview["dataset"]
+    }
 
 def read_jsonl_records(path):
     records = []

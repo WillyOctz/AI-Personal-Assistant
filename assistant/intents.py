@@ -199,6 +199,7 @@ VALID_INTENTS = {
     "backup_datasets",
     "show_dataset_backups",
     "preview_restore_dataset_backup",
+    "restore_dataset_backup",
 }
 
 CONTROL_INTENTS = {
@@ -241,6 +242,7 @@ CONTROL_INTENTS = {
     "backup_datasets",
     "show_dataset_backups",
     "preview_restore_dataset_backup",
+    "restore_dataset_backup",
 }
 
 CHAT_INTENTS = {
@@ -1256,10 +1258,14 @@ INTENT_PREFIXES = {
     "preview_restore_dataset_backup": [
         "preview restore dataset backup ",
     ],
+    "restore_dataset_backup": [
+        "restore dataset backup ",
+    ],
 }
 
 PREFIX_INTENT_ORDER = [
     "preview_restore_dataset_backup",
+    "restore_dataset_backup",
     "preview_resolve_dataset_conflict",
     "resolve_dataset_conflict",
     "dataset_conflicts_for_intent",
