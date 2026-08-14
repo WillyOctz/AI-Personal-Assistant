@@ -200,6 +200,7 @@ VALID_INTENTS = {
     "show_dataset_backups",
     "preview_restore_dataset_backup",
     "restore_dataset_backup",
+    "preview_dataset_backup_cleanup",
 }
 
 CONTROL_INTENTS = {
@@ -243,6 +244,7 @@ CONTROL_INTENTS = {
     "show_dataset_backups",
     "preview_restore_dataset_backup",
     "restore_dataset_backup",
+    "preview_dataset_backup_cleanup",
 }
 
 CHAT_INTENTS = {
@@ -984,6 +986,10 @@ INTENT_PATTERNS = {
         "show dataset backups",
         "dataset backups",
         "training backups",
+    ],
+    "preview_dataset_backup_cleanup": [
+        "preview dataset backup cleanup",
+        "dataset backup cleanup preview",
     ],
 }
 

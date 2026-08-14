@@ -181,6 +181,22 @@ def restore_dataset_backup(index):
         "target": preview["target"],
         "dataset": preview["dataset"]
     }
+    
+def preview_dataset_backup_cleanup(keep_latest=9):
+    backups = get_dataset_backups(limit=1000)
+    
+    if len(backups) <= keep_latest:
+        return {
+            "total": len(backups),
+            "keep_latest": keep_latest,
+            "would_remove": 0
+        }
+        
+    return {
+        "total": len(backups),
+        "keep_latest": keep_latest,
+        "would_remove": len(backups) - keep_latest
+    }
 
 def read_jsonl_records(path):
     records = []

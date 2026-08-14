@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "dataset_stats",
+        "last_response_intent": "preview_dataset_backup_cleanup",
         "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Dataset stats:\n- feedback: exists, total=13, valid=13, broken=0\n- examples: exists, total=25, valid=25, broken=0\n- test_intents: exists, total=8, valid=8, broken=0",
+        "last_response_text": "Dataset backup cleanup preview:\nTotal backups: 3\nKeep latest: 9\nWould remove: 0",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11572,6 +11572,16 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-14 18:51:47",
+            "importance": 0.1
+        },
+        {
+            "user": "preview dataset backup cleanup",
+            "assistant": "Dataset backup cleanup preview:\nTotal backups: 3\nKeep latest: 9\nWould remove: 0",
+            "intent": "preview_dataset_backup_cleanup",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-14 19:02:21",
             "importance": 0.1
         }
     ],
