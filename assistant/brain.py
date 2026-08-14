@@ -2540,6 +2540,46 @@ def handle_control_intent(user_input, analysis):
             
         return "\n".join(lines)
     
+    if intent == "dataset_dashboard":
+        stats = get_dataset_stats()
+        duplicates = get_dataset_duplicates()
+        conflicts = get_dataset_conflicts()
+        broken = get_dataset_broken_records()
+        missing = get_dataset_missing_fields()
+        unknown = get_dataset_unknown_intents(VALID_INTENTS)
+        weakest = get_dataset_weakest_intent(VALID_INTENTS)
+        strongest = get_dataset_strongest_intent(VALID_INTENTS)
+        backups = get_dataset_backups(limit=1000)
+        
+        total_records = 0
+        
+        for item in stats.values():
+            total_records += item["total"]
+            
+        lines = [
+            "Dataset dashboard:",
+            f"Total records: {total_records}",
+            f"Duplicate inputs: {len(duplicates)}",
+            f"Conflicts: {len(conflicts)}",
+            f"Broken records: {len(broken)}",
+            f"Missing fields: {len(missing)}",
+            f"Unknown intents: {len(unknown)}",
+            f"Backups: {len(backups)}",
+        ]
+        
+        if weakest:
+            lines.append(f"Weakest intent: {weakest['intent']} ({weakest['count']})")
+            
+        if strongest:
+            lines.append(f"Strongest intent: {strongest['intent']} ({strongest['count']})")
+            
+        if len(conflicts) == 0 and len(broken) == 0 and len(missing) == 0 and len(unknown) == 0:
+            lines.append("Status: healthy")
+        else:
+            lines.append("Status: needs cleanup")
+            
+        return "\n".join(lines)
+    
     if intent == "backup_datasets":
         backups = backup_datasets()
         
