@@ -113,6 +113,50 @@ def get_dataset_backups(limit=10):
     
     return backups[:limit]
 
+def get_dataset_name_from_backup(filename):
+    if filename.startswith("feedback_"):
+        return "feedback"
+    
+    if filename.startswith("examples_"):
+        return "examples"
+    
+    if filename.startswith("test_intents_"):
+        return "test_intents"
+    
+    return None
+
+def preview_restore_dataset_backup(index):
+    backups = get_dataset_backups(limit=50)
+    
+    if index < 1 or index > len(backups):
+        return {
+            "ok": False,
+            "reason": "invalid_index",
+            "backup": None,
+            "target": None
+        }
+        
+    backup = backups[index - 1]
+    dataset_name = get_dataset_name_from_backup(backup["name"])
+    
+    if not dataset_name:
+        return {
+            "ok": False,
+            "reason": "unknown_dataset",
+            "backup": backup,
+            "target": None
+        }
+        
+    target = DATASET_FILES[dataset_name]
+    
+    return {
+        "ok": True,
+        "reason": "ok",
+        "backup": backup,
+        "target": str(target),
+        "dataset": dataset_name
+    }
+
 def read_jsonl_records(path):
     records = []
     

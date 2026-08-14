@@ -4,7 +4,7 @@ from assistant import chat
 from assistant import apps
 from assistant import personality
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS
-from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records, get_dataset_missing_fields, get_dataset_unknown_intents, get_dataset_coverage, get_dataset_low_coverage, get_dataset_suggestions, get_dataset_examples_for_intent, get_dataset_intent_health, get_dataset_weakest_intent, get_dataset_strongest_intent, get_dataset_balance, suggest_example_phrases_for_intent, get_conflicts_for_intent, get_dataset_conflict_summary, preview_resolve_dataset_conflict, resolve_dataset_conflict, backup_datasets, get_dataset_backups
+from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records, get_dataset_missing_fields, get_dataset_unknown_intents, get_dataset_coverage, get_dataset_low_coverage, get_dataset_suggestions, get_dataset_examples_for_intent, get_dataset_intent_health, get_dataset_weakest_intent, get_dataset_strongest_intent, get_dataset_balance, suggest_example_phrases_for_intent, get_conflicts_for_intent, get_dataset_conflict_summary, preview_resolve_dataset_conflict, resolve_dataset_conflict, backup_datasets, get_dataset_backups, preview_restore_dataset_backup
 from datetime import datetime
 from assistant import focus
 
@@ -327,6 +327,19 @@ def parse_dataset_conflicts_for_intent_query(user_input):
             return text.replace(prefix, "", 1).strip()
         
     return ""
+
+def parse_dataset_backup_index(user_input, prefix):
+    text = user_input.lower().strip()
+    
+    if not text.startswith(prefix):
+        return None
+    
+    value = text.replace(prefix, "", 1).strip()
+    
+    if not value.isdigit():
+        return None
+    
+    return int(value)
 
 def parse_preview_resolve_conflict(user_input):
     text = user_input.lower().strip()
@@ -2539,6 +2552,24 @@ def handle_control_intent(user_input, analysis):
             lines.append(f"- {item['dataset']}: {item['backup']}")
             
         return "\n".join(lines)
+    
+    if intent == "preview_restore_dataset_backup":
+        index = parse_dataset_backup_index(user_input, "preview restore dataset backup ")
+        
+        if index is None:
+            return "Use this format: preview restore dataset backup number"
+        
+        preview = preview_restore_dataset_backup(index)
+        
+        if not preview["ok"]:
+            return f"I could not preview dataset backup restore: {preview['reason']}"
+        
+        return (
+            f"Dataset backup restore preview:\n"
+            f"Backup: {preview['backup']['name']}\n"
+            f"Dataset: {preview['dataset']}\n"
+            f"Would restore to: {preview['target']}"
+        )
     
     if intent == "show_dataset_backups":
         backups = get_dataset_backups()
