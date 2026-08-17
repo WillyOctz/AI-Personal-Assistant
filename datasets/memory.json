@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "dataset_report",
-        "last_response_group": "control",
-        "last_response_source": "rule",
-        "last_response_confidence": 1.0,
+        "last_response_intent": "unknown",
+        "last_response_group": "unknown",
+        "last_response_source": "None",
+        "last_response_confidence": 0,
         "last_response_scores": {},
-        "last_response_text": "Dataset report:\nTotal records: 46\nValid intents: 205\nCovered intents: 4\nMissing intent coverage: 201\nConflicts: 3\nBroken records: 0\nMissing fields: 0\nUnknown intents: 6\nBackups: 3\nBalance: weakest=add_app_alias (0), strongest=open_app (1), spread=1\nConclusion: dataset needs cleanup before heavier training.",
+        "last_response_text": "I am not sure if that was a command or conversation yet.\nYou said: exi\nYou can rephrase it, or teach me with: teach message as intent_name",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11663,6 +11663,236 @@
             "source": "rule",
             "timestamp": "2026-08-17 17:06:39",
             "importance": 0.1
+        },
+        {
+            "user": "dataset stats",
+            "assistant": "Dataset stats:\n- feedback: exists, total=13, valid=13, broken=0\n- examples: exists, total=25, valid=25, broken=0\n- test_intents: exists, total=8, valid=8, broken=0",
+            "intent": "dataset_stats",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:13:18",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset health",
+            "assistant": "Dataset health:\nTotal records: 46\nDuplicate inputs: 20\nConflicting duplicates: 3\nBroken records: 0\nMissing field records: 0\nUnknown intent records: 6\nStatus: needs cleanup",
+            "intent": "dataset_health",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:13:24",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset dashboard",
+            "assistant": "Dataset dashboard:\nTotal records: 46\nDuplicate inputs: 20\nConflicts: 3\nBroken records: 0\nMissing fields: 0\nUnknown intents: 6\nBackups: 3\nWeakest intent: add_app_alias (0)\nStrongest intent: open_app (1)\nStatus: needs cleanup",
+            "intent": "dataset_dashboard",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:13:31",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset report",
+            "assistant": "Dataset report:\nTotal records: 46\nValid intents: 205\nCovered intents: 4\nMissing intent coverage: 201\nConflicts: 3\nBroken records: 0\nMissing fields: 0\nUnknown intents: 6\nBackups: 3\nBalance: weakest=add_app_alias (0), strongest=open_app (1), spread=1\nConclusion: dataset needs cleanup before heavier training.",
+            "intent": "dataset_report",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:13:41",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset coverage",
+            "assistant": "Dataset coverage:\nTotal valid intents: 205\nCovered intents: 4\nMissing intents: 201\nMissing examples for:\n- add_app_alias\n- add_focus_note\n- allow_app\n- app_dashboard\n- app_launch_stats\n- app_safety_dashboard\n- archive_memory_cleanup\n- archive_stats\n- backup_app_registry\n- backup_datasets\n- best_focus_day\n- calculate\n- chat_about_user\n- chat_capabilities\n- chat_clear_topic\n- chat_current_topic\n- chat_day_greeting\n- chat_explain_last\n- chat_feedback_dashboard\n- chat_feedback_for_intent\n...and 181 more.",
+            "intent": "dataset_coverage",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:13:53",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset low coverage",
+            "assistant": "Low dataset coverage intents:\n- add_app_alias: 0/3\n- add_focus_note: 0/3\n- allow_app: 0/3\n- app_dashboard: 0/3\n- app_launch_stats: 0/3\n- app_safety_dashboard: 0/3\n- archive_memory_cleanup: 0/3\n- archive_stats: 0/3\n- backup_app_registry: 0/3\n- backup_datasets: 0/3\n- best_focus_day: 0/3\n- calculate: 0/3\n- chat_about_user: 0/3\n- chat_capabilities: 0/3\n- chat_clear_topic: 0/3\n- chat_current_topic: 0/3\n- chat_day_greeting: 0/3\n- chat_explain_last: 0/3\n- chat_feedback_dashboard: 0/3\n- chat_feedback_for_intent: 0/3\n...and 185 more.",
+            "intent": "dataset_low_coverage",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:14:00",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset balance",
+            "assistant": "Dataset balance:\nWeakest: add_app_alias (0)\nStrongest: open_app (1)\nSpread: 1",
+            "intent": "dataset_balance",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:14:05",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset weakest intent",
+            "assistant": "Weakest dataset intent:\nIntent: add_app_alias\nExamples: 0",
+            "intent": "dataset_weakest_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:14:09",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset strongest intent",
+            "assistant": "Strongest dataset intent:\nIntent: open_app\nExamples: 1",
+            "intent": "dataset_strongest_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:14:14",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset duplicates",
+            "assistant": "Duplicate dataset examples:\n- play music | feedback:play_music -> feedback:play_music\n- gaming | feedback:play_game -> feedback:play_game\n- start game | feedback:play_game -> feedback:play_game\n- play music | feedback:play_music -> examples:unknown\n- open chrome | feedback:open_app -> examples:unknown\n- remind me to study | feedback:set_reminder -> examples:unknown\n- play music | feedback:play_music -> examples:play_music\n- play music | feedback:play_music -> examples:play_music\n- play music | feedback:play_music -> examples:play_music\n- start music | feedback:play_music -> examples:play_music\n...and 10 more.",
+            "intent": "dataset_duplicates",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:14:19",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset conflicts",
+            "assistant": "Conflicting dataset examples:\n- play music | feedback:play_music vs examples:unknown\n- open chrome | feedback:open_app vs examples:unknown\n- remind me to study | feedback:set_reminder vs examples:unknown",
+            "intent": "dataset_conflicts",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:14:24",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset conflict summary",
+            "assistant": "Dataset conflict summary:\n- unknown: 3\n- play_music: 1\n- open_app: 1\n- set_reminder: 1",
+            "intent": "dataset_conflict_summary",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:14:30",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset missing fields",
+            "assistant": "I did not find dataset records with missing fields.",
+            "intent": "dataset_missing_fields",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:14:39",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset unknown intents",
+            "assistant": "Dataset unknown intents:\n- feedback record 9: minecraft | playing\n- examples record 1: unknown | can you order pizza for me\n- examples record 2: unknown | can you do push ups for me?\n- examples record 3: unknown | play music\n- examples record 4: unknown | open chrome\n- examples record 5: unknown | remind me to study",
+            "intent": "dataset_unknown_intents",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:14:45",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset broken records",
+            "assistant": "I did not find broken dataset records.",
+            "intent": "dataset_broken_records",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:14:49",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset suggestions",
+            "assistant": "Dataset suggestions:\n- add_app_alias: needs 3 more | teach example phrase as add_app_alias\n- add_focus_note: needs 3 more | teach example phrase as add_focus_note\n- allow_app: needs 3 more | teach example phrase as allow_app\n- app_dashboard: needs 3 more | teach example phrase as app_dashboard\n- app_launch_stats: needs 3 more | teach example phrase as app_launch_stats\n- app_safety_dashboard: needs 3 more | teach example phrase as app_safety_dashboard\n- archive_memory_cleanup: needs 3 more | teach example phrase as archive_memory_cleanup\n- archive_stats: needs 3 more | teach example phrase as archive_stats\n- backup_app_registry: needs 3 more | teach example phrase as backup_app_registry\n- backup_datasets: needs 3 more | teach example phrase as backup_datasets",
+            "intent": "dataset_suggestions",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:14:53",
+            "importance": 0.1
+        },
+        {
+            "user": "show dataset backups",
+            "assistant": "Dataset backups:\n- feedback_20260814_174939.jsonl | 728 bytes | 2026-08-14 17:31:06\n- examples_20260814_174939.jsonl | 1328 bytes | 2026-06-29 16:35:13\n- test_intents_20260814_174939.jsonl | 437 bytes | 2026-06-18 19:42:12",
+            "intent": "show_dataset_backups",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:14:58",
+            "importance": 0.1
+        },
+        {
+            "user": "preview dataset backup cleanup",
+            "assistant": "Dataset backup cleanup preview:\nTotal backups: 3\nKeep latest: 9\nWould remove: 0",
+            "intent": "preview_dataset_backup_cleanup",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:15:02",
+            "importance": 0.1
+        },
+        {
+            "user": "semantic memory music",
+            "assistant": "1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music\n0.40 | sim=1.00 | imp=1.00 | rec=0.40 | Conversation: 2026-06-22 19:52:57 | You: remember i like music\n0.36 | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-07-27 21:10:40 | You: preview file assistant feedback.jsonl\n0.36 | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json\n0.32 | sim=1.00 | imp=0.80 | rec=0.40 | Conversation: 2026-06-23 15:05:37 | You: smeantic memory music\n0.32 | sim=1.00 | imp=0.80 | rec=0.40 | Conversation: 2026-06-26 15:58:30 | You: play minecraft\n0.32 | sim=1.00 | imp=0.80 | rec=0.40 | Conversation: 2026-06-30 17:43:35 | You: play stardew valley",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:36:30",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music note",
+            "assistant": "1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:42:36",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music conversation",
+            "assistant": "0.40 | sim=1.00 | imp=1.00 | rec=0.40 | Conversation: 2026-06-22 19:52:57 | You: remember i like music\n0.36 | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-07-27 21:10:40 | You: preview file assistant feedback.jsonl\n0.36 | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json\n0.32 | sim=1.00 | imp=0.80 | rec=0.40 | Conversation: 2026-06-23 15:05:37 | You: smeantic memory music\n0.32 | sim=1.00 | imp=0.80 | rec=0.40 | Conversation: 2026-06-26 15:58:30 | You: play minecraft",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:42:47",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music reminder",
+            "assistant": "I could not find reminder memory similar to 'music'.",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:42:52",
+            "importance": 0.6
+        },
+        {
+            "user": "exi",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: exi\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-08-17 17:42:55",
+            "importance": 0.3
         }
     ],
     "summaries": [

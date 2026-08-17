@@ -1401,15 +1401,15 @@ def analyze_intent(user_input):
     return apply_entity_hints(text, analysis)
 
 def get_memory_stats():
-    memory = memory.get_all_memory()
+    memo = memory.get_all_memory()
     
     return {
-        "notes": len(memory["notes"]),
-        "reminders": len(memory["reminders"]),
-        "history": len(memory["history"]),
-        "conversation": len(memory["conversation"]),
-        "summaries": len(memory["summaries"]),
-        "archived_conversation": len(memory["archive"]["conversation"]),
+        "notes": len(memo["notes"]),
+        "reminders": len(memo["reminders"]),
+        "history": len(memo["history"]),
+        "conversation": len(memo["conversation"]),
+        "summaries": len(memo["summaries"]),
+        "archived_conversation": len(memo["archive"]["conversation"]),
     }
     
 def get_profile_context():
@@ -1436,10 +1436,10 @@ def get_profile_context():
     return ", ".join(parts)
 
 def collect_memory_search_items():
-    memory = memory.get_all_memory()
+    memo = memory.get_all_memory()
     items = []
     
-    for note in memory["notes"]:
+    for note in memo["notes"]:
         items.append({
             "type": "note",
             "text": note,
@@ -1449,7 +1449,7 @@ def collect_memory_search_items():
             "recency": 1.0
         })
         
-    for reminder in memory["reminders"]:
+    for reminder in memo["reminders"]:
         items.append({
             "type": "reminder",
             "text": reminder,
@@ -1459,7 +1459,7 @@ def collect_memory_search_items():
             "recency": 1.0
         })
         
-    for event in memory["history"]:
+    for event in memo["history"]:
         if should_skip_memory_item(event["intent"]):
             continue
         
@@ -1473,7 +1473,7 @@ def collect_memory_search_items():
             "recency": calculate_recency(event["timestamp"])
         })
         
-    for turn in memory["conversation"]:
+    for turn in memo["conversation"]:
         if should_skip_memory_item(turn["intent"]):
             continue
         
@@ -1487,7 +1487,7 @@ def collect_memory_search_items():
             "recency": calculate_recency(turn["timestamp"])
         })
         
-    for summary in memory["summaries"]:
+    for summary in memo["summaries"]:
         items.append({
             "type": "summary",
             "text": summary["summary"],
@@ -1497,7 +1497,7 @@ def collect_memory_search_items():
             "recency": calculate_recency(summary["timestamp"])
         })
         
-    for summary in memory["archive_summaries"]:
+    for summary in memo["archive_summaries"]:
         items.append({
             "type": "archive_summary",
             "text": summary["summary"],
@@ -1510,12 +1510,12 @@ def collect_memory_search_items():
     return items
 
 def preview_memory_cleanup():
-    memory = memory.get_all_memory()
+    memo = memory.get_all_memory()
     
     low_importance_turns = []
     control_turns = []
     
-    for turn in memory["conversation"]:
+    for turn in memo["conversation"]:
         importance = turn.get("importance", 0.5)
         intent = turn.get("intent")
         
@@ -1530,11 +1530,14 @@ def preview_memory_cleanup():
         "control_turns": control_turns 
     }
 
-def semantic_search_memory(query, limit=5, min_score=0.3, source_type=None):
+def semantic_search_memory(query, limit=5, min_score=0.3, source_type=None, memory_type=None):
     items = collect_memory_search_items()
     scored_results = []
     
     for item in items:
+        if memory_type and item["type"] != memory_type:
+            continue
+        
         if source_type and item["type"] != source_type:
             continue
         
@@ -1765,32 +1768,32 @@ def debug_entity_extraction(query):
     )
 
 def search_memory(query):
-    memory = memory.get_all_memory()
+    memo = memory.get_all_memory()
     query = query.lower()
     
     results = []
     
-    for note in memory["notes"]:
+    for note in memo["notes"]:
         if query in note.lower():
             results.append(f"Note: {note}")
             
-    for reminder in memory["reminders"]:
+    for reminder in memo["reminders"]:
         if query in reminder.lower():
             results.append(f"Reminder: {reminder}")
             
-    for event in memory["history"]:
+    for event in memo["history"]:
         text = f"{event['user_input']} {event['intent']} {event['result']}".lower()
         
         if query in text:
             results.append(f"History: {event['timestamp']} | {event['intent']} | {event['user_input']}")
             
-    for turn in memory["conversation"]:
+    for turn in memo["conversation"]:
         text = f"{turn['user']} {turn['assistant']} {turn['intent']}".lower()
         
         if query in text:
             results.append(f"Conversation: {turn['timestamp']} | You: {turn['user']}")
             
-    for summary in memory["summaries"]:
+    for summary in memo["summaries"]:
         if query in summary["summary"].lower():
             results.append(f"Summary: {summary['timestamp']} | {summary['summary']}")
             
@@ -2955,12 +2958,34 @@ def handle_memory_intent(user_input, analysis):
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()
         
+        memory_type = None
+        allowed_types = {
+            "note",
+            "reminder",
+            "history",
+            "conversation",
+            "summary",
+            "archive_summary",
+        }
+        
+        parts = query.split()
+        
+        if len(parts) >= 2:
+            possible_type = parts[-1].lower()
+            
+            if possible_type in allowed_types:
+                memory_type = possible_type
+                query = " ".join(parts[:-1]).strip()
+        
         if not query:
             return "What should I search memory for?"
         
-        results = semantic_search_memory(query)
+        results = semantic_search_memory(query, memory_type=memory_type)
         
         if not results:
+            if memory_type:
+                return f"I could not find {memory_type} memory similar to '{query}'."
+            
             return f"I could not find anything similar to '{query}'."
         
         lines = []
