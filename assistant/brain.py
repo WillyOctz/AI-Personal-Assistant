@@ -28,6 +28,18 @@ def log_file_search(action, folder_name, query, result_summary):
     
     memory.add_file_search_event(event)
     
+def format_memory_search_header(query, memory_type, limit, min_score):
+    lines = [
+        "Memory search:",
+        f"Query: {query}",
+        f"Type: {memory_type if memory_type else 'any'}",
+        f"Limit: {limit}",
+        f"Min score: {min_score:.2f}",
+        ""
+    ]
+    
+    return lines
+    
 def format_file_preview_error(reason, filename):
     if reason == "folder_not_found":
         return "Folder path does not exist."
@@ -2040,9 +2052,7 @@ def handle_control_intent(user_input, analysis):
             
             return "I do not have any memory items to debug."
         
-        lines = [
-            f"Query tokens: {tokenize(query)}"
-        ]
+        lines = format_memory_search_header(query, memory_type, limit, min_score)
         
         for result in results:
             item = result["item"]
@@ -2051,6 +2061,7 @@ def handle_control_intent(user_input, analysis):
             lines.append(f"Type: {item['type']}")
             lines.append(f"Text: {item['text']}")
             lines.append(f"Tokens: {result['tokens']}")
+            lines.append(f"Query tokens: {tokenize(query)}")
             lines.append(f"Recency: {result['recency']:.2f}")
             
         return "\n".join(lines)
@@ -3055,7 +3066,7 @@ def handle_memory_intent(user_input, analysis):
             
             return f"I could not find anything similar to '{query}'."
         
-        lines = []
+        lines = format_memory_search_header(query, memory_type, limit, min_score)
         
         for result in results:
             score = result["score"]
