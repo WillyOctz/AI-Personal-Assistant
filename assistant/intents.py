@@ -203,6 +203,7 @@ VALID_INTENTS = {
     "preview_dataset_backup_cleanup",
     "cleanup_dataset_backups",
     "dataset_dashboard",
+    "dataset_report",
 }
 
 CONTROL_INTENTS = {
@@ -249,6 +250,7 @@ CONTROL_INTENTS = {
     "preview_dataset_backup_cleanup",
     "cleanup_dataset_backups",
     "dataset_dashboard",
+    "dataset_report",
 }
 
 CHAT_INTENTS = {
@@ -1003,6 +1005,11 @@ INTENT_PATTERNS = {
         "dataset backup cleanup",
         "cleanup dataset backups",
         "clean dataset backups",
+    ],
+    "dataset_report": [
+        "dataset report",
+        "training report",
+        "training data report",
     ],
 }
 

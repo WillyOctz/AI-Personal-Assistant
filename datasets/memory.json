@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "dataset_dashboard",
+        "last_response_intent": "dataset_report",
         "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Dataset dashboard:\nTotal records: 46\nDuplicate inputs: 20\nConflicts: 3\nBroken records: 0\nMissing fields: 0\nUnknown intents: 6\nBackups: 3\nWeakest intent: add_app_alias (0)\nStrongest intent: open_app (1)\nStatus: needs cleanup",
+        "last_response_text": "Dataset report:\nTotal records: 46\nValid intents: 205\nCovered intents: 4\nMissing intent coverage: 201\nConflicts: 3\nBroken records: 0\nMissing fields: 0\nUnknown intents: 6\nBackups: 3\nBalance: weakest=add_app_alias (0), strongest=open_app (1), spread=1\nConclusion: dataset needs cleanup before heavier training.",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11632,6 +11632,36 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-14 20:05:46",
+            "importance": 0.1
+        },
+        {
+            "user": "how are you",
+            "assistant": "I am doing alright. I remember your current mood is tired. We are still working toward your goal: to build best AI assistant.",
+            "intent": "chat_how_are_you",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 13:20:49",
+            "importance": 0.3
+        },
+        {
+            "user": "exi",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: exi\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-08-17 13:29:30",
+            "importance": 0.3
+        },
+        {
+            "user": "dataset report",
+            "assistant": "Dataset report:\nTotal records: 46\nValid intents: 205\nCovered intents: 4\nMissing intent coverage: 201\nConflicts: 3\nBroken records: 0\nMissing fields: 0\nUnknown intents: 6\nBackups: 3\nBalance: weakest=add_app_alias (0), strongest=open_app (1), spread=1\nConclusion: dataset needs cleanup before heavier training.",
+            "intent": "dataset_report",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 17:06:39",
             "importance": 0.1
         }
     ],

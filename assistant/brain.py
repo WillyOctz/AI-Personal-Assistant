@@ -2580,6 +2580,52 @@ def handle_control_intent(user_input, analysis):
             
         return "\n".join(lines)
     
+    if intent == "dataset_report":
+        stats = get_dataset_stats()
+        coverage = get_dataset_coverage(VALID_INTENTS)
+        balance = get_dataset_balance(VALID_INTENTS)
+        conflicts = get_dataset_conflicts()
+        broken = get_dataset_broken_records()
+        missing = get_dataset_missing_fields()
+        unknown = get_dataset_unknown_intents(VALID_INTENTS)
+        backups = get_dataset_backups(limit=1000)
+        
+        total_records = 0
+        total_broken = 0
+        
+        for item in stats.values():
+            total_records += item["total"]
+            total_broken += item["broken"]
+            
+        lines = [
+            "Dataset report:",
+            f"Total records: {total_records}",
+            f"Valid intents: {coverage['total_intents']}",
+            f"Covered intents: {coverage['covered_intents']}",
+            f"Missing intent coverage: {len(coverage['missing_intents'])}",
+            f"Conflicts: {len(conflicts)}",
+            f"Broken records: {len(broken)}",
+            f"Missing fields: {len(missing)}",
+            f"Unknown intents: {len(unknown)}",
+            f"Backups: {len(backups)}",
+        ]
+        
+        if balance:
+            lines.append(
+                f"Balance: weakest={balance['weakest']['intent']} "
+                f"({balance['weakest']['count']}), "
+                f"strongest={balance['strongest']['intent']} "
+                f"({balance['strongest']['count']}), "
+                f"spread={balance['spread']}"
+            )
+            
+        if len(conflicts) == 0 and len(broken) == 0 and len(missing) == 0 and len(unknown) == 0:
+            lines.append("Conclusion: dataset structure is healthy.")
+        else:
+            lines.append("Conclusion: dataset needs cleanup before heavier training.")
+            
+        return "\n".join(lines)
+    
     if intent == "backup_datasets":
         backups = backup_datasets()
         
