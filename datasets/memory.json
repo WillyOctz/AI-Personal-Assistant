@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "debug_memory_search",
-        "last_response_group": "control",
+        "last_response_intent": "semantic_memory_search",
+        "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Query tokens: ['music']\n\nScore: 0.40\nType: conversation\nText: remember i like music i remembered that. remember_note\nTokens: ['remember', 'i', 'like', 'music', 'i', 'remembered', 'that', 'remember_note']\nRecency: 0.40\n\nScore: 0.36\nType: conversation\nText: preview file assistant feedback.jsonl Preview: C:\\Users\\User\\AI_Personal_Assistant\\datasets\\feedback.jsonl\n{\"input\": \"play music\", \"correct_intent\": \"play_music\"}\n{\"input\": \"open chrome\", \"correct_intent\": \"open_app\"}\n{\"input\": \"remind me to study\", \"correct_intent\": \"set_reminder\"}\n{\"input\": \"play music\", \"correct_intent\": \"play_music\"}\n{\"input\": \"start music\", \"correct_intent\": \"play_music\"}\n{\"input\": \"gaming\", \"correct_intent\": \"play_game\"}\n{\"input\": \"play game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"gaming\", \"correct_intent\": \"minecraft\"}\n{\"input\": \"playing\", \"correct_intent\": \"minecraft\"}\n{\"input\": \"playing game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"start game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"start game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"start\", \"correct_intent\": \"play_game\"} preview_file\nTokens: ['preview', 'file', 'assistant', 'feedbackjsonl', 'preview:', 'c:\\\\users\\\\user\\\\ai_personal_assistant\\\\datasets\\\\feedbackjsonl', '{input:', 'play', 'music', 'correct_intent:', 'play_music}', '{input:', 'open', 'chrome', 'correct_intent:', 'open_app}', '{input:', 'remind', 'study', 'correct_intent:', 'set_reminder}', '{input:', 'play', 'music', 'correct_intent:', 'play_music}', '{input:', 'start', 'music', 'correct_intent:', 'play_music}', '{input:', 'game', 'correct_intent:', 'play_game}', '{input:', 'play', 'game', 'correct_intent:', 'play_game}', '{input:', 'game', 'correct_intent:', 'minecraft}', '{input:', 'play', 'correct_intent:', 'minecraft}', '{input:', 'play', 'game', 'correct_intent:', 'play_game}', '{input:', 'start', 'game', 'correct_intent:', 'play_game}', '{input:', 'start', 'game', 'correct_intent:', 'play_game}', '{input:', 'start', 'correct_intent:', 'play_game}', 'preview_file']\nRecency: 0.60",
+        "last_response_text": "I could not find conversation memory similar to 'music'.",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -11993,6 +11993,56 @@
             "source": "rule",
             "timestamp": "2026-08-17 18:29:35",
             "importance": 0.1
+        },
+        {
+            "user": "semantic memory music note 5 0.8",
+            "assistant": "1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 19:19:26",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music 5 0.5",
+            "assistant": "1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 19:19:35",
+            "importance": 0.6
+        },
+        {
+            "user": "debug memory music conversation 5 0.4",
+            "assistant": "Query tokens: ['music']\n\nScore: 0.40\nType: conversation\nText: remember i like music i remembered that. remember_note\nTokens: ['remember', 'i', 'like', 'music', 'i', 'remembered', 'that', 'remember_note']\nRecency: 0.40",
+            "intent": "debug_memory_search",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 19:19:52",
+            "importance": 0.1
+        },
+        {
+            "user": "semantic memory music note 5 0.8",
+            "assistant": "1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 19:29:54",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music conversation 5 0.5",
+            "assistant": "I could not find conversation memory similar to 'music'.",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-17 19:30:15",
+            "importance": 0.6
         }
     ],
     "summaries": [

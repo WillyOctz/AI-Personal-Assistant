@@ -1533,6 +1533,7 @@ def preview_memory_cleanup():
 def parse_memory_query_with_type(text):
     memory_type = None
     limit = None
+    min_score = None
     
     allowed_types = {
         "note",
@@ -1545,19 +1546,30 @@ def parse_memory_query_with_type(text):
     
     parts = text.split()
     
+    if parts:
+        try:
+            possible_score = float(parts[-1])
+            
+            if "." in parts[-1]:
+                min_score = possible_score
+                parts = parts[:-1]
+        except:
+            pass
+    
     if parts and parts[-1].isdigit():
         limit = int(parts[-1])
         parts = parts[:-1]
-        text = " ".join(parts).strip()
     
-    if len(parts) >= 2:
+    if parts:
         possible_type = parts[-1].lower()
         
         if possible_type in allowed_types:
             memory_type = possible_type
-            text = " ".join(parts[:-1]).strip()
+            parts = parts[:-1]
             
-    return text, memory_type, limit
+    text = " ".join(parts).strip()
+            
+    return text, memory_type, limit, min_score
 
 def semantic_search_memory(query, limit=5, min_score=0.3, source_type=None, memory_type=None):
     items = collect_memory_search_items()
@@ -1646,7 +1658,7 @@ def get_archive_stats():
         "newest": max(timestamps)
     }
 
-def debug_memory_search(query, limit=5, memory_type=None):
+def debug_memory_search(query, limit=5, memory_type=None, min_score=0.0):
     items = collect_memory_search_items()
     debug_results = []
     
@@ -1657,14 +1669,15 @@ def debug_memory_search(query, limit=5, memory_type=None):
         similarity = similarity_score(query, item["text"])
         score = similarity * item["importance"] * item["recency"]
         
-        debug_results.append({
-            "score": score,
-            "similarity": similarity,
-            "importance": item["importance"],
-            "recency": item["recency"],
-            "item": item,
-            "tokens": tokenize(item["text"]) 
-        })
+        if score >= min_score:
+            debug_results.append({
+                    "score": score,
+                    "similarity": similarity,
+                    "importance": item["importance"],
+                    "recency": item["recency"],
+                    "item": item,
+                    "tokens": tokenize(item["text"]) 
+                })
         
     debug_results.sort(key=lambda result: result["score"], reverse=True)
     
@@ -1996,7 +2009,7 @@ def handle_control_intent(user_input, analysis):
 
     if intent == "debug_memory_search":
         query = user_input.replace("debug memory ", "", 1).strip()
-        query, memory_type, limit = parse_memory_query_with_type(query)
+        query, memory_type, limit, min_score = parse_memory_query_with_type(query)
         
         if not query:
             return "What memory search should I debug?"
@@ -2009,8 +2022,17 @@ def handle_control_intent(user_input, analysis):
 
         if limit > 20:
             limit = 20
+            
+        if min_score is None:
+            min_score = 0.3
+
+        if min_score < 0:
+            min_score = 0
+
+        if min_score > 1:
+            min_score = 1
         
-        results = debug_memory_search(query, limit=limit, memory_type=memory_type)
+        results = debug_memory_search(query, limit=limit, memory_type=memory_type, min_score=min_score)
         
         if not results:
             if memory_type:
@@ -3002,26 +3024,7 @@ def handle_memory_intent(user_input, analysis):
     
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()
-        query, memory_type, limit = parse_memory_query_with_type(query)
-        
-        memory_type = None
-        allowed_types = {
-            "note",
-            "reminder",
-            "history",
-            "conversation",
-            "summary",
-            "archive_summary",
-        }
-        
-        parts = query.split()
-        
-        if len(parts) >= 2:
-            possible_type = parts[-1].lower()
-            
-            if possible_type in allowed_types:
-                memory_type = possible_type
-                query = " ".join(parts[:-1]).strip()
+        query, memory_type, limit, min_score = parse_memory_query_with_type(query)
                 
         if limit is None:
             limit = 5
@@ -3031,11 +3034,20 @@ def handle_memory_intent(user_input, analysis):
 
         if limit > 20:
             limit = 20
+            
+        if min_score is None:
+            min_score = 0.3
+
+        if min_score < 0:
+            min_score = 0
+
+        if min_score > 1:
+            min_score = 1
         
         if not query:
             return "What should I search memory for?"
         
-        results = semantic_search_memory(query, memory_type=memory_type, limit=limit)
+        results = semantic_search_memory(query, memory_type=memory_type, limit=limit, min_score=min_score)
         
         if not results:
             if memory_type:
