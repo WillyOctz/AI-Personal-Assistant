@@ -1529,6 +1529,28 @@ def preview_memory_cleanup():
        "low_importance_turns": low_importance_turns,
         "control_turns": control_turns 
     }
+    
+def parse_memory_query_with_type(text):
+    memory_type = None
+    allowed_types = {
+        "note",
+        "reminder",
+        "history",
+        "conversation",
+        "summary",
+        "archive_summary",
+    }
+    
+    parts = text.split()
+    
+    if len(parts) >= 2:
+        possible_type = parts[-1].lower()
+        
+        if possible_type in allowed_types:
+            memory_type = possible_type
+            text = " ".join(parts[:-1]).strip()
+            
+    return text, memory_type
 
 def semantic_search_memory(query, limit=5, min_score=0.3, source_type=None, memory_type=None):
     items = collect_memory_search_items()
@@ -1617,11 +1639,14 @@ def get_archive_stats():
         "newest": max(timestamps)
     }
 
-def debug_memory_search(query, limit=5):
+def debug_memory_search(query, limit=5, memory_type=None):
     items = collect_memory_search_items()
     debug_results = []
     
     for item in items:
+        if memory_type and item["type"] != memory_type:
+            continue
+        
         similarity = similarity_score(query, item["text"])
         score = similarity * item["importance"] * item["recency"]
         
@@ -1964,13 +1989,17 @@ def handle_control_intent(user_input, analysis):
 
     if intent == "debug_memory_search":
         query = user_input.replace("debug memory ", "", 1).strip()
+        query, memory_type = parse_memory_query_with_type(query)
         
         if not query:
             return "What memory search should I debug?"
         
-        results = debug_memory_search(query)
+        results = debug_memory_search(query, memory_type=memory_type)
         
         if not results:
+            if memory_type:
+                return f"I do not have any {memory_type} memory items to debug."
+            
             return "I do not have any memory items to debug."
         
         lines = [
@@ -2957,6 +2986,7 @@ def handle_memory_intent(user_input, analysis):
     
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()
+        query, memory_type = parse_memory_query_with_type(query)
         
         memory_type = None
         allowed_types = {
