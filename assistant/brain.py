@@ -1532,6 +1532,8 @@ def preview_memory_cleanup():
     
 def parse_memory_query_with_type(text):
     memory_type = None
+    limit = None
+    
     allowed_types = {
         "note",
         "reminder",
@@ -1543,6 +1545,11 @@ def parse_memory_query_with_type(text):
     
     parts = text.split()
     
+    if parts and parts[-1].isdigit():
+        limit = int(parts[-1])
+        parts = parts[:-1]
+        text = " ".join(parts).strip()
+    
     if len(parts) >= 2:
         possible_type = parts[-1].lower()
         
@@ -1550,7 +1557,7 @@ def parse_memory_query_with_type(text):
             memory_type = possible_type
             text = " ".join(parts[:-1]).strip()
             
-    return text, memory_type
+    return text, memory_type, limit
 
 def semantic_search_memory(query, limit=5, min_score=0.3, source_type=None, memory_type=None):
     items = collect_memory_search_items()
@@ -1989,12 +1996,21 @@ def handle_control_intent(user_input, analysis):
 
     if intent == "debug_memory_search":
         query = user_input.replace("debug memory ", "", 1).strip()
-        query, memory_type = parse_memory_query_with_type(query)
+        query, memory_type, limit = parse_memory_query_with_type(query)
         
         if not query:
             return "What memory search should I debug?"
         
-        results = debug_memory_search(query, memory_type=memory_type)
+        if limit is None:
+            limit = 5
+
+        if limit < 1:
+            limit = 1
+
+        if limit > 20:
+            limit = 20
+        
+        results = debug_memory_search(query, limit=limit, memory_type=memory_type)
         
         if not results:
             if memory_type:
@@ -2986,7 +3002,7 @@ def handle_memory_intent(user_input, analysis):
     
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()
-        query, memory_type = parse_memory_query_with_type(query)
+        query, memory_type, limit = parse_memory_query_with_type(query)
         
         memory_type = None
         allowed_types = {
@@ -3006,11 +3022,20 @@ def handle_memory_intent(user_input, analysis):
             if possible_type in allowed_types:
                 memory_type = possible_type
                 query = " ".join(parts[:-1]).strip()
+                
+        if limit is None:
+            limit = 5
+
+        if limit < 1:
+            limit = 1
+
+        if limit > 20:
+            limit = 20
         
         if not query:
             return "What should I search memory for?"
         
-        results = semantic_search_memory(query, memory_type=memory_type)
+        results = semantic_search_memory(query, memory_type=memory_type, limit=limit)
         
         if not results:
             if memory_type:
