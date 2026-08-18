@@ -28,13 +28,14 @@ def log_file_search(action, folder_name, query, result_summary):
     
     memory.add_file_search_event(event)
     
-def format_memory_search_header(query, memory_type, limit, min_score):
+def format_memory_search_header(query, memory_type, limit, min_score, sort_mode="relevant"):
     lines = [
         "Memory search:",
         f"Query: {query}",
         f"Type: {memory_type if memory_type else 'any'}",
         f"Limit: {limit}",
         f"Min score: {min_score:.2f}",
+        f"Sort: {sort_mode}",
         ""
     ]
     
@@ -1546,8 +1547,14 @@ def parse_memory_query_with_type(text):
     memory_type = None
     limit = None
     min_score = None
+    sort_mode = "relevant"
     
     parts = text.split()
+    allowed_sort_modes = {"relevant", "recent", "important"}
+    
+    if parts and parts[-1].lower() in allowed_sort_modes:
+        sort_mode = parts[-1].lower()
+        parts = parts[:-1]
     
     if parts:
         try:
@@ -1572,9 +1579,9 @@ def parse_memory_query_with_type(text):
             
     text = " ".join(parts).strip()
             
-    return text, memory_type, limit, min_score
+    return text, memory_type, limit, min_score, sort_mode
 
-def semantic_search_memory(query, limit=5, min_score=0.3, source_type=None, memory_type=None):
+def semantic_search_memory(query, limit=5, min_score=0.3, source_type=None, memory_type=None, sort_mode="relevant"):
     items = collect_memory_search_items()
     scored_results = []
     
@@ -1597,12 +1604,32 @@ def semantic_search_memory(query, limit=5, min_score=0.3, source_type=None, memo
                 "item": item
             })
         
-    scored_results.sort(key=lambda result: (
-            result["score"],
-            result["item"]["priority"]
-        ),
-    reverse=True
-    )
+    if sort_mode == "recent":
+        scored_results.sort(
+            key=lambda result: (
+                result["recency"],
+                result["score"],
+                result["item"]["priority"]
+            ),
+            reverse=True
+        )
+    elif sort_mode == "important":
+        scored_results.sort(
+            key=lambda result: (
+                result["importance"],
+                result["score"],
+                result["item"]["priority"]
+            ),
+            reverse=True
+        )
+    else:
+        scored_results.sort(
+            key=lambda result: (
+                result["score"],
+                result["item"]["priority"]
+            ),
+            reverse=True
+        )
     
     unique_results = []
     seen_texts = set()
@@ -2012,7 +2039,7 @@ def handle_control_intent(user_input, analysis):
 
     if intent == "debug_memory_search":
         query = user_input.replace("debug memory ", "", 1).strip()
-        query, memory_type, limit, min_score = parse_memory_query_with_type(query)
+        query, memory_type, limit, min_score, sort_mode = parse_memory_query_with_type(query)
         
         if not query:
             return "What memory search should I debug?"
@@ -2043,7 +2070,7 @@ def handle_control_intent(user_input, analysis):
             
             return "I do not have any memory items to debug."
         
-        lines = format_memory_search_header(query, memory_type, limit, min_score)
+        lines = format_memory_search_header(query, memory_type, limit, min_score, sort_mode)
         
         for result in results:
             item = result["item"]
@@ -3026,7 +3053,7 @@ def handle_memory_intent(user_input, analysis):
     
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()
-        query, memory_type, limit, min_score = parse_memory_query_with_type(query)
+        query, memory_type, limit, min_score, sort_mode = parse_memory_query_with_type(query)
                 
         if limit is None:
             limit = 5
@@ -3049,7 +3076,7 @@ def handle_memory_intent(user_input, analysis):
         if not query:
             return "What should I search memory for?"
         
-        results = semantic_search_memory(query, memory_type=memory_type, limit=limit, min_score=min_score)
+        results = semantic_search_memory(query, memory_type=memory_type, limit=limit, min_score=min_score, sort_mode=sort_mode)
         
         if not results:
             if memory_type:
@@ -3057,7 +3084,7 @@ def handle_memory_intent(user_input, analysis):
             
             return f"I could not find anything similar to '{query}'."
         
-        lines = format_memory_search_header(query, memory_type, limit, min_score)
+        lines = format_memory_search_header(query, memory_type, limit, min_score, sort_mode)
         
         for result in results:
             score = result["score"]
