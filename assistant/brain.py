@@ -3,7 +3,7 @@ from assistant import memory
 from assistant import chat
 from assistant import apps
 from assistant import personality
-from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS
+from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS, MEMORY_TYPE_ALIASES
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records, get_dataset_missing_fields, get_dataset_unknown_intents, get_dataset_coverage, get_dataset_low_coverage, get_dataset_suggestions, get_dataset_examples_for_intent, get_dataset_intent_health, get_dataset_weakest_intent, get_dataset_strongest_intent, get_dataset_balance, suggest_example_phrases_for_intent, get_conflicts_for_intent, get_dataset_conflict_summary, preview_resolve_dataset_conflict, resolve_dataset_conflict, backup_datasets, get_dataset_backups, preview_restore_dataset_backup, restore_dataset_backup, preview_dataset_backup_cleanup, cleanup_dataset_backups
 from datetime import datetime
 from assistant import focus
@@ -1547,15 +1547,6 @@ def parse_memory_query_with_type(text):
     limit = None
     min_score = None
     
-    allowed_types = {
-        "note",
-        "reminder",
-        "history",
-        "conversation",
-        "summary",
-        "archive_summary",
-    }
-    
     parts = text.split()
     
     if parts:
@@ -1575,8 +1566,8 @@ def parse_memory_query_with_type(text):
     if parts:
         possible_type = parts[-1].lower()
         
-        if possible_type in allowed_types:
-            memory_type = possible_type
+        if possible_type in MEMORY_TYPE_ALIASES:
+            memory_type = MEMORY_TYPE_ALIASES[possible_type]
             parts = parts[:-1]
             
     text = " ".join(parts).strip()

@@ -450,6 +450,23 @@ MEMORY_TYPE_PRIORITY = {
     "archive_summary": 3
 }
 
+MEMORY_TYPE_ALIASES = {
+    "note": "note",
+    "notes": "note",
+    "reminder": "reminder",
+    "reminders": "reminder",
+    "history": "history",
+    "hist": "history",
+    "conversation": "conversation",
+    "convo": "conversation",
+    "conv": "conversation",
+    "summary": "summary",
+    "summaries": "summary",
+    "archive": "archive_summary",
+    "archive_summary": "archive_summary",
+    "archived": "archive_summary",
+}
+
 INTENT_PATTERNS = {
     "coding_help": [
         "help me code",
