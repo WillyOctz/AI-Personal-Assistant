@@ -37,7 +37,7 @@
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Memory search:\nQuery: music before 2026-08-01\nType: any\nLimit: 5\nMin score: 0.30\nSort: recent\n\n\n0.33 | sim=0.33 | imp=1.00 | rec=1.00 | Note: i like music",
+        "last_response_text": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\n\nDate filter: before 2026-08-23\n\n0.40 | sim=1.00 | imp=1.00 | rec=0.40 | Conversation: 2026-06-22 19:52:57 | You: remember i like music\n0.36 | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-07-27 21:10:40 | You: preview file assistant feedback.jsonl\n0.36 | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json\n0.32 | sim=1.00 | imp=0.80 | rec=0.40 | Conversation: 2026-06-23 15:05:37 | You: smeantic memory music\n0.32 | sim=1.00 | imp=0.80 | rec=0.40 | Conversation: 2026-06-26 15:58:30 | You: play minecraft",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -12162,6 +12162,46 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-23 16:09:39",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music today",
+            "assistant": "I could not find anything similar to 'music'.",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-23 16:29:06",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music yesterday",
+            "assistant": "I could not find anything similar to 'music'.",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-23 16:29:15",
+            "importance": 0.6
+        },
+        {
+            "user": "debug memory music today",
+            "assistant": "I do not have any memory items to debug.",
+            "intent": "debug_memory_search",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-23 16:29:27",
+            "importance": 0.1
+        },
+        {
+            "user": "semantic memory music before today",
+            "assistant": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\n\nDate filter: before 2026-08-23\n\n0.40 | sim=1.00 | imp=1.00 | rec=0.40 | Conversation: 2026-06-22 19:52:57 | You: remember i like music\n0.36 | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-07-27 21:10:40 | You: preview file assistant feedback.jsonl\n0.36 | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json\n0.32 | sim=1.00 | imp=0.80 | rec=0.40 | Conversation: 2026-06-23 15:05:37 | You: smeantic memory music\n0.32 | sim=1.00 | imp=0.80 | rec=0.40 | Conversation: 2026-06-26 15:58:30 | You: play minecraft",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-23 16:29:32",
             "importance": 0.6
         }
     ],

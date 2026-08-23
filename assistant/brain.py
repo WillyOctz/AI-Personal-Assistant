@@ -5,7 +5,7 @@ from assistant import apps
 from assistant import personality
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS, MEMORY_TYPE_ALIASES
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records, get_dataset_missing_fields, get_dataset_unknown_intents, get_dataset_coverage, get_dataset_low_coverage, get_dataset_suggestions, get_dataset_examples_for_intent, get_dataset_intent_health, get_dataset_weakest_intent, get_dataset_strongest_intent, get_dataset_balance, suggest_example_phrases_for_intent, get_conflicts_for_intent, get_dataset_conflict_summary, preview_resolve_dataset_conflict, resolve_dataset_conflict, backup_datasets, get_dataset_backups, preview_restore_dataset_backup, restore_dataset_backup, preview_dataset_backup_cleanup, cleanup_dataset_backups
-from datetime import datetime
+from datetime import datetime, timedelta
 from assistant import focus
 
 HIGH_CONFIDENCE = 0.75
@@ -13,6 +13,18 @@ LOW_CONFIDENCE = 0.55
 
 def current_timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+def resolve_memory_date_alias(date_next):
+    today = datetime.now().date()
+    text = date_next.lower().strip()
+    
+    if text == "today":
+        return str(today)
+    
+    if text == "yesterday":
+        return str(today - timedelta(days=1))
+    
+    return date_next
 
 def log_app_launch(app_name, command, result):
     return apps.log_app_launch(app_name, command, result)
@@ -1590,7 +1602,13 @@ def parse_memory_query_with_type(text):
         if possible_keyword in ["after", "before"]:
             date_filter = possible_keyword
             date_value = possible_date
+            date_value = resolve_memory_date_alias(date_value)
             parts = parts[:-2]
+            
+        if parts and parts[-1].lower() in ["today", "yesterday"]:
+            date_filter = "after"
+            date_value = resolve_memory_date_alias(parts[-1])
+            parts = parts[:-1]
             
     allowed_sort_modes = {"relevant", "recent", "important"}
     
