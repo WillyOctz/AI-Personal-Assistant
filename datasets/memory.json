@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "semantic_memory_search",
-        "last_response_group": "memory",
+        "last_response_intent": "debug_memory_search",
+        "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\n\nDate filter: before 2026-08-23\n\n0.40 | sim=1.00 | imp=1.00 | rec=0.40 | Conversation: 2026-06-22 19:52:57 | You: remember i like music\n0.36 | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-07-27 21:10:40 | You: preview file assistant feedback.jsonl\n0.36 | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json\n0.32 | sim=1.00 | imp=0.80 | rec=0.40 | Conversation: 2026-06-23 15:05:37 | You: smeantic memory music\n0.32 | sim=1.00 | imp=0.80 | rec=0.40 | Conversation: 2026-06-26 15:58:30 | You: play minecraft",
+        "last_response_text": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\n\nDate filter: on 2026-08-03\n\n\nScore: 0.36\nType: conversation\nText: preview file assistant memory.json Preview: C:\\Users\\User\\AI_Personal_Assistant\\datasets\\memory.json\n{\n    \"notes\": [\n        \"i want to learn AI\",\n        \"i want to improve you\",\n        \"i like music\",\n        \"profile favorite_language python\",\n        \"profile goal to build best AI assistant\",\n        \"i like coffee\",\n        \"game stardew valley\",\n        \"app spotify\"\n    ],\n    \"profile\": {\n        \"name\": \"Carlos\",\n        \"favorite_language\": \"python\",\n        \"goal\": \"to build best AI assistant\",\n        \"mood\": \"focused\",\n        \"focus_goal\": \"10 seconds\"\n    },\n    \"reminders\": [\n        { preview_file\nTokens: ['preview', 'file', 'assistant', 'memoryjson', 'preview:', 'c:\\\\users\\\\user\\\\ai_personal_assistant\\\\datasets\\\\memoryjson', '{', 'notes:', '[', 'i', 'want', 'learn', 'ai', 'i', 'want', 'improve', 'i', 'like', 'music', 'profile', 'favorite_language', 'python', 'profile', 'goal', 'build', 'best', 'ai', 'assistant', 'i', 'like', 'coffee', 'game', 'stardew', 'valley', 'app', 'spotify', ']', 'profile:', '{', 'name:', 'carlos', 'favorite_language:', 'python', 'goal:', 'build', 'best', 'ai', 'assistant', 'mood:', 'focused', 'focus_goal:', '10', 'seconds', '}', 'reminders:', '[', '{', 'preview_file']\nQuery tokens: ['music']\nRecency: 0.60",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -12203,6 +12203,36 @@
             "source": "rule",
             "timestamp": "2026-08-23 16:29:32",
             "importance": 0.6
+        },
+        {
+            "user": "semantic memory music on 2026-08-03",
+            "assistant": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\n\nDate filter: on 2026-08-03\n\n0.36 | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-23 17:02:56",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music on today",
+            "assistant": "I could not find anything similar to 'music'.",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-23 17:03:06",
+            "importance": 0.6
+        },
+        {
+            "user": "debug memory music on 2026-08-03",
+            "assistant": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\n\nDate filter: on 2026-08-03\n\n\nScore: 0.36\nType: conversation\nText: preview file assistant memory.json Preview: C:\\Users\\User\\AI_Personal_Assistant\\datasets\\memory.json\n{\n    \"notes\": [\n        \"i want to learn AI\",\n        \"i want to improve you\",\n        \"i like music\",\n        \"profile favorite_language python\",\n        \"profile goal to build best AI assistant\",\n        \"i like coffee\",\n        \"game stardew valley\",\n        \"app spotify\"\n    ],\n    \"profile\": {\n        \"name\": \"Carlos\",\n        \"favorite_language\": \"python\",\n        \"goal\": \"to build best AI assistant\",\n        \"mood\": \"focused\",\n        \"focus_goal\": \"10 seconds\"\n    },\n    \"reminders\": [\n        { preview_file\nTokens: ['preview', 'file', 'assistant', 'memoryjson', 'preview:', 'c:\\\\users\\\\user\\\\ai_personal_assistant\\\\datasets\\\\memoryjson', '{', 'notes:', '[', 'i', 'want', 'learn', 'ai', 'i', 'want', 'improve', 'i', 'like', 'music', 'profile', 'favorite_language', 'python', 'profile', 'goal', 'build', 'best', 'ai', 'assistant', 'i', 'like', 'coffee', 'game', 'stardew', 'valley', 'app', 'spotify', ']', 'profile:', '{', 'name:', 'carlos', 'favorite_language:', 'python', 'goal:', 'build', 'best', 'ai', 'assistant', 'mood:', 'focused', 'focus_goal:', '10', 'seconds', '}', 'reminders:', '[', '{', 'preview_file']\nQuery tokens: ['music']\nRecency: 0.60",
+            "intent": "debug_memory_search",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-23 17:03:14",
+            "importance": 0.1
         }
     ],
     "summaries": [

@@ -257,6 +257,9 @@ def passes_memory_date_filter(item, date_filter, date_value):
     if date_filter == "before":
         return item_date < date_value
     
+    if date_filter == "on":
+        return item_date == date_value
+    
     return True
     
 def parse_optional_number(user_input, default_number):
@@ -1599,7 +1602,7 @@ def parse_memory_query_with_type(text):
         possible_keyword = parts[-2].lower()
         possible_date = parts[-1]
         
-        if possible_keyword in ["after", "before"]:
+        if possible_keyword in ["after", "before", "on"]:
             date_filter = possible_keyword
             date_value = possible_date
             date_value = resolve_memory_date_alias(date_value)
