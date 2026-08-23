@@ -40,7 +40,7 @@ def log_file_search(action, folder_name, query, result_summary):
     
     memory.add_file_search_event(event)
     
-def format_memory_search_header(query, memory_type, limit, min_score, sort_mode="relevant", date_filter=None, date_value=None, date_start=None, date_end=None):  
+def format_memory_search_header(query, memory_type, limit, min_score, sort_mode="relevant", date_filter=None, date_value=None, date_start=None, date_end=None, archive_mode="include"):  
     lines = [
         "Memory search:",
         f"Query: {query}",
@@ -48,6 +48,7 @@ def format_memory_search_header(query, memory_type, limit, min_score, sort_mode=
         f"Limit: {limit}",
         f"Min score: {min_score:.2f}",
         f"Sort: {sort_mode}",
+        f"Archive mode: {archive_mode}",
         ""
     ]
     
@@ -1601,6 +1602,7 @@ def preview_memory_cleanup():
     }
     
 def parse_memory_query_with_type(text):
+    archive_mode = "include"
     date_start = None
     date_end = None
     date_filter = None
@@ -1611,6 +1613,10 @@ def parse_memory_query_with_type(text):
     sort_mode = "relevant"
     
     parts = text.split()
+    
+    if parts and parts[-1].lower() in ["noarchive", "archiveonly"]:
+        archive_mode = parts[-1].lower()
+        parts = parts[:-1]
     
     if len(parts) >= 2:
         possible_keyword = parts[-2].lower()
@@ -1663,9 +1669,9 @@ def parse_memory_query_with_type(text):
             
     text = " ".join(parts).strip()
             
-    return text, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end
+    return text, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode
 
-def semantic_search_memory(query, limit=5, min_score=0.3, source_type=None, memory_type=None, sort_mode="relevant",date_filter=None,date_value=None,date_start=None,date_end=None):
+def semantic_search_memory(query, limit=5, min_score=0.3, source_type=None, memory_type=None, sort_mode="relevant",date_filter=None,date_value=None,date_start=None,date_end=None, archive_mode="include"):
     items = collect_memory_search_items()
     scored_results = []
     
@@ -1680,6 +1686,12 @@ def semantic_search_memory(query, limit=5, min_score=0.3, source_type=None, memo
         score = similarity * item["importance"] * item["recency"]
         
         if not passes_memory_date_filter(item, date_filter, date_value, date_start, date_end):
+            continue
+        
+        if archive_mode == "noarchive" and item["type"] == "archive_summary":
+            continue
+        
+        if archive_mode == "archiveonly" and item["type"] != "archive_summary":
             continue
         
         if score >= min_score:
@@ -1775,7 +1787,7 @@ def get_archive_stats():
         "newest": max(timestamps)
     }
 
-def debug_memory_search(query, limit=5, memory_type=None, min_score=0.0, sort_mode="relevant", date_filter=None, date_value=None, date_start=None, date_end=None):
+def debug_memory_search(query, limit=5, memory_type=None, min_score=0.0, sort_mode="relevant", date_filter=None, date_value=None, date_start=None, date_end=None, archive_mode="include"):
     items = collect_memory_search_items()
     debug_results = []
     
@@ -1787,6 +1799,12 @@ def debug_memory_search(query, limit=5, memory_type=None, min_score=0.0, sort_mo
         score = similarity * item["importance"] * item["recency"]
         
         if not passes_memory_date_filter(item, date_filter, date_value, date_start, date_end):
+            continue
+        
+        if archive_mode == "noarchive" and item["type"] == "archive_summary":
+            continue
+
+        if archive_mode == "archiveonly" and item["type"] != "archive_summary":
             continue
         
         if score >= min_score:
@@ -2129,7 +2147,7 @@ def handle_control_intent(user_input, analysis):
 
     if intent == "debug_memory_search":
         query = user_input.replace("debug memory ", "", 1).strip()
-        query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end = parse_memory_query_with_type(query)
+        query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode = parse_memory_query_with_type(query)
         
         if not query:
             return "What memory search should I debug?"
@@ -2152,7 +2170,7 @@ def handle_control_intent(user_input, analysis):
         if min_score > 1:
             min_score = 1
         
-        results = debug_memory_search(query, limit=limit, memory_type=memory_type, min_score=min_score, sort_mode=sort_mode,date_filter=date_filter, date_value=date_value, date_start=date_start, date_end=date_end)
+        results = debug_memory_search(query, limit=limit, memory_type=memory_type, min_score=min_score, sort_mode=sort_mode,date_filter=date_filter, date_value=date_value, date_start=date_start, date_end=date_end, archive_mode=archive_mode)
         
         if not results:
             if memory_type:
@@ -2160,7 +2178,7 @@ def handle_control_intent(user_input, analysis):
             
             return "I do not have any memory items to debug."
         
-        lines = format_memory_search_header(query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end)
+        lines = format_memory_search_header(query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode)
         
         for result in results:
             item = result["item"]
@@ -3143,7 +3161,7 @@ def handle_memory_intent(user_input, analysis):
     
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()
-        query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end = parse_memory_query_with_type(query)
+        query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode = parse_memory_query_with_type(query)
                 
         if limit is None:
             limit = 5
@@ -3166,7 +3184,7 @@ def handle_memory_intent(user_input, analysis):
         if not query:
             return "What should I search memory for?"
         
-        results = semantic_search_memory(query, memory_type=memory_type, limit=limit, min_score=min_score, sort_mode=sort_mode, date_filter=date_filter, date_value=date_value, date_start=date_start, date_end=date_end)
+        results = semantic_search_memory(query, memory_type=memory_type, limit=limit, min_score=min_score, sort_mode=sort_mode, date_filter=date_filter, date_value=date_value, date_start=date_start, date_end=date_end, archive_mode=archive_mode)
         
         if not results:
             if memory_type:
@@ -3174,7 +3192,7 @@ def handle_memory_intent(user_input, analysis):
             
             return f"I could not find anything similar to '{query}'."
         
-        lines = format_memory_search_header(query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end)
+        lines = format_memory_search_header(query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode)
         
         for result in results:
             score = result["score"]

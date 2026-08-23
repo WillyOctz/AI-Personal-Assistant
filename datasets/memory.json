@@ -37,7 +37,7 @@
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\n\nDate filter: from 2026-08-01 to 2026-08-10\n\n\nScore: 1.00\nType: note\nText: i like music\nTokens: ['i', 'like', 'music']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.40\nType: conversation\nText: remember i like music i remembered that. remember_note\nTokens: ['remember', 'i', 'like', 'music', 'i', 'remembered', 'that', 'remember_note']\nQuery tokens: ['music']\nRecency: 0.40\n\nScore: 0.36\nType: conversation\nText: preview file assistant feedback.jsonl Preview: C:\\Users\\User\\AI_Personal_Assistant\\datasets\\feedback.jsonl\n{\"input\": \"play music\", \"correct_intent\": \"play_music\"}\n{\"input\": \"open chrome\", \"correct_intent\": \"open_app\"}\n{\"input\": \"remind me to study\", \"correct_intent\": \"set_reminder\"}\n{\"input\": \"play music\", \"correct_intent\": \"play_music\"}\n{\"input\": \"start music\", \"correct_intent\": \"play_music\"}\n{\"input\": \"gaming\", \"correct_intent\": \"play_game\"}\n{\"input\": \"play game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"gaming\", \"correct_intent\": \"minecraft\"}\n{\"input\": \"playing\", \"correct_intent\": \"minecraft\"}\n{\"input\": \"playing game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"start game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"start game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"start\", \"correct_intent\": \"play_game\"} preview_file\nTokens: ['preview', 'file', 'assistant', 'feedbackjsonl', 'preview:', 'c:\\\\users\\\\user\\\\ai_personal_assistant\\\\datasets\\\\feedbackjsonl', '{input:', 'play', 'music', 'correct_intent:', 'play_music}', '{input:', 'open', 'chrome', 'correct_intent:', 'open_app}', '{input:', 'remind', 'study', 'correct_intent:', 'set_reminder}', '{input:', 'play', 'music', 'correct_intent:', 'play_music}', '{input:', 'start', 'music', 'correct_intent:', 'play_music}', '{input:', 'game', 'correct_intent:', 'play_game}', '{input:', 'play', 'game', 'correct_intent:', 'play_game}', '{input:', 'game', 'correct_intent:', 'minecraft}', '{input:', 'play', 'correct_intent:', 'minecraft}', '{input:', 'play', 'game', 'correct_intent:', 'play_game}', '{input:', 'start', 'game', 'correct_intent:', 'play_game}', '{input:', 'start', 'game', 'correct_intent:', 'play_game}', '{input:', 'start', 'correct_intent:', 'play_game}', 'preview_file']\nQuery tokens: ['music']\nRecency: 0.60\n\nScore: 0.36\nType: conversation\nText: preview file assistant memory.json Preview: C:\\Users\\User\\AI_Personal_Assistant\\datasets\\memory.json\n{\n    \"notes\": [\n        \"i want to learn AI\",\n        \"i want to improve you\",\n        \"i like music\",\n        \"profile favorite_language python\",\n        \"profile goal to build best AI assistant\",\n        \"i like coffee\",\n        \"game stardew valley\",\n        \"app spotify\"\n    ],\n    \"profile\": {\n        \"name\": \"Carlos\",\n        \"favorite_language\": \"python\",\n        \"goal\": \"to build best AI assistant\",\n        \"mood\": \"focused\",\n        \"focus_goal\": \"10 seconds\"\n    },\n    \"reminders\": [\n        { preview_file\nTokens: ['preview', 'file', 'assistant', 'memoryjson', 'preview:', 'c:\\\\users\\\\user\\\\ai_personal_assistant\\\\datasets\\\\memoryjson', '{', 'notes:', '[', 'i', 'want', 'learn', 'ai', 'i', 'want', 'improve', 'i', 'like', 'music', 'profile', 'favorite_language', 'python', 'profile', 'goal', 'build', 'best', 'ai', 'assistant', 'i', 'like', 'coffee', 'game', 'stardew', 'valley', 'app', 'spotify', ']', 'profile:', '{', 'name:', 'carlos', 'favorite_language:', 'python', 'goal:', 'build', 'best', 'ai', 'assistant', 'mood:', 'focused', 'focus_goal:', '10', 'seconds', '}', 'reminders:', '[', '{', 'preview_file']\nQuery tokens: ['music']\nRecency: 0.60\n\nScore: 0.32\nType: conversation\nText: smeantic memory music I recognize this as 'play_music', but I do not know how to perform that action yet. play_music\nTokens: ['smeantic', 'memory', 'music', 'i', 'recognize', 'this', 'as', 'play_music', 'but', 'i', 'not', 'know', 'how', 'perform', 'that', 'action', 'yet', 'play_music']\nQuery tokens: ['music']\nRecency: 0.40",
+        "last_response_text": "I do not have any memory items to debug.",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -12252,6 +12252,36 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-23 17:36:26",
+            "importance": 0.1
+        },
+        {
+            "user": "semantic memory game noarchive",
+            "assistant": "Memory search:\nQuery: game\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: noarchive\n\n\n1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: game stardew valley\n0.40 | sim=1.00 | imp=1.00 | rec=0.40 | Conversation: 2026-06-30 17:43:16 | You: remember game stardew valley\n0.36 | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-07-27 21:10:40 | You: preview file assistant feedback.jsonl\n0.36 | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-07-28 16:33:35 | You: search text assistant known\n0.36 | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-23 17:55:48",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory game archiveonly",
+            "assistant": "I could not find anything similar to 'game'.",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-23 17:56:00",
+            "importance": 0.6
+        },
+        {
+            "user": "debug memory game archiveonly",
+            "assistant": "I do not have any memory items to debug.",
+            "intent": "debug_memory_search",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-23 17:56:09",
             "importance": 0.1
         }
     ],
