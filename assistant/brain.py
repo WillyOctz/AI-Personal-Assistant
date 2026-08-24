@@ -149,6 +149,21 @@ def parse_memory_result_index(user_input):
                 return int(value)
             
     return None
+
+def parse_explain_memory_result_index(user_input):
+    text = user_input.lower().strip()
+    
+    prefix = "explain memory result "
+    
+    if not text.startswith(prefix):
+        return None
+    
+    value = text.replace(prefix, "", 1).strip()
+    
+    if value.isdigit():
+        return int(value)
+    
+    return None
     
 def parse_file_range_command(user_input):
     parts = user_input.split()
@@ -3265,6 +3280,31 @@ def handle_memory_intent(user_input, analysis):
             f"Timestamp: {item['timestamp']}\n"
             f"Display: {item['display']}\n"
             f"Text: {item['text']}"
+        )
+        
+    if intent == "explain_memory_result":
+        index = parse_explain_memory_result_index(user_input)
+        
+        if index is None:
+            return "Use this format: explain memory result number"
+        
+        results = memory.get_state_value("last_memory_search_results") or []
+        
+        if not results:
+            return "I do not have saved memory search results yet."
+        
+        if index < 1 or index > len(results):
+            return "That memory result number does not exist."
+        
+        item = results[index - 1]
+        
+        return (
+            f"Memory result {index} matched because:\n"
+            f"- Similarity: {item['similarity']:.2f}\n"
+            f"- Importance: {item['importance']:.2f}\n"
+            f"- Recency: {item['recency']:.2f}\n"
+            f"- Final score: {item['score']:.2f}\n"
+            f"The score is calculated from similarity * importance * recency."
         )
     
     if intent == "show_summaries":

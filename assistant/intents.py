@@ -205,6 +205,7 @@ VALID_INTENTS = {
     "dataset_dashboard",
     "dataset_report",
     "show_memory_result",
+    "explain_memory_result",
 }
 
 CONTROL_INTENTS = {
@@ -413,6 +414,7 @@ MEMORY_INTENTS = {
     "preview_file_around",
     "preview_file_range",
     "show_memory_result",
+    "explain_memory_result",
 }
 
 ACTION_INTENTS = {
@@ -1310,6 +1312,9 @@ INTENT_PREFIXES = {
         "show memory result ",
         "memory result ",
     ],
+    "explain_memory_result": [
+        "explain memory result ",
+    ],
 }
 
 PREFIX_INTENT_ORDER = [
@@ -1328,6 +1333,7 @@ PREFIX_INTENT_ORDER = [
     "debug_model",
     "debug_match",
     
+    "explain_memory_result",
     "show_memory_result",
 
     "search_reminders_by_due",
