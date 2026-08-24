@@ -3194,11 +3194,13 @@ def handle_memory_intent(user_input, analysis):
         
         lines = format_memory_search_header(query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode)
         
-        for result in results:
+        for index, result in enumerate(results, start=1):
             score = result["score"]
             display = result["item"]["display"]
+            item_type = result["item"]["type"]
             lines.append(
-                f"{result['score']:.2f} | sim={result['similarity']:.2f} | "
+                f"{index}. {result['score']:.2f} | {item_type} | "
+                f"sim={result['similarity']:.2f} | "
                 f"imp={result['importance']:.2f} | rec={result['recency']:.2f} | {display}"
             )
             

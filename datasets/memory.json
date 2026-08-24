@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "debug_memory_search",
-        "last_response_group": "control",
+        "last_response_intent": "semantic_memory_search",
+        "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I do not have any memory items to debug.",
+        "last_response_text": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | note | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music\n2. 0.40 | conversation | sim=1.00 | imp=1.00 | rec=0.40 | Conversation: 2026-06-22 19:52:57 | You: remember i like music\n3. 0.36 | conversation | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-07-27 21:10:40 | You: preview file assistant feedback.jsonl\n4. 0.36 | conversation | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json\n5. 0.32 | conversation | sim=1.00 | imp=0.80 | rec=0.40 | Conversation: 2026-06-23 15:05:37 | You: smeantic memory music",
         "pending_response_feedback_clear": null
     },
     "history": [
@@ -12283,6 +12283,16 @@
             "source": "rule",
             "timestamp": "2026-08-23 17:56:09",
             "importance": 0.1
+        },
+        {
+            "user": "semantic memory music 5 0.3",
+            "assistant": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | note | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music\n2. 0.40 | conversation | sim=1.00 | imp=1.00 | rec=0.40 | Conversation: 2026-06-22 19:52:57 | You: remember i like music\n3. 0.36 | conversation | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-07-27 21:10:40 | You: preview file assistant feedback.jsonl\n4. 0.36 | conversation | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json\n5. 0.32 | conversation | sim=1.00 | imp=0.80 | rec=0.40 | Conversation: 2026-06-23 15:05:37 | You: smeantic memory music",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-24 16:17:02",
+            "importance": 0.6
         }
     ],
     "summaries": [
