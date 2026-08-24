@@ -137,6 +137,18 @@ def format_list_folder_error(reason, folder_name):
         return f"Registered search path is not a folder: {folder_name}"
     
     return f"I could not list files: {reason}"
+
+def parse_memory_result_index(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["show memory result ", "memory result "]:
+        if text.startswith(prefix):
+            value = text.replace(prefix, "", 1).strip()
+            
+            if value.isdigit():
+                return int(value)
+            
+    return None
     
 def parse_file_range_command(user_input):
     parts = user_input.split()
@@ -3226,6 +3238,34 @@ def handle_memory_intent(user_input, analysis):
             )
             
         return "\n".join(lines)
+    
+    if intent == "show_memory_result":
+        index = parse_memory_result_index(user_input)
+        
+        if index is None:
+            return "Use this format: show memory result number"
+        
+        results = memory.get_state_value("last_memory_search_results") or []
+        
+        if not results:
+            return "I do not have saved memory search results yet."
+        
+        if index < 1 or index > len(results):
+            return "That memory result number does not exist."
+        
+        item = results[index - 1]
+        
+        return (
+            f"Memory result {index}:\n"
+            f"Type: {item['type']}\n"
+            f"Score: {item['score']:.2f}\n"
+            f"Similarity: {item['similarity']:.2f}\n"
+            f"Importance: {item['importance']:.2f}\n"
+            f"Recency: {item['recency']:.2f}\n"
+            f"Timestamp: {item['timestamp']}\n"
+            f"Display: {item['display']}\n"
+            f"Text: {item['text']}"
+        )
     
     if intent == "show_summaries":
         summaries = memory.get_summaries()

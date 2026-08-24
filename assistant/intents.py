@@ -204,6 +204,7 @@ VALID_INTENTS = {
     "cleanup_dataset_backups",
     "dataset_dashboard",
     "dataset_report",
+    "show_memory_result",
 }
 
 CONTROL_INTENTS = {
@@ -411,6 +412,7 @@ MEMORY_INTENTS = {
     "cleanup_file_search_history",
     "preview_file_around",
     "preview_file_range",
+    "show_memory_result",
 }
 
 ACTION_INTENTS = {
@@ -1304,6 +1306,10 @@ INTENT_PREFIXES = {
     "restore_dataset_backup": [
         "restore dataset backup ",
     ],
+    "show_memory_result": [
+        "show memory result ",
+        "memory result ",
+    ],
 }
 
 PREFIX_INTENT_ORDER = [
@@ -1321,6 +1327,8 @@ PREFIX_INTENT_ORDER = [
     "debug_entity",
     "debug_model",
     "debug_match",
+    
+    "show_memory_result",
 
     "search_reminders_by_due",
     "search_reminders",
