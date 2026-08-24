@@ -164,6 +164,24 @@ def parse_explain_memory_result_index(user_input):
         return int(value)
     
     return None
+
+def parse_compare_memory_results(user_input):
+    text = user_input.lower().strip()
+    prefix = "compare memory results "
+    
+    if not text.startswith(prefix):
+        return None
+    
+    value = text.replace(prefix, "", 1).strip()
+    parts = value.split()
+    
+    if len(parts) != 2:
+        return None
+    
+    if not parts[0].isdigit() or not parts[1].isdigit():
+        return None
+    
+    return int(parts[0]), int(parts[1])
     
 def parse_file_range_command(user_input):
     parts = user_input.split()
@@ -3251,6 +3269,47 @@ def handle_memory_intent(user_input, analysis):
                 f"sim={result['similarity']:.2f} | "
                 f"imp={result['importance']:.2f} | rec={result['recency']:.2f} | {display}"
             )
+            
+        return "\n".join(lines)
+    
+    if intent == "compare_memory_results":
+        parsed = parse_compare_memory_results(user_input)
+        
+        if not parsed:
+            return "Use this format: compare memory results number number"
+        
+        first_index, second_index = parsed
+        results = memory.get_state_value("last_memory_search_results") or []
+        
+        if not results:
+            return "I do not have saved memory search results yet."
+        
+        if first_index < 1 or first_index > len(results):
+            return f"Memory result {first_index} does not exist"
+        
+        if second_index < 1 or second_index > len(results):
+            return f"Memory result {second_index} does not exist."
+        
+        first = results[first_index - 1]
+        second = results[second_index - 1]
+        
+        if first["score"] > second["score"]:
+            stronger = first_index
+        elif second["score"] > first["score"]:
+            stronger = second_index
+        else:
+            stronger = None
+            
+        lines = [
+            f"Memory result comparison: {first_index} vs {second_index}",
+            f"{first_index}: score={first['score']:.2f}, sim={first['similarity']:.2f}, imp={first['importance']:.2f}, rec={first['recency']:.2f}",
+            f"{second_index}: score={second['score']:.2f}, sim={second['similarity']:.2f}, imp={second['importance']:.2f}, rec={second['recency']:.2f}",
+        ]
+        
+        if stronger:
+            lines.append(f"Stronger result: {stronger}")
+        else:
+            lines.append("Both results have the same score.")
             
         return "\n".join(lines)
     

@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "explain_memory_result",
+        "last_response_intent": "compare_memory_results",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Memory result 1 matched because:\n- Similarity: 1.00\n- Importance: 1.00\n- Recency: 1.00\n- Final score: 1.00\nThe score is calculated from similarity * importance * recency.",
+        "last_response_text": "Memory result comparison: 1 vs 2\n1: score=1.00, sim=1.00, imp=1.00, rec=1.00\n2: score=0.60, sim=1.00, imp=0.60, rec=1.00\nStronger result: 1",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [
             {
@@ -12404,6 +12404,26 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-24 17:33:10",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music",
+            "assistant": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | note | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music\n2. 0.60 | conversation | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-24 16:49:42 | You: show memory result 1\n3. 0.40 | conversation | sim=1.00 | imp=1.00 | rec=0.40 | Conversation: 2026-06-22 19:52:57 | You: remember i like music\n4. 0.36 | conversation | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-07-27 21:10:40 | You: preview file assistant feedback.jsonl\n5. 0.36 | conversation | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-24 17:48:39",
+            "importance": 0.6
+        },
+        {
+            "user": "compare memory results 1 2",
+            "assistant": "Memory result comparison: 1 vs 2\n1: score=1.00, sim=1.00, imp=1.00, rec=1.00\n2: score=0.60, sim=1.00, imp=0.60, rec=1.00\nStronger result: 1",
+            "intent": "compare_memory_results",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-24 17:48:43",
             "importance": 0.6
         }
     ],
