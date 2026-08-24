@@ -40,6 +40,25 @@ def log_file_search(action, folder_name, query, result_summary):
     
     memory.add_file_search_event(event)
     
+def save_last_memory_search_results(results):
+    saved_results = []
+    
+    for result in results:
+        item = result["item"]
+        
+        saved_results.append({
+            "type": item["type"],
+            "display": item["display"],
+            "text": item["text"],
+            "score": result["score"],
+            "similarity": result["similarity"],
+            "importance": result["importance"],
+            "recency": result["recency"],
+            "timestamp": item.get("timestamp")
+        })
+        
+    memory.set_state_value("last_memory_search_results", saved_results)
+    
 def format_memory_search_header(query, memory_type, limit, min_score, sort_mode="relevant", date_filter=None, date_value=None, date_start=None, date_end=None, archive_mode="include"):  
     lines = [
         "Memory search:",
@@ -3191,6 +3210,8 @@ def handle_memory_intent(user_input, analysis):
                 return f"I could not find {memory_type} memory similar to '{query}'."
             
             return f"I could not find anything similar to '{query}'."
+        
+        save_last_memory_search_results(results)
         
         lines = format_memory_search_header(query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode)
         

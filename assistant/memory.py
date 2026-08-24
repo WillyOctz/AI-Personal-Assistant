@@ -262,6 +262,9 @@ def ensure_memory_shape(memory):
     if "response_feedback_notes"  not in memory:
         memory["response_feedback_notes"] = []
         
+    if "last_memory_search_results" not in memory["state"]:
+        memory["state"]["last_memory_search_results"] = []
+        
     return memory
 
 def archive_conversation_turns(turns_to_archive):
