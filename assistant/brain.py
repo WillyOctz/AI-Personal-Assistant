@@ -3366,6 +3366,33 @@ def handle_memory_intent(user_input, analysis):
             f"The score is calculated from similarity * importance * recency."
         )
         
+    if intent == "memory_result_stats":
+        results = memory.get_state_value("last_memory_search_results") or []
+        
+        if not results:
+            return "I do not have saved memory search result stats yet."
+        
+        type_counts = {}
+        
+        for item in results:
+            item_type = item.get("type", "unknown")
+            
+            if item_type not in type_counts:
+                type_counts[item_type] = 0
+                
+            type_counts[item_type] += 1
+            
+        lines = [
+            "Memory result stats:",
+            f"Saved results: {len(results)}",
+            "Types:"
+        ]
+        
+        for item_type, count in type_counts.items():
+            lines.append(f"- {item_type}: {count}")
+            
+        return "\n".join(lines)
+        
     if intent == "clear_memory_results":
         results = memory.get_state_value("last_memory_search_results") or []
         
