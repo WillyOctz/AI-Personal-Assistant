@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "memory_result_stats",
+        "last_response_intent": "memory_result_summary",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I do not have saved memory search result stats yet.",
+        "last_response_text": "I do not have saved memory search results to summarize.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": []
     },
@@ -12453,6 +12453,46 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-25 16:31:59",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music",
+            "assistant": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | note | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music\n2. 0.60 | conversation | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-25 16:20:36 | You: show memory result 1\n3. 0.40 | conversation | sim=1.00 | imp=1.00 | rec=0.40 | Conversation: 2026-06-22 19:52:57 | You: remember i like music\n4. 0.36 | conversation | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-07-27 21:10:40 | You: preview file assistant feedback.jsonl\n5. 0.36 | conversation | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-25 16:57:31",
+            "importance": 0.6
+        },
+        {
+            "user": "memory result summary",
+            "assistant": "Memory result summary:\nSaved results: 5\nBest match type: note\nBest score: 1.00\nBest match: Note: i like music\nOther matches: 4",
+            "intent": "memory_result_summary",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-25 16:57:40",
+            "importance": 0.6
+        },
+        {
+            "user": "clear memory results",
+            "assistant": "Cleared 5 saved memory search result(s).",
+            "intent": "clear_memory_results",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-25 16:57:54",
+            "importance": 0.6
+        },
+        {
+            "user": "memory result summary",
+            "assistant": "I do not have saved memory search results to summarize.",
+            "intent": "memory_result_summary",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-25 16:58:05",
             "importance": 0.6
         }
     ],

@@ -209,6 +209,7 @@ VALID_INTENTS = {
     "compare_memory_results",
     "clear_memory_results",
     "memory_result_stats",
+    "memory_result_summary",
 }
 
 CONTROL_INTENTS = {
@@ -421,6 +422,7 @@ MEMORY_INTENTS = {
     "compare_memory_results",
     "clear_memory_results",
     "memory_result_stats",
+    "memory_result_summary",
 }
 
 ACTION_INTENTS = {
@@ -1047,6 +1049,11 @@ INTENT_PATTERNS = {
         "memory result stats",
         "saved memory result stats",
         "memory search result stats",
+    ],
+    "memory_result_summary": [
+        "memory result summary",
+        "summarize memory results",
+        "memory search summary",
     ],
 }
 

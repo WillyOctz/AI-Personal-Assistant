@@ -3392,6 +3392,27 @@ def handle_memory_intent(user_input, analysis):
             lines.append(f"- {item_type}: {count}")
             
         return "\n".join(lines)
+    
+    if intent == "memory_result_summary":
+        results = memory.get_state_value("last_memory_search_results") or []
+        
+        if not results:
+            return "I do not have saved memory search results to summarize."
+        
+        best = results[0]
+        
+        lines = [
+            "Memory result summary:",
+            f"Saved results: {len(results)}",
+            f"Best match type: {best['type']}",
+            f"Best score: {best['score']:.2f}",
+            f"Best match: {best['display']}",
+        ]
+        
+        if len(results) > 1:
+            lines.append(f"Other matches: {len(results) - 1}")
+            
+        return "\n".join(lines)
         
     if intent == "clear_memory_results":
         results = memory.get_state_value("last_memory_search_results") or []
