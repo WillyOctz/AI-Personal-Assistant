@@ -75,6 +75,22 @@ def save_last_memory_search_query(query, memory_type, limit, min_score, sort_mod
     
     memory.set_state_value("last_memory_search_query", data)
     
+def save_last_debug_memory_search_query(query, memory_type, limit, min_score, sort_mode, date_filter=None, date_value=None, date_start=None, date_end=None, archive_mode="include"):
+    data = {
+        "query": query,
+        "type": memory_type,
+        "limit": limit,
+        "min_score": min_score,
+        "sort": sort_mode,
+        "date_filter": date_filter,
+        "date_value": date_value,
+        "date_start": date_start,
+        "date_end": date_end,
+        "archive_mode": archive_mode
+    }
+    
+    memory.set_state_value("last_debug_memory_search_query", data)
+    
 def format_memory_search_header(query, memory_type, limit, min_score, sort_mode="relevant", date_filter=None, date_value=None, date_start=None, date_end=None, archive_mode="include"):  
     lines = [
         "Memory search:",
@@ -120,6 +136,32 @@ def format_memory_search_results(query, memory_type, limit, min_score, sort_mode
             f"{index}. {result['score']:.2f} | sim={result['similarity']:.2f} | "
             f"imp={result['importance']:.2f} | rec={result['recency']:.2f} | {display}"
         )
+        
+    return "\n".join(lines)
+
+def format_debug_memory_results(query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode, results):
+    lines = format_memory_search_header(
+        query,
+        memory_type,
+        limit,
+        min_score,
+        sort_mode,
+        date_filter,
+        date_value,
+        date_start,
+        date_end,
+        archive_mode
+    )
+    
+    for result in results:
+        item = result["item"]
+        lines.append("")
+        lines.append(f"Score: {result['score']:.2f}")
+        lines.append(f"Type: {item['type']}")
+        lines.append(f"Text: {item['text']}")
+        lines.append(f"Tokens: {result['tokens']}")
+        lines.append(f"Query tokens: {tokenize(query)}")
+        lines.append(f"Recency: {result['recency']:.2f}")
         
     return "\n".join(lines)
     
@@ -2281,17 +2323,79 @@ def handle_control_intent(user_input, analysis):
             
             return "I do not have any memory items to debug."
         
-        for result in results:
-            item = result["item"]
-            lines.append("")
-            lines.append(f"Score: {result['score']:.2f}")
-            lines.append(f"Type: {item['type']}")
-            lines.append(f"Text: {item['text']}")
-            lines.append(f"Tokens: {result['tokens']}")
-            lines.append(f"Query tokens: {tokenize(query)}")
-            lines.append(f"Recency: {result['recency']:.2f}")
-            
-        return "\n".join(lines)
+        save_last_debug_memory_search_query(
+            query,
+            memory_type,
+            limit,
+            min_score,
+            sort_mode,
+            date_filter,
+            date_value,
+            date_start,
+            date_end,
+            archive_mode
+        )
+        
+        return format_debug_memory_results(
+            query,
+            memory_type,
+            limit,
+            min_score,
+            sort_mode,
+            date_filter,
+            date_value,
+            date_start,
+            date_end,
+            archive_mode,
+            results
+        )
+    
+    if intent == "repeat_debug_memory_search":
+        search = memory.get_state_value("last_debug_memory_search_query")
+        
+        if not search:
+            return "I do not have a saved debug memory search query to repeat."
+        
+        query = search.get("query")
+        memory_type = search.get("type")
+        limit = search.get("limit") or 5
+        min_score = search.get("min_score") or 0.0
+        sort_mode = search.get("sort") or "relevant"
+        date_filter = search.get("date_filter")
+        date_value = search.get("date_value")
+        date_start = search.get("date_start")
+        date_end = search.get("date_end")
+        archive_mode = search.get("archive_mode", "include")
+        
+        results = debug_memory_search(
+            query,
+            memory_type=memory_type,
+            limit=limit,
+            min_score=min_score,
+            sort_mode=sort_mode,
+            date_filter=date_filter,
+            date_value=date_value,
+            date_start=date_start,
+            date_end=date_end,
+            archive_mode=archive_mode
+        )
+        
+        if not results:
+            return f"I could not find debug memory results for '{query}' anymore."
+        
+        return format_debug_memory_results(
+            query,
+            memory_type,
+            limit,
+            min_score,
+            sort_mode,
+            date_filter,
+            date_value,
+            date_start,
+            date_end,
+            archive_mode,
+            results
+        )
 
     if intent == "debug_model":
         query = user_input.replace("debug model ", "", 1).strip()

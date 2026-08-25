@@ -225,6 +225,7 @@ CONTROL_INTENTS = {
     "confirm_intent",
     "deny_intent",
     "debug_memory_search",
+    "repeat_debug_memory_search",
     "debug_entity",
     "complete_pending_task",
     "skip_pending_task",
@@ -427,6 +428,7 @@ MEMORY_INTENTS = {
     "memory_result_summary",
     "show_last_memory_search",
     "repeat_memory_search",
+    "repeat_debug_memory_search",
 }
 
 ACTION_INTENTS = {
@@ -1068,6 +1070,11 @@ INTENT_PATTERNS = {
         "repeat memory search",
         "rerun memory search",
         "search memory again",
+    ],
+    "repeat_debug_memory_search": [
+        "repeat debug memory search",
+        "rerun debug memory search",
+        "debug memory again",
     ],
 }
 

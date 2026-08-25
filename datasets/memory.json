@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "repeat_memory_search",
-        "last_response_group": "memory",
+        "last_response_intent": "repeat_debug_memory_search",
+        "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Memory search:\nQuery: music\nType: note\nLimit: 5\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music",
+        "last_response_text": "Memory search:\nQuery: music\nType: conversation\nLimit: 5\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n\nScore: 0.60\nType: conversation\nText: show memory result 1 Memory result 1:\nType: note\nScore: 1.00\nSimilarity: 1.00\nImportance: 1.00\nRecency: 1.00\nTimestamp: None\nDisplay: Note: i like music\nText: i like music show_memory_result\nTokens: ['show', 'memory', 'result', '1', 'memory', 'result', '1:', 'type:', 'note', 'score:', '100', 'similarity:', '100', 'importance:', '100', 'recency:', '100', 'timestamp:', 'none', 'display:', 'note:', 'i', 'like', 'music', 'text:', 'i', 'like', 'music', 'show_memory_result']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: memory result summary Memory result summary:\nSaved results: 5\nBest match type: note\nBest score: 1.00\nBest match: Note: i like music\nOther matches: 4 memory_result_summary\nTokens: ['memory', 'result', 'summary', 'memory', 'result', 'summary:', 'saved', 'results:', '5', 'best', 'match', 'type:', 'note', 'best', 'score:', '100', 'best', 'match:', 'note:', 'i', 'like', 'music', 'other', 'matches:', '4', 'memory_result_summary']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: last memory search Last memory search:\nQuery: music\nType: note\nLimit: 5\nMin score: 0.3\nSort: recent\nArchive mode: include show_last_memory_search\nTokens: ['last', 'memory', 'search', 'last', 'memory', 'search:', 'query:', 'music', 'type:', 'note', 'limit:', '5', 'min', 'score:', '03', 'sort:', 'recent', 'archive', 'mode:', 'include', 'show_last_memory_search']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: last memory search Last memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.3\nSort: relevant\nArchive mode: include show_last_memory_search\nTokens: ['last', 'memory', 'search', 'last', 'memory', 'search:', 'query:', 'music', 'type:', 'any', 'limit:', '5', 'min', 'score:', '03', 'sort:', 'relevant', 'archive', 'mode:', 'include', 'show_last_memory_search']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: repeat memory search Memory search:\nQuery: music\nType: note\nLimit: 5\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music repeat_memory_search\nTokens: ['repeat', 'memory', 'search', 'memory', 'search:', 'query:', 'music', 'type:', 'note', 'limit:', '5', 'min', 'score:', '030', 'sort:', 'recent', 'archive', 'mode:', 'include', '1', '100', '|', 'sim=100', '|', 'imp=100', '|', 'rec=100', '|', 'note:', 'i', 'like', 'music', 'repeat_memory_search']\nQuery tokens: ['music']\nRecency: 1.00",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [
             {
@@ -54,6 +54,18 @@
         "last_memory_search_query": {
             "query": "music",
             "type": "note",
+            "limit": 5,
+            "min_score": 0.3,
+            "sort": "recent",
+            "date_filter": null,
+            "date_value": null,
+            "date_start": null,
+            "date_end": null,
+            "archive_mode": "include"
+        },
+        "last_debug_memory_search_query": {
+            "query": "music",
+            "type": "conversation",
             "limit": 5,
             "min_score": 0.3,
             "sort": "recent",
@@ -12617,6 +12629,66 @@
             "source": "rule",
             "timestamp": "2026-08-25 18:09:13",
             "importance": 0.6
+        },
+        {
+            "user": "debug memory music conversation 5 0.3 recent",
+            "assistant": "I do not have any conversation memory items to debug.",
+            "intent": "debug_memory_search",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-25 18:50:55",
+            "importance": 0.1
+        },
+        {
+            "user": "repeat debug memory search",
+            "assistant": null,
+            "intent": "repeat_debug_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-25 18:51:05",
+            "importance": 0.6
+        },
+        {
+            "user": "debug memory music conversation 5 0.3 recent",
+            "assistant": "Memory search:\nQuery: music\nType: conversation\nLimit: 5\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n\nScore: 0.60\nType: conversation\nText: show memory result 1 Memory result 1:\nType: note\nScore: 1.00\nSimilarity: 1.00\nImportance: 1.00\nRecency: 1.00\nTimestamp: None\nDisplay: Note: i like music\nText: i like music show_memory_result\nTokens: ['show', 'memory', 'result', '1', 'memory', 'result', '1:', 'type:', 'note', 'score:', '100', 'similarity:', '100', 'importance:', '100', 'recency:', '100', 'timestamp:', 'none', 'display:', 'note:', 'i', 'like', 'music', 'text:', 'i', 'like', 'music', 'show_memory_result']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: memory result summary Memory result summary:\nSaved results: 5\nBest match type: note\nBest score: 1.00\nBest match: Note: i like music\nOther matches: 4 memory_result_summary\nTokens: ['memory', 'result', 'summary', 'memory', 'result', 'summary:', 'saved', 'results:', '5', 'best', 'match', 'type:', 'note', 'best', 'score:', '100', 'best', 'match:', 'note:', 'i', 'like', 'music', 'other', 'matches:', '4', 'memory_result_summary']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: last memory search Last memory search:\nQuery: music\nType: note\nLimit: 5\nMin score: 0.3\nSort: recent\nArchive mode: include show_last_memory_search\nTokens: ['last', 'memory', 'search', 'last', 'memory', 'search:', 'query:', 'music', 'type:', 'note', 'limit:', '5', 'min', 'score:', '03', 'sort:', 'recent', 'archive', 'mode:', 'include', 'show_last_memory_search']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: last memory search Last memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.3\nSort: relevant\nArchive mode: include show_last_memory_search\nTokens: ['last', 'memory', 'search', 'last', 'memory', 'search:', 'query:', 'music', 'type:', 'any', 'limit:', '5', 'min', 'score:', '03', 'sort:', 'relevant', 'archive', 'mode:', 'include', 'show_last_memory_search']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: repeat memory search Memory search:\nQuery: music\nType: note\nLimit: 5\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music repeat_memory_search\nTokens: ['repeat', 'memory', 'search', 'memory', 'search:', 'query:', 'music', 'type:', 'note', 'limit:', '5', 'min', 'score:', '030', 'sort:', 'recent', 'archive', 'mode:', 'include', '1', '100', '|', 'sim=100', '|', 'imp=100', '|', 'rec=100', '|', 'note:', 'i', 'like', 'music', 'repeat_memory_search']\nQuery tokens: ['music']\nRecency: 1.00",
+            "intent": "debug_memory_search",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-25 19:00:14",
+            "importance": 0.1
+        },
+        {
+            "user": "repeat debug memory search",
+            "assistant": null,
+            "intent": "repeat_debug_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-25 19:00:30",
+            "importance": 0.6
+        },
+        {
+            "user": "debug memory music conversation 5 0.3 recent",
+            "assistant": "Memory search:\nQuery: music\nType: conversation\nLimit: 5\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n\nScore: 0.60\nType: conversation\nText: show memory result 1 Memory result 1:\nType: note\nScore: 1.00\nSimilarity: 1.00\nImportance: 1.00\nRecency: 1.00\nTimestamp: None\nDisplay: Note: i like music\nText: i like music show_memory_result\nTokens: ['show', 'memory', 'result', '1', 'memory', 'result', '1:', 'type:', 'note', 'score:', '100', 'similarity:', '100', 'importance:', '100', 'recency:', '100', 'timestamp:', 'none', 'display:', 'note:', 'i', 'like', 'music', 'text:', 'i', 'like', 'music', 'show_memory_result']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: memory result summary Memory result summary:\nSaved results: 5\nBest match type: note\nBest score: 1.00\nBest match: Note: i like music\nOther matches: 4 memory_result_summary\nTokens: ['memory', 'result', 'summary', 'memory', 'result', 'summary:', 'saved', 'results:', '5', 'best', 'match', 'type:', 'note', 'best', 'score:', '100', 'best', 'match:', 'note:', 'i', 'like', 'music', 'other', 'matches:', '4', 'memory_result_summary']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: last memory search Last memory search:\nQuery: music\nType: note\nLimit: 5\nMin score: 0.3\nSort: recent\nArchive mode: include show_last_memory_search\nTokens: ['last', 'memory', 'search', 'last', 'memory', 'search:', 'query:', 'music', 'type:', 'note', 'limit:', '5', 'min', 'score:', '03', 'sort:', 'recent', 'archive', 'mode:', 'include', 'show_last_memory_search']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: last memory search Last memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.3\nSort: relevant\nArchive mode: include show_last_memory_search\nTokens: ['last', 'memory', 'search', 'last', 'memory', 'search:', 'query:', 'music', 'type:', 'any', 'limit:', '5', 'min', 'score:', '03', 'sort:', 'relevant', 'archive', 'mode:', 'include', 'show_last_memory_search']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: repeat memory search Memory search:\nQuery: music\nType: note\nLimit: 5\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music repeat_memory_search\nTokens: ['repeat', 'memory', 'search', 'memory', 'search:', 'query:', 'music', 'type:', 'note', 'limit:', '5', 'min', 'score:', '030', 'sort:', 'recent', 'archive', 'mode:', 'include', '1', '100', '|', 'sim=100', '|', 'imp=100', '|', 'rec=100', '|', 'note:', 'i', 'like', 'music', 'repeat_memory_search']\nQuery tokens: ['music']\nRecency: 1.00",
+            "intent": "debug_memory_search",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-25 19:02:53",
+            "importance": 0.1
+        },
+        {
+            "user": "repeat debug memory search",
+            "assistant": "Memory search:\nQuery: music\nType: conversation\nLimit: 5\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n\nScore: 0.60\nType: conversation\nText: show memory result 1 Memory result 1:\nType: note\nScore: 1.00\nSimilarity: 1.00\nImportance: 1.00\nRecency: 1.00\nTimestamp: None\nDisplay: Note: i like music\nText: i like music show_memory_result\nTokens: ['show', 'memory', 'result', '1', 'memory', 'result', '1:', 'type:', 'note', 'score:', '100', 'similarity:', '100', 'importance:', '100', 'recency:', '100', 'timestamp:', 'none', 'display:', 'note:', 'i', 'like', 'music', 'text:', 'i', 'like', 'music', 'show_memory_result']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: memory result summary Memory result summary:\nSaved results: 5\nBest match type: note\nBest score: 1.00\nBest match: Note: i like music\nOther matches: 4 memory_result_summary\nTokens: ['memory', 'result', 'summary', 'memory', 'result', 'summary:', 'saved', 'results:', '5', 'best', 'match', 'type:', 'note', 'best', 'score:', '100', 'best', 'match:', 'note:', 'i', 'like', 'music', 'other', 'matches:', '4', 'memory_result_summary']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: last memory search Last memory search:\nQuery: music\nType: note\nLimit: 5\nMin score: 0.3\nSort: recent\nArchive mode: include show_last_memory_search\nTokens: ['last', 'memory', 'search', 'last', 'memory', 'search:', 'query:', 'music', 'type:', 'note', 'limit:', '5', 'min', 'score:', '03', 'sort:', 'recent', 'archive', 'mode:', 'include', 'show_last_memory_search']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: last memory search Last memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.3\nSort: relevant\nArchive mode: include show_last_memory_search\nTokens: ['last', 'memory', 'search', 'last', 'memory', 'search:', 'query:', 'music', 'type:', 'any', 'limit:', '5', 'min', 'score:', '03', 'sort:', 'relevant', 'archive', 'mode:', 'include', 'show_last_memory_search']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: repeat memory search Memory search:\nQuery: music\nType: note\nLimit: 5\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music repeat_memory_search\nTokens: ['repeat', 'memory', 'search', 'memory', 'search:', 'query:', 'music', 'type:', 'note', 'limit:', '5', 'min', 'score:', '030', 'sort:', 'recent', 'archive', 'mode:', 'include', '1', '100', '|', 'sim=100', '|', 'imp=100', '|', 'rec=100', '|', 'note:', 'i', 'like', 'music', 'repeat_memory_search']\nQuery tokens: ['music']\nRecency: 1.00",
+            "intent": "repeat_debug_memory_search",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-25 19:02:56",
+            "importance": 0.1
         }
     ],
     "summaries": [
