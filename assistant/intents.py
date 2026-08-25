@@ -211,6 +211,7 @@ VALID_INTENTS = {
     "memory_result_stats",
     "memory_result_summary",
     "show_last_memory_search",
+    "repeat_memory_search",
 }
 
 CONTROL_INTENTS = {
@@ -425,6 +426,7 @@ MEMORY_INTENTS = {
     "memory_result_stats",
     "memory_result_summary",
     "show_last_memory_search",
+    "repeat_memory_search",
 }
 
 ACTION_INTENTS = {
@@ -1061,6 +1063,11 @@ INTENT_PATTERNS = {
         "last memory search",
         "show last memory search",
         "memory search query",
+    ],
+    "repeat_memory_search": [
+        "repeat memory search",
+        "rerun memory search",
+        "search memory again",
     ],
 }
 

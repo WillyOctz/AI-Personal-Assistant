@@ -99,6 +99,29 @@ def format_memory_search_header(query, memory_type, limit, min_score, sort_mode=
     lines.append("")
     
     return lines
+
+def format_memory_search_results(query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode, results):
+    lines = format_memory_search_header(
+        query,
+        memory_type,
+        limit,
+        min_score,
+        sort_mode,
+        date_filter,
+        date_value,
+        date_start,
+        date_end,
+        archive_mode
+    )
+    
+    for index, result in enumerate(results, start=1):
+        display = result["item"]["display"]
+        lines.append(
+            f"{index}. {result['score']:.2f} | sim={result['similarity']:.2f} | "
+            f"imp={result['importance']:.2f} | rec={result['recency']:.2f} | {display}"
+        )
+        
+    return "\n".join(lines)
     
 def format_file_preview_error(reason, filename):
     if reason == "folder_not_found":
@@ -2258,8 +2281,6 @@ def handle_control_intent(user_input, analysis):
             
             return "I do not have any memory items to debug."
         
-        lines = format_memory_search_header(query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode)
-        
         for result in results:
             item = result["item"]
             lines.append("")
@@ -3277,17 +3298,19 @@ def handle_memory_intent(user_input, analysis):
         
         lines = format_memory_search_header(query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode)
         
-        for index, result in enumerate(results, start=1):
-            score = result["score"]
-            display = result["item"]["display"]
-            item_type = result["item"]["type"]
-            lines.append(
-                f"{index}. {result['score']:.2f} | {item_type} | "
-                f"sim={result['similarity']:.2f} | "
-                f"imp={result['importance']:.2f} | rec={result['recency']:.2f} | {display}"
-            )
-            
-        return "\n".join(lines)
+        return format_memory_search_results(
+            query,
+            memory_type,
+            limit,
+            min_score,
+            sort_mode,
+            date_filter,
+            date_value,
+            date_start,
+            date_end,
+            archive_mode,
+            results
+        )
     
     if intent == "compare_memory_results":
         parsed = parse_compare_memory_results(user_input)
@@ -3356,6 +3379,55 @@ def handle_memory_intent(user_input, analysis):
             )
             
         return "\n".join(lines)
+    
+    if intent == "repeat_memory_search":
+        search = memory.get_state_value("last_memory_search_query")
+        
+        if not search:
+            return "I do not have a saved memory search query to repeat."
+        
+        query = search.get("query")
+        memory_type = search.get("type")
+        limit = search.get("limit") or 5
+        min_score = search.get("min_score") or 0.3
+        sort_mode = search.get("sort") or "relevant"
+        date_filter = search.get("date_filter")
+        date_value = search.get("date_value")
+        date_start = search.get("date_start")
+        date_end = search.get("date_end")
+        archive_mode = search.get("archive_mode", "include")
+        
+        results = semantic_search_memory(
+            query,
+            memory_type=memory_type,
+            limit=limit,
+            min_score=min_score,
+            sort_mode=sort_mode,
+            date_filter=date_filter,
+            date_value=date_value,
+            date_start=date_start,
+            date_end=date_end,
+            archive_mode=archive_mode
+        )
+        
+        if not results:
+            return f"I could not find anything similar to '{query}' anymore."
+        
+        save_last_memory_search_results(results)
+        
+        return format_memory_search_results(
+            query,
+            memory_type,
+            limit,
+            min_score,
+            sort_mode,
+            date_filter,
+            date_value,
+            date_start,
+            date_end,
+            archive_mode,
+            results
+        )
     
     if intent == "show_memory_result":
         index = parse_memory_result_index(user_input)
