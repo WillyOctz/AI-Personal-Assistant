@@ -3365,6 +3365,17 @@ def handle_memory_intent(user_input, analysis):
             f"- Final score: {item['score']:.2f}\n"
             f"The score is calculated from similarity * importance * recency."
         )
+        
+    if intent == "clear_memory_results":
+        results = memory.get_state_value("last_memory_search_results") or []
+        
+        if not results:
+            return "I do not have saved memory search results to clear."
+        
+        count = len(results)
+        memory.set_state_value("last_memory_search_results", [])
+        
+        return f"Cleared {count} saved memory search result(s)."
     
     if intent == "show_summaries":
         summaries = memory.get_summaries()

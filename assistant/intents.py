@@ -207,6 +207,7 @@ VALID_INTENTS = {
     "show_memory_result",
     "explain_memory_result",
     "compare_memory_results",
+    "clear_memory_results",
 }
 
 CONTROL_INTENTS = {
@@ -417,6 +418,7 @@ MEMORY_INTENTS = {
     "show_memory_result",
     "explain_memory_result",
     "compare_memory_results",
+    "clear_memory_results",
 }
 
 ACTION_INTENTS = {
@@ -1033,6 +1035,11 @@ INTENT_PATTERNS = {
         "dataset report",
         "training report",
         "training data report",
+    ],
+    "clear_memory_results": [
+        "clear memory results",
+        "clear saved memory results",
+        "forget memory results",
     ],
 }
 
