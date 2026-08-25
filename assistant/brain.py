@@ -59,6 +59,22 @@ def save_last_memory_search_results(results):
         
     memory.set_state_value("last_memory_search_results", saved_results)
     
+def save_last_memory_search_query(query, memory_type, limit, min_score, sort_mode, date_filter=None, date_value=None, date_start=None, date_end=None, archive_mode="include"):
+    data = {
+        "query": query,
+        "type": memory_type,
+        "limit": limit,
+        "min_score": min_score,
+        "sort": sort_mode,
+        "date_filter": date_filter,
+        "date_value": date_value,
+        "date_start": date_start,
+        "date_end": date_end,
+        "archive_mode": archive_mode
+    }
+    
+    memory.set_state_value("last_memory_search_query", data)
+    
 def format_memory_search_header(query, memory_type, limit, min_score, sort_mode="relevant", date_filter=None, date_value=None, date_start=None, date_end=None, archive_mode="include"):  
     lines = [
         "Memory search:",
@@ -3257,6 +3273,7 @@ def handle_memory_intent(user_input, analysis):
             return f"I could not find anything similar to '{query}'."
         
         save_last_memory_search_results(results)
+        save_last_memory_search_query(query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode)
         
         lines = format_memory_search_header(query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode)
         

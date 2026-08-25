@@ -265,6 +265,9 @@ def ensure_memory_shape(memory):
     if "last_memory_search_results" not in memory["state"]:
         memory["state"]["last_memory_search_results"] = []
         
+    if "last_memory_search_query" not in memory["state"]:
+        memory["state"]["last_memory_search_query"] = None
+        
     return memory
 
 def archive_conversation_turns(turns_to_archive):

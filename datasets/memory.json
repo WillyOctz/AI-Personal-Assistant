@@ -32,14 +32,37 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "memory_result_summary",
+        "last_response_intent": "semantic_memory_search",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I do not have saved memory search results to summarize.",
+        "last_response_text": "Memory search:\nQuery: music\nType: note\nLimit: 5\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n1. 1.00 | note | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music",
         "pending_response_feedback_clear": null,
-        "last_memory_search_results": []
+        "last_memory_search_results": [
+            {
+                "type": "note",
+                "display": "Note: i like music",
+                "text": "i like music",
+                "score": 1.0,
+                "similarity": 1.0,
+                "importance": 1.0,
+                "recency": 1.0,
+                "timestamp": null
+            }
+        ],
+        "last_memory_search_query": {
+            "query": "music",
+            "type": "note",
+            "limit": 5,
+            "min_score": 0.3,
+            "sort": "recent",
+            "date_filter": null,
+            "date_value": null,
+            "date_start": null,
+            "date_end": null,
+            "archive_mode": "include"
+        }
     },
     "history": [
         {
@@ -12493,6 +12516,16 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-25 16:58:05",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music note 5 0.3 recent",
+            "assistant": "Memory search:\nQuery: music\nType: note\nLimit: 5\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n1. 1.00 | note | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-25 17:15:01",
             "importance": 0.6
         }
     ],
