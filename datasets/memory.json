@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "semantic_memory_search",
-        "last_response_group": "memory",
-        "last_response_source": "rule",
-        "last_response_confidence": 1.0,
+        "last_response_intent": "unknown",
+        "last_response_group": "unknown",
+        "last_response_source": "None",
+        "last_response_confidence": 0,
         "last_response_scores": {},
-        "last_response_text": "Memory search:\nQuery: music\nType: note\nLimit: 5\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n1. 1.00 | note | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music",
+        "last_response_text": "I am not sure if that was a command or conversation yet.\nYou said: exi\nYou can rephrase it, or teach me with: teach message as intent_name",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [
             {
@@ -49,14 +49,54 @@
                 "importance": 1.0,
                 "recency": 1.0,
                 "timestamp": null
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-08-25 16:20:36 | You: show memory result 1",
+                "text": "show memory result 1 Memory result 1:\nType: note\nScore: 1.00\nSimilarity: 1.00\nImportance: 1.00\nRecency: 1.00\nTimestamp: None\nDisplay: Note: i like music\nText: i like music show_memory_result",
+                "score": 0.6,
+                "similarity": 1.0,
+                "importance": 0.6,
+                "recency": 1.0,
+                "timestamp": "2026-08-25 16:20:36"
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-08-25 16:57:40 | You: memory result summary",
+                "text": "memory result summary Memory result summary:\nSaved results: 5\nBest match type: note\nBest score: 1.00\nBest match: Note: i like music\nOther matches: 4 memory_result_summary",
+                "score": 0.6,
+                "similarity": 1.0,
+                "importance": 0.6,
+                "recency": 1.0,
+                "timestamp": "2026-08-25 16:57:40"
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-08-25 17:34:35 | You: last memory search",
+                "text": "last memory search Last memory search:\nQuery: music\nType: note\nLimit: 5\nMin score: 0.3\nSort: recent\nArchive mode: include show_last_memory_search",
+                "score": 0.6,
+                "similarity": 1.0,
+                "importance": 0.6,
+                "recency": 1.0,
+                "timestamp": "2026-08-25 17:34:35"
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-06-22 19:52:57 | You: remember i like music",
+                "text": "remember i like music i remembered that. remember_note",
+                "score": 0.4,
+                "similarity": 1.0,
+                "importance": 1.0,
+                "recency": 0.4,
+                "timestamp": "2026-06-22 19:52:57"
             }
         ],
         "last_memory_search_query": {
             "query": "music",
-            "type": "note",
+            "type": null,
             "limit": 5,
             "min_score": 0.3,
-            "sort": "recent",
+            "sort": "relevant",
             "date_filter": null,
             "date_value": null,
             "date_start": null,
@@ -12527,6 +12567,56 @@
             "source": "rule",
             "timestamp": "2026-08-25 17:15:01",
             "importance": 0.6
+        },
+        {
+            "user": "semantic memory music note 5 0.3 recent",
+            "assistant": "Memory search:\nQuery: music\nType: note\nLimit: 5\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n1. 1.00 | note | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-25 17:34:28",
+            "importance": 0.6
+        },
+        {
+            "user": "last memory search",
+            "assistant": "Last memory search:\nQuery: music\nType: note\nLimit: 5\nMin score: 0.3\nSort: recent\nArchive mode: include",
+            "intent": "show_last_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-25 17:34:35",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music",
+            "assistant": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | note | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music\n2. 0.60 | conversation | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-25 16:20:36 | You: show memory result 1\n3. 0.60 | conversation | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-25 16:57:40 | You: memory result summary\n4. 0.60 | conversation | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-25 17:34:35 | You: last memory search\n5. 0.40 | conversation | sim=1.00 | imp=1.00 | rec=0.40 | Conversation: 2026-06-22 19:52:57 | You: remember i like music",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-25 17:35:16",
+            "importance": 0.6
+        },
+        {
+            "user": "last memory search",
+            "assistant": "Last memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.3\nSort: relevant\nArchive mode: include",
+            "intent": "show_last_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-25 17:35:22",
+            "importance": 0.6
+        },
+        {
+            "user": "exi",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: exi\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-08-25 17:35:34",
+            "importance": 0.3
         }
     ],
     "summaries": [

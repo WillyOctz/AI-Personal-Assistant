@@ -3330,6 +3330,33 @@ def handle_memory_intent(user_input, analysis):
             
         return "\n".join(lines)
     
+    if intent == "show_last_memory_search":
+        search = memory.get_state_value("last_memory_search_query")
+        
+        if not search:
+            return "I do not have a saved memory search query yet."
+        
+        lines = [
+            "Last memory search:",
+            f"Query: {search.get('query')}",
+            f"Type: {search.get('type') if search.get('type') else 'any'}",
+            f"Limit: {search.get('limit')}",
+            f"Min score: {search.get('min_score')}",
+            f"Sort: {search.get('sort')}",
+            f"Archive mode: {search.get('archive_mode', 'include')}",
+        ]
+        
+        if search.get("date_filter") == "range":
+            lines.append(
+                f"Date filter: from {search.get('date_start')} to {search.get('date_end')}"
+            )
+        elif search.get("date_filter"):
+            lines.append(
+                f"Date filter: {search.get('date_filter')} {search.get('date_value')}"
+            )
+            
+        return "\n".join(lines)
+    
     if intent == "show_memory_result":
         index = parse_memory_result_index(user_input)
         
