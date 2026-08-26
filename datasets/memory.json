@@ -23,7 +23,12 @@
         "mood": "tired",
         "focus_goal": "10 seconds"
     },
-    "reminders": [],
+    "reminders": [
+        {
+            "text": "i like music",
+            "due": null
+        }
+    ],
     "state": {
         "pending_confirmation": null,
         "pending_task": "work toward your goal - to build best AI assistant",
@@ -33,12 +38,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_notes",
+        "last_response_intent": "show_reminders",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "i want to learn AI\ni want to improve you\ni like music\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee\ni like music",
+        "last_response_text": "Your reminders:\n1. i like music",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [
             {
@@ -12949,6 +12954,116 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-26 16:14:46",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music 5 0.3 recent",
+            "assistant": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music\n2. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\n3. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-26 15:35:18 | You: what do you remember about music after 2026-08-01\n4. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-26 15:35:25 | You: recall notes about music 5 0.3 recent\n5. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-26 16:08:43 | You: show notes",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 16:40:23",
+            "importance": 0.6
+        },
+        {
+            "user": "save memory result 1 as reminder",
+            "assistant": "Use this format: save memory result number as note",
+            "intent": "save_memory_result_as_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 16:41:12",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "You have no reminders.",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 16:41:16",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "You have no reminders.",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 16:42:17",
+            "importance": 0.6
+        },
+        {
+            "user": "debug memory result 1 as reminder",
+            "assistant": "I do not have any reminder memory items to debug.",
+            "intent": "debug_memory_search",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 16:42:32",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route memory result 1 as reminder",
+            "assistant": "Input: memory result 1 as reminder\nExact intent: None\nPrefix intent: show_memory_result",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 16:42:49",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route save memory result 1 as reminder",
+            "assistant": "Input: save memory result 1 as reminder\nExact intent: None\nPrefix intent: save_memory_result_as_note",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 16:46:56",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route save memory result 1 as reminder",
+            "assistant": "Input: save memory result 1 as reminder\nExact intent: None\nPrefix intent: save_memory_result_as_reminder",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 16:47:52",
+            "importance": 0.1
+        },
+        {
+            "user": "semantic memory music 5 0.3 recent",
+            "assistant": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music\n2. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\n3. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-26 15:35:18 | You: what do you remember about music after 2026-08-01\n4. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-26 15:35:25 | You: recall notes about music 5 0.3 recent\n5. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-26 16:08:43 | You: show notes",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 16:48:32",
+            "importance": 0.6
+        },
+        {
+            "user": "save memory result 1 as reminder",
+            "assistant": "Saved memory result 1 as a reminder: i like music",
+            "intent": "save_memory_result_as_reminder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 16:48:38",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. i like music",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 16:48:43",
             "importance": 0.6
         }
     ],

@@ -277,6 +277,23 @@ def parse_save_memory_result_as_note(user_input):
         return None
     
     return int(text)
+
+def parse_save_memory_result_as_reminder(user_input):
+    text = user_input.lower().strip()
+    
+    if not text.startswith("save memory result "):
+        return None
+    
+    if " as reminder" not in text:
+        return None
+    
+    text = text.replace("save memory result ", "", 1).strip()
+    text = text.replace("as reminder", "").strip()
+    
+    if not text.isdigit():
+        return None
+    
+    return int(text)
     
 def parse_file_range_command(user_input):
     parts = user_input.split()
@@ -1365,6 +1382,9 @@ def analyze_intent(user_input):
 
     if text.startswith("recall archive about "):
         return make_analysis("recall_memory_source")
+    
+    if text.startswith("save memory result ") and " as reminder" in text:
+        return make_analysis("save_memory_result_as_reminder")
     
     if match_prefix_pattern(text, "get_profile_fact"):
         return make_analysis("get_profile_fact")
@@ -3785,6 +3805,30 @@ def handle_memory_intent(user_input, analysis):
         memory.add_note(note)
         
         return f"Saved memory result {index} as a note."
+    
+    if intent == "save_memory_result_as_reminder":
+        index = parse_save_memory_result_as_reminder(user_input)
+        
+        if index is None:
+            return "Use this format: save memory result number as reminder"
+        
+        results = memory.get_state_value("last_memory_search_results") or []
+        
+        if not results:
+            return "I do not have saved memory search results yet."
+        
+        if index < 1 or index > len(results):
+            return "That memory result number does not exist."
+        
+        item = results[index - 1]
+        reminder_text = item["text"]
+        
+        result = memory.add_reminder(reminder_text)
+        
+        if result["saved"]:
+            return f"Saved memory result {index} as a reminder: {result['reminder']}"
+        
+        return f"That reminder already exists: {result['reminder']}"
         
     if intent == "save_archive_summary":
         summary_text = build_archive_summay_preview()
