@@ -38,89 +38,16 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_reminders",
-        "last_response_group": "memory",
+        "last_response_intent": "repeat_debug_memory_search",
+        "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Your reminders:\n1. i like music",
+        "last_response_text": "I do not have a saved debug memory search query to repeat.",
         "pending_response_feedback_clear": null,
-        "last_memory_search_results": [
-            {
-                "type": "note",
-                "display": "Note: i like music",
-                "text": "i like music",
-                "score": 1.0,
-                "similarity": 1.0,
-                "importance": 1.0,
-                "recency": 1.0,
-                "timestamp": null
-            },
-            {
-                "type": "conversation",
-                "display": "Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent",
-                "text": "what do you remember about music note 5 0.3 recent I remember these things about music:\n- Note: i like music recall_memory",
-                "score": 0.6,
-                "similarity": 1.0,
-                "importance": 0.6,
-                "recency": 1.0,
-                "timestamp": "2026-08-26 15:35:08"
-            },
-            {
-                "type": "conversation",
-                "display": "Conversation: 2026-08-26 15:35:18 | You: what do you remember about music after 2026-08-01",
-                "text": "what do you remember about music after 2026-08-01 I remember these things about music:\n- Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\n- Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json recall_memory",
-                "score": 0.6,
-                "similarity": 1.0,
-                "importance": 0.6,
-                "recency": 1.0,
-                "timestamp": "2026-08-26 15:35:18"
-            },
-            {
-                "type": "conversation",
-                "display": "Conversation: 2026-08-26 15:35:25 | You: recall notes about music 5 0.3 recent",
-                "text": "recall notes about music 5 0.3 recent I found these note memories about music:\n- Note: i like music recall_memory_source",
-                "score": 0.6,
-                "similarity": 1.0,
-                "importance": 0.6,
-                "recency": 1.0,
-                "timestamp": "2026-08-26 15:35:25"
-            },
-            {
-                "type": "conversation",
-                "display": "Conversation: 2026-08-26 16:08:43 | You: show notes",
-                "text": "show notes i want to learn AI\ni want to improve you\ni like music\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee show_notes",
-                "score": 0.6,
-                "similarity": 1.0,
-                "importance": 0.6,
-                "recency": 1.0,
-                "timestamp": "2026-08-26 16:08:43"
-            }
-        ],
-        "last_memory_search_query": {
-            "query": "music",
-            "type": null,
-            "limit": 5,
-            "min_score": 0.3,
-            "sort": "recent",
-            "date_filter": null,
-            "date_value": null,
-            "date_start": null,
-            "date_end": null,
-            "archive_mode": "include"
-        },
-        "last_debug_memory_search_query": {
-            "query": "music",
-            "type": "conversation",
-            "limit": 10,
-            "min_score": 0.3,
-            "sort": "recent",
-            "date_filter": null,
-            "date_value": null,
-            "date_start": null,
-            "date_end": null,
-            "archive_mode": "include"
-        }
+        "last_memory_search_results": null,
+        "last_memory_search_query": null,
+        "last_debug_memory_search_query": null
     },
     "history": [
         {
@@ -13065,6 +12992,126 @@
             "source": "rule",
             "timestamp": "2026-08-26 16:48:43",
             "importance": 0.6
+        },
+        {
+            "user": "debug route semantic memory music",
+            "assistant": "Input: semantic memory music\nExact intent: None\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 17:37:10",
+            "importance": 0.1
+        },
+        {
+            "user": "semantic memory music",
+            "assistant": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music\n2. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\n3. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-26 15:35:18 | You: what do you remember about music after 2026-08-01\n4. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-26 15:35:25 | You: recall notes about music 5 0.3 recent\n5. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-26 16:08:43 | You: show notes",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 17:41:49",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music reminder",
+            "assistant": "Memory search:\nQuery: music\nType: reminder\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Reminder: i like music",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 17:41:57",
+            "importance": 0.6
+        },
+        {
+            "user": "debug memory music reminder",
+            "assistant": "Memory search:\nQuery: music\nType: reminder\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n\nScore: 1.00\nType: reminder\nText: i like music\nTokens: ['i', 'like', 'music']\nQuery tokens: ['music']\nRecency: 1.00",
+            "intent": "debug_memory_search",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 17:42:02",
+            "importance": 0.1
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. i like music",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 17:42:07",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music",
+            "assistant": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music\n2. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\n3. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-26 15:35:18 | You: what do you remember about music after 2026-08-01\n4. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-26 15:35:25 | You: recall notes about music 5 0.3 recent\n5. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-26 16:08:43 | You: show notes",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 17:42:53",
+            "importance": 0.6
+        },
+        {
+            "user": "last memory search",
+            "assistant": "Last memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.3\nSort: relevant\nArchive mode: include",
+            "intent": "show_last_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 17:42:57",
+            "importance": 0.6
+        },
+        {
+            "user": "clear memory search state",
+            "assistant": "Cleared saved memory search results and search queries.",
+            "intent": "clear_memory_search_state",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 17:43:00",
+            "importance": 0.6
+        },
+        {
+            "user": "show memory result 1",
+            "assistant": "I do not have saved memory search results yet.",
+            "intent": "show_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 17:43:05",
+            "importance": 0.6
+        },
+        {
+            "user": "last memory search",
+            "assistant": "I do not have a saved memory search query yet.",
+            "intent": "show_last_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 17:43:09",
+            "importance": 0.6
+        },
+        {
+            "user": "repeat memory search",
+            "assistant": "I do not have a saved memory search query to repeat.",
+            "intent": "repeat_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 17:43:13",
+            "importance": 0.6
+        },
+        {
+            "user": "repeat debug memory search",
+            "assistant": "I do not have a saved debug memory search query to repeat.",
+            "intent": "repeat_debug_memory_search",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 17:43:16",
+            "importance": 0.1
         }
     ],
     "summaries": [

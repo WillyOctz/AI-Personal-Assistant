@@ -1695,10 +1695,17 @@ def collect_memory_search_items():
         })
         
     for reminder in memo["reminders"]:
+        reminder_text = memory.get_reminder_text(reminder)
+        reminder_due = memory.get_reminder_due(reminder)
+        
+        display = f"Reminder: {reminder_text}"
+        if reminder_due:
+            display += f" | due: {reminder_due}"
+        
         items.append({
             "type": "reminder",
-            "text": reminder,
-            "display": f"Reminder: {reminder}",
+            "text": reminder_text,
+            "display": display,
             "importance": 1.0,
             "priority": MEMORY_TYPE_PRIORITY["reminder"],
             "recency": 1.0,
@@ -3678,6 +3685,13 @@ def handle_memory_intent(user_input, analysis):
         memory.set_state_value("last_memory_search_results", [])
         
         return f"Cleared {count} saved memory search result(s)."
+    
+    if intent == "clear_memory_search_state":
+        memory.clear_state_value("last_memory_search_results")
+        memory.clear_state_value("last_memory_search_query")
+        memory.clear_state_value("last_debug_memory_search_query")
+        
+        return "Cleared saved memory search results and search queries."
     
     if intent == "show_summaries":
         summaries = memory.get_summaries()

@@ -210,6 +210,7 @@ VALID_INTENTS = {
     "explain_memory_result",
     "compare_memory_results",
     "clear_memory_results",
+    "clear_memory_search_state",
     "memory_result_stats",
     "memory_result_summary",
     "show_last_memory_search",
@@ -428,6 +429,7 @@ MEMORY_INTENTS = {
     "explain_memory_result",
     "compare_memory_results",
     "clear_memory_results",
+    "clear_memory_search_state",
     "memory_result_stats",
     "memory_result_summary",
     "show_last_memory_search",
@@ -1065,6 +1067,11 @@ INTENT_PATTERNS = {
         "clear memory results",
         "clear saved memory results",
         "forget memory results",
+    ],
+    "clear_memory_search_state": [
+        "clear memory search state",
+        "clear last memory search",
+        "forget last memory search",
     ],
     "memory_result_stats": [
         "memory result stats",
