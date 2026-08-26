@@ -3839,6 +3839,20 @@ def handle_memory_intent(user_input, analysis):
         if not results:
             return f"I do not remember anything clear about {query}."
         
+        save_last_memory_search_results(results)
+        save_last_memory_search_query(
+            query,
+            memory_type,
+            limit,
+            min_score,
+            sort_mode,
+            date_filter,
+            date_value,
+            date_start,
+            date_end,
+            archive_mode
+        )
+        
         lines = [f"I remember these things about {query}:"]
         
         for result in results:
@@ -3870,6 +3884,20 @@ def handle_memory_intent(user_input, analysis):
         
         if not results:
             return f"I do not remember anything clear about {query} in {source_type} memory."
+        
+        save_last_memory_search_results(results)
+        save_last_memory_search_query(
+            query,
+            memory_type,
+            limit,
+            min_score,
+            sort_mode,
+            date_filter,
+            date_value,
+            date_start,
+            date_end,
+            archive_mode
+        )
         
         lines = [f"I found these {source_type} memories about {query}:"]
         
