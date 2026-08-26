@@ -32,12 +32,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "repeat_debug_memory_search",
-        "last_response_group": "control",
+        "last_response_intent": "recall_memory_source",
+        "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Memory search:\nQuery: music\nType: conversation\nLimit: 5\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n\nScore: 0.60\nType: conversation\nText: show memory result 1 Memory result 1:\nType: note\nScore: 1.00\nSimilarity: 1.00\nImportance: 1.00\nRecency: 1.00\nTimestamp: None\nDisplay: Note: i like music\nText: i like music show_memory_result\nTokens: ['show', 'memory', 'result', '1', 'memory', 'result', '1:', 'type:', 'note', 'score:', '100', 'similarity:', '100', 'importance:', '100', 'recency:', '100', 'timestamp:', 'none', 'display:', 'note:', 'i', 'like', 'music', 'text:', 'i', 'like', 'music', 'show_memory_result']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: memory result summary Memory result summary:\nSaved results: 5\nBest match type: note\nBest score: 1.00\nBest match: Note: i like music\nOther matches: 4 memory_result_summary\nTokens: ['memory', 'result', 'summary', 'memory', 'result', 'summary:', 'saved', 'results:', '5', 'best', 'match', 'type:', 'note', 'best', 'score:', '100', 'best', 'match:', 'note:', 'i', 'like', 'music', 'other', 'matches:', '4', 'memory_result_summary']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: last memory search Last memory search:\nQuery: music\nType: note\nLimit: 5\nMin score: 0.3\nSort: recent\nArchive mode: include show_last_memory_search\nTokens: ['last', 'memory', 'search', 'last', 'memory', 'search:', 'query:', 'music', 'type:', 'note', 'limit:', '5', 'min', 'score:', '03', 'sort:', 'recent', 'archive', 'mode:', 'include', 'show_last_memory_search']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: last memory search Last memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.3\nSort: relevant\nArchive mode: include show_last_memory_search\nTokens: ['last', 'memory', 'search', 'last', 'memory', 'search:', 'query:', 'music', 'type:', 'any', 'limit:', '5', 'min', 'score:', '03', 'sort:', 'relevant', 'archive', 'mode:', 'include', 'show_last_memory_search']\nQuery tokens: ['music']\nRecency: 1.00\n\nScore: 0.60\nType: conversation\nText: repeat memory search Memory search:\nQuery: music\nType: note\nLimit: 5\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music repeat_memory_search\nTokens: ['repeat', 'memory', 'search', 'memory', 'search:', 'query:', 'music', 'type:', 'note', 'limit:', '5', 'min', 'score:', '030', 'sort:', 'recent', 'archive', 'mode:', 'include', '1', '100', '|', 'sim=100', '|', 'imp=100', '|', 'rec=100', '|', 'note:', 'i', 'like', 'music', 'repeat_memory_search']\nQuery tokens: ['music']\nRecency: 1.00",
+        "last_response_text": "I found these archive_summary memories about game:\n- Archive summary mentions this topic.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [
             {
@@ -49,12 +49,72 @@
                 "importance": 1.0,
                 "recency": 1.0,
                 "timestamp": null
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-07-27 21:10:40 | You: preview file assistant feedback.jsonl",
+                "text": "preview file assistant feedback.jsonl Preview: C:\\Users\\User\\AI_Personal_Assistant\\datasets\\feedback.jsonl\n{\"input\": \"play music\", \"correct_intent\": \"play_music\"}\n{\"input\": \"open chrome\", \"correct_intent\": \"open_app\"}\n{\"input\": \"remind me to study\", \"correct_intent\": \"set_reminder\"}\n{\"input\": \"play music\", \"correct_intent\": \"play_music\"}\n{\"input\": \"start music\", \"correct_intent\": \"play_music\"}\n{\"input\": \"gaming\", \"correct_intent\": \"play_game\"}\n{\"input\": \"play game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"gaming\", \"correct_intent\": \"minecraft\"}\n{\"input\": \"playing\", \"correct_intent\": \"minecraft\"}\n{\"input\": \"playing game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"start game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"start game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"start\", \"correct_intent\": \"play_game\"} preview_file",
+                "score": 0.36,
+                "similarity": 1.0,
+                "importance": 0.6,
+                "recency": 0.6,
+                "timestamp": "2026-07-27 21:10:40"
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json",
+                "text": "preview file assistant memory.json Preview: C:\\Users\\User\\AI_Personal_Assistant\\datasets\\memory.json\n{\n    \"notes\": [\n        \"i want to learn AI\",\n        \"i want to improve you\",\n        \"i like music\",\n        \"profile favorite_language python\",\n        \"profile goal to build best AI assistant\",\n        \"i like coffee\",\n        \"game stardew valley\",\n        \"app spotify\"\n    ],\n    \"profile\": {\n        \"name\": \"Carlos\",\n        \"favorite_language\": \"python\",\n        \"goal\": \"to build best AI assistant\",\n        \"mood\": \"focused\",\n        \"focus_goal\": \"10 seconds\"\n    },\n    \"reminders\": [\n        { preview_file",
+                "score": 0.36,
+                "similarity": 1.0,
+                "importance": 0.6,
+                "recency": 0.6,
+                "timestamp": "2026-08-03 20:04:47"
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-06-22 19:52:57 | You: remember i like music",
+                "text": "remember i like music i remembered that. remember_note",
+                "score": 0.4,
+                "similarity": 1.0,
+                "importance": 1.0,
+                "recency": 0.4,
+                "timestamp": "2026-06-22 19:52:57"
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-06-23 15:05:37 | You: smeantic memory music",
+                "text": "smeantic memory music I recognize this as 'play_music', but I do not know how to perform that action yet. play_music",
+                "score": 0.32000000000000006,
+                "similarity": 1.0,
+                "importance": 0.8,
+                "recency": 0.4,
+                "timestamp": "2026-06-23 15:05:37"
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-06-26 15:58:30 | You: play minecraft",
+                "text": "play minecraft I think this means 'play_music', but I am only 0.40 confident.\nIf confirmed, I will: play music.\nReply yes to confirm, no to reject, or teach me with: teach play minecraft as intent_name play_music",
+                "score": 0.32000000000000006,
+                "similarity": 1.0,
+                "importance": 0.8,
+                "recency": 0.4,
+                "timestamp": "2026-06-26 15:58:30"
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-06-30 17:43:35 | You: play stardew valley",
+                "text": "play stardew valley I think this means 'play_music', but I am only 0.40 confident.\nIf confirmed, I will: play music.\nReply yes to confirm, no to reject, or teach me with: teach play stardew valley as intent_name play_music",
+                "score": 0.32000000000000006,
+                "similarity": 1.0,
+                "importance": 0.8,
+                "recency": 0.4,
+                "timestamp": "2026-06-30 17:43:35"
             }
         ],
         "last_memory_search_query": {
             "query": "music",
-            "type": "note",
-            "limit": 5,
+            "type": null,
+            "limit": 10,
             "min_score": 0.3,
             "sort": "recent",
             "date_filter": null,
@@ -66,7 +126,7 @@
         "last_debug_memory_search_query": {
             "query": "music",
             "type": "conversation",
-            "limit": 5,
+            "limit": 10,
             "min_score": 0.3,
             "sort": "recent",
             "date_filter": null,
@@ -12689,6 +12749,76 @@
             "source": "rule",
             "timestamp": "2026-08-25 19:02:56",
             "importance": 0.1
+        },
+        {
+            "user": "semantic memory music conversation 10 0.3 recent",
+            "assistant": "Memory search:\nQuery: music\nType: conversation\nLimit: 10\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n1. 0.36 | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-07-27 21:10:40 | You: preview file assistant feedback.jsonl\n2. 0.36 | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json\n3. 0.40 | sim=1.00 | imp=1.00 | rec=0.40 | Conversation: 2026-06-22 19:52:57 | You: remember i like music\n4. 0.32 | sim=1.00 | imp=0.80 | rec=0.40 | Conversation: 2026-06-23 15:05:37 | You: smeantic memory music\n5. 0.32 | sim=1.00 | imp=0.80 | rec=0.40 | Conversation: 2026-06-26 15:58:30 | You: play minecraft\n6. 0.32 | sim=1.00 | imp=0.80 | rec=0.40 | Conversation: 2026-06-30 17:43:35 | You: play stardew valley",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-25 19:10:21",
+            "importance": 0.6
+        },
+        {
+            "user": "debug memory music conversation 10 0.3 recent",
+            "assistant": "Memory search:\nQuery: music\nType: conversation\nLimit: 10\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n\nScore: 0.40\nType: conversation\nText: remember i like music i remembered that. remember_note\nTokens: ['remember', 'i', 'like', 'music', 'i', 'remembered', 'that', 'remember_note']\nQuery tokens: ['music']\nRecency: 0.40\n\nScore: 0.36\nType: conversation\nText: preview file assistant feedback.jsonl Preview: C:\\Users\\User\\AI_Personal_Assistant\\datasets\\feedback.jsonl\n{\"input\": \"play music\", \"correct_intent\": \"play_music\"}\n{\"input\": \"open chrome\", \"correct_intent\": \"open_app\"}\n{\"input\": \"remind me to study\", \"correct_intent\": \"set_reminder\"}\n{\"input\": \"play music\", \"correct_intent\": \"play_music\"}\n{\"input\": \"start music\", \"correct_intent\": \"play_music\"}\n{\"input\": \"gaming\", \"correct_intent\": \"play_game\"}\n{\"input\": \"play game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"gaming\", \"correct_intent\": \"minecraft\"}\n{\"input\": \"playing\", \"correct_intent\": \"minecraft\"}\n{\"input\": \"playing game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"start game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"start game\", \"correct_intent\": \"play_game\"}\n{\"input\": \"start\", \"correct_intent\": \"play_game\"} preview_file\nTokens: ['preview', 'file', 'assistant', 'feedbackjsonl', 'preview:', 'c:\\\\users\\\\user\\\\ai_personal_assistant\\\\datasets\\\\feedbackjsonl', '{input:', 'play', 'music', 'correct_intent:', 'play_music}', '{input:', 'open', 'chrome', 'correct_intent:', 'open_app}', '{input:', 'remind', 'study', 'correct_intent:', 'set_reminder}', '{input:', 'play', 'music', 'correct_intent:', 'play_music}', '{input:', 'start', 'music', 'correct_intent:', 'play_music}', '{input:', 'game', 'correct_intent:', 'play_game}', '{input:', 'play', 'game', 'correct_intent:', 'play_game}', '{input:', 'game', 'correct_intent:', 'minecraft}', '{input:', 'play', 'correct_intent:', 'minecraft}', '{input:', 'play', 'game', 'correct_intent:', 'play_game}', '{input:', 'start', 'game', 'correct_intent:', 'play_game}', '{input:', 'start', 'game', 'correct_intent:', 'play_game}', '{input:', 'start', 'correct_intent:', 'play_game}', 'preview_file']\nQuery tokens: ['music']\nRecency: 0.60\n\nScore: 0.36\nType: conversation\nText: preview file assistant memory.json Preview: C:\\Users\\User\\AI_Personal_Assistant\\datasets\\memory.json\n{\n    \"notes\": [\n        \"i want to learn AI\",\n        \"i want to improve you\",\n        \"i like music\",\n        \"profile favorite_language python\",\n        \"profile goal to build best AI assistant\",\n        \"i like coffee\",\n        \"game stardew valley\",\n        \"app spotify\"\n    ],\n    \"profile\": {\n        \"name\": \"Carlos\",\n        \"favorite_language\": \"python\",\n        \"goal\": \"to build best AI assistant\",\n        \"mood\": \"focused\",\n        \"focus_goal\": \"10 seconds\"\n    },\n    \"reminders\": [\n        { preview_file\nTokens: ['preview', 'file', 'assistant', 'memoryjson', 'preview:', 'c:\\\\users\\\\user\\\\ai_personal_assistant\\\\datasets\\\\memoryjson', '{', 'notes:', '[', 'i', 'want', 'learn', 'ai', 'i', 'want', 'improve', 'i', 'like', 'music', 'profile', 'favorite_language', 'python', 'profile', 'goal', 'build', 'best', 'ai', 'assistant', 'i', 'like', 'coffee', 'game', 'stardew', 'valley', 'app', 'spotify', ']', 'profile:', '{', 'name:', 'carlos', 'favorite_language:', 'python', 'goal:', 'build', 'best', 'ai', 'assistant', 'mood:', 'focused', 'focus_goal:', '10', 'seconds', '}', 'reminders:', '[', '{', 'preview_file']\nQuery tokens: ['music']\nRecency: 0.60\n\nScore: 0.32\nType: conversation\nText: smeantic memory music I recognize this as 'play_music', but I do not know how to perform that action yet. play_music\nTokens: ['smeantic', 'memory', 'music', 'i', 'recognize', 'this', 'as', 'play_music', 'but', 'i', 'not', 'know', 'how', 'perform', 'that', 'action', 'yet', 'play_music']\nQuery tokens: ['music']\nRecency: 0.40\n\nScore: 0.32\nType: conversation\nText: play minecraft I think this means 'play_music', but I am only 0.40 confident.\nIf confirmed, I will: play music.\nReply yes to confirm, no to reject, or teach me with: teach play minecraft as intent_name play_music\nTokens: ['play', 'minecraft', 'i', 'think', 'this', 'means', 'play_music', 'but', 'i', 'am', 'only', '040', 'confident', 'if', 'confirmed', 'i', 'will:', 'play', 'music', 'reply', 'yes', 'confirm', 'no', 'reject', 'or', 'teach', 'with:', 'teach', 'play', 'minecraft', 'as', 'intent_name', 'play_music']\nQuery tokens: ['music']\nRecency: 0.40\n\nScore: 0.32\nType: conversation\nText: play stardew valley I think this means 'play_music', but I am only 0.40 confident.\nIf confirmed, I will: play music.\nReply yes to confirm, no to reject, or teach me with: teach play stardew valley as intent_name play_music\nTokens: ['play', 'stardew', 'valley', 'i', 'think', 'this', 'means', 'play_music', 'but', 'i', 'am', 'only', '040', 'confident', 'if', 'confirmed', 'i', 'will:', 'play', 'music', 'reply', 'yes', 'confirm', 'no', 'reject', 'or', 'teach', 'with:', 'teach', 'play', 'stardew', 'valley', 'as', 'intent_name', 'play_music']\nQuery tokens: ['music']\nRecency: 0.40",
+            "intent": "debug_memory_search",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-25 19:10:32",
+            "importance": 0.1
+        },
+        {
+            "user": "semantic memory music 10 0.3 recent",
+            "assistant": "Memory search:\nQuery: music\nType: any\nLimit: 10\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music\n2. 0.36 | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-07-27 21:10:40 | You: preview file assistant feedback.jsonl\n3. 0.36 | sim=1.00 | imp=0.60 | rec=0.60 | Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json\n4. 0.40 | sim=1.00 | imp=1.00 | rec=0.40 | Conversation: 2026-06-22 19:52:57 | You: remember i like music\n5. 0.32 | sim=1.00 | imp=0.80 | rec=0.40 | Conversation: 2026-06-23 15:05:37 | You: smeantic memory music\n6. 0.32 | sim=1.00 | imp=0.80 | rec=0.40 | Conversation: 2026-06-26 15:58:30 | You: play minecraft\n7. 0.32 | sim=1.00 | imp=0.80 | rec=0.40 | Conversation: 2026-06-30 17:43:35 | You: play stardew valley",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-25 19:10:51",
+            "importance": 0.6
+        },
+        {
+            "user": "what do you remember about music note 5 0.3 recent",
+            "assistant": "I remember these things about music:\n- Note: i like music",
+            "intent": "recall_memory",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 15:35:08",
+            "importance": 0.6
+        },
+        {
+            "user": "what do you remember about music after 2026-08-01",
+            "assistant": "I remember these things about music:\n- Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\n- Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json",
+            "intent": "recall_memory",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 15:35:18",
+            "importance": 0.6
+        },
+        {
+            "user": "recall notes about music 5 0.3 recent",
+            "assistant": "I found these note memories about music:\n- Note: i like music",
+            "intent": "recall_memory_source",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 15:35:25",
+            "importance": 0.6
+        },
+        {
+            "user": "recall archive about game 5 0.2",
+            "assistant": "I found these archive_summary memories about game:\n- Archive summary mentions this topic.",
+            "intent": "recall_memory_source",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-26 15:35:29",
+            "importance": 0.6
         }
     ],
     "summaries": [

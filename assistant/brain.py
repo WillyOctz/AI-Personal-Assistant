@@ -3815,10 +3815,26 @@ def handle_memory_intent(user_input, analysis):
     if intent == "recall_memory":
         query = user_input.replace("what do you remember about ", "", 1).strip()
 
-        if not query:
-            return "What topic should I recall?"
+        query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode = parse_memory_query_with_type(query)
         
-        results = semantic_search_memory(query, limit=3, min_score=0.2)
+        if limit is None:
+            limit = 3
+            
+        if min_score is None:
+            min_score = 0.2
+        
+        results = semantic_search_memory(
+            query,
+            memory_type=memory_type,
+            limit=limit,
+            min_score=min_score,
+            sort_mode=sort_mode,
+            date_filter=date_filter,
+            date_value=date_value,
+            date_start=date_start,
+            date_end=date_end,
+            archive_mode=archive_mode
+        )
         
         if not results:
             return f"I do not remember anything clear about {query}."
@@ -3834,10 +3850,23 @@ def handle_memory_intent(user_input, analysis):
     if intent == "recall_memory_source":
         source_type, query = parse_recall_source(user_input)
         
-        if not query:
-            return "What topic should I recall?"
+        query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode = parse_memory_query_with_type(query)
         
-        results = semantic_search_memory(query, limit=5, min_score=0.2, source_type=source_type)
+        if source_type:
+            memory_type = source_type
+        
+        results = semantic_search_memory(
+            query,
+            memory_type=memory_type,
+            limit=limit,
+            min_score=min_score,
+            sort_mode=sort_mode,
+            date_filter=date_filter,
+            date_value=date_value,
+            date_start=date_start,
+            date_end=date_end,
+            archive_mode=archive_mode
+        )
         
         if not results:
             return f"I do not remember anything clear about {query} in {source_type} memory."
