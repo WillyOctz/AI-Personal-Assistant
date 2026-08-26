@@ -263,6 +263,20 @@ def parse_compare_memory_results(user_input):
         return None
     
     return int(parts[0]), int(parts[1])
+
+def parse_save_memory_result_as_note(user_input):
+    text = user_input.lower().strip()
+    
+    if not text.startswith("save memory result "):
+        return None
+    
+    text = text.replace("save memory result ", "", 1).strip()
+    text = text.replace("as note", "").strip()
+    
+    if not text.isdigit():
+        return None
+    
+    return int(text)
     
 def parse_file_range_command(user_input):
     parts = user_input.split()
@@ -3750,6 +3764,27 @@ def handle_memory_intent(user_input, analysis):
             f"Summaries: {stats['summaries']}\n"
             f"Archived conversation turns: {stats['archived_conversation']}"
         )
+        
+    if intent == "save_memory_result_as_note":
+        index = parse_save_memory_result_as_note(user_input)
+        
+        if index is None:
+            return "Use this format: save memory result number as note"
+        
+        results = memory.get_state_value("last_memory_search_results") or []
+        
+        if not results:
+            return "I do not have saved memory search results yet."
+        
+        if index < 1 or index > len(results):
+            return "That memory result number does not exist."
+        
+        item = results[index - 1]
+        note = item["text"]
+        
+        memory.add_note(note)
+        
+        return f"Saved memory result {index} as a note."
         
     if intent == "save_archive_summary":
         summary_text = build_archive_summay_preview()

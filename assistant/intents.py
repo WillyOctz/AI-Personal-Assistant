@@ -204,6 +204,7 @@ VALID_INTENTS = {
     "cleanup_dataset_backups",
     "dataset_dashboard",
     "dataset_report",
+    "save_memory_result_as_note",
     "show_memory_result",
     "explain_memory_result",
     "compare_memory_results",
@@ -420,6 +421,7 @@ MEMORY_INTENTS = {
     "cleanup_file_search_history",
     "preview_file_around",
     "preview_file_range",
+    "save_memory_result_as_note",
     "show_memory_result",
     "explain_memory_result",
     "compare_memory_results",
@@ -1363,6 +1365,9 @@ INTENT_PREFIXES = {
     "restore_dataset_backup": [
         "restore dataset backup ",
     ],
+    "save_memory_result_as_note": [
+        "save memory result ",
+    ],
     "show_memory_result": [
         "show memory result ",
         "memory result ",
@@ -1393,6 +1398,7 @@ PREFIX_INTENT_ORDER = [
     
     "compare_memory_results",
     "explain_memory_result",
+    "save_memory_result_as_note",
     "show_memory_result",
 
     "search_reminders_by_due",
