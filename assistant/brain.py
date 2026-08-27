@@ -3590,16 +3590,21 @@ def handle_memory_intent(user_input, analysis):
         
         item = results[index - 1]
         
+        item_type = item.get("type", "unknown")
+        timestamp = item.get("timestamp") or "None"
+        display = item.get("display", "")
+        text = item.get("text", "")
+        
         return (
             f"Memory result {index}:\n"
-            f"Type: {item['type']}\n"
+            f"Source type: {item_type}\n"
             f"Score: {item['score']:.2f}\n"
             f"Similarity: {item['similarity']:.2f}\n"
             f"Importance: {item['importance']:.2f}\n"
             f"Recency: {item['recency']:.2f}\n"
-            f"Timestamp: {item['timestamp']}\n"
-            f"Display: {item['display']}\n"
-            f"Text: {item['text']}"
+            f"Timestamp: {timestamp}\n"
+            f"Display: {display}\n"
+            f"Raw text: {text}"
         )
         
     if intent == "explain_memory_result":
