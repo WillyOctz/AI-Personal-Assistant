@@ -38,37 +38,15 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_memory_result",
-        "last_response_group": "memory",
-        "last_response_source": "rule",
-        "last_response_confidence": 1.0,
+        "last_response_intent": "unknown",
+        "last_response_group": "unknown",
+        "last_response_source": "None",
+        "last_response_confidence": 0,
         "last_response_scores": {},
-        "last_response_text": "Memory result 1:\nSource type: reminder\nScore: 1.00\nSimilarity: 1.00\nImportance: 1.00\nRecency: 1.00\nTimestamp: None\nDisplay: Reminder: i like music\nRaw text: i like music",
+        "last_response_text": "I am not sure if that was a command or conversation yet.\nYou said: exi\nYou can rephrase it, or teach me with: teach message as intent_name",
         "pending_response_feedback_clear": null,
-        "last_memory_search_results": [
-            {
-                "type": "reminder",
-                "display": "Reminder: i like music",
-                "text": "i like music",
-                "score": 1.0,
-                "similarity": 1.0,
-                "importance": 1.0,
-                "recency": 1.0,
-                "timestamp": null
-            }
-        ],
-        "last_memory_search_query": {
-            "query": "music",
-            "type": "reminder",
-            "limit": 5,
-            "min_score": 0.3,
-            "sort": "relevant",
-            "date_filter": null,
-            "date_value": null,
-            "date_start": null,
-            "date_end": null,
-            "archive_mode": "include"
-        },
+        "last_memory_search_results": null,
+        "last_memory_search_query": null,
         "last_debug_memory_search_query": null
     },
     "history": [
@@ -13174,6 +13152,66 @@
             "source": "rule",
             "timestamp": "2026-08-27 16:20:07",
             "importance": 0.6
+        },
+        {
+            "user": "semantic memory music 5 0.3 recent",
+            "assistant": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: recent\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music\n2. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-26 16:48:38 | You: save memory result 1 as reminder\n3. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-26 16:48:43 | You: show reminders\n4. 0.48 | sim=1.00 | imp=0.60 | rec=0.80 | Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\n5. 0.48 | sim=1.00 | imp=0.60 | rec=0.80 | Conversation: 2026-08-26 15:35:18 | You: what do you remember about music after 2026-08-01",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 16:33:29",
+            "importance": 0.6
+        },
+        {
+            "user": "list memory results",
+            "assistant": "Saved memory results:\n1. 1.00 | note | Note: i like music\n2. 0.60 | conversation | Conversation: 2026-08-26 16:48:38 | You: save memory result 1 as reminder\n3. 0.60 | conversation | Conversation: 2026-08-26 16:48:43 | You: show reminders\n4. 0.48 | conversation | Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\n5. 0.48 | conversation | Conversation: 2026-08-26 15:35:18 | You: what do you remember about music after 2026-08-01",
+            "intent": "list_memory_results",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 16:33:33",
+            "importance": 0.6
+        },
+        {
+            "user": "show memory result 1",
+            "assistant": "Memory result 1:\nSource type: note\nScore: 1.00\nSimilarity: 1.00\nImportance: 1.00\nRecency: 1.00\nTimestamp: None\nDisplay: Note: i like music\nRaw text: i like music",
+            "intent": "show_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 16:33:43",
+            "importance": 0.6
+        },
+        {
+            "user": "clear memory search state",
+            "assistant": "Cleared saved memory search results and search queries.",
+            "intent": "clear_memory_search_state",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 16:33:46",
+            "importance": 0.6
+        },
+        {
+            "user": "list memory results",
+            "assistant": "I do not have saved memory search results yet.",
+            "intent": "list_memory_results",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 16:33:50",
+            "importance": 0.6
+        },
+        {
+            "user": "exi",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: exi\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-08-27 16:33:53",
+            "importance": 0.3
         }
     ],
     "summaries": [

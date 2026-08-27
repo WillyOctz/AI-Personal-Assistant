@@ -3632,6 +3632,21 @@ def handle_memory_intent(user_input, analysis):
             f"The score is calculated from similarity * importance * recency."
         )
         
+    if intent == "list_memory_results":
+        results = memory.get_state_value("last_memory_search_results") or []
+        
+        if not results:
+            return "I do not have saved memory search results yet."
+        
+        lines = ["Saved memory results:"]
+        
+        for index, item in enumerate(results, start=1):
+            lines.append(
+                f"{index}. {item['score']:.2f} | {item['type']} | {item['display']}"
+            )
+            
+        return "\n".join(lines)
+        
     if intent == "memory_result_stats":
         results = memory.get_state_value("last_memory_search_results") or []
         

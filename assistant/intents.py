@@ -215,6 +215,7 @@ VALID_INTENTS = {
     "memory_result_summary",
     "show_last_memory_search",
     "repeat_memory_search",
+    "list_memory_results",
 }
 
 CONTROL_INTENTS = {
@@ -435,6 +436,7 @@ MEMORY_INTENTS = {
     "show_last_memory_search",
     "repeat_memory_search",
     "repeat_debug_memory_search",
+    "list_memory_results",
 }
 
 ACTION_INTENTS = {
@@ -453,6 +455,7 @@ SEARCH_IGNORED_INTENTS = {
     "repeat_debug_memory_search",
     "show_memory_result",
     "explain_memory_result",
+    "list_memory_results",
     "compare_memory_results",
     "clear_memory_results",
     "memory_result_stats",
@@ -1097,6 +1100,11 @@ INTENT_PATTERNS = {
         "repeat debug memory search",
         "rerun debug memory search",
         "debug memory again",
+    ],
+    "list_memory_results": [
+        "list memory results",
+        "show saved memory results",
+        "saved memory results",
     ],
 }
 
