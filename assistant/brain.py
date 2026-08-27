@@ -91,6 +91,10 @@ def save_last_debug_memory_search_query(query, memory_type, limit, min_score, so
     
     memory.set_state_value("last_debug_memory_search_query", data)
     
+def save_memory_results_undo_state():
+    results = memory.get_state_value("last_memory_search_results") or []
+    memory.set_state_value("previous_memory_search_results", results)
+    
 def format_memory_search_header(query, memory_type, limit, min_score, sort_mode="relevant", date_filter=None, date_value=None, date_start=None, date_end=None, archive_mode="include"):  
     lines = [
         "Memory search:",
@@ -3686,6 +3690,7 @@ def handle_memory_intent(user_input, analysis):
             return "That memory result number does not exist."
         
         kept = results[index - 1]
+        save_memory_results_undo_state()
         memory.set_state_value("last_memory_search_results", [kept])
         
         return f"Kept only memory result {index}: {kept['display']}"
@@ -3705,6 +3710,7 @@ def handle_memory_intent(user_input, analysis):
             return "That memory result number does not exist."
         
         removed = results.pop(index - 1)
+        save_memory_results_undo_state()
         memory.set_state_value("last_memory_search_results", results)
         
         return f"Removed saved memory result {index}: {removed['display']}"
@@ -3756,6 +3762,17 @@ def handle_memory_intent(user_input, analysis):
             lines.append(f"Other matches: {len(results) - 1}")
             
         return "\n".join(lines)
+    
+    if intent == "undo_memory_results_change":
+        previous_results = memory.get_state_value("previous_memory_search_results")
+        
+        if not previous_results:
+            return "I do not have a memory result change to undo."
+        
+        memory.set_state_value("last_memory_search_results", previous_results)
+        memory.clear_state_value("previous_memory_search_results")
+        
+        return f"Restored {len(previous_results)} saved memory result(s)."
         
     if intent == "clear_memory_results":
         results = memory.get_state_value("last_memory_search_results") or []
@@ -3764,6 +3781,7 @@ def handle_memory_intent(user_input, analysis):
             return "I do not have saved memory search results to clear."
         
         count = len(results)
+        save_memory_results_undo_state()
         memory.set_state_value("last_memory_search_results", [])
         
         return f"Cleared {count} saved memory search result(s)."

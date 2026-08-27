@@ -218,6 +218,7 @@ VALID_INTENTS = {
     "list_memory_results",
     "keep_memory_result",
     "remove_memory_result",
+    "undo_memory_results_change",
 }
 
 CONTROL_INTENTS = {
@@ -441,6 +442,7 @@ MEMORY_INTENTS = {
     "keep_memory_result",
     "list_memory_results",
     "remove_memory_result",
+    "undo_memory_results_change",
 }
 
 ACTION_INTENTS = {
@@ -461,6 +463,7 @@ SEARCH_IGNORED_INTENTS = {
     "show_memory_result",
     "explain_memory_result",
     "keep_memory_result",
+    "undo_memory_results_change",
     "list_memory_results",
     "compare_memory_results",
     "clear_memory_results",
@@ -1111,6 +1114,11 @@ INTENT_PATTERNS = {
         "list memory results",
         "show saved memory results",
         "saved memory results",
+    ],
+    "undo_memory_results_change": [
+        "undo memory results change",
+        "undo memory result change",
+        "undo memory results",
     ],
 }
 
