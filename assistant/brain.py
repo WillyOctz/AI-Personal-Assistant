@@ -50,6 +50,8 @@ def save_last_memory_search_results(results):
             "type": item["type"],
             "display": item["display"],
             "text": item["text"],
+            "key": item.get("key"),
+            "due": item.get("due"),
             "score": result["score"],
             "similarity": result["similarity"],
             "importance": result["importance"],
@@ -1717,6 +1719,7 @@ def collect_memory_search_items():
         
         items.append({
             "type": "profile",
+            "key": key,
             "text": text,
             "display": f"Profile: {readable_key}: {value}",
             "importance": 1.0,
@@ -1747,6 +1750,7 @@ def collect_memory_search_items():
         items.append({
             "type": "reminder",
             "text": reminder_text,
+            "due": reminder_due,
             "display": display,
             "importance": 1.0,
             "priority": MEMORY_TYPE_PRIORITY["reminder"],
@@ -3636,11 +3640,15 @@ def handle_memory_intent(user_input, analysis):
         timestamp = item.get("timestamp") or "None"
         display = item.get("display", "")
         text = item.get("text", "")
+        key = item.get("key")
+        due = item.get("due")
         
         return (
             f"Memory result {index}:\n"
             f"Source type: {item_type}\n"
             f"Score: {item['score']:.2f}\n"
+            f"Key: {key}\n"
+            f"Due: {due}\n"
             f"Similarity: {item['similarity']:.2f}\n"
             f"Importance: {item['importance']:.2f}\n"
             f"Recency: {item['recency']:.2f}\n"

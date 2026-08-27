@@ -38,18 +38,20 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "recall_memory",
+        "last_response_intent": "show_memory_result",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I remember these things about python:\n- Profile: favoritelanguage: python",
+        "last_response_text": "Memory result 1:\nSource type: reminder\nScore: 1.00\nKey: None\nDue: None\nSimilarity: 1.00\nImportance: 1.00\nRecency: 1.00\nTimestamp: None\nDisplay: Reminder: i like music\nRaw text: i like music",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [
             {
-                "type": "profile",
-                "display": "Profile: favoritelanguage: python",
-                "text": "favorite_language python",
+                "type": "reminder",
+                "display": "Reminder: i like music",
+                "text": "i like music",
+                "key": null,
+                "due": null,
                 "score": 1.0,
                 "similarity": 1.0,
                 "importance": 1.0,
@@ -58,10 +60,10 @@
             }
         ],
         "last_memory_search_query": {
-            "query": "python",
-            "type": "profile",
-            "limit": 3,
-            "min_score": 0.2,
+            "query": "music",
+            "type": "reminder",
+            "limit": 5,
+            "min_score": 0.3,
             "sort": "relevant",
             "date_filter": null,
             "date_value": null,
@@ -13525,6 +13527,86 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-27 18:14:22",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory python profile",
+            "assistant": "Memory search:\nQuery: python\nType: profile\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Profile: favoritelanguage: python",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 18:38:04",
+            "importance": 0.6
+        },
+        {
+            "user": "show memory result 1",
+            "assistant": "Memory result 1:\nSource type: profile\nScore: 1.00\nKey: favorite_language\nDue: None\nSimilarity: 1.00\nImportance: 1.00\nRecency: 1.00\nTimestamp: None\nDisplay: Profile: favoritelanguage: python\nRaw text: favorite_language python",
+            "intent": "show_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 18:38:08",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music reminder",
+            "assistant": "Memory search:\nQuery: music\nType: reminder\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Reminder: i like music",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 18:38:15",
+            "importance": 0.6
+        },
+        {
+            "user": "show memory result 1",
+            "assistant": "Memory result 1:\nSource type: reminder\nScore: 1.00\nKey: None\nDue: None\nSimilarity: 1.00\nImportance: 1.00\nRecency: 1.00\nTimestamp: None\nDisplay: Reminder: i like music\nRaw text: i like music",
+            "intent": "show_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 18:38:29",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory python profile",
+            "assistant": "Memory search:\nQuery: python\nType: profile\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Profile: favoritelanguage: python",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 18:38:59",
+            "importance": 0.6
+        },
+        {
+            "user": "show memory result 1",
+            "assistant": "Memory result 1:\nSource type: profile\nScore: 1.00\nKey: favorite_language\nDue: None\nSimilarity: 1.00\nImportance: 1.00\nRecency: 1.00\nTimestamp: None\nDisplay: Profile: favoritelanguage: python\nRaw text: favorite_language python",
+            "intent": "show_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 18:39:12",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music reminder",
+            "assistant": "Memory search:\nQuery: music\nType: reminder\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Reminder: i like music",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 18:39:21",
+            "importance": 0.6
+        },
+        {
+            "user": "show memory result 1",
+            "assistant": "Memory result 1:\nSource type: reminder\nScore: 1.00\nKey: None\nDue: None\nSimilarity: 1.00\nImportance: 1.00\nRecency: 1.00\nTimestamp: None\nDisplay: Reminder: i like music\nRaw text: i like music",
+            "intent": "show_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 18:39:25",
             "importance": 0.6
         }
     ],
