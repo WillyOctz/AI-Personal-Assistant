@@ -1711,6 +1711,20 @@ def collect_memory_search_items():
     memo = memory.get_all_memory()
     items = []
     
+    for key, value in memo["profile"].items():
+        text = f"{key} {value}"
+        readable_key = key.replace("_", "")
+        
+        items.append({
+            "type": "profile",
+            "text": text,
+            "display": f"Profile: {readable_key}: {value}",
+            "importance": 1.0,
+            "priority": MEMORY_TYPE_PRIORITY["profile"],
+            "recency": 1.0,
+            "timestamp": None
+        })
+    
     for note in memo["notes"]:
         items.append({
             "type": "note",

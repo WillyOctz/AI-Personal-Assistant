@@ -489,6 +489,7 @@ SEARCH_IGNORED_INTENTS = {
 }
 
 MEMORY_TYPE_PRIORITY = {
+    "profile": 6,
     "note": 5,
     "reminder": 5,
     "summary": 4,
@@ -512,6 +513,10 @@ MEMORY_TYPE_ALIASES = {
     "archive": "archive_summary",
     "archive_summary": "archive_summary",
     "archived": "archive_summary",
+    "profile": "profile",
+    "profiles": "profile",
+    "fact": "profile",
+    "facts": "profile",
 }
 
 INTENT_PATTERNS = {

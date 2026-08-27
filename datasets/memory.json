@@ -38,68 +38,40 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "list_memory_results",
+        "last_response_intent": "recall_memory",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Saved memory results:\n1. 1.00 | note | Note: i like music\n2. 0.48 | conversation | Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\n3. 0.48 | conversation | Conversation: 2026-08-26 15:35:18 | You: what do you remember about music after 2026-08-01\n4. 0.48 | conversation | Conversation: 2026-08-26 15:35:25 | You: recall notes about music 5 0.3 recent\n5. 0.48 | conversation | Conversation: 2026-08-26 16:08:43 | You: show notes",
+        "last_response_text": "I remember these things about python:\n- Profile: favoritelanguage: python",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [
             {
-                "type": "note",
-                "display": "Note: i like music",
-                "text": "i like music",
+                "type": "profile",
+                "display": "Profile: favoritelanguage: python",
+                "text": "favorite_language python",
                 "score": 1.0,
                 "similarity": 1.0,
                 "importance": 1.0,
                 "recency": 1.0,
                 "timestamp": null
-            },
-            {
-                "type": "conversation",
-                "display": "Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent",
-                "text": "what do you remember about music note 5 0.3 recent I remember these things about music:\n- Note: i like music recall_memory",
-                "score": 0.48,
-                "similarity": 1.0,
-                "importance": 0.6,
-                "recency": 0.8,
-                "timestamp": "2026-08-26 15:35:08"
-            },
-            {
-                "type": "conversation",
-                "display": "Conversation: 2026-08-26 15:35:18 | You: what do you remember about music after 2026-08-01",
-                "text": "what do you remember about music after 2026-08-01 I remember these things about music:\n- Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\n- Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json recall_memory",
-                "score": 0.48,
-                "similarity": 1.0,
-                "importance": 0.6,
-                "recency": 0.8,
-                "timestamp": "2026-08-26 15:35:18"
-            },
-            {
-                "type": "conversation",
-                "display": "Conversation: 2026-08-26 15:35:25 | You: recall notes about music 5 0.3 recent",
-                "text": "recall notes about music 5 0.3 recent I found these note memories about music:\n- Note: i like music recall_memory_source",
-                "score": 0.48,
-                "similarity": 1.0,
-                "importance": 0.6,
-                "recency": 0.8,
-                "timestamp": "2026-08-26 15:35:25"
-            },
-            {
-                "type": "conversation",
-                "display": "Conversation: 2026-08-26 16:08:43 | You: show notes",
-                "text": "show notes i want to learn AI\ni want to improve you\ni like music\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee show_notes",
-                "score": 0.48,
-                "similarity": 1.0,
-                "importance": 0.6,
-                "recency": 0.8,
-                "timestamp": "2026-08-26 16:08:43"
             }
         ],
         "last_memory_search_query": {
-            "query": "music",
-            "type": null,
+            "query": "python",
+            "type": "profile",
+            "limit": 3,
+            "min_score": 0.2,
+            "sort": "relevant",
+            "date_filter": null,
+            "date_value": null,
+            "date_start": null,
+            "date_end": null,
+            "archive_mode": "include"
+        },
+        "last_debug_memory_search_query": {
+            "query": "python",
+            "type": "profile",
             "limit": 5,
             "min_score": 0.3,
             "sort": "relevant",
@@ -109,7 +81,6 @@
             "date_end": null,
             "archive_mode": "include"
         },
-        "last_debug_memory_search_query": null,
         "previous_memory_search_results": null
     },
     "history": [
@@ -13514,6 +13485,46 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-27 17:44:31",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory python",
+            "assistant": "Memory search:\nQuery: python\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Profile: favoritelanguage: python\n2. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: profile favorite_language python\n3. 0.48 | sim=1.00 | imp=0.60 | rec=0.80 | Conversation: 2026-08-26 16:08:43 | You: show notes\n4. 0.48 | sim=1.00 | imp=0.60 | rec=0.80 | Conversation: 2026-08-26 16:14:46 | You: show notes\n5. 0.40 | sim=1.00 | imp=1.00 | rec=0.40 | Conversation: 2026-06-25 15:00:56 | You: remember profile favorite_language python",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 18:13:36",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory python profile",
+            "assistant": "Memory search:\nQuery: python\nType: profile\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Profile: favoritelanguage: python",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 18:13:59",
+            "importance": 0.6
+        },
+        {
+            "user": "debug memory python profile",
+            "assistant": "Memory search:\nQuery: python\nType: profile\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n\nScore: 1.00\nType: profile\nText: favorite_language python\nTokens: ['favorite_language', 'python']\nQuery tokens: ['python']\nRecency: 1.00",
+            "intent": "debug_memory_search",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 18:14:09",
+            "importance": 0.1
+        },
+        {
+            "user": "what do you remember about python profile",
+            "assistant": "I remember these things about python:\n- Profile: favoritelanguage: python",
+            "intent": "recall_memory",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 18:14:22",
             "importance": 0.6
         }
     ],
