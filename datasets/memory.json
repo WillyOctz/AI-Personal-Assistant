@@ -38,15 +38,67 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "unknown",
-        "last_response_group": "unknown",
-        "last_response_source": "None",
-        "last_response_confidence": 0,
+        "last_response_intent": "show_memory_result",
+        "last_response_group": "memory",
+        "last_response_source": "rule",
+        "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I am not sure if that was a command or conversation yet.\nYou said: exi\nYou can rephrase it, or teach me with: teach message as intent_name",
+        "last_response_text": "Memory result 2:\nSource type: conversation\nScore: 0.48\nSimilarity: 1.00\nImportance: 0.60\nRecency: 0.80\nTimestamp: 2026-08-26 15:35:08\nDisplay: Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\nRaw text: what do you remember about music note 5 0.3 recent I remember these things about music:\n- Note: i like music recall_memory",
         "pending_response_feedback_clear": null,
-        "last_memory_search_results": null,
-        "last_memory_search_query": null,
+        "last_memory_search_results": [
+            {
+                "type": "note",
+                "display": "Note: i like music",
+                "text": "i like music",
+                "score": 1.0,
+                "similarity": 1.0,
+                "importance": 1.0,
+                "recency": 1.0,
+                "timestamp": null
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent",
+                "text": "what do you remember about music note 5 0.3 recent I remember these things about music:\n- Note: i like music recall_memory",
+                "score": 0.48,
+                "similarity": 1.0,
+                "importance": 0.6,
+                "recency": 0.8,
+                "timestamp": "2026-08-26 15:35:08"
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-08-26 15:35:18 | You: what do you remember about music after 2026-08-01",
+                "text": "what do you remember about music after 2026-08-01 I remember these things about music:\n- Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\n- Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json recall_memory",
+                "score": 0.48,
+                "similarity": 1.0,
+                "importance": 0.6,
+                "recency": 0.8,
+                "timestamp": "2026-08-26 15:35:18"
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-08-26 15:35:25 | You: recall notes about music 5 0.3 recent",
+                "text": "recall notes about music 5 0.3 recent I found these note memories about music:\n- Note: i like music recall_memory_source",
+                "score": 0.48,
+                "similarity": 1.0,
+                "importance": 0.6,
+                "recency": 0.8,
+                "timestamp": "2026-08-26 15:35:25"
+            }
+        ],
+        "last_memory_search_query": {
+            "query": "music",
+            "type": null,
+            "limit": 5,
+            "min_score": 0.3,
+            "sort": "relevant",
+            "date_filter": null,
+            "date_value": null,
+            "date_start": null,
+            "date_end": null,
+            "archive_mode": "include"
+        },
         "last_debug_memory_search_query": null
     },
     "history": [
@@ -13212,6 +13264,56 @@
             "source": "None",
             "timestamp": "2026-08-27 16:33:53",
             "importance": 0.3
+        },
+        {
+            "user": "semantic memory music 5",
+            "assistant": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music\n2. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-26 17:42:07 | You: show reminders\n3. 0.48 | sim=1.00 | imp=0.60 | rec=0.80 | Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\n4. 0.48 | sim=1.00 | imp=0.60 | rec=0.80 | Conversation: 2026-08-26 15:35:18 | You: what do you remember about music after 2026-08-01\n5. 0.48 | sim=1.00 | imp=0.60 | rec=0.80 | Conversation: 2026-08-26 15:35:25 | You: recall notes about music 5 0.3 recent",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 17:02:43",
+            "importance": 0.6
+        },
+        {
+            "user": "list memory results",
+            "assistant": "Saved memory results:\n1. 1.00 | note | Note: i like music\n2. 0.60 | conversation | Conversation: 2026-08-26 17:42:07 | You: show reminders\n3. 0.48 | conversation | Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\n4. 0.48 | conversation | Conversation: 2026-08-26 15:35:18 | You: what do you remember about music after 2026-08-01\n5. 0.48 | conversation | Conversation: 2026-08-26 15:35:25 | You: recall notes about music 5 0.3 recent",
+            "intent": "list_memory_results",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 17:02:48",
+            "importance": 0.6
+        },
+        {
+            "user": "remove memory result 2",
+            "assistant": "Removed saved memory result 2: Conversation: 2026-08-26 17:42:07 | You: show reminders",
+            "intent": "remove_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 17:02:53",
+            "importance": 0.6
+        },
+        {
+            "user": "list memory results",
+            "assistant": "Saved memory results:\n1. 1.00 | note | Note: i like music\n2. 0.48 | conversation | Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\n3. 0.48 | conversation | Conversation: 2026-08-26 15:35:18 | You: what do you remember about music after 2026-08-01\n4. 0.48 | conversation | Conversation: 2026-08-26 15:35:25 | You: recall notes about music 5 0.3 recent",
+            "intent": "list_memory_results",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 17:03:02",
+            "importance": 0.6
+        },
+        {
+            "user": "show memory result 2",
+            "assistant": "Memory result 2:\nSource type: conversation\nScore: 0.48\nSimilarity: 1.00\nImportance: 0.60\nRecency: 0.80\nTimestamp: 2026-08-26 15:35:08\nDisplay: Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\nRaw text: what do you remember about music note 5 0.3 recent I remember these things about music:\n- Note: i like music recall_memory",
+            "intent": "show_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 17:03:07",
+            "importance": 0.6
         }
     ],
     "summaries": [
