@@ -38,30 +38,17 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_memory_result",
+        "last_response_intent": "get_profile_fact",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Memory result 1:\nSource type: reminder\nScore: 1.00\nKey: None\nDue: None\nSimilarity: 1.00\nImportance: 1.00\nRecency: 1.00\nTimestamp: None\nDisplay: Reminder: i like music\nRaw text: i like music",
+        "last_response_text": "I do not know your test fact yet.",
         "pending_response_feedback_clear": null,
-        "last_memory_search_results": [
-            {
-                "type": "reminder",
-                "display": "Reminder: i like music",
-                "text": "i like music",
-                "key": null,
-                "due": null,
-                "score": 1.0,
-                "similarity": 1.0,
-                "importance": 1.0,
-                "recency": 1.0,
-                "timestamp": null
-            }
-        ],
+        "last_memory_search_results": [],
         "last_memory_search_query": {
-            "query": "music",
-            "type": "reminder",
+            "query": "hello",
+            "type": "profile",
             "limit": 5,
             "min_score": 0.3,
             "sort": "relevant",
@@ -13607,6 +13594,56 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-27 18:39:25",
+            "importance": 0.6
+        },
+        {
+            "user": "remember profile test_fact hello",
+            "assistant": "Got it. I saved test_fact as hello.",
+            "intent": "set_profile_fact",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 19:06:25",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory hello profile",
+            "assistant": "Memory search:\nQuery: hello\nType: profile\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Profile: testfact: hello",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 19:06:31",
+            "importance": 0.6
+        },
+        {
+            "user": "show memory result 1",
+            "assistant": "Memory result 1:\nSource type: profile\nScore: 1.00\nKey: test_fact\nDue: None\nSimilarity: 1.00\nImportance: 1.00\nRecency: 1.00\nTimestamp: None\nDisplay: Profile: testfact: hello\nRaw text: test_fact hello",
+            "intent": "show_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 19:06:36",
+            "importance": 0.6
+        },
+        {
+            "user": "delete profile memory result 1",
+            "assistant": "Deleted profile fact test fact: hello",
+            "intent": "delete_profile_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 19:06:45",
+            "importance": 0.6
+        },
+        {
+            "user": "what is my test fact",
+            "assistant": "I do not know your test fact yet.",
+            "intent": "get_profile_fact",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-27 19:06:50",
             "importance": 0.6
         }
     ],

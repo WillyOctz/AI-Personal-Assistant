@@ -324,6 +324,18 @@ def parse_save_memory_result_as_reminder(user_input):
         return None
     
     return int(text)
+
+def parse_delete_profile_memory_result_index(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["delete profile memory result ", "remove profile memory result "]:
+        if text.startswith(prefix):
+            value = text.replace(prefix, "", 1).strip()
+            
+            if value.isdigit():
+                return int(value)
+            
+    return None
     
 def parse_file_range_command(user_input):
     parts = user_input.split()
@@ -3736,6 +3748,41 @@ def handle_memory_intent(user_input, analysis):
         memory.set_state_value("last_memory_search_results", results)
         
         return f"Removed saved memory result {index}: {removed['display']}"
+        
+    if intent == "delete_profile_memory_result":
+        index = parse_delete_profile_memory_result_index(user_input)
+        
+        if index is None:
+            return "Use this format: delete profile memory result number"
+        
+        results = memory.get_state_value("last_memory_search_results") or []
+        
+        if not results:
+            return "I do not have saved memory search results yet."
+        
+        if index < 1 or index > len(results):
+            return "That memory result number does not exist."
+        
+        item = results[index - 1]
+        
+        if item.get("type") != "profile":
+            return f"Memory result {index} is not a profile fact."
+        
+        key = item.get("key")
+        
+        if not key:
+            return f"Memory result {index} does not have a profile key."
+        
+        result = memory.delete_profile_value(key)
+        
+        if not result["deleted"]:
+            return f"I could not find profile fact: {key}"
+        
+        results.pop(index - 1)
+        memory.set_state_value("last_memory_search_results", results)
+        
+        readable_key = result["key"].replace("_", " ")
+        return f"Deleted profile fact {readable_key}: {result['value']}"
         
     if intent == "memory_result_stats":
         results = memory.get_state_value("last_memory_search_results") or []

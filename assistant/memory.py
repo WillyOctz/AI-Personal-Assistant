@@ -316,6 +316,25 @@ def get_profile_value(key):
     memory = load_memory()
     return memory["profile"].get(key)
 
+def delete_profile_value(key):
+    memory = load_memory()
+    
+    if key not in memory["profile"]:
+        return {
+            "deleted": False,
+            "key": key,
+            "value": None
+        }
+        
+    value = memory["profile"].pop(key)
+    save_memory(memory)
+    
+    return {
+        "deleted": True,
+        "key": key,
+        "value": value
+    }
+
 def get_profile():
     memory = load_memory()
     return memory["profile"]
