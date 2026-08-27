@@ -243,6 +243,18 @@ def parse_remove_memory_result_index(user_input):
             
     return None
 
+def parse_keep_memory_result_index(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["keep only memory result ", "keep memory result "]:
+        if text.startswith(prefix):
+            value = text.replace(prefix, "", 1).strip()
+            
+            if value.isdigit():
+                return int(value)
+            
+    return None
+
 def parse_explain_memory_result_index(user_input):
     text = user_input.lower().strip()
     
@@ -3658,6 +3670,25 @@ def handle_memory_intent(user_input, analysis):
             )
             
         return "\n".join(lines)
+    
+    if intent == "keep_memory_result":
+        index = parse_keep_memory_result_index(user_input)
+        
+        if index is None:
+            return "Use this format: keep memory result number"
+        
+        results = memory.get_state_value("last_memory_search_results") or []
+        
+        if not results:
+            return "I do not have saved memory search results yet."
+        
+        if index < 1 or index > len(results):
+            return "That memory result number does not exist."
+        
+        kept = results[index - 1]
+        memory.set_state_value("last_memory_search_results", [kept])
+        
+        return f"Kept only memory result {index}: {kept['display']}"
     
     if intent == "remove_memory_result":
         index = parse_remove_memory_result_index(user_input)
