@@ -3907,21 +3907,7 @@ def handle_memory_intent(user_input, analysis):
         if item.get("type") != "profile":
             return f"Memory result {index} is not a profile fact."
         
-        key = item.get("key")
-        
-        if not key:
-            return f"Memory result {index} does not have a profile key."
-        
-        result = memory.delete_profile_value(key)
-        
-        if not result["deleted"]:
-            return f"I could not find profile fact: {key}"
-        
-        results.pop(index - 1)
-        memory.set_state_value("last_memory_search_results", results)
-        
-        readable_key = result["key"].replace("_", " ")
-        return f"Deleted profile fact {readable_key}: {result['value']}"
+        return delete_saved_memory_result_from_real_memory(index)
     
     if intent == "delete_reminder_memory_result":
         index = parse_delete_reminder_memory_result_index(user_input)
@@ -3942,16 +3928,7 @@ def handle_memory_intent(user_input, analysis):
         if item.get("type") != "reminder":
             return f"Memory result {index} is not a reminder."
         
-        reminder_text = item.get("text", "")
-        result = memory.complete_reminder(reminder_text)
-        
-        if not result["removed"]:
-            return f"I could not find reminder: {reminder_text}"
-        
-        results.pop(index - 1)
-        memory.set_state_value("last_memory_search_results", results)
-        
-        return f"Deleted reminder from memory result {index}: {result['reminder']}"
+        return delete_saved_memory_result_from_real_memory(index)
         
     if intent == "delete_note_memory_result":
         index = parse_delete_note_memory_result_index(user_input)
@@ -3972,16 +3949,7 @@ def handle_memory_intent(user_input, analysis):
         if item.get("type") != "note":
             return f"Memory result {index} is not a note."
         
-        note_text = item.get("text", "")
-        result = memory.delete_note(note_text)
-        
-        if not result["deleted"]:
-            return f"I could not find note: {note_text}"
-        
-        results.pop(index - 1)
-        memory.set_state_value("last_memory_search_results", results)
-        
-        return f"Deleted note from memory result {index}: {result['note']}"
+        return delete_saved_memory_result_from_real_memory(index)
         
     if intent == "memory_result_stats":
         results = memory.get_state_value("last_memory_search_results") or []
