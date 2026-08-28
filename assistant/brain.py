@@ -372,6 +372,50 @@ def parse_delete_note_memory_result_index(user_input):
                 return int(value)
             
     return None
+
+def delete_saved_memory_result_from_real_memory(index):
+    results = memory.get_state_value("last_memory_search_results") or []
+    
+    if not results:
+        return "I do not have saved memory search results yet."
+    
+    if index < 1 or index > len(results):
+        return "That memory result number does not exist."
+    
+    item = results[index - 1]
+    item_type = item.get("type")
+    
+    if item_type == "note":
+        result = memory.delete_note(item.get("text", ""))
+        
+        if not result["deleted"]:
+            return f"I could not find note: {item.get('text', '')}"
+        
+    elif item_type == "reminder":
+        result = memory.complete_reminder(item.get("text", ""))
+        
+        if not result["removed"]:
+            return f"I could not find reminder: {item.get('text', '')}"
+        
+    elif item_type == "profile":
+        key = item.get("key")
+        
+        if not key:
+            return f"Memory result {index} does not have a profile key."
+        
+        result = memory.delete_profile_value(key)
+        
+        if not result["deleted"]:
+            return f"I could not find profile fact: {key}"
+        
+    else:
+        return f"Memory result {index} is type '{item_type}'. I can only delete note, reminder, or profile results."
+    
+    save_memory_results_undo_state()
+    removed = results.pop(index - 1)
+    memory.set_state_value("last_memory_search_results", results)
+    
+    return f"Deleted {item_type} from memory result {index}: {removed['display']}"
     
 def parse_file_range_command(user_input):
     parts = user_input.split()
@@ -1019,6 +1063,17 @@ def get_pending_response_feedback_clear():
 
 def clear_pending_response_feedback_clear():
     memory.clear_state_value("pending_response_feedback_clear")
+    
+def set_pending_memory_result_delete(index):
+    memory.set_state_value("pending_memory_result_delete", {
+        "index": index
+    })
+    
+def get_pending_memory_result_delete():
+    return memory.get_state_value("pending_memory_result_delete")
+
+def clear_pending_memory_result_delete():
+    memory.clear_state_value("pending_memory_result_delete")
     
 def get_focus_started_at():
     return focus.get_focus_started_at()
@@ -2372,6 +2427,12 @@ def handle_control_intent(user_input, analysis):
             clear_pending_response_feedback_clear()
             return chat.format_clear_response_feedback_result(removed_count)
         
+        pending_delete = get_pending_memory_result_delete()
+        if pending_delete:
+            index = pending_delete["index"]
+            clear_pending_memory_result_delete()
+            return delete_saved_memory_result_from_real_memory(index)
+        
         pending = get_pending_confirmation()
         app_result = apps.confirm_pending_app_launch(open_registered_app)
         
@@ -2398,6 +2459,12 @@ def handle_control_intent(user_input, analysis):
         if get_pending_response_feedback_clear():
             clear_pending_response_feedback_clear()
             return "Okay. Response feedback was not cleared."
+        
+        pending_delete = get_pending_memory_result_delete()
+        
+        if pending_delete:
+            clear_pending_memory_result_delete()
+            return "Okay. Memory result deletion cancelled."
                   
         pending = get_pending_confirmation()
         app_result = apps.deny_pending_app_launch()
@@ -3768,6 +3835,8 @@ def handle_memory_intent(user_input, analysis):
                 "Only note, reminder, and profile results can be deleted from real memory."
             )
             
+        set_pending_memory_result_delete(index)
+            
         return (
             f"Preview delete memory result {index}:\n"
             f"Type: {item_type}\n"
@@ -3775,7 +3844,8 @@ def handle_memory_intent(user_input, analysis):
             f"Raw text: {item.get('text')}\n"
             f"Key: {item.get('key')}\n"
             f"Due: {item.get('due')}\n"
-            "No data was deleted."
+            "No data was deleted.\n"
+            "Reply yes to delete it, or no to cancel."
         )
     
     if intent == "keep_memory_result":

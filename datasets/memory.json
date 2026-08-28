@@ -37,78 +37,17 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "debug_route",
-        "last_response_group": "control",
+        "last_response_intent": "show_notes",
+        "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Input: preview delete memory result 1\nExact intent: None\nPrefix intent: preview_delete_memory_result",
+        "last_response_text": "i want to learn AI\ni want to improve you\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee\ni like music",
         "pending_response_feedback_clear": null,
-        "last_memory_search_results": [
-            {
-                "type": "note",
-                "display": "Note: i like music",
-                "text": "i like music",
-                "key": null,
-                "due": null,
-                "score": 1.0,
-                "similarity": 1.0,
-                "importance": 1.0,
-                "recency": 1.0,
-                "timestamp": null
-            },
-            {
-                "type": "conversation",
-                "display": "Conversation: 2026-08-28 15:29:11 | You: show reminders",
-                "text": "show reminders Your reminders:\n1. i like music show_reminders",
-                "key": null,
-                "due": null,
-                "score": 0.6,
-                "similarity": 1.0,
-                "importance": 0.6,
-                "recency": 1.0,
-                "timestamp": "2026-08-28 15:29:11"
-            },
-            {
-                "type": "conversation",
-                "display": "Conversation: 2026-08-28 16:03:58 | You: show notes",
-                "text": "show notes i want to learn AI\ni want to improve you\ni like music\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee\ni like music show_notes",
-                "key": null,
-                "due": null,
-                "score": 0.6,
-                "similarity": 1.0,
-                "importance": 0.6,
-                "recency": 1.0,
-                "timestamp": "2026-08-28 16:03:58"
-            },
-            {
-                "type": "conversation",
-                "display": "Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent",
-                "text": "what do you remember about music note 5 0.3 recent I remember these things about music:\n- Note: i like music recall_memory",
-                "key": null,
-                "due": null,
-                "score": 0.48,
-                "similarity": 1.0,
-                "importance": 0.6,
-                "recency": 0.8,
-                "timestamp": "2026-08-26 15:35:08"
-            },
-            {
-                "type": "conversation",
-                "display": "Conversation: 2026-08-26 15:35:18 | You: what do you remember about music after 2026-08-01",
-                "text": "what do you remember about music after 2026-08-01 I remember these things about music:\n- Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\n- Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json recall_memory",
-                "key": null,
-                "due": null,
-                "score": 0.48,
-                "similarity": 1.0,
-                "importance": 0.6,
-                "recency": 0.8,
-                "timestamp": "2026-08-26 15:35:18"
-            }
-        ],
+        "last_memory_search_results": [],
         "last_memory_search_query": {
-            "query": "music",
-            "type": null,
+            "query": "preview delete test",
+            "type": "note",
             "limit": 5,
             "min_score": 0.3,
             "sort": "relevant",
@@ -130,7 +69,21 @@
             "date_end": null,
             "archive_mode": "include"
         },
-        "previous_memory_search_results": null
+        "previous_memory_search_results": [
+            {
+                "type": "note",
+                "display": "Note: preview delete test",
+                "text": "preview delete test",
+                "key": null,
+                "due": null,
+                "score": 1.0,
+                "similarity": 1.0,
+                "importance": 1.0,
+                "recency": 1.0,
+                "timestamp": null
+            }
+        ],
+        "pending_memory_result_delete": null
     },
     "history": [
         {
@@ -13905,6 +13858,96 @@
             "source": "rule",
             "timestamp": "2026-08-28 16:22:53",
             "importance": 0.1
+        },
+        {
+            "user": "remember preview delete test",
+            "assistant": "i remembered that.",
+            "intent": "remember_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:47:51",
+            "importance": 1.0
+        },
+        {
+            "user": "semantic memory preview delete test note",
+            "assistant": "Memory search:\nQuery: preview delete test\nType: note\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: preview delete test",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:47:55",
+            "importance": 0.6
+        },
+        {
+            "user": "preview delete memory result 1",
+            "assistant": "Preview delete memory result 1:\nType: note\nDisplay: Note: preview delete test\nRaw text: preview delete test\nKey: None\nDue: None\nNo data was deleted.Reply yes to delete it, or no to cancel.",
+            "intent": "preview_delete_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:48:02",
+            "importance": 0.6
+        },
+        {
+            "user": "preview delete memory result 1",
+            "assistant": "Preview delete memory result 1:\nType: note\nDisplay: Note: preview delete test\nRaw text: preview delete test\nKey: None\nDue: None\nNo data was deleted.\nReply yes to delete it, or no to cancel.",
+            "intent": "preview_delete_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:48:48",
+            "importance": 0.6
+        },
+        {
+            "user": "no",
+            "assistant": "Okay. Memory result deletion cancelled.",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:48:52",
+            "importance": 0.1
+        },
+        {
+            "user": "show notes",
+            "assistant": "i want to learn AI\ni want to improve you\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee\ni like music\npreview delete test",
+            "intent": "show_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:48:57",
+            "importance": 0.6
+        },
+        {
+            "user": "preview delete memory result 1",
+            "assistant": "Preview delete memory result 1:\nType: note\nDisplay: Note: preview delete test\nRaw text: preview delete test\nKey: None\nDue: None\nNo data was deleted.\nReply yes to delete it, or no to cancel.",
+            "intent": "preview_delete_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:49:03",
+            "importance": 0.6
+        },
+        {
+            "user": "yes",
+            "assistant": "Deleted note from memory result 1: Note: preview delete test",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:49:10",
+            "importance": 0.1
+        },
+        {
+            "user": "show notes",
+            "assistant": "i want to learn AI\ni want to improve you\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee\ni like music",
+            "intent": "show_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:49:14",
+            "importance": 0.6
         }
     ],
     "summaries": [
