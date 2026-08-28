@@ -224,6 +224,7 @@ VALID_INTENTS = {
     "delete_note_memory_result",
     "undo_memory_results_change",
     "memory_result_actions",
+    "memory_search_dashboard",
 }
 
 CONTROL_INTENTS = {
@@ -453,6 +454,7 @@ MEMORY_INTENTS = {
     "delete_reminder_memory_result",
     "undo_memory_results_change",
     "memory_result_actions",
+    "memory_search_dashboard",
 }
 
 ACTION_INTENTS = {
@@ -485,6 +487,7 @@ SEARCH_IGNORED_INTENTS = {
     "memory_result_stats",
     "memory_result_summary",
     "show_last_memory_search",
+    "memory_search_dashboard",
 
     "show_conversation",
     "show_history",
@@ -1139,6 +1142,11 @@ INTENT_PATTERNS = {
         "undo memory results change",
         "undo memory result change",
         "undo memory results",
+    ],
+    "memory_search_dashboard": [
+        "memory search dashboard",
+        "memory results dashboard",
+        "saved memory dashboard",
     ],
 }
 

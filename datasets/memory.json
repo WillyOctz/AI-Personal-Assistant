@@ -37,63 +37,76 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "memory_result_actions",
+        "last_response_intent": "memory_search_dashboard",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Actions for memory result 1:\nType: profile\nDisplay: Profile: favoritelanguage: python\n\nAvailable actions:\n- show memory result 1\n- explain memory result 1\n- save memory result 1 as note\n- save memory result 1 as reminder\n- remove memory result 1\n- keep memory result 1\n- preview delete memory result 1\n- delete profile memory result 1",
+        "last_response_text": "I do not have a saved memory search yet.",
         "pending_response_feedback_clear": null,
-        "last_memory_search_results": [
-            {
-                "type": "profile",
-                "display": "Profile: favoritelanguage: python",
-                "text": "favorite_language python",
-                "key": "favorite_language",
-                "due": null,
-                "score": 1.0,
-                "similarity": 1.0,
-                "importance": 1.0,
-                "recency": 1.0,
-                "timestamp": null
-            }
-        ],
-        "last_memory_search_query": {
-            "query": "python",
-            "type": "profile",
-            "limit": 5,
-            "min_score": 0.3,
-            "sort": "relevant",
-            "date_filter": null,
-            "date_value": null,
-            "date_start": null,
-            "date_end": null,
-            "archive_mode": "include"
-        },
-        "last_debug_memory_search_query": {
-            "query": "python",
-            "type": "profile",
-            "limit": 5,
-            "min_score": 0.3,
-            "sort": "relevant",
-            "date_filter": null,
-            "date_value": null,
-            "date_start": null,
-            "date_end": null,
-            "archive_mode": "include"
-        },
+        "last_memory_search_results": null,
+        "last_memory_search_query": null,
+        "last_debug_memory_search_query": null,
         "previous_memory_search_results": [
             {
-                "type": "profile",
-                "display": "Profile: tempfact: refactor",
-                "text": "temp_fact refactor",
-                "key": "temp_fact",
+                "type": "note",
+                "display": "Note: i like music",
+                "text": "i like music",
+                "key": null,
                 "due": null,
                 "score": 1.0,
                 "similarity": 1.0,
                 "importance": 1.0,
                 "recency": 1.0,
                 "timestamp": null
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-08-28 15:29:11 | You: show reminders",
+                "text": "show reminders Your reminders:\n1. i like music show_reminders",
+                "key": null,
+                "due": null,
+                "score": 0.6,
+                "similarity": 1.0,
+                "importance": 0.6,
+                "recency": 1.0,
+                "timestamp": "2026-08-28 15:29:11"
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-08-28 16:03:58 | You: show notes",
+                "text": "show notes i want to learn AI\ni want to improve you\ni like music\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee\ni like music show_notes",
+                "key": null,
+                "due": null,
+                "score": 0.6,
+                "similarity": 1.0,
+                "importance": 0.6,
+                "recency": 1.0,
+                "timestamp": "2026-08-28 16:03:58"
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-08-28 16:48:57 | You: show notes",
+                "text": "show notes i want to learn AI\ni want to improve you\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee\ni like music\npreview delete test show_notes",
+                "key": null,
+                "due": null,
+                "score": 0.6,
+                "similarity": 1.0,
+                "importance": 0.6,
+                "recency": 1.0,
+                "timestamp": "2026-08-28 16:48:57"
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-08-28 16:49:14 | You: show notes",
+                "text": "show notes i want to learn AI\ni want to improve you\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee\ni like music show_notes",
+                "key": null,
+                "due": null,
+                "score": 0.6,
+                "similarity": 1.0,
+                "importance": 0.6,
+                "recency": 1.0,
+                "timestamp": "2026-08-28 16:49:14"
             }
         ],
         "pending_memory_result_delete": null
@@ -14100,6 +14113,86 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-28 17:41:50",
+            "importance": 0.6
+        },
+        {
+            "user": "memory search dashboard",
+            "assistant": "Memory search dashboard:\nQuery: python\nType: profile\nLimit: 5\nMin score: 0.3\nSort: relevant\nArchive mode: include\nSaved results: 1\nResult types:\n- profile: 1\n\nUseful commands:\n- list memory results\n- memory result summary\n- memory result stats\n- show memory result 1\n- memory result actions 1\n- repeat memory search\n- clear memory search state",
+            "intent": "memory_search_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 18:15:59",
+            "importance": 0.6
+        },
+        {
+            "user": "debug route memory search dashboard",
+            "assistant": "Input: memory search dashboard\nExact intent: memory_search_dashboard\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 18:16:14",
+            "importance": 0.1
+        },
+        {
+            "user": "semantic memory music 5",
+            "assistant": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music\n2. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-28 15:29:11 | You: show reminders\n3. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-28 16:03:58 | You: show notes\n4. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-28 16:48:57 | You: show notes\n5. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-28 16:49:14 | You: show notes",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 18:16:19",
+            "importance": 0.6
+        },
+        {
+            "user": "memory search dashboard",
+            "assistant": "Memory search dashboard:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.3\nSort: relevant\nArchive mode: include\nSaved results: 5\nResult types:\n- note: 1\n- conversation: 4\n\nUseful commands:\n- list memory results\n- memory result summary\n- memory result stats\n- show memory result 1\n- memory result actions 1\n- repeat memory search\n- clear memory search state",
+            "intent": "memory_search_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 18:16:23",
+            "importance": 0.6
+        },
+        {
+            "user": "keep memory result 1",
+            "assistant": "Kept only memory result 1: Note: i like music",
+            "intent": "keep_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 18:16:37",
+            "importance": 0.6
+        },
+        {
+            "user": "memory search dashboard",
+            "assistant": "Memory search dashboard:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.3\nSort: relevant\nArchive mode: include\nSaved results: 1\nResult types:\n- note: 1\n\nUseful commands:\n- list memory results\n- memory result summary\n- memory result stats\n- show memory result 1\n- memory result actions 1\n- repeat memory search\n- clear memory search state",
+            "intent": "memory_search_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 18:16:42",
+            "importance": 0.6
+        },
+        {
+            "user": "clear memory search state",
+            "assistant": "Cleared saved memory search results and search queries.",
+            "intent": "clear_memory_search_state",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 18:16:57",
+            "importance": 0.6
+        },
+        {
+            "user": "memory search dashboard",
+            "assistant": "I do not have a saved memory search yet.",
+            "intent": "memory_search_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 18:17:02",
             "importance": 0.6
         }
     ],

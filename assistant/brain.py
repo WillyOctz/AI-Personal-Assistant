@@ -4057,6 +4057,58 @@ def handle_memory_intent(user_input, analysis):
             
         return "\n".join(lines)
     
+    if intent == "memory_search_dashboard":
+        search = memory.get_state_value("last_memory_search_query")
+        results = memory.get_state_value("last_memory_search_results") or []
+        
+        if not search and not results:
+            return "I do not have a saved memory search yet."
+        
+        type_counts = {}
+        
+        for item in results:
+            item_type = item.get("type", "unknown")
+            
+            if item_type not in type_counts:
+                type_counts[item_type] = 0
+                
+            type_counts[item_type] += 1
+            
+        lines = ["Memory search dashboard:"]
+        
+        if search:
+            lines.extend([
+                f"Query: {search.get('query')}",
+                f"Type: {search.get('type') if search.get('type') else 'any'}",
+                f"Limit: {search.get('limit')}",
+                f"Min score: {search.get('min_score')}",
+                f"Sort: {search.get('sort')}",
+                f"Archive mode: {search.get('archive_mode', 'include')}",
+            ])
+        else:
+            lines.append("Query: None")
+            
+        lines.append(f"Saved results: {len(results)}")
+        
+        if type_counts:
+            lines.append("Result types:")
+            for item_type, count in type_counts.items():
+                lines.append(f"- {item_type}: {count}")
+                
+        lines.extend([
+            "",
+            "Useful commands:",
+            "- list memory results",
+            "- memory result summary",
+            "- memory result stats",
+            "- show memory result 1",
+            "- memory result actions 1",
+            "- repeat memory search",
+            "- clear memory search state",
+        ])
+        
+        return "\n".join(lines)
+    
     if intent == "undo_memory_results_change":
         previous_results = memory.get_state_value("previous_memory_search_results")
         
