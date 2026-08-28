@@ -237,6 +237,18 @@ def parse_memory_result_index(user_input):
             
     return None
 
+def parse_memory_result_actions_index(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["memory result actions ", "actions for memory result "]:
+        if text.startswith(prefix):
+            value = text.replace(prefix, "", 1).strip()
+            
+            if value.isdigit():
+                return int(value)
+            
+    return None
+
 def parse_remove_memory_result_index(user_input):
     text = user_input.lower().strip()
     
@@ -3809,6 +3821,52 @@ def handle_memory_intent(user_input, analysis):
             lines.append(
                 f"{index}. {item['score']:.2f} | {item['type']} | {item['display']}"
             )
+            
+        return "\n".join(lines)
+    
+    if intent == "memory_result_actions":
+        index = parse_memory_result_actions_index(user_input)
+        
+        if index is None:
+            return "Use this format: memory result actions number"
+        
+        results = memory.get_state_value("last_memory_search_results") or []
+        
+        if not results:
+            return "I do not have saved memory search results yet."
+        
+        if index < 1 or index > len(results):
+            return "That memory result number does not exist."
+        
+        item = results[index - 1]
+        item_type = item.get("type", "unknown")
+        
+        lines = [
+            f"Actions for memory result {index}:",
+            f"Type: {item_type}",
+            f"Display: {item.get('display')}",
+            "",
+            "Available actions:",
+            f"- show memory result {index}",
+            f"- explain memory result {index}",
+            f"- save memory result {index} as note",
+            f"- save memory result {index} as reminder",
+            f"- remove memory result {index}",
+            f"- keep memory result {index}",
+            f"- preview delete memory result {index}",
+        ]
+        
+        if item_type == "note":
+            lines.append(f"- delete note memory result {index}")
+            
+        elif item_type == "reminder":
+            lines.append(f"- delete reminder memory result {index}")
+
+        elif item_type == "profile":
+            lines.append(f"- delete profile memory result {index}")
+
+        else:
+            lines.append("- real delete: not available for this memory type")
             
         return "\n".join(lines)
     

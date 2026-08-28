@@ -37,16 +37,29 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "delete_profile_memory_result",
+        "last_response_intent": "memory_result_actions",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Deleted profile from memory result 1: Profile: tempfact: refactor",
+        "last_response_text": "Actions for memory result 1:\nType: profile\nDisplay: Profile: favoritelanguage: python\n\nAvailable actions:\n- show memory result 1\n- explain memory result 1\n- save memory result 1 as note\n- save memory result 1 as reminder\n- remove memory result 1\n- keep memory result 1\n- preview delete memory result 1\n- delete profile memory result 1",
         "pending_response_feedback_clear": null,
-        "last_memory_search_results": [],
+        "last_memory_search_results": [
+            {
+                "type": "profile",
+                "display": "Profile: favoritelanguage: python",
+                "text": "favorite_language python",
+                "key": "favorite_language",
+                "due": null,
+                "score": 1.0,
+                "similarity": 1.0,
+                "importance": 1.0,
+                "recency": 1.0,
+                "timestamp": null
+            }
+        ],
         "last_memory_search_query": {
-            "query": "refactor",
+            "query": "python",
             "type": "profile",
             "limit": 5,
             "min_score": 0.3,
@@ -14047,6 +14060,46 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-28 17:09:09",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music 5",
+            "assistant": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music\n2. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-28 15:29:11 | You: show reminders\n3. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-28 16:03:58 | You: show notes\n4. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-28 16:48:57 | You: show notes\n5. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-28 16:49:14 | You: show notes",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 17:41:32",
+            "importance": 0.6
+        },
+        {
+            "user": "memory result actions 1",
+            "assistant": "Actions for memory result 1:\nType: note\nDisplay: Note: i like music\n\nAvailable actions:\n- show memory result 1\n- explain memory result 1\n- save memory result 1 as note\n- save memory result 1 as reminder\n- remove memory result 1\n- keep memory result 1\n- preview delete memory result 1\n- delete note memory result 1",
+            "intent": "memory_result_actions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 17:41:37",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory python profile",
+            "assistant": "Memory search:\nQuery: python\nType: profile\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Profile: favoritelanguage: python",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 17:41:45",
+            "importance": 0.6
+        },
+        {
+            "user": "memory result actions 1",
+            "assistant": "Actions for memory result 1:\nType: profile\nDisplay: Profile: favoritelanguage: python\n\nAvailable actions:\n- show memory result 1\n- explain memory result 1\n- save memory result 1 as note\n- save memory result 1 as reminder\n- remove memory result 1\n- keep memory result 1\n- preview delete memory result 1\n- delete profile memory result 1",
+            "intent": "memory_result_actions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 17:41:50",
             "importance": 0.6
         }
     ],
