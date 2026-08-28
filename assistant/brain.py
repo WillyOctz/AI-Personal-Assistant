@@ -325,6 +325,18 @@ def parse_save_memory_result_as_reminder(user_input):
     
     return int(text)
 
+def parse_preview_delete_memory_result_index(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["preview delete memory result ", "preview remove memory result "]:
+        if text.startswith(prefix):
+            value = text.replace(prefix, "", 1).strip()
+            
+            if value.isdigit():
+                return int(value)
+            
+    return None
+
 def parse_delete_profile_memory_result_index(user_input):
     text = user_input.lower().strip()
     
@@ -3732,6 +3744,39 @@ def handle_memory_intent(user_input, analysis):
             )
             
         return "\n".join(lines)
+    
+    if intent == "preview_delete_memory_result":
+        index = parse_preview_delete_memory_result_index(user_input)
+        
+        if index is None:
+            return "Use this format: preview delete memory result number"
+        
+        results = memory.get_state_value("last_memory_search_results") or []
+        
+        if not results:
+            return "I do not have saved memory search results yet."
+        
+        if index < 1 or index > len(results):
+            return "That memory result number does not exist."
+        
+        item = results[index - 1]
+        item_type = item.get("type", "unknown")
+        
+        if item_type not in ["note", "reminder", "profile"]:
+            return (
+                f"Memory result {index} is type '{item_type}'.\n"
+                "Only note, reminder, and profile results can be deleted from real memory."
+            )
+            
+        return (
+            f"Preview delete memory result {index}:\n"
+            f"Type: {item_type}\n"
+            f"Display: {item.get('display')}\n"
+            f"Raw text: {item.get('text')}\n"
+            f"Key: {item.get('key')}\n"
+            f"Due: {item.get('due')}\n"
+            "No data was deleted."
+        )
     
     if intent == "keep_memory_result":
         index = parse_keep_memory_result_index(user_input)

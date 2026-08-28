@@ -2,7 +2,6 @@
     "notes": [
         "i want to learn AI",
         "i want to improve you",
-        "i like music",
         "profile favorite_language python",
         "profile goal to build best AI assistant",
         "i like coffee",
@@ -38,17 +37,78 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_notes",
-        "last_response_group": "memory",
+        "last_response_intent": "debug_route",
+        "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "i want to learn AI\ni want to improve you\ni like music\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee\ni like music",
+        "last_response_text": "Input: preview delete memory result 1\nExact intent: None\nPrefix intent: preview_delete_memory_result",
         "pending_response_feedback_clear": null,
-        "last_memory_search_results": [],
+        "last_memory_search_results": [
+            {
+                "type": "note",
+                "display": "Note: i like music",
+                "text": "i like music",
+                "key": null,
+                "due": null,
+                "score": 1.0,
+                "similarity": 1.0,
+                "importance": 1.0,
+                "recency": 1.0,
+                "timestamp": null
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-08-28 15:29:11 | You: show reminders",
+                "text": "show reminders Your reminders:\n1. i like music show_reminders",
+                "key": null,
+                "due": null,
+                "score": 0.6,
+                "similarity": 1.0,
+                "importance": 0.6,
+                "recency": 1.0,
+                "timestamp": "2026-08-28 15:29:11"
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-08-28 16:03:58 | You: show notes",
+                "text": "show notes i want to learn AI\ni want to improve you\ni like music\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee\ni like music show_notes",
+                "key": null,
+                "due": null,
+                "score": 0.6,
+                "similarity": 1.0,
+                "importance": 0.6,
+                "recency": 1.0,
+                "timestamp": "2026-08-28 16:03:58"
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent",
+                "text": "what do you remember about music note 5 0.3 recent I remember these things about music:\n- Note: i like music recall_memory",
+                "key": null,
+                "due": null,
+                "score": 0.48,
+                "similarity": 1.0,
+                "importance": 0.6,
+                "recency": 0.8,
+                "timestamp": "2026-08-26 15:35:08"
+            },
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-08-26 15:35:18 | You: what do you remember about music after 2026-08-01",
+                "text": "what do you remember about music after 2026-08-01 I remember these things about music:\n- Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\n- Conversation: 2026-08-03 20:04:47 | You: preview file assistant memory.json recall_memory",
+                "key": null,
+                "due": null,
+                "score": 0.48,
+                "similarity": 1.0,
+                "importance": 0.6,
+                "recency": 0.8,
+                "timestamp": "2026-08-26 15:35:18"
+            }
+        ],
         "last_memory_search_query": {
-            "query": "temporary",
-            "type": "note",
+            "query": "music",
+            "type": null,
             "limit": 5,
             "min_score": 0.3,
             "sort": "relevant",
@@ -13765,6 +13825,86 @@
             "source": "rule",
             "timestamp": "2026-08-28 16:03:58",
             "importance": 0.6
+        },
+        {
+            "user": "semantic memory music",
+            "assistant": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music\n2. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-28 15:29:11 | You: show reminders\n3. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-28 16:03:58 | You: show notes\n4. 0.48 | sim=1.00 | imp=0.60 | rec=0.80 | Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\n5. 0.48 | sim=1.00 | imp=0.60 | rec=0.80 | Conversation: 2026-08-26 15:35:18 | You: what do you remember about music after 2026-08-01",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:21:30",
+            "importance": 0.6
+        },
+        {
+            "user": "preview delete memory result 1",
+            "assistant": "Preview delete memory result 1:\nType: note\nDisplay: Note: i like music\nRaw text: i like music\nKey: None\nDue: None\nNo data was deleted.",
+            "intent": "preview_delete_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:21:34",
+            "importance": 0.6
+        },
+        {
+            "user": "delete note memory result 1",
+            "assistant": "Deleted note from memory result 1: i like music",
+            "intent": "delete_note_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:21:47",
+            "importance": 0.6
+        },
+        {
+            "user": "preview delete memory",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: preview delete memory\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-08-28 16:21:53",
+            "importance": 0.3
+        },
+        {
+            "user": "preview delete memory result 1",
+            "assistant": "Memory result 1 is type 'conversation'.\nOnly note, reminder, and profile results can be deleted from real memory.",
+            "intent": "preview_delete_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:21:59",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music",
+            "assistant": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music\n2. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-28 15:29:11 | You: show reminders\n3. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-28 16:03:58 | You: show notes\n4. 0.48 | sim=1.00 | imp=0.60 | rec=0.80 | Conversation: 2026-08-26 15:35:08 | You: what do you remember about music note 5 0.3 recent\n5. 0.48 | sim=1.00 | imp=0.60 | rec=0.80 | Conversation: 2026-08-26 15:35:18 | You: what do you remember about music after 2026-08-01",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:22:09",
+            "importance": 0.6
+        },
+        {
+            "user": "preview delete memory result 2",
+            "assistant": "Memory result 2 is type 'conversation'.\nOnly note, reminder, and profile results can be deleted from real memory.",
+            "intent": "preview_delete_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:22:18",
+            "importance": 0.6
+        },
+        {
+            "user": "debug route preview delete memory result 1",
+            "assistant": "Input: preview delete memory result 1\nExact intent: None\nPrefix intent: preview_delete_memory_result",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:22:53",
+            "importance": 0.1
         }
     ],
     "summaries": [
