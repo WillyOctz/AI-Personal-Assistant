@@ -348,6 +348,18 @@ def parse_delete_reminder_memory_result_index(user_input):
                 return int(value)
             
     return None
+
+def parse_delete_note_memory_result_index(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in ["delete note memory result ", "remove note memory result "]:
+        if text.startswith(prefix):
+            value = text.replace(prefix, "", 1).strip()
+            
+            if value.isdigit():
+                return int(value)
+            
+    return None
     
 def parse_file_range_command(user_input):
     parts = user_input.split()
@@ -3825,6 +3837,36 @@ def handle_memory_intent(user_input, analysis):
         memory.set_state_value("last_memory_search_results", results)
         
         return f"Deleted reminder from memory result {index}: {result['reminder']}"
+        
+    if intent == "delete_note_memory_result":
+        index = parse_delete_note_memory_result_index(user_input)
+        
+        if index is None:
+            return "Use this format: delete note memory result number"
+        
+        results = memory.get_state_value("last_memory_search_results") or []
+        
+        if not results:
+            return "I do not have saved memory search results yet."
+        
+        if index < 1 or index > len(results):
+            return "That memory result number does not exist."
+        
+        item = results[index - 1]
+        
+        if item.get("type") != "note":
+            return f"Memory result {index} is not a note."
+        
+        note_text = item.get("text", "")
+        result = memory.delete_note(note_text)
+        
+        if not result["deleted"]:
+            return f"I could not find note: {note_text}"
+        
+        results.pop(index - 1)
+        memory.set_state_value("last_memory_search_results", results)
+        
+        return f"Deleted note from memory result {index}: {result['note']}"
         
     if intent == "memory_result_stats":
         results = memory.get_state_value("last_memory_search_results") or []

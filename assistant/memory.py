@@ -307,6 +307,24 @@ def get_notes():
     memory = load_memory()
     return memory["notes"]
 
+def delete_note(note_text):
+    memory = load_memory()
+    notes = memory["notes"]
+    
+    if note_text not in notes:
+        return {
+            "deleted": False,
+            "note": note_text
+        }
+        
+    notes.remove(note_text)
+    save_memory(memory)
+    
+    return {
+        "deleted": True,
+        "note": note_text
+    }
+
 def set_profile_value(key, value):
     memory = load_memory()
     memory["profile"][key] = value

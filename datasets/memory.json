@@ -38,17 +38,17 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "delete_reminder_memory_result",
+        "last_response_intent": "show_notes",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I do not have saved memory search results yet.",
+        "last_response_text": "i want to learn AI\ni want to improve you\ni like music\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee\ni like music",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [],
         "last_memory_search_query": {
-            "query": "test",
-            "type": "reminder",
+            "query": "temporary",
+            "type": "note",
             "limit": 5,
             "min_score": 0.3,
             "sort": "relevant",
@@ -13714,6 +13714,56 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-28 15:29:21",
+            "importance": 0.6
+        },
+        {
+            "user": "remember temporary note test",
+            "assistant": "i remembered that.",
+            "intent": "remember_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:03:33",
+            "importance": 1.0
+        },
+        {
+            "user": "semantic memory temporary note",
+            "assistant": "Memory search:\nQuery: temporary\nType: note\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: temporary note test",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:03:38",
+            "importance": 0.6
+        },
+        {
+            "user": "show memory result 1",
+            "assistant": "Memory result 1:\nSource type: note\nScore: 1.00\nKey: None\nDue: None\nSimilarity: 1.00\nImportance: 1.00\nRecency: 1.00\nTimestamp: None\nDisplay: Note: temporary note test\nRaw text: temporary note test",
+            "intent": "show_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:03:47",
+            "importance": 0.6
+        },
+        {
+            "user": "delete note memory result 1",
+            "assistant": "Deleted note from memory result 1: temporary note test",
+            "intent": "delete_note_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:03:54",
+            "importance": 0.6
+        },
+        {
+            "user": "show notes",
+            "assistant": "i want to learn AI\ni want to improve you\ni like music\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee\ni like music",
+            "intent": "show_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 16:03:58",
             "importance": 0.6
         }
     ],
