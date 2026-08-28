@@ -37,12 +37,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "memory_search_dashboard",
+        "last_response_intent": "memory_retrieval_audit",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I do not have a saved memory search yet.",
+        "last_response_text": "Memory retrieval audit:\nSaved query: no\nSaved debug query: no\nSaved results: 0\nUndo state: yes\nIssues: None",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -14193,6 +14193,56 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-28 18:17:02",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic memory music 5",
+            "assistant": "Memory search:\nQuery: music\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Note: i like music\n2. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-28 15:29:11 | You: show reminders\n3. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-28 16:03:58 | You: show notes\n4. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-28 16:48:57 | You: show notes\n5. 0.60 | sim=1.00 | imp=0.60 | rec=1.00 | Conversation: 2026-08-28 16:49:14 | You: show notes",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 19:30:48",
+            "importance": 0.6
+        },
+        {
+            "user": "memory retrieval audit",
+            "assistant": "Memory retrieval audit:\nSaved query: yes\nSaved debug query: no\nSaved results: 0\nUndo state: yes\nIssues:\n- last_memory_search_results is not a list",
+            "intent": "memory_retrieval_audit",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 19:30:51",
+            "importance": 0.6
+        },
+        {
+            "user": "clear memory search state",
+            "assistant": "Cleared saved memory search results and search queries.",
+            "intent": "clear_memory_search_state",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 19:31:03",
+            "importance": 0.6
+        },
+        {
+            "user": "memory retrieval audit",
+            "assistant": "Memory retrieval audit:\nSaved query: no\nSaved debug query: no\nSaved results: 0\nUndo state: yes\nIssues:\n- last_memory_search_results is not a list",
+            "intent": "memory_retrieval_audit",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 19:31:06",
+            "importance": 0.6
+        },
+        {
+            "user": "memory retrieval audit",
+            "assistant": "Memory retrieval audit:\nSaved query: no\nSaved debug query: no\nSaved results: 0\nUndo state: yes\nIssues: None",
+            "intent": "memory_retrieval_audit",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 19:32:12",
             "importance": 0.6
         }
     ],

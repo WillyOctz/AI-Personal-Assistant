@@ -4109,6 +4109,53 @@ def handle_memory_intent(user_input, analysis):
         
         return "\n".join(lines)
     
+    if intent == "memory_retrieval_audit":
+        search = memory.get_state_value("last_memory_search_query")
+        results = memory.get_state_value("last_memory_search_results") or []
+        debug_search = memory.get_state_value("last_debug_memory_search_query")
+        previous_results = memory.get_state_value("previous_memory_search_results")
+        
+        issues = []
+        
+        if search and not isinstance(search, dict):
+            issues.append("last_memory_search_query is not a dict")
+            
+        if debug_search and not isinstance(debug_search, dict):
+            issues.append("last_debug_memory_search_query is not a dict")
+            
+        if not isinstance(results, list):
+            issues.append("last_memory_search_results is not a list")
+            results = []
+            
+        for index, item in enumerate(results, start=1):
+            if not isinstance(item, dict):
+                issues.append(f"result {index} is not a dict")
+                continue
+            
+            for field in ["type", "text", "display", "score", "similarity", "importance", "recency"]:
+                if field not in item:
+                    issues.append(f"result {index} missing field: {field}")
+    
+            if item.get("type") == "profile" and not item.get("key"):
+                issues.append(f"profile result {index} missing key")
+                
+        lines = [
+            "Memory retrieval audit:",
+            f"Saved query: {'yes' if search else 'no'}",
+            f"Saved debug query: {'yes' if debug_search else 'no'}",
+            f"Saved results: {len(results)}",
+            f"Undo state: {'yes' if previous_results else 'no'}",
+        ]
+        
+        if issues:
+            lines.append("Issues:")
+            for issue in issues:
+                lines.append(f"- {issue}")
+        else:
+            lines.append("Issues: None")
+            
+        return "\n".join(lines)
+        
     if intent == "undo_memory_results_change":
         previous_results = memory.get_state_value("previous_memory_search_results")
         

@@ -225,6 +225,7 @@ VALID_INTENTS = {
     "undo_memory_results_change",
     "memory_result_actions",
     "memory_search_dashboard",
+    "memory_retrieval_audit",
 }
 
 CONTROL_INTENTS = {
@@ -455,6 +456,7 @@ MEMORY_INTENTS = {
     "undo_memory_results_change",
     "memory_result_actions",
     "memory_search_dashboard",
+    "memory_retrieval_audit",
 }
 
 ACTION_INTENTS = {
@@ -486,6 +488,7 @@ SEARCH_IGNORED_INTENTS = {
     "clear_memory_results",
     "memory_result_stats",
     "memory_result_summary",
+    "memory_retrieval_audit",
     "show_last_memory_search",
     "memory_search_dashboard",
 
@@ -1147,6 +1150,11 @@ INTENT_PATTERNS = {
         "memory search dashboard",
         "memory results dashboard",
         "saved memory dashboard",
+    ],
+    "memory_retrieval_audit": [
+        "memory retrieval audit",
+        "audit memory retrieval",
+        "check memory retrieval",
     ],
 }
 
