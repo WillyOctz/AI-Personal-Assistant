@@ -38,17 +38,17 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "get_profile_fact",
+        "last_response_intent": "delete_reminder_memory_result",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I do not know your test fact yet.",
+        "last_response_text": "I do not have saved memory search results yet.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [],
         "last_memory_search_query": {
-            "query": "hello",
-            "type": "profile",
+            "query": "test",
+            "type": "reminder",
             "limit": 5,
             "min_score": 0.3,
             "sort": "relevant",
@@ -741,6 +741,16 @@
             "result": "I could not calculate that.",
             "timestamp": "2026-08-05 17:01:11",
             "importance": 0.8
+        },
+        {
+            "user_input": "remind me to test reminder",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Reminder saved: test reminder",
+            "timestamp": "2026-08-28 15:28:48",
+            "importance": 1.0
         }
     ],
     "conversation": [
@@ -13644,6 +13654,66 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-08-27 19:06:50",
+            "importance": 0.6
+        },
+        {
+            "user": "remind me to test reminder",
+            "assistant": "Reminder saved: test reminder",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-08-28 15:28:48",
+            "importance": 1.0
+        },
+        {
+            "user": "semantic memory test reminder",
+            "assistant": "Memory search:\nQuery: test\nType: reminder\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 1.00 | sim=1.00 | imp=1.00 | rec=1.00 | Reminder: test reminder",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 15:28:54",
+            "importance": 0.6
+        },
+        {
+            "user": "show memory result 1",
+            "assistant": "Memory result 1:\nSource type: reminder\nScore: 1.00\nKey: None\nDue: None\nSimilarity: 1.00\nImportance: 1.00\nRecency: 1.00\nTimestamp: None\nDisplay: Reminder: test reminder\nRaw text: test reminder",
+            "intent": "show_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 15:29:00",
+            "importance": 0.6
+        },
+        {
+            "user": "delete reminder memory result 1",
+            "assistant": "Deleted reminder from memory result 1: test reminder",
+            "intent": "delete_reminder_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 15:29:06",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. i like music",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 15:29:11",
+            "importance": 0.6
+        },
+        {
+            "user": "delete reminder memory result 1",
+            "assistant": "I do not have saved memory search results yet.",
+            "intent": "delete_reminder_memory_result",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-28 15:29:21",
             "importance": 0.6
         }
     ],

@@ -219,6 +219,7 @@ VALID_INTENTS = {
     "keep_memory_result",
     "remove_memory_result",
     "delete_profile_memory_result",
+    "delete_reminder_memory_result",
     "undo_memory_results_change",
 }
 
@@ -444,6 +445,7 @@ MEMORY_INTENTS = {
     "list_memory_results",
     "remove_memory_result",
     "delete_profile_memory_result",
+    "delete_reminder_memory_result",
     "undo_memory_results_change",
 }
 
@@ -461,6 +463,7 @@ SEARCH_IGNORED_INTENTS = {
     "debug_memory_search",
     "repeat_memory_search",
     "repeat_debug_memory_search",
+    "delete_reminder_memory_result",
     "delete_profile_memory_result",
     "remove_memory_result",
     "show_memory_result",
@@ -1432,6 +1435,10 @@ INTENT_PREFIXES = {
         "delete profile memory result ",
         "remove profile memory result ",
     ],
+    "delete_reminder_memory_result": [
+        "delete reminder memory result ",
+        "remove reminder memory result ",
+    ],
 }
 
 PREFIX_INTENT_ORDER = [
@@ -1455,6 +1462,7 @@ PREFIX_INTENT_ORDER = [
     "save_memory_result_as_reminder",
     "save_memory_result_as_note",
     "keep_memory_result",
+    "delete_reminder_memory_result",
     "delete_profile_memory_result",
     "remove_memory_result",
     "show_memory_result",
