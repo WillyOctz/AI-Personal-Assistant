@@ -228,6 +228,7 @@ VALID_INTENTS = {
     "memory_retrieval_audit",
     "start_work_session",
     "end_work_session",
+    "pause_work_session",
 }
 
 CONTROL_INTENTS = {
@@ -461,6 +462,7 @@ MEMORY_INTENTS = {
     "memory_retrieval_audit",
     "start_work_session",
     "end_work_session",
+    "pause_work_session",
 }
 
 ACTION_INTENTS = {
@@ -1171,6 +1173,12 @@ INTENT_PATTERNS = {
         "finish work session",
         "stop work session",
         "wrap up work session",
+    ],
+    "pause_work_session": [
+        "pause work session",
+        "pause my work",
+        "take a break",
+        "pause focus session",
     ],
 }
 
