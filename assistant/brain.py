@@ -3608,6 +3608,29 @@ def handle_memory_intent(user_input, analysis):
             f"Work session started.\n"
             f"Current focus: {task}"
         )
+        
+    if intent == "end_work_session":
+        if not get_focus_mode():
+            return "No work session is active."
+        
+        task = get_focus_task()
+        started_at = stop_focus_mode()
+        session_result = save_focus_session(task, started_at)
+        
+        pending_task = get_pending_task()
+        if pending_task == task:
+            clear_pending_task()
+            
+        summary = format_focus_session_summary(
+            task,
+            session_result["duration"],
+            session_result["notes"]
+        )
+        
+        return (
+            "Work session ended.\n"
+            f"{summary}"
+        )
     
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()

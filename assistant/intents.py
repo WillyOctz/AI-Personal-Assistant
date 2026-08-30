@@ -227,6 +227,7 @@ VALID_INTENTS = {
     "memory_search_dashboard",
     "memory_retrieval_audit",
     "start_work_session",
+    "end_work_session",
 }
 
 CONTROL_INTENTS = {
@@ -459,6 +460,7 @@ MEMORY_INTENTS = {
     "memory_search_dashboard",
     "memory_retrieval_audit",
     "start_work_session",
+    "end_work_session",
 }
 
 ACTION_INTENTS = {
@@ -1163,6 +1165,12 @@ INTENT_PATTERNS = {
         "begin work session",
         "start my work",
         "let's work",
+    ],
+    "end_work_session": [
+        "end work session",
+        "finish work session",
+        "stop work session",
+        "wrap up work session",
     ],
 }
 

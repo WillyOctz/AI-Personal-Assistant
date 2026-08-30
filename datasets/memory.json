@@ -30,19 +30,19 @@
     ],
     "state": {
         "pending_confirmation": null,
-        "pending_task": "work toward your goal - to build best AI assistant",
+        "pending_task": null,
         "focus_mode": false,
         "focus_task": null,
         "focus_started_at": null,
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "stop_focus",
+        "last_response_intent": "show_pending_task",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Focus session summary:\nTask: work toward your goal - to build best AI assistant\nDuration: 641 hours 27 minutes\nNotes: 0",
+        "last_response_text": "You do not have a pending task.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -14284,6 +14284,66 @@
             "source": "rule",
             "timestamp": "2026-08-30 15:42:54",
             "importance": 0.6
+        },
+        {
+            "user": "start work session",
+            "assistant": "Good day, Carlos.\nGoal: to build best AI assistant\nReminders today: 0\nOverdue reminders: 0\nFocus goal: 10 seconds\nFocus progress: 0%\nToday's focus: 0 seconds\nSuggested focus: work toward your goal - to build best AI assistant\n\nWork session started.\nCurrent focus: work toward your goal - to build best AI assistant",
+            "intent": "start_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-30 15:56:08",
+            "importance": 0.6
+        },
+        {
+            "user": "focus status",
+            "assistant": "Focus mode is active. Current focus: work toward your goal - to build best AI assistant",
+            "intent": "focus_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-30 15:56:14",
+            "importance": 0.6
+        },
+        {
+            "user": "show pending task",
+            "assistant": "Pending task: work toward your goal - to build best AI assistant",
+            "intent": "show_pending_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-30 15:56:25",
+            "importance": 0.6
+        },
+        {
+            "user": "end work session",
+            "assistant": "Work session ended.\nFocus session summary:\nTask: work toward your goal - to build best AI assistant\nDuration: 45 seconds\nNotes: 0",
+            "intent": "end_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-30 15:56:54",
+            "importance": 0.6
+        },
+        {
+            "user": "focus status",
+            "assistant": "Focus mode is not active.",
+            "intent": "focus_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-30 15:57:00",
+            "importance": 0.6
+        },
+        {
+            "user": "show pending task",
+            "assistant": "You do not have a pending task.",
+            "intent": "show_pending_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-30 15:57:07",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -14415,6 +14475,13 @@
             "started_at": "2026-08-03 22:15:03",
             "ended_at": "2026-08-30 15:42:54",
             "duration": "641 hours 27 minutes",
+            "notes": []
+        },
+        {
+            "task": "work toward your goal - to build best AI assistant",
+            "started_at": "2026-08-30 15:56:08",
+            "ended_at": "2026-08-30 15:56:53",
+            "duration": "45 seconds",
             "notes": []
         }
     ],
