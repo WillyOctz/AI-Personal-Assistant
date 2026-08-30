@@ -42,7 +42,7 @@
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Work session ended.\nFocus session summary:\nTask: i like music\nDuration: 14 seconds\nNotes: 0",
+        "last_response_text": "Work session ended.\nFocus session summary:\nTask: i like music\nDuration: 18 seconds\nNotes: 0",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -14404,6 +14404,76 @@
             "source": "rule",
             "timestamp": "2026-08-30 16:25:56",
             "importance": 0.6
+        },
+        {
+            "user": "start work session",
+            "assistant": "Good day, Carlos.\nGoal: to build best AI assistant\nReminders today: 0\nOverdue reminders: 0\nFocus goal: 10 seconds\nFocus progress: 100%\nToday's focus: 1 minutes\nSuggested focus: work toward your goal - to build best AI assistant\n\nWork session started.\nCurrent focus: i like music",
+            "intent": "start_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-30 18:02:13",
+            "importance": 0.6
+        },
+        {
+            "user": "pause work session",
+            "assistant": "Work session paused.\nPending task kept: i like music\nFocus session summary:\nTask: i like music\nDuration: 5 seconds\nNotes: 0",
+            "intent": "pause_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-30 18:02:18",
+            "importance": 0.6
+        },
+        {
+            "user": "resume work session",
+            "assistant": "Work session resumed.\nCurrent focus: i like music",
+            "intent": "resume_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-30 18:02:23",
+            "importance": 0.6
+        },
+        {
+            "user": "focus status",
+            "assistant": "Focus mode is active. Current focus: i like music",
+            "intent": "focus_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-30 18:02:27",
+            "importance": 0.6
+        },
+        {
+            "user": "end work session",
+            "assistant": "Work session ended.\nFocus session summary:\nTask: i like music\nDuration: 9 seconds\nNotes: 0",
+            "intent": "end_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-30 18:02:32",
+            "importance": 0.6
+        },
+        {
+            "user": "resume work session",
+            "assistant": "Work session resumed.\nCurrent focus: i like music",
+            "intent": "resume_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-30 18:02:36",
+            "importance": 0.6
+        },
+        {
+            "user": "end work session",
+            "assistant": "Work session ended.\nFocus session summary:\nTask: i like music\nDuration: 18 seconds\nNotes: 0",
+            "intent": "end_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-30 18:02:53",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -14556,6 +14626,27 @@
             "started_at": "2026-08-30 16:25:42",
             "ended_at": "2026-08-30 16:25:56",
             "duration": "14 seconds",
+            "notes": []
+        },
+        {
+            "task": "i like music",
+            "started_at": "2026-08-30 18:02:12",
+            "ended_at": "2026-08-30 18:02:17",
+            "duration": "5 seconds",
+            "notes": []
+        },
+        {
+            "task": "i like music",
+            "started_at": "2026-08-30 18:02:23",
+            "ended_at": "2026-08-30 18:02:32",
+            "duration": "9 seconds",
+            "notes": []
+        },
+        {
+            "task": "i like music",
+            "started_at": "2026-08-30 18:02:35",
+            "ended_at": "2026-08-30 18:02:53",
+            "duration": "18 seconds",
             "notes": []
         }
     ],
