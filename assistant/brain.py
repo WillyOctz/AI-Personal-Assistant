@@ -3578,6 +3578,37 @@ def handle_memory_intent(user_input, analysis):
             
         return "\n".join(lines)
     
+    if intent == "start_work_session":
+        briefing  = handle_memory_intent(
+            "daily briefing",
+            make_analysis("daily_briefing")
+        )
+        
+        task = choose_focus_task()
+        
+        if not task:
+            return (
+                f"{briefing}\n\n"
+                "I could not find a task to focus on yet."
+            )
+            
+        if get_focus_mode():
+            current_task = get_focus_task()
+            return (
+                f"{briefing}\n\n"
+                f"Focus mode is already active.\n"
+                f"Current focus: {current_task}"
+            )
+            
+        focus.start_focus_mode(task)
+        set_pending_task(task)
+        
+        return (
+            f"{briefing}\n\n"
+            f"Work session started.\n"
+            f"Current focus: {task}"
+        )
+    
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()
         query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode = parse_memory_query_with_type(query)
