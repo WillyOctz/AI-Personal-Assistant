@@ -3711,6 +3711,40 @@ def handle_memory_intent(user_input, analysis):
             
         return "No work session is active, and I do not have a suggested task right now."
     
+    if intent == "work_session_plan":
+        pending_task = get_pending_task()
+        suggested_task = choose_focus_task()
+        
+        if get_focus_mode():
+            current_task = get_focus_task()
+            return (
+                "Current work plan:\n"
+                f"1. Continue focusing on: {current_task}\n"
+                "2. Check progress when ready.\n"
+                "3. End the work session when finished."
+            )
+            
+        if pending_task:
+            return (
+                "Current work plan:\n"
+                f"1. Resume paused task: {pending_task}\n"
+                "2. Work on it for one focus session.\n"
+                "3. End or pause when needed."
+            )
+            
+        if suggested_task:
+            return (
+                "Suggested work plan:\n"
+                f"1. Start with: {suggested_task}\n"
+                "2. Focus on one small step.\n"
+                "3. Review progress after the session."
+            )
+            
+        return (
+            "I do not have a work plan yet.\n"
+            "Add a reminder or task first, then ask for a work session plan."
+        )
+    
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()
         query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode = parse_memory_query_with_type(query)
