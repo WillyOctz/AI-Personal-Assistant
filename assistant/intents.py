@@ -232,6 +232,7 @@ VALID_INTENTS = {
     "resume_work_session",
     "work_session_status",
     "work_session_plan",
+    "start_planned_work_session",
 }
 
 CONTROL_INTENTS = {
@@ -469,6 +470,7 @@ MEMORY_INTENTS = {
     "resume_work_session",
     "work_session_status",
     "work_session_plan",
+    "start_planned_work_session",
 }
 
 ACTION_INTENTS = {
@@ -1205,6 +1207,12 @@ INTENT_PATTERNS = {
         "plan my work session",
         "what should i work on",
         "what is my work plan",
+    ],
+    "start_planned_work_session": [
+        "start planned work session",
+        "start work plan",
+        "begin work plan",
+        "start my planned work",
     ],
 }
 
