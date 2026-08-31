@@ -37,12 +37,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "end_work_session",
+        "last_response_intent": "work_session_review",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Work session ended.\nFocus session summary:\nTask: i like music\nDuration: 5 seconds\nNotes: 0",
+        "last_response_text": "Latest work session review:\nTask: i like music\nStarted: 2026-08-31 16:45:13\nEnded: 2026-08-31 16:45:18\nDuration: 5 seconds\nReflection: You completed a focused work block. Next step is to decide whether to continue, pause, or pick a new task.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -14674,6 +14674,46 @@
             "source": "rule",
             "timestamp": "2026-08-31 16:27:05",
             "importance": 0.6
+        },
+        {
+            "user": "work session review",
+            "assistant": "Latest work session review:\nTask: i like music\nStarted: 2026-08-31 16:26:59\nEnded: 2026-08-31 16:27:04\nDuration: 5 seconds\nReflection: You completed a focused work block. Next step is to decide whether to continue, pause, or pick a new task.",
+            "intent": "work_session_review",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-31 16:45:02",
+            "importance": 0.6
+        },
+        {
+            "user": "start planned work session",
+            "assistant": "Started planned work session.\n1. Work on: i like music\n2. Focus on one clear step.\n3. Review progress when the session ends.",
+            "intent": "start_planned_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-31 16:45:13",
+            "importance": 0.6
+        },
+        {
+            "user": "end work session",
+            "assistant": "Work session ended.\nFocus session summary:\nTask: i like music\nDuration: 5 seconds\nNotes: 0",
+            "intent": "end_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-31 16:45:19",
+            "importance": 0.6
+        },
+        {
+            "user": "work session review",
+            "assistant": "Latest work session review:\nTask: i like music\nStarted: 2026-08-31 16:45:13\nEnded: 2026-08-31 16:45:18\nDuration: 5 seconds\nReflection: You completed a focused work block. Next step is to decide whether to continue, pause, or pick a new task.",
+            "intent": "work_session_review",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-31 16:45:31",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -14881,6 +14921,13 @@
             "task": "i like music",
             "started_at": "2026-08-31 16:26:59",
             "ended_at": "2026-08-31 16:27:04",
+            "duration": "5 seconds",
+            "notes": []
+        },
+        {
+            "task": "i like music",
+            "started_at": "2026-08-31 16:45:13",
+            "ended_at": "2026-08-31 16:45:18",
             "duration": "5 seconds",
             "notes": []
         }

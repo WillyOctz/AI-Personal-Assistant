@@ -3784,6 +3784,29 @@ def handle_memory_intent(user_input, analysis):
             "2. Focus on one clear step.\n"
             "3. Review progress when the session ends."
         )
+        
+    if intent == "work_session_review":
+        memos = memory.load_memory()
+        sessions = memos.get("focus_sessions", [])
+        
+        if not sessions:
+            return "I do not have any completed work sessions to review yet."
+        
+        latest = sessions[-1]
+        
+        task = latest.get("task", "Unknown task")
+        started_at = latest.get("started_at", "Unknown")
+        ended_at = latest.get("ended_at", "Unknown")
+        duration = latest.get("duration", "Unknown")
+        
+        return (
+            "Latest work session review:\n"
+            f"Task: {task}\n"
+            f"Started: {started_at}\n"
+            f"Ended: {ended_at}\n"
+            f"Duration: {duration}\n"
+            "Reflection: You completed a focused work block. Next step is to decide whether to continue, pause, or pick a new task."
+        )
     
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()
