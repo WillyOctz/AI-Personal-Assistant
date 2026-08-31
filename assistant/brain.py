@@ -3681,6 +3681,35 @@ def handle_memory_intent(user_input, analysis):
             "Work session resumed.\n"
             f"Current focus: {task}"
         )
+        
+    if intent == "work_session_status":
+        is_active = get_focus_mode()
+        current_task = get_focus_task()
+        pending_task = get_pending_task()
+        
+        if is_active:
+            return (
+                "Work session is active.\n"
+                f"Current focus: {current_task}"
+            )
+            
+        if pending_task:
+            return (
+                "Work session is paused.\n"
+                f"Pending focus: {pending_task}\n"
+                "Use: resume work session"
+            )
+            
+        suggested_task = choose_focus_task()
+        
+        if suggested_task:
+            return (
+                "No work session is active.\n"
+                f"Suggested focus: {suggested_task}\n"
+                "Use: start work session"
+            )
+            
+        return "No work session is active, and I do not have a suggested task right now."
     
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()

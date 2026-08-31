@@ -230,6 +230,7 @@ VALID_INTENTS = {
     "end_work_session",
     "pause_work_session",
     "resume_work_session",
+    "work_session_status",
 }
 
 CONTROL_INTENTS = {
@@ -465,6 +466,7 @@ MEMORY_INTENTS = {
     "end_work_session",
     "pause_work_session",
     "resume_work_session",
+    "work_session_status",
 }
 
 ACTION_INTENTS = {
@@ -1187,6 +1189,13 @@ INTENT_PATTERNS = {
         "resume my work",
         "continue work session",
         "continue my work",
+    ],
+    "work_session_status": [
+        "work session status",
+        "current work session",
+        "am i working",
+        "what am i working on",
+        "show work session",
     ],
 }
 
