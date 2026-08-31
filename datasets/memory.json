@@ -42,7 +42,7 @@
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Latest work session review:\nTask: i like music\nStarted: 2026-08-31 16:45:13\nEnded: 2026-08-31 16:45:18\nDuration: 5 seconds\nReflection: You completed a focused work block. Next step is to decide whether to continue, pause, or pick a new task.",
+        "last_response_text": "Latest work session review:\nTask: i like music\nStarted: 2026-08-31 16:45:13\nEnded: 2026-08-31 16:45:18\nDuration: 5 seconds\nNotes:\n- I stayed focused but got distracted near the end\nReflection: You completed a focused work block. Next step is to decide whether to continue, pause, or pick a new task.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -14714,6 +14714,76 @@
             "source": "rule",
             "timestamp": "2026-08-31 16:45:31",
             "importance": 0.6
+        },
+        {
+            "user": "work session review",
+            "assistant": "Latest work session review:\nTask: i like music\nStarted: 2026-08-31 16:45:13\nEnded: 2026-08-31 16:45:18\nDuration: 5 seconds\nNotes:\nNone\nReflection: You completed a focused work block. Next step is to decide whether to continue, pause, or pick a new task.",
+            "intent": "work_session_review",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-31 17:18:43",
+            "importance": 0.6
+        },
+        {
+            "user": "add work session note I stayed focused but got distracted near the end",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: add work session note I stayed focused but got distracted near the end\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-08-31 17:18:48",
+            "importance": 0.3
+        },
+        {
+            "user": "debug route add work session note I stayed focused but got distracted near the end",
+            "assistant": "Input: add work session note i stayed focused but got distracted near the end\nExact intent: None\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-31 17:19:34",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route add work session note",
+            "assistant": "Input: add work session note\nExact intent: add_work_session_note\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-31 17:19:53",
+            "importance": 0.1
+        },
+        {
+            "user": "add work session note I stayed focused but got distracted near the end",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: add work session note I stayed focused but got distracted near the end\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-08-31 17:21:51",
+            "importance": 0.3
+        },
+        {
+            "user": "add work session note I stayed focused but got distracted near the end",
+            "assistant": "Saved note to latest work session: I stayed focused but got distracted near the end",
+            "intent": "add_work_session_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-31 17:27:09",
+            "importance": 0.6
+        },
+        {
+            "user": "work session review",
+            "assistant": "Latest work session review:\nTask: i like music\nStarted: 2026-08-31 16:45:13\nEnded: 2026-08-31 16:45:18\nDuration: 5 seconds\nNotes:\n- I stayed focused but got distracted near the end\nReflection: You completed a focused work block. Next step is to decide whether to continue, pause, or pick a new task.",
+            "intent": "work_session_review",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-08-31 17:27:13",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -14929,7 +14999,9 @@
             "started_at": "2026-08-31 16:45:13",
             "ended_at": "2026-08-31 16:45:18",
             "duration": "5 seconds",
-            "notes": []
+            "notes": [
+                "I stayed focused but got distracted near the end"
+            ]
         }
     ],
     "app_registry": {

@@ -234,6 +234,7 @@ VALID_INTENTS = {
     "work_session_plan",
     "start_planned_work_session",
     "work_session_review",
+    "add_work_session_note",
 }
 
 CONTROL_INTENTS = {
@@ -473,6 +474,7 @@ MEMORY_INTENTS = {
     "work_session_plan",
     "start_planned_work_session",
     "work_session_review",
+    "add_work_session_note",
 }
 
 ACTION_INTENTS = {
@@ -1223,6 +1225,12 @@ INTENT_PATTERNS = {
         "how did my work session go",
         "summarize work session",
     ],
+    "add_work_session_note": [
+        "add work session note",
+        "note work session",
+        "save work session note",
+        "add note to work session",
+    ],
 }
 
 INTENT_PREFIXES = {
@@ -1543,6 +1551,12 @@ INTENT_PREFIXES = {
         "memory result actions ",
         "actions for memory result ",
     ],
+    "add_work_session_note": [
+        "add work session note ",
+        "note work session ",
+        "save work session note ",
+        "add note to work session ",
+    ],
 }
 
 PREFIX_INTENT_ORDER = [
@@ -1629,6 +1643,7 @@ PREFIX_INTENT_ORDER = [
     "focus_stats_for_task",
     "set_focus_goal",
     "add_focus_note",
+    "add_work_session_note",
     "delete_focus_session",
     
     "delete_feedback_note",

@@ -3799,14 +3799,45 @@ def handle_memory_intent(user_input, analysis):
         ended_at = latest.get("ended_at", "Unknown")
         duration = latest.get("duration", "Unknown")
         
+        notes = latest.get("notes", [])
+        
+        if notes:
+            note_lines = "\n".join(f"- {note}" for note in notes)
+        else:
+            note_lines = "None"
+        
         return (
             "Latest work session review:\n"
             f"Task: {task}\n"
             f"Started: {started_at}\n"
             f"Ended: {ended_at}\n"
             f"Duration: {duration}\n"
+            f"Notes:\n{note_lines}\n"
             "Reflection: You completed a focused work block. Next step is to decide whether to continue, pause, or pick a new task."
         )
+        
+    if intent == "add_work_session_note":
+        note = user_input
+        
+        for prefix in [
+            "add work session note",
+            "note work session",
+            "save work session note",
+            "add note to work session",
+        ]:
+            if note.lower().startswith(prefix):
+                note = note[len(prefix):].strip()
+                break
+            
+        if not note:    
+            return "What note should I add to the latest work session?"
+        
+        result = memory.add_note_to_latest_focus_session(note)
+        
+        if result is None:
+            return "I do not have any completed work sessions to attach this note to."
+        
+        return f"Saved note to latest work session: {note}"
     
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()

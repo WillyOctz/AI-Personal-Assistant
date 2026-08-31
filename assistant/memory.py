@@ -860,8 +860,25 @@ def get_entities(entity_type):
 
 def add_focus_session(session):
     memory = load_memory()
-    memory["focus_sessions"].append(session)
+    memory["focus_sessions"].append(session)    
     save_memory(memory)
+    
+def add_note_to_latest_focus_session(note): 
+    memory = load_memory()
+    sessions = memory.get("focus_sessions", [])
+    
+    if not sessions:
+        return None
+    
+    latest = sessions[-1]
+    
+    if "notes" not in latest:
+        latest["notes"] = []
+          
+    latest["notes"].append(note)
+    save_memory(memory)
+    
+    return latest
     
 def get_focus_sessions(limit=5):
     memory = load_memory()
