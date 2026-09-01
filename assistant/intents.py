@@ -236,6 +236,7 @@ VALID_INTENTS = {
     "work_session_review",
     "add_work_session_note",
     "show_work_session_notes",
+    "search_work_session_notes",
 }
 
 CONTROL_INTENTS = {
@@ -477,6 +478,7 @@ MEMORY_INTENTS = {
     "work_session_review",
     "add_work_session_note",
     "show_work_session_notes",
+    "search_work_session_notes",
 }
 
 ACTION_INTENTS = {
@@ -1239,6 +1241,11 @@ INTENT_PATTERNS = {
         "work session notes",
         "show focus session notes",
     ],
+    "search_work_session_notes": [
+        "search work session notes",
+        "find work session notes",
+        "search focus session notes",
+    ],
 }
 
 INTENT_PREFIXES = {
@@ -1565,6 +1572,11 @@ INTENT_PREFIXES = {
         "save work session note ",
         "add note to work session ",
     ],
+    "search_work_session_notes": [
+        "search work session notes ",
+        "find work session notes ",
+        "search focus session notes ",
+    ],
 }
 
 PREFIX_INTENT_ORDER = [
@@ -1599,6 +1611,7 @@ PREFIX_INTENT_ORDER = [
     "search_reminders_by_due",
     "search_reminders",
 
+    "search_work_session_notes",
     "search_focus_notes",
     "search_focus_sessions",
 

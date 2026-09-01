@@ -898,6 +898,21 @@ def get_work_session_notes():
             })
             
     return notes
+
+def search_work_session_notes(query):
+    notes = get_work_session_notes()
+    query = query.lower().strip()
+    
+    results = []
+    
+    for item in notes:
+        note_text = item["note"].lower()
+        task_text = item["task"].lower()
+        
+        if query in note_text or query in task_text:
+            results.append(item)
+            
+    return results
     
 def get_focus_sessions(limit=5):
     memory = load_memory()

@@ -3854,6 +3854,35 @@ def handle_memory_intent(user_input, analysis):
             
         return "\n".join(lines)
     
+    if intent == "search_work_session_notes":
+        query = user_input
+        
+        for prefix in [
+            "search work session notes",
+            "find work session notes",
+            "search focus session notes",
+        ]:
+            if query.lower().startswith(prefix):
+                query = query[len(prefix):].strip()
+                break
+            
+        if not query:
+            return "What work session note should I search for?"
+        
+        results = memory.search_work_session_notes(query)
+        
+        if not results:
+            return f"I could not find any work session notes matching: {query}"
+        
+        lines = [f"Work session notes matching '{query}':"]
+        
+        for item in results:
+            lines.append(
+                f"{item['session_index']}. {item['task']} - {item['note']}"
+            )
+            
+        return "\n".join(lines)
+
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()
         query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode = parse_memory_query_with_type(query)

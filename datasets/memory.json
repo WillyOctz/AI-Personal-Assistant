@@ -37,12 +37,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "work_session_review",
-        "last_response_group": "memory",
+        "last_response_intent": "debug_route",
+        "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Latest work session review:\nTask: i like music\nStarted: 2026-08-31 16:45:13\nEnded: 2026-08-31 16:45:18\nDuration: 5 seconds\nNotes:\n- I stayed focused but got distracted near the end\n- I stayed focused but slowed down near the end\nReflection: You completed a focused work block. Next step is to decide whether to continue, pause, or pick a new task.",
+        "last_response_text": "Input: search work session notes focused\nExact intent: None\nPrefix intent: search_work_session_notes",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -14824,6 +14824,46 @@
             "source": "rule",
             "timestamp": "2026-09-01 17:34:14",
             "importance": 0.6
+        },
+        {
+            "user": "search work session notes focused",
+            "assistant": "Work session notes matching 'focused':\n26. i like music - I stayed focused but got distracted near the end\n26. i like music - I stayed focused but slowed down near the end",
+            "intent": "search_work_session_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:11:58",
+            "importance": 0.6
+        },
+        {
+            "user": "search work session notes distracted",
+            "assistant": "Work session notes matching 'distracted':\n26. i like music - I stayed focused but got distracted near the end",
+            "intent": "search_work_session_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:12:04",
+            "importance": 0.6
+        },
+        {
+            "user": "search work session notes",
+            "assistant": "What work session note should I search for?",
+            "intent": "search_work_session_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:12:10",
+            "importance": 0.6
+        },
+        {
+            "user": "debug route search work session notes focused",
+            "assistant": "Input: search work session notes focused\nExact intent: None\nPrefix intent: search_work_session_notes",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:12:14",
+            "importance": 0.1
         }
     ],
     "summaries": [
