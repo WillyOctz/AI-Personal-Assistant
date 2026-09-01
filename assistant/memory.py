@@ -913,6 +913,32 @@ def search_work_session_notes(query):
             results.append(item)
             
     return results
+
+def delete_work_session_note(session_index, note_index):
+    data = load_memory()
+    sessions = data.get("focus_sessions", [])
+    
+    session_pos = session_index - 1
+    note_pos = note_index - 1
+    
+    if session_pos < 0 or session_pos >= len(sessions):
+        return None
+    
+    session = sessions[session_pos]
+    notes = session.get("notes", [])
+    
+    if note_pos < 0 or note_pos >= len(notes):
+        return None
+    
+    removed_note = notes.pop(note_pos)
+    save_memory(data)
+    
+    return {
+        "session_index": session_index,
+        "note_index": note_index,
+        "note": removed_note,
+        "task": session.get("task", "Unknown task"),
+    }
     
 def get_focus_sessions(limit=5):
     memory = load_memory()

@@ -3882,6 +3882,41 @@ def handle_memory_intent(user_input, analysis):
             )
             
         return "\n".join(lines)
+    
+    if intent == "delete_work_session_note":
+        text = user_input.lower().strip()
+        
+        for prefix in [
+            "delete work session note",
+            "remove work session note",
+            "delete focus session note",
+        ]:
+            if text.startswith(prefix):
+                text = text[len(prefix):].strip()
+                break
+            
+        parts = text.split()
+        
+        if len(parts) < 2:
+            return "Use this format: delete work session note session_number note_number"
+        
+        if not parts[0].isdigit() or not parts[1].isdigit():
+            return "Session number and note number must be numbers."
+        
+        session_index = int(parts[0])
+        note_index = int(parts[1])
+        
+        result = memory.delete_work_session_note(session_index, note_index)
+        
+        if result is None:
+            return "I could not find that work session note."
+        
+        return (
+            "Deleted work session note.\n"
+            f"Session: {result['session_index']}\n"
+            f"Task: {result['task']}\n"
+            f"Note: {result['note']}"
+        )
 
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()

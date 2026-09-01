@@ -37,12 +37,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "debug_route",
-        "last_response_group": "control",
+        "last_response_intent": "delete_work_session_note",
+        "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Input: search work session notes focused\nExact intent: None\nPrefix intent: search_work_session_notes",
+        "last_response_text": "Use this format: delete work session note session_number note_number",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -14864,6 +14864,166 @@
             "source": "rule",
             "timestamp": "2026-09-01 18:12:14",
             "importance": 0.1
+        },
+        {
+            "user": "show work session notes",
+            "assistant": "Work session notes:\n5. interview tomorrow - learned focus note\n5. interview tomorrow - fixed a bug\n6. interview tomorrow - fixed bug\n6. interview tomorrow - learned summary\n7. interview tomorrow - fixed bug\n7. interview tomorrow - learned summary\n8. interview tomorrow - completed reminder\n9. interview tomorrow - completed reminder\n12. code today - refactor check\n26. i like music - I stayed focused but got distracted near the end\n26. i like music - I stayed focused but slowed down near the end",
+            "intent": "show_work_session_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:37:05",
+            "importance": 0.6
+        },
+        {
+            "user": "delete work session note 1 1",
+            "assistant": "I could not find that work session note.",
+            "intent": "delete_work_session_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:37:18",
+            "importance": 0.6
+        },
+        {
+            "user": "delete work session note 5 5",
+            "assistant": "I could not find that work session note.",
+            "intent": "delete_work_session_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:37:35",
+            "importance": 0.6
+        },
+        {
+            "user": "delete work session note 5",
+            "assistant": "Use this format: delete work session note session_number note_number",
+            "intent": "delete_work_session_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:37:40",
+            "importance": 0.6
+        },
+        {
+            "user": "delete work session note 26 26",
+            "assistant": "I could not find that work session note.",
+            "intent": "delete_work_session_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:38:02",
+            "importance": 0.6
+        },
+        {
+            "user": "delete work session note 1 2",
+            "assistant": "I could not find that work session note.",
+            "intent": "delete_work_session_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:38:48",
+            "importance": 0.6
+        },
+        {
+            "user": "delete work session note 5 5",
+            "assistant": "I could not find that work session note.",
+            "intent": "delete_work_session_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:38:54",
+            "importance": 0.6
+        },
+        {
+            "user": "delete work session note 6 6",
+            "assistant": "I could not find that work session note.",
+            "intent": "delete_work_session_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:38:57",
+            "importance": 0.6
+        },
+        {
+            "user": "delete work session note 12 12",
+            "assistant": "I could not find that work session note.",
+            "intent": "delete_work_session_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:39:11",
+            "importance": 0.6
+        },
+        {
+            "user": "delete work session note 5 26",
+            "assistant": "I could not find that work session note.",
+            "intent": "delete_work_session_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:39:50",
+            "importance": 0.6
+        },
+        {
+            "user": "debug route delete work session note 1 1",
+            "assistant": "Input: delete work session note 1 1\nExact intent: None\nPrefix intent: delete_work_session_note",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:40:10",
+            "importance": 0.1
+        },
+        {
+            "user": "delete work session note 26 26",
+            "assistant": "I could not find that work session note.",
+            "intent": "delete_work_session_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:41:29",
+            "importance": 0.6
+        },
+        {
+            "user": "delete work session note 26",
+            "assistant": "Use this format: delete work session note session_number note_number",
+            "intent": "delete_work_session_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:41:33",
+            "importance": 0.6
+        },
+        {
+            "user": "delete work session note 26 1",
+            "assistant": "Deleted work session note.\nSession: 26\nTask: i like music\nNote: I stayed focused but got distracted near the end",
+            "intent": "delete_work_session_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:41:44",
+            "importance": 0.6
+        },
+        {
+            "user": "show work session notes",
+            "assistant": "Work session notes:\n5. interview tomorrow - learned focus note\n5. interview tomorrow - fixed a bug\n6. interview tomorrow - fixed bug\n6. interview tomorrow - learned summary\n7. interview tomorrow - fixed bug\n7. interview tomorrow - learned summary\n8. interview tomorrow - completed reminder\n9. interview tomorrow - completed reminder\n12. code today - refactor check\n26. i like music - I stayed focused but slowed down near the end",
+            "intent": "show_work_session_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:42:06",
+            "importance": 0.6
+        },
+        {
+            "user": "delete work session note",
+            "assistant": "Use this format: delete work session note session_number note_number",
+            "intent": "delete_work_session_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:42:14",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -15080,7 +15240,6 @@
             "ended_at": "2026-08-31 16:45:18",
             "duration": "5 seconds",
             "notes": [
-                "I stayed focused but got distracted near the end",
                 "I stayed focused but slowed down near the end"
             ]
         }

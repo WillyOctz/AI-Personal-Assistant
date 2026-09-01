@@ -237,6 +237,7 @@ VALID_INTENTS = {
     "add_work_session_note",
     "show_work_session_notes",
     "search_work_session_notes",
+    "delete_work_session_note",
 }
 
 CONTROL_INTENTS = {
@@ -479,6 +480,7 @@ MEMORY_INTENTS = {
     "add_work_session_note",
     "show_work_session_notes",
     "search_work_session_notes",
+    "delete_work_session_note",
 }
 
 ACTION_INTENTS = {
@@ -1246,6 +1248,11 @@ INTENT_PATTERNS = {
         "find work session notes",
         "search focus session notes",
     ],
+    "delete_work_session_note": [
+        "delete work session note",
+        "remove work session note",
+        "delete focus session note",
+    ],
 }
 
 INTENT_PREFIXES = {
@@ -1577,6 +1584,11 @@ INTENT_PREFIXES = {
         "find work session notes ",
         "search focus session notes ",
     ],
+    "delete_work_session_note": [
+        "delete work session note ",
+        "remove work session note ",
+        "delete focus session note ",
+    ],
 }
 
 PREFIX_INTENT_ORDER = [
@@ -1614,6 +1626,7 @@ PREFIX_INTENT_ORDER = [
     "search_work_session_notes",
     "search_focus_notes",
     "search_focus_sessions",
+    "delete_work_session_note",
 
     "preview_restore_app_registry_backup",
     "restore_app_registry_backup",
