@@ -37,12 +37,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "work_session_summary",
+        "last_response_intent": "work_session_task_breakdown",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Work session summary:\nTotal sessions: 27\nTotal focus time: 0 seconds\nSession notes: 10\nMost worked task: i like music",
+        "last_response_text": "Work session task breakdown:\n- sweep: 2 session(s), 0 seconds, 0 note(s)\n- interview tomorrow: 7 session(s), 0 seconds, 8 note(s)\n- code today: 4 session(s), 0 seconds, 1 note(s)\n- work toward your goal - to build best AI assistant: 2 session(s), 0 seconds, 0 note(s)\n- i like music: 13 session(s), 0 seconds, 1 note(s)",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -15064,6 +15064,46 @@
             "source": "rule",
             "timestamp": "2026-09-01 18:57:08",
             "importance": 0.6
+        },
+        {
+            "user": "work session task breakdown",
+            "assistant": "Work session task breakdown:\n- sweep: 2 session(s), 0 seconds, 0 note(s)\n- interview tomorrow: 7 session(s), 0 seconds, 8 note(s)\n- code today: 4 session(s), 0 seconds, 1 note(s)\n- work toward your goal - to build best AI assistant: 2 session(s), 0 seconds, 0 note(s)\n- i like music: 12 session(s), 0 seconds, 1 note(s)",
+            "intent": "work_session_task_breakdown",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 19:18:57",
+            "importance": 0.6
+        },
+        {
+            "user": "start planned work session",
+            "assistant": "Started planned work session.\n1. Work on: i like music\n2. Focus on one clear step.\n3. Review progress when the session ends.",
+            "intent": "start_planned_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 19:19:09",
+            "importance": 0.6
+        },
+        {
+            "user": "end work session",
+            "assistant": "Work session ended.\nFocus session summary:\nTask: i like music\nDuration: 9 seconds\nNotes: 0",
+            "intent": "end_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 19:19:17",
+            "importance": 0.6
+        },
+        {
+            "user": "work session task breakdown",
+            "assistant": "Work session task breakdown:\n- sweep: 2 session(s), 0 seconds, 0 note(s)\n- interview tomorrow: 7 session(s), 0 seconds, 8 note(s)\n- code today: 4 session(s), 0 seconds, 1 note(s)\n- work toward your goal - to build best AI assistant: 2 session(s), 0 seconds, 0 note(s)\n- i like music: 13 session(s), 0 seconds, 1 note(s)",
+            "intent": "work_session_task_breakdown",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 19:19:22",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -15288,6 +15328,13 @@
             "started_at": "2026-09-01 18:57:00",
             "ended_at": "2026-09-01 18:57:05",
             "duration": "5 seconds",
+            "notes": []
+        },
+        {
+            "task": "i like music",
+            "started_at": "2026-09-01 19:19:08",
+            "ended_at": "2026-09-01 19:19:17",
+            "duration": "9 seconds",
             "notes": []
         }
     ],

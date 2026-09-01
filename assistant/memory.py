@@ -969,6 +969,32 @@ def get_work_session_summary():
         "notes_count": notes_count,
     }
     
+def get_work_session_task_breakdown():
+    data = load_memory()
+    sessions = data.get("focus_sessions", [])
+    
+    breakdown = {}
+    
+    for session in sessions:
+        task = session.get("task", "Unknown task")
+        
+        if task not in breakdown:
+            breakdown[task] = {
+                "task": task,
+                "sessions": 0,
+                "total_seconds": 0,
+                "notes": 0,
+            }
+            
+        breakdown[task]["sessions"] += 1
+        breakdown[task]["total_seconds"] += session.get("duration_seconds", 0)
+        breakdown[task]["notes"] += len(session.get("notes", []))
+        
+    results = list(breakdown.values())
+    results.sort(key=lambda item: item["total_seconds"], reverse=True)
+    
+    return results
+    
 def get_focus_sessions(limit=5):
     memory = load_memory()
     return memory["focus_sessions"][-limit:]
