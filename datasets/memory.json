@@ -34,19 +34,19 @@
     ],
     "state": {
         "pending_confirmation": null,
-        "pending_task": null,
-        "focus_mode": false,
-        "focus_task": null,
-        "focus_started_at": null,
+        "pending_task": "i like music",
+        "focus_mode": true,
+        "focus_task": "i like music",
+        "focus_started_at": "2026-09-01 20:18:30",
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "work_session_recommendation",
+        "last_response_intent": "start_recommended_work_session",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Recommended work session:\nTask: continue my ai personal assistant\nReason: This reminder has not been used in a completed work session yet.",
+        "last_response_text": "Started recommended work session.\nTask: i like music\nReason: This is your first available pending reminder.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -15178,6 +15178,66 @@
             "source": "rule",
             "timestamp": "2026-09-01 19:31:09",
             "importance": 0.6
+        },
+        {
+            "user": "start recommended work session",
+            "assistant": "Started recommended work session.\nTask: continue my ai personal assistant\nReason: This reminder has not been used in a completed work session yet.",
+            "intent": "start_recommended_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 20:18:00",
+            "importance": 0.6
+        },
+        {
+            "user": "work session status",
+            "assistant": "Work session is active.\nCurrent focus: continue my ai personal assistant",
+            "intent": "work_session_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 20:18:07",
+            "importance": 0.6
+        },
+        {
+            "user": "end work session",
+            "assistant": "Work session ended.\nFocus session summary:\nTask: continue my ai personal assistant\nDuration: 12 seconds\nNotes: 0",
+            "intent": "end_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 20:18:13",
+            "importance": 0.6
+        },
+        {
+            "user": "work session recommendation",
+            "assistant": "Recommended work session:\nTask: i like music\nReason: This is your first available pending reminder.",
+            "intent": "work_session_recommendation",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 20:18:17",
+            "importance": 0.6
+        },
+        {
+            "user": "work session status",
+            "assistant": "No work session is active.\nSuggested focus: i like music\nUse: start work session",
+            "intent": "work_session_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 20:18:23",
+            "importance": 0.6
+        },
+        {
+            "user": "start recommended work session",
+            "assistant": "Started recommended work session.\nTask: i like music\nReason: This is your first available pending reminder.",
+            "intent": "start_recommended_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 20:18:31",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -15416,6 +15476,13 @@
             "started_at": "2026-09-01 19:30:54",
             "ended_at": "2026-09-01 19:31:04",
             "duration": "10 seconds",
+            "notes": []
+        },
+        {
+            "task": "continue my ai personal assistant",
+            "started_at": "2026-09-01 20:18:00",
+            "ended_at": "2026-09-01 20:18:12",
+            "duration": "12 seconds",
             "notes": []
         }
     ],

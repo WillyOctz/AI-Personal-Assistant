@@ -3969,6 +3969,30 @@ def handle_memory_intent(user_input, analysis):
             f"Task: {recommendation['task']}\n"
             f"Reason: {recommendation['reason']}"
         )
+        
+    if intent == "start_recommended_work_session":
+        if get_focus_mode():
+            current_task = get_focus_task()
+            return (
+                "Work session is already active.\n"
+                f"Current focus: {current_task}"
+            )
+            
+        recommendation = memory.get_work_session_recommendation()
+        
+        if recommendation is None:
+            return "I do not have enough pending work to recommend a session yet."
+        
+        task = recommendation["task"]
+        
+        focus.start_focus_mode(task)
+        set_pending_task(task)
+        
+        return (
+            "Started recommended work session.\n"
+            f"Task: {task}\n"
+            f"Reason: {recommendation['reason']}"
+        )
 
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()

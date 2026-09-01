@@ -241,6 +241,7 @@ VALID_INTENTS = {
     "work_session_summary",
     "work_session_task_breakdown",
     "work_session_recommendation",
+    "start_recommended_work_session",
 }
 
 CONTROL_INTENTS = {
@@ -487,6 +488,7 @@ MEMORY_INTENTS = {
     "work_session_summary",
     "work_session_task_breakdown",
     "work_session_recommendation",
+    "start_recommended_work_session",
 }
 
 ACTION_INTENTS = {
@@ -1276,6 +1278,12 @@ INTENT_PATTERNS = {
         "recommend work session",
         "what should i focus on",
         "recommend my next work",
+    ],
+    "start_recommended_work_session": [
+        "start recommended work session",
+        "start recommended work",
+        "begin recommended work session",
+        "focus on recommended task",
     ],
 }
 
