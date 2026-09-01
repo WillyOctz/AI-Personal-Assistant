@@ -3993,6 +3993,50 @@ def handle_memory_intent(user_input, analysis):
             f"Task: {task}\n"
             f"Reason: {recommendation['reason']}"
         )
+        
+    if intent == "work_session_dashboard":
+        lines = ["Work session dashboard:"]
+        
+        if get_focus_mode():
+            lines.append(f"Status: active")
+            lines.append(f"Current focus: {get_focus_task()}")
+        elif get_pending_task():
+            lines.append("Status: paused")
+            lines.append(f"Pending focus: {get_pending_task()}")
+        else:
+            lines.append("Status: inactive")
+            
+        recommendation = memory.get_work_session_recommendation()
+        
+        if recommendation:
+            lines.append("")
+            lines.append("Recommendation:")
+            lines.append(f"Task: {recommendation['task']}")
+            lines.append(f"Reason: {recommendation['reason']}")
+            
+        summary = memory.get_work_session_summary()
+        
+        lines.append("")
+        lines.append("Summary:")
+        lines.append(f"Total sessions: {summary['total_sessions']}")
+        lines.append(
+            f"Total focus time: {focus.format_duration_from_seconds(summary['total_seconds'])}"
+        )
+        lines.append(f"Session notes: {summary['notes_count']}")
+        
+        breakdown = memory.get_work_session_task_breakdown()
+        
+        if breakdown:
+            lines.append("")
+            lines.append("Top tasks:")
+            
+            for item in breakdown[:3]:
+                duration = focus.format_duration_from_seconds(item["total_seconds"])
+                lines.append(
+                    f"- {item['task']}: {item['sessions']} session(s), {duration}"
+                )
+                
+        return "\n".join(lines)
 
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()

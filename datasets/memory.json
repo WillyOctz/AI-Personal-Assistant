@@ -35,18 +35,18 @@
     "state": {
         "pending_confirmation": null,
         "pending_task": "i like music",
-        "focus_mode": true,
-        "focus_task": "i like music",
-        "focus_started_at": "2026-09-01 20:18:30",
+        "focus_mode": false,
+        "focus_task": null,
+        "focus_started_at": null,
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "start_recommended_work_session",
+        "last_response_intent": "work_session_dashboard",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Started recommended work session.\nTask: i like music\nReason: This is your first available pending reminder.",
+        "last_response_text": "Work session dashboard:\nStatus: paused\nPending focus: i like music\n\nRecommendation:\nTask: i like music\nReason: This is your first available pending reminder.\n\nSummary:\nTotal sessions: 31\nTotal focus time: 0 seconds\nSession notes: 10\n\nTop tasks:\n- sweep: 2 session(s), 0 seconds\n- interview tomorrow: 7 session(s), 0 seconds\n- code today: 4 session(s), 0 seconds",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -15238,6 +15238,76 @@
             "source": "rule",
             "timestamp": "2026-09-01 20:18:31",
             "importance": 0.6
+        },
+        {
+            "user": "work session dashboard",
+            "assistant": "Work session dashboard:\nStatus: active\nCurrent focus: i like music\n\nRecommendation:\nTask: i like music\nReason: This is your first available pending reminder.\n\nSummary:\nTotal sessions: 30\nTotal focus time: 0 seconds\nSession notes: 10\n\nTop tasks:\n- sweep: 2 session(s), 0 seconds\n- interview tomorrow: 7 session(s), 0 seconds\n- code today: 4 session(s), 0 seconds",
+            "intent": "work_session_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 20:33:41",
+            "importance": 0.6
+        },
+        {
+            "user": "start recommended work session",
+            "assistant": "Work session is already active.\nCurrent focus: i like music",
+            "intent": "start_recommended_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 20:33:47",
+            "importance": 0.6
+        },
+        {
+            "user": "work session dashboard",
+            "assistant": "Work session dashboard:\nStatus: active\nCurrent focus: i like music\n\nRecommendation:\nTask: i like music\nReason: This is your first available pending reminder.\n\nSummary:\nTotal sessions: 30\nTotal focus time: 0 seconds\nSession notes: 10\n\nTop tasks:\n- sweep: 2 session(s), 0 seconds\n- interview tomorrow: 7 session(s), 0 seconds\n- code today: 4 session(s), 0 seconds",
+            "intent": "work_session_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 20:33:50",
+            "importance": 0.6
+        },
+        {
+            "user": "pause work session",
+            "assistant": "Work session paused.\nPending task kept: i like music\nFocus session summary:\nTask: i like music\nDuration: 15 minutes\nNotes: 0",
+            "intent": "pause_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 20:33:55",
+            "importance": 0.6
+        },
+        {
+            "user": "work session dashboard",
+            "assistant": "Work session dashboard:\nStatus: paused\nPending focus: i like music\n\nRecommendation:\nTask: i like music\nReason: This is your first available pending reminder.\n\nSummary:\nTotal sessions: 31\nTotal focus time: 0 seconds\nSession notes: 10\n\nTop tasks:\n- sweep: 2 session(s), 0 seconds\n- interview tomorrow: 7 session(s), 0 seconds\n- code today: 4 session(s), 0 seconds",
+            "intent": "work_session_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 20:33:58",
+            "importance": 0.6
+        },
+        {
+            "user": "end work session",
+            "assistant": "No work session is active.",
+            "intent": "end_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 20:34:09",
+            "importance": 0.6
+        },
+        {
+            "user": "work session dashboard",
+            "assistant": "Work session dashboard:\nStatus: paused\nPending focus: i like music\n\nRecommendation:\nTask: i like music\nReason: This is your first available pending reminder.\n\nSummary:\nTotal sessions: 31\nTotal focus time: 0 seconds\nSession notes: 10\n\nTop tasks:\n- sweep: 2 session(s), 0 seconds\n- interview tomorrow: 7 session(s), 0 seconds\n- code today: 4 session(s), 0 seconds",
+            "intent": "work_session_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 20:34:14",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -15483,6 +15553,13 @@
             "started_at": "2026-09-01 20:18:00",
             "ended_at": "2026-09-01 20:18:12",
             "duration": "12 seconds",
+            "notes": []
+        },
+        {
+            "task": "i like music",
+            "started_at": "2026-09-01 20:18:30",
+            "ended_at": "2026-09-01 20:33:54",
+            "duration": "15 minutes",
             "notes": []
         }
     ],
