@@ -879,6 +879,25 @@ def add_note_to_latest_focus_session(note):
     save_memory(memory)
     
     return latest
+
+def get_work_session_notes():
+    data = load_memory()
+    sessions = data.get("focus_sessions", [])
+    
+    notes = []
+    
+    for index, session in enumerate(sessions, start=1):
+        task = session.get("task", "Unknown task")
+        session_notes = session.get("notes", [])
+        
+        for note in session_notes:
+            notes.append({
+                "session_index": index,
+                "task": task,
+                "note": note,
+            })
+            
+    return notes
     
 def get_focus_sessions(limit=5):
     memory = load_memory()

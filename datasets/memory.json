@@ -42,7 +42,7 @@
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Latest work session review:\nTask: i like music\nStarted: 2026-08-31 16:45:13\nEnded: 2026-08-31 16:45:18\nDuration: 5 seconds\nNotes:\n- I stayed focused but got distracted near the end\nReflection: You completed a focused work block. Next step is to decide whether to continue, pause, or pick a new task.",
+        "last_response_text": "Latest work session review:\nTask: i like music\nStarted: 2026-08-31 16:45:13\nEnded: 2026-08-31 16:45:18\nDuration: 5 seconds\nNotes:\n- I stayed focused but got distracted near the end\n- I stayed focused but slowed down near the end\nReflection: You completed a focused work block. Next step is to decide whether to continue, pause, or pick a new task.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -14784,6 +14784,46 @@
             "source": "rule",
             "timestamp": "2026-08-31 17:27:13",
             "importance": 0.6
+        },
+        {
+            "user": "show work session notes",
+            "assistant": "Work session notes:\n5. interview tomorrow - learned focus note\n5. interview tomorrow - fixed a bug\n6. interview tomorrow - fixed bug\n6. interview tomorrow - learned summary\n7. interview tomorrow - fixed bug\n7. interview tomorrow - learned summary\n8. interview tomorrow - completed reminder\n9. interview tomorrow - completed reminder\n12. code today - refactor check\n26. i like music - I stayed focused but got distracted near the end",
+            "intent": "show_work_session_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 17:33:53",
+            "importance": 0.6
+        },
+        {
+            "user": "add work session note I stayed focused but slowed down near the end",
+            "assistant": "Saved note to latest work session: I stayed focused but slowed down near the end",
+            "intent": "add_work_session_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 17:34:04",
+            "importance": 0.6
+        },
+        {
+            "user": "show work session notes",
+            "assistant": "Work session notes:\n5. interview tomorrow - learned focus note\n5. interview tomorrow - fixed a bug\n6. interview tomorrow - fixed bug\n6. interview tomorrow - learned summary\n7. interview tomorrow - fixed bug\n7. interview tomorrow - learned summary\n8. interview tomorrow - completed reminder\n9. interview tomorrow - completed reminder\n12. code today - refactor check\n26. i like music - I stayed focused but got distracted near the end\n26. i like music - I stayed focused but slowed down near the end",
+            "intent": "show_work_session_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 17:34:09",
+            "importance": 0.6
+        },
+        {
+            "user": "work session review",
+            "assistant": "Latest work session review:\nTask: i like music\nStarted: 2026-08-31 16:45:13\nEnded: 2026-08-31 16:45:18\nDuration: 5 seconds\nNotes:\n- I stayed focused but got distracted near the end\n- I stayed focused but slowed down near the end\nReflection: You completed a focused work block. Next step is to decide whether to continue, pause, or pick a new task.",
+            "intent": "work_session_review",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 17:34:14",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -15000,7 +15040,8 @@
             "ended_at": "2026-08-31 16:45:18",
             "duration": "5 seconds",
             "notes": [
-                "I stayed focused but got distracted near the end"
+                "I stayed focused but got distracted near the end",
+                "I stayed focused but slowed down near the end"
             ]
         }
     ],

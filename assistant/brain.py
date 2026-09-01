@@ -3839,6 +3839,21 @@ def handle_memory_intent(user_input, analysis):
         
         return f"Saved note to latest work session: {note}"
     
+    if intent == "show_work_session_notes":
+        notes = memory.get_work_session_notes()
+        
+        if not notes:
+            return "I do not have any work session notes yet."
+        
+        lines = ["Work session notes:"]
+        
+        for item in notes:
+            lines.append(
+                f"{item['session_index']}. {item['task']} - {item['note']}"
+            )
+            
+        return "\n".join(lines)
+    
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()
         query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode = parse_memory_query_with_type(query)

@@ -235,6 +235,7 @@ VALID_INTENTS = {
     "start_planned_work_session",
     "work_session_review",
     "add_work_session_note",
+    "show_work_session_notes",
 }
 
 CONTROL_INTENTS = {
@@ -475,6 +476,7 @@ MEMORY_INTENTS = {
     "start_planned_work_session",
     "work_session_review",
     "add_work_session_note",
+    "show_work_session_notes",
 }
 
 ACTION_INTENTS = {
@@ -1230,6 +1232,12 @@ INTENT_PATTERNS = {
         "note work session",
         "save work session note",
         "add note to work session",
+    ],
+    "show_work_session_notes": [
+        "show work session notes",
+        "list work session notes",
+        "work session notes",
+        "show focus session notes",
     ],
 }
 
