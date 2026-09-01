@@ -994,6 +994,40 @@ def get_work_session_task_breakdown():
     results.sort(key=lambda item: item["total_seconds"], reverse=True)
     
     return results
+
+def get_work_session_recommendation():
+    data = load_memory()
+    reminders = data.get("reminders", [])
+    sessions = data.get("focus_sessions", [])
+    
+    pending_reminders = []
+    completed_tasks = {}
+    
+    for reminder in reminders:
+        if isinstance(reminder, dict):
+            if not reminder.get("done", False):
+                pending_reminders.append(reminder.get("text", ""))
+        elif reminder:
+            pending_reminders.append(reminder)
+            
+    for session in sessions:
+        task = session.get("task", "")
+        completed_tasks[task] = completed_tasks.get(task, 0) + 1
+        
+    for reminder in pending_reminders:
+        if reminder not in completed_tasks:
+            return {
+                "task": reminder,
+                "reason": "This reminder has not been used in a completed work session yet.",
+            }
+            
+    if pending_reminders:
+        return {
+            "task": pending_reminders[0],
+            "reason": "This is your first available pending reminder.",
+        }
+        
+    return None
     
 def get_focus_sessions(limit=5):
     memory = load_memory()

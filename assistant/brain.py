@@ -3957,6 +3957,18 @@ def handle_memory_intent(user_input, analysis):
             )
             
         return "\n".join(lines)
+    
+    if intent == "work_session_recommendation":
+        recommendation = memory.get_work_session_recommendation()
+        
+        if recommendation is None:
+            return "I do not have enough pending work to recommend a session yet."
+        
+        return (
+            "Recommended work session:\n"
+            f"Task: {recommendation['task']}\n"
+            f"Reason: {recommendation['reason']}"
+        )
 
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()

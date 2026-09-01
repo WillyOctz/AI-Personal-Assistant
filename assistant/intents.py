@@ -240,6 +240,7 @@ VALID_INTENTS = {
     "delete_work_session_note",
     "work_session_summary",
     "work_session_task_breakdown",
+    "work_session_recommendation",
 }
 
 CONTROL_INTENTS = {
@@ -485,6 +486,7 @@ MEMORY_INTENTS = {
     "delete_work_session_note",
     "work_session_summary",
     "work_session_task_breakdown",
+    "work_session_recommendation",
 }
 
 ACTION_INTENTS = {
@@ -1268,6 +1270,12 @@ INTENT_PATTERNS = {
         "work task breakdown",
         "focus task breakdown",
         "show work by task",
+    ],
+    "work_session_recommendation": [
+        "work session recommendation",
+        "recommend work session",
+        "what should i focus on",
+        "recommend my next work",
     ],
 }
 
