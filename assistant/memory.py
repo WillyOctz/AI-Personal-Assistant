@@ -940,6 +940,35 @@ def delete_work_session_note(session_index, note_index):
         "task": session.get("task", "Unknown task"),
     }
     
+def get_work_session_summary():
+    data = load_memory()
+    sessions = data.get("focus_sessions", [])
+    
+    total_sessions = len(sessions)
+    total_seconds = 0
+    task_counts = {}
+    notes_count = 0
+    
+    for session in sessions:
+        total_seconds += session.get("duration_seconds", 0)
+        
+        task = session.get("task", "Unknown task")
+        task_counts[task] = task_counts.get(task, 0) + 1
+        
+        notes_count += len(session.get("notes", []))
+        
+    top_task = None
+    if task_counts:
+        top_task = max(task_counts, key=task_counts.get)
+        
+    return {
+        "total_sessions": total_sessions,
+        "total_seconds": total_seconds,
+        "top_task": top_task,
+        "task_counts": task_counts,
+        "notes_count": notes_count,
+    }
+    
 def get_focus_sessions(limit=5):
     memory = load_memory()
     return memory["focus_sessions"][-limit:]

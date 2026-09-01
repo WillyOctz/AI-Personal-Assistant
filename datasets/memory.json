@@ -37,12 +37,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "delete_work_session_note",
+        "last_response_intent": "work_session_summary",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Use this format: delete work session note session_number note_number",
+        "last_response_text": "Work session summary:\nTotal sessions: 27\nTotal focus time: 0 seconds\nSession notes: 10\nMost worked task: i like music",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -15024,6 +15024,46 @@
             "source": "rule",
             "timestamp": "2026-09-01 18:42:14",
             "importance": 0.6
+        },
+        {
+            "user": "work session summary",
+            "assistant": "Work session summary:\nTotal sessions: 26\nTotal focus time: 0 seconds\nSession notes: 10\nMost worked task: i like music",
+            "intent": "work_session_summary",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:56:55",
+            "importance": 0.6
+        },
+        {
+            "user": "start planned work session",
+            "assistant": "Started planned work session.\n1. Work on: i like music\n2. Focus on one clear step.\n3. Review progress when the session ends.",
+            "intent": "start_planned_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:57:00",
+            "importance": 0.6
+        },
+        {
+            "user": "end work session",
+            "assistant": "Work session ended.\nFocus session summary:\nTask: i like music\nDuration: 5 seconds\nNotes: 0",
+            "intent": "end_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:57:05",
+            "importance": 0.6
+        },
+        {
+            "user": "work session summary",
+            "assistant": "Work session summary:\nTotal sessions: 27\nTotal focus time: 0 seconds\nSession notes: 10\nMost worked task: i like music",
+            "intent": "work_session_summary",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-01 18:57:08",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -15242,6 +15282,13 @@
             "notes": [
                 "I stayed focused but slowed down near the end"
             ]
+        },
+        {
+            "task": "i like music",
+            "started_at": "2026-09-01 18:57:00",
+            "ended_at": "2026-09-01 18:57:05",
+            "duration": "5 seconds",
+            "notes": []
         }
     ],
     "app_registry": {
