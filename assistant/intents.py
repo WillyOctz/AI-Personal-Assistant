@@ -248,6 +248,7 @@ VALID_INTENTS = {
     "repair_work_sessions",
     "save_work_session_summary",
     "show_work_session_summaries",
+    "search_work_session_summaries",
 }
 
 CONTROL_INTENTS = {
@@ -501,6 +502,7 @@ MEMORY_INTENTS = {
     "repair_work_sessions",
     "save_work_session_summary",
     "show_work_session_summaries",
+    "search_work_session_summaries",
 }
 
 ACTION_INTENTS = {
@@ -1333,6 +1335,11 @@ INTENT_PATTERNS = {
         "list work summaries",
         "saved work summaries",
     ],
+    "search_work_session_summaries": [
+        "search work session summaries",
+        "search saved work summaries",
+        "find work summaries",
+    ],
 }
 
 INTENT_PREFIXES = {
@@ -1669,6 +1676,11 @@ INTENT_PREFIXES = {
         "remove work session note ",
         "delete focus session note ",
     ],
+    "search_work_session_summaries": [
+        "search work session summaries ",
+        "search saved work summaries ",
+        "find work summaries ",
+    ],
 }
 
 PREFIX_INTENT_ORDER = [
@@ -1704,6 +1716,7 @@ PREFIX_INTENT_ORDER = [
     "search_reminders",
 
     "search_work_session_notes",
+    "search_work_session_summaries",
     "search_focus_notes",
     "search_focus_sessions",
     "delete_work_session_note",

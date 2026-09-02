@@ -1164,6 +1164,28 @@ def save_work_session_summary():
     
     return item
 
+def search_work_session_summaries(query):
+    data = load_memory()
+    summaries = data.get("work_session_summaries", [])
+    query = query.lower().strip()
+    
+    results = []
+    
+    for index, item in enumerate(summaries, start=1):
+        searchable_text = " ".join([
+            str(item.get("timestamp", "")),
+            str(item.get("top_task", "")),
+            str(item.get("total_sessions", "")),
+            str(item.get("notes_count", "")),
+        ]).lower()
+        
+        if query in searchable_text:
+            result = dict(item)
+            result["index"] = index
+            results.append(result)
+            
+    return results
+
 def get_work_session_summaries():
     data = load_memory()
     return data.get("work_session_summaries", [])

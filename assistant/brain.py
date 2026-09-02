@@ -4141,6 +4141,40 @@ def handle_memory_intent(user_input, analysis):
             )
             
         return "\n".join(lines)
+    
+    if intent == "search_work_session_summaries":
+        query = user_input
+        
+        for prefix in [
+            "search work session summaries",
+            "search saved work summaries",
+            "find work summaries",
+        ]:
+            if query.lower().startswith(prefix):
+                query = query[len(prefix):].strip()
+                break
+            
+        if not query:
+            return "What saved work summary should I search for?"
+        
+        results = memory.search_work_session_summaries(query)
+        
+        if not results:
+            return f"I could not find any saved work summaries matching: {query}"
+        
+        lines = [f"Saved work summaries matching '{query}':"]
+        
+        for item in results:
+            duration = focus.format_duration_from_seconds(item.get("total_seconds", 0))
+            top_task = item.get("top_task") or "None"
+            
+            lines.append(
+                f"{item['index']}. {item.get('timestamp', 'Unknown time')} | "
+                f"{item.get('total_sessions', 0)} session(s) | "
+                f"{duration} | top task: {top_task}"
+            )
+            
+        return "\n".join(lines)
 
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()
