@@ -4121,6 +4121,26 @@ def handle_memory_intent(user_input, analysis):
             lines.append(f"Most worked task: {result['top_task']}")
             
         return "\n".join(lines)
+    
+    if intent == "show_work_session_summaries":
+        summaries = memory.get_work_session_summaries()
+        
+        if not summaries:
+            return "I do not have any saved work session summaries yet."
+        
+        lines = ["Saved work session summaries:"]
+        
+        for index, item in enumerate(summaries, start=1):
+            duration = focus.format_duration_from_seconds(item.get("total_seconds", 0))
+            top_task = item.get("top_task") or "None"
+            
+            lines.append(
+                f"{index}. {item.get('timestamp', 'Unknown time')} | "
+                f"{item.get('total_sessions', 0)} session(s) | "
+                f"{duration} | top task: {top_task}"
+            )
+            
+        return "\n".join(lines)
 
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()

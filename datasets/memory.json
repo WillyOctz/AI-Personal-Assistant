@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "work_session_summary",
+        "last_response_intent": "show_work_session_summaries",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Work session summary:\nTotal sessions: 31\nTotal focus time: 0 seconds\nSession notes: 10\nMost worked task: i like music",
+        "last_response_text": "Saved work session summaries:\n1. 2026-09-02 17:43:31 | 31 session(s) | 0 seconds | top task: i like music\n2. 2026-09-02 18:15:47 | 31 session(s) | 0 seconds | top task: i like music",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -15438,6 +15438,36 @@
             "source": "rule",
             "timestamp": "2026-09-02 17:43:44",
             "importance": 0.6
+        },
+        {
+            "user": "show saved work summaries",
+            "assistant": "Saved work session summaries:\n1. 2026-09-02 17:43:31 | 31 session(s) | 0 seconds | top task: i like music",
+            "intent": "show_work_session_summaries",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-02 18:15:42",
+            "importance": 0.6
+        },
+        {
+            "user": "save work session summary",
+            "assistant": "Saved work session summary.\nTotal sessions: 31\nTotal focus time: 0 seconds\nSession notes: 10\nMost worked task: i like music",
+            "intent": "save_work_session_summary",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-02 18:15:47",
+            "importance": 0.6
+        },
+        {
+            "user": "show saved work summaries",
+            "assistant": "Saved work session summaries:\n1. 2026-09-02 17:43:31 | 31 session(s) | 0 seconds | top task: i like music\n2. 2026-09-02 18:15:47 | 31 session(s) | 0 seconds | top task: i like music",
+            "intent": "show_work_session_summaries",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-02 18:15:51",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -16334,6 +16364,13 @@
     "work_session_summaries": [
         {
             "timestamp": "2026-09-02 17:43:31",
+            "total_sessions": 31,
+            "total_seconds": 0,
+            "top_task": "i like music",
+            "notes_count": 10
+        },
+        {
+            "timestamp": "2026-09-02 18:15:47",
             "total_sessions": 31,
             "total_seconds": 0,
             "top_task": "i like music",

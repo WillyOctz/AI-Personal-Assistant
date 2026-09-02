@@ -247,6 +247,7 @@ VALID_INTENTS = {
     "preview_work_session_cleanup",
     "repair_work_sessions",
     "save_work_session_summary",
+    "show_work_session_summaries",
 }
 
 CONTROL_INTENTS = {
@@ -499,6 +500,7 @@ MEMORY_INTENTS = {
     "preview_work_session_cleanup",
     "repair_work_sessions",
     "save_work_session_summary",
+    "show_work_session_summaries",
 }
 
 ACTION_INTENTS = {
@@ -1324,6 +1326,12 @@ INTENT_PATTERNS = {
         "save work summary",
         "save focus session summary",
         "remember work summary",
+    ],
+    "show_work_session_summaries": [
+        "show work session summaries",
+        "show saved work summaries",
+        "list work summaries",
+        "saved work summaries",
     ],
 }
 

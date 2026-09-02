@@ -1163,6 +1163,10 @@ def save_work_session_summary():
     save_memory(data)
     
     return item
+
+def get_work_session_summaries():
+    data = load_memory()
+    return data.get("work_session_summaries", [])
     
 def get_focus_sessions(limit=5):
     memory = load_memory()
