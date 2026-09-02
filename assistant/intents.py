@@ -249,6 +249,7 @@ VALID_INTENTS = {
     "save_work_session_summary",
     "show_work_session_summaries",
     "search_work_session_summaries",
+    "delete_work_session_summary",
 }
 
 CONTROL_INTENTS = {
@@ -503,6 +504,7 @@ MEMORY_INTENTS = {
     "save_work_session_summary",
     "show_work_session_summaries",
     "search_work_session_summaries",
+    "delete_work_session_summary",
 }
 
 ACTION_INTENTS = {
@@ -1340,6 +1342,11 @@ INTENT_PATTERNS = {
         "search saved work summaries",
         "find work summaries",
     ],
+    "delete_work_session_summary": [
+        "delete work session summary",
+        "delete saved work summary",
+        "remove work summary",
+    ],
 }
 
 INTENT_PREFIXES = {
@@ -1681,6 +1688,11 @@ INTENT_PREFIXES = {
         "search saved work summaries ",
         "find work summaries ",
     ],
+    "delete_work_session_summary": [
+        "delete work session summary ",
+        "delete saved work summary ",
+        "remove work summary ",
+    ],
 }
 
 PREFIX_INTENT_ORDER = [
@@ -1717,6 +1729,7 @@ PREFIX_INTENT_ORDER = [
 
     "search_work_session_notes",
     "search_work_session_summaries",
+    "delete_work_session_summary",
     "search_focus_notes",
     "search_focus_sessions",
     "delete_work_session_note",

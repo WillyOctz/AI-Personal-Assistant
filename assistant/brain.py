@@ -4175,6 +4175,40 @@ def handle_memory_intent(user_input, analysis):
             )
             
         return "\n".join(lines)
+    
+    if intent == "delete_work_session_summary":
+        text = user_input.lower().strip()
+        
+        for prefix in [
+            "delete work session summary",
+            "delete saved work summary",
+            "remove work summary",
+        ]:
+            if text.startswith(prefix):
+                text = text[len(prefix):].strip()
+                break
+            
+        if not text.isdigit():
+            return "Use this format: delete saved work summary number"
+        
+        index = int(text)
+        result = memory.delete_work_session_summary(index)
+        
+        if result is None:
+            return "I could not find that saved work summary."
+        
+        duration = focus.format_duration_from_seconds(result.get("total_seconds", 0))
+        top_task = result.get("top_task") or "None"
+        
+        return (
+            "Deleted saved work summary.\n"
+            f"Index: {result['index']}\n"
+            f"Timestamp: {result.get('timestamp', 'Unknown time')}\n"
+            f"Sessions: {result.get('total_sessions', 0)}\n"
+            f"Total focus time: {duration}\n"
+            f"Top task: {top_task}"
+        )
+        
 
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()

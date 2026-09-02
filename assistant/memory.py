@@ -1186,6 +1186,21 @@ def search_work_session_summaries(query):
             
     return results
 
+def delete_work_session_summary(index):
+    data = load_memory()
+    summaries = data.get("work_session_summaries", [])
+    
+    position = index - 1
+    
+    if position < 0 or position >= len(summaries):
+        return None
+    
+    removed = summaries.pop(position)
+    save_memory(data)
+    
+    removed["index"] = index
+    return removed
+
 def get_work_session_summaries():
     data = load_memory()
     return data.get("work_session_summaries", [])
