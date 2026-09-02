@@ -245,6 +245,7 @@ VALID_INTENTS = {
     "work_session_dashboard",
     "work_session_health",
     "preview_work_session_cleanup",
+    "repair_work_sessions",
 }
 
 CONTROL_INTENTS = {
@@ -495,6 +496,7 @@ MEMORY_INTENTS = {
     "work_session_dashboard",
     "work_session_health",
     "preview_work_session_cleanup",
+    "repair_work_sessions",
 }
 
 ACTION_INTENTS = {
@@ -1308,6 +1310,12 @@ INTENT_PATTERNS = {
         "preview focus session cleanup",
         "check work session cleanup",
         "preview work cleanup",
+    ],
+    "repair_work_sessions": [
+        "repair work sessions",
+        "repair focus sessions",
+        "fix work sessions",
+        "cleanup work sessions",
     ],
 }
 

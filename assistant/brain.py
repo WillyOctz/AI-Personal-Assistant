@@ -4085,6 +4085,22 @@ def handle_memory_intent(user_input, analysis):
             lines.append(f"- Session {item['index']}: {issue_text}")
             
         return "\n".join(lines)
+    
+    if intent == "repair_work_sessions":
+        result = memory.repair_work_sessions()
+        fixed = result["fixed"]
+        
+        lines = [
+            "Work session repair finished.",
+            f"Total sessions checked: {result['total_sessions']}",
+            f"Missing task fixed: {fixed['missing_task']}",
+            f"Missing duration fixed: {fixed['missing_duration_seconds']}",
+            f"Missing started_at fixed: {fixed['missing_started_at']}",
+            f"Missing ended_at fixed: {fixed['missing_ended_at']}",
+            f"Bad notes fixed: {fixed['bad_notes']}",
+        ]
+        
+        return "\n".join(lines)
 
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()

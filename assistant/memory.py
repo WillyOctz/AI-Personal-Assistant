@@ -1102,6 +1102,46 @@ def preview_work_session_cleanup():
         "issues": issues,
     }
     
+def repair_work_sessions():
+    data = load_memory()
+    sessions = data.get("focus_sessions", [])
+    
+    fixed = {
+        "missing_task": 0,
+        "missing_duration_seconds": 0,
+        "missing_started_at": 0,
+        "missing_ended_at": 0,
+        "bad_notes": 0,
+    }
+    
+    for session in sessions:
+        if not session.get("task"):
+            session["task"] = "Unknown task"
+            fixed["missing_task"] += 1
+
+        if "duration_seconds" not in session:
+            session["duration_seconds"] = 0
+            fixed["missing_duration_seconds"] += 1
+
+        if not session.get("started_at"):
+            session["started_at"] = None
+            fixed["missing_started_at"] += 1
+
+        if not session.get("ended_at"):
+            session["ended_at"] = None
+            fixed["missing_ended_at"] += 1
+
+        if not isinstance(session.get("notes", []), list):
+            session["notes"] = []
+            fixed["bad_notes"] += 1
+            
+    save_memory(data)
+    
+    return {
+        "total_sessions": len(sessions),
+        "fixed": fixed,
+    }
+    
 def get_focus_sessions(limit=5):
     memory = load_memory()
     return memory["focus_sessions"][-limit:]
