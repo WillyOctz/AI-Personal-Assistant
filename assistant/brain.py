@@ -4037,6 +4037,32 @@ def handle_memory_intent(user_input, analysis):
                 )
                 
         return "\n".join(lines)
+    
+    if intent == "work_session_health":
+        health = memory.get_work_session_health()
+        
+        lines = [
+            "Work session health:",
+            f"Total sessions: {health['total_sessions']}",
+            f"Missing task: {health['missing_task']}",
+            f"Missing duration: {health['missing_duration']}",
+            f"Missing started_at: {health['missing_started_at']}",
+            f"Missing ended_at: {health['missing_ended_at']}",
+            f"Bad notes field: {health['bad_notes']}",
+        ]
+        
+        if (
+            health["missing_task"] == 0
+            and health["missing_duration"] == 0
+            and health["missing_started_at"] == 0
+            and health["missing_ended_at"] == 0
+            and health["bad_notes"] == 0
+        ):
+            lines.append("Status: healthy")
+        else:
+            lines.append("Status: needs cleanup")
+            
+        return "\n".join(lines)
 
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()

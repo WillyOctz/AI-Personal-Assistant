@@ -1028,6 +1028,43 @@ def get_work_session_recommendation():
         }
         
     return None
+
+def get_work_session_health():
+    data = load_memory()
+    sessions = data.get("focus_sessions", [])
+    
+    missing_task = 0
+    missing_duration = 0
+    missing_started_at = 0
+    missing_ended_at = 0
+    bad_notes = 0
+    
+    for session in sessions:
+        if not session.get("task"):
+            missing_task += 1
+            
+        if "duration_seconds" not in session:
+            missing_duration += 1
+            
+        if not session.get("started_at"):
+            mmissing_started_at += 1
+            
+        if not session.get("ended_at"):
+            missing_ended_at += 1
+            
+        notes = session.get("notes", [])
+        
+        if not isinstance(notes, list):
+            bad_notes += 1
+            
+    return {
+        "total_sessions": len(sessions),
+        "missing_task": missing_task,
+        "missing_duration": missing_duration,
+        "missing_started_at": missing_started_at,
+        "missing_ended_at": missing_ended_at,
+        "bad_notes": bad_notes,
+    }
     
 def get_focus_sessions(limit=5):
     memory = load_memory()

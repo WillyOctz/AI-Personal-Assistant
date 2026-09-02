@@ -243,6 +243,7 @@ VALID_INTENTS = {
     "work_session_recommendation",
     "start_recommended_work_session",
     "work_session_dashboard",
+    "work_session_health",
 }
 
 CONTROL_INTENTS = {
@@ -491,6 +492,7 @@ MEMORY_INTENTS = {
     "work_session_recommendation",
     "start_recommended_work_session",
     "work_session_dashboard",
+    "work_session_health",
 }
 
 ACTION_INTENTS = {
@@ -1292,6 +1294,12 @@ INTENT_PATTERNS = {
         "work dashboard",
         "focus work dashboard",
         "show work dashboard",
+    ],
+    "work_session_health": [
+        "work session health",
+        "check work sessions",
+        "check focus sessions",
+        "work session data health",
     ],
 }
 
