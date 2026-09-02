@@ -4063,6 +4063,28 @@ def handle_memory_intent(user_input, analysis):
             lines.append("Status: needs cleanup")
             
         return "\n".join(lines)
+    
+    if intent == "preview_work_session_cleanup":
+        preview = memory.preview_work_session_cleanup()
+        
+        lines = [
+            "Work session cleanup preview:",
+            f"Total sessions: {preview['total_sessions']}",
+            f"Problem sessions: {preview['problem_sessions']}",
+        ]
+        
+        if not preview["issues"]:
+            lines.append("No cleanup needed.")
+            return "\n".join(lines)
+        
+        lines.append("")
+        lines.append("Issues:")
+        
+        for item in preview["issues"][:10]:
+            issue_text = ", ".join(item["issues"])
+            lines.append(f"- Session {item['index']}: {issue_text}")
+            
+        return "\n".join(lines)
 
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()

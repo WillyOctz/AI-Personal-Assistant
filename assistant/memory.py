@@ -1066,6 +1066,42 @@ def get_work_session_health():
         "bad_notes": bad_notes,
     }
     
+def preview_work_session_cleanup():
+    data = load_memory()
+    sessions = data.get("focus_sessions", [])
+    
+    issues = []
+    
+    for index, session in enumerate(sessions, start=1):
+        session_issues = []
+
+        if not session.get("task"):
+            session_issues.append("missing task")
+
+        if "duration_seconds" not in session:
+            session_issues.append("missing duration_seconds")
+
+        if not session.get("started_at"):
+            session_issues.append("missing started_at")
+
+        if not session.get("ended_at"):
+            session_issues.append("missing ended_at")
+
+        if not isinstance(session.get("notes", []), list):
+            session_issues.append("notes is not a list")
+
+        if session_issues:
+            issues.append({
+                "index": index,
+                "issues": session_issues,
+            })
+            
+    return {
+        "total_sessions": len(sessions),
+        "problem_sessions": len(issues),
+        "issues": issues,
+    }
+    
 def get_focus_sessions(limit=5):
     memory = load_memory()
     return memory["focus_sessions"][-limit:]

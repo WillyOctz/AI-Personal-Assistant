@@ -46,7 +46,7 @@
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Input: work session health\nExact intent: work_session_health\nPrefix intent: None",
+        "last_response_text": "Input: preview work session cleanup\nExact intent: preview_work_session_cleanup\nPrefix intent: None",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -15337,6 +15337,36 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-02 16:37:03",
+            "importance": 0.1
+        },
+        {
+            "user": "preview work session cleanup",
+            "assistant": "Work session cleanup preview:\nTotal sessions: 31\nProblem sessions: 31\n\nIssues:\n- Session 1: missing duration_seconds\n- Session 2: missing duration_seconds\n- Session 3: missing duration_seconds\n- Session 4: missing duration_seconds\n- Session 5: missing duration_seconds\n- Session 6: missing duration_seconds\n- Session 7: missing duration_seconds\n- Session 8: missing duration_seconds\n- Session 9: missing duration_seconds\n- Session 10: missing duration_seconds",
+            "intent": "preview_work_session_cleanup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-02 16:53:32",
+            "importance": 0.6
+        },
+        {
+            "user": "preview focus session cleanup",
+            "assistant": "Work session cleanup preview:\nTotal sessions: 31\nProblem sessions: 31\n\nIssues:\n- Session 1: missing duration_seconds\n- Session 2: missing duration_seconds\n- Session 3: missing duration_seconds\n- Session 4: missing duration_seconds\n- Session 5: missing duration_seconds\n- Session 6: missing duration_seconds\n- Session 7: missing duration_seconds\n- Session 8: missing duration_seconds\n- Session 9: missing duration_seconds\n- Session 10: missing duration_seconds",
+            "intent": "preview_work_session_cleanup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-02 16:53:42",
+            "importance": 0.6
+        },
+        {
+            "user": "debug route preview work session cleanup",
+            "assistant": "Input: preview work session cleanup\nExact intent: preview_work_session_cleanup\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-02 16:53:48",
             "importance": 0.1
         }
     ],
