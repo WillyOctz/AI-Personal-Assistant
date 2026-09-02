@@ -246,6 +246,7 @@ VALID_INTENTS = {
     "work_session_health",
     "preview_work_session_cleanup",
     "repair_work_sessions",
+    "save_work_session_summary",
 }
 
 CONTROL_INTENTS = {
@@ -497,6 +498,7 @@ MEMORY_INTENTS = {
     "work_session_health",
     "preview_work_session_cleanup",
     "repair_work_sessions",
+    "save_work_session_summary",
 }
 
 ACTION_INTENTS = {
@@ -1316,6 +1318,12 @@ INTENT_PATTERNS = {
         "repair focus sessions",
         "fix work sessions",
         "cleanup work sessions",
+    ],
+    "save_work_session_summary": [
+        "save work session summary",
+        "save work summary",
+        "save focus session summary",
+        "remember work summary",
     ],
 }
 

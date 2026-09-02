@@ -1142,6 +1142,28 @@ def repair_work_sessions():
         "fixed": fixed,
     }
     
+def save_work_session_summary():
+    data = load_memory()
+    summary = get_work_session_summary()
+    
+    if summary["total_sessions"] == 0:
+        return None
+    
+    summaries = data.setdefault("work_session_summaries", [])
+    
+    item = {
+        "timestamp": current_timestamp(),
+        "total_sessions": summary["total_sessions"],
+        "total_seconds": summary["total_seconds"],
+        "top_task": summary["top_task"],
+        "notes_count": summary["notes_count"],
+    }
+    
+    summaries.append(item)
+    save_memory(data)
+    
+    return item
+    
 def get_focus_sessions(limit=5):
     memory = load_memory()
     return memory["focus_sessions"][-limit:]

@@ -4101,6 +4101,26 @@ def handle_memory_intent(user_input, analysis):
         ]
         
         return "\n".join(lines)
+    
+    if intent == "save_work_session_summary":
+        result = memory.save_work_session_summary()
+        
+        if result is None:
+            return "I do not have any completed work sessions to save yet."
+        
+        duration = focus.format_duration_from_seconds(result["total_seconds"])
+        
+        lines = [
+            "Saved work session summary.",
+            f"Total sessions: {result['total_sessions']}",
+            f"Total focus time: {duration}",
+            f"Session notes: {result['notes_count']}",
+        ]
+        
+        if result["top_task"]:
+            lines.append(f"Most worked task: {result['top_task']}")
+            
+        return "\n".join(lines)
 
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()
