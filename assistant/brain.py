@@ -4363,6 +4363,43 @@ def handle_memory_intent(user_input, analysis):
             return "I do not have any completed work sessions to export yet."
         
         return report
+    
+    if intent == "work_next_step":
+        suggestion = memory.get_work_next_step()
+        
+        action = suggestion["action"]
+        task = suggestion["task"]
+        reason = suggestion["reason"]
+
+        if action == "resume":
+            return (
+                "Suggested next step: resume work session.\n"
+                f"Task: {task}\n"
+                f"Reason: {reason}\n"
+                "Use: resume work session"
+            )
+
+        if action == "start":
+            return (
+                "Suggested next step: start work session.\n"
+                f"Task: {task}\n"
+                f"Reason: {reason}\n"
+                "Use: start recommended work session"
+            )
+
+        if action == "review":
+            return (
+                "Suggested next step: review your last work session.\n"
+                f"Last task: {task}\n"
+                f"Reason: {reason}\n"
+                "Use: work session review"
+            )
+
+        return (
+            "Suggested next step: make a plan.\n"
+            f"Reason: {reason}\n"
+            "Use: remind me to task_name"
+        )
         
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()

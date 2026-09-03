@@ -1418,6 +1418,50 @@ def build_work_review_report():
             )
             
     return "\n".join(lines)
+
+def get_work_next_step():
+    data = load_memory()
+    
+    pending_task = data.get("state", {}).get("pending_task")
+    reminders = data.get("reminders", [])
+    sessions = data.get("focus_sessions", [])
+    
+    if pending_task:
+        return {
+            "action": "resume",
+            "task": pending_task,
+            "reason": "You have a paused or pending work task.",
+        }
+        
+    pending_reminders = []
+    
+    for reminder in reminders:
+        if isinstance(reminder, dict):
+            if not reminder.get("done", False):
+                pending_reminders.append(reminder.get("text", ""))
+        elif reminder:
+            pending_reminders.append(reminder)
+            
+    if pending_reminders:
+        return {
+            "action": "start",
+            "task": pending_reminders[0],
+            "reason": "This is your first pending reminder.",
+        }
+        
+    if sessions:
+        latest = sessions[-1]
+        return {
+            "action": "review",
+            "task": latest.get("task", "Unknown task"),
+            "reason": "You have no pending task, so reviewing the last session is useful.",
+        }
+        
+    return {
+        "action": "plan",
+        "task": None,
+        "reason": "You have no pending reminders or completed sessions yet.",
+    }
     
 def get_focus_sessions(limit=5):
     memory = load_memory()
