@@ -4315,6 +4315,47 @@ def handle_memory_intent(user_input, analysis):
             f"Session notes: {review['notes_count']}"
         )
         
+    if intent == "work_review_by_date_range":
+        text = user_input.lower().strip()
+        
+        for prefix in [
+            "work review from",
+            "review work from",
+            "focus review from",
+        ]:
+            if text.startswith(prefix):
+                text = text[len(prefix):].strip()
+                break
+            
+        if " to " not in text:
+            return "Use this format: work review from YYYY-MM-DD to YYYY-MM-DD"
+        
+        start_date, end_date = text.split(" to ", 1)
+        start_date = start_date.strip()
+        end_date = end_date.strip()
+        
+        if not start_date or not end_date:
+            return "Use this format: work review from YYYY-MM-DD to YYYY-MM-DD"
+        
+        review = memory.get_work_review_by_date_range(start_date, end_date)
+
+        if review["total_sessions"] == 0:
+            return f"I do not have completed work sessions from {start_date} to {end_date}."
+
+        total_duration = focus.format_duration_from_seconds(review["total_seconds"])
+
+        lines = [
+            f"Work review from {start_date} to {end_date}:",
+            f"Completed sessions: {review['total_sessions']}",
+            f"Total focus time: {total_duration}",
+            f"Session notes: {review['notes_count']}",
+        ]
+
+        if review["top_task"]:
+            lines.append(f"Main task: {review['top_task']}")
+
+        return "\n".join(lines)
+        
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()
         query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode = parse_memory_query_with_type(query)

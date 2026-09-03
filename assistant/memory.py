@@ -1346,6 +1346,47 @@ def get_work_review_by_date(date_text):
         "sessions": matched_sessions,
     }
     
+def get_work_review_by_date_range(start_date, end_date):
+    data = load_memory()
+    sessions = data.get("focus_sessions", [])
+    
+    matched_sessions = []
+    total_seconds = 0
+    notes_count = 0
+    task_counts = {}
+    
+    for session in sessions:
+        ended_at = str(session.get("ended_at", ""))[:10]
+        
+        if not ended_at:
+            continue
+        
+        if ended_at < start_date or ended_at > end_date:
+            continue
+        
+        matched_sessions.append(session)
+        
+        task = session.get("task", "Unknown task")
+        task_counts[task] = task_counts.get(task, 0) + 1
+        
+        total_seconds += session.get("duration_seconds", 0)
+        notes_count += len(session.get("notes", []))
+        
+    top_task = None
+    
+    if task_counts:
+        top_task = max(task_counts, key=task_counts.get)
+        
+    return {
+        "start_date": start_date,
+        "end_date": end_date,
+        "total_sessions": len(matched_sessions),
+        "total_seconds": total_seconds,
+        "notes_count": notes_count,
+        "top_task": top_task,
+        "sessions": matched_sessions,
+    }
+    
 def get_focus_sessions(limit=5):
     memory = load_memory()
     return memory["focus_sessions"][-limit:]

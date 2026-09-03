@@ -254,6 +254,7 @@ VALID_INTENTS = {
     "weekly_work_review",
     "work_review_by_task",
     "work_review_by_date",
+    "work_review_by_date_range",
 }
 
 CONTROL_INTENTS = {
@@ -513,6 +514,7 @@ MEMORY_INTENTS = {
     "weekly_work_review",
     "work_review_by_task",
     "work_review_by_date",
+    "work_review_by_date_range",
 }
 
 ACTION_INTENTS = {
@@ -1378,6 +1380,11 @@ INTENT_PATTERNS = {
         "review work by date",
         "focus review by date",
     ],
+    "work_review_by_date_range": [
+        "work review by date range",
+        "review work by date range",
+        "focus review by date range",
+    ],
 }
 
 INTENT_PREFIXES = {
@@ -1734,6 +1741,11 @@ INTENT_PREFIXES = {
         "review work by date ",
         "focus review by date ",
     ],
+    "work_review_by_date_range": [
+        "work review from ",
+        "review work from ",
+        "focus review from ",
+    ]
 }
 
 PREFIX_INTENT_ORDER = [
@@ -1775,6 +1787,7 @@ PREFIX_INTENT_ORDER = [
     "search_focus_sessions",
     "delete_work_session_note",
     "work_review_by_task",
+    "work_review_by_date_range",
     "work_review_by_date",
 
     "preview_restore_app_registry_backup",

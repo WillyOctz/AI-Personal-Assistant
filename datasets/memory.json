@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "work_review_by_date",
+        "last_response_intent": "work_review_by_date_range",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Which date should I review? Use YYYY-MM-DD.",
+        "last_response_text": "Use this format: work review from YYYY-MM-DD to YYYY-MM-DD",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -15667,6 +15667,36 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-03 18:37:28",
+            "importance": 0.6
+        },
+        {
+            "user": "work review from 2026-09-01 to 2026-09-03",
+            "assistant": "Work review from 2026-09-01 to 2026-09-03:\nCompleted sessions: 6\nTotal focus time: 0 seconds\nSession notes: 0\nMain task: i like music",
+            "intent": "work_review_by_date_range",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-03 19:15:20",
+            "importance": 0.6
+        },
+        {
+            "user": "review work from 2026-09-01 to 2026-09-03",
+            "assistant": "Work review from 2026-09-01 to 2026-09-03:\nCompleted sessions: 6\nTotal focus time: 0 seconds\nSession notes: 0\nMain task: i like music",
+            "intent": "work_review_by_date_range",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-03 19:15:24",
+            "importance": 0.6
+        },
+        {
+            "user": "work review by date range",
+            "assistant": "Use this format: work review from YYYY-MM-DD to YYYY-MM-DD",
+            "intent": "work_review_by_date_range",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-03 19:15:27",
             "importance": 0.6
         }
     ],
