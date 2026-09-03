@@ -4209,7 +4209,30 @@ def handle_memory_intent(user_input, analysis):
             f"Top task: {top_task}"
         )
         
-
+    if intent == "today_work_review":
+        review = memory.get_today_work_review()
+        
+        if review["total_sessions"] == 0:
+            return f"I do not have any completed work sessions for today ({review['date']}) yet."
+        
+        total_duration = focus.format_duration_from_seconds(review["total_seconds"])
+        
+        lines = [
+            f"Today work review: {review['date']}",
+            f"Completed sessions: {review['total_sessions']}",
+            f"Total focus time: {total_duration}",
+            f"Session notes: {review['notes_count']}",
+        ]
+        
+        if review["top_task"]:
+            lines.append(f"Main task: {review['top_task']}")
+            
+        if get_focus_mode():
+            lines.append("")
+            lines.append(f"Currently active: {get_focus_task()}")
+            
+        return "\n".join(lines)
+        
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()
         query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode = parse_memory_query_with_type(query)

@@ -34,19 +34,19 @@
     ],
     "state": {
         "pending_confirmation": null,
-        "pending_task": "i like music",
+        "pending_task": null,
         "focus_mode": false,
         "focus_task": null,
         "focus_started_at": null,
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_work_session_summaries",
+        "last_response_intent": "today_work_review",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Saved work session summaries:\n1. 2026-09-02 18:15:47 | 31 session(s) | 0 seconds | top task: i like music",
+        "last_response_text": "Today work review: 2026-09-03\nCompleted sessions: 1\nTotal focus time: 0 seconds\nSession notes: 0\nMain task: i like music",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -15528,6 +15528,46 @@
             "source": "rule",
             "timestamp": "2026-09-02 19:33:24",
             "importance": 0.6
+        },
+        {
+            "user": "today work review",
+            "assistant": "I do not have any completed work sessions for today (2026-09-03) yet.",
+            "intent": "today_work_review",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-03 16:25:26",
+            "importance": 0.6
+        },
+        {
+            "user": "start recommended work session",
+            "assistant": "Started recommended work session.\nTask: i like music\nReason: This is your first available pending reminder.",
+            "intent": "start_recommended_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-03 16:25:33",
+            "importance": 0.6
+        },
+        {
+            "user": "end work session",
+            "assistant": "Work session ended.\nFocus session summary:\nTask: i like music\nDuration: 5 seconds\nNotes: 0",
+            "intent": "end_work_session",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-03 16:25:37",
+            "importance": 0.6
+        },
+        {
+            "user": "today work review",
+            "assistant": "Today work review: 2026-09-03\nCompleted sessions: 1\nTotal focus time: 0 seconds\nSession notes: 0\nMain task: i like music",
+            "intent": "today_work_review",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-03 16:25:40",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -15812,6 +15852,13 @@
             "duration": "15 minutes",
             "notes": [],
             "duration_seconds": 0
+        },
+        {
+            "task": "i like music",
+            "started_at": "2026-09-03 16:25:32",
+            "ended_at": "2026-09-03 16:25:37",
+            "duration": "5 seconds",
+            "notes": []
         }
     ],
     "app_registry": {

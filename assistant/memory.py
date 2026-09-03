@@ -1204,6 +1204,45 @@ def delete_work_session_summary(index):
 def get_work_session_summaries():
     data = load_memory()
     return data.get("work_session_summaries", [])
+
+def get_today_work_review():
+    data = load_memory()
+    sessions = data.get("focus_sessions", [])
+    
+    today = current_timestamp()[:10]
+    
+    today_sessions = []
+    total_seconds = 0
+    notes_count = 0
+    task_counts = {}
+    
+    for session in sessions:
+        ended_at =  session.get("ended_at", "")
+        
+        if not str(ended_at).startswith(today):
+            continue
+        
+        today_sessions.append(session)
+        
+        task = session.get("task", "Unknown task")
+        task_counts[task] = task_counts.get(task, 0) + 1
+        
+        total_seconds += session.get("duration_seconds", 0)
+        notes_count += len(session.get("notes", []))
+        
+    top_task = None
+    
+    if task_counts:
+        top_task = max(task_counts, key=task_counts.get)
+        
+    return {
+        "date": today,
+        "total_sessions": len(today_sessions),
+        "total_seconds": total_seconds,
+        "notes_count": notes_count,
+        "top_task": top_task,
+        "sessions": today_sessions,
+    }
     
 def get_focus_sessions(limit=5):
     memory = load_memory()
