@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "work_review_by_date_range",
+        "last_response_intent": "export_work_review",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Use this format: work review from YYYY-MM-DD to YYYY-MM-DD",
+        "last_response_text": "Work Review Report\n\nTotal sessions: 32\nTotal seconds: 0\nSession notes: 10\nMost worked task: i like music\n\nTask breakdown:\n- sweep: 2 session(s), 0 second(s), 0 note(s)\n- interview tomorrow: 7 session(s), 0 second(s), 8 note(s)\n- code today: 4 session(s), 0 second(s), 1 note(s)\n- work toward your goal - to build best AI assistant: 2 session(s), 0 second(s), 0 note(s)\n- i like music: 16 session(s), 0 second(s), 1 note(s)\n- continue my ai personal assistant: 1 session(s), 0 second(s), 0 note(s)",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -15697,6 +15697,26 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-03 19:15:27",
+            "importance": 0.6
+        },
+        {
+            "user": "export work review",
+            "assistant": "Work Review Report\n\nTotal sessions: 32\nTotal seconds: 0\nSession notes: 10\nMost worked task: i like music\n\nTask breakdown:\n- sweep: 2 session(s), 0 second(s), 0 note(s)\n- interview tomorrow: 7 session(s), 0 second(s), 8 note(s)\n- code today: 4 session(s), 0 second(s), 1 note(s)\n- work toward your goal - to build best AI assistant: 2 session(s), 0 second(s), 0 note(s)\n- i like music: 16 session(s), 0 second(s), 1 note(s)\n- continue my ai personal assistant: 1 session(s), 0 second(s), 0 note(s)",
+            "intent": "export_work_review",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-03 19:25:05",
+            "importance": 0.6
+        },
+        {
+            "user": "generate work report",
+            "assistant": "Work Review Report\n\nTotal sessions: 32\nTotal seconds: 0\nSession notes: 10\nMost worked task: i like music\n\nTask breakdown:\n- sweep: 2 session(s), 0 second(s), 0 note(s)\n- interview tomorrow: 7 session(s), 0 second(s), 8 note(s)\n- code today: 4 session(s), 0 second(s), 1 note(s)\n- work toward your goal - to build best AI assistant: 2 session(s), 0 second(s), 0 note(s)\n- i like music: 16 session(s), 0 second(s), 1 note(s)\n- continue my ai personal assistant: 1 session(s), 0 second(s), 0 note(s)",
+            "intent": "export_work_review",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-03 19:25:13",
             "importance": 0.6
         }
     ],

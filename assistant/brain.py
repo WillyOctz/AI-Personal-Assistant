@@ -4355,6 +4355,14 @@ def handle_memory_intent(user_input, analysis):
             lines.append(f"Main task: {review['top_task']}")
 
         return "\n".join(lines)
+    
+    if intent == "export_work_review":
+        report = memory.build_work_review_report()
+        
+        if report is None:
+            return "I do not have any completed work sessions to export yet."
+        
+        return report
         
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()

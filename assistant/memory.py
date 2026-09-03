@@ -1387,6 +1387,38 @@ def get_work_review_by_date_range(start_date, end_date):
         "sessions": matched_sessions,
     }
     
+def build_work_review_report():
+    summary = get_work_session_summary()
+    breakdown = get_work_session_task_breakdown()
+    
+    if summary["total_sessions"] == 0:
+        return None
+    
+    lines = [
+        "Work Review Report",
+        "",
+        f"Total sessions: {summary['total_sessions']}",
+        f"Total seconds: {summary['total_seconds']}",
+        f"Session notes: {summary['notes_count']}",
+    ]
+    
+    if summary["top_task"]:
+        lines.append(f"Most worked task: {summary['top_task']}")
+        
+    if breakdown:
+        lines.append("")
+        lines.append("Task breakdown:")
+        
+        for item in breakdown:
+            lines.append(
+                f"- {item['task']}: "
+                f"{item['sessions']} session(s), "
+                f"{item['total_seconds']} second(s), "
+                f"{item['notes']} note(s)"
+            )
+            
+    return "\n".join(lines)
+    
 def get_focus_sessions(limit=5):
     memory = load_memory()
     return memory["focus_sessions"][-limit:]

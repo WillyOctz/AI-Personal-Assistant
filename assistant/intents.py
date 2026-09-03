@@ -255,6 +255,7 @@ VALID_INTENTS = {
     "work_review_by_task",
     "work_review_by_date",
     "work_review_by_date_range",
+    "export_work_review",
 }
 
 CONTROL_INTENTS = {
@@ -515,6 +516,7 @@ MEMORY_INTENTS = {
     "work_review_by_task",
     "work_review_by_date",
     "work_review_by_date_range",
+    "export_work_review",
 }
 
 ACTION_INTENTS = {
@@ -1384,6 +1386,12 @@ INTENT_PATTERNS = {
         "work review by date range",
         "review work by date range",
         "focus review by date range",
+    ],
+    "export_work_review": [
+        "export work review",
+        "export work report",
+        "generate work report",
+        "make work review report",
     ],
 }
 
