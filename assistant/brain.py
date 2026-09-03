@@ -4286,6 +4286,35 @@ def handle_memory_intent(user_input, analysis):
             f"Session notes: {review['notes_count']}"
         )
         
+    if intent == "work_review_by_date":
+        date_text = user_input
+        
+        for prefix in [
+            "work review by date",
+            "review work by date",
+            "focus review by date",
+        ]:
+            if date_text.lower().startswith(prefix):
+                date_text = date_text[len(prefix):].strip()
+                break
+            
+        if not date_text:
+            return "Which date should I review? Use YYYY-MM-DD."
+        
+        review = memory.get_work_review_by_date(date_text)
+        
+        if review["total_sessions"] == 0:
+            return f"I do not have completed work sessions for date: {date_text}"
+        
+        total_duration = focus.format_duration_from_seconds(review["total_seconds"])
+        
+        return (
+            f"Work review for date: {date_text}\n"
+            f"Completed sessions: {review['total_sessions']}\n"
+            f"Total focus time: {total_duration}\n"
+            f"Session notes: {review['notes_count']}"
+        )
+        
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()
         query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode = parse_memory_query_with_type(query)
