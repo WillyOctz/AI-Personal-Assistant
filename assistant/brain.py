@@ -4038,6 +4038,42 @@ def handle_memory_intent(user_input, analysis):
                 
         return "\n".join(lines)
     
+    if intent == "work_command_dashboard":
+        return (
+            "Work commands:\n"
+            "- start work session\n"
+            "- pause work session\n"
+            "- resume work session\n"
+            "- end work session\n"
+            "- work session status\n"
+            "- work session plan\n"
+            "- start planned work session\n"
+            "- work session review\n"
+            "- add work session note your note\n"
+            "- show work session notes\n"
+            "- search work session notes keyword\n"
+            "- delete work session note session_number note_number\n"
+            "- work session summary\n"
+            "- work session task breakdown\n"
+            "- work session recommendation\n"
+            "- start recommended work session\n"
+            "- work session dashboard\n"
+            "- work session health\n"
+            "- preview work session cleanup\n"
+            "- repair work sessions\n"
+            "- save work session summary\n"
+            "- show saved work summaries\n"
+            "- search saved work summaries keyword\n"
+            "- delete saved work summary number\n"
+            "- today work review\n"
+            "- weekly work review\n"
+            "- work review by task task_name\n"
+            "- work review by date YYYY-MM-DD\n"
+            "- work review from YYYY-MM-DD to YYYY-MM-DD\n"
+            "- export work review\n"
+            "- work next step"
+        )
+    
     if intent == "work_session_health":
         health = memory.get_work_session_health()
         

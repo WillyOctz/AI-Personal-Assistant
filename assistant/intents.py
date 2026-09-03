@@ -257,6 +257,7 @@ VALID_INTENTS = {
     "work_review_by_date_range",
     "export_work_review",
     "work_next_step",
+    "work_command_dashboard",
 }
 
 CONTROL_INTENTS = {
@@ -519,6 +520,7 @@ MEMORY_INTENTS = {
     "work_review_by_date_range",
     "export_work_review",
     "work_next_step",
+    "work_command_dashboard",
 }
 
 ACTION_INTENTS = {
@@ -1400,6 +1402,12 @@ INTENT_PATTERNS = {
         "next work step",
         "what should i do next",
         "suggest next work step",
+    ],
+    "work_command_dashboard": [
+        "work command dashboard",
+        "work commands",
+        "show work commands",
+        "focus work commands",
     ],
 }
 
