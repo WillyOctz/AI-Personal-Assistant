@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "today_work_review",
+        "last_response_intent": "weekly_work_review",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Today work review: 2026-09-03\nCompleted sessions: 1\nTotal focus time: 0 seconds\nSession notes: 0\nMain task: i like music",
+        "last_response_text": "Weekly work review:\nRange: 2026-08-27 to 2026-09-03\nCompleted sessions: 19\nTotal focus time: 0 seconds\nSession notes: 1\nMain task: i like music",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -15567,6 +15567,26 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-03 16:25:40",
+            "importance": 0.6
+        },
+        {
+            "user": "weekly work review",
+            "assistant": "Weekly work review:\nRange: 2026-08-27 to 2026-09-03\nCompleted sessions: 19\nTotal focus time: 0 seconds\nSession notes: 1\nMain task: i like music",
+            "intent": "weekly_work_review",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-03 17:32:20",
+            "importance": 0.6
+        },
+        {
+            "user": "review weekly work",
+            "assistant": "Weekly work review:\nRange: 2026-08-27 to 2026-09-03\nCompleted sessions: 19\nTotal focus time: 0 seconds\nSession notes: 1\nMain task: i like music",
+            "intent": "weekly_work_review",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-03 17:32:25",
             "importance": 0.6
         }
     ],

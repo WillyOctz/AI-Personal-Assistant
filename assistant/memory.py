@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timedelta
 
 MEMORY_FILE = Path("datasets/memory.json")
 
@@ -1242,6 +1242,55 @@ def get_today_work_review():
         "notes_count": notes_count,
         "top_task": top_task,
         "sessions": today_sessions,
+    }
+    
+def get_weekly_work_review():
+    data = load_memory()
+    sessions = data.get("focus_sessions", [])
+    
+    now = datetime.now()
+    start_date = now - timedelta(days=7)
+    
+    week_sessions = []
+    total_seconds = 0
+    notes_count = 0
+    task_counts = {}
+    
+    for session in sessions:
+        ended_at = session.get("ended_at")
+        
+        if not ended_at:
+            continue
+        
+        try:
+            ended_date = datetime.fromisoformat(ended_at)
+        except ValueError:
+            continue
+        
+        if ended_date < start_date:
+            continue
+        
+        week_sessions.append(session)
+        
+        task = session.get("task", "Unknown task")
+        task_counts[task] = task_counts.get(task, 0) + 1
+        
+        total_seconds += session.get("duration_seconds", 0)
+        notes_count += len(session.get("notes", []))
+        
+    top_task = None
+    
+    if task_counts:
+        top_task = max(task_counts, key=task_counts.get)
+        
+    return {
+        "start_date": start_date.strftime("%Y-%m-%d"),
+        "end_date": now.strftime("%Y-%m-%d"),
+        "total_sessions": len(week_sessions),
+        "total_seconds": total_seconds,
+        "notes_count": notes_count,
+        "top_task": top_task,
+        "sessions": week_sessions,
     }
     
 def get_focus_sessions(limit=5):

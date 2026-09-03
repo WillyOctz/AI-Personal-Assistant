@@ -251,6 +251,7 @@ VALID_INTENTS = {
     "search_work_session_summaries",
     "delete_work_session_summary",
     "today_work_review",
+    "weekly_work_review",
 }
 
 CONTROL_INTENTS = {
@@ -507,6 +508,7 @@ MEMORY_INTENTS = {
     "search_work_session_summaries",
     "delete_work_session_summary",
     "today_work_review",
+    "weekly_work_review",
 }
 
 ACTION_INTENTS = {
@@ -1354,6 +1356,13 @@ INTENT_PATTERNS = {
         "review today work",
         "today focus review",
         "how did i work today",
+    ],
+    "weekly_work_review": [
+        "weekly work review",
+        "review weekly work",
+        "this week work review",
+        "weekly focus review",
+        "how did i work this week",
     ],
 }
 
