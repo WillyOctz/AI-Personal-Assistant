@@ -4256,6 +4256,35 @@ def handle_memory_intent(user_input, analysis):
             lines.append(f"Main task: {review['top_task']}")
             
         return "\n".join(lines)
+    
+    if intent == "work_review_by_task":
+        query = user_input
+        
+        for prefix in [
+            "work review by task",
+            "review work by task",
+            "focus review by task",
+        ]:
+            if query.lower().startswith(prefix):
+                query = query[len(prefix):].strip()
+                break
+            
+        if not query:
+            return "Which task should I review?"
+        
+        review = memory.get_work_review_by_task(query)
+        
+        if review["total_sessions"] == 0:
+            return f"I do not have completed work sessions for task: {query}"
+        
+        total_duration = focus.format_duration_from_seconds(review["total_seconds"])
+        
+        return (
+            f"Work review for task: {query}\n"
+            f"Completed sessions: {review['total_sessions']}\n"
+            f"Total focus time: {total_duration}\n"
+            f"Session notes: {review['notes_count']}"
+        )
         
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()

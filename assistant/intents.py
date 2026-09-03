@@ -252,6 +252,7 @@ VALID_INTENTS = {
     "delete_work_session_summary",
     "today_work_review",
     "weekly_work_review",
+    "work_review_by_task",
 }
 
 CONTROL_INTENTS = {
@@ -509,6 +510,7 @@ MEMORY_INTENTS = {
     "delete_work_session_summary",
     "today_work_review",
     "weekly_work_review",
+    "work_review_by_task",
 }
 
 ACTION_INTENTS = {
@@ -1364,6 +1366,11 @@ INTENT_PATTERNS = {
         "weekly focus review",
         "how did i work this week",
     ],
+    "work_review_by_task": [
+        "work review by task",
+        "review work by task",
+        "focus review by task",
+    ],
 }
 
 INTENT_PREFIXES = {
@@ -1710,6 +1717,11 @@ INTENT_PREFIXES = {
         "delete saved work summary ",
         "remove work summary ",
     ],
+    "work_review_by_task": [
+        "work review by task ",
+        "review work by task ",
+        "focus review by task ",
+    ],
 }
 
 PREFIX_INTENT_ORDER = [
@@ -1750,6 +1762,7 @@ PREFIX_INTENT_ORDER = [
     "search_focus_notes",
     "search_focus_sessions",
     "delete_work_session_note",
+    "work_review_by_task",
 
     "preview_restore_app_registry_backup",
     "restore_app_registry_backup",

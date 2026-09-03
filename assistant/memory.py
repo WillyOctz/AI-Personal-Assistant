@@ -1293,6 +1293,33 @@ def get_weekly_work_review():
         "sessions": week_sessions,
     }
     
+def get_work_review_by_task(query):
+    data = load_memory()
+    sessions = data.get("focus_sessions", [])
+    query = query.lower().strip()
+    
+    matched_sessions = []
+    total_seconds = 0
+    notes_count = 0
+    
+    for session in sessions:
+        task = str(session.get("task", ""))
+        
+        if query not in task.lower():
+            continue
+        
+        matched_sessions.append(session)
+        total_seconds += session.get("duration_seconds", 0)
+        notes_count += len(session.get("notes", []))
+        
+    return {
+        "query": query,
+        "total_sessions": len(matched_sessions),
+        "total_seconds": total_seconds,
+        "notes_count": notes_count,
+        "sessions": matched_sessions,
+    }
+    
 def get_focus_sessions(limit=5):
     memory = load_memory()
     return memory["focus_sessions"][-limit:]
