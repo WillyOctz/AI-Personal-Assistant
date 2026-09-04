@@ -1463,6 +1463,47 @@ def get_work_next_step():
         "reason": "You have no pending reminders or completed sessions yet.",
     }
     
+def get_due_reminders():
+    data = load_memory()
+    reminders = data.get("reminders", [])
+    
+    today = current_timestamp()[:10]
+    
+    due = []
+    overdue = []
+    
+    for index, reminder in enumerate(reminders, start=1):
+        if not isinstance(reminder, dict):
+            continue
+        
+        if reminder.get("done", False):
+            continue
+        
+        text = reminder.get("text", "")
+        due_date = reminder.get("due")
+        
+        if not due_date:
+            continue
+        
+        due_day = str(due_date)[:10]
+        
+        item = {
+            "index": index,
+            "text": text,
+            "due": due_date,
+        }
+        
+        if due_day == today:
+            due.append(item)
+        elif due_day < today:
+            overdue.append(item)
+            
+    return {
+        "today": today,
+        "due": due,
+        "overdue": overdue,
+    }
+    
 def get_focus_sessions(limit=5):
     memory = load_memory()
     return memory["focus_sessions"][-limit:]

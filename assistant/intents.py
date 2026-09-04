@@ -258,6 +258,7 @@ VALID_INTENTS = {
     "export_work_review",
     "work_next_step",
     "work_command_dashboard",
+    "check_due_reminders",
 }
 
 CONTROL_INTENTS = {
@@ -521,6 +522,7 @@ MEMORY_INTENTS = {
     "export_work_review",
     "work_next_step",
     "work_command_dashboard",
+    "check_due_reminders",
 }
 
 ACTION_INTENTS = {
@@ -1408,6 +1410,13 @@ INTENT_PATTERNS = {
         "work commands",
         "show work commands",
         "focus work commands",
+    ],
+    "check_due_reminders": [
+        "check due reminders",
+        "check reminders due",
+        "due reminder check",
+        "notification check",
+        "check notifications",
     ],
 }
 

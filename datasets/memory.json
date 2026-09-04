@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "work_command_dashboard",
+        "last_response_intent": "check_due_reminders",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Work commands:\n- start work session\n- pause work session\n- resume work session\n- end work session\n- work session status\n- work session plan\n- start planned work session\n- work session review\n- add work session note your note\n- show work session notes\n- search work session notes keyword\n- delete work session note session_number note_number\n- work session summary\n- work session task breakdown\n- work session recommendation\n- start recommended work session\n- work session dashboard\n- work session health\n- preview work session cleanup\n- repair work sessions\n- save work session summary\n- show saved work summaries\n- search saved work summaries keyword\n- delete saved work summary number\n- today work review\n- weekly work review\n- work review by task task_name\n- work review by date YYYY-MM-DD\n- work review from YYYY-MM-DD to YYYY-MM-DD\n- export work review\n- work next step",
+        "last_response_text": "No due reminders for today (2026-09-04).",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -15797,6 +15797,26 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-03 20:06:05",
+            "importance": 0.6
+        },
+        {
+            "user": "check due reminders",
+            "assistant": "No due reminders for today (2026-09-04).",
+            "intent": "check_due_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 16:24:40",
+            "importance": 0.6
+        },
+        {
+            "user": "check notifications",
+            "assistant": "No due reminders for today (2026-09-04).",
+            "intent": "check_due_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 16:24:45",
             "importance": 0.6
         }
     ],

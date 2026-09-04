@@ -4073,6 +4073,33 @@ def handle_memory_intent(user_input, analysis):
             "- export work review\n"
             "- work next step"
         )
+        
+    if intent == "check_due_reminders":
+        result = memory.get_due_reminders()
+        
+        due = result["due"]
+        overdue = result["overdue"]
+        
+        if not due and not overdue:
+            return f"No due reminders for today ({result['today']})."
+        
+        lines = [f"Reminder notification check: {result['today']}"]
+        
+        if overdue:
+            lines.append("")
+            lines.append("Overdue:")
+            
+            for item in overdue:
+                lines.append(f"- {item['index']}. {item['text']} | due: {item['due']}")
+                
+        if due:
+            lines.append("")
+            lines.append("Due today:")
+            
+            for item in due:
+                lines.append(f"- {item['index']}. {item['text']} | due: {item['due']}")
+                
+        return "\n".join(lines)
     
     if intent == "work_session_health":
         health = memory.get_work_session_health()
