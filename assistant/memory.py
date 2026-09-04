@@ -1513,6 +1513,10 @@ def get_notified_reminder_keys():
     data = load_memory()
     return data.get("notified_reminders", [])
 
+def get_notification_history():
+    data = load_memory()
+    return data.get("notified_reminders", [])
+
 def make_reminder_notification_key(index, reminder):
     text = reminder.get("text", "")
     due = reminder.get("due", "")

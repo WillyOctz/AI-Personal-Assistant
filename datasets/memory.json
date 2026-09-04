@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "check_due_reminders",
+        "last_response_intent": "show_notification_history",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "No due reminders for today (2026-09-04).",
+        "last_response_text": "No reminders have been marked as notified yet.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -15827,6 +15827,26 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-04 16:35:07",
+            "importance": 0.6
+        },
+        {
+            "user": "notification history",
+            "assistant": "No reminders have been marked as notified yet.",
+            "intent": "show_notification_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 16:46:39",
+            "importance": 0.6
+        },
+        {
+            "user": "show notified reminders",
+            "assistant": "No reminders have been marked as notified yet.",
+            "intent": "show_notification_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 16:46:43",
             "importance": 0.6
         }
     ],

@@ -4105,6 +4105,19 @@ def handle_memory_intent(user_input, analysis):
                 
         return "\n".join(lines)
     
+    if intent == "show_notification_history":
+        history = memory.get_notification_history()
+        
+        if not history:
+            return "No reminders have been marked as notified yet."
+        
+        lines = ["Notification history:"]
+        
+        for index, item in enumerate(history, start=1):
+            lines.append(f"{index}. {item}")
+            
+        return "\n".join(lines)
+    
     if intent == "work_session_health":
         health = memory.get_work_session_health()
         

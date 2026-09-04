@@ -259,6 +259,7 @@ VALID_INTENTS = {
     "work_next_step",
     "work_command_dashboard",
     "check_due_reminders",
+    "show_notification_history",
 }
 
 CONTROL_INTENTS = {
@@ -523,6 +524,7 @@ MEMORY_INTENTS = {
     "work_next_step",
     "work_command_dashboard",
     "check_due_reminders",
+    "show_notification_history",
 }
 
 ACTION_INTENTS = {
@@ -1417,6 +1419,12 @@ INTENT_PATTERNS = {
         "due reminder check",
         "notification check",
         "check notifications",
+    ],
+    "show_notification_history": [
+        "show notification history",
+        "notification history",
+        "show notified reminders",
+        "notified reminders",
     ],
 }
 
