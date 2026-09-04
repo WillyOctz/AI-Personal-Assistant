@@ -1509,6 +1509,15 @@ def get_due_reminders():
         "overdue": overdue,
     }
     
+def clear_notification_history():
+    data = load_memory()
+    count = len(data.get("notified_reminders", []))
+    
+    data["notified_reminders"] = []
+    save_memory(data)
+    
+    return count
+    
 def get_notified_reminder_keys():
     data = load_memory()
     return data.get("notified_reminders", [])

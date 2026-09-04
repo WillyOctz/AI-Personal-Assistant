@@ -260,6 +260,7 @@ VALID_INTENTS = {
     "work_command_dashboard",
     "check_due_reminders",
     "show_notification_history",
+    "clear_notification_history",
 }
 
 CONTROL_INTENTS = {
@@ -525,6 +526,7 @@ MEMORY_INTENTS = {
     "work_command_dashboard",
     "check_due_reminders",
     "show_notification_history",
+    "clear_notification_history",
 }
 
 ACTION_INTENTS = {
@@ -1425,6 +1427,12 @@ INTENT_PATTERNS = {
         "notification history",
         "show notified reminders",
         "notified reminders",
+    ],
+    "clear_notification_history": [
+        "clear notification history",
+        "reset notification history",
+        "clear notified reminders",
+        "reset notified reminders",
     ],
 }
 

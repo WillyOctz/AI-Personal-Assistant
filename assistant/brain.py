@@ -4118,6 +4118,11 @@ def handle_memory_intent(user_input, analysis):
             
         return "\n".join(lines)
     
+    if intent == "clear_notification_history":
+        count = memory.clear_notification_history()
+        
+        return f"Cleared notification history. Removed {count} item(s)."
+    
     if intent == "work_session_health":
         health = memory.get_work_session_health()
         

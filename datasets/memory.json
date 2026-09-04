@@ -15848,6 +15848,36 @@
             "source": "rule",
             "timestamp": "2026-09-04 16:46:43",
             "importance": 0.6
+        },
+        {
+            "user": "notification history",
+            "assistant": "No reminders have been marked as notified yet.",
+            "intent": "show_notification_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 17:10:22",
+            "importance": 0.6
+        },
+        {
+            "user": "clear notification history",
+            "assistant": "Cleared notification history. Removed 0 item(s).",
+            "intent": "clear_notification_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 17:10:26",
+            "importance": 0.6
+        },
+        {
+            "user": "notification history",
+            "assistant": "No reminders have been marked as notified yet.",
+            "intent": "show_notification_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 17:10:30",
+            "importance": 0.6
         }
     ],
     "summaries": [
