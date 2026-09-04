@@ -4123,6 +4123,16 @@ def handle_memory_intent(user_input, analysis):
         
         return f"Cleared notification history. Removed {count} item(s)."
     
+    if intent == "notification_summary":
+        summary = memory.get_notification_summary()
+        
+        return (
+            f"Notification summary: {summary['today']}\n"
+            f"Due today: {summary['due']}\n"
+            f"Overdue: {summary['overdue']}\n"
+            f"Already notified: {summary['notified']}"
+        )
+    
     if intent == "work_session_health":
         health = memory.get_work_session_health()
         

@@ -1517,6 +1517,17 @@ def clear_notification_history():
     save_memory(data)
     
     return count
+
+def get_notification_summary():
+    due_result = get_due_reminders()
+    notified = get_notification_history()
+    
+    return {
+        "today": due_result["today"],
+        "due": len(due_result["due"]),
+        "overdue": len(due_result["overdue"]),
+        "notified": len(notified),
+    }
     
 def get_notified_reminder_keys():
     data = load_memory()

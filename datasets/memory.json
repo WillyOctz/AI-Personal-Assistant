@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_notification_history",
+        "last_response_intent": "notification_summary",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "No reminders have been marked as notified yet.",
+        "last_response_text": "Notification summary: 2026-09-04\nDue today: 0\nOverdue: 0\nAlready notified: 0",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -15877,6 +15877,106 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-04 17:10:30",
+            "importance": 0.6
+        },
+        {
+            "user": "notification summary",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "notification_summary",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 17:15:35",
+            "importance": 0.1
+        },
+        {
+            "user": "notification stats",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "notification_summary",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 17:15:46",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route notification summary",
+            "assistant": "Input: notification summary\nExact intent: notification_summary\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 17:16:49",
+            "importance": 0.1
+        },
+        {
+            "user": "notification summary",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "notification_summary",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 17:17:01",
+            "importance": 0.1
+        },
+        {
+            "user": "notification stats",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "notification_summary",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 17:17:07",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route notification summary",
+            "assistant": "Input: notification summary\nExact intent: notification_summary\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 17:17:13",
+            "importance": 0.1
+        },
+        {
+            "user": "notification stats",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "notification_summary",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 17:20:29",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route notification stats",
+            "assistant": "Input: notification stats\nExact intent: notification_summary\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 17:20:34",
+            "importance": 0.1
+        },
+        {
+            "user": "notification summary",
+            "assistant": "I do not understand that yet. You can teach me with: teach message as intent_name",
+            "intent": "notification_summary",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 17:20:38",
+            "importance": 0.1
+        },
+        {
+            "user": "notification summary",
+            "assistant": "Notification summary: 2026-09-04\nDue today: 0\nOverdue: 0\nAlready notified: 0",
+            "intent": "notification_summary",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 17:22:47",
             "importance": 0.6
         }
     ],
