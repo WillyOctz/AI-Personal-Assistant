@@ -15818,6 +15818,16 @@
             "source": "rule",
             "timestamp": "2026-09-04 16:24:45",
             "importance": 0.6
+        },
+        {
+            "user": "check due reminders",
+            "assistant": "No due reminders for today (2026-09-04).",
+            "intent": "check_due_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 16:35:07",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -16726,5 +16736,6 @@
             "top_task": "i like music",
             "notes_count": 10
         }
-    ]
+    ],
+    "notified_reminders": []
 }

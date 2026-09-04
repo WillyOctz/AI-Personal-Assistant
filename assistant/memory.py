@@ -1471,6 +1471,7 @@ def get_due_reminders():
     
     due = []
     overdue = []
+    notified = get_notified_reminder_keys()
     
     for index, reminder in enumerate(reminders, start=1):
         if not isinstance(reminder, dict):
@@ -1491,7 +1492,11 @@ def get_due_reminders():
             "index": index,
             "text": text,
             "due": due_date,
+            "notification_key": make_reminder_notification_key(index, reminder),
         }
+        
+        if item["notification_key"] in notified:
+            continue
         
         if due_day == today:
             due.append(item)
@@ -1503,6 +1508,37 @@ def get_due_reminders():
         "due": due,
         "overdue": overdue,
     }
+    
+def get_notified_reminder_keys():
+    data = load_memory()
+    return data.get("notified_reminders", [])
+
+def make_reminder_notification_key(index, reminder):
+    text = reminder.get("text", "")
+    due = reminder.get("due", "")
+    return f"{index}|{text}|{due}"
+
+def mark_reminders_as_notified(items):
+    data = load_memory()
+    notified = data.setdefault("notified_reminders", [])
+    
+    added = 0
+    
+    for item in items:
+        key = item.get("notification_key")
+        
+        if not key:
+            continue
+        
+        if key in notified:
+            continue
+        
+        notified.append(key)
+        added += 1
+        
+    save_memory(data)
+    
+    return added
     
 def get_focus_sessions(limit=5):
     memory = load_memory()

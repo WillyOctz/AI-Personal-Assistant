@@ -4079,6 +4079,7 @@ def handle_memory_intent(user_input, analysis):
         
         due = result["due"]
         overdue = result["overdue"]
+        notified_count = memory.mark_reminders_as_notified(due + overdue)
         
         if not due and not overdue:
             return f"No due reminders for today ({result['today']})."
@@ -4098,6 +4099,9 @@ def handle_memory_intent(user_input, analysis):
             
             for item in due:
                 lines.append(f"- {item['index']}. {item['text']} | due: {item['due']}")
+                
+        lines.append("")
+        lines.append(f"Marked as notified: {notified_count}")
                 
         return "\n".join(lines)
     
