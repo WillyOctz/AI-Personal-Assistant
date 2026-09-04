@@ -15978,6 +15978,26 @@
             "source": "rule",
             "timestamp": "2026-09-04 17:22:47",
             "importance": 0.6
+        },
+        {
+            "user": "notification dashboard",
+            "assistant": "Notification dashboard: 2026-09-04\nDue today: 0\nOverdue: 0\nAlready notified: 0",
+            "intent": "notification_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 17:31:30",
+            "importance": 0.6
+        },
+        {
+            "user": "notification summary",
+            "assistant": "Notification summary: 2026-09-04\nDue today: 0\nOverdue: 0\nAlready notified: 0",
+            "intent": "notification_summary",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-04 17:32:04",
+            "importance": 0.6
         }
     ],
     "summaries": [

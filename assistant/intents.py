@@ -262,7 +262,11 @@ VALID_INTENTS = {
     "show_notification_history",
     "clear_notification_history",
     "notification_summary",
+    "notification_dashboard",
 }
+
+
+
 
 CONTROL_INTENTS = {
     "debug_route",
@@ -312,6 +316,9 @@ CONTROL_INTENTS = {
     "dataset_report",
 }
 
+
+
+
 CHAT_INTENTS = {
     "chat_how_are_you",
     "chat_feeling_statement",
@@ -350,6 +357,9 @@ CHAT_INTENTS = {
     "show_feedback_notes",
     "delete_feedback_note",
 }
+
+
+
 
 MEMORY_INTENTS = {
     "remember_note",
@@ -529,7 +539,11 @@ MEMORY_INTENTS = {
     "show_notification_history",
     "clear_notification_history",
     "notification_summary",
+    "notification_dashboard",
 }
+
+
+
 
 ACTION_INTENTS = {
     "play_music",
@@ -538,6 +552,9 @@ ACTION_INTENTS = {
     "set_reminder",
     "calculate",
 }
+
+
+
 
 SEARCH_IGNORED_INTENTS = {
     "search_memory",
@@ -581,6 +598,9 @@ SEARCH_IGNORED_INTENTS = {
     "preview_memory_cleanup",
 }
 
+
+
+
 MEMORY_TYPE_PRIORITY = {
     "profile": 6,
     "note": 5,
@@ -590,6 +610,9 @@ MEMORY_TYPE_PRIORITY = {
     "conversation": 2,
     "archive_summary": 3
 }
+
+
+
 
 MEMORY_TYPE_ALIASES = {
     "note": "note",
@@ -611,6 +634,10 @@ MEMORY_TYPE_ALIASES = {
     "fact": "profile",
     "facts": "profile",
 }
+
+
+
+
 
 INTENT_PATTERNS = {
     "coding_help": [
@@ -1442,7 +1469,17 @@ INTENT_PATTERNS = {
         "notification stats",
         "reminder notification stats",
     ],
+    "notification_dashboard": [
+        "notification dashboard",
+        "reminder notification dashboard",
+        "show notification dashboard",
+        "notifications dashboard",
+    ],
 }
+
+
+
+
 
 INTENT_PREFIXES = {
     "debug_route": [
@@ -1805,6 +1842,11 @@ INTENT_PREFIXES = {
     ]
 }
 
+
+
+
+
+
 PREFIX_INTENT_ORDER = [
     "preview_restore_dataset_backup",
     "restore_dataset_backup",
@@ -1912,6 +1954,10 @@ PREFIX_INTENT_ORDER = [
     "calculate",
 ]
 
+
+
+
+
 PROFILE_KEY_ALIASES = {
     "favorite language": "favorite_language",
     "programming language": "favorite_language",
@@ -1931,12 +1977,17 @@ PROFILE_KEY_ALIASES = {
     "name": "name",
 }
 
+
+
+
 KNOWN_GAMES = {
     "minecraft",
     "valorant",
-    "roblox",
-    
+    "roblox", 
 }
+
+
+
 
 KNOWN_APPS = {
     "chrome",

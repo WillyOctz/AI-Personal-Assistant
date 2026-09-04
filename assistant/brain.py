@@ -4132,6 +4132,36 @@ def handle_memory_intent(user_input, analysis):
             f"Overdue: {summary['overdue']}\n"
             f"Already notified: {summary['notified']}"
         )
+        
+    if intent == "notification_dashboard":
+        due_result = memory.get_due_reminders()
+        history = memory.get_notification_history()
+        
+        due = due_result["due"]
+        overdue = due_result["overdue"]
+        
+        lines = [
+            f"Notification dashboard: {due_result['today']}",
+            f"Due today: {len(due)}",
+            f"Overdue: {len(overdue)}",
+            f"Already notified: {len(history)}",
+        ]
+        
+        if overdue:
+            lines.append("")
+            lines.append("Overdue reminders:")
+            
+            for item in overdue[:5]:
+                lines.append(f"- {item['index']}. {item['text']} | due: {item['due']}")
+                
+        if due:
+            lines.append("")
+            lines.append("Due today:")
+            
+            for item in due[:5]:
+                lines.append(f"- {item['index']}. {item['text']} | due: {item['due']}")
+                
+        return "\n".join(lines)
     
     if intent == "work_session_health":
         health = memory.get_work_session_health()
