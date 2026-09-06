@@ -3483,6 +3483,44 @@ def handle_memory_intent(user_input, analysis):
             f"Old due: {result['old_due']}\n"
             f"New due: {result['new_due']}"
         )
+        
+    if intent == "dismiss_reminder_notification":
+        identifier = user_input.lower().strip()
+        
+        for prefix in [
+            "dismiss reminder",
+            "dismiss notification",
+            "mute reminder notification",
+        ]:
+            if identifier.startswith(prefix):
+                identifier = identifier[len(prefix):].strip()
+                break
+            
+        if not identifier:
+            return "Use this format: dismiss reminder number"
+        
+        result = memory.dismiss_reminder_notification(identifier)
+        
+        if result["reason"] == "empty":
+            return "You have no reminders to dismiss."
+        
+        if result["reason"] == "invalid_index":
+            return "I could not find that reminder number."
+        
+        if result["reason"] == "invalid_identifier":
+            return "Use this format: dismiss reminder number"
+        
+        if result["reason"] == "no_due":
+            return f"That reminder has no due date: {result['reminder']}"
+        
+        if result["reason"] == "already_dismissed":
+            return f"That reminder notification is already dismissed: {result['reminder']}"
+        
+        return (
+            "Dismissed reminder notification.\n"
+            f"Reminder: {result['reminder']}\n"
+            f"Due: {result['due']}"
+        )
     
     if intent == "remember_note":
         note = user_input.replace("remember ", "", 1)

@@ -264,6 +264,7 @@ VALID_INTENTS = {
     "notification_summary",
     "notification_dashboard",
     "snooze_reminder",
+    "dismiss_reminder_notification",
 }
 
 
@@ -542,6 +543,7 @@ MEMORY_INTENTS = {
     "notification_summary",
     "notification_dashboard",
     "snooze_reminder",
+    "dismiss_reminder_notification",
 }
 
 
@@ -1482,6 +1484,11 @@ INTENT_PATTERNS = {
         "snooze notification",
         "postpone reminder",
     ],
+    "dismiss_reminder_notification": [
+        "dismiss reminder",
+        "dismiss notification",
+        "mute reminder notification",
+    ],
 }
 
 
@@ -1852,6 +1859,11 @@ INTENT_PREFIXES = {
         "snooze notification ",
         "postpone reminder ",
     ],
+    "dismiss_reminder_notification": [
+        "dismiss reminder ",
+        "dismiss notification ",
+        "mute reminder notification ",
+    ],
 }
 
 
@@ -1932,6 +1944,7 @@ PREFIX_INTENT_ORDER = [
     "recall_memory",
 
     "snooze_reminder",
+    "dismiss_reminder_notification",
     "clear_reminder_due",
     "set_reminder_due",
     "complete_reminder",
