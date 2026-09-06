@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "debug_route",
-        "last_response_group": "control",
+        "last_response_intent": "notification_commands",
+        "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Input: upcoming reminders\nExact intent: upcoming_reminders\nPrefix intent: None",
+        "last_response_text": "Notification commands:\n- check due reminders\n- notification summary\n- notification history\n- clear notification history\n- snooze reminder number tomorrow\n- dismiss reminder number\n- upcoming reminders\n- upcoming reminders days",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -16278,6 +16278,26 @@
             "source": "rule",
             "timestamp": "2026-09-06 17:07:37",
             "importance": 0.1
+        },
+        {
+            "user": "notification commands",
+            "assistant": "Notification commands:\n- check due reminders\n- notification summary\n- notification history\n- clear notification history\n- snooze reminder number tomorrow\n- dismiss reminder number\n- upcoming reminders\n- upcoming reminders days",
+            "intent": "notification_commands",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-06 17:27:25",
+            "importance": 0.6
+        },
+        {
+            "user": "show notification commands",
+            "assistant": "Notification commands:\n- check due reminders\n- notification summary\n- notification history\n- clear notification history\n- snooze reminder number tomorrow\n- dismiss reminder number\n- upcoming reminders\n- upcoming reminders days",
+            "intent": "notification_commands",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-06 17:27:30",
+            "importance": 0.6
         }
     ],
     "summaries": [

@@ -3561,6 +3561,19 @@ def handle_memory_intent(user_input, analysis):
             
         return "\n".join(lines)
     
+    if intent == "notification_commands":
+        return (
+            "Notification commands:\n"
+            "- check due reminders\n"
+            "- notification summary\n"
+            "- notification history\n"
+            "- clear notification history\n"
+            "- snooze reminder number tomorrow\n"
+            "- dismiss reminder number\n"
+            "- upcoming reminders\n"
+            "- upcoming reminders days"
+        )
+    
     if intent == "remember_note":
         note = user_input.replace("remember ", "", 1)
         memory.add_note(note)

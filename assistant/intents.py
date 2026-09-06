@@ -266,6 +266,7 @@ VALID_INTENTS = {
     "snooze_reminder",
     "dismiss_reminder_notification",
     "upcoming_reminders",
+    "notification_commands",
 }
 
 
@@ -546,6 +547,7 @@ MEMORY_INTENTS = {
     "snooze_reminder",
     "dismiss_reminder_notification",
     "upcoming_reminders",
+    "notification_commands",
 }
 
 
@@ -1496,6 +1498,11 @@ INTENT_PATTERNS = {
         "show upcoming reminders",
         "next reminders",
         "future reminders",
+    ],
+    "notification_commands": [
+        "notification commands",
+        "show notification commands",
+        "reminder notification commands",
     ],
 }
 
