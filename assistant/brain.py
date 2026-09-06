@@ -992,6 +992,27 @@ def parse_clear_reminder_due(user_input):
 
     return text.replace(" due", "", 1).strip()
 
+def parse_upcoming_reminders_days(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in [
+        "upcoming reminders",
+        "show upcoming reminders",
+        "next reminders",
+        "future reminders",
+    ]:
+        if text.startswith(prefix):
+            text = text[len(prefix):].strip()
+            break
+        
+    if not text:
+        return 7
+    
+    if not text.isdigit():
+        return 7
+    
+    return int(text)
+
 def parse_duration_to_seconds(text):
     return focus.parse_duration_to_seconds(text)
 
@@ -3521,6 +3542,24 @@ def handle_memory_intent(user_input, analysis):
             f"Reminder: {result['reminder']}\n"
             f"Due: {result['due']}"
         )
+        
+    if intent == "upcoming_reminders":
+        days = parse_upcoming_reminders_days(user_input)
+        result = memory.get_upcoming_reminders(days)
+        
+        upcoming = result["upcoming"]
+        
+        if not upcoming:
+            return f"No upcoming reminders from {result['start']} to {result['end']}."
+        
+        lines = [
+            f"Upcoming reminders: {result['start']} to {result['end']}"
+        ]
+        
+        for item in upcoming:
+            lines.append(f"- {item['index']}. {item['text']} | due: {item['due']}")
+            
+        return "\n".join(lines)
     
     if intent == "remember_note":
         note = user_input.replace("remember ", "", 1)

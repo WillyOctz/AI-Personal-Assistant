@@ -265,6 +265,7 @@ VALID_INTENTS = {
     "notification_dashboard",
     "snooze_reminder",
     "dismiss_reminder_notification",
+    "upcoming_reminders",
 }
 
 
@@ -544,6 +545,7 @@ MEMORY_INTENTS = {
     "notification_dashboard",
     "snooze_reminder",
     "dismiss_reminder_notification",
+    "upcoming_reminders",
 }
 
 
@@ -1489,6 +1491,12 @@ INTENT_PATTERNS = {
         "dismiss notification",
         "mute reminder notification",
     ],
+    "upcoming_reminders": [
+        "upcoming reminders",
+        "show upcoming reminders",
+        "next reminders",
+        "future reminders",
+    ],
 }
 
 
@@ -1863,6 +1871,12 @@ INTENT_PREFIXES = {
         "dismiss reminder ",
         "dismiss notification ",
         "mute reminder notification ",
+    ],
+    "upcoming_reminders": [
+        "upcoming reminders ",
+        "show upcoming reminders ",
+        "next reminders ",
+        "future reminders ",
     ],
 }
 

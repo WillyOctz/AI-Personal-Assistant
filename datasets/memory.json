@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_reminders",
-        "last_response_group": "memory",
+        "last_response_intent": "debug_route",
+        "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Your reminders:\n1. i like music | due: 2026-09-07\n2. continue my ai personal assistant | due: 2026-09-06",
+        "last_response_text": "Input: upcoming reminders\nExact intent: upcoming_reminders\nPrefix intent: None",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -16208,6 +16208,76 @@
             "source": "rule",
             "timestamp": "2026-09-06 16:46:27",
             "importance": 0.6
+        },
+        {
+            "user": "upcoming reminders",
+            "assistant": "Upcoming reminders: 2026-09-06 to 2026-09-13\n- 1. i like music | due: 2026-09-07",
+            "intent": "upcoming_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-06 17:06:49",
+            "importance": 0.6
+        },
+        {
+            "user": "upcoming reminders 3",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: upcoming reminders 3\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-06 17:06:54",
+            "importance": 0.3
+        },
+        {
+            "user": "future reminders 14",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: future reminders 14\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-06 17:07:11",
+            "importance": 0.3
+        },
+        {
+            "user": "upcoming reminders 1",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: upcoming reminders 1\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-06 17:07:15",
+            "importance": 0.3
+        },
+        {
+            "user": "debug route upcoming reminders 7",
+            "assistant": "Input: upcoming reminders 7\nExact intent: None\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-06 17:07:25",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route upcoming reminders 1",
+            "assistant": "Input: upcoming reminders 1\nExact intent: None\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-06 17:07:33",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route upcoming reminders ",
+            "assistant": "Input: upcoming reminders\nExact intent: upcoming_reminders\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-06 17:07:37",
+            "importance": 0.1
         }
     ],
     "summaries": [

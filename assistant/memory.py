@@ -1509,6 +1509,48 @@ def get_due_reminders():
         "overdue": overdue,
     }
     
+def get_upcoming_reminders(days=7):
+    data = load_memory()
+    reminders = data.get("reminders", [])
+    
+    today = datetime.now().date()
+    end_date = today + timedelta(days=days)
+    
+    upcoming = []
+    
+    for index, reminder in enumerate(reminders, start=1):
+        if not isinstance(reminder, dict):
+            continue
+        
+        if reminder.get("done", False):
+            continue
+        
+        due = reminder.get("due")
+        
+        if not due:
+            continue
+        
+        due_day = str(due)[:10]
+        
+        try:
+            due_date = datetime.fromisoformat(due_day).date()
+        except ValueError:
+            continue
+        
+        if today < due_date <= end_date:
+            upcoming.append({
+                "index": index,
+                "text": reminder.get("text", ""),
+                "due": due,
+            })
+            
+    return {
+        "days": days,
+        "start": str(today),
+        "end": str(end_date),
+        "upcoming": upcoming,
+    }
+    
 def clear_notification_history():
     data = load_memory()
     count = len(data.get("notified_reminders", []))
