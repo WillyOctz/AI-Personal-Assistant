@@ -6747,7 +6747,25 @@ def get_startup_notification_message():
     overdue = result["overdue"]
     
     if not due and not overdue:
-        return None
+        summary = memory.get_notification_summary()
+        upcoming = memory.get_upcoming_reminders(3)
+        
+        if summary["notified"] == 0 and not upcoming["upcoming"]:
+            return None
+        
+        lines = [f"Startup notification summary: {result['today']}"]
+        
+        if summary["notified"] > 0:
+            lines.append(f"Already notified: {summary['notified']}")
+            
+        if upcoming["upcoming"]:
+            lines.append("")
+            lines.append("Coming soon:")
+            
+            for item in upcoming["upcoming"][:3]:
+                lines.append(f"- {item['index']}. {item['text']} | due: {item['due']}")
+                
+        return "\n".join(lines)
     
     notified_count = memory.mark_reminders_as_notified(due + overdue)
     
