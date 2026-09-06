@@ -1529,6 +1529,65 @@ def get_notification_summary():
         "notified": len(notified),
     }
     
+def snooze_reminder(identifier, due):
+    data = load_memory()
+    reminders = data.get("reminders", [])
+    
+    if not reminders:
+        return {
+            "updated": False,
+            "reason": "empty",
+            "reminder": None,
+            "old_due": None,
+            "new_due": None,
+        }
+        
+    identifier = normalize_reminder_text(identifier)
+    due = due.lower().strip()
+    
+    if identifier.isdigit():
+        index = int(identifier) - 1
+        
+        if index < 0 or index >= len(reminders):
+            return {
+                "updated": False,
+                "reason": "invalid_index",
+                "reminder": None,
+                "old_due": None,
+                "new_due": None,
+            }
+            
+        reminder = reminders[index]
+        text = get_reminder_text(reminder)
+        old_due = get_reminder_due(reminder)
+        
+        reminders[index] = make_reminder(text, due)
+        
+        notified = data.get("notified_reminders", [])
+        prefix = f"{index + 1}|{text}|"
+        data["notified_reminders"] = [
+            key for key in notified
+            if not key.startswith(prefix)
+        ]
+        
+        save_memory(data)
+        
+        return {
+            "updated": True,
+            "reason": "updated",
+            "reminder": text,
+            "old_due": old_due,
+            "new_due": due,
+        }
+        
+    return {
+        "updated": False,
+        "reason": "invalid_identifier",
+        "reminder": None,
+        "old_due": None,
+        "new_due": None,
+    }
+    
 def get_notified_reminder_keys():
     data = load_memory()
     return data.get("notified_reminders", [])

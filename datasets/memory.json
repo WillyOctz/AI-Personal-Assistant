@@ -25,7 +25,7 @@
     "reminders": [
         {
             "text": "i like music",
-            "due": null
+            "due": "2026-09-07"
         },
         {
             "text": "continue my ai personal assistant",
@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "notification_summary",
+        "last_response_intent": "check_due_reminders",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Notification summary: 2026-09-04\nDue today: 0\nOverdue: 0\nAlready notified: 0",
+        "last_response_text": "No due reminders for today (2026-09-06).",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -15997,6 +15997,46 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-04 17:32:04",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. i like music\n2. continue my ai personal assistant",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-06 15:25:54",
+            "importance": 0.6
+        },
+        {
+            "user": "snooze reminder 1 tomorrow",
+            "assistant": "Snoozed reminder.\nReminder: i like music\nOld due: None\nNew due: 2026-09-07",
+            "intent": "snooze_reminder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-06 15:26:08",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. i like music | due: 2026-09-07\n2. continue my ai personal assistant",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-06 15:26:14",
+            "importance": 0.6
+        },
+        {
+            "user": "check due reminders",
+            "assistant": "No due reminders for today (2026-09-06).",
+            "intent": "check_due_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-06 15:26:20",
             "importance": 0.6
         }
     ],

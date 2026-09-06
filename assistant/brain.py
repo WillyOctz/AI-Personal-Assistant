@@ -750,6 +750,40 @@ def parse_resolver_conflict(user_input):
     
     return input_text.strip(), target_intent.strip()
 
+def parse_snooze_reminder(user_input):
+    text = user_input.lower().strip()
+    
+    for prefix in [
+        "snooze reminder ",
+        "snooze notification ",
+        "postpone reminder ",
+    ]:
+        if text.startswith(prefix):
+            text = text[len(prefix):].strip()
+            break
+        
+    if " until " in text:
+        identifier, due = text.split(" until ", 1)
+    elif " to " in text:
+        identifier, due = text.split(" to ", 1)
+    else:
+        parts = text.split(maxsplit=1)
+        
+        if len(parts) < 2:
+            return "", ""
+        
+        identifier, due = parts
+        
+    due = due.strip()
+    
+    if due == "today":
+        due = str(datetime.now().date())
+        
+    if due == "tomorrow":
+        due = str(datetime.now().date() + timedelta(days=1))
+        
+    return identifier.strip(), due
+
 def should_skip_memory_item(intent):
     return intent in SEARCH_IGNORED_INTENTS
 
@@ -3425,6 +3459,30 @@ def handle_memory_intent(user_input, analysis):
             return "That reminder number does not exist."
         
         return f"I could not find this reminder: {result['old']}"
+    
+    if intent == "snooze_reminder":
+        identifier, due = parse_snooze_reminder(user_input)
+        
+        if not identifier or not due:
+            return "Use this format: snooze reminder number tomorrow"
+        
+        result = memory.snooze_reminder(identifier, due)
+        
+        if result["reason"] == "empty":
+            return "You have no reminders to snooze."
+        
+        if result["reason"] == "invalid_index":
+            return "I could not find that reminder number."
+        
+        if not result["updated"]:
+            return "Use this format: snooze reminder number tomorrow"
+        
+        return (
+            "Snoozed reminder.\n"
+            f"Reminder: {result['reminder']}\n"
+            f"Old due: {result['old_due']}\n"
+            f"New due: {result['new_due']}"
+        )
     
     if intent == "remember_note":
         note = user_input.replace("remember ", "", 1)

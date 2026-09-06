@@ -263,6 +263,7 @@ VALID_INTENTS = {
     "clear_notification_history",
     "notification_summary",
     "notification_dashboard",
+    "snooze_reminder",
 }
 
 
@@ -540,6 +541,7 @@ MEMORY_INTENTS = {
     "clear_notification_history",
     "notification_summary",
     "notification_dashboard",
+    "snooze_reminder",
 }
 
 
@@ -1475,6 +1477,11 @@ INTENT_PATTERNS = {
         "show notification dashboard",
         "notifications dashboard",
     ],
+    "snooze_reminder": [
+        "snooze reminder",
+        "snooze notification",
+        "postpone reminder",
+    ],
 }
 
 
@@ -1839,7 +1846,12 @@ INTENT_PREFIXES = {
         "work review from ",
         "review work from ",
         "focus review from ",
-    ]
+    ],
+    "snooze_reminder": [
+        "snooze reminder ",
+        "snooze notification ",
+        "postpone reminder ",
+    ],
 }
 
 
@@ -1919,6 +1931,7 @@ PREFIX_INTENT_ORDER = [
     "recall_memory_source",
     "recall_memory",
 
+    "snooze_reminder",
     "clear_reminder_due",
     "set_reminder_due",
     "complete_reminder",
