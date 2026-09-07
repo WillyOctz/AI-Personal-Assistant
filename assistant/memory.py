@@ -1857,6 +1857,26 @@ def get_website_registry():
     memory = load_memory()
     return memory["website_registry"]
 
+def set_website_allowed(name, allowed):
+    memory = load_memory()
+    clean_name = normalize_entity_name(name)
+    
+    website = memory["website_registry"].get(clean_name)
+    
+    if not website:
+        return {
+            "updated": False,
+            "website": clean_name,
+        }
+        
+    website["allowed"] = allowed
+    save_memory(memory)
+    
+    return {
+        "updated": True,
+        "website": website,
+    }
+
 def add_app_registry_entry(name, command):
     memory = load_memory()
     

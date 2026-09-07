@@ -6195,6 +6195,12 @@ def handle_memory_intent(user_input, analysis):
     
     if intent == "show_website_registry":
         return websites.format_website_registry()
+    
+    if intent == "allow_website":
+        return websites.handle_allow_website(user_input)
+    
+    if intent == "disallow_website":
+        return websites.handle_disallow_website(user_input)
         
     if intent == "app_dashboard":
         return apps.format_app_dashboard()

@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "register_website",
+        "last_response_intent": "show_website_registry",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Website URLs must start with http:// or https://",
+        "last_response_text": "Registered websites:\n1. python docs: https://docs.python.org/3/ | allowed: False",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -16407,6 +16407,116 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-07 17:54:35",
+            "importance": 0.6
+        },
+        {
+            "user": "debug route register website",
+            "assistant": "Input: register website\nExact intent: None\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 18:02:22",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route register website python docs as https://docs.python.org/3/",
+            "assistant": "Input: register website python docs as https://docs.python.org/3/\nExact intent: None\nPrefix intent: register_website",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 18:02:29",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route register website python docs as https://docs.python.org/3/",
+            "assistant": "Input: register website python docs as https://docs.python.org/3/\nExact intent: None\nPrefix intent: register_website",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 18:02:59",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route show websites",
+            "assistant": "Input: show websites\nExact intent: show_website_registry\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 18:04:08",
+            "importance": 0.1
+        },
+        {
+            "user": "show websites",
+            "assistant": "Registered websites:\n1. python docs: https://docs.python.org/3/ | allowed: False",
+            "intent": "show_website_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 18:04:14",
+            "importance": 0.6
+        },
+        {
+            "user": "register website python docs as https://docs.python.org/3/",
+            "assistant": "Updated website: python docs -> https://docs.python.org/3/",
+            "intent": "register_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 18:45:10",
+            "importance": 0.6
+        },
+        {
+            "user": "show websites",
+            "assistant": "Registered websites:\n1. python docs: https://docs.python.org/3/ | allowed: False",
+            "intent": "show_website_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 18:45:14",
+            "importance": 0.6
+        },
+        {
+            "user": "allow website python docs",
+            "assistant": "Allowed website: python docs",
+            "intent": "allow_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 18:45:19",
+            "importance": 0.6
+        },
+        {
+            "user": "show websites",
+            "assistant": "Registered websites:\n1. python docs: https://docs.python.org/3/ | allowed: True",
+            "intent": "show_website_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 18:45:24",
+            "importance": 0.6
+        },
+        {
+            "user": "disallow website python docs",
+            "assistant": "Disallowed website: python docs",
+            "intent": "disallow_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 18:45:29",
+            "importance": 0.6
+        },
+        {
+            "user": "show websites",
+            "assistant": "Registered websites:\n1. python docs: https://docs.python.org/3/ | allowed: False",
+            "intent": "show_website_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 18:45:35",
             "importance": 0.6
         }
     ],

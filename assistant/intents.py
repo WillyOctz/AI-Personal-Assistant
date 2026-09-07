@@ -270,6 +270,8 @@ VALID_INTENTS = {
     "automation_status",
     "register_website",
     "show_website_registry",
+    "allow_website",
+    "disallow_website",
 }
 
 
@@ -554,6 +556,8 @@ MEMORY_INTENTS = {
     "automation_status",
     "register_website",
     "show_website_registry",
+    "allow_website",
+    "disallow_website",
 }
 
 
@@ -1905,6 +1909,12 @@ INTENT_PREFIXES = {
     "register_website": [
         "register website ",
     ],
+    "allow_website": [
+        "allow website ",
+    ],
+    "disallow_website": [
+        "disallow website ",
+    ],
 }
 
 
@@ -1996,6 +2006,8 @@ PREFIX_INTENT_ORDER = [
     "add_app_alias",
     "remove_app_alias",
     "update_registered_app",
+    "allow_website",
+    "disallow_website",
     "register_website",
     "unregister_app",
     "register_app",

@@ -56,3 +56,47 @@ def is_safe_website_url(url):
         parsed.scheme in {"http", "https"}
         and bool(parsed.netloc)
     )
+    
+def parse_allow_website(user_input):
+    prefix = "allow website "
+    text = user_input.lower().strip()
+    
+    if not text.startswith(prefix):
+        return ""
+    
+    return text[len(prefix):].strip()
+
+def parse_disallow_website(user_input):
+    prefix = "disallow website "
+    text = user_input.lower().strip()
+    
+    if not text.startswith(prefix):
+        return ""
+    
+    return text[len(prefix):].strip()
+
+def handle_allow_website(user_input):
+    name = parse_allow_website(user_input)
+    
+    if not name:
+        return "Use this format: allow website website_name"
+    
+    result = memory.set_website_allowed(name, True)
+    
+    if not result["updated"]:
+        return f"I could not find registered website: {result['website']}"
+    
+    return f"Allowed website: {result['website']['name']}"
+
+def handle_disallow_website(user_input):
+    name = parse_disallow_website(user_input)
+    
+    if not name:
+        return "Use this format: disallow website website_name"
+    
+    result = memory.set_website_allowed(name, False)
+    
+    if not result["updated"]:
+        return f"I could not find registered website: {result['website']}"
+    
+    return f"Disallowed website: {result['website']['name']}"
