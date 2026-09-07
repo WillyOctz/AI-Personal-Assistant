@@ -1,4 +1,4 @@
-from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around
+from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around, open_website_url
 from assistant import memory
 from assistant import chat
 from assistant import apps
@@ -2501,6 +2501,11 @@ def handle_control_intent(user_input, analysis):
             clear_pending_memory_result_delete()
             return delete_saved_memory_result_from_real_memory(index)
         
+        website_result = websites.confirm_pending_website_open(open_website_url)
+        
+        if website_result:
+            return website_result
+        
         pending = get_pending_confirmation()
         app_result = apps.confirm_pending_app_launch(open_registered_app)
         
@@ -2533,6 +2538,11 @@ def handle_control_intent(user_input, analysis):
         if pending_delete:
             clear_pending_memory_result_delete()
             return "Okay. Memory result deletion cancelled."
+        
+        website_result = websites.deny_pending_website_open()
+        
+        if website_result:
+            return website_result
                   
         pending = get_pending_confirmation()
         app_result = apps.deny_pending_app_launch()
@@ -6201,6 +6211,17 @@ def handle_memory_intent(user_input, analysis):
     
     if intent == "disallow_website":
         return websites.handle_disallow_website(user_input)
+    
+    if intent == "enable_website_opening":
+        memory.set_setting("real_website_opening", True)
+        return "Real website opening enabled."
+    
+    if intent == "disable_website_opening":
+        memory.set_setting("real_website_opening", False)
+        return "Real website opening disabled."
+    
+    if intent == "open_website":
+        return websites.handle_open_website(user_input)
         
     if intent == "app_dashboard":
         return apps.format_app_dashboard()

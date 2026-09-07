@@ -272,6 +272,9 @@ VALID_INTENTS = {
     "show_website_registry",
     "allow_website",
     "disallow_website",
+    "open_website",
+    "enable_website_opening",
+    "disable_website_opening",
 }
 
 
@@ -558,6 +561,9 @@ MEMORY_INTENTS = {
     "show_website_registry",
     "allow_website",
     "disallow_website",
+    "open_website",
+    "enable_website_opening",
+    "disable_website_opening",
 }
 
 
@@ -1525,6 +1531,12 @@ INTENT_PATTERNS = {
         "show website registry",
         "list websites",
     ],
+    "enable_website_opening": [
+        "enable website opening",
+    ],
+    "disable_website_opening": [
+        "disable website opening",
+    ],
 }
 
 
@@ -1915,6 +1927,9 @@ INTENT_PREFIXES = {
     "disallow_website": [
         "disallow website ",
     ],
+    "open_website": [
+        "open website ",
+    ],
 }
 
 
@@ -2009,6 +2024,7 @@ PREFIX_INTENT_ORDER = [
     "allow_website",
     "disallow_website",
     "register_website",
+    "open_website",
     "unregister_app",
     "register_app",
     "search_app_registry",

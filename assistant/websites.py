@@ -66,6 +66,15 @@ def parse_allow_website(user_input):
     
     return text[len(prefix):].strip()
 
+def parse_open_website(user_input):
+    prefix = "open website "
+    text = user_input.lower().strip()
+    
+    if not text.startswith(prefix):
+        return ""
+    
+    return text[len(prefix):].strip()
+
 def parse_disallow_website(user_input):
     prefix = "disallow website "
     text = user_input.lower().strip()
@@ -74,6 +83,71 @@ def parse_disallow_website(user_input):
         return ""
     
     return text[len(prefix):].strip()
+
+def set_pending_website_open(website):
+    pending = {
+        "name": website["name"],
+        "url": website["url"],
+    }
+    
+    memory.set_state_value("pending_website_open", pending)
+    
+def get_pending_website_open():
+    return memory.get_state_value("pending_website_open")
+
+def clear_pending_website_open():
+    memory.clear_state_value("pending_website_open")
+    
+def handle_open_website(user_input):
+    name = parse_open_website(user_input)
+    
+    if not name:
+        return "Use this format: open website website_name"
+    
+    website = memory.get_website_registry_entry(name)
+    
+    if not website:
+        return f"I could not find registered website: {name}"
+    
+    if not memory.get_setting("real_website_opening", False):
+        return (
+            "Real website opening is disabled.\n"
+            "Use: enable website opening"
+        )
+        
+    if not website.get("allowed", False):
+        return (
+            f"{website['name']} is registered but not allowed for opening.\n"
+            f"Use: allow website {website['name']}"
+        )
+        
+    set_pending_website_open(website)
+    
+    return (
+        f"I am ready to open {website['name']}: {website['url']}\n"
+        "Reply yes to open it or no to cancel."
+    )
+    
+def confirm_pending_website_open(open_website_url):
+    pending = get_pending_website_open()
+    
+    if not pending:
+        return None
+    
+    result = open_website_url(pending["name"], pending["url"])
+    clear_pending_website_open()
+    
+    return result
+
+def deny_pending_website_open():
+    pending = get_pending_website_open()
+    
+    if not pending:
+        return None
+    
+    clear_pending_website_open()
+    
+    return f"Cancelled website opening: {pending['name']}"
 
 def handle_allow_website(user_input):
     name = parse_allow_website(user_input)

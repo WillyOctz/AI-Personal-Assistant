@@ -274,6 +274,12 @@ def ensure_memory_shape(memory):
     if "website_registry" not in memory:
         memory["website_registry"] = {}
         
+    if "real_website_opening" not in memory["settings"]:
+        memory["settings"]["real_website_opening"] = False
+        
+    if "pending_website_open" not in memory["state"]:
+        memory["state"]["pending_website_open"] = None
+        
     return memory
 
 def archive_conversation_turns(turns_to_archive):
@@ -1856,6 +1862,12 @@ def save_website(name, url):
 def get_website_registry():
     memory = load_memory()
     return memory["website_registry"]
+
+def get_website_registry_entry(name):
+    memory = load_memory()
+    clean_name = normalize_entity_name(name)
+    
+    return memory["website_registry"].get(clean_name)
 
 def set_website_allowed(name, allowed):
     memory = load_memory()

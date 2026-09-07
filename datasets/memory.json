@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_website_registry",
-        "last_response_group": "memory",
+        "last_response_intent": "confirm_intent",
+        "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Registered websites:\n1. python docs: https://docs.python.org/3/ | allowed: False",
+        "last_response_text": "Opening python docs.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -113,7 +113,8 @@
                 "timestamp": "2026-08-28 16:49:14"
             }
         ],
-        "pending_memory_result_delete": null
+        "pending_memory_result_delete": null,
+        "pending_website_open": null
     },
     "history": [
         {
@@ -16518,6 +16519,86 @@
             "source": "rule",
             "timestamp": "2026-09-07 18:45:35",
             "importance": 0.6
+        },
+        {
+            "user": "register website python docs as https://docs.python.org/3/",
+            "assistant": "Updated website: python docs -> https://docs.python.org/3/",
+            "intent": "register_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 19:56:29",
+            "importance": 0.6
+        },
+        {
+            "user": "allow website python docs",
+            "assistant": "Allowed website: python docs",
+            "intent": "allow_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 19:56:33",
+            "importance": 0.6
+        },
+        {
+            "user": "open website python docs",
+            "assistant": "Real website opening is disabled.\nUse: enable website opening",
+            "intent": "open_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 19:56:37",
+            "importance": 0.6
+        },
+        {
+            "user": "enable website opening",
+            "assistant": "Real website opening enabled.",
+            "intent": "enable_website_opening",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 19:56:43",
+            "importance": 0.6
+        },
+        {
+            "user": "open website python docs",
+            "assistant": "I am ready to open python docs: https://docs.python.org/3/\nReply yes to open it or no to cancel.",
+            "intent": "open_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 19:56:47",
+            "importance": 0.6
+        },
+        {
+            "user": "no",
+            "assistant": "Cancelled website opening: python docs",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 19:56:52",
+            "importance": 0.1
+        },
+        {
+            "user": "open website python docs",
+            "assistant": "I am ready to open python docs: https://docs.python.org/3/\nReply yes to open it or no to cancel.",
+            "intent": "open_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 19:57:03",
+            "importance": 0.6
+        },
+        {
+            "user": "yes",
+            "assistant": "Opening python docs.",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 19:57:07",
+            "importance": 0.1
         }
     ],
     "summaries": [
@@ -16835,7 +16916,8 @@
     },
     "settings": {
         "real_app_launching": true,
-        "confirm_app_launching": true
+        "confirm_app_launching": true,
+        "real_website_opening": true
     },
     "app_launches": [
         {
@@ -17435,7 +17517,7 @@
         "python docs": {
             "name": "python docs",
             "url": "https://docs.python.org/3/",
-            "allowed": false
+            "allowed": true
         }
     }
 }

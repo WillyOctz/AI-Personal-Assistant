@@ -5,6 +5,7 @@ import ast
 import operator
 import subprocess
 import shlex
+import webbrowser
 
 ALLOWED_OPERATORS = {
     ast.Add: operator.add,
@@ -122,6 +123,18 @@ def open_registered_app(app_name, app_entry, real_launching=False):
         return f"I could not find the app command: {command}"
     except:
         return f"I tried to open {app_name}, but something went wrong."
+    
+def open_website_url(website_name, url):
+    try:
+        opened = webbrowser.open(url, new=2)
+        
+        if not opened:
+            return f"I could not open {website_name} in your browser."
+        
+        return f"Opening {website_name}."
+    
+    except Exception:
+        return f"I tried to open {website_name}, but something went wrong."
     
 #======================================================================
 ## File Search/Path Logic Functions
