@@ -280,6 +280,9 @@ def ensure_memory_shape(memory):
     if "pending_website_open" not in memory["state"]:
         memory["state"]["pending_website_open"] = None
         
+    if "website_opens" not in memory:
+        memory["website_opens"] = []
+        
     return memory
 
 def archive_conversation_turns(turns_to_archive):
@@ -1868,6 +1871,16 @@ def get_website_registry_entry(name):
     clean_name = normalize_entity_name(name)
     
     return memory["website_registry"].get(clean_name)
+
+def add_website_open(event):
+    memory = load_memory()
+    memory["website_opens"].append(event)
+    save_memory(memory)
+    
+def get_website_open(limit=10):
+    memory = load_memory()
+    
+    return memory["website_opens"][-limit:]
 
 def set_website_allowed(name, allowed):
     memory = load_memory()

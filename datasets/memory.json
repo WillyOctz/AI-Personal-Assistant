@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "confirm_intent",
-        "last_response_group": "control",
+        "last_response_intent": "website_open_history",
+        "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Opening python docs.",
+        "last_response_text": "Website opening history:\n- 2026-09-07 20:57:55 | python docs | Opening python docs.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -16599,6 +16599,46 @@
             "source": "rule",
             "timestamp": "2026-09-07 19:57:07",
             "importance": 0.1
+        },
+        {
+            "user": "website open history",
+            "assistant": "I do not have any website opening history yet.",
+            "intent": "website_open_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 20:57:49",
+            "importance": 0.6
+        },
+        {
+            "user": "open website python docs",
+            "assistant": "I am ready to open python docs: https://docs.python.org/3/\nReply yes to open it or no to cancel.",
+            "intent": "open_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 20:57:53",
+            "importance": 0.6
+        },
+        {
+            "user": "yes",
+            "assistant": "Opening python docs.",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 20:57:58",
+            "importance": 0.1
+        },
+        {
+            "user": "website open history",
+            "assistant": "Website opening history:\n- 2026-09-07 20:57:55 | python docs | Opening python docs.",
+            "intent": "website_open_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 20:58:02",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -17519,5 +17559,13 @@
             "url": "https://docs.python.org/3/",
             "allowed": true
         }
-    }
+    },
+    "website_opens": [
+        {
+            "website_name": "python docs",
+            "url": "https://docs.python.org/3/",
+            "result": "Opening python docs.",
+            "timestamp": "2026-09-07 20:57:55"
+        }
+    ]
 }

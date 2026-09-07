@@ -275,6 +275,7 @@ VALID_INTENTS = {
     "open_website",
     "enable_website_opening",
     "disable_website_opening",
+    "website_open_history",
 }
 
 
@@ -564,6 +565,7 @@ MEMORY_INTENTS = {
     "open_website",
     "enable_website_opening",
     "disable_website_opening",
+    "website_open_history",
 }
 
 
@@ -1536,6 +1538,11 @@ INTENT_PATTERNS = {
     ],
     "disable_website_opening": [
         "disable website opening",
+    ],
+    "website_open_history": [
+        "website open history",
+        "show website open history",
+        "recent website opens",
     ],
 }
 

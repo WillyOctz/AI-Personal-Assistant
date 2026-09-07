@@ -135,6 +135,12 @@ def confirm_pending_website_open(open_website_url):
         return None
     
     result = open_website_url(pending["name"], pending["url"])
+    log_website_open(
+        pending["name"],
+        pending["url"],
+        result
+    )
+    
     clear_pending_website_open()
     
     return result
@@ -174,3 +180,30 @@ def handle_disallow_website(user_input):
         return f"I could not find registered website: {result['website']}"
     
     return f"Disallowed website: {result['website']['name']}"
+
+def log_website_open(website_name, url, result):
+    event = {
+        "website_name": website_name,
+        "url": url,
+        "result": result,
+        "timestamp": memory.current_timestamp(),
+    }
+    
+    memory.add_website_open(event)
+    
+def format_website_open_history():
+    opens = memory.get_website_open()
+    
+    if not opens:
+        return "I do not have any website opening history yet."
+    
+    lines = ["Website opening history:"]
+    
+    for event in opens:
+        lines.append(
+            f"- {event['timestamp']} | "
+            f"{event['website_name']} | "
+            f"{event['result']}"
+        )
+        
+    return "\n".join(lines)
