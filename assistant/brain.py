@@ -6177,6 +6177,18 @@ def handle_memory_intent(user_input, analysis):
             f"Last launched app: {stats['last_launched']}"
         )
         
+    if intent == "automation_status":
+        status = apps.get_automation_status()
+        
+        return (
+            "Automation status:\n"
+            f"App launching: {'enabled' if status['launching_enabled'] else 'disabled'}\n"
+            f"Launch confirmation: {'enabled' if status['confirmation_enabled'] else 'disabled'}\n"
+            f"Registered apps: {status['registered_apps']}\n"
+            f"Aliases: {status['aliases']}\n"
+            f"Allowed apps: {status['allowed_apps']}"
+        )
+        
     if intent == "app_dashboard":
         return apps.format_app_dashboard()
     

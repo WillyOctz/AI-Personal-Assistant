@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "notification_commands",
+        "last_response_intent": "app_dashboard",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Notification commands:\n- check due reminders\n- notification summary\n- notification history\n- clear notification history\n- snooze reminder number tomorrow\n- dismiss reminder number\n- upcoming reminders\n- upcoming reminders days",
+        "last_response_text": "App dashboard:\nRegistered apps: 4\nAliases: 1\nDefault apps: 0\nReal launching: True\nTotal launches: 16\nMost launched: notepad (10 time(s))\nLast launched: notepad",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -16298,6 +16298,36 @@
             "source": "rule",
             "timestamp": "2026-09-06 17:27:30",
             "importance": 0.6
+        },
+        {
+            "user": "automation status",
+            "assistant": "Automation status:\nApp launching: enabled\nLaunch confirmation: enabled\nRegistered apps: 4\nAliases: 1\nAllowed apps: 2",
+            "intent": "automation_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 15:14:39",
+            "importance": 0.6
+        },
+        {
+            "user": "local automation status",
+            "assistant": "Automation status:\nApp launching: enabled\nLaunch confirmation: enabled\nRegistered apps: 4\nAliases: 1\nAllowed apps: 2",
+            "intent": "automation_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 15:14:47",
+            "importance": 0.6
+        },
+        {
+            "user": "app dashboard",
+            "assistant": "App dashboard:\nRegistered apps: 4\nAliases: 1\nDefault apps: 0\nReal launching: True\nTotal launches: 16\nMost launched: notepad (10 time(s))\nLast launched: notepad",
+            "intent": "app_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 15:14:54",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -17208,6 +17238,7 @@
         }
     ],
     "notified_reminders": [
-        "2|continue my ai personal assistant|2026-09-06"
+        "2|continue my ai personal assistant|2026-09-06",
+        "1|i like music|2026-09-07"
     ]
 }

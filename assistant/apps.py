@@ -764,3 +764,24 @@ def deny_pending_app_launch():
     clear_pending_app_launch()
 
     return f"Cancelled app launch: {pending_app['app_name']}"
+
+def get_automation_status():
+    registry = memory.get_app_registry()
+    aliases = memory.get_app_aliases()
+    
+    real_launching = memory.get_setting("real_app_launching", False)
+    confirm_launching = memory.get_setting("confirm_app_launching", True)
+    
+    allowed_count = 0
+    
+    for app in registry.values():
+        if app.get("allowed", False):
+            allowed_count += 1
+            
+    return {
+        "launching_enabled": real_launching,
+        "confirmation_enabled": confirm_launching,
+        "registered_apps": len(registry),
+        "aliases": len(aliases),
+        "allowed_apps": allowed_count,
+    }

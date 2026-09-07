@@ -267,6 +267,7 @@ VALID_INTENTS = {
     "dismiss_reminder_notification",
     "upcoming_reminders",
     "notification_commands",
+    "automation_status",
 }
 
 
@@ -548,6 +549,7 @@ MEMORY_INTENTS = {
     "dismiss_reminder_notification",
     "upcoming_reminders",
     "notification_commands",
+    "automation_status",
 }
 
 
@@ -1503,6 +1505,12 @@ INTENT_PATTERNS = {
         "notification commands",
         "show notification commands",
         "reminder notification commands",
+    ],
+    "automation_status": [
+        "automation status",
+        "local automation status",
+        "app automation status",
+        "show automation status",
     ],
 }
 
