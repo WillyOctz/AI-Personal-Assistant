@@ -271,6 +271,9 @@ def ensure_memory_shape(memory):
     if "last_debug_memory_search_query" not in memory["state"]:
         memory["state"]["last_debug_memory_search_query"] = None
         
+    if "website_registry" not in memory:
+        memory["website_registry"] = {}
+        
     return memory
 
 def archive_conversation_turns(turns_to_archive):
@@ -1829,6 +1832,30 @@ def search_focus_notes(query):
             })
             
     return results
+
+def save_website(name, url):
+    memory = load_memory()
+    clean_name = normalize_entity_name(name)
+    
+    existing = memory["website_registry"].get(clean_name, {})
+    
+    website = {
+        "name": clean_name,
+        "url": url.strip(),
+        "allowed": existing.get("allowed", False),
+    }
+    
+    memory["website_registry"][clean_name] = website
+    save_memory(memory)
+    
+    return {
+        "created": not bool(existing),
+        "website": website,
+    }
+    
+def get_website_registry():
+    memory = load_memory()
+    return memory["website_registry"]
 
 def add_app_registry_entry(name, command):
     memory = load_memory()

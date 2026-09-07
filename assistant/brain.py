@@ -7,6 +7,7 @@ from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTE
 from assistant.trainer import save_feedback, find_best_match, tokenize, predict_intent_with_model, evaluate_model, summarize_confusion, get_debug_weights, similarity_score, get_dataset_stats, get_dataset_intent_counts, get_dataset_duplicates, get_dataset_conflicts, get_dataset_broken_records, get_dataset_missing_fields, get_dataset_unknown_intents, get_dataset_coverage, get_dataset_low_coverage, get_dataset_suggestions, get_dataset_examples_for_intent, get_dataset_intent_health, get_dataset_weakest_intent, get_dataset_strongest_intent, get_dataset_balance, suggest_example_phrases_for_intent, get_conflicts_for_intent, get_dataset_conflict_summary, preview_resolve_dataset_conflict, resolve_dataset_conflict, backup_datasets, get_dataset_backups, preview_restore_dataset_backup, restore_dataset_backup, preview_dataset_backup_cleanup, cleanup_dataset_backups
 from datetime import datetime, timedelta
 from assistant import focus
+from assistant import websites
 
 HIGH_CONFIDENCE = 0.75
 LOW_CONFIDENCE = 0.55
@@ -6188,6 +6189,12 @@ def handle_memory_intent(user_input, analysis):
             f"Aliases: {status['aliases']}\n"
             f"Allowed apps: {status['allowed_apps']}"
         )
+        
+    if intent == "register_website":
+        return websites.handle_register_website(user_input)
+    
+    if intent == "show_website_registry":
+        return websites.format_website_registry()
         
     if intent == "app_dashboard":
         return apps.format_app_dashboard()

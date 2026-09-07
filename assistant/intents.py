@@ -268,6 +268,8 @@ VALID_INTENTS = {
     "upcoming_reminders",
     "notification_commands",
     "automation_status",
+    "register_website",
+    "show_website_registry",
 }
 
 
@@ -550,6 +552,8 @@ MEMORY_INTENTS = {
     "upcoming_reminders",
     "notification_commands",
     "automation_status",
+    "register_website",
+    "show_website_registry",
 }
 
 
@@ -1512,6 +1516,11 @@ INTENT_PATTERNS = {
         "app automation status",
         "show automation status",
     ],
+    "show_website_registry": [
+        "show websites",
+        "show website registry",
+        "list websites",
+    ],
 }
 
 
@@ -1893,6 +1902,9 @@ INTENT_PREFIXES = {
         "next reminders ",
         "future reminders ",
     ],
+    "register_website": [
+        "register website ",
+    ],
 }
 
 
@@ -1984,6 +1996,7 @@ PREFIX_INTENT_ORDER = [
     "add_app_alias",
     "remove_app_alias",
     "update_registered_app",
+    "register_website",
     "unregister_app",
     "register_app",
     "search_app_registry",

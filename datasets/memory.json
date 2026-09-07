@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "app_dashboard",
+        "last_response_intent": "register_website",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "App dashboard:\nRegistered apps: 4\nAliases: 1\nDefault apps: 0\nReal launching: True\nTotal launches: 16\nMost launched: notepad (10 time(s))\nLast launched: notepad",
+        "last_response_text": "Website URLs must start with http:// or https://",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -16328,6 +16328,86 @@
             "source": "rule",
             "timestamp": "2026-09-07 15:14:54",
             "importance": 0.6
+        },
+        {
+            "user": "register website python docs as https://docs.python.org/3/",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: register website python docs as https://docs.python.org/3/\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "register_website",
+            "group": "unknown",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 17:52:51",
+            "importance": 0.3
+        },
+        {
+            "user": "show websites",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: show websites\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "show_website_registry",
+            "group": "unknown",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 17:52:59",
+            "importance": 0.3
+        },
+        {
+            "user": "register website local file as file:///C:/Windows",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: register website local file as file:///C:/Windows\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "register_website",
+            "group": "unknown",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 17:53:11",
+            "importance": 0.3
+        },
+        {
+            "user": "debug route register website",
+            "assistant": "Input: register website\nExact intent: None\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 17:53:23",
+            "importance": 0.1
+        },
+        {
+            "user": "register website python docs as https://docs.python.org/3/",
+            "assistant": "Registered website: python docs -> https://docs.python.org/3/",
+            "intent": "register_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 17:54:21",
+            "importance": 0.6
+        },
+        {
+            "user": "show websites",
+            "assistant": "Registered websites:\n1. python docs: https://docs.python.org/3/ | allowed: False",
+            "intent": "show_website_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 17:54:26",
+            "importance": 0.6
+        },
+        {
+            "user": "register website local file as file:///C:/Windows",
+            "assistant": "Website URLs must start with http:// or https://",
+            "intent": "register_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 17:54:31",
+            "importance": 0.6
+        },
+        {
+            "user": "register website broken as python.org",
+            "assistant": "Website URLs must start with http:// or https://",
+            "intent": "register_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-07 17:54:35",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -17240,5 +17320,12 @@
     "notified_reminders": [
         "2|continue my ai personal assistant|2026-09-06",
         "1|i like music|2026-09-07"
-    ]
+    ],
+    "website_registry": {
+        "python docs": {
+            "name": "python docs",
+            "url": "https://docs.python.org/3/",
+            "allowed": false
+        }
+    }
 }
