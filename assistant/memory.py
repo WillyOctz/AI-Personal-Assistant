@@ -1919,6 +1919,21 @@ def remove_website(name):
         "removed": True,
         "website": website,
     }
+    
+def search_websites(query):
+    memory = load_memory()
+    clean_query = normalize_entity_name(query)
+    
+    results = []
+    
+    for website in memory["website_registry"].values():
+        name = website["name"]
+        url = website["url"].lower()
+        
+        if clean_query in name or clean_query in url:
+            results.append(website)
+            
+    return results
 
 def add_app_registry_entry(name, command):
     memory = load_memory()

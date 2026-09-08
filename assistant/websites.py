@@ -18,6 +18,27 @@ def handle_register_website(user_input):
     
     return f"Updated website: {website['name']} -> {website['url']}"
 
+def handle_search_websites(user_input):
+    query = parse_search_websites(user_input)
+    
+    if not query:
+        return "Use this format: search websites query"
+    
+    results = memory.search_websites(query)
+    
+    if not results:
+        return f"I could not find registered websites matching: {query}"
+    
+    lines = [f"Registered websites matching {query}:"]
+    
+    for website in results:
+        lines.append(
+            f"- {website['name']}: {website['url']} | "
+            f"allowed: {website.get('allowed', False)}"
+        )
+        
+    return "\n".join(lines)
+
 def handle_unregister_website(user_input):
     name = parse_unregister_website(user_input)
     
@@ -72,6 +93,15 @@ def parse_register_website(user_input):
     
     name, url = details.split(" as ", 1)
     return name.strip(), url.strip()
+
+def parse_search_websites(user_input):
+    prefix = "search websites "
+    text = user_input.lower().strip()
+    
+    if not text.startswith(prefix):
+        return ""
+    
+    return text[len(prefix):].strip()
 
 def is_safe_website_url(url):
     parsed = urlparse(url.strip())

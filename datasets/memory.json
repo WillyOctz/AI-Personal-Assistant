@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_website_registry",
+        "last_response_intent": "search_websites",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Registered websites:\n1. python docs: https://docs.python.org/3/ | allowed: False",
+        "last_response_text": "I could not find registered websites matching: example",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -16769,6 +16769,56 @@
             "source": "rule",
             "timestamp": "2026-09-08 15:42:01",
             "importance": 0.6
+        },
+        {
+            "user": "register website python docs as https://docs.python.org/3/",
+            "assistant": "Updated website: python docs -> https://docs.python.org/3/",
+            "intent": "register_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-08 16:11:10",
+            "importance": 0.6
+        },
+        {
+            "user": "register website github as https://github.com/",
+            "assistant": "Registered website: github -> https://github.com/",
+            "intent": "register_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-08 16:11:15",
+            "importance": 0.6
+        },
+        {
+            "user": "search websites python",
+            "assistant": "Registered websites matching python:\n- python docs: https://docs.python.org/3/ | allowed: False",
+            "intent": "search_websites",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-08 16:11:18",
+            "importance": 0.6
+        },
+        {
+            "user": "search websites github",
+            "assistant": "Registered websites matching github:\n- github: https://github.com/ | allowed: False",
+            "intent": "search_websites",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-08 16:11:23",
+            "importance": 0.6
+        },
+        {
+            "user": "search websites example",
+            "assistant": "I could not find registered websites matching: example",
+            "intent": "search_websites",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-08 16:11:26",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -17687,6 +17737,11 @@
         "python docs": {
             "name": "python docs",
             "url": "https://docs.python.org/3/",
+            "allowed": false
+        },
+        "github": {
+            "name": "github",
+            "url": "https://github.com/",
             "allowed": false
         }
     },
