@@ -6190,15 +6190,28 @@ def handle_memory_intent(user_input, analysis):
         
     if intent == "automation_status":
         status = apps.get_automation_status()
+        website_status = websites.get_website_automation_status()
         
-        return (
-            "Automation status:\n"
-            f"App launching: {'enabled' if status['launching_enabled'] else 'disabled'}\n"
-            f"Launch confirmation: {'enabled' if status['confirmation_enabled'] else 'disabled'}\n"
-            f"Registered apps: {status['registered_apps']}\n"
-            f"Aliases: {status['aliases']}\n"
-            f"Allowed apps: {status['allowed_apps']}"
-        )
+        lines = [
+            "Automation status:",
+            f"App launching: {'enabled' if status['launching_enabled'] else 'disabled'}",
+            f"Launch confirmation: {'enabled' if status['confirmation_enabled'] else 'disabled'}",
+            f"Registered apps: {status['registered_apps']}",
+            f"Aliases: {status['aliases']}",
+            f"Allowed apps: {status['allowed_apps']}",
+            f"Website opening: {'enabled' if website_status['opening_enabled'] else 'disabled'}",
+            f"Registered websites: {website_status['registered_websites']}",
+            f"Allowed websites: {website_status['allowed_websites']}",
+        ]
+        
+        pending_website = website_status["pending_website"]
+        
+        if pending_website:
+            lines.append(f"Pending website: {pending_website['name']}")
+        else:
+            lines.append("Pending website: None")
+            
+        return "\n".join(lines)
         
     if intent == "register_website":
         return websites.handle_register_website(user_input)

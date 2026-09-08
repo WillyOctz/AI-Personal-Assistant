@@ -207,3 +207,23 @@ def format_website_open_history():
         )
         
     return "\n".join(lines)
+
+def get_website_automation_status():
+    registry = memory.get_website_registry()
+    pending = get_pending_website_open()
+    
+    allowed_count = 0
+    
+    for website in registry.values():
+        if website.get("allowed", False):
+            allowed_count += 1
+            
+    return {
+        "opening_enabled": memory.get_setting(
+            "real_website_opening",
+            False,
+        ),
+        "registered_websites": len(registry),
+        "allowed_websites": allowed_count,
+        "pending_website": pending,
+    }

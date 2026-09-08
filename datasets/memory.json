@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "website_open_history",
+        "last_response_intent": "automation_status",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Website opening history:\n- 2026-09-07 20:57:55 | python docs | Opening python docs.",
+        "last_response_text": "Automation status:\nApp launching: enabled\nLaunch confirmation: enabled\nRegistered apps: 4\nAliases: 1\nAllowed apps: 2\nWebsite opening: enabled\nRegistered websites: 1\nAllowed websites: 1\nPending website: None",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -16638,6 +16638,56 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-07 20:58:02",
+            "importance": 0.6
+        },
+        {
+            "user": "automation status",
+            "assistant": "Automation status:\nApp launching: enabled\nLaunch confirmation: enabled\nRegistered apps: 4\nAliases: 1\nAllowed apps: 2\nWebsite opening: enabled\nRegistered websites: 1\nAllowed websites: 1\nPending website: None",
+            "intent": "automation_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-08 15:21:03",
+            "importance": 0.6
+        },
+        {
+            "user": "open website python docs",
+            "assistant": "I am ready to open python docs: https://docs.python.org/3/\nReply yes to open it or no to cancel.",
+            "intent": "open_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-08 15:21:11",
+            "importance": 0.6
+        },
+        {
+            "user": "automation status",
+            "assistant": "Automation status:\nApp launching: enabled\nLaunch confirmation: enabled\nRegistered apps: 4\nAliases: 1\nAllowed apps: 2\nWebsite opening: enabled\nRegistered websites: 1\nAllowed websites: 1\nPending website: python docs",
+            "intent": "automation_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-08 15:21:18",
+            "importance": 0.6
+        },
+        {
+            "user": "no",
+            "assistant": "Cancelled website opening: python docs",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-08 15:21:30",
+            "importance": 0.1
+        },
+        {
+            "user": "automation status",
+            "assistant": "Automation status:\nApp launching: enabled\nLaunch confirmation: enabled\nRegistered apps: 4\nAliases: 1\nAllowed apps: 2\nWebsite opening: enabled\nRegistered websites: 1\nAllowed websites: 1\nPending website: None",
+            "intent": "automation_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-08 15:21:35",
             "importance": 0.6
         }
     ],
