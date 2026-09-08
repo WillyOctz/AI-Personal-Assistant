@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "search_websites",
+        "last_response_intent": "show_reminders",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I could not find registered websites matching: example",
+        "last_response_text": "Your reminders:\n1. i like music | due: 2026-09-07\n2. continue my ai personal assistant | due: 2026-09-06",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -16818,6 +16818,16 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-08 16:11:26",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. i like music | due: 2026-09-07\n2. continue my ai personal assistant | due: 2026-09-06",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-08 16:29:24",
             "importance": 0.6
         }
     ],
