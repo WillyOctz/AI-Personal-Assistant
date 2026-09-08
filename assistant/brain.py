@@ -6216,6 +6216,9 @@ def handle_memory_intent(user_input, analysis):
     if intent == "register_website":
         return websites.handle_register_website(user_input)
     
+    if intent == "unregister_website":
+        return websites.handle_unregister_website(user_input)
+    
     if intent == "show_website_registry":
         return websites.format_website_registry()
     

@@ -18,6 +18,30 @@ def handle_register_website(user_input):
     
     return f"Updated website: {website['name']} -> {website['url']}"
 
+def handle_unregister_website(user_input):
+    name = parse_unregister_website(user_input)
+    
+    if not name:
+        return "Use this format: unregister website website_name"
+    
+    result = memory.remove_website(name)
+    
+    if not result["removed"]:
+        return f"I could not find registered website: {result['website']}"
+    
+    removed_website = result["website"]
+    pending = get_pending_website_open()
+    
+    if pending and pending["name"] == removed_website["name"]:
+        clear_pending_website_open()
+        
+        return (
+            f"Removed website: {removed_website['name']}\n"
+            "Its pending website opening was cancelled."
+        )
+        
+    return f"Removed website: {removed_website['name']}"
+
 def format_website_registry():
     registry = memory.get_website_registry()
     
@@ -77,6 +101,15 @@ def parse_open_website(user_input):
 
 def parse_disallow_website(user_input):
     prefix = "disallow website "
+    text = user_input.lower().strip()
+    
+    if not text.startswith(prefix):
+        return ""
+    
+    return text[len(prefix):].strip()
+
+def parse_unregister_website(user_input):
+    prefix = "unregister website "
     text = user_input.lower().strip()
     
     if not text.startswith(prefix):

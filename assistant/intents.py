@@ -276,6 +276,7 @@ VALID_INTENTS = {
     "enable_website_opening",
     "disable_website_opening",
     "website_open_history",
+    "unregister_website",
 }
 
 
@@ -566,6 +567,7 @@ MEMORY_INTENTS = {
     "enable_website_opening",
     "disable_website_opening",
     "website_open_history",
+    "unregister_website",
 }
 
 
@@ -1937,6 +1939,9 @@ INTENT_PREFIXES = {
     "open_website": [
         "open website ",
     ],
+    "unregister_website": [
+        "unregister website ",
+    ],
 }
 
 
@@ -2032,6 +2037,7 @@ PREFIX_INTENT_ORDER = [
     "disallow_website",
     "register_website",
     "open_website",
+    "unregister_website",
     "unregister_app",
     "register_app",
     "search_app_registry",

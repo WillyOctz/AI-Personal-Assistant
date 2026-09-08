@@ -1901,6 +1901,24 @@ def set_website_allowed(name, allowed):
         "updated": True,
         "website": website,
     }
+    
+def remove_website(name):
+    memory = load_memory()
+    clean_name = normalize_entity_name(name)
+    
+    if clean_name not in memory["website_registry"]:
+        return {
+            "removed": False,
+            "website": clean_name,
+        }
+        
+    website = memory["website_registry"].pop(clean_name)
+    save_memory(memory)
+    
+    return {
+        "removed": True,
+        "website": website,
+    }
 
 def add_app_registry_entry(name, command):
     memory = load_memory()

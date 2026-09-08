@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "automation_status",
+        "last_response_intent": "show_website_registry",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Automation status:\nApp launching: enabled\nLaunch confirmation: enabled\nRegistered apps: 4\nAliases: 1\nAllowed apps: 2\nWebsite opening: enabled\nRegistered websites: 1\nAllowed websites: 1\nPending website: None",
+        "last_response_text": "Registered websites:\n1. python docs: https://docs.python.org/3/ | allowed: False",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -16689,6 +16689,86 @@
             "source": "rule",
             "timestamp": "2026-09-08 15:21:35",
             "importance": 0.6
+        },
+        {
+            "user": "register website python docs as https://docs.python.org/3/",
+            "assistant": "Updated website: python docs -> https://docs.python.org/3/",
+            "intent": "register_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-08 15:41:11",
+            "importance": 0.6
+        },
+        {
+            "user": "allow website python docs",
+            "assistant": "Allowed website: python docs",
+            "intent": "allow_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-08 15:41:16",
+            "importance": 0.6
+        },
+        {
+            "user": "enable website opening",
+            "assistant": "Real website opening enabled.",
+            "intent": "enable_website_opening",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-08 15:41:35",
+            "importance": 0.6
+        },
+        {
+            "user": "open website python docs",
+            "assistant": "I am ready to open python docs: https://docs.python.org/3/\nReply yes to open it or no to cancel.",
+            "intent": "open_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-08 15:41:40",
+            "importance": 0.6
+        },
+        {
+            "user": "unregister website python docs",
+            "assistant": "Removed website: python docs\nIts pending website opening was cancelled.",
+            "intent": "unregister_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-08 15:41:44",
+            "importance": 0.6
+        },
+        {
+            "user": "show websites",
+            "assistant": "No websites registered yet.",
+            "intent": "show_website_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-08 15:41:51",
+            "importance": 0.6
+        },
+        {
+            "user": "register website python docs as https://docs.python.org/3/",
+            "assistant": "Registered website: python docs -> https://docs.python.org/3/",
+            "intent": "register_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-08 15:41:57",
+            "importance": 0.6
+        },
+        {
+            "user": "show websites",
+            "assistant": "Registered websites:\n1. python docs: https://docs.python.org/3/ | allowed: False",
+            "intent": "show_website_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-08 15:42:01",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -17607,7 +17687,7 @@
         "python docs": {
             "name": "python docs",
             "url": "https://docs.python.org/3/",
-            "allowed": true
+            "allowed": false
         }
     },
     "website_opens": [
