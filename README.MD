@@ -1,11 +1,26 @@
 # AI Personal Assistant - Nebula
 
-Nebula is a learning-focused AI personal assistant built from basic Python logic before using advanced AI models.
-(I'm still learning more about engineering an AI while making this, if any Senior or AI Developers or Engineers spot some mistakes or giving me advice on what to upgrade or to develop, feel free to tag or chat with me. Thank you 😀)
+Nebula is a learning-focused personal assistant built in Python. The project starts with explicit rule-based logic and small supervised-learning experiments, then gradually adds persistent memory, safe local automation, and an API layer.
 
 ## Current Version
 
-### V10 - Conversation Intelligence + Chat Feedback
+### V16.0 - Local API Foundation
+
+Nebula still runs as a console assistant through `main.py`. It can now also be used through a local FastAPI server in `api.py`.
+
+Start the console assistant:
+
+```powershell
+python main.py
+```
+
+Start the local API:
+
+```powershell
+python -m uvicorn api:app --reload
+```
+
+Open the local API documentation at `http://127.0.0.1:8000/docs`.
 
 Nebula currently supports:
 
@@ -34,16 +49,22 @@ Nebula currently supports:
 - Response feedback system
 - Feedback stats, search, filters, health, dashboard, notes, and cleanup
 - Refactored modules for focus, apps, and chat helpers
+- Website registry with URL validation, allow/block policy, safe browser opening, confirmation, history, removal, and search
+- Unified automation status for apps and websites
+- Local HTTP API with `GET /health` and `POST /chat`
 
 ## Project Structure
 
 ```text
 main.py
+api.py
+requirements.txt
 assistant/
   brain.py
   chat.py
   focus.py
   apps.py
+  websites.py
   tools.py
   memory.py
   personality.py
@@ -65,20 +86,61 @@ datasets/
 - chat.py contains chat parsers, formatters, and chat-specific handlers.
 - focus.py handles focus mode.
 - apps.py handles registered app logic.
+- websites.py handles registered website and browser-opening safety logic.
 - tools.py handles calculator, app launching, and file tools.
 - trainer.py handles simple learning, token scoring, debugging, and evaluation.
 
-### V11 - Data Quality / Training System
+## Milestone History
 
-Planned next:
+### V1-V4 - Assistant Foundations
 
-- Dataset stats
-- Duplicate feedback detection
-- Feedback cleanup
-- Bad example removal
-- Train/test split cleanup
-- Better confusion reports
-- Confidence calibration
-- Tokenizer improvements
+- Console conversation loop, rule-based intent detection, and token normalization
+- JSONL examples and feedback data
+- Basic supervised-learning-style scoring, debugging, confidence, and evaluation
+- Personality responses and early conversation memory
 
-### AND MORE UPDATES SOON...😀😀😀
+### V5-V7 - Memory and Productivity
+
+- Notes, profile facts, reminders, due dates, and reminder CRUD
+- Semantic memory search with similarity, importance, and recency scores
+- Conversation archiving, summaries, archive search, and pruning
+- Focus sessions, goals, notes, stats, streaks, work-session reviews, and exports
+- Reminder notifications, snoozing, dismissal, and daily briefing
+
+### V8-V10 - Local Tools, Chat, and Data Quality
+
+- Safe file search, listing, preview, content search, history, and cleanup
+- App registry, aliases, defaults, allowlist, backups, cleanup, and real local launching
+- Chat intent handling, response repeat/explain, topics, and response feedback
+- Dataset inspection, duplicate/conflict checks, backups, restore, and example suggestions
+
+### V15 - Safe Local Automation
+
+- App launch confirmation and launch history
+- Website registry, permission policy, safe opening, confirmation, history, removal, and search
+- Unified local automation status
+
+## Next: V16
+
+### V16.1 - Local Web Interface
+
+- Browser interface that sends messages to the local `/chat` API
+- Conversation display and input controls
+- Clear handling for pending yes/no confirmations
+
+### V16.2 - Storage Upgrade
+
+- Plan and migrate persistent data from JSON to SQLite
+- Preserve the existing `memory.py` public functions during migration
+- Add migration and backup checks before changing saved data
+
+### V17 - LLM-Assisted Conversation
+
+- Add an optional LLM provider or local model behind a dedicated adapter
+- Keep deterministic routing and confirmation for external actions
+- Retrieve relevant memory as context instead of placing all memory in prompts
+
+### V18 - Optional Deployment
+
+- Authentication, encrypted configuration, scheduled background reminders, and remote access
+- Cloud deployment only after the local assistant is stable

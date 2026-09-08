@@ -1,9 +1,21 @@
+from pathlib import Path
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 from assistant.brain import get_response
 
 app = FastAPI(title="Nebula API")
+
+BASE_DIR = Path(__file__).parent
+WEB_DIR = BASE_DIR / "website"
+
+app.mount(
+    "/static",
+    StaticFiles(directory=WEB_DIR),
+    name="static",
+)
 
 class MessageRequest(BaseModel):
     message: str
@@ -14,6 +26,10 @@ def health_check():
         "ok": True,
         "assistant": "Nebula",
     }
+    
+@app.get("/", include_in_schema=False)
+def home():
+    return FileResponse(WEB_DIR / "index.html")
     
 @app.post("/chat")
 def chat(req: MessageRequest):

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nebula</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <main class="app-shell">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">Nebula</p>
+                <h1>Personal Assistant</h1>
+            </div>
+            <span id="connection-status" class="status">Local API</span>
+        </header>
+
+        <section
+            id="messages"
+            class="messages"
+            aria-live="polite"
+            aria-label="Conversation"
+        >
+            <article class="message assistant-message">
+                <p class="message-label">Nebula</p>
+                <p>Hello. What can I help you with?</p>
+            </article>
+        </section>
+
+        <form id="chat-form" class="composer">
+            <label class="sr-only" for="message-input">Message Nebula</label>
+            <textarea
+                id="message-input"
+                name="message"
+                rows="1"
+                placeholder="Message Nebula"
+                autocomplete="off"
+                required
+            ></textarea>
+            <button id="send-button" type="submit">Send</button>
+        </form>
+    </main>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+:root {
+    font-family: Arial, sans-serif;
+    color: #1f2933;
+    background: #eef2f3;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+}
+
+.app-shell {
+    width: min(900px, 100%);
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #cfd8dc;
+}
+
+.eyebrow {
+    margin: 0 0 4px;
+    color: #0f766e;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+h1 {
+    margin: 0;
+    font-size: 24px;
+    letter-spacing: 0;
+}
+
+.status {
+    color: #166534;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.messages {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+    padding: 4px 0;
+}
+
+.message {
+    max-width: min(680px, 88%);
+    padding: 12px 14px;
+    border-radius: 8px;
+    line-height: 1.45;
+    white-space: pre-wrap;
+}
+
+.message p {
+    margin: 0;
+}
+
+.message-label {
+    margin-bottom: 6px !important;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.assistant-message {
+    align-self: flex-start;
+    background: #ffffff;
+    border: 1px solid #d6dfe3;
+}
+
+.user-message {
+    align-self: flex-end;
+    color: #ffffff;
+    background: #0f766e;
+}
+
+.composer {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px solid #cfd8dc;
+}
+
+textarea {
+    flex: 1;
+    min-height: 44px;
+    max-height: 160px;
+    resize: vertical;
+    padding: 11px 12px;
+    border: 1px solid #9eabb1;
+    border-radius: 6px;
+    font: inherit;
+    line-height: 1.35;
+}
+
+button {
+    min-width: 72px;
+    min-height: 44px;
+    border: 0;
+    border-radius: 6px;
+    color: #ffffff;
+    background: #0f766e;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: wait;
+    opacity: 0.6;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+}
+
+@media (max-width: 600px) {
+    .app-shell {
+        padding: 16px;
+    }
+
+    .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .message {
+        max-width: 94%;
+    }
+}
