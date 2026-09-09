@@ -38,6 +38,28 @@ def initialize_database():
             ("schema_version",),
         ).fetchone()
         
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS migration_runs (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                status TEXT NOT NULL,
+                details TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            )
+            """
+        )
+        
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS profile_facts (
+                key TEXT PRIMARY KEY,
+                value TEXT NOT NULL,
+                migrated_at TEXT NOT NULL
+            )
+            """
+        )
+        
         if row is None:
             connection.execute(
                 """
@@ -54,18 +76,6 @@ def initialize_database():
             raise RuntimeError(
                 "Database schema version does not match this code."
             )
-            
-        connection.execute(
-            """
-            CREATE TABLE IF NOT EXISTS migration_runs (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                status TEXT NOT NULL,
-                details TEXT NOT NULL,
-                created_at TEXT NOT NULL
-            )
-            """
-        )
             
 def get_database_status():
     with get_connection() as connection:
@@ -178,3 +188,63 @@ def prepare_memory_migration():
     )
     
     return details
+
+def migrate_profile_from_json():
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    profile = memory_data.get("profile", {})
+    
+    if not isinstance(profile, dict):
+        raise ValueError("memory.json profile must be a JSON object.")
+    
+    migrated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    with get_connection() as connection:
+        for key, value in profile.items():
+            connection.execute(
+                """
+                INSERT INTO profile_facts (
+                    key,
+                    value,
+                    migrated_at
+                )
+                VALUES (?, ?, ?)
+                ON CONFLICT(key) DO UPDATE SET
+                    value = excluded.value,
+                    migrated_at = excluded.migrated_at
+                """,
+                (
+                    str(key),
+                    str(value),
+                    migrated_at,
+                ),
+            )
+            
+        details = {
+            "fact_count": len(profile),
+            "keys": sorted(profile.keys()),
+        }
+        
+    record_migration(
+        "migrate_profile_from_json",
+        "completed",
+        details,
+    )
+        
+    return details
+    
+def get_sqlite_profile():
+    with get_connection() as connection:
+        rows = connection.execute(
+            """
+            SELECT key, value
+            FROM profile_facts
+            ORDER BY key
+            """
+        ).fetchall()
+        
+    return {
+        row["key"]: row["value"]
+        for row in rows
+    }
