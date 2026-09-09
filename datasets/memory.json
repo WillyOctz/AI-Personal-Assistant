@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "deny_intent",
-        "last_response_group": "control",
-        "last_response_source": "rule",
-        "last_response_confidence": 1.0,
+        "last_response_intent": "unknown",
+        "last_response_group": "unknown",
+        "last_response_source": "None",
+        "last_response_confidence": 0,
         "last_response_scores": {},
-        "last_response_text": "Cancelled website opening: python docs",
+        "last_response_text": "I am not sure if that was a command or conversation yet.\nYou said: yo\nYou can rephrase it, or teach me with: teach message as intent_name",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -16969,6 +16969,16 @@
             "source": "rule",
             "timestamp": "2026-09-09 16:14:43",
             "importance": 0.1
+        },
+        {
+            "user": "yo",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: yo\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-09 16:58:47",
+            "importance": 0.3
         }
     ],
     "summaries": [

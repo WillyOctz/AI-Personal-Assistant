@@ -62,6 +62,37 @@ async function sendMessage(message) {
     return data.response
 }
 
+async function loadConversation() {
+    try {
+        const res = await fetch("/conversation?limit=20")
+
+        if (!res.ok) {
+            throw new Error("Conversation request failed.")
+        }
+
+        const data = await res.json()
+        const turns = data.turns
+
+        if (turns.length === 0) {
+            addMessage("assistant", "Hello. What can I help you with?")
+            return
+        }
+
+        for (const turn of turns) {
+            addMessage("user", turn.user)
+            addMessage("assistant", turn.assistant)
+        }
+
+        const latestTurn = turns[turns.length - 1]
+        confirmationActions.hidden = !needsConfirmation(
+            latestTurn.assistant
+        )
+    } catch (err) {
+        addMessage("assistant", "I could not load our recent conversation.")
+        status.textContent = "Connection error"
+    }
+}
+
 async function loadStartupMessage() {
     try {
         const res = await fetch("/startup")
@@ -125,4 +156,9 @@ cancelButton.addEventListener("click", () => {
     sendConfirmation("no")
 })
 
-loadStartupMessage()
+async function initializeChat() {
+    await loadConversation()
+    await loadStartupMessage()
+}
+
+initializeChat()

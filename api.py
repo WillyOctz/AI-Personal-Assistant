@@ -3,6 +3,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from assistant import memory
 
 from assistant.brain import (
     get_response,
@@ -34,6 +35,14 @@ def health_check():
 def startup_message():
     return {
         "message": get_startup_notification_message(),
+    }
+    
+@app.get("/conversation")
+def conversation_history(limit: int = 20):
+    safe_limit = max(1, min(limit, 50))
+    
+    return {
+        "turns": memory.get_conversation(safe_limit),
     }
     
 @app.get("/", include_in_schema=False)
