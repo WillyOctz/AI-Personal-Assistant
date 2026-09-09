@@ -3,6 +3,9 @@ const input = document.getElementById("message-input")
 const messages = document.getElementById("messages")
 const sendButton = document.getElementById("send-button")
 const status = document.getElementById("connection-status")
+const confirmationActions = document.getElementById("confirmation-actions")
+const confirmButton = document.getElementById("confirm-button")
+const cancelButton = document.getElementById("cancel-button")
 
 function addMessage(role, text) {
     const message = document.createElement("article")
@@ -22,6 +25,21 @@ function addMessage(role, text) {
     message.append(label, content)
     messages.appendChild(message)
     messages.scrollTop = messages.scrollHeight
+}
+
+function needsConfirmation(res) {
+    return res.toLowerCase().includes("reply yes")
+}
+
+function setChatBusy(isBusy) {
+    sendButton.disabled = isBusy
+    confirmButton.disabled = isBusy
+    cancelButton.disabled = isBusy
+}
+
+function sendConfirmation(answer) {
+    input.value = answer
+    form.requestSubmit()
 }
 
 async function sendMessage(message) {
@@ -72,21 +90,23 @@ form.addEventListener("submit", async (event) => {
     }
 
     addMessage("user", message)
+    confirmationActions.hidden = true
 
     input.value = ""
     input.focus()
-    sendButton.disabled = true
+    setChatBusy(true)
     status.textContent = "Contemplating..."
 
     try {
         const res = await sendMessage(message);
         addMessage("assistant", res)
+        confirmationActions.hidden = !needsConfirmation(res)
         status.textContent = "Local API"
     } catch (err) {
         addMessage("assistant", `Error: ${err.message}`)
         status.textContent = "Connection error"
     } finally {
-        sendButton.disabled = false
+        setChatBusy(false)
     }
 })
 
@@ -95,6 +115,14 @@ input.addEventListener("keydown", (event) => {
         event.preventDefault()
         form.requestSubmit()
     }
+})
+
+confirmButton.addEventListener("click", () => {
+    sendConfirmation("yes")
+})
+
+cancelButton.addEventListener("click", () => {
+    sendConfirmation("no")
 })
 
 loadStartupMessage()

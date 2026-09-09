@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_reminders",
-        "last_response_group": "memory",
+        "last_response_intent": "deny_intent",
+        "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Your reminders:\n1. i like music | due: 2026-09-07\n2. continue my ai personal assistant | due: 2026-09-06",
+        "last_response_text": "Cancelled website opening: python docs",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -16919,6 +16919,56 @@
             "source": "rule",
             "timestamp": "2026-09-09 15:25:26",
             "importance": 0.6
+        },
+        {
+            "user": "open website python docs",
+            "assistant": "python docs is registered but not allowed for opening.\nUse: allow website python docs",
+            "intent": "open_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-09 16:13:44",
+            "importance": 0.6
+        },
+        {
+            "user": "show websites",
+            "assistant": "Registered websites:\n1. python docs: https://docs.python.org/3/ | allowed: False\n2. github: https://github.com/ | allowed: False",
+            "intent": "show_website_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-09 16:14:13",
+            "importance": 0.6
+        },
+        {
+            "user": "allow website python docs",
+            "assistant": "Allowed website: python docs",
+            "intent": "allow_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-09 16:14:27",
+            "importance": 0.6
+        },
+        {
+            "user": "open website python docs",
+            "assistant": "I am ready to open python docs: https://docs.python.org/3/\nReply yes to open it or no to cancel.",
+            "intent": "open_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-09 16:14:39",
+            "importance": 0.6
+        },
+        {
+            "user": "no",
+            "assistant": "Cancelled website opening: python docs",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-09 16:14:43",
+            "importance": 0.1
         }
     ],
     "summaries": [
@@ -17837,7 +17887,7 @@
         "python docs": {
             "name": "python docs",
             "url": "https://docs.python.org/3/",
-            "allowed": false
+            "allowed": true
         },
         "github": {
             "name": "github",
