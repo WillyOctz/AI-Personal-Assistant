@@ -2,6 +2,8 @@
 
 Nebula is a learning-focused personal assistant built in Python. The project starts with explicit rule-based logic and small supervised-learning experiments, then gradually adds persistent memory, safe local automation, and an API layer.
 
+(I'm still learning more about engineering an AI while making this, if any Senior or AI Developers or Engineers spot some mistakes or giving me advice on what to upgrade or to develop, feel free to tag or chat with me. Thank you 😀)
+
 ## Current Version
 
 ### V16.0 - Local API Foundation

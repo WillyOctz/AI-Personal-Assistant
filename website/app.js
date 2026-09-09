@@ -41,7 +41,25 @@ async function sendMessage(message) {
         throw new Error(data.detail || "Request failed.")
     }
 
-    return data.res
+    return data.response
+}
+
+async function loadStartupMessage() {
+    try {
+        const res = await fetch("/startup")
+
+        if (!res.ok) {
+            throw new Error("Startup request failed.")
+        }
+
+        const data = await res.json()
+
+        if (data.message) {
+            addMessage("assistant", data.message)
+        }
+    } catch (err) {
+        status.textContent = "Connection error"
+    }
 }
 
 form.addEventListener("submit", async (event) => {
@@ -78,3 +96,5 @@ input.addEventListener("keydown", (event) => {
         form.requestSubmit()
     }
 })
+
+loadStartupMessage()

@@ -4,7 +4,10 @@ from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-from assistant.brain import get_response
+from assistant.brain import (
+    get_response,
+    get_startup_notification_message,
+)
 
 app = FastAPI(title="Nebula API")
 
@@ -25,6 +28,12 @@ def health_check():
     return {
         "ok": True,
         "assistant": "Nebula",
+    }
+    
+@app.get("/startup")
+def startup_message():
+    return {
+        "message": get_startup_notification_message(),
     }
     
 @app.get("/", include_in_schema=False)

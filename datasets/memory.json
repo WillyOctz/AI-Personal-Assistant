@@ -16849,6 +16849,76 @@
             "source": "rule",
             "timestamp": "2026-09-08 17:41:42",
             "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. i like music | due: 2026-09-07\n2. continue my ai personal assistant | due: 2026-09-06",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-09 14:37:30",
+            "importance": 0.6
+        },
+        {
+            "user": "hello",
+            "assistant": "Hello, I am Nebula. What can I help you with?ehe~ I remember that your name is Carlos, your goal is to build best AI assistant, you like python.",
+            "intent": "greeting",
+            "group": "basic",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-09 14:37:36",
+            "importance": 0.2
+        },
+        {
+            "user": "hello",
+            "assistant": "Hello, I am Nebula. What can I help you with?ehe~ I remember that your name is Carlos, your goal is to build best AI assistant, you like python.",
+            "intent": "greeting",
+            "group": "basic",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-09 14:39:00",
+            "importance": 0.2
+        },
+        {
+            "user": "send",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: send\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-09 15:09:09",
+            "importance": 0.3
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. i like music | due: 2026-09-07\n2. continue my ai personal assistant | due: 2026-09-06",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-09 15:15:23",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. i like music | due: 2026-09-07\n2. continue my ai personal assistant | due: 2026-09-06",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-09 15:17:28",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. i like music | due: 2026-09-07\n2. continue my ai personal assistant | due: 2026-09-06",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-09 15:25:26",
+            "importance": 0.6
         }
     ],
     "summaries": [
