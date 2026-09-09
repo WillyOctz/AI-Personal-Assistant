@@ -1,8 +1,13 @@
 import sqlite3
+import json
+import shutil
+from datetime import datetime
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATABASE_FILE = PROJECT_ROOT / "db" / "nebula.db"
+MEMORY_FILE = PROJECT_ROOT / "datasets" / "memory.json"
+BACKUP_DIR = PROJECT_ROOT / "datasets" / "backups"
 SCHEMA_VERSION = 1
 
 def get_connection():
@@ -50,6 +55,18 @@ def initialize_database():
                 "Database schema version does not match this code."
             )
             
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS migration_runs (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                status TEXT NOT NULL,
+                details TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            )
+            """
+        )
+            
 def get_database_status():
     with get_connection() as connection:
         row = connection.execute(
@@ -65,3 +82,99 @@ def get_database_status():
         "path": str(DATABASE_FILE),
         "schema_version": int(row["value"]) if row else None,
     }
+    
+def create_memory_backup():
+    if not MEMORY_FILE.exists():
+        raise FileNotFoundError(
+            f"Memory file does not exist: {MEMORY_FILE}"
+        )
+        
+    BACKUP_DIR.mkdir(exist_ok=True)
+    
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    backup_file = BACKUP_DIR / (
+        f"memory_before_sqlite_{timestamp}.json"
+    )
+    
+    shutil.copy2(MEMORY_FILE, backup_file)
+    
+    return backup_file
+
+def record_migration(name, status, details):
+    initialize_database()
+    
+    with get_connection() as connection:
+        connection.execute(
+            """
+            INSERT INTO migration_runs (
+               name,
+                status,
+                details,
+                created_at 
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            (
+                name,
+                status,
+                json.dumps(details),
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            ),
+        )
+        
+def get_migration_runs(limit=10):
+    initialize_database()
+    
+    safe_limit = max(1, min(limit, 50))
+    
+    with get_connection() as connection:
+        rows = connection.execute(
+            """
+            SELECT
+                id,
+                name,
+                status,
+                details,
+                created_at
+            FROM migration_runs
+            ORDER BY id DESC
+            LIMIT ?
+            """,
+            (safe_limit,),
+        ).fetchall()
+        
+    return [
+        {
+            "id": row["id"],
+            "name": row["name"],
+            "status": row["status"],
+            "details": json.loads(row["details"]),
+            "created_at": row["created_at"],
+        }
+        for row in rows
+    ]
+    
+def prepare_memory_migration():
+    initialize_database()
+    
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    if not isinstance(memory_data, dict):
+        raise ValueError("memory.json must contain a JSON object.")
+    
+    backup_file = create_memory_backup()
+    
+    details = {
+        "backup_file": str(backup_file),
+        "top_level_keys": sorted(memory_data.keys()),
+        "top_level_key_count": len(memory_data),
+    }
+    
+    record_migration(
+        "prepare_memory_migration",
+        "completed",
+        details,
+    )
+    
+    return details
