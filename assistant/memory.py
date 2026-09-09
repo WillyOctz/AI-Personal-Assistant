@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from datetime import datetime, timedelta
+from assistant import database
 
 MEMORY_FILE = Path("datasets/memory.json")
 
@@ -342,6 +343,8 @@ def set_profile_value(key, value):
     memory["profile"][key] = value
     save_memory(memory)
     
+    database.upsert_profile_fact(key, value)
+    
 def get_profile_value(key):
     memory = load_memory()
     return memory["profile"].get(key)
@@ -358,6 +361,8 @@ def delete_profile_value(key):
         
     value = memory["profile"].pop(key)
     save_memory(memory)
+    
+    database.delete_sqlite_profile_fact(key)
     
     return {
         "deleted": True,

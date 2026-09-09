@@ -249,6 +249,43 @@ def get_sqlite_profile():
         for row in rows
     }
     
+def upsert_profile_fact(key, value):
+    initialize_database()
+    
+    with get_connection() as connection:
+        connection.execute(
+            """
+            INSERT INTO profile_facts (
+                key,
+                value,
+                migrated_at
+            )
+            VALUES (?, ?, ?)
+            ON CONFLICT(key) DO UPDATE SET
+                value = excluded.value,
+                migrated_at = excluded.migrated_at
+            """,
+            (
+                str(key),
+                str(value),
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            ),
+        )
+        
+def delete_sqlite_profile_fact(key):
+    initialize_database()
+    
+    with get_connection() as connection:
+        cursor = connection.execute(
+            """
+            DELETE FROM profile_facts
+            WHERE key = ?
+            """,
+            (str(key),),
+        )
+        
+    return cursor.rowcount > 0
+    
 def verify_profile_migration():
     with open(MEMORY_FILE, "r") as file:
         memory_data = json.load(file)
