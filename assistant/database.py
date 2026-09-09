@@ -249,6 +249,24 @@ def get_sqlite_profile():
         for row in rows
     }
     
+def get_sqlite_profile_fact(key):
+    initialize_database()
+    
+    with get_connection() as connection:
+        row = connection.execute(
+            """
+            SELECT value
+            FROM profile_facts
+            WHERE key = ?
+            """,
+            (str(key),),
+        ).fetchone()
+        
+    if row is None:
+        return None
+    
+    return row["value"]
+    
 def upsert_profile_fact(key, value):
     initialize_database()
     

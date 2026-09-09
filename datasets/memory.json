@@ -20,7 +20,7 @@
         "favorite_language": "python",
         "goal": "to build best AI assistant",
         "mood": "tired",
-        "focus_goal": "10 seconds"
+        "focus_goal": "30 minutes"
     },
     "reminders": [
         {
@@ -41,12 +41,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "unknown",
-        "last_response_group": "unknown",
-        "last_response_source": "None",
-        "last_response_confidence": 0,
+        "last_response_intent": "show_focus_goal",
+        "last_response_group": "memory",
+        "last_response_source": "rule",
+        "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I am not sure if that was a command or conversation yet.\nYou said: yo\nYou can rephrase it, or teach me with: teach message as intent_name",
+        "last_response_text": "Your focus goal is 30 minutes.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -16979,6 +16979,66 @@
             "source": "None",
             "timestamp": "2026-09-09 16:58:47",
             "importance": 0.3
+        },
+        {
+            "user": "what is my name",
+            "assistant": "Your name is Carlos.",
+            "intent": "get_profile_fact",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-09 20:58:51",
+            "importance": 0.6
+        },
+        {
+            "user": "what is my goal",
+            "assistant": "Your goal is to build best AI assistant.",
+            "intent": "get_profile_fact",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-09 20:58:56",
+            "importance": 0.6
+        },
+        {
+            "user": "what is my mood",
+            "assistant": "Your mood is tired.",
+            "intent": "get_profile_fact",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-09 20:59:01",
+            "importance": 0.6
+        },
+        {
+            "user": "show profile",
+            "assistant": "favorite_language: python\nfocus_goal: 10 seconds\ngoal: to build best AI assistant\nmood: tired\nname: Carlos",
+            "intent": "show_profile",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-09 20:59:06",
+            "importance": 0.6
+        },
+        {
+            "user": "set focus goal 30 minutes",
+            "assistant": "Focus goal saved: 30 minutes",
+            "intent": "set_focus_goal",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-09 20:59:19",
+            "importance": 0.6
+        },
+        {
+            "user": "show focus goal",
+            "assistant": "Your focus goal is 30 minutes.",
+            "intent": "show_focus_goal",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-09 20:59:23",
+            "importance": 0.6
         }
     ],
     "summaries": [

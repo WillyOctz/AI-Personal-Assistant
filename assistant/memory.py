@@ -346,8 +346,7 @@ def set_profile_value(key, value):
     database.upsert_profile_fact(key, value)
     
 def get_profile_value(key):
-    memory = load_memory()
-    return memory["profile"].get(key)
+    return database.get_sqlite_profile_fact(key)
 
 def delete_profile_value(key):
     memory = load_memory()
@@ -371,8 +370,7 @@ def delete_profile_value(key):
     }
 
 def get_profile():
-    memory = load_memory()
-    return memory["profile"]
+    return database.get_sqlite_profile()
 
 def add_reminder(reminder, due=None):
     memory = load_memory()
