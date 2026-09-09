@@ -10,7 +10,13 @@ from assistant.brain import (
     get_startup_notification_message,
 )
 
+from assistant.database import (
+    get_database_status,
+    initialize_database,
+)
+
 app = FastAPI(title="Nebula API")
+initialize_database()
 
 BASE_DIR = Path(__file__).parent
 WEB_DIR = BASE_DIR / "website"
@@ -29,6 +35,7 @@ def health_check():
     return {
         "ok": True,
         "assistant": "Nebula",
+        "database": get_database_status()
     }
     
 @app.get("/startup")
