@@ -248,3 +248,51 @@ def get_sqlite_profile():
         row["key"]: row["value"]
         for row in rows
     }
+    
+def verify_profile_migration():
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    json_profile = memory_data.get("profile", {})
+    sqlite_profile = get_sqlite_profile()
+    
+    json_keys = set(json_profile.keys())
+    sqlite_keys = set(sqlite_profile.keys())
+    
+    missing_in_sqlite = sorted(json_keys - sqlite_keys)
+    missing_in_json = sorted(sqlite_keys - json_keys)
+    
+    different_values = []
+    
+    for key in sorted(json_keys & sqlite_keys):
+        json_value = str(json_profile[key])
+        
+        if json_value != sqlite_profile[key]:
+            different_values.append({
+                "key": key,
+                "json_value": json_value,
+                "sqlite_value": sqlite_profile[key],
+            })
+            
+    matches = (
+        not missing_in_sqlite
+        and not missing_in_json
+        and not different_values
+    )
+    
+    result = {
+        "matches": matches,
+        "json_fact_count": len(json_profile),
+        "sqlite_fact_count": len(sqlite_profile),
+        "missing_in_sqlite": missing_in_sqlite,
+        "missing_in_json": missing_in_json,
+        "different_values": different_values,
+    }
+    
+    record_migration(
+        "verify_profile_migration",
+        "completed" if matches else "mismatch",
+        result,
+    )
+    
+    return result
