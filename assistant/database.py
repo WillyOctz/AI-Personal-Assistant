@@ -430,6 +430,43 @@ def get_sqlite_notes():
         for row in rows
     ]
     
+def add_sqlite_note(text):
+    initialize_database()
+    
+    with get_connection() as connection:
+        cursor = connection.execute(
+            """
+            INSERT INTO notes (text, migrated_at)
+            VALUES (?, ?)
+            """,
+            (
+                str(text),
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            ),
+        )
+        
+    return cursor.lastrowid
+
+def delete_sqlite_note(text):
+    initialize_database()
+    
+    with get_connection() as connection:
+        cursor = connection.execute(
+            """
+            DELETE FROM notes
+            WHERE id = (
+                SELECT id
+                FROM notes
+                WHERE text = ?
+                ORDER BY id
+                LIMIT 1
+            )
+            """,
+            (str(text),),
+        )
+        
+    return cursor.rowcount > 0
+    
 def verify_notes_migration():
     with open(MEMORY_FILE, "r") as file:
         memory_data = json.load(file)

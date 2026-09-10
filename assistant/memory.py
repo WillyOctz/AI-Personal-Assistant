@@ -316,6 +316,8 @@ def add_note(note):
     memory["notes"].append(note)
     save_memory(memory)
     
+    database.add_sqlite_note(note)
+    
 def get_notes():
     memory = load_memory()
     return memory["notes"]
@@ -332,6 +334,13 @@ def delete_note(note_text):
         
     notes.remove(note_text)
     save_memory(memory)
+    
+    sqlite_deleted = database.delete_sqlite_note(note_text)
+    
+    if not sqlite_deleted:
+        raise RuntimeError(
+            "Note was removed from memory.json but was not found in SQLite."
+        )
     
     return {
         "deleted": True,
