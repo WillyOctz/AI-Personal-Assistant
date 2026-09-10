@@ -429,3 +429,57 @@ def get_sqlite_notes():
         }
         for row in rows
     ]
+    
+def verify_notes_migration():
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    json_notes = memory_data.get("notes", [])
+    sqlite_rows = get_sqlite_notes()
+    sqlite_notes = [
+        row["text"]
+        for row in sqlite_rows
+    ]
+    
+    differences = []
+    total_items = max(
+        len(json_notes),
+        len(sqlite_notes),
+    )
+    
+    for index in range(total_items):
+        json_note = (
+            json_notes[index]
+            if index < len(json_notes)
+            else None
+        )
+        
+        sqlite_note = (
+            sqlite_notes[index]
+            if index < len(sqlite_notes)
+            else None
+        )
+        
+        if json_note != sqlite_note:
+            differences.append({
+                "position": index + 1,
+                "json_note": json_note,
+                "sqlite_note": sqlite_note,
+            })
+            
+    matches = not differences
+    
+    result = {
+        "matches": matches,
+        "json_note_count": len(json_notes),
+        "sqlite_note_count": len(sqlite_notes),
+        "differences": differences,
+    }
+    
+    record_migration(
+        "verify_notes_migration",
+        "completed" if matches else "mismatch",
+        result,
+    )
+    
+    return result
