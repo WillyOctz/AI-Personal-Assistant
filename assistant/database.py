@@ -60,6 +60,16 @@ def initialize_database():
             """
         )
         
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS notes (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                text TEXT NOT NULL,
+                migrated_at TEXT NOT NULL
+            )
+            """
+        )
+        
         if row is None:
             connection.execute(
                 """
@@ -93,7 +103,7 @@ def get_database_status():
         "schema_version": int(row["value"]) if row else None,
     }
     
-def create_memory_backup():
+def create_memory_backup(label="memory_before_sqlite"):
     if not MEMORY_FILE.exists():
         raise FileNotFoundError(
             f"Memory file does not exist: {MEMORY_FILE}"
@@ -103,7 +113,7 @@ def create_memory_backup():
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     backup_file = BACKUP_DIR / (
-        f"memory_before_sqlite_{timestamp}.json"
+        f"{label}_{timestamp}.json"
     )
     
     shutil.copy2(MEMORY_FILE, backup_file)
@@ -351,3 +361,71 @@ def verify_profile_migration():
     )
     
     return result
+
+def migrate_notes_from_json():
+    initialize_database()
+    
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    notes = memory_data.get("notes", [])
+    
+    if not isinstance(notes, list):
+        raise ValueError("memory.json notes must be a JSON list.")
+    
+    if not all(isinstance(note, str) for note in notes):
+        raise ValueError("Every note in memory.json must be text.")
+    
+    backup_file = create_memory_backup(
+        "memory_before_notes_sqlite"
+    )
+    
+    migrated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    with get_connection() as connection:
+        connection.execute("DELETE FROM notes")
+        
+        connection.executemany(
+            """
+            INSERT INTO notes (text, migrated_at)
+            VALUES (?, ?)
+            """,
+            [
+                (note, migrated_at)
+                for note in notes
+            ],
+        )
+        
+    details = {
+        "backup_file": str(backup_file),
+        "note_count": len(notes),
+    }
+    
+    record_migration(
+        "migrate_notes_from_json",
+        "completed",
+        details,
+    )
+    
+    return details
+
+def get_sqlite_notes():
+    initialize_database()
+    
+    with get_connection() as connection:
+        rows = connection.execute(
+            """
+            SELECT id, text, migrated_at
+            FROM notes
+            ORDER BY id
+            """
+        ).fetchall()
+        
+    return [
+        {
+            "id": row["id"],
+            "text": row["text"],
+            "migrated_at": row["migrated_at"],
+        }
+        for row in rows
+    ]
