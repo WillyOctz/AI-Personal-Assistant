@@ -70,6 +70,18 @@ def initialize_database():
             """
         )
         
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS reminders (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                position INTEGER NOT NULL UNIQUE,
+                text TEXT NOT NULL,
+                due TEXT,
+                migrated_at TEXT NOT NULL
+            )
+            """
+        )
+        
         if row is None:
             connection.execute(
                 """
@@ -520,3 +532,110 @@ def verify_notes_migration():
     )
     
     return result
+
+def migrate_reminders_from_json():
+    initialize_database()
+    
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    reminders = memory_data.get("reminders", [])
+    
+    if not isinstance(reminders, list):
+        raise ValueError("memory.json reminders must be a JSON list.")
+    
+    normalized_reminders = []
+    
+    for index, reminder in enumerate(reminders, start=1):
+        if isinstance(reminder, dict):
+            text = reminder.get("text", "")
+            due = reminder.get("due")
+        elif isinstance(reminder, str):
+            text = reminder
+            due = None
+        else:
+            raise ValueError(
+                f"Reminder {index} must be text or a JSON object."
+            )
+            
+        if not isinstance(text, str) or not text.strip():
+            raise ValueError(
+                f"Reminder {index} must contain non-empty text."
+            )
+            
+        if due is not None and not isinstance(due, str):
+            raise ValueError(
+                f"Reminder {index} due value must be text or null."
+            )
+            
+        normalized_reminders.append({
+            "position": index,
+            "text": text,
+            "due": due,
+        })
+        
+    backup_file = create_memory_backup(
+        "memory_before_reminders_sqlite"
+    )
+    
+    migrated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    with get_connection() as connection:
+        connection.execute("DELETE FROM reminders")
+        
+        connection.executemany(
+            """
+            INSERT INTO reminders (
+                position,
+                text,
+                due,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            [
+                (
+                    reminder["position"],
+                    reminder["text"],
+                    reminder["due"],
+                    migrated_at,
+                )
+                for reminder in normalized_reminders
+            ],
+        )
+        
+    details = {
+        "backup_file": str(backup_file),
+        "reminder_count": len(normalized_reminders),
+    }
+    
+    record_migration(
+        "migrate_reminders_from_json",
+        "completed",
+        details,
+    )
+    
+    return details
+
+def get_sqlite_reminders():
+    initialize_database()
+    
+    with get_connection() as connection:
+        rows = connection.execute(
+            """
+            SELECT id, position, text, due, migrated_at
+            FROM reminders
+            ORDER BY position
+            """
+        ).fetchall()
+        
+    return [
+        {
+            "id": row["id"],
+            "position": row["position"],
+            "text": row["text"],
+            "due": row["due"],
+            "migrated_at": row["migrated_at"],
+        }
+        for row in rows
+    ]
