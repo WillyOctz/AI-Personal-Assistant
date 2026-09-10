@@ -319,8 +319,12 @@ def add_note(note):
     database.add_sqlite_note(note)
     
 def get_notes():
-    memory = load_memory()
-    return memory["notes"]
+    sqlite_notes = database.get_sqlite_notes()
+    
+    return [
+        note["text"]
+        for note in sqlite_notes
+    ]
 
 def delete_note(note_text):
     memory = load_memory()

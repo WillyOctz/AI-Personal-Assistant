@@ -13,7 +13,8 @@
         "i like milk",
         "i like coffee",
         "i like coffee",
-        "i like music"
+        "i like music",
+        "i like doing training"
     ],
     "profile": {
         "name": "Carlos",
@@ -41,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_focus_goal",
+        "last_response_intent": "show_notes",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Your focus goal is 30 minutes.",
+        "last_response_text": "i want to learn AI\ni want to improve you\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee\ni like music\ni like doing training",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -17038,6 +17039,36 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-09 20:59:23",
+            "importance": 0.6
+        },
+        {
+            "user": "show notes",
+            "assistant": "i want to learn AI\ni want to improve you\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee\ni like music",
+            "intent": "show_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-10 16:47:22",
+            "importance": 0.6
+        },
+        {
+            "user": "remember i like doing training",
+            "assistant": "i remembered that.",
+            "intent": "remember_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-10 16:47:39",
+            "importance": 1.0
+        },
+        {
+            "user": "show notes",
+            "assistant": "i want to learn AI\ni want to improve you\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee\ni like music\ni like doing training",
+            "intent": "show_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-10 16:47:44",
             "importance": 0.6
         }
     ],
