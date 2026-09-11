@@ -1158,4 +1158,49 @@ def verify_conversation_migration():
     )
     
     return result
+
+def get_sqlite_migration_status():
+    initialize_database()
+    
+    table_names = [
+        "profile_facts",
+        "notes",
+        "reminders",
+        "conversation_turns",
+        "migration_runs",
+    ]
+    
+    row_counts = {}
+    
+    with get_connection() as connection:
+        for table_name in table_names:
+            row = connection.execute(
+                f"SELECT COUNT(*) AS count FROM {table_name}"
+            ).fetchone()
+            
+            row_counts[table_name] = row["count"]
+            
+        rows = connection.execute(
+            """
+            SELECT id, name, status, details, created_at
+            FROM migration_runs
+            ORDER BY id DESC
+            LIMIT 5
+            """
+        ).fetchall()
+        
+    return {
+        "database": get_database_status(),
+        "row_counts": row_counts,
+        "recent_migrations": [
+            {
+                "id": row["id"],
+                "name": row["name"],
+                "status": row["status"],
+                "details": json.loads(row["details"]),
+                "created_at": row["created_at"],
+            }
+            for row in rows
+        ],
+    }
     

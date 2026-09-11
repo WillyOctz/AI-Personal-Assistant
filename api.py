@@ -12,6 +12,7 @@ from assistant.brain import (
 
 from assistant.database import (
     get_database_status,
+    get_sqlite_migration_status,
     initialize_database,
 )
 
@@ -35,7 +36,8 @@ def health_check():
     return {
         "ok": True,
         "assistant": "Nebula",
-        "database": get_database_status()
+        "database": get_database_status(),
+        "migration": get_sqlite_migration_status(),
     }
     
 @app.get("/startup")
