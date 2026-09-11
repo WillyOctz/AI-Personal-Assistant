@@ -82,6 +82,24 @@ def initialize_database():
             """
         )
         
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS conversation_turns (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                position INTEGER NOT NULL UNIQUE,
+                user_text TEXT NOT NULL,
+                assistant_text TEXT,
+                intent TEXT,
+                intent_group TEXT,
+                confidence REAL,
+                source TEXT,
+                timestamp TEXT,
+                importance REAL,
+                migrated_at TEXT NOT NULL
+            )
+            """
+        )
+        
         if row is None:
             connection.execute(
                 """
@@ -789,3 +807,142 @@ def sync_sqlite_reminders_from_json():
         )
     
     return len(records)
+
+def migrate_conversation_from_json():
+    initialize_database()
+    
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    conversation = memory_data.get("conversation", [])
+    
+    if not isinstance(conversation, list):
+        raise ValueError("memory.json conversation must be a JSON list.")
+    
+    records = []
+    
+    for position, turn in enumerate(conversation, start=1):
+        if not isinstance(turn, dict):
+            raise ValueError(
+                f"Conversation turn {position} must be a JSON object."
+            )
+            
+        user_text = turn.get("user", "")
+        assistant_text = turn.get("assistant", "")
+        
+        if not isinstance(user_text, str):
+            raise ValueError(
+                f"Conversation turn {position} user must be text."
+            )
+            
+        if (assistant_text is not None and not isinstance(assistant_text, str)):
+            raise ValueError(
+                f"Conversation turn {position} assistant must be text."
+            )
+            
+        records.append((
+            position,
+            user_text,
+            assistant_text,
+            turn.get("intent"),
+            turn.get("group"),
+            turn.get("confidence"),
+            turn.get("source"),
+            turn.get("timestamp"),
+            turn.get("importance"),
+        ))
+        
+    backup_file = create_memory_backup(
+        "memory_before_conversation_sqlite"
+    )
+    
+    migrated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    with get_connection() as connection:
+        connection.execute("DELETE FROM conversation_turns")
+        
+        connection.executemany(
+            """
+            INSERT INTO conversation_turns (
+                position,
+                user_text,
+                assistant_text,
+                intent,
+                intent_group,
+                confidence,
+                source,
+                timestamp,
+                importance,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            [
+                (*record, migrated_at)
+                for record in records
+            ],
+        )
+        
+    details = {
+        "backup_file": str(backup_file),
+        "conversation_turn_count": len(records),
+    }
+    
+    record_migration(
+        "migrate_conversation_from_json",
+        "completed",
+        details,
+    )
+    
+    return details
+
+def get_sqlite_conversation(limit=None):
+    initialize_database()
+    
+    query = """
+        SELECT
+            id,
+            position,
+            user_text,
+            assistant_text,
+            intent,
+            intent_group,
+            confidence,
+            source,
+            timestamp,
+            importance,
+            migrated_at
+        FROM conversation_turns
+        ORDER BY position
+    """
+    
+    parameters = ()
+    
+    if limit is not None:
+        safe_limit = max(1, min(limit, 100))
+        query += " LIMIT ?"
+        parameters = (safe_limit,)
+        
+    with get_connection() as connection:
+        rows = connection.execute(
+            query,
+            parameters,
+        ).fetchall()
+        
+    return [
+        {
+            "id": row["id"],
+            "position": row["position"],
+            "user": row["user_text"],
+            "assistant": row["assistant_text"],
+            "intent": row["intent"],
+            "group": row["intent_group"],
+            "confidence": row["confidence"],
+            "source": row["source"],
+            "timestamp": row["timestamp"],
+            "importance": row["importance"],
+            "migrated_at": row["migrated_at"],
+        }
+        for row in rows
+    ]
+    
