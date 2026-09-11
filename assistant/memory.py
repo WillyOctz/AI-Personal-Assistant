@@ -596,8 +596,7 @@ def get_reminder_due(reminder):
     return None
 
 def get_reminder_stats():
-    memory = load_memory()
-    reminders = memory["reminders"]
+    reminders = get_reminders()
     
     if not reminders:
         return {
@@ -755,12 +754,12 @@ def cleanup_reminders():
     return removed_count
 
 def search_reminders(query):
-    memory = load_memory()
     query = normalize_reminder_text(query)
+    reminders = get_reminders()
     
     results = []
     
-    for index, reminder in enumerate(memory["reminders"], start=1):
+    for index, reminder in enumerate(reminders, start=1):
         text = get_reminder_text(reminder)
         due = get_reminder_due(reminder)
         
@@ -774,12 +773,12 @@ def search_reminders(query):
     return results
 
 def search_reminders_by_due(due_query):
-    memory = load_memory()
     due_query = due_query.lower().strip()
+    reminders = get_reminders()
     
     results = []
     
-    for index, reminder in enumerate(memory["reminders"], start=1):
+    for index, reminder in enumerate(reminders, start=1):
         due = get_reminder_due(reminder)
         
         if not due:
@@ -1488,7 +1487,7 @@ def get_work_next_step():
     data = load_memory()
     
     pending_task = data.get("state", {}).get("pending_task")
-    reminders = data.get("reminders", [])
+    reminders = get_reminders()
     sessions = data.get("focus_sessions", [])
     
     if pending_task:
@@ -1529,8 +1528,7 @@ def get_work_next_step():
     }
     
 def get_due_reminders():
-    data = load_memory()
-    reminders = data.get("reminders", [])
+    reminders = get_reminders()
     
     today = current_timestamp()[:10]
     
@@ -1575,8 +1573,7 @@ def get_due_reminders():
     }
     
 def get_upcoming_reminders(days=7):
-    data = load_memory()
-    reminders = data.get("reminders", [])
+    reminders = get_reminders()
     
     today = datetime.now().date()
     end_date = today + timedelta(days=days)

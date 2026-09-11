@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_reminders",
+        "last_response_intent": "suggest_next_task",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Your reminders:\n1. i like music | due: 2026-12-31\n2. continue my ai personal assistant | due: 2026-09-06",
+        "last_response_text": "Start with this reminder: i like music | due: 2026-12-31",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -17169,6 +17169,76 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-11 17:12:05",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. i like music | due: 2026-12-31\n2. continue my ai personal assistant | due: 2026-09-06",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-11 17:21:23",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. i like music | due: 2026-12-31\n2. continue my ai personal assistant | due: 2026-09-06",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-11 17:21:33",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. i like music | due: 2026-12-31\n2. continue my ai personal assistant | due: 2026-09-06",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-11 17:21:42",
+            "importance": 0.6
+        },
+        {
+            "user": "tomorrow reminders",
+            "assistant": "No reminders found for tomorrow's reminders:.",
+            "intent": "tomorrow_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-11 17:21:50",
+            "importance": 0.6
+        },
+        {
+            "user": "tomorrow reminders",
+            "assistant": "No reminders found for tomorrow's reminders:.",
+            "intent": "tomorrow_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-11 17:21:55",
+            "importance": 0.6
+        },
+        {
+            "user": "notification summary",
+            "assistant": "Notification summary: 2026-09-11\nDue today: 0\nOverdue: 0\nAlready notified: 2",
+            "intent": "notification_summary",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-11 17:22:01",
+            "importance": 0.6
+        },
+        {
+            "user": "suggest next task",
+            "assistant": "Start with this reminder: i like music | due: 2026-12-31",
+            "intent": "suggest_next_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-11 17:22:13",
             "importance": 0.6
         }
     ],
