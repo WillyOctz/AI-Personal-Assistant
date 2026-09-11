@@ -311,6 +311,14 @@ def save_memory(memory):
     with open(MEMORY_FILE, "w") as file:
         json.dump(memory, file, indent=4)
         
+def sync_reminders_to_sqlite():
+    try:
+        return database.sync_sqlite_reminders_from_json()
+    except Exception as error:
+        raise RuntimeError(
+            "Reminder data was saved to memory.json but could not sync to SQLite."
+        ) from error
+        
 def add_note(note):
     memory = load_memory()
     memory["notes"].append(note)
@@ -400,6 +408,8 @@ def add_reminder(reminder, due=None):
     memory["reminders"].append(make_reminder(clean_reminder, due))
     save_memory(memory)
     
+    sync_reminders_to_sqlite()
+    
     return {
         "saved": True,
         "reminder": clean_reminder,
@@ -439,6 +449,8 @@ def edit_reminder(identifier, new_text):
         reminders[index] = make_reminder(new_clean, old_due)
         save_memory(memory)
         
+        sync_reminders_to_sqlite()
+        
         return {
             "edited": True,
             "reason": "edited",
@@ -453,6 +465,8 @@ def edit_reminder(identifier, new_text):
             
             reminders[index] = make_reminder(new_clean, old_due)
             save_memory(memory)
+            
+            sync_reminders_to_sqlite()
             
             return {
                 "edited": True,
@@ -502,6 +516,8 @@ def set_reminder_due(identifier, due):
         reminders[index] = make_reminder(text, due)
         save_memory(memory)
         
+        sync_reminders_to_sqlite()
+        
         return {
            "updated": True,
             "reason": "updated",
@@ -513,6 +529,8 @@ def set_reminder_due(identifier, due):
         if get_reminder_text(reminder) == identifier:
             reminders[index] = make_reminder(identifier, due)
             save_memory(memory)
+            
+            sync_reminders_to_sqlite()
             
             return {
                 "updated": True,
@@ -553,6 +571,8 @@ def migrate_reminders_to_dicts():
         
     memory["reminders"] = new_reminders
     save_memory(memory)
+    
+    sync_reminders_to_sqlite()
     
     return migrated_count
     
@@ -611,6 +631,8 @@ def complete_reminder(identifier):
         removed_reminder = reminders.pop(index)
         save_memory(memory)
         
+        sync_reminders_to_sqlite()
+        
         return {
             "removed": True,
             "reason": "completed",
@@ -623,6 +645,8 @@ def complete_reminder(identifier):
         if get_reminder_text(reminder) == clean_identifier:
             reminders.remove(reminder)
             save_memory(memory)
+            
+            sync_reminders_to_sqlite()
             
             return {
                 "removed": True,
@@ -663,6 +687,8 @@ def clear_reminder_due(identifier):
         reminders[index] = make_reminder(text, None)
         save_memory(memory)
         
+        sync_reminders_to_sqlite()
+        
         return {
             "updated": True,
             "reason": "updated",
@@ -673,6 +699,8 @@ def clear_reminder_due(identifier):
         if get_reminder_text(reminder) == identifier:
             reminders[index] = make_reminder(identifier, None)
             save_memory(memory)
+            
+            sync_reminders_to_sqlite()
             
             return {
                "updated": True,
@@ -714,6 +742,8 @@ def cleanup_reminders():
     
     memory["reminders"] = cleaned_reminders
     save_memory(memory)
+    
+    sync_reminders_to_sqlite()
     
     return removed_count
 
@@ -1641,6 +1671,7 @@ def snooze_reminder(identifier, due):
         ]
         
         save_memory(data)
+        sync_reminders_to_sqlite()
         
         return {
             "updated": True,

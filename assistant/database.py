@@ -724,3 +724,68 @@ def verify_reminders_migration():
     )
     
     return result
+
+def sync_sqlite_reminders_from_json():
+    initialize_database()
+    
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    reminders = memory_data.get("reminders", [])
+    
+    if not isinstance(reminders, list):
+        raise ValueError("memory.json reminders must be a JSON list.")
+    
+    records = []
+    
+    for position, reminder in enumerate(reminders, start=1):
+        if isinstance(reminder, dict):
+            text = reminder.get("text", "")
+            due = reminder.get("due")
+        elif isinstance(reminder, str):
+            text = reminder
+            due = None
+        else:
+            raise ValueError(
+                f"Reminder {position} must be text or a JSON object."
+            )
+            
+        if not isinstance(text, str) or not text.strip():
+            raise ValueError(
+                f"Reminder {position} must contain non-empty text."
+            )
+            
+        if due is not None and not isinstance(due, str):
+            raise ValueError(
+                f"Reminder {position} must contain non-empty text."
+            )
+            
+        records.append((position, text, due))
+        
+    synced_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    with get_connection() as connection:
+        connection.execute("DELETE FROM reminders")
+        
+        connection.executemany(
+            """
+            INSERT INTO reminders (
+                position,
+                text,
+                due,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            [
+                (
+                    position,
+                    text,
+                    due,
+                    synced_at,
+                )
+                for position, text, due in records
+            ]
+        )
+    
+    return len(records)
