@@ -823,8 +823,21 @@ def add_conversation_turn(turn):
     )
     
 def get_conversation(limit=5):
-    memory = load_memory()
-    return memory["conversation"][-limit:]
+    sqlite_turns = database.get_sqlite_conversation(limit)
+    
+    return [
+        {
+            "user": turn["user"],
+            "assistant": turn["assistant"],
+            "intent": turn["intent"],
+            "group": turn["group"],
+            "confidence": turn["confidence"],
+            "source": turn["source"],
+            "timestamp": turn["timestamp"],
+            "importance": turn["importance"],
+        }
+        for turn in sqlite_turns
+    ]
 
 def add_summary(summary):
     memory = load_memory()

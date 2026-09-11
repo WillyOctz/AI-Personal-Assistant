@@ -913,14 +913,19 @@ def get_sqlite_conversation(limit=None):
             importance,
             migrated_at
         FROM conversation_turns
-        ORDER BY position
     """
     
     parameters = ()
     
-    if limit is not None:
+    if limit is None:
+        query += " ORDER BY position"
+    else:
         safe_limit = max(1, min(limit, 100))
-        query += " LIMIT ?"
+        
+        query += """
+            ORDER BY position DESC
+            LIMIT ?
+        """
         parameters = (safe_limit,)
         
     with get_connection() as connection:
@@ -928,6 +933,9 @@ def get_sqlite_conversation(limit=None):
             query,
             parameters,
         ).fetchall()
+        
+    if limit is not None:
+        rows = list(reversed(rows))
         
     return [
         {
