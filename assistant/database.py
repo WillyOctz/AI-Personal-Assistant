@@ -946,3 +946,85 @@ def get_sqlite_conversation(limit=None):
         for row in rows
     ]
     
+def verify_conversation_migration():
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    json_conversation = memory_data.get("conversation", [])
+    sqlite_conversation = get_sqlite_conversation()
+    
+    field_map = {
+        "user": "user",
+        "assistant": "assistant",
+        "intent": "intent",
+        "group": "group",
+        "confidence": "confidence",
+        "source": "source",
+        "timestamp": "timestamp",
+        "importance": "importance",
+    }
+    
+    differences = []
+    total_items = max(
+        len(json_conversation),
+        len(sqlite_conversation),
+    )
+    
+    for index in range(total_items):
+        position = index + 1
+        
+        json_turn = (
+            json_conversation[index]
+            if index < len(json_conversation)
+            else None
+        )
+        
+        sqlite_turn = (
+            sqlite_conversation[index]
+            if index < len(sqlite_conversation)
+            else None
+        )
+        
+        if json_turn is None or sqlite_turn is None:
+            differences.append({
+                "position": position,
+                "field": "record",
+                "json_value": json_turn,
+                "sqlite_value": sqlite_turn,
+            })
+            continue
+        
+        if sqlite_turn["position"] != position:
+            differences.append({
+                "position": position,
+                "field": "position",
+                "json_value": position,
+                "sqlite_value": sqlite_turn["position"],
+            })
+            
+        for json_key, sqlite_key in field_map.items():
+            if json_turn.get(json_key) != sqlite_turn.get(sqlite_key):
+                differences.append({
+                    "position": position,
+                    "field": json_key,
+                    "json_value": json_turn.get(json_key),
+                    "sqlite_value": sqlite_turn.get(sqlite_key),
+                })
+                
+    matches = not differences
+    
+    result = {
+        "matches": matches,
+        "json_turn_count": len(json_conversation),
+        "sqlite_turn_count": len(sqlite_conversation),
+        "differences": differences,
+    }
+    
+    record_migration(
+        "verify_conversation_migration",
+        "completed" if matches else "mismatch",
+        result,
+    )
+    
+    return result
+    
