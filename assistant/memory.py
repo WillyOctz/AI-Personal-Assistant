@@ -303,6 +303,8 @@ def archive_conversation_turns(turns_to_archive):
     
     save_memory(memory)
     
+    sync_conversation_to_sqlite()
+    
     return len(archived_turns)
 
 def save_memory(memory):
@@ -317,6 +319,14 @@ def sync_reminders_to_sqlite():
     except Exception as error:
         raise RuntimeError(
             "Reminder data was saved to memory.json but could not sync to SQLite."
+        ) from error
+        
+def sync_conversation_to_sqlite():
+    try:
+        return database.sync_sqlite_conversation_from_json()
+    except Exception as error:
+        raise RuntimeError(
+            "Conversation was saved to memory.json but could not sync to SQLite."
         ) from error
         
 def add_note(note):
@@ -806,6 +816,11 @@ def add_conversation_turn(turn):
     memory = load_memory()
     memory["conversation"].append(turn)
     save_memory(memory)
+    
+    database.add_sqlite_conversation_turn(
+        len(memory["conversation"]),
+        turn,
+    )
     
 def get_conversation(limit=5):
     memory = load_memory()

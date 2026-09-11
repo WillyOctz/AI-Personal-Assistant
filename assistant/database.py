@@ -946,6 +946,129 @@ def get_sqlite_conversation(limit=None):
         for row in rows
     ]
     
+def add_sqlite_conversation_turn(position, turn):
+    initialize_database()
+    
+    user_text = turn.get("user", "")
+    assistant_text = turn.get("assistant")
+    
+    if not isinstance(user_text, str):
+        raise ValueError("Conversation user text must be text.")
+    
+    if (
+        assistant_text is not None
+        and not isinstance(assistant_text, str)
+    ):
+        raise ValueError(
+            "Conversation assistant text must be text or null."
+        )
+        
+    with get_connection() as connection:
+        cursor = connection.execute(
+            """
+            INSERT INTO conversation_turns (
+                position,
+                user_text,
+                assistant_text,
+                intent,
+                intent_group,
+                confidence,
+                source,
+                timestamp,
+                importance,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                position,
+                user_text,
+                assistant_text,
+                turn.get("intent"),
+                turn.get("group"),
+                turn.get("confidence"),
+                turn.get("source"),
+                turn.get("timestamp"),
+                turn.get("importance"),
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            )
+        )
+        
+    return cursor.lastrowid
+
+def sync_sqlite_conversation_from_json():
+    initialize_database()
+    
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    conversation = memory_data.get("conversation", [])
+    
+    if not isinstance(conversation, list):
+        raise ValueError("memory.json conversation must be a JSON list.")
+    
+    migrated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+    
+    for position, turn in enumerate(conversation, start=1):
+        if not isinstance(turn, dict):
+            raise ValueError(
+                f"Conversation turn {position} must be a JSON object."
+            )
+            
+        user_text = turn.get("user", "")
+        assistant_text = turn.get("assistant")
+        
+        if not isinstance(user_text, str):
+            raise ValueError(
+                f"Conversation turn {position} user must be text."
+            )
+            
+        if (
+            assistant_text is not None
+            and not isinstance(assistant_text, str)
+        ):
+            raise ValueError(
+                f"Conversation turn {position} assistant must be text or null."
+            )
+            
+        records.append((
+            position,
+            user_text,
+            assistant_text,
+            turn.get("intent"),
+            turn.get("group"),
+            turn.get("confidence"),
+            turn.get("source"),
+            turn.get("timestamp"),
+            turn.get("importance"),
+            migrated_at,
+        ))
+        
+    with get_connection() as connection:
+        connection.execute("DELETE FROM conversation_turns")
+        
+        connection.executemany(
+            """
+            INSERT INTO conversation_turns (
+                position,
+                user_text,
+                assistant_text,
+                intent,
+                intent_group,
+                confidence,
+                source,
+                timestamp,
+                importance,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            records,
+        )
+        
+    return len(records)
+    
 def verify_conversation_migration():
     with open(MEMORY_FILE, "r") as file:
         memory_data = json.load(file)
