@@ -483,8 +483,15 @@ def edit_reminder(identifier, new_text):
     }
     
 def get_reminders():
-    memory = load_memory()
-    return memory["reminders"]
+    sqlite_reminders = database.get_sqlite_reminders()
+    
+    return [
+        {
+            "text": reminder["text"],
+            "due": reminder["due"],
+        }
+        for reminder in sqlite_reminders
+    ]
 
 def set_reminder_due(identifier, due):
     memory = load_memory()

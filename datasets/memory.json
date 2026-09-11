@@ -26,7 +26,7 @@
     "reminders": [
         {
             "text": "i like music",
-            "due": "2026-09-07"
+            "due": "2026-12-31"
         },
         {
             "text": "continue my ai personal assistant",
@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_notes",
+        "last_response_intent": "show_reminders",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "i want to learn AI\ni want to improve you\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee\ni like music\ni like doing training",
+        "last_response_text": "Your reminders:\n1. i like music | due: 2026-12-31\n2. continue my ai personal assistant | due: 2026-09-06",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -17069,6 +17069,106 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-10 16:47:44",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. i like music | due: 2026-09-07\n2. continue my ai personal assistant | due: 2026-09-06",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-11 17:09:18",
+            "importance": 0.6
+        },
+        {
+            "user": "suggest next task",
+            "assistant": "Start with this reminder: i like music | due: 2026-09-07",
+            "intent": "suggest_next_task",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-11 17:09:29",
+            "importance": 0.6
+        },
+        {
+            "user": "set reminder due 1 as 2026-12-31",
+            "assistant": "Use this format: set reminder reminder_or_number due time",
+            "intent": "set_reminder_due",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-11 17:09:43",
+            "importance": 0.6
+        },
+        {
+            "user": "set reminder i like music 2026-12-31",
+            "assistant": "Use this format: set reminder reminder_or_number due time",
+            "intent": "set_reminder_due",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-11 17:10:19",
+            "importance": 0.6
+        },
+        {
+            "user": "set reminder due 1 as 2026-12-31",
+            "assistant": "Use this format: set reminder reminder_or_number due time",
+            "intent": "set_reminder_due",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-11 17:10:26",
+            "importance": 0.6
+        },
+        {
+            "user": "set reminder i like music",
+            "assistant": "Use this format: set reminder reminder_or_number due time",
+            "intent": "set_reminder_due",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-11 17:10:37",
+            "importance": 0.6
+        },
+        {
+            "user": "reminder dashboard",
+            "assistant": "Reminder dashboard:\nTotal: 2\nToday: 0\nTomorrow: 0\nOverdue: 0",
+            "intent": "reminder_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-11 17:11:14",
+            "importance": 0.6
+        },
+        {
+            "user": "set reminder i love coffee",
+            "assistant": "Use this format: set reminder reminder_or_number due time",
+            "intent": "set_reminder_due",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-11 17:11:25",
+            "importance": 0.6
+        },
+        {
+            "user": "set reminder 1 due 2026-12-31",
+            "assistant": "Updated reminder due date: i like music | due: 2026-12-31",
+            "intent": "set_reminder_due",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-11 17:11:50",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. i like music | due: 2026-12-31\n2. continue my ai personal assistant | due: 2026-09-06",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-11 17:12:05",
             "importance": 0.6
         }
     ],
