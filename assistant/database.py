@@ -639,3 +639,88 @@ def get_sqlite_reminders():
         }
         for row in rows
     ]
+    
+def verify_reminders_migration():
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    json_reminders = memory_data.get("reminders", [])
+    sqlite_reminders = get_sqlite_reminders()
+    
+    differences = []
+    total_items = max(
+        len(json_reminders),
+        len(sqlite_reminders)
+    )
+    
+    for index in range(total_items):
+        position = index + 1
+        
+        json_reminder = (
+            json_reminders[index]
+            if index < len(json_reminders)
+            else None
+        )
+        
+        sqlite_reminder = (
+            sqlite_reminders[index]
+            if index < len(sqlite_reminders)
+            else None
+        )
+        
+        if json_reminder is None or sqlite_reminder is None:
+            differences.append({
+                "position": position,
+                "field": "record",
+                "json_value": json_reminder,
+                "sqlite_value": sqlite_reminder,
+            })
+            continue
+        
+        if isinstance(json_reminder, dict):
+            json_text = json_reminder.get("text", "")
+            json_due = json_reminder.get("due")
+        else:
+            json_text = json_reminder
+            json_due = None
+            
+        if sqlite_reminder["position"] != position:
+            differences.append({
+                "position": position,
+                "field": "position",
+                "json_value": position,
+                "sqlite_value": sqlite_reminder["position"],
+            })
+            
+        if json_text != sqlite_reminder["text"]:
+            differences.append({
+                "position": position,
+                "field": "text",
+                "json_value": json_text,
+                "sqlite_value": sqlite_reminder["text"],
+            })
+            
+        if json_due != sqlite_reminder["due"]:
+            differences.append({
+                "position": position,
+                "field": "due",
+                "json_value": json_due,
+                "sqlite_value": sqlite_reminder["due"],
+            })
+            
+    matches = not differences
+    
+    result = {
+        "matches": matches,
+        "json_reminder_count": len(json_reminders),
+        "sqlite_reminder_count": len(sqlite_reminders),
+        "differences": differences,
+    }
+    
+    record_migration(
+        "verify_reminders_migration",
+        "completed" if matches else "mismatch",
+        result,
+    )
+    
+    return result
