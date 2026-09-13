@@ -1218,6 +1218,83 @@ def get_sqlite_migration_status():
         ],
     }
     
+def sync_sqlite_website_registry_from_json():
+    initialize_database()
+    
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    registry = memory_data.get("website_registry", {})
+    
+    if not isinstance(registry, dict):
+        raise ValueError(
+            "memory.json website_registry must be a JSON object."
+        )
+        
+    synced_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+    
+    for position, (name, website) in enumerate(
+        registry.items(),
+        start=1
+    ):
+        if not isinstance(name, str) or not name.strip():
+            raise ValueError(
+                f"Website registry entry {position} needs a valid name."
+            )
+
+        if not isinstance(website, dict):
+            raise ValueError(
+                f"Website registry entry '{name}' must be an object."
+            )
+
+        if website.get("name") != name:
+            raise ValueError(
+                f"Website registry entry '{name}' has a mismatched name."
+            )
+            
+        url = website.get("url")
+        allowed = website.get("allowed", False)
+        
+        if not isinstance(url, str) or not url.strip():
+            raise ValueError(
+                f"Website registry entry '{name}' needs a URL."
+            )
+            
+        if not isinstance(allowed, bool):
+            raise ValueError(
+                f"Website registry entry '{name}' allowed must be true or false."
+            )
+            
+        records.append(
+            (
+                position,
+                name,
+                url.strip(),
+                int(allowed),
+                synced_at,
+            )
+        )
+        
+    with get_connection() as connection:
+        connection.execute("DELETE FROM website_registry")
+        
+        connection.executemany(
+            """
+            INSERT INTO website_registry (
+                position,
+                name,
+                url,
+                allowed,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            records,
+        )
+        
+    return len(records)
+    
 def verify_website_registry_migration():
     with open(MEMORY_FILE, "r") as file:
         memory_data = json.load(file)

@@ -329,6 +329,14 @@ def sync_conversation_to_sqlite():
             "Conversation was saved to memory.json but could not sync to SQLite."
         ) from error
         
+def sync_website_registry_to_sqlite():
+    try:
+        return database.sync_sqlite_website_registry_from_json()
+    except Exception as error:
+        raise RuntimeError(
+            "Website registry was saved to memory.json but could not sync to SQLite."
+        ) from error
+        
 def add_note(note):
     memory = load_memory()
     memory["notes"].append(note)
@@ -1936,6 +1944,8 @@ def save_website(name, url):
     memory["website_registry"][clean_name] = website
     save_memory(memory)
     
+    sync_website_registry_to_sqlite()
+    
     return {
         "created": not bool(existing),
         "website": website,
@@ -1976,6 +1986,8 @@ def set_website_allowed(name, allowed):
     website["allowed"] = allowed
     save_memory(memory)
     
+    sync_website_registry_to_sqlite()
+    
     return {
         "updated": True,
         "website": website,
@@ -1993,6 +2005,8 @@ def remove_website(name):
         
     website = memory["website_registry"].pop(clean_name)
     save_memory(memory)
+    
+    sync_website_registry_to_sqlite()
     
     return {
         "removed": True,

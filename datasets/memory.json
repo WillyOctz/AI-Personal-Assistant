@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "greeting",
-        "last_response_group": "basic",
+        "last_response_intent": "unregister_website",
+        "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Hello, I am Nebula. What can I help you with?ehe~ I remember that your name is Carlos, your goal is to build best AI assistant, you like python.",
+        "last_response_text": "Removed website: test site",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -17250,6 +17250,36 @@
             "source": "rule",
             "timestamp": "2026-09-11 18:48:22",
             "importance": 0.2
+        },
+        {
+            "user": "register website test site as https://google.com",
+            "assistant": "Registered website: test site -> https://google.com",
+            "intent": "register_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-13 15:39:28",
+            "importance": 0.6
+        },
+        {
+            "user": "allow website test site",
+            "assistant": "Allowed website: test site",
+            "intent": "allow_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-13 15:39:34",
+            "importance": 0.6
+        },
+        {
+            "user": "unregister website test site",
+            "assistant": "Removed website: test site",
+            "intent": "unregister_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-13 15:40:26",
+            "importance": 0.6
         }
     ],
     "summaries": [
