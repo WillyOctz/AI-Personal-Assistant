@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "unregister_website",
-        "last_response_group": "memory",
-        "last_response_source": "rule",
-        "last_response_confidence": 1.0,
+        "last_response_intent": "unknown",
+        "last_response_group": "unknown",
+        "last_response_source": "None",
+        "last_response_confidence": 0,
         "last_response_scores": {},
-        "last_response_text": "Removed website: test site",
+        "last_response_text": "I am not sure if that was a command or conversation yet.\nYou said: python -c \"from assistant.database import verify_website_registry_migration; print(verify_website_registry_migration())\"\nYou can rephrase it, or teach me with: teach message as intent_name",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -115,7 +115,10 @@
             }
         ],
         "pending_memory_result_delete": null,
-        "pending_website_open": null
+        "pending_website_open": {
+            "name": "python docs",
+            "url": "https://docs.python.org/3/"
+        }
     },
     "history": [
         {
@@ -17280,6 +17283,66 @@
             "source": "rule",
             "timestamp": "2026-09-13 15:40:26",
             "importance": 0.6
+        },
+        {
+            "user": "show websites",
+            "assistant": "Registered websites:\n1. python docs: https://docs.python.org/3/ | allowed: True\n2. github: https://github.com/ | allowed: False",
+            "intent": "show_website_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-13 15:57:59",
+            "importance": 0.6
+        },
+        {
+            "user": "search websites python",
+            "assistant": "Registered websites matching python:\n- python docs: https://docs.python.org/3/ | allowed: True",
+            "intent": "search_websites",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-13 15:58:03",
+            "importance": 0.6
+        },
+        {
+            "user": "open website python docs",
+            "assistant": "I am ready to open python docs: https://docs.python.org/3/\nReply yes to open it or no to cancel.",
+            "intent": "open_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-13 15:58:08",
+            "importance": 0.6
+        },
+        {
+            "user": "allow website github",
+            "assistant": "Allowed website: github",
+            "intent": "allow_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-13 15:58:13",
+            "importance": 0.6
+        },
+        {
+            "user": "show websites",
+            "assistant": "Registered websites:\n1. python docs: https://docs.python.org/3/ | allowed: True\n2. github: https://github.com/ | allowed: True",
+            "intent": "show_website_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-13 15:58:17",
+            "importance": 0.6
+        },
+        {
+            "user": "python -c \"from assistant.database import verify_website_registry_migration; print(verify_website_registry_migration())\"",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: python -c \"from assistant.database import verify_website_registry_migration; print(verify_website_registry_migration())\"\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-13 15:58:20",
+            "importance": 0.3
         }
     ],
     "summaries": [
@@ -18203,7 +18266,7 @@
         "github": {
             "name": "github",
             "url": "https://github.com/",
-            "allowed": false
+            "allowed": true
         }
     },
     "website_opens": [

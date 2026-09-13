@@ -1952,14 +1952,22 @@ def save_website(name, url):
     }
     
 def get_website_registry():
-    memory = load_memory()
-    return memory["website_registry"]
+    sqlite_websites = database.get_sqlite_website_registry()
+    
+    return {
+        website["name"]: {
+            "name": website["name"],
+            "url": website["url"],
+            "allowed": website["allowed"],
+        }
+        for website in sqlite_websites
+    }
 
 def get_website_registry_entry(name):
-    memory = load_memory()
     clean_name = normalize_entity_name(name)
+    registry = get_website_registry()
     
-    return memory["website_registry"].get(clean_name)
+    return registry.get(clean_name)
 
 def add_website_open(event):
     memory = load_memory()
@@ -2014,12 +2022,12 @@ def remove_website(name):
     }
     
 def search_websites(query):
-    memory = load_memory()
+    registry = get_website_registry()
     clean_query = normalize_entity_name(query)
     
     results = []
     
-    for website in memory["website_registry"].values():
+    for website in registry.values():
         name = website["name"]
         url = website["url"].lower()
         
