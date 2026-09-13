@@ -1218,6 +1218,86 @@ def get_sqlite_migration_status():
         ],
     }
     
+def verify_website_registry_migration():
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    json_registry = memory_data.get("website_registry", {})
+    sqlite_websites = get_sqlite_website_registry()
+    
+    differences = []
+    json_items = list(json_registry.items())
+    
+    total_items = max(
+        len(json_items),
+        len(sqlite_websites),
+    )
+    
+    for index in range(total_items):
+        position = index + 1
+        
+        json_item = (
+            json_items[index]
+            if index < len(json_items)
+            else None
+        )
+        
+        sqlite_website = (
+            sqlite_websites[index]
+            if index < len(sqlite_websites)
+            else None
+        )
+        
+        if json_item is None or sqlite_website is None:
+            differences.append({
+                "position": position,
+                "field": "record",
+                "json_value": json_item,
+                "sqlite_value": sqlite_website,
+            })
+            continue
+        
+        json_name, json_website = json_item
+        
+        checks = {
+            "position": (position, sqlite_website["position"]),
+            "name": (json_name, sqlite_website["name"]),
+            "url": (
+                json_website.get("url"),
+                sqlite_website["url"],
+            ),
+            "allowed": (
+                json_website.get("allowed", False),
+                sqlite_website["allowed"],
+            ),
+        }
+        
+        for field, (json_value, sqlite_value) in checks.items():
+            if json_value != sqlite_value:
+                differences.append({
+                    "position": position,
+                    "field": field,
+                    "json_value": json_value,
+                    "sqlite_value": sqlite_value,
+                })
+                
+    matches = not differences
+    
+    result = {
+        "matches": matches,
+        "json_website_count": len(json_items),
+        "sqlite_website_count": len(sqlite_websites),
+        "differences": differences,
+    }
+    
+    record_migration(
+        "verify_website_registry_migration",
+        "completed" if matches else "mismatch",
+        result,
+    )
+    
+    return result
+    
 def migrate_website_registry_from_json():
     initialize_database()
     
