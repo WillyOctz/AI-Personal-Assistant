@@ -97,6 +97,20 @@ def initialize_database():
         
         connection.execute(
             """
+            CREATE TABLE IF NOT EXISTS website_open_history (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                position INTEGER NOT NULL UNIQUE,
+                website_name TEXT NOT NULL,
+                url TEXT NOT NULL,
+                result TEXT NOT NULL,
+                timestamp TEXT NOT NULL,
+                migrated_at TEXT NOT NULL
+            )
+            """
+        )
+        
+        connection.execute(
+            """
             CREATE TABLE IF NOT EXISTS conversation_turns (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 position INTEGER NOT NULL UNIQUE,
@@ -1181,6 +1195,7 @@ def get_sqlite_migration_status():
         "reminders",
         "conversation_turns",
         "website_registry",
+        "website_open_history",
         "migration_runs",
     ]
     
@@ -1496,4 +1511,138 @@ def get_sqlite_website_registry():
         }
         for row in rows
     ]
+    
+def migrate_website_open_history_from_json():
+    initialize_database()
+    
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    website_opens = memory_data.get("website_opens", [])
+    
+    if not isinstance(website_opens, list):
+        raise ValueError("memory.json website_opens must be a JSON list.")
+    
+    migrated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+    
+    for position, event in enumerate(website_opens, start=1):
+        if not isinstance(event, dict):
+            raise ValueError(
+                f"Website opening event {position} must be an object."
+            )
+            
+        website_name = event.get("website_name")
+        url = event.get("url")
+        result = event.get("result")
+        timestamp = event.get("timestamp")
+        
+        fields = {
+            "website_name": website_name,
+            "url": url,
+            "result": result,
+            "timestamp": timestamp,
+        }
+        
+        for field, value in fields.items():
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError(
+                    f"Website opening event {position} {field} must be text."
+                )
+                
+        records.append(
+            (
+                position,
+                website_name,
+                url,
+                result,
+                timestamp,
+                migrated_at,
+            )
+        )
+        
+    backup_file = create_memory_backup(
+        "memory_before_website_open_history_sqlite"
+    )
+    
+    with get_connection() as connection:
+        connection.execute("DELETE FROM website_open_history")
+        
+        connection.executemany(
+            """
+            INSERT INTO website_open_history (
+                position,
+                website_name,
+                url,
+                result,
+                timestamp,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            records,
+        )
+        
+    details = {
+        "backup_file": str(backup_file),
+        "website_open_count": len(records),
+    }
+    
+    record_migration(
+        "migrate_website_open_history_from_json",
+        "completed",
+        details,
+    )
+    
+    return details
+
+def get_sqlite_website_open_history(limit=None):
+    initialize_database()
+    
+    query = """
+        SELECT
+            id,
+            position,
+            website_name,
+            url,
+            result,
+            timestamp,
+            migrated_at
+        FROM website_open_history
+    """
+    
+    parameters = ()
+    
+    if limit is None:
+        query += " ORDER BY position"
+    else:
+        safe_limit = max(1, min(limit, 100))
+        query += """
+            ORDER BY position DESC
+            LIMIT ?
+        """
+        parameters = (safe_limit,)
+        
+    with get_connection() as connection:
+        rows = connection.execute(
+            query,
+            parameters
+        ).fetchall()
+        
+    if limit is not None:
+        rows = list(reversed(rows))
+        
+    return [
+        {
+            "id": row["id"],
+            "position": row["position"],
+            "website_name": row["website_name"],
+            "url": row["url"],
+            "result": row["result"],
+            "timestamp": row["timestamp"],
+            "migrated_at": row["migrated_at"],
+        }
+        for row in rows
+    ]
+        
     
