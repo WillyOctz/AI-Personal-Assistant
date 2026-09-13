@@ -84,6 +84,19 @@ def initialize_database():
         
         connection.execute(
             """
+            CREATE TABLE IF NOT EXISTS website_registry (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                position INTEGER NOT NULL UNIQUE,
+                name TEXT NOT NULL UNIQUE,
+                url TEXT NOT NULL,
+                allowed INTEGER NOT NULL CHECK (allowed IN (0, 1)),
+                migrated_at TEXT NOT NULL
+            )
+            """
+        )
+        
+        connection.execute(
+            """
             CREATE TABLE IF NOT EXISTS conversation_turns (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 position INTEGER NOT NULL UNIQUE,
@@ -1167,6 +1180,7 @@ def get_sqlite_migration_status():
         "notes",
         "reminders",
         "conversation_turns",
+        "website_registry",
         "migration_runs",
     ]
     
@@ -1203,4 +1217,126 @@ def get_sqlite_migration_status():
             for row in rows
         ],
     }
+    
+def migrate_website_registry_from_json():
+    initialize_database()
+    
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    registry = memory_data.get("website_registry", {})
+    
+    if not isinstance(registry, dict):
+        raise ValueError(
+            "memory.json website_registry must be a JSON object."
+        )
+        
+    migrated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+    
+    for position, (name, website) in enumerate(
+        registry.items(),
+        start=1
+    ):
+        if not isinstance(name, str) or not name.strip():
+            raise ValueError(
+                f"Website registry entry {position} needs a valid name."
+            )
+            
+        if not isinstance(website, dict):
+            raise ValueError(
+                f"Website registry entry '{name}' must be an object."
+            )
+            
+        if website.get("name") != name:
+            raise ValueError(
+                f"Website registry entry '{name}' has a mismatched name."
+            )
+            
+        url = website.get("url")
+        allowed = website.get("allowed", False)
+        
+        if not isinstance(url, str) or not url.strip():
+            raise ValueError(
+                f"Website registry entry '{name}' needs a URL."
+            )
+            
+        if not isinstance(allowed, bool):
+            raise ValueError(
+                f"Website registry entry '{name}' allowed must be true or false."
+            )
+            
+        records.append(
+            (
+                position,
+                name,
+                url.strip(),
+                int(allowed),
+                migrated_at,
+            )
+        )
+        
+    backup_file = create_memory_backup(
+        "memory_before_websites_sqlite"
+    )
+    
+    with get_connection() as connection:
+        connection.execute("DELETE FROM website_registry")
+        
+        connection.executemany(
+            """
+            INSERT INTO website_registry (
+                position,
+                name,
+                url,
+                allowed,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            records,
+        )
+        
+    details = {
+        "backup_file": str(backup_file),
+        "website_count": len(records),
+    }
+    
+    record_migration(
+        "migrate_website_registry_from_json",
+        "completed",
+        details,
+    )
+    
+    return details
+
+def get_sqlite_website_registry():
+    initialize_database()
+    
+    with get_connection() as connection:
+        rows = connection.execute(
+            """
+            SELECT
+                id,
+                position,
+                name,
+                url,
+                allowed,
+                migrated_at
+            FROM website_registry
+            ORDER BY position
+            """
+        ).fetchall()
+        
+    return [
+        {
+            "id": row["id"],
+            "position": row["position"],
+            "name": row["name"],
+            "url": row["url"],
+            "allowed": bool(row["allowed"]),
+            "migrated_at": row["migrated_at"],
+        }
+        for row in rows
+    ]
     
