@@ -1645,6 +1645,58 @@ def get_sqlite_website_open_history(limit=None):
         for row in rows
     ]
     
+def add_sqlite_website_open_event(position, event):
+    initialize_database()
+    
+    if not isinstance(position, int) or position < 1:
+        raise ValueError("Website opening position must be a positive integer.")
+    
+    if not isinstance(event, dict):
+        raise ValueError("Website opening event must be an object.")
+    
+    website_name = event.get("website_name")
+    url = event.get("url")
+    result = event.get("result")
+    timestamp = event.get("timestamp")
+    
+    fields = {
+        "website_name": website_name,
+        "url": url,
+        "result": result,
+        "timestamp": timestamp,
+    }
+    
+    for field, value in fields.items():
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError(
+                f"Website opening event {field} must be text."
+            )
+            
+    with get_connection() as connection:
+        cursor = connection.execute(
+            """
+            INSERT INTO website_open_history (
+                position,
+                website_name,
+                url,
+                result,
+                timestamp,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (
+                position,
+                website_name,
+                url,
+                result,
+                timestamp,
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            ),
+        )
+        
+    return cursor.lastrowid
+    
 def verify_website_open_history_migration():
     with open(MEMORY_FILE, "r") as file:
         memory_data = json.load(file)
@@ -1722,5 +1774,7 @@ def verify_website_open_history_migration():
     )
     
     return result
+
+
         
     

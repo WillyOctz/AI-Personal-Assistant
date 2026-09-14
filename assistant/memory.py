@@ -337,6 +337,18 @@ def sync_website_registry_to_sqlite():
             "Website registry was saved to memory.json but could not sync to SQLite."
         ) from error
         
+def add_website_open_to_sqlite(position, event):
+    try:
+        return database.add_sqlite_website_open_event(
+            position,
+            event,
+        )
+    except Exception as error:
+        raise RuntimeError(
+            "Website opening history was saved to memory.json "
+            "but could not sync to SQLite."
+        ) from error
+        
 def add_note(note):
     memory = load_memory()
     memory["notes"].append(note)
@@ -1973,6 +1985,9 @@ def add_website_open(event):
     memory = load_memory()
     memory["website_opens"].append(event)
     save_memory(memory)
+    
+    position = len(memory["website_opens"])
+    add_website_open_to_sqlite(position, event)
     
 def get_website_open(limit=10):
     memory = load_memory()
