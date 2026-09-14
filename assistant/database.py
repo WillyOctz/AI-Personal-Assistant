@@ -1618,6 +1618,83 @@ def get_sqlite_app_registry():
         for row in rows
     ]
     
+def sync_sqlite_app_registry_from_json():
+    initialize_database()
+    
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    registry = memory_data.get("app_registry", {})
+    
+    if not isinstance(registry, dict):
+        raise ValueError(
+            "memory.json app_registry must be a JSON object."
+        )
+        
+    synced_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+    
+    for position, (name, app) in enumerate(
+        registry.items(),
+        start=1,
+    ):
+        if not isinstance(name, str) or not name.strip():
+            raise ValueError(
+                f"App registry entry {position} needs a valid name."
+            )
+
+        if not isinstance(app, dict):
+            raise ValueError(
+                f"App registry entry '{name}' must be an object."
+            )
+
+        if app.get("name") != name:
+            raise ValueError(
+                f"App registry entry '{name}' has a mismatched name."
+            )
+            
+        command = app.get("command")
+        allowed = app.get("allowed", False)
+        
+        if not isinstance(command, str) or not command.strip():
+            raise ValueError(
+                f"App registry entry '{name}' needs a command."
+            )
+
+        if not isinstance(allowed, bool):
+            raise ValueError(
+                f"App registry entry '{name}' allowed must be true or false."
+            )
+            
+        records.append(
+            (
+                position,
+                name,
+                command.strip(),
+                int(allowed),
+                synced_at,
+            )
+        )
+        
+    with get_connection() as connection:
+        connection.execute("DELETE FROM app_registry")
+        
+        connection.executemany(
+            """
+            INSERT INTO app_registry (
+                position,
+                name,
+                command,
+                allowed,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            records,
+        )
+        
+    return len(records)
+    
 def verify_app_registry_migration():
     with open(MEMORY_FILE, "r") as file:
         memory_data = json.load(file)

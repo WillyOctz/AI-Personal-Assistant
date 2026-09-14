@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "website_open_history",
+        "last_response_intent": "disallow_app",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Website opening history:\n- 2026-09-07 20:57:55 | python docs | Opening python docs.\n- 2026-09-14 16:53:37 | github | Opening github.",
+        "last_response_text": "Disallowed app for launching: spotify",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -17379,6 +17379,36 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-14 17:38:14",
+            "importance": 0.6
+        },
+        {
+            "user": "update app notepad as notepad",
+            "assistant": "Updated app: notepad -> notepad",
+            "intent": "update_registered_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-14 20:02:14",
+            "importance": 0.6
+        },
+        {
+            "user": "allow app spotify",
+            "assistant": "Allowed app for launching: spotify",
+            "intent": "allow_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-14 20:02:20",
+            "importance": 0.6
+        },
+        {
+            "user": "disallow app spotify",
+            "assistant": "Disallowed app for launching: spotify",
+            "intent": "disallow_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-14 20:02:25",
             "importance": 0.6
         }
     ],

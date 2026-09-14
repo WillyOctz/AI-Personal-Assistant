@@ -337,6 +337,14 @@ def sync_website_registry_to_sqlite():
             "Website registry was saved to memory.json but could not sync to SQLite."
         ) from error
         
+def sync_app_registry_to_sqlite():
+    try:
+        return database.sync_sqlite_app_registry_from_json()
+    except Exception as error:
+        raise RuntimeError(
+            "App registry was saved to memory.json but could not sync to SQLite."
+        ) from error
+        
 def add_website_open_to_sqlite(position, event):
     try:
         return database.add_sqlite_website_open_event(
@@ -2072,6 +2080,7 @@ def add_app_registry_entry(name, command):
     }
     
     save_memory(memory)
+    sync_app_registry_to_sqlite()
     
     return memory["app_registry"][clean_name]
 
@@ -2148,6 +2157,7 @@ def restore_app_registry_backup(recent_index, limit=5):
     memory["default_apps"] = backup["default_apps"]
     
     save_memory(memory)
+    sync_app_registry_to_sqlite()
     
     return {
         "restored": True,
@@ -2250,6 +2260,7 @@ def rename_app_registry_entry_by_index(index, new_name):
     registry[clean_new_name] = app
     
     save_memory(memory)
+    sync_app_registry_to_sqlite()
     
     return {
          "renamed": True,
@@ -2271,6 +2282,8 @@ def remove_app_registry_entry(name):
         
     removed_app = memory["app_registry"].pop(clean_name)
     save_memory(memory)
+    
+    sync_app_registry_to_sqlite()
     
     return {
         "removed": True,
@@ -2301,6 +2314,8 @@ def remove_app_registry_entry_by_index(index):
     removed_app = registry.pop(app_name)
     save_memory(memory)
     
+    sync_app_registry_to_sqlite()
+    
     return {
         "removed": True,
         "reason": "removed",
@@ -2320,6 +2335,8 @@ def update_app_registry_entry(name, command):
         
     memory["app_registry"][clean_name]["command"] = clean_command
     save_memory(memory)
+    
+    sync_app_registry_to_sqlite()
     
     return {
         "updated": True,
@@ -2361,6 +2378,8 @@ def set_app_allowed(name, allowed):
         
     memory["app_registry"][clean_name]["allowed"] = allowed
     save_memory(memory)
+    
+    sync_app_registry_to_sqlite()
     
     return {
         "updated": True,
@@ -2574,6 +2593,9 @@ def repair_app_cleanup():
             removed_defaults += 1
             
     save_memory(memory)
+    
+    if repaired_allowed:
+        sync_app_registry_to_sqlite()
     
     return {
         "repaired_allowed": repaired_allowed,
