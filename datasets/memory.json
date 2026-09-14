@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "disallow_app",
+        "last_response_intent": "search_app_registry",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Disallowed app for launching: spotify",
+        "last_response_text": "Registered apps matching notepad:\n- notepad: notepad",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -17409,6 +17409,76 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-14 20:02:25",
+            "importance": 0.6
+        },
+        {
+            "user": "show apps",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: show apps\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-14 20:12:28",
+            "importance": 0.3
+        },
+        {
+            "user": "search apps chrome",
+            "assistant": "Registered apps matching chrome:\n- google chrome: chrome",
+            "intent": "search_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-14 20:12:36",
+            "importance": 0.6
+        },
+        {
+            "user": "app safety dashboard",
+            "assistant": "App safety dashboard:\nReal launching: True\nLaunch confirmation: True\nRegistered apps: 4\nAllowed apps: 2\nBlocked apps: 2\nPending launch: None",
+            "intent": "app_safety_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-14 20:12:43",
+            "importance": 0.6
+        },
+        {
+            "user": "app dashboard",
+            "assistant": "App dashboard:\nRegistered apps: 4\nAliases: 1\nDefault apps: 0\nReal launching: True\nTotal launches: 16\nMost launched: notepad (10 time(s))\nLast launched: notepad",
+            "intent": "app_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-14 20:12:51",
+            "importance": 0.6
+        },
+        {
+            "user": "show app",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: show app\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-14 20:13:33",
+            "importance": 0.3
+        },
+        {
+            "user": "show apps",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: show apps\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-14 20:13:37",
+            "importance": 0.3
+        },
+        {
+            "user": "search apps notepad",
+            "assistant": "Registered apps matching notepad:\n- notepad: notepad",
+            "intent": "search_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-14 20:13:57",
             "importance": 0.6
         }
     ],

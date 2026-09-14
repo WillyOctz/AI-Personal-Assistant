@@ -2210,14 +2210,22 @@ def remove_app_alias(alias):
     }
 
 def get_app_registry_entry(name):
-    memory = load_memory()
     clean_name = normalize_entity_name(name)
+    registry = get_app_registry()
     
-    return memory["app_registry"].get(clean_name)
+    return registry.get(clean_name)
 
 def get_app_registry():
-    memory = load_memory()
-    return memory["app_registry"]
+    sqlite_apps = database.get_sqlite_app_registry()
+    
+    return {
+        app["name"]: {
+            "name": app["name"],
+            "command": app["command"],
+            "allowed": app["allowed"],
+        }
+        for app in sqlite_apps
+    }
 
 def rename_app_registry_entry_by_index(index, new_name):
     memory = load_memory()
@@ -2344,12 +2352,12 @@ def update_app_registry_entry(name, command):
     }
     
 def search_app_registry(query):
-    memory = load_memory()
+    registry = get_app_registry()
     query = normalize_entity_name(query)
     
     results = []
     
-    for name, app in memory["app_registry"].items():
+    for name, app in registry.items():
         command = app["command"].lower()
         
         if query in name or query in command:
@@ -2486,7 +2494,7 @@ def get_default_apps():
 def preview_app_cleanup():
     memory = load_memory()
     
-    registry = memory["app_registry"]
+    registry = get_app_registry()
     aliases = memory["app_aliases"]
     defaults = memory["default_apps"]
     
