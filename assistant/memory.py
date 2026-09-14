@@ -1990,9 +1990,17 @@ def add_website_open(event):
     add_website_open_to_sqlite(position, event)
     
 def get_website_open(limit=10):
-    memory = load_memory()
+    sqlite_events = database.get_sqlite_website_open_history(limit)
     
-    return memory["website_opens"][-limit:]
+    return [
+        {
+            "website_name": event["website_name"],
+            "url": event["url"],
+            "result": event["result"],
+            "timestamp": event["timestamp"],
+        }
+        for event in sqlite_events
+    ]
 
 def set_website_allowed(name, allowed):
     memory = load_memory()
