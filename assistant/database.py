@@ -1644,5 +1644,83 @@ def get_sqlite_website_open_history(limit=None):
         }
         for row in rows
     ]
+    
+def verify_website_open_history_migration():
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    json_events = memory_data.get("website_opens", [])
+    sqlite_events = get_sqlite_website_open_history()
+    
+    differences = []
+    total_items = max(
+        len(json_events),
+        len(sqlite_events),
+    )
+    
+    fields = [
+        "website_name",
+        "url",
+        "result",
+        "timestamp"
+    ]
+    
+    for index in range(total_items):
+        position = index + 1
+        
+        json_event = (
+            json_events[index]
+            if index < len(json_events)
+            else None
+        )
+        
+        sqlite_event = (
+            sqlite_events[index]
+            if index < len(sqlite_events)
+            else None
+        )
+        
+        if json_event is None or sqlite_event is None:
+            differences.append({
+                "position": position,
+                "field": "record",
+                "json_value": json_event,
+                "sqlite_value": sqlite_event,
+            })
+            continue
+        
+        if sqlite_event["position"] != position:
+            differences.append({
+                "position": position,
+                "field": "position",
+                "json_value": position,
+                "sqlite_value": sqlite_event["position"],
+            })
+            
+        for field in fields:
+            if json_event.get(field) != sqlite_event.get(field):
+                differences.append({
+                    "position": position,
+                    "field": field,
+                    "json_value": json_event.get(field),
+                    "sqlite_value": sqlite_event.get(field),
+                })
+                
+    matches = not differences
+    
+    result = {
+        "matches": matches,
+        "json_website_open_count": len(json_events),
+        "sqlite_website_open_count": len(sqlite_events),
+        "differences": differences,
+    }
+    
+    record_migration(
+        "verify_website_open_history_migration",
+        "completed" if matches else "mismatch",
+        result,
+    )
+    
+    return result
         
     
