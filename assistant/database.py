@@ -1617,6 +1617,86 @@ def get_sqlite_app_registry():
         }
         for row in rows
     ]
+    
+def verify_app_registry_migration():
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    json_registry = memory_data.get("app_registry", {})
+    sqlite_apps = get_sqlite_app_registry()
+    
+    differences = []
+    json_items = list(json_registry.items())
+    
+    total_items = max(
+        len(json_items),
+        len(sqlite_apps),
+    )
+    
+    for index in range(total_items):
+        position = index + 1
+        
+        json_item = (
+            json_items[index]
+            if index < len(json_items)
+            else None
+        )
+        
+        sqlite_app = (
+            sqlite_apps[index]
+            if index < len(sqlite_apps)
+            else None
+        )
+        
+        if json_item is None or sqlite_app is None:
+            differences.append({
+                "position": position,
+                "field": "record",
+                "json_value": json_item,
+                "sqlite_value": sqlite_app,
+            })
+            continue
+        
+        json_name, json_app = json_item
+        
+        checks = {
+            "position": (position, sqlite_app["position"]),
+            "name": (json_name, sqlite_app["name"]),
+            "command": (
+                json_app.get("command"),
+                sqlite_app["command"],
+            ),
+            "allowed": (
+                json_app.get("allowed", False),
+                sqlite_app["allowed"],
+            ),
+        }
+        
+        for field, (json_value, sqlite_value) in checks.items():
+            if json_value != sqlite_value:
+                differences.append({
+                    "position": position,
+                    "field": field,
+                    "json_value": json_value,
+                    "sqlite_value": sqlite_value,
+                })
+                
+    matches = not differences
+    
+    result = {
+        "matches": matches,
+        "json_app_count": len(json_items),
+        "sqlite_app_count": len(sqlite_apps),
+        "differences": differences,
+    }
+    
+    record_migration(
+        "verify_app_registry_migration",
+        "completed" if matches else "mismatch",
+        result,
+    )
+    
+    return result
 
 def get_sqlite_website_registry():
     initialize_database()
