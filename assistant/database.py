@@ -110,6 +110,20 @@ def initialize_database():
         
         connection.execute(
             """
+            CREATE TABLE IF NOT EXISTS app_launch_history (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                position INTEGER NOT NULL UNIQUE,
+                app_name TEXT NOT NULL,
+                command TEXT NOT NULL,
+                result TEXT NOT NULL,
+                timestamp TEXT NOT NULL,
+                migrated_at TEXT NOT NULL
+            )
+            """
+        )
+        
+        connection.execute(
+            """
             CREATE TABLE IF NOT EXISTS website_open_history (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 position INTEGER NOT NULL UNIQUE,
@@ -1210,6 +1224,7 @@ def get_sqlite_migration_status():
         "website_registry",
         "website_open_history",
         "app_registry",
+        "app_launch_history",
         "migration_runs",
     ]
     
@@ -2068,6 +2083,138 @@ def verify_website_open_history_migration():
     
     return result
 
-
+def migrate_app_launch_history_from_json():
+    initialize_database()
+    
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
         
+    app_launches = memory_data.get("app_launches", [])
+    
+    if not isinstance(app_launches, list):
+        raise ValueError("memory.json app_launches must be a JSON list.")
+    
+    migrated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+
+    for position, event in enumerate(app_launches, start=1):
+        if not isinstance(event, dict):
+            raise ValueError(
+                f"App launch event {position} must be an object."
+            )
+            
+        app_name = event.get("app_name")
+        command = event.get("command")
+        result = event.get("result")
+        timestamp = event.get("timestamp")
+        
+        fields = {
+            "app_name": app_name,
+            "command": command,
+            "result": result,
+            "timestamp": timestamp,
+        }
+        
+        for field, value in fields.items():
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError(
+                    f"App launch event {position} {field} must be text."
+                )
+                
+        records.append(
+            (
+                position,
+                app_name,
+                command,
+                result,
+                timestamp,
+                migrated_at,
+            )
+        )
+        
+    backup_file = create_memory_backup(
+        "memory_before_app_launch_history_sqlite"
+    )
+    
+    with get_connection() as connection:
+        connection.execute("DELETE FROM app_launch_history")
+        
+        connection.executemany(
+            """
+            INSERT INTO app_launch_history (
+                position,
+                app_name,
+                command,
+                result,
+                timestamp,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            records,
+        )
+        
+    details = {
+        "backup_file": str(backup_file),
+        "app_launch_count": len(records),
+    }
+    
+    record_migration(
+        "migrate_app_launch_history_from_json",
+        "completed",
+        details,
+    )
+        
+    return details
+
+def get_sqlite_app_launch_history(limit=None):
+    initialize_database()
+    
+    query = """
+        SELECT
+            id,
+            position,
+            app_name,
+            command,
+            result,
+            timestamp,
+            migrated_at
+        FROM app_launch_history
+    """
+    
+    parameters = ()
+    
+    if limit is None:
+        query += " ORDER BY position"
+    else:
+        safe_limit = max(1, min(limit, 100))
+        query += """
+            ORDER BY position DESC
+            LIMIT ?
+        """
+        parameters = (safe_limit,)
+        
+    with get_connection() as connection:
+        rows = connection.execute(
+            query,
+            parameters,
+        ).fetchall()
+        
+    if limit is not None:
+        rows = list(reversed(rows))
+        
+    return [
+        {
+            "id": row["id"],
+            "position": row["position"],
+            "app_name": row["app_name"],
+            "command": row["command"],
+            "result": row["result"],
+            "timestamp": row["timestamp"],
+            "migrated_at": row["migrated_at"],
+        }
+        for row in rows
+    ]
+        
+    
     
