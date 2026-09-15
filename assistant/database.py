@@ -2380,6 +2380,79 @@ def get_sqlite_app_aliases():
         }
         for row in rows
     ]
+    
+def verify_app_aliases_migration():
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    json_aliases = memory_data.get("app_aliases", {})
+    sqlite_aliases = get_sqlite_app_aliases()
+    
+    differences = []
+    json_items = list(json_aliases.items())
+    
+    total_items = max(
+        len(json_items),
+        len(sqlite_aliases),
+    )
+    
+    for index in range(total_items):
+        position = index + 1
+        
+        json_item = (
+            json_items[index]
+            if index < len(json_items)
+            else None
+        )
+        
+        sqlite_alias = (
+            sqlite_aliases[index]
+            if index < len(sqlite_aliases)
+            else None
+        )
+        
+        if json_item is None or sqlite_alias is None:
+            differences.append({
+                "position": position,
+                "field": "record",
+                "json_value": json_item,
+                "sqlite_value": sqlite_alias,
+            })
+            continue
+        
+        alias, app_name = json_item
+        
+        checks = {
+            "position": (position, sqlite_alias["position"]),
+            "alias": (alias, sqlite_alias["alias"]),
+            "app_name": (app_name, sqlite_alias["app_name"]),
+        }
+        
+        for field, (json_value, sqlite_value) in checks.items():
+            if json_value != sqlite_value:
+                differences.append({
+                    "position": position,
+                    "field": field,
+                    "json_value": json_value,
+                    "sqlite_value": sqlite_value,
+                })
+                
+    matches = not differences
+    
+    result = {
+        "matches": matches,
+        "json_alias_count": len(json_items),
+        "sqlite_alias_count": len(sqlite_aliases),
+        "differences": differences,
+    }
+    
+    record_migration(
+        "verify_app_aliases_migration",
+        "completed" if matches else "mismatch",
+        result,
+    )
+    
+    return result
  
 def verify_app_launch_history_migration():
     with open(MEMORY_FILE, "r") as file:
