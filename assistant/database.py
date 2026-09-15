@@ -124,6 +124,18 @@ def initialize_database():
         
         connection.execute(
             """
+            CREATE TABLE IF NOT EXISTS app_aliases (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                position INTEGER NOT NULL UNIQUE,
+                alias TEXT NOT NULL UNIQUE,
+                app_name TEXT NOT NULL,
+                migrated_at TEXT NOT NULL
+            )
+            """
+        )
+        
+        connection.execute(
+            """
             CREATE TABLE IF NOT EXISTS website_open_history (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 position INTEGER NOT NULL UNIQUE,
@@ -1225,6 +1237,7 @@ def get_sqlite_migration_status():
         "website_open_history",
         "app_registry",
         "app_launch_history",
+        "app_aliases",
         "migration_runs",
     ]
     
@@ -2219,7 +2232,7 @@ def get_sqlite_app_launch_history(limit=None):
 def add_sqlite_app_launch_event(position, event):
     initialize_database()
     
-    if not isinstance(position, event):
+    if not isinstance(position, int) or position < 1:
         raise ValueError("App launch position must be a positive integer.")
     
     if not isinstance(event, dict):
@@ -2268,7 +2281,106 @@ def add_sqlite_app_launch_event(position, event):
         
     return cursor.lastrowid
 
+def migrate_app_aliases_from_json():
+    initialize_database()
     
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    aliases = memory_data.get("app_aliases", {})
+    
+    if not isinstance(aliases, dict):
+        raise ValueError(
+            "memory.json app_aliases must be a JSON object."
+        )
+        
+    migrated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+    
+    for position, (alias, app_name) in enumerate(
+        aliases.items(),
+        start=1,
+    ):
+        if not isinstance(alias, str) or not alias.strip():
+            raise ValueError(
+                f"App alias {position} needs a valid alias."
+            )
+            
+        if not isinstance(app_name, str) or not app_name.strip():
+            raise ValueError(
+                f"App alias '{alias}' needs a target app name."
+            )
+            
+        records.append(
+            (
+                position,
+                alias,
+                app_name,
+                migrated_at,
+            )
+        )
+        
+    backup_file = create_memory_backup(
+        "memory_before_app_aliases_sqlite"
+    )
+    
+    with get_connection() as connection:
+        connection.execute("DELETE FROM app_aliases")
+        
+        connection.executemany(
+            """
+            INSERT INTO app_aliases (
+                position,
+                alias,
+                app_name,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            records,
+        )
+        
+    details = {
+        "backup_file": str(backup_file),
+        "alias_count": len(records),
+    }
+    
+    record_migration(
+        "migrate_app_aliases_from_json",
+        "completed",
+        details,
+    )
+    
+    return details
+
+def get_sqlite_app_aliases():
+    initialize_database()
+    
+    with get_connection() as connection:
+        rows = connection.execute(
+            """
+            SELECT
+                id,
+                position,
+                alias,
+                app_name,
+                migrated_at
+            FROM app_aliases
+            ORDER BY position
+            """
+        ).fetchall()
+        
+    return [
+        {
+            "id": row["id"],
+            "position": row["position"],
+            "alias": row["alias"],
+            "app_name": row["app_name"],
+            "migrated_at": row["migrated_at"],
+        }
+        for row in rows
+    ]
+ 
 def verify_app_launch_history_migration():
     with open(MEMORY_FILE, "r") as file:
         memory_data = json.load(file)

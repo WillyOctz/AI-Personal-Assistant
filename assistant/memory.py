@@ -2423,16 +2423,24 @@ def add_app_launch(event):
     add_app_launch_to_sqlite(position, event)
     
 def get_app_launches(limit=10):
-    memory = load_memory()
-    return memory["app_launches"][-limit:]
+    sqlite_events = database.get_sqlite_app_launch_history(limit)
+    
+    return [
+        {
+            "app_name": event["app_name"],
+            "command": event["command"],
+            "result": event["result"],
+            "timestamp": event["timestamp"],
+        }
+        for event in sqlite_events
+    ]
 
 def get_app_launch_stats():
-    memory = load_memory()
-    launches = memory["app_launches"]
+    launches = get_app_launches(limit=None)
     
     if not launches:
         return {
-           "total": 0,
+            "total": 0,
             "most_launched": None,
             "last_launched": None 
         }
