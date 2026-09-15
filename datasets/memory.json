@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_app_aliases",
-        "last_response_group": "memory",
-        "last_response_source": "rule",
-        "last_response_confidence": 1.0,
+        "last_response_intent": "unknown",
+        "last_response_group": "unknown",
+        "last_response_source": "None",
+        "last_response_confidence": 0,
         "last_response_scores": {},
-        "last_response_text": "App aliases:\n- steam -> something\n- temporary -> notepad",
+        "last_response_text": "I am not sure if that was a command or conversation yet.\nYou said: exit\nYou can rephrase it, or teach me with: teach message as intent_name",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -17550,6 +17550,46 @@
             "source": "rule",
             "timestamp": "2026-09-15 18:46:10",
             "importance": 0.6
+        },
+        {
+            "user": "show app aliases",
+            "assistant": "App aliases:\n- steam -> something\n- temporary -> notepad",
+            "intent": "show_app_aliases",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-15 18:58:12",
+            "importance": 0.6
+        },
+        {
+            "user": "debug app steam",
+            "assistant": "Input: steam\nAfter alias: something\nAfter default: something\nRegistered: True\nCommand: steam.exe",
+            "intent": "debug_app_resolution",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-15 18:58:17",
+            "importance": 0.1
+        },
+        {
+            "user": "app cleanup preview",
+            "assistant": "App cleanup preview:\nMissing command: 0\nMissing allowed field: 0\nBroken aliases: 0\nBroken defaults: 0",
+            "intent": "preview_app_cleanup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-15 18:58:24",
+            "importance": 0.6
+        },
+        {
+            "user": "exit",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: exit\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-15 18:58:30",
+            "importance": 0.3
         }
     ],
     "summaries": [

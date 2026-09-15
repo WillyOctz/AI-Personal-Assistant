@@ -2202,14 +2202,18 @@ def add_app_alias(alias, app_name):
     }
     
 def resolve_app_alias(name):
-    memory = load_memory()
     clean_name = normalize_entity_name(name)
+    aliases = get_app_aliases()
     
-    return memory["app_aliases"].get(clean_name, clean_name)
+    return aliases.get(clean_name, clean_name)
 
 def get_app_aliases():
-    memory = load_memory()
-    return memory["app_aliases"]
+    sqlite_aliases = database.get_sqlite_app_aliases()
+    
+    return {
+        item["alias"]: item["app_name"]
+        for item in sqlite_aliases
+    }
 
 def remove_app_alias(alias):
     memory = load_memory()
@@ -2529,7 +2533,7 @@ def preview_app_cleanup():
     memory = load_memory()
     
     registry = get_app_registry()
-    aliases = memory["app_aliases"]
+    aliases = get_app_aliases()
     defaults = memory["default_apps"]
     
     missing_command = []
