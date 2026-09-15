@@ -136,6 +136,18 @@ def initialize_database():
         
         connection.execute(
             """
+            CREATE TABLE IF NOT EXISTS default_apps (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                position INTEGER NOT NULL UNIQUE,
+                category TEXT NOT NULL UNIQUE,
+                app_name TEXT NOT NULL,
+                migrated_at TEXT NOT NULL
+            )
+            """
+        )
+        
+        connection.execute(
+            """
             CREATE TABLE IF NOT EXISTS website_open_history (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 position INTEGER NOT NULL UNIQUE,
@@ -1238,6 +1250,7 @@ def get_sqlite_migration_status():
         "app_registry",
         "app_launch_history",
         "app_aliases",
+        "default_apps",
         "migration_runs",
     ]
     
@@ -2588,3 +2601,103 @@ def verify_app_launch_history_migration():
     )
     
     return result
+
+def migrate_default_apps_from_json():
+    initialize_database()
+    
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    defaults = memory_data.get("default_apps", {})
+    
+    if not isinstance(defaults, dict):
+        raise ValueError(
+            "memory.json default_apps must be a JSON object."
+        )
+        
+    migrated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+    
+    for position, (category, app_name) in enumerate(
+        defaults.items(),
+        start=1,
+    ):
+        if not isinstance(category, str) or not category.strip():
+            raise ValueError(
+                f"Default app {position} needs a valid category."
+            )
+
+        if not isinstance(app_name, str) or not app_name.strip():
+            raise ValueError(
+                f"Default app '{category}' needs a target app name."
+            )
+            
+        records.append(
+            (
+                position,
+                category,
+                app_name,
+                migrated_at,
+            )
+        )
+        
+    backup_file = create_memory_backup(
+        "memory_before_default_apps_sqlite"
+    )
+    
+    with get_connection() as connection:
+        connection.execute("DELETE FROM default_apps")
+        
+        connection.executemany(
+            """
+            INSERT INTO default_apps (
+                position,
+                category,
+                app_name,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            records,
+        )
+        
+    details = {
+        "backup_file": str(backup_file),
+        "default_app_count": len(records),
+    }
+    
+    record_migration(
+        "migrate_default_apps_from_json",
+        "completed",
+        details,
+    )
+    
+    return details
+
+def get_sqlite_default_apps():
+    initialize_database()
+    
+    with get_connection() as connection:
+        rows = connection.execute(
+            """
+            SELECT
+                id,
+                position,
+                category,
+                app_name,
+                migrated_at
+            FROM default_apps
+            ORDER BY position
+            """
+        ).fetchall()
+        
+    return [
+        {
+            "id": row["id"],
+            "position": row["position"],
+            "category": row["category"],
+            "app_name": row["app_name"],
+            "migrated_at": row["migrated_at"],
+        }
+        for row in rows
+    ]
