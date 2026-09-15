@@ -357,6 +357,18 @@ def add_website_open_to_sqlite(position, event):
             "but could not sync to SQLite."
         ) from error
         
+def add_app_launch_to_sqlite(position, event):
+    try:
+        return database.add_sqlite_app_launch_event(
+            position,
+            event
+        )
+    except Exception as error:
+        raise RuntimeError(
+            "App launch history was saved to memory.json "
+            "but could not sync to SQLite."
+        ) from error
+        
 def add_note(note):
     memory = load_memory()
     memory["notes"].append(note)
@@ -2406,6 +2418,9 @@ def add_app_launch(event):
     memory = load_memory()
     memory["app_launches"].append(event)
     save_memory(memory)
+    
+    position = len(memory["app_launches"])
+    add_app_launch_to_sqlite(position, event)
     
 def get_app_launches(limit=10):
     memory = load_memory()

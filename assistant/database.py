@@ -2216,6 +2216,59 @@ def get_sqlite_app_launch_history(limit=None):
         for row in rows
     ]
     
+def add_sqlite_app_launch_event(position, event):
+    initialize_database()
+    
+    if not isinstance(position, event):
+        raise ValueError("App launch position must be a positive integer.")
+    
+    if not isinstance(event, dict):
+        raise ValueError("App launch event must be an object.")
+    
+    app_name = event.get("app_name")
+    command = event.get("command")
+    result = event.get("result")
+    timestamp = event.get("timestamp")
+    
+    fields = {
+        "app_name": app_name,
+        "command": command,
+        "result": result,
+        "timestamp": timestamp,
+    }
+    
+    for field, value in fields.items():
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError(
+                f"App launch event {field} must be text."
+            )
+            
+    with get_connection() as connection:
+        cursor = connection.execute(
+            """
+            INSERT INTO app_launch_history (
+                position,
+                app_name,
+                command,
+                result,
+                timestamp,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (
+                position,
+                app_name,
+                command,
+                result,
+                timestamp,
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            ),
+        )
+        
+    return cursor.lastrowid
+
+    
 def verify_app_launch_history_migration():
     with open(MEMORY_FILE, "r") as file:
         memory_data = json.load(file)
@@ -2293,6 +2346,3 @@ def verify_app_launch_history_migration():
     )
     
     return result
-        
-    
-    
