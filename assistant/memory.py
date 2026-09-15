@@ -345,6 +345,14 @@ def sync_app_registry_to_sqlite():
             "App registry was saved to memory.json but could not sync to SQLite."
         ) from error
         
+def sync_app_aliases_to_sqlite():
+    try:
+        return database.sync_sqlite_app_aliases_from_json()
+    except Exception as error:
+        raise RuntimeError(
+            "App aliases were saved to memory.json but could not sync to SQLite."
+        ) from error
+        
 def add_website_open_to_sqlite(position, event):
     try:
         return database.add_sqlite_website_open_event(
@@ -2170,6 +2178,7 @@ def restore_app_registry_backup(recent_index, limit=5):
     
     save_memory(memory)
     sync_app_registry_to_sqlite()
+    sync_app_aliases_to_sqlite()
     
     return {
         "restored": True,
@@ -2185,6 +2194,7 @@ def add_app_alias(alias, app_name):
     
     memory["app_aliases"][clean_alias] = clean_app_name
     save_memory(memory)
+    sync_app_aliases_to_sqlite()
     
     return {
         "alias": clean_alias,
@@ -2214,6 +2224,7 @@ def remove_app_alias(alias):
         
     app_name = memory["app_aliases"].pop(clean_alias)
     save_memory(memory)
+    sync_app_aliases_to_sqlite()
     
     return {
         "removed": True,
@@ -2627,6 +2638,9 @@ def repair_app_cleanup():
     
     if repaired_allowed:
         sync_app_registry_to_sqlite()
+        
+    if removed_aliases:
+        sync_app_aliases_to_sqlite()
     
     return {
         "repaired_allowed": repaired_allowed,

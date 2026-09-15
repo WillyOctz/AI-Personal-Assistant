@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "unknown",
-        "last_response_group": "unknown",
-        "last_response_source": "None",
-        "last_response_confidence": 0,
+        "last_response_intent": "show_app_aliases",
+        "last_response_group": "memory",
+        "last_response_source": "rule",
+        "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I am not sure if that was a command or conversation yet.\nYou said: python -c \"from assistant.database import verify_app_launch_history_migration; print(verify_app_launch_history_migration())\"\nYou can rephrase it, or teach me with: teach message as intent_name",
+        "last_response_text": "App aliases:\n- steam -> something\n- temporary -> notepad",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -17530,6 +17530,26 @@
             "source": "None",
             "timestamp": "2026-09-15 17:29:46",
             "importance": 0.3
+        },
+        {
+            "user": "alias app temporary as notepad",
+            "assistant": "App alias saved: temporary -> notepad",
+            "intent": "add_app_alias",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-15 18:45:49",
+            "importance": 0.6
+        },
+        {
+            "user": "show app aliases",
+            "assistant": "App aliases:\n- steam -> something\n- temporary -> notepad",
+            "intent": "show_app_aliases",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-15 18:46:10",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -17949,7 +17969,8 @@
         }
     ],
     "app_aliases": {
-        "steam": "something"
+        "steam": "something",
+        "temporary": "notepad"
     },
     "default_apps": {},
     "app_registry_backups": [

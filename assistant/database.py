@@ -2381,6 +2381,63 @@ def get_sqlite_app_aliases():
         for row in rows
     ]
     
+def sync_sqlite_app_aliases_from_json():
+    initialize_database()
+    
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    aliases = memory_data.get("app_aliases", {})
+    
+    if not isinstance(aliases, dict):
+        raise ValueError(
+            "memory.json app_aliases must be a JSON object."
+        )
+        
+    synced_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+    
+    for position, (alias, app_name) in enumerate(
+        aliases.items(),
+        start=1
+    ):
+        if not isinstance(alias, str) or not alias.strip():
+            raise ValueError(
+                f"App alias {position} needs a valid alias."
+            )
+
+        if not isinstance(app_name, str) or not app_name.strip():
+            raise ValueError(
+                f"App alias '{alias}' needs a target app name."
+            )
+            
+        records.append(
+            (
+                position,
+                alias,
+                app_name,
+                synced_at,
+            )
+        )
+        
+    with get_connection() as connection:
+        connection.execute("DELETE FROM app_aliases")
+        
+        connection.executemany(
+            """
+            INSERT INTO app_aliases (
+                position,
+                alias,
+                app_name,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            records,
+        )
+        
+    return len(records)
+    
 def verify_app_aliases_migration():
     with open(MEMORY_FILE, "r") as file:
         memory_data = json.load(file)
