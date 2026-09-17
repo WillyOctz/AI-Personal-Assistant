@@ -162,6 +162,18 @@ def initialize_database():
         
         connection.execute(
             """
+            CREATE TABLE IF NOT EXISTS search_folders (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                position INTEGER NOT NULL UNIQUE,
+                name TEXT NOT NULL UNIQUE,
+                path TEXT NOT NULL,
+                migrated_at TEXT NOT NULL
+            )
+            """
+        )
+        
+        connection.execute(
+            """
             CREATE TABLE IF NOT EXISTS website_open_history (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 position INTEGER NOT NULL UNIQUE,
@@ -1265,6 +1277,7 @@ def get_sqlite_migration_status():
         "app_launch_history",
         "app_aliases",
         "app_registry_backups",
+        "search_folders",
         "default_apps",
         "migration_runs",
     ]
@@ -2969,6 +2982,107 @@ def migrate_default_apps_from_json():
     )
     
     return details
+
+def migrate_search_folders_from_json():
+    initialize_database()
+
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+
+    folders = memory_data.get("search_folders", {})
+
+    if not isinstance(folders, dict):
+        raise ValueError(
+            "memory.json search_folders must be a JSON object."
+        )
+
+    migrated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+
+    for position, (name, path) in enumerate(
+        folders.items(),
+        start=1,
+    ):
+        if not isinstance(name, str) or not name.strip():
+            raise ValueError(
+                f"Search folder {position} needs a valid name."
+            )
+
+        if not isinstance(path, str) or not path.strip():
+            raise ValueError(
+                f"Search folder '{name}' needs a valid path."
+            )
+
+        records.append(
+            (
+                position,
+                name,
+                path.strip(),
+                migrated_at,
+            )
+        )
+
+    backup_file = create_memory_backup(
+        "memory_before_search_folders_sqlite"
+    )
+
+    with get_connection() as connection:
+        connection.execute("DELETE FROM search_folders")
+
+        connection.executemany(
+            """
+            INSERT INTO search_folders (
+                position,
+                name,
+                path,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            records,
+        )
+
+    details = {
+        "backup_file": str(backup_file),
+        "search_folder_count": len(records),
+    }
+
+    record_migration(
+        "migrate_search_folders_from_json",
+        "completed",
+        details,
+    )
+
+    return details
+
+
+def get_sqlite_search_folders():
+    initialize_database()
+
+    with get_connection() as connection:
+        rows = connection.execute(
+            """
+            SELECT
+                id,
+                position,
+                name,
+                path,
+                migrated_at
+            FROM search_folders
+            ORDER BY position
+            """
+        ).fetchall()
+
+    return [
+        {
+            "id": row["id"],
+            "position": row["position"],
+            "name": row["name"],
+            "path": row["path"],
+            "migrated_at": row["migrated_at"],
+        }
+        for row in rows
+    ]
 
 def get_sqlite_default_apps():
     initialize_database()
