@@ -3083,6 +3083,79 @@ def get_sqlite_search_folders():
         }
         for row in rows
     ]
+    
+def verify_search_folders_migration():
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    json_folders = memory_data.get("search_folders", {})
+    sqlite_folders = get_sqlite_search_folders()
+    
+    differences = []
+    json_items = list(json_folders.items())
+    
+    total_items = max(
+        len(json_items),
+        len(sqlite_folders),
+    )
+    
+    for index in range(total_items):
+        position = index + 1
+        
+        json_item = (
+            json_items[index]
+            if index < len(json_items)
+            else None
+        )
+
+        sqlite_folder = (
+            sqlite_folders[index]
+            if index < len(sqlite_folders)
+            else None
+        )
+        
+        if json_item is None or sqlite_folder is None:
+            differences.append({
+                "position": position,
+                "field": "record",
+                "json_value": json_item,
+                "sqlite_value": sqlite_folder,
+            })
+            continue
+        
+        name, path = json_item
+        
+        checks = {
+            "position": (position, sqlite_folder["position"]),
+            "name": (name, sqlite_folder["name"]),
+            "path": (path, sqlite_folder["path"]),
+        }
+        
+        for field, (json_value, sqlite_value) in checks.items():
+            if json_value != sqlite_value:
+                differences.append({
+                    "position": position,
+                    "field": field,
+                    "json_value": json_value,
+                    "sqlite_value": sqlite_value,
+                })
+                
+    matches = not differences
+    
+    result = {
+        "matches": matches,
+        "json_search_folder_count": len(json_items),
+        "sqlite_search_folder_count": len(sqlite_folders),
+        "differences": differences,
+    }
+    
+    record_migration(
+        "verify_search_folders_migration",
+        "completed" if matches else "mismatch",
+        result,
+    )
+    
+    return result
 
 def get_sqlite_default_apps():
     initialize_database()
