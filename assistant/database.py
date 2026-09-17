@@ -1955,6 +1955,84 @@ def get_sqlite_app_registry_backups():
         }
         for row in rows
     ]
+    
+def verify_app_registry_backups_migration():
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    json_backups = memory_data.get("app_registry_backups", [])
+    sqlite_backups = get_sqlite_app_registry_backups()
+    
+    differences = []
+    total_items = max(
+        len(json_backups),
+        len(sqlite_backups),
+    )
+    
+    fields = [
+        "timestamp",
+        "app_registry",
+        "app_aliases",
+        "default_apps",
+    ]
+    
+    for index in range(total_items):
+        position = index + 1
+        
+        json_backup = (
+            json_backups[index]
+            if index < len(json_backups)
+            else None
+        )
+
+        sqlite_backup = (
+            sqlite_backups[index]
+            if index < len(sqlite_backups)
+            else None
+        )
+        
+        if json_backup is None or sqlite_backup is None:
+            differences.append({
+                "position": position,
+                "field": "record",
+                "json_value": json_backup,
+                "sqlite_value": sqlite_backup,
+            })
+            continue
+        
+        if sqlite_backup["position"] != position:
+            differences.append({
+                "position": position,
+                "field": "position",
+                "json_value": position,
+                "sqlite_value": sqlite_backup["position"],
+            })
+            
+        for field in fields:
+            if json_backup.get(field) != sqlite_backup.get(field):
+                differences.append({
+                    "position": position,
+                    "field": field,
+                    "json_value": json_backup.get(field),
+                    "sqlite_value": sqlite_backup.get(field),
+                })
+                
+    matches = not differences
+    
+    result = {
+        "matches": matches,
+        "json_app_registry_backup_count": len(json_backups),
+        "sqlite_app_registry_backup_count": len(sqlite_backups),
+        "differences": differences,
+    }
+    
+    record_migration(
+        "verify_app_registry_backups_migration",
+        "completed" if matches else "mismatch",
+        result,
+    )
+    
+    return result
 
 def get_sqlite_website_registry():
     initialize_database()
