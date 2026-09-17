@@ -2533,21 +2533,25 @@ def remove_default_app(category):
     }
     
 def get_default_app(category):
-    memory = load_memory()
     clean_category = normalize_entity_name(category)
+    defaults = get_default_apps()
     
-    return memory["default_apps"].get(clean_category)
+    return defaults.get(clean_category)
 
 def get_default_apps():
-    memory = load_memory()
-    return memory["default_apps"]
+    sqlite_defaults = database.get_sqlite_default_apps()
+    
+    return {
+        item["category"]: item["app_name"]
+        for item in sqlite_defaults
+    }
 
 def preview_app_cleanup():
     memory = load_memory()
     
     registry = get_app_registry()
     aliases = get_app_aliases()
-    defaults = memory["default_apps"]
+    defaults = get_default_apps()
     
     missing_command = []
     missing_allowed = []

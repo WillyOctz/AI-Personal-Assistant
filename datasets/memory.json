@@ -17610,6 +17610,26 @@
             "source": "rule",
             "timestamp": "2026-09-17 16:39:40",
             "importance": 0.6
+        },
+        {
+            "user": "set default app editor as notepad",
+            "assistant": "Default app saved: editor -> notepad",
+            "intent": "set_default_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-17 16:50:17",
+            "importance": 0.6
+        },
+        {
+            "user": "show default apps",
+            "assistant": "Default apps:\n- editor -> notepad",
+            "intent": "show_default_apps",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-17 16:50:23",
+            "importance": 0.6
         }
     ],
     "summaries": [
