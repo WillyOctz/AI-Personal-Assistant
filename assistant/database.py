@@ -2701,3 +2701,76 @@ def get_sqlite_default_apps():
         }
         for row in rows
     ]
+    
+def verify_default_apps_migration():
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    json_defaults = memory_data.get("default_apps", {})
+    sqlite_defaults = get_sqlite_default_apps()
+    
+    differences = []
+    json_items = list(json_defaults.items())
+    
+    total_items = max(
+        len(json_items),
+        len(sqlite_defaults),
+    )
+    
+    for index in range(total_items):
+        position = index + 1
+        
+        json_item = (
+            json_items[index]
+            if index < len(json_items)
+            else None
+        )
+
+        sqlite_default = (
+            sqlite_defaults[index]
+            if index < len(sqlite_defaults)
+            else None
+        )
+        
+        if json_item is None or sqlite_default is None:
+            differences.append({
+                "position": position,
+                "field": "record",
+                "json_value": json_item,
+                "sqlite_value": sqlite_default,
+            })
+            continue
+        
+        category, app_name = json_item
+        
+        checks = {
+            "position": (position, sqlite_default["position"]),
+            "category": (category, sqlite_default["category"]),
+            "app_name": (app_name, sqlite_default["app_name"]),
+        }
+        
+        for field, (json_value, sqlite_value) in checks.items():
+            if json_value != sqlite_value:
+                differences.append({
+                    "position": position,
+                    "field": field,
+                    "json_value": json_value,
+                    "sqlite_value": sqlite_value,
+                })
+                
+    matches = not differences
+    
+    result = {
+        "matches": matches,
+        "json_default_app_count": len(json_items),
+        "sqlite_default_app_count": len(sqlite_defaults),
+        "differences": differences,
+    }
+    
+    record_migration(
+        "verify_default_apps_migration",
+        "completed" if matches else "mismatch",
+        result,
+    )
+    
+    return result
