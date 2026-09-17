@@ -148,6 +148,20 @@ def initialize_database():
         
         connection.execute(
             """
+            CREATE TABLE IF NOT EXISTS app_registry_backups (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                position INTEGER NOT NULL UNIQUE,
+                timestamp TEXT NOT NULL,
+                app_registry_json TEXT NOT NULL,
+                app_aliases_json TEXT NOT NULL,
+                default_apps_json TEXT NOT NULL,
+                migrated_at TEXT NOT NULL
+            )
+            """
+        )
+        
+        connection.execute(
+            """
             CREATE TABLE IF NOT EXISTS website_open_history (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 position INTEGER NOT NULL UNIQUE,
@@ -1250,6 +1264,7 @@ def get_sqlite_migration_status():
         "app_registry",
         "app_launch_history",
         "app_aliases",
+        "app_registry_backups",
         "default_apps",
         "migration_runs",
     ]
@@ -1815,6 +1830,131 @@ def verify_app_registry_migration():
     )
     
     return result
+
+def migrate_app_registry_backups_from_json():
+    initialize_database()
+    
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    backups = memory_data.get("app_registry_backups", [])
+    
+    if not isinstance(backups, list):
+        raise ValueError(
+            "memory.json app_registry_backups must be a JSON list."
+        )
+        
+    migrated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+    
+    for position, backup in enumerate(backups, start=1):
+        if not isinstance(backup, dict):
+            raise ValueError(
+                f"App registry backup {position} must be an object."
+            )
+            
+        timestamp = backup.get("timestamp")
+        app_registry = backup.get("app_registry")
+        app_aliases = backup.get("app_aliases")
+        default_apps = backup.get("default_apps")
+        
+        if not isinstance(timestamp, str) or not timestamp.strip():
+            raise ValueError(
+                f"App registry backup {position} needs a timestamp."
+            )
+            
+        if not isinstance(app_registry, dict):
+            raise ValueError(
+                f"App registry backup {position} app_registry must be an object."
+            )
+
+        if not isinstance(app_aliases, dict):
+            raise ValueError(
+                f"App registry backup {position} app_aliases must be an object."
+            )
+
+        if not isinstance(default_apps, dict):
+            raise ValueError(
+                f"App registry backup {position} default_apps must be an object."
+            )
+            
+        records.append(
+            (
+                position,
+                timestamp,
+                json.dumps(app_registry),
+                json.dumps(app_aliases),
+                json.dumps(default_apps),
+                migrated_at,
+            )
+        )
+        
+    backup_file = create_memory_backup(
+        "memory_before_app_registry_backups_sqlite"
+    )
+    
+    with get_connection() as connection:
+        connection.execute("DELETE FROM app_registry_backups")
+        
+        connection.executemany(
+            """
+            INSERT INTO app_registry_backups (
+                position,
+                timestamp,
+                app_registry_json,
+                app_aliases_json,
+                default_apps_json,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            records,
+        )
+        
+    details = {
+        "backup_file": str(backup_file),
+        "app_registry_backup_count": len(records),
+    }
+    
+    record_migration(
+        "migrate_app_registry_backups_from_json",
+        "completed",
+        details,
+    )
+    
+    return details
+
+def get_sqlite_app_registry_backups():
+    initialize_database()
+    
+    with get_connection() as connection:
+        rows = connection.execute(
+            """
+            SELECT 
+                id,
+                position,
+                timestamp,
+                app_registry_json,
+                app_aliases_json,
+                default_apps_json,
+                migrated_at
+            FROM app_registry_backups
+            ORDER BY position
+            """
+        ).fetchall()
+        
+    return [
+        {
+            "id": row["id"],
+            "position": row["position"],
+            "timestamp": row["timestamp"],
+            "app_registry": json.loads(row["app_registry_json"]),
+            "app_aliases": json.loads(row["app_aliases_json"]),
+            "default_apps": json.loads(row["default_apps_json"]),
+            "migrated_at": row["migrated_at"],
+        }
+        for row in rows
+    ]
 
 def get_sqlite_website_registry():
     initialize_database()
