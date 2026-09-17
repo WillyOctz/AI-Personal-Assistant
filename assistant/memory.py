@@ -2140,7 +2140,7 @@ def backup_app_registry(timestamp):
 
 def preview_restore_app_registry_backup(recent_index, limit=5):
     memory = load_memory()
-    backups = memory["app_registry_backups"][-limit:]
+    backups = get_app_registry_backups(limit)
     
     if not backups:
         return {
@@ -2168,12 +2168,17 @@ def preview_restore_app_registry_backup(recent_index, limit=5):
     }
 
 def get_app_registry_backups(limit=5):
-    memory = load_memory()
-    return memory["app_registry_backups"][-limit:]
+    sqlite_backups = database.get_sqlite_app_registry_backups()
+    
+    if limit is None:
+        return sqlite_backups
+    
+    safe_limit = max(1, min(limit, 100))
+    return sqlite_backups[-safe_limit:]
 
 def restore_app_registry_backup(recent_index, limit=5):
     memory = load_memory()
-    backups = memory["app_registry_backups"][-limit:]
+    backups = get_app_registry_backups(limit)
     
     if not backups:
         return {
