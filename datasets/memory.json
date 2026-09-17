@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_default_apps",
+        "last_response_intent": "show_app_registry_backups",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Default apps:\n- editor -> notepad",
+        "last_response_text": "App registry backups:\n1. 2026-07-23 19:16:25 | apps: 4, aliases: 1, defaults: 0\n2. 2026-07-24 15:58:08 | apps: 4, aliases: 1, defaults: 0\n3. 2026-07-27 16:24:31 | apps: 4, aliases: 1, defaults: 0\n4. 2026-07-27 16:25:25 | apps: 4, aliases: 1, defaults: 0\n5. 2026-09-17 18:23:13 | apps: 4, aliases: 2, defaults: 1",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -17630,6 +17630,26 @@
             "source": "rule",
             "timestamp": "2026-09-17 16:50:23",
             "importance": 0.6
+        },
+        {
+            "user": "backup app registry",
+            "assistant": "App registry backup saved: 2026-09-17 18:23:13\nApps: 4\nAliases: 2\nDefaults: 1",
+            "intent": "backup_app_registry",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-17 18:23:14",
+            "importance": 0.6
+        },
+        {
+            "user": "show app registry backups",
+            "assistant": "App registry backups:\n1. 2026-07-23 19:16:25 | apps: 4, aliases: 1, defaults: 0\n2. 2026-07-24 15:58:08 | apps: 4, aliases: 1, defaults: 0\n3. 2026-07-27 16:24:31 | apps: 4, aliases: 1, defaults: 0\n4. 2026-07-27 16:25:25 | apps: 4, aliases: 1, defaults: 0\n5. 2026-09-17 18:23:13 | apps: 4, aliases: 2, defaults: 1",
+            "intent": "show_app_registry_backups",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-17 18:23:19",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -18200,6 +18220,38 @@
                 "steam": "something"
             },
             "default_apps": {}
+        },
+        {
+            "timestamp": "2026-09-17 18:23:13",
+            "app_registry": {
+                "spotify": {
+                    "name": "spotify",
+                    "command": "spotify",
+                    "allowed": false
+                },
+                "notepad": {
+                    "name": "notepad",
+                    "command": "notepad",
+                    "allowed": true
+                },
+                "something": {
+                    "name": "something",
+                    "command": "steam.exe",
+                    "allowed": false
+                },
+                "google chrome": {
+                    "name": "google chrome",
+                    "command": "chrome",
+                    "allowed": true
+                }
+            },
+            "app_aliases": {
+                "steam": "something",
+                "temporary": "notepad"
+            },
+            "default_apps": {
+                "editor": "notepad"
+            }
         }
     ],
     "search_folders": {

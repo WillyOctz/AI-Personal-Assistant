@@ -1956,6 +1956,84 @@ def get_sqlite_app_registry_backups():
         for row in rows
     ]
     
+def sync_sqlite_app_registry_backups_from_json():
+    initialize_database()
+
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+
+    backups = memory_data.get("app_registry_backups", [])
+
+    if not isinstance(backups, list):
+        raise ValueError(
+            "memory.json app_registry_backups must be a JSON list."
+        )
+
+    synced_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+
+    for position, backup in enumerate(backups, start=1):
+        if not isinstance(backup, dict):
+            raise ValueError(
+                f"App registry backup {position} must be an object."
+            )
+
+        timestamp = backup.get("timestamp")
+        app_registry = backup.get("app_registry")
+        app_aliases = backup.get("app_aliases")
+        default_apps = backup.get("default_apps")
+
+        if not isinstance(timestamp, str) or not timestamp.strip():
+            raise ValueError(
+                f"App registry backup {position} needs a timestamp."
+            )
+
+        if not isinstance(app_registry, dict):
+            raise ValueError(
+                f"App registry backup {position} app_registry must be an object."
+            )
+
+        if not isinstance(app_aliases, dict):
+            raise ValueError(
+                f"App registry backup {position} app_aliases must be an object."
+            )
+
+        if not isinstance(default_apps, dict):
+            raise ValueError(
+                f"App registry backup {position} default_apps must be an object."
+            )
+
+        records.append(
+            (
+                position,
+                timestamp,
+                json.dumps(app_registry),
+                json.dumps(app_aliases),
+                json.dumps(default_apps),
+                synced_at,
+            )
+        )
+
+    with get_connection() as connection:
+        connection.execute("DELETE FROM app_registry_backups")
+
+        connection.executemany(
+            """
+            INSERT INTO app_registry_backups (
+                position,
+                timestamp,
+                app_registry_json,
+                app_aliases_json,
+                default_apps_json,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            records,
+        )
+
+    return len(records)
+    
 def verify_app_registry_backups_migration():
     with open(MEMORY_FILE, "r") as file:
         memory_data = json.load(file)

@@ -361,6 +361,15 @@ def sync_default_apps_to_sqlite():
             "Default apps were saved to memory.json but could not sync to SQLite."
         ) from error
         
+def sync_app_registry_backups_to_sqlite():
+    try:
+        return database.sync_sqlite_app_registry_backups_from_json()
+    except Exception as error:
+        raise RuntimeError(
+            "App registry backups were saved to memory.json "
+            "but could not sync to SQLite."
+        ) from error
+        
 def add_website_open_to_sqlite(position, event):
     try:
         return database.add_sqlite_website_open_event(
@@ -2125,6 +2134,8 @@ def backup_app_registry(timestamp):
     memory["app_registry_backups"].append(backup)
     save_memory(memory)
     
+    sync_app_registry_backups_to_sqlite()
+    
     return backup
 
 def preview_restore_app_registry_backup(recent_index, limit=5):
@@ -2622,6 +2633,8 @@ def cleanup_app_registry_backups(keep_latest=5):
     
     memory["app_registry_backups"] = kept_backups
     save_memory(memory)
+    
+    sync_app_registry_backups_to_sqlite()
     
     return {
         "removed": removed_count,
