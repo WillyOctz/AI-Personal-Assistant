@@ -2702,6 +2702,63 @@ def get_sqlite_default_apps():
         for row in rows
     ]
     
+def sync_sqlite_default_apps_from_json():
+    initialize_database()
+    
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    defaults = memory_data.get("default_apps", {})
+    
+    if not isinstance(defaults, dict):
+        raise ValueError(
+            "memory.json default_apps must be a JSON object."
+        )
+        
+    synced_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+    
+    for position, (category, app_name) in enumerate(
+        defaults.items(),
+        start=1,
+    ):
+        if not isinstance(category, str) or not category.strip():
+            raise ValueError(
+                f"Default app {position} needs a valid category."
+            )
+
+        if not isinstance(app_name, str) or not app_name.strip():
+            raise ValueError(
+                f"Default app '{category}' needs a target app name."
+            )
+
+        records.append(
+            (
+                position,
+                category,
+                app_name,
+                synced_at,
+            )
+        )
+        
+    with get_connection() as connection:
+        connection.execute("DELETE FROM default_apps")
+        
+        connection.executemany(
+            """
+            INSERT INTO default_apps (
+                position,
+                category,
+                app_name,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            records,
+        )
+        
+    return len(records)
+    
 def verify_default_apps_migration():
     with open(MEMORY_FILE, "r") as file:
         memory_data = json.load(file)

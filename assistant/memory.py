@@ -353,6 +353,14 @@ def sync_app_aliases_to_sqlite():
             "App aliases were saved to memory.json but could not sync to SQLite."
         ) from error
         
+def sync_default_apps_to_sqlite():
+    try:
+        return database.sync_sqlite_default_apps_from_json()
+    except Exception as error:
+        raise RuntimeError(
+            "Default apps were saved to memory.json but could not sync to SQLite."
+        ) from error
+        
 def add_website_open_to_sqlite(position, event):
     try:
         return database.add_sqlite_website_open_event(
@@ -2179,6 +2187,7 @@ def restore_app_registry_backup(recent_index, limit=5):
     save_memory(memory)
     sync_app_registry_to_sqlite()
     sync_app_aliases_to_sqlite()
+    sync_default_apps_to_sqlite()
     
     return {
         "restored": True,
@@ -2494,6 +2503,8 @@ def set_default_app(category, app_name):
     memory["default_apps"][clean_category] = clean_app_name
     save_memory(memory)
     
+    sync_default_apps_to_sqlite()
+    
     return {
         "category": clean_category,
         "app_name": clean_app_name
@@ -2512,6 +2523,8 @@ def remove_default_app(category):
         
     app_name = memory["default_apps"].pop(clean_category)
     save_memory(memory)
+    
+    sync_default_apps_to_sqlite()
     
     return {
         "removed": True,
@@ -2645,6 +2658,9 @@ def repair_app_cleanup():
         
     if removed_aliases:
         sync_app_aliases_to_sqlite()
+        
+    if removed_defaults:
+        sync_default_apps_to_sqlite()
     
     return {
         "repaired_allowed": repaired_allowed,

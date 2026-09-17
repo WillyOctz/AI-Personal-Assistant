@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "unknown",
-        "last_response_group": "unknown",
-        "last_response_source": "None",
-        "last_response_confidence": 0,
+        "last_response_intent": "show_default_apps",
+        "last_response_group": "memory",
+        "last_response_source": "rule",
+        "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I am not sure if that was a command or conversation yet.\nYou said: exit\nYou can rephrase it, or teach me with: teach message as intent_name",
+        "last_response_text": "Default apps:\n- editor -> notepad",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -17590,6 +17590,26 @@
             "source": "None",
             "timestamp": "2026-09-15 18:58:30",
             "importance": 0.3
+        },
+        {
+            "user": "set default app editor as notepad",
+            "assistant": "Default app saved: editor -> notepad",
+            "intent": "set_default_app",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-17 16:39:35",
+            "importance": 0.6
+        },
+        {
+            "user": "show default apps",
+            "assistant": "Default apps:\n- editor -> notepad",
+            "intent": "show_default_apps",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-17 16:39:40",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -18012,7 +18032,9 @@
         "steam": "something",
         "temporary": "notepad"
     },
-    "default_apps": {},
+    "default_apps": {
+        "editor": "notepad"
+    },
     "app_registry_backups": [
         {
             "timestamp": "2026-07-23 18:37:32",
