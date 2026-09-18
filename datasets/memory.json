@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "search_files_by_name",
+        "last_response_intent": "preview_file_search_cleanup",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Files matching brain:\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py",
+        "last_response_text": "File search cleanup preview:\nTotal events: 43\nKeep latest: 50\nWould remove: 0",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -17779,6 +17779,36 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-18 16:25:34",
+            "importance": 0.6
+        },
+        {
+            "user": "file search history",
+            "assistant": "Recent file search activity:\n- 2026-08-03 20:04:47 | preview_file | assistant | memory.json | 20 line(s)\n- 2026-08-03 20:54:56 | list_files | assistant |  | 5 item(s)\n- 2026-08-03 20:55:00 | search_files | assistant | brain | 1 match(es)\n- 2026-08-03 20:55:04 | search_text | assistant | cleanup | 5 match(es)\n- 2026-08-03 20:55:09 | preview_file | assistant | assistant/brain.py | 5 line(s)\n- 2026-08-03 20:55:34 | file_info | assistant | assistant/brain.py\\ | C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py\n- 2026-09-18 15:42:05 | list_files | assistant |  | 8 item(s)\n- 2026-09-18 15:42:19 | list_files | restaurant_website |  | 1 item(s)\n- 2026-09-18 15:42:38 | search_files | assistant | brain | 1 match(es)\n- 2026-09-18 16:25:33 | search_files | assistant | brain | 1 match(es)",
+            "intent": "show_file_search_history",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-18 17:30:51",
+            "importance": 0.6
+        },
+        {
+            "user": "file search stats",
+            "assistant": "File search stats:\nTotal events: 43\nMost used action: search_files (13 time(s))\nMost used folder: assistant (42 time(s))\nLast action: search_files",
+            "intent": "file_search_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-18 17:30:56",
+            "importance": 0.6
+        },
+        {
+            "user": "preview file search cleanup 50",
+            "assistant": "File search cleanup preview:\nTotal events: 43\nKeep latest: 50\nWould remove: 0",
+            "intent": "preview_file_search_cleanup",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-18 17:31:00",
             "importance": 0.6
         }
     ],

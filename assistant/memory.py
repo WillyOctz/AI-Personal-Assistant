@@ -2805,12 +2805,21 @@ def add_file_search_event(event):
     add_file_search_event_to_sqlite(position, event)
     
 def get_file_search_history(limit=10):
-    memory = load_memory()
-    return memory["file_search_history"][-limit:]
+    sqlite_events = database.get_sqlite_file_search_history(limit)
+    
+    return [
+        {
+            "action": event["action"],
+            "folder": event["folder"],
+            "query": event["query"],
+            "result": event["result"],
+            "timestamp": event["timestamp"],
+        }
+        for event in sqlite_events
+    ]
 
 def get_file_search_stats():
-    memory = load_memory()
-    history = memory["file_search_history"]
+    history = get_file_search_history(limit=None)
     
     if not history:
         return {
@@ -2849,8 +2858,7 @@ def get_file_search_stats():
     }
     
 def preview_file_search_cleanup(keep_latest=50):
-    memory = load_memory()
-    history = memory["file_search_history"]
+    history = get_file_search_history(limit=None)
     
     if len(history) <= keep_latest:
         return {
