@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "validate_search_folders",
+        "last_response_intent": "search_files_by_name",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Search folder validation:\n- assistant: ok\n- restaurant_website: ok",
+        "last_response_text": "Files matching brain:\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -17770,6 +17770,16 @@
             "source": "rule",
             "timestamp": "2026-09-18 15:43:11",
             "importance": 0.6
+        },
+        {
+            "user": "search files assistant brain",
+            "assistant": "Files matching brain:\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py",
+            "intent": "search_files_by_name",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-18 16:25:34",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -18672,6 +18682,13 @@
             "query": "brain",
             "result": "1 match(es)",
             "timestamp": "2026-09-18 15:42:38"
+        },
+        {
+            "action": "search_files",
+            "folder": "assistant",
+            "query": "brain",
+            "result": "1 match(es)",
+            "timestamp": "2026-09-18 16:25:33"
         }
     ],
     "response_feedback": [

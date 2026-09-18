@@ -403,6 +403,27 @@ def add_app_launch_to_sqlite(position, event):
             "but could not sync to SQLite."
         ) from error
         
+def add_file_search_event_to_sqlite(position, event):
+    try:
+        return database.add_sqlite_file_search_event(
+            position,
+            event,
+        )
+    except Exception as error:
+        raise RuntimeError(
+            "File search history was saved to memory.json "
+            "but could not sync to SQLite."
+        ) from error
+        
+def sync_file_search_history_to_sqlite():
+    try:
+        return database.sync_sqlite_file_search_history_from_json()
+    except Exception as error:
+        raise RuntimeError(
+            "File search history was saved to memory.json "
+            "but could not sync to SQLite."
+        ) from error
+        
 def add_note(note):
     memory = load_memory()
     memory["notes"].append(note)
@@ -2780,6 +2801,9 @@ def add_file_search_event(event):
     memory["file_search_history"].append(event)
     save_memory(memory)
     
+    position = len(memory["file_search_history"])
+    add_file_search_event_to_sqlite(position, event)
+    
 def get_file_search_history(limit=10):
     memory = load_memory()
     return memory["file_search_history"][-limit:]
@@ -2858,6 +2882,8 @@ def cleanup_file_search_history(keep_latest=50):
     
     memory["file_search_history"] = kept_history
     save_memory(memory)
+    
+    sync_file_search_history_to_sqlite()
     
     return {
         "total": len(history),

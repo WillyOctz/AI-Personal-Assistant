@@ -3371,6 +3371,127 @@ def get_sqlite_file_search_history(limit=None):
         for row in rows
     ]
     
+def add_sqlite_file_search_event(position, event):
+    initialize_database()
+
+    if not isinstance(position, int) or position < 1:
+        raise ValueError(
+            "File search event position must be a positive integer."
+        )
+
+    if not isinstance(event, dict):
+        raise ValueError("File search event must be an object.")
+
+    fields = {
+        "action": event.get("action"),
+        "folder": event.get("folder"),
+        "query": event.get("query"),
+        "result": event.get("result"),
+        "timestamp": event.get("timestamp"),
+    }
+
+    for field, value in fields.items():
+        if not isinstance(value, str):
+            raise ValueError(
+                f"File search event {field} must be text."
+            )
+
+    with get_connection() as connection:
+        cursor = connection.execute(
+            """
+            INSERT INTO file_search_history (
+                position,
+                action,
+                folder,
+                query,
+                result,
+                timestamp,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                position,
+                fields["action"],
+                fields["folder"],
+                fields["query"],
+                fields["result"],
+                fields["timestamp"],
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            ),
+        )
+
+    return cursor.lastrowid
+
+def sync_sqlite_file_search_history_from_json():
+    initialize_database()
+    
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    history = memory_data.get("file_search_history", [])
+    
+    if not isinstance(history, list):
+        raise ValueError(
+            "memory.json file_search_history must be a JSON list."
+        )
+        
+    synced_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+
+    for position, event in enumerate(history, start=1):
+        if not isinstance(event, dict):
+            raise ValueError(
+                f"File search event {position} must be an object."
+            )
+
+        fields = {
+            "action": event.get("action"),
+            "folder": event.get("folder"),
+            "query": event.get("query"),
+            "result": event.get("result"),
+            "timestamp": event.get("timestamp"),
+        }
+
+        for field, value in fields.items():
+            if not isinstance(value, str):
+                raise ValueError(
+                    f"File search event {position} {field} must be text."
+                )
+
+        records.append(
+            (
+                position,
+                fields["action"],
+                fields["folder"],
+                fields["query"],
+                fields["result"],
+                fields["timestamp"],
+                synced_at,
+            )
+        )
+
+    with get_connection() as connection:
+        connection.execute("DELETE FROM file_search_history")
+
+        connection.executemany(
+            """
+            INSERT INTO file_search_history (
+                position,
+                action,
+                folder,
+                query,
+                result,
+                timestamp,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            records,
+        )
+
+    return len(records)
+    
 def verify_file_search_history_migration():
     with open(MEMORY_FILE, "r") as file:
         memory_data = json.load(file)
