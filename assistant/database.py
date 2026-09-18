@@ -3370,6 +3370,85 @@ def get_sqlite_file_search_history(limit=None):
         }
         for row in rows
     ]
+    
+def verify_file_search_history_migration():
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    json_history = memory_data.get("file_search_history", [])
+    sqlite_history = get_sqlite_file_search_history()
+    
+    differences = []
+    total_items = max(
+        len(json_history),
+        len(sqlite_history),
+    )
+    
+    fields = [
+        "action",
+        "folder",
+        "query",
+        "result",
+        "timestamp",
+    ]
+    
+    for index in range(total_items):
+        position = index + 1
+        
+        json_event = (
+            json_history[index]
+            if index < len(json_history)
+            else None
+        )
+
+        sqlite_event = (
+            sqlite_history[index]
+            if index < len(sqlite_history)
+            else None
+        )
+        
+        if json_event is None or sqlite_event is None:
+            differences.append({
+                "position": position,
+                "field": "record",
+                "json_value": json_event,
+                "sqlite_value": sqlite_event,
+            })
+            continue
+        
+        if sqlite_event["position"] != position:
+            differences.append({
+                "position": position,
+                "field": "position",
+                "json_value": position,
+                "sqlite_value": sqlite_event["position"],
+            })
+            
+        for field in fields:
+            if json_event.get(field) != sqlite_event.get(field):
+                differences.append({
+                    "position": position,
+                    "field": field,
+                    "json_value": json_event.get(field),
+                    "sqlite_value": sqlite_event.get(field),
+                })
+                
+    matches = not differences
+    
+    result = {
+        "matches": matches,
+        "json_file_search_event_count": len(json_history),
+        "sqlite_file_search_event_count": len(sqlite_history),
+        "differences": differences,
+    }
+    
+    record_migration(
+        "verify_file_search_history_migration",
+        "completed" if matches else "mismatch",
+        result,
+    )
+    
+    return result
         
 def get_sqlite_default_apps():
     initialize_database()
