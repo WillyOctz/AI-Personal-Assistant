@@ -174,6 +174,21 @@ def initialize_database():
         
         connection.execute(
             """
+            CREATE TABLE IF NOT EXISTS file_search_history (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                position INTEGER NOT NULL UNIQUE,
+                action TEXT NOT NULL,
+                folder TEXT NOT NULL,
+                query TEXT NOT NULL,
+                result TEXT NOT NULL,
+                timestamp TEXT NOT NULL,
+                migrated_at TEXT NOT NULL
+            )
+            """
+        )
+        
+        connection.execute(
+            """
             CREATE TABLE IF NOT EXISTS website_open_history (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 position INTEGER NOT NULL UNIQUE,
@@ -1278,6 +1293,7 @@ def get_sqlite_migration_status():
         "app_aliases",
         "app_registry_backups",
         "search_folders",
+        "file_search_history",
         "default_apps",
         "migration_runs",
     ]
@@ -3214,6 +3230,147 @@ def verify_search_folders_migration():
     
     return result
 
+def migrate_file_search_history_from_json():
+    initialize_database()
+
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+
+    history = memory_data.get("file_search_history", [])
+
+    if not isinstance(history, list):
+        raise ValueError(
+            "memory.json file_search_history must be a JSON list."
+        )
+
+    migrated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+
+    for position, event in enumerate(history, start=1):
+        if not isinstance(event, dict):
+            raise ValueError(
+                f"File search event {position} must be an object."
+            )
+
+        action = event.get("action")
+        folder = event.get("folder")
+        query = event.get("query")
+        result = event.get("result")
+        timestamp = event.get("timestamp")
+
+        fields = {
+            "action": action,
+            "folder": folder,
+            "query": query,
+            "result": result,
+            "timestamp": timestamp,
+        }
+
+        for field, value in fields.items():
+            if not isinstance(value, str):
+                raise ValueError(
+                    f"File search event {position} {field} must be text."
+                )
+
+        records.append(
+            (
+                position,
+                action,
+                folder,
+                query,
+                result,
+                timestamp,
+                migrated_at,
+            )
+        )
+
+    backup_file = create_memory_backup(
+        "memory_before_file_search_history_sqlite"
+    )
+
+    with get_connection() as connection:
+        connection.execute("DELETE FROM file_search_history")
+
+        connection.executemany(
+            """
+            INSERT INTO file_search_history (
+                position,
+                action,
+                folder,
+                query,
+                result,
+                timestamp,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            records,
+        )
+
+    details = {
+        "backup_file": str(backup_file),
+        "file_search_event_count": len(records),
+    }
+
+    record_migration(
+        "migrate_file_search_history_from_json",
+        "completed",
+        details,
+    )
+
+    return details
+
+def get_sqlite_file_search_history(limit=None):
+    initialize_database()
+    
+    query = """
+        SELECT
+            id,
+            position,
+            action,
+            folder,
+            query,
+            result,
+            timestamp,
+            migrated_at
+        FROM file_search_history
+    """
+    
+    parameters = ()
+    
+    if limit is None:
+        query += " ORDER BY position"
+    else:
+        safe_limit = max(1, min(limit, 100))
+        query += """
+            ORDER BY position DESC
+            LIMIT ?
+        """
+        parameters = (safe_limit,)
+        
+    with get_connection() as connection:
+        rows = connection.execute(
+            query,
+            parameters,
+        ).fetchall()
+        
+    if limit is not None:
+        rows = list(reversed(rows))
+        
+    return [
+        {
+            "id": row["id"],
+            "position": row["position"],
+            "action": row["action"],
+            "folder": row["folder"],
+            "query": row["query"],
+            "result": row["result"],
+            "timestamp": row["timestamp"],
+            "migrated_at": row["migrated_at"],
+        }
+        for row in rows
+    ]
+        
 def get_sqlite_default_apps():
     initialize_database()
     
