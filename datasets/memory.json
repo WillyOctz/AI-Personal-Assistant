@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_search_folders",
+        "last_response_intent": "validate_search_folders",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Search folders:\n- assistant: C:\\Users\\User\\AI_Personal_Assistant\n- restaurant_website: D:\\Restaurant_website",
+        "last_response_text": "Search folder validation:\n- assistant: ok\n- restaurant_website: ok",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -17710,6 +17710,66 @@
             "source": "rule",
             "timestamp": "2026-09-18 15:34:21",
             "importance": 0.6
+        },
+        {
+            "user": "show search folders",
+            "assistant": "Search folders:\n- assistant: C:\\Users\\User\\AI_Personal_Assistant\n- restaurant_website: D:\\Restaurant_website",
+            "intent": "show_search_folders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-18 15:41:58",
+            "importance": 0.6
+        },
+        {
+            "user": "list files assistant",
+            "assistant": "Files in assistant:\n- file: api.py\n- folder: assistant\n- folder: datasets\n- folder: db\n- file: main.py\n- file: README.MD\n- file: requirements.txt\n- folder: website",
+            "intent": "list_folder_files",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-18 15:42:05",
+            "importance": 0.6
+        },
+        {
+            "user": "list files restaurant_website",
+            "assistant": "Files in restaurant_website:\n- folder: projects",
+            "intent": "list_folder_files",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-18 15:42:19",
+            "importance": 0.6
+        },
+        {
+            "user": "search files assistant brain",
+            "assistant": "Files matching brain:\n- file: C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py",
+            "intent": "search_files_by_name",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-18 15:42:39",
+            "importance": 0.6
+        },
+        {
+            "user": "file search dashboard",
+            "assistant": "File search dashboard:\nRegistered folders: 2\n- assistant -> C:\\Users\\User\\AI_Personal_Assistant\n- restaurant_website -> D:\\Restaurant_website",
+            "intent": "file_search_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-18 15:42:47",
+            "importance": 0.6
+        },
+        {
+            "user": "validate search folders",
+            "assistant": "Search folder validation:\n- assistant: ok\n- restaurant_website: ok",
+            "intent": "validate_search_folders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-18 15:43:11",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -18591,6 +18651,27 @@
             "query": "assistant/brain.py\\",
             "result": "C:\\Users\\User\\AI_Personal_Assistant\\assistant\\brain.py",
             "timestamp": "2026-08-03 20:55:34"
+        },
+        {
+            "action": "list_files",
+            "folder": "assistant",
+            "query": "",
+            "result": "8 item(s)",
+            "timestamp": "2026-09-18 15:42:05"
+        },
+        {
+            "action": "list_files",
+            "folder": "restaurant_website",
+            "query": "",
+            "result": "1 item(s)",
+            "timestamp": "2026-09-18 15:42:19"
+        },
+        {
+            "action": "search_files",
+            "folder": "assistant",
+            "query": "brain",
+            "result": "1 match(es)",
+            "timestamp": "2026-09-18 15:42:38"
         }
     ],
     "response_feedback": [

@@ -2762,14 +2762,18 @@ def update_search_folder(name, path):
     }
     
 def get_search_folders():
-    memory = load_memory()
-    return memory["search_folders"]
+    sqlite_folders = database.get_sqlite_search_folders()
+    
+    return {
+        folder["name"]: folder["path"]
+        for folder in sqlite_folders
+    }
 
 def get_search_folder(name):
-    memory = load_memory()
     clean_name = normalize_entity_name(name)
+    folders = get_search_folders()
     
-    return memory["search_folders"].get(clean_name)
+    return folders.get(clean_name)
 
 def add_file_search_event(event):
     memory = load_memory()
