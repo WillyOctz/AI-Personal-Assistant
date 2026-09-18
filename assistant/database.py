@@ -3084,6 +3084,63 @@ def get_sqlite_search_folders():
         for row in rows
     ]
     
+def sync_sqlite_search_folders_from_json():
+    initialize_database()
+
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+
+    folders = memory_data.get("search_folders", {})
+
+    if not isinstance(folders, dict):
+        raise ValueError(
+            "memory.json search_folders must be a JSON object."
+        )
+
+    synced_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+
+    for position, (name, path) in enumerate(
+        folders.items(),
+        start=1,
+    ):
+        if not isinstance(name, str) or not name.strip():
+            raise ValueError(
+                f"Search folder {position} needs a valid name."
+            )
+
+        if not isinstance(path, str) or not path.strip():
+            raise ValueError(
+                f"Search folder '{name}' needs a valid path."
+            )
+
+        records.append(
+            (
+                position,
+                name,
+                path.strip(),
+                synced_at,
+            )
+        )
+
+    with get_connection() as connection:
+        connection.execute("DELETE FROM search_folders")
+
+        connection.executemany(
+            """
+            INSERT INTO search_folders (
+                position,
+                name,
+                path,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            records,
+        )
+
+    return len(records)
+    
 def verify_search_folders_migration():
     with open(MEMORY_FILE, "r") as file:
         memory_data = json.load(file)

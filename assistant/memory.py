@@ -370,6 +370,15 @@ def sync_app_registry_backups_to_sqlite():
             "but could not sync to SQLite."
         ) from error
         
+def sync_search_folders_to_sqlite():
+    try:
+        return database.sync_sqlite_search_folders_from_json()
+    except Exception as error:
+        raise RuntimeError(
+            "Search folders were saved to memory.json "
+            "but could not sync to SQLite."
+        ) from error
+        
 def add_website_open_to_sqlite(position, event):
     try:
         return database.add_sqlite_website_open_event(
@@ -2700,6 +2709,8 @@ def add_search_folder(name, path):
     memory["search_folders"][clean_name] = clean_path
     save_memory(memory)
     
+    sync_search_folders_to_sqlite()
+    
     return {
         "name": clean_name,
         "path": clean_path
@@ -2718,6 +2729,8 @@ def remove_search_folder(name):
         
     path = memory["search_folders"].pop(clean_name)
     save_memory(memory)
+    
+    sync_search_folders_to_sqlite()
     
     return {
         "removed": True,
@@ -2739,6 +2752,8 @@ def update_search_folder(name, path):
     clean_path = path.strip()
     memory["search_folders"][clean_name] = clean_path
     save_memory(memory)
+    
+    sync_search_folders_to_sqlite()
     
     return {
         "updated": True,

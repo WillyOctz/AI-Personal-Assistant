@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_app_registry_backups",
+        "last_response_intent": "show_search_folders",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "App registry backups:\n1. 2026-07-23 19:16:25 | apps: 4, aliases: 1, defaults: 0\n2. 2026-07-24 15:58:08 | apps: 4, aliases: 1, defaults: 0\n3. 2026-07-27 16:24:31 | apps: 4, aliases: 1, defaults: 0\n4. 2026-07-27 16:25:25 | apps: 4, aliases: 1, defaults: 0\n5. 2026-09-17 18:23:13 | apps: 4, aliases: 2, defaults: 1",
+        "last_response_text": "Search folders:\n- assistant: C:\\Users\\User\\AI_Personal_Assistant\n- restaurant_website: D:\\Restaurant_website",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -17650,6 +17650,66 @@
             "source": "rule",
             "timestamp": "2026-09-17 18:23:19",
             "importance": 0.6
+        },
+        {
+            "user": "update search folder assistant as C:\\Users\\User\\AI_Personal_Assistant",
+            "assistant": "Updated search folder: assistant -> C:\\Users\\User\\AI_Personal_Assistant",
+            "intent": "update_search_folder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-18 15:31:14",
+            "importance": 0.6
+        },
+        {
+            "user": "add search folder testing",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: add search folder testing\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-18 15:31:39",
+            "importance": 0.3
+        },
+        {
+            "user": "register search folder",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: register search folder\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-18 15:32:33",
+            "importance": 0.3
+        },
+        {
+            "user": "register search folder D:\\Restaurant_website",
+            "assistant": "Use this format: register search folder name as path",
+            "intent": "register_search_folder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-18 15:33:13",
+            "importance": 0.6
+        },
+        {
+            "user": "register search folder restaurant_website as D:\\Restaurant_website",
+            "assistant": "Registered search folder: restaurant_website -> D:\\Restaurant_website",
+            "intent": "register_search_folder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-18 15:34:10",
+            "importance": 0.6
+        },
+        {
+            "user": "show search folders",
+            "assistant": "Search folders:\n- assistant: C:\\Users\\User\\AI_Personal_Assistant\n- restaurant_website: D:\\Restaurant_website",
+            "intent": "show_search_folders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-18 15:34:21",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -18255,7 +18315,8 @@
         }
     ],
     "search_folders": {
-        "assistant": "C:\\Users\\User\\AI_Personal_Assistant"
+        "assistant": "C:\\Users\\User\\AI_Personal_Assistant",
+        "restaurant_website": "D:\\Restaurant_website"
     },
     "file_search_history": [
         {
