@@ -1944,6 +1944,103 @@ def verify_focus_sessions_migration():
     )
 
     return result
+
+def sync_sqlite_focus_sessions_from_json():
+    initialize_database()
+
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+
+    sessions = memory_data.get("focus_sessions", [])
+
+    if not isinstance(sessions, list):
+        raise ValueError(
+            "memory.json focus_sessions must be a JSON list."
+        )
+
+    synced_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+
+    for position, session in enumerate(sessions, start=1):
+        if not isinstance(session, dict):
+            raise ValueError(
+                f"Focus session {position} must be an object."
+            )
+
+        task = session.get("task")
+        started_at = session.get("started_at")
+        ended_at = session.get("ended_at")
+        duration = session.get("duration")
+        notes = session.get("notes", [])
+        duration_seconds = session.get("duration_seconds")
+
+        required_fields = {
+            "task": task,
+            "started_at": started_at,
+            "ended_at": ended_at,
+            "duration": duration,
+        }
+
+        for field, value in required_fields.items():
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError(
+                    f"Focus session {position} {field} must be text."
+                )
+
+        if not isinstance(notes, list):
+            raise ValueError(
+                f"Focus session {position} notes must be a list."
+            )
+
+        if not all(isinstance(note, str) for note in notes):
+            raise ValueError(
+                f"Focus session {position} notes must contain text only."
+            )
+
+        if duration_seconds is not None and (
+            isinstance(duration_seconds, bool)
+            or not isinstance(duration_seconds, int)
+            or duration_seconds < 0
+        ):
+            raise ValueError(
+                f"Focus session {position} duration_seconds "
+                "must be a non-negative integer."
+            )
+
+        records.append(
+            (
+                position,
+                task,
+                started_at,
+                ended_at,
+                duration,
+                duration_seconds,
+                json.dumps(notes),
+                synced_at,
+            )
+        )
+
+    with get_connection() as connection:
+        connection.execute("DELETE FROM focus_sessions")
+
+        connection.executemany(
+            """
+            INSERT INTO focus_sessions (
+                position,
+                task,
+                started_at,
+                ended_at,
+                duration,
+                duration_seconds,
+                notes_json,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            records,
+        )
+
+    return len(records)
          
 def get_sqlite_app_registry():
     initialize_database()

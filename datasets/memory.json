@@ -42,12 +42,18 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "preview_file_search_cleanup",
-        "last_response_group": "memory",
-        "last_response_source": "rule",
+        "last_response_intent": "set_reminder",
+        "last_response_group": "action",
+        "last_response_source": "model",
         "last_response_confidence": 1.0,
-        "last_response_scores": {},
-        "last_response_text": "File search cleanup preview:\nTotal events: 43\nKeep latest: 50\nWould remove: 0",
+        "last_response_scores": {
+            "play_music": 0.0,
+            "open_app": 0.0,
+            "set_reminder": 1.0,
+            "play_game": 0.0,
+            "minecraft": 0.0
+        },
+        "last_response_text": "What should I remind you about?",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -17810,6 +17816,36 @@
             "source": "rule",
             "timestamp": "2026-09-18 17:31:00",
             "importance": 0.6
+        },
+        {
+            "user": "show focus session",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: show focus session\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-19 15:32:12",
+            "importance": 0.3
+        },
+        {
+            "user": "show focus sessions",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: show focus sessions\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-19 15:32:19",
+            "importance": 0.3
+        },
+        {
+            "user": "add focus session study",
+            "assistant": "What should I remind you about?",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-09-19 15:32:28",
+            "importance": 1.0
         }
     ],
     "summaries": [

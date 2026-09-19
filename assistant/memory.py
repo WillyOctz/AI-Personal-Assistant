@@ -379,6 +379,15 @@ def sync_search_folders_to_sqlite():
             "but could not sync to SQLite."
         ) from error
         
+def sync_focus_sessions_to_sqlite():
+    try:
+        return database.sync_sqlite_focus_sessions_from_json()
+    except Exception as error:
+        raise RuntimeError(
+            "Focus sessions were saved to memory.json "
+            "but could not sync to SQLite."
+        ) from error
+        
 def add_website_open_to_sqlite(position, event):
     try:
         return database.add_sqlite_website_open_event(
@@ -1050,6 +1059,8 @@ def add_focus_session(session):
     memory["focus_sessions"].append(session)    
     save_memory(memory)
     
+    sync_focus_sessions_to_sqlite()
+    
 def add_note_to_latest_focus_session(note): 
     memory = load_memory()
     sessions = memory.get("focus_sessions", [])
@@ -1064,6 +1075,8 @@ def add_note_to_latest_focus_session(note):
           
     latest["notes"].append(note)
     save_memory(memory)
+    
+    sync_focus_sessions_to_sqlite()
     
     return latest
 
@@ -1119,6 +1132,8 @@ def delete_work_session_note(session_index, note_index):
     
     removed_note = notes.pop(note_pos)
     save_memory(data)
+    
+    sync_focus_sessions_to_sqlite()
     
     return {
         "session_index": session_index,
@@ -1965,6 +1980,8 @@ def delete_focus_session(recent_index, limit=5):
     removed_session = sessions.pop(actual_index)
     save_memory(memory)
     
+    sync_focus_sessions_to_sqlite()
+    
     return {
         "deleted": True,
         "reason": "deleted",
@@ -1990,6 +2007,8 @@ def cleanup_focus_sessions():
     
     memory["focus_sessions"] = cleaned_sessions
     save_memory(memory)
+    
+    sync_focus_sessions_to_sqlite()
     
     return removed_count
 
