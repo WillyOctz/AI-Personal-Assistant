@@ -1807,6 +1807,144 @@ def migrate_focus_sessions_from_json():
 
     return details
 
+def get_sqlite_focus_sessions(limit=None):
+    initialize_database()
+    
+    query = """
+        SELECT
+            id,
+            position,
+            task,
+            started_at,
+            ended_at,
+            duration,
+            duration_seconds,
+            notes_json,
+            migrated_at
+        FROM focus_sessions
+    """
+    
+    parameters = ()
+    
+    if limit is None:
+        query += " ORDER BY position"
+    else:
+        safe_limit = max(1, min(limit, 100))
+        query += """
+            ORDER BY position DESC
+            LIMIT ?
+        """
+        parameters = (safe_limit,)
+        
+    with get_connection() as connection:
+        rows = connection.execute(
+            query,
+            parameters,
+        ).fetchall()
+        
+    if limit is not None:
+        rows = list(reversed(rows))
+        
+    return [
+        {
+            "id": row["id"],
+            "position": row["position"],
+            "task": row["task"],
+            "started_at": row["started_at"],
+            "ended_at": row["ended_at"],
+            "duration": row["duration"],
+            "duration_seconds": row["duration_seconds"],
+            "notes": json.loads(row["notes_json"]),
+            "migrated_at": row["migrated_at"],
+        }
+        for row in rows
+    ]
+    
+def verify_focus_sessions_migration():
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    json_sessions = memory_data.get("focus_sessions", [])
+    sqlite_sessions = get_sqlite_focus_sessions()
+
+    differences = []
+    total_items = max(
+        len(json_sessions),
+        len(sqlite_sessions),
+    )
+
+    fields = [
+        "task",
+        "started_at",
+        "ended_at",
+        "duration",
+        "duration_seconds",
+        "notes",
+    ]
+
+    for index in range(total_items):
+        position = index + 1
+
+        json_session = (
+            json_sessions[index]
+            if index < len(json_sessions)
+            else None
+        )
+
+        sqlite_session = (
+            sqlite_sessions[index]
+            if index < len(sqlite_sessions)
+            else None
+        )
+
+        if json_session is None or sqlite_session is None:
+            differences.append({
+                "position": position,
+                "field": "record",
+                "json_value": json_session,
+                "sqlite_value": sqlite_session,
+            })
+            continue
+
+        if sqlite_session["position"] != position:
+            differences.append({
+                "position": position,
+                "field": "position",
+                "json_value": position,
+                "sqlite_value": sqlite_session["position"],
+            })
+
+        for field in fields:
+            json_value = json_session.get(field)
+
+            if field == "notes":
+                json_value = json_session.get("notes", [])
+
+            if json_value != sqlite_session[field]:
+                differences.append({
+                    "position": position,
+                    "field": field,
+                    "json_value": json_value,
+                    "sqlite_value": sqlite_session[field],
+                })
+
+    matches = not differences
+
+    result = {
+        "matches": matches,
+        "json_focus_session_count": len(json_sessions),
+        "sqlite_focus_session_count": len(sqlite_sessions),
+        "differences": differences,
+    }
+
+    record_migration(
+        "verify_focus_sessions_migration",
+        "completed" if matches else "mismatch",
+        result,
+    )
+
+    return result
+         
 def get_sqlite_app_registry():
     initialize_database()
     
