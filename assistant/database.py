@@ -219,6 +219,22 @@ def initialize_database():
             """
         )
         
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS focus_sessions (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                position INTEGER NOT NULL UNIQUE,
+                task TEXT NOT NULL,
+                started_at TEXT NOT NULL,
+                ended_at TEXT NOT NULL,
+                duration TEXT NOT NULL,
+                duration_seconds INTEGER,
+                notes_json TEXT NOT NULL,
+                migrated_at TEXT NOT NULL
+            )
+            """
+        )
+        
         if row is None:
             connection.execute(
                 """
@@ -1671,6 +1687,124 @@ def migrate_app_registry_from_json():
         details,
     )
     
+    return details
+
+def migrate_focus_sessions_from_json():
+    initialize_database()
+
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+
+    sessions = memory_data.get("focus_sessions", [])
+
+    if not isinstance(sessions, list):
+        raise ValueError(
+            "memory.json focus_sessions must be a JSON list."
+        )
+
+    migrated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+    missing_duration_seconds = 0
+
+    for position, session in enumerate(sessions, start=1):
+        if not isinstance(session, dict):
+            raise ValueError(
+                f"Focus session {position} must be an object."
+            )
+
+        task = session.get("task")
+        started_at = session.get("started_at")
+        ended_at = session.get("ended_at")
+        duration = session.get("duration")
+        notes = session.get("notes", [])
+        duration_seconds = session.get("duration_seconds")
+
+        required_fields = {
+            "task": task,
+            "started_at": started_at,
+            "ended_at": ended_at,
+            "duration": duration,
+        }
+
+        for field, value in required_fields.items():
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError(
+                    f"Focus session {position} {field} must be text."
+                )
+
+        if not isinstance(notes, list):
+            raise ValueError(
+                f"Focus session {position} notes must be a list."
+            )
+
+        if not all(isinstance(note, str) for note in notes):
+            raise ValueError(
+                f"Focus session {position} notes must contain text only."
+            )
+
+        if duration_seconds is None:
+            missing_duration_seconds += 1
+        elif (
+            isinstance(duration_seconds, bool)
+            or not isinstance(duration_seconds, int)
+            or duration_seconds < 0
+        ):
+            raise ValueError(
+                f"Focus session {position} duration_seconds "
+                "must be a non-negative integer."
+            )
+
+        records.append(
+            (
+                position,
+                task,
+                started_at,
+                ended_at,
+                duration,
+                duration_seconds,
+                json.dumps(notes),
+                migrated_at,
+            )
+        )
+
+    backup_file = create_memory_backup(
+        "memory_before_focus_sessions_sqlite"
+    )
+
+    with get_connection() as connection:
+        connection.execute("DELETE FROM focus_sessions")
+
+        connection.executemany(
+            """
+            INSERT INTO focus_sessions (
+                position,
+                task,
+                started_at,
+                ended_at,
+                duration,
+                duration_seconds,
+                notes_json,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            records,
+        )
+
+    details = {
+        "backup_file": str(backup_file),
+        "focus_session_count": len(records),
+        "sessions_without_duration_seconds": (
+            missing_duration_seconds
+        ),
+    }
+
+    record_migration(
+        "migrate_focus_sessions_from_json",
+        "completed",
+        details,
+    )
+
     return details
 
 def get_sqlite_app_registry():
