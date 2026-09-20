@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "search_focus_notes",
+        "last_response_intent": "weekly_work_review",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Focus notes matching focus:\n- interview tomorrow | 2026-07-14 17:35:06\n  note: learned focus note\n- i like music | 2026-08-31 16:45:13\n  note: I stayed focused but slowed down near the end",
+        "last_response_text": "I do not have any completed work sessions for this week yet.\nRange: 2026-09-13 to 2026-09-20",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -17959,6 +17959,66 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-20 15:29:07",
+            "importance": 0.6
+        },
+        {
+            "user": "work session",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: work session\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-20 16:43:16",
+            "importance": 0.3
+        },
+        {
+            "user": "work session summary",
+            "assistant": "Work session summary:\nTotal sessions: 32\nTotal focus time: 0 seconds\nSession notes: 10\nMost worked task: i like music",
+            "intent": "work_session_summary",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-20 16:44:28",
+            "importance": 0.6
+        },
+        {
+            "user": "work session summary",
+            "assistant": "Work session summary:\nTotal sessions: 32\nTotal focus time: 0 seconds\nSession notes: 10\nMost worked task: i like music",
+            "intent": "work_session_summary",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-20 16:59:49",
+            "importance": 0.6
+        },
+        {
+            "user": "work session task breakdown",
+            "assistant": "Work session task breakdown:\n- sweep: 2 session(s), 0 seconds, 0 note(s)\n- interview tomorrow: 7 session(s), 0 seconds, 8 note(s)\n- code today: 4 session(s), 0 seconds, 1 note(s)\n- work toward your goal - to build best AI assistant: 2 session(s), 0 seconds, 0 note(s)\n- i like music: 16 session(s), 0 seconds, 1 note(s)\n- continue my ai personal assistant: 1 session(s), 0 seconds, 0 note(s)",
+            "intent": "work_session_task_breakdown",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-20 16:59:58",
+            "importance": 0.6
+        },
+        {
+            "user": "today work review",
+            "assistant": "I do not have any completed work sessions for today (2026-09-20) yet.",
+            "intent": "today_work_review",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-20 17:00:02",
+            "importance": 0.6
+        },
+        {
+            "user": "weekly work review",
+            "assistant": "I do not have any completed work sessions for this week yet.\nRange: 2026-09-13 to 2026-09-20",
+            "intent": "weekly_work_review",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-20 17:00:10",
             "importance": 0.6
         }
     ],

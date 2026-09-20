@@ -1142,8 +1142,7 @@ def delete_work_session_note(session_index, note_index):
     }
     
 def get_work_session_summary():
-    data = load_memory()
-    sessions = data.get("focus_sessions", [])
+    sessions = get_all_focus_sessions()
     
     total_sessions = len(sessions)
     total_seconds = 0
@@ -1151,7 +1150,7 @@ def get_work_session_summary():
     notes_count = 0
     
     for session in sessions:
-        total_seconds += session.get("duration_seconds", 0)
+        total_seconds += get_focus_session_seconds(session)
         
         task = session.get("task", "Unknown task")
         task_counts[task] = task_counts.get(task, 0) + 1
@@ -1171,8 +1170,7 @@ def get_work_session_summary():
     }
     
 def get_work_session_task_breakdown():
-    data = load_memory()
-    sessions = data.get("focus_sessions", [])
+    sessions = get_all_focus_sessions()
     
     breakdown = {}
     
@@ -1188,7 +1186,7 @@ def get_work_session_task_breakdown():
             }
             
         breakdown[task]["sessions"] += 1
-        breakdown[task]["total_seconds"] += session.get("duration_seconds", 0)
+        breakdown[task]["total_seconds"] += get_focus_session_seconds(session)
         breakdown[task]["notes"] += len(session.get("notes", []))
         
     results = list(breakdown.values())
@@ -1199,7 +1197,7 @@ def get_work_session_task_breakdown():
 def get_work_session_recommendation():
     data = load_memory()
     reminders = data.get("reminders", [])
-    sessions = data.get("focus_sessions", [])
+    sessions = get_all_focus_sessions()
     
     pending_reminders = []
     completed_tasks = {}
@@ -1231,8 +1229,7 @@ def get_work_session_recommendation():
     return None
 
 def get_work_session_health():
-    data = load_memory()
-    sessions = data.get("focus_sessions", [])
+    sessions = get_all_focus_sessions()
     
     missing_task = 0
     missing_duration = 0
@@ -1268,8 +1265,7 @@ def get_work_session_health():
     }
     
 def preview_work_session_cleanup():
-    data = load_memory()
-    sessions = data.get("focus_sessions", [])
+    sessions = get_all_focus_sessions()
     
     issues = []
     
@@ -1407,8 +1403,7 @@ def get_work_session_summaries():
     return data.get("work_session_summaries", [])
 
 def get_today_work_review():
-    data = load_memory()
-    sessions = data.get("focus_sessions", [])
+    sessions = get_all_focus_sessions()
     
     today = current_timestamp()[:10]
     
@@ -1428,7 +1423,7 @@ def get_today_work_review():
         task = session.get("task", "Unknown task")
         task_counts[task] = task_counts.get(task, 0) + 1
         
-        total_seconds += session.get("duration_seconds", 0)
+        total_seconds += get_focus_session_seconds(session)
         notes_count += len(session.get("notes", []))
         
     top_task = None
@@ -1446,8 +1441,7 @@ def get_today_work_review():
     }
     
 def get_weekly_work_review():
-    data = load_memory()
-    sessions = data.get("focus_sessions", [])
+    sessions = get_all_focus_sessions()
     
     now = datetime.now()
     start_date = now - timedelta(days=7)
@@ -1476,7 +1470,7 @@ def get_weekly_work_review():
         task = session.get("task", "Unknown task")
         task_counts[task] = task_counts.get(task, 0) + 1
         
-        total_seconds += session.get("duration_seconds", 0)
+        total_seconds += get_focus_session_seconds(session)
         notes_count += len(session.get("notes", []))
         
     top_task = None
@@ -1495,8 +1489,7 @@ def get_weekly_work_review():
     }
     
 def get_work_review_by_task(query):
-    data = load_memory()
-    sessions = data.get("focus_sessions", [])
+    sessions = get_all_focus_sessions()
     query = query.lower().strip()
     
     matched_sessions = []
@@ -1510,7 +1503,7 @@ def get_work_review_by_task(query):
             continue
         
         matched_sessions.append(session)
-        total_seconds += session.get("duration_seconds", 0)
+        total_seconds += get_focus_session_seconds(session)
         notes_count += len(session.get("notes", []))
         
     return {
@@ -1522,8 +1515,7 @@ def get_work_review_by_task(query):
     }
     
 def get_work_review_by_date(date_text):
-    data = load_memory()
-    sessions = data.get("focus_sessions", [])
+    sessions = get_all_focus_sessions()
     
     matched_sessions = []
     total_seconds = 0
@@ -1536,7 +1528,7 @@ def get_work_review_by_date(date_text):
             continue
         
         matched_sessions.append(session)
-        total_seconds += session.get("duration_seconds", 0)
+        total_seconds += get_focus_session_seconds(session)
         notes_count += len(session.get("notes", []))
         
     return {
@@ -1548,8 +1540,7 @@ def get_work_review_by_date(date_text):
     }
     
 def get_work_review_by_date_range(start_date, end_date):
-    data = load_memory()
-    sessions = data.get("focus_sessions", [])
+    sessions = get_all_focus_sessions()
     
     matched_sessions = []
     total_seconds = 0
@@ -1570,7 +1561,7 @@ def get_work_review_by_date_range(start_date, end_date):
         task = session.get("task", "Unknown task")
         task_counts[task] = task_counts.get(task, 0) + 1
         
-        total_seconds += session.get("duration_seconds", 0)
+        total_seconds += get_focus_session_seconds(session)
         notes_count += len(session.get("notes", []))
         
     top_task = None
@@ -1625,7 +1616,7 @@ def get_work_next_step():
     
     pending_task = data.get("state", {}).get("pending_task")
     reminders = get_reminders()
-    sessions = data.get("focus_sessions", [])
+    sessions = get_all_focus_sessions()
     
     if pending_task:
         return {
@@ -1931,7 +1922,7 @@ def mark_reminders_as_notified(items):
     return added
 
 def format_sqlite_focus_session(session):
-    return {
+    formatted = {
         "task": session["task"],
         "started_at": session["started_at"],
         "ended_at": session["ended_at"],
@@ -1939,6 +1930,19 @@ def format_sqlite_focus_session(session):
         "duration_seconds": session["duration_seconds"],
         "notes": session["notes"],
     }
+    
+    if session["duration_seconds"] is not None:
+        formatted["duration_seconds"] = session["duration_seconds"]
+
+    return formatted
+
+def get_focus_session_seconds(session):
+    seconds = session.get("duration_seconds", 0)
+
+    if isinstance(seconds, bool) or not isinstance(seconds, int):
+        return 0
+
+    return seconds
     
 def get_focus_sessions(limit=5):
     sqlite_sessions = database.get_sqlite_focus_sessions(limit)
