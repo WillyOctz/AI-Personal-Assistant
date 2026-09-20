@@ -4408,17 +4408,26 @@ def handle_memory_intent(user_input, analysis):
     if intent == "repair_work_sessions":
         result = memory.repair_work_sessions()
         fixed = result["fixed"]
-        
+
+        if not result["synced"]:
+            unresolved = result["unresolved"]
+
+            return "\n".join([
+                "Work session repair was not applied.",
+                "Some required session fields cannot be invented safely.",
+                f"Missing started_at: {unresolved['missing_started_at']}",
+                f"Missing ended_at: {unresolved['missing_ended_at']}",
+                f"Missing duration: {unresolved['missing_duration']}",
+            ])
+
         lines = [
             "Work session repair finished.",
             f"Total sessions checked: {result['total_sessions']}",
             f"Missing task fixed: {fixed['missing_task']}",
             f"Missing duration fixed: {fixed['missing_duration_seconds']}",
-            f"Missing started_at fixed: {fixed['missing_started_at']}",
-            f"Missing ended_at fixed: {fixed['missing_ended_at']}",
             f"Bad notes fixed: {fixed['bad_notes']}",
         ]
-        
+
         return "\n".join(lines)
     
     if intent == "save_work_session_summary":

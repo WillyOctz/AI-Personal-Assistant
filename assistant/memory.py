@@ -1245,7 +1245,7 @@ def get_work_session_health():
             missing_duration += 1
             
         if not session.get("started_at"):
-            mmissing_started_at += 1
+            missing_started_at += 1
             
         if not session.get("ended_at"):
             missing_ended_at += 1
@@ -1302,41 +1302,68 @@ def preview_work_session_cleanup():
 def repair_work_sessions():
     data = load_memory()
     sessions = data.get("focus_sessions", [])
-    
+
+    unresolved = {
+        "missing_started_at": 0,
+        "missing_ended_at": 0,
+        "missing_duration": 0,
+    }
+
+    for session in sessions:
+        if not session.get("started_at"):
+            unresolved["missing_started_at"] += 1
+
+        if not session.get("ended_at"):
+            unresolved["missing_ended_at"] += 1
+
+        if not session.get("duration"):
+            unresolved["missing_duration"] += 1
+
+    if any(unresolved.values()):
+        return {
+            "total_sessions": len(sessions),
+            "fixed": {
+                "missing_task": 0,
+                "missing_duration_seconds": 0,
+                "bad_notes": 0,
+            },
+            "unresolved": unresolved,
+            "synced": False,
+        }
+
     fixed = {
         "missing_task": 0,
         "missing_duration_seconds": 0,
-        "missing_started_at": 0,
-        "missing_ended_at": 0,
         "bad_notes": 0,
     }
-    
+
     for session in sessions:
         if not session.get("task"):
             session["task"] = "Unknown task"
             fixed["missing_task"] += 1
 
-        if "duration_seconds" not in session:
+        seconds = session.get("duration_seconds")
+
+        if (
+            isinstance(seconds, bool)
+            or not isinstance(seconds, int)
+            or seconds < 0
+        ):
             session["duration_seconds"] = 0
             fixed["missing_duration_seconds"] += 1
-
-        if not session.get("started_at"):
-            session["started_at"] = None
-            fixed["missing_started_at"] += 1
-
-        if not session.get("ended_at"):
-            session["ended_at"] = None
-            fixed["missing_ended_at"] += 1
 
         if not isinstance(session.get("notes", []), list):
             session["notes"] = []
             fixed["bad_notes"] += 1
-            
+
     save_memory(data)
-    
+    sync_focus_sessions_to_sqlite()
+
     return {
         "total_sessions": len(sessions),
         "fixed": fixed,
+        "unresolved": unresolved,
+        "synced": True,
     }
     
 def save_work_session_summary():
