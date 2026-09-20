@@ -42,18 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "set_reminder",
-        "last_response_group": "action",
-        "last_response_source": "model",
+        "last_response_intent": "search_focus_notes",
+        "last_response_group": "memory",
+        "last_response_source": "rule",
         "last_response_confidence": 1.0,
-        "last_response_scores": {
-            "play_music": 0.0,
-            "open_app": 0.0,
-            "set_reminder": 1.0,
-            "play_game": 0.0,
-            "minecraft": 0.0
-        },
-        "last_response_text": "What should I remind you about?",
+        "last_response_scores": {},
+        "last_response_text": "Focus notes matching focus:\n- interview tomorrow | 2026-07-14 17:35:06\n  note: learned focus note\n- i like music | 2026-08-31 16:45:13\n  note: I stayed focused but slowed down near the end",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -17846,6 +17840,126 @@
             "source": "model",
             "timestamp": "2026-09-19 15:32:28",
             "importance": 1.0
+        },
+        {
+            "user": "show focus sessions",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: show focus sessions\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-20 15:25:39",
+            "importance": 0.3
+        },
+        {
+            "user": "list focus sessions",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: list focus sessions\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-20 15:25:48",
+            "importance": 0.3
+        },
+        {
+            "user": "focus sessions",
+            "assistant": "Recent focus sessions:\n1. i like music | 9 seconds | 2026-09-01 19:19:08 -> 2026-09-01 19:19:17\n2. i like music | 10 seconds | 2026-09-01 19:30:54 -> 2026-09-01 19:31:04\n3. continue my ai personal assistant | 12 seconds | 2026-09-01 20:18:00 -> 2026-09-01 20:18:12\n4. i like music | 15 minutes | 2026-09-01 20:18:30 -> 2026-09-01 20:33:54\n5. i like music | 5 seconds | 2026-09-03 16:25:32 -> 2026-09-03 16:25:37",
+            "intent": "show_focus_sessions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-20 15:25:54",
+            "importance": 0.6
+        },
+        {
+            "user": "search focus sessions music",
+            "assistant": "I could not find focus sessions matching: sessions music",
+            "intent": "search_focus_sessions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-20 15:26:03",
+            "importance": 0.6
+        },
+        {
+            "user": "search focus notes focus",
+            "assistant": "Focus notes matching focus:\n- interview tomorrow | 2026-07-14 17:35:06\n  note: learned focus note\n- i like music | 2026-08-31 16:45:13\n  note: I stayed focused but slowed down near the end",
+            "intent": "search_focus_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-20 15:26:14",
+            "importance": 0.6
+        },
+        {
+            "user": "search focus sessions AI",
+            "assistant": "I could not find focus sessions matching: sessions ai",
+            "intent": "search_focus_sessions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-20 15:26:24",
+            "importance": 0.6
+        },
+        {
+            "user": "search focus sessions i",
+            "assistant": "I could not find focus sessions matching: sessions i",
+            "intent": "search_focus_sessions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-20 15:27:41",
+            "importance": 0.6
+        },
+        {
+            "user": "search focus sessions",
+            "assistant": "I could not find focus sessions matching: sessions",
+            "intent": "search_focus_sessions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-20 15:27:55",
+            "importance": 0.6
+        },
+        {
+            "user": "debug route search focus sessions",
+            "assistant": "Input: search focus sessions\nExact intent: None\nPrefix intent: search_focus_sessions",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-20 15:28:19",
+            "importance": 0.1
+        },
+        {
+            "user": "search focus music",
+            "assistant": "Focus sessions matching music:\n- i like music | 5 seconds | 2026-09-01 18:57:00\n- i like music | 9 seconds | 2026-09-01 19:19:08\n- i like music | 10 seconds | 2026-09-01 19:30:54\n- i like music | 15 minutes | 2026-09-01 20:18:30\n- i like music | 5 seconds | 2026-09-03 16:25:32",
+            "intent": "search_focus_sessions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-20 15:28:50",
+            "importance": 0.6
+        },
+        {
+            "user": "search focus code",
+            "assistant": "Focus sessions matching code:\n- code today | 17 seconds | 2026-07-16 16:38:50\n- code today | 17 seconds | 2026-07-16 16:38:50\n- code today | 23 seconds | 2026-07-16 19:31:34\n  note: refactor check\n- code today | 2 seconds | 2026-07-16 19:34:21",
+            "intent": "search_focus_sessions",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-20 15:29:00",
+            "importance": 0.6
+        },
+        {
+            "user": "search focus notes focus",
+            "assistant": "Focus notes matching focus:\n- interview tomorrow | 2026-07-14 17:35:06\n  note: learned focus note\n- i like music | 2026-08-31 16:45:13\n  note: I stayed focused but slowed down near the end",
+            "intent": "search_focus_notes",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-20 15:29:07",
+            "importance": 0.6
         }
     ],
     "summaries": [

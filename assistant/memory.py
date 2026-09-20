@@ -1081,8 +1081,7 @@ def add_note_to_latest_focus_session(note):
     return latest
 
 def get_work_session_notes():
-    data = load_memory()
-    sessions = data.get("focus_sessions", [])
+    sessions = get_all_focus_sessions()
     
     notes = []
     
@@ -1930,22 +1929,40 @@ def mark_reminders_as_notified(items):
     save_memory(data)
     
     return added
+
+def format_sqlite_focus_session(session):
+    return {
+        "task": session["task"],
+        "started_at": session["started_at"],
+        "ended_at": session["ended_at"],
+        "duration": session["duration"],
+        "duration_seconds": session["duration_seconds"],
+        "notes": session["notes"],
+    }
     
 def get_focus_sessions(limit=5):
-    memory = load_memory()
-    return memory["focus_sessions"][-limit:]
+    sqlite_sessions = database.get_sqlite_focus_sessions(limit)
+    
+    return [
+        format_sqlite_focus_session(session)
+        for session in sqlite_sessions
+    ]
 
 def get_all_focus_sessions():
-    memory = load_memory()
-    return memory["focus_sessions"]
+    sqlite_sessions = database.get_sqlite_focus_sessions()
+    
+    return [
+        format_sqlite_focus_session(session)
+        for session in sqlite_sessions
+    ]
 
 def search_focus_sessions(query):
-    memory = load_memory()
+    sessions = get_all_focus_sessions()
     query = query.lower().strip()
     
     results = []
     
-    for session in memory["focus_sessions"]:
+    for session in sessions:
         task = session.get("task", "")
         notes = session.get("notes", [])
         
@@ -2013,12 +2030,12 @@ def cleanup_focus_sessions():
     return removed_count
 
 def search_focus_notes(query):
-    memory = load_memory()
+    sessions = get_all_focus_sessions()
     query = query.lower().strip()
     
     results = []
     
-    for session in memory["focus_sessions"]:
+    for session in sessions:
         notes = session.get("notes", [])
         
         matched_notes = []
