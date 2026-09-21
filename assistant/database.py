@@ -2055,6 +2055,152 @@ def verify_response_feedback_migration():
 
     return result
 
+def add_sqlite_response_feedback(position, item):
+    initialize_database()
+    
+    if not isinstance(position, int) or position < 1:
+        raise ValueError(
+            "Response feedback position must be a positive integer."
+        )
+        
+    if not isinstance(item, dict):
+        raise ValueError("Response feedback must be an object.")
+    
+    timestamp = item.get("timestamp")
+    feedback = item.get("feedback")
+    last_intent = item.get("last_intent")
+    last_group = item.get("last_group")
+    last_text = item.get("last_text")
+    
+    if not isinstance(timestamp, str) or not timestamp.strip():
+        raise ValueError(
+            "Response feedback timestamp must be text."
+        )
+        
+    if feedback not in ["helpful", "not_helpful"]:
+        raise ValueError("Response feedback has an invalid value.")
+    
+    optional_fields = {
+        "last_intent": last_intent,
+        "last_group": last_group,
+        "last_text": last_text,
+    }
+    
+    for field, value in optional_fields.items():
+        if value is not None and not isinstance(value, str):
+            raise ValueError(
+                f"Response feedback {field} must be text or None."
+            )
+            
+    with get_connection() as connection:
+        cursor = connection.execute(
+            """
+            INSERT INTO response_feedback (
+                position,
+                timestamp,
+                feedback,
+                last_intent,
+                last_group,
+                last_text,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                position,
+                timestamp,
+                feedback,
+                last_intent,
+                last_group,
+                last_text,
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            ),
+        )
+        
+def sync_sqlite_response_feedback_from_json():
+    initialize_database()
+
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+
+    feedback_items = memory_data.get("response_feedback", [])
+
+    if not isinstance(feedback_items, list):
+        raise ValueError(
+            "memory.json response_feedback must be a JSON list."
+        )
+
+    synced_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+
+    for position, item in enumerate(feedback_items, start=1):
+        if not isinstance(item, dict):
+            raise ValueError(
+                f"Response feedback {position} must be an object."
+            )
+
+        timestamp = item.get("timestamp")
+        feedback = item.get("feedback")
+        last_intent = item.get("last_intent")
+        last_group = item.get("last_group")
+        last_text = item.get("last_text")
+
+        if not isinstance(timestamp, str) or not timestamp.strip():
+            raise ValueError(
+                f"Response feedback {position} timestamp must be text."
+            )
+
+        if feedback not in ["helpful", "not_helpful"]:
+            raise ValueError(
+                f"Response feedback {position} has an invalid value."
+            )
+
+        optional_fields = {
+            "last_intent": last_intent,
+            "last_group": last_group,
+            "last_text": last_text,
+        }
+
+        for field, value in optional_fields.items():
+            if value is not None and not isinstance(value, str):
+                raise ValueError(
+                    f"Response feedback {position} {field} "
+                    "must be text or None."
+                )
+
+        records.append(
+            (
+                position,
+                timestamp,
+                feedback,
+                last_intent,
+                last_group,
+                last_text,
+                synced_at,
+            )
+        )
+
+    with get_connection() as connection:
+        connection.execute("DELETE FROM response_feedback")
+
+        connection.executemany(
+            """
+            INSERT INTO response_feedback (
+                position,
+                timestamp,
+                feedback,
+                last_intent,
+                last_group,
+                last_text,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            records,
+        )
+
+    return len(records)
+
 def get_sqlite_focus_sessions(limit=None):
     initialize_database()
     

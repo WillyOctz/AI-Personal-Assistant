@@ -47,7 +47,7 @@
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Response feedback stats:\nTotal: 8\nHelpful: 7\nNot helpful: 1",
+        "last_response_text": "Response feedback stats:\nTotal: 6\nHelpful: 5\nNot helpful: 1",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -18340,86 +18340,6 @@
             "source": "rule",
             "timestamp": "2026-09-21 18:04:26",
             "importance": 0.3
-        },
-        {
-            "user": "that helped",
-            "assistant": "Good. I will remember that response helped.",
-            "intent": "chat_response_helpful",
-            "group": "chat",
-            "confidence": 1.0,
-            "source": "rule",
-            "timestamp": "2026-09-21 18:09:35",
-            "importance": 0.3
-        },
-        {
-            "user": "show feedback response",
-            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: show feedback response\nYou can rephrase it, or teach me with: teach message as intent_name",
-            "intent": "unknown",
-            "group": "unknown",
-            "confidence": 0,
-            "source": "None",
-            "timestamp": "2026-09-21 18:09:43",
-            "importance": 0.3
-        },
-        {
-            "user": "say that again",
-            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: show feedback response\nYou can rephrase it, or teach me with: teach message as intent_name",
-            "intent": "chat_repeat_last",
-            "group": "chat",
-            "confidence": 1.0,
-            "source": "rule",
-            "timestamp": "2026-09-21 18:10:14",
-            "importance": 0.3
-        },
-        {
-            "user": "explain that",
-            "assistant": "I recognized the intent as unknown, but I do not have a detailed explanation yet.\nSource: None\nConfidence: 0.00",
-            "intent": "chat_explain_last",
-            "group": "chat",
-            "confidence": 1.0,
-            "source": "rule",
-            "timestamp": "2026-09-21 18:10:24",
-            "importance": 0.3
-        },
-        {
-            "user": "who are you",
-            "assistant": "I am Nebula, your personal assistant. I help you remember things, plan tasks, focus, search files, open apps, and keep learning with you.",
-            "intent": "chat_identity",
-            "group": "chat",
-            "confidence": 1.0,
-            "source": "rule",
-            "timestamp": "2026-09-21 18:10:42",
-            "importance": 0.3
-        },
-        {
-            "user": "do you remember me",
-            "assistant": "Here is what I remember about you:\nfavorite_language: python\nfocus_goal: sweeping\ngoal: to build best AI assistant\nmood: tired\nname: Carlos",
-            "intent": "chat_about_user",
-            "group": "chat",
-            "confidence": 1.0,
-            "source": "rule",
-            "timestamp": "2026-09-21 18:10:48",
-            "importance": 0.3
-        },
-        {
-            "user": "what are we working on",
-            "assistant": "I do not have a current topic saved yet.",
-            "intent": "chat_current_topic",
-            "group": "chat",
-            "confidence": 1.0,
-            "source": "rule",
-            "timestamp": "2026-09-21 18:10:57",
-            "importance": 0.3
-        },
-        {
-            "user": "response feedback stats",
-            "assistant": "Response feedback stats:\nTotal: 8\nHelpful: 7\nNot helpful: 1",
-            "intent": "show_response_feedback_stats",
-            "group": "chat",
-            "confidence": 1.0,
-            "source": "rule",
-            "timestamp": "2026-09-21 18:11:15",
-            "importance": 0.3
         }
     ],
     "summaries": [
@@ -19377,13 +19297,6 @@
         },
         {
             "timestamp": "2026-09-21 18:04:57",
-            "feedback": "helpful",
-            "last_intent": "show_response_feedback_stats",
-            "last_group": "chat",
-            "last_text": "Response feedback stats:\nTotal: 6\nHelpful: 5\nNot helpful: 1"
-        },
-        {
-            "timestamp": "2026-09-21 18:09:35",
             "feedback": "helpful",
             "last_intent": "show_response_feedback_stats",
             "last_group": "chat",

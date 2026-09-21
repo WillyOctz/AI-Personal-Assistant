@@ -32,6 +32,9 @@ def add_response_feedback(feedback):
     memory["response_feedback"].append(feedback)
     save_memory(memory)
     
+    position = len(memory["response_feedback"])
+    add_response_feedback_to_sqlite(position, feedback)
+    
 def add_response_feedback_note(note):
     memory = load_memory()
     
@@ -124,6 +127,8 @@ def cleanup_response_feedback():
     memory["response_feedback"] = cleaned
     save_memory(memory)
     
+    sync_response_feedback_to_sqlite()
+    
     return removed_count
 
 def clear_response_feedback():
@@ -134,6 +139,8 @@ def clear_response_feedback():
     
     memory["response_feedback"] = []
     save_memory(memory)
+    
+    sync_response_feedback_to_sqlite()
     
     return removed_count
 
@@ -397,6 +404,27 @@ def add_website_open_to_sqlite(position, event):
     except Exception as error:
         raise RuntimeError(
             "Website opening history was saved to memory.json "
+            "but could not sync to SQLite."
+        ) from error
+        
+def add_response_feedback_to_sqlite(position, item):
+    try:
+        return database.add_sqlite_response_feedback(
+            position,
+            item,
+        )
+    except Exception as error:
+        raise RuntimeError(
+            "Response feedback was saved to memory.json "
+            "but could not sync to SQLite."
+        ) from error
+        
+def sync_response_feedback_to_sqlite():
+    try:
+        return database.sync_sqlite_response_feedback_from_json()
+    except Exception as error:
+        raise RuntimeError(
+            "Response feedback was saved to memory.json "
             "but could not sync to SQLite."
         ) from error
         
