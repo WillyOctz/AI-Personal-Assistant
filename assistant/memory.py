@@ -1954,7 +1954,6 @@ def format_sqlite_focus_session(session):
         "started_at": session["started_at"],
         "ended_at": session["ended_at"],
         "duration": session["duration"],
-        "duration_seconds": session["duration_seconds"],
         "notes": session["notes"],
     }
     

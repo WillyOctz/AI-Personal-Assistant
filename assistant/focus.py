@@ -94,13 +94,22 @@ def clear_current_focus_notes():
     
 def save_focus_session(task, started_at):
     ended_at = current_timestamp()
-    duration = format_duration_since(started_at)
+    
+    duration_seconds = calculate_duration_seconds(
+        started_at,
+        ended_at
+    )
+    
+    duration = format_duration_from_seconds(
+        duration_seconds
+    )
     
     session = {
         "task": task,
         "started_at": started_at,
         "ended_at": ended_at,
         "duration": duration,
+        "duration_seconds": duration_seconds,
         "notes": get_current_focus_notes()
     }
     

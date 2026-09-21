@@ -21,7 +21,7 @@
         "favorite_language": "python",
         "goal": "to build best AI assistant",
         "mood": "tired",
-        "focus_goal": "30 minutes"
+        "focus_goal": "sweeping"
     },
     "reminders": [
         {
@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "weekly_work_review",
+        "last_response_intent": "show_focus_goal",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I do not have any completed work sessions for this week yet.\nRange: 2026-09-13 to 2026-09-20",
+        "last_response_text": "Your focus goal is sweeping.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -18019,6 +18019,266 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-20 17:00:10",
+            "importance": 0.6
+        },
+        {
+            "user": "work session summary",
+            "assistant": "Work session summary:\nTotal sessions: 32\nTotal focus time: 0 seconds\nSession notes: 10\nMost worked task: i like music",
+            "intent": "work_session_summary",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-21 15:23:50",
+            "importance": 0.6
+        },
+        {
+            "user": "work session",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: work session\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-21 15:24:11",
+            "importance": 0.3
+        },
+        {
+            "user": "today work review",
+            "assistant": "I do not have any completed work sessions for today (2026-09-21) yet.",
+            "intent": "today_work_review",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-21 15:24:33",
+            "importance": 0.6
+        },
+        {
+            "user": "weekly work review",
+            "assistant": "I do not have any completed work sessions for this week yet.\nRange: 2026-09-14 to 2026-09-21",
+            "intent": "weekly_work_review",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-21 15:24:40",
+            "importance": 0.6
+        },
+        {
+            "user": "work session task breakdown",
+            "assistant": "Work session task breakdown:\n- sweep: 2 session(s), 0 seconds, 0 note(s)\n- interview tomorrow: 7 session(s), 0 seconds, 8 note(s)\n- code today: 4 session(s), 0 seconds, 1 note(s)\n- work toward your goal - to build best AI assistant: 2 session(s), 0 seconds, 0 note(s)\n- i like music: 16 session(s), 0 seconds, 1 note(s)\n- continue my ai personal assistant: 1 session(s), 0 seconds, 0 note(s)",
+            "intent": "work_session_task_breakdown",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-21 15:24:48",
+            "importance": 0.6
+        },
+        {
+            "user": "save focus session working freelancer",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: save focus session working freelancer\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-21 15:26:23",
+            "importance": 0.3
+        },
+        {
+            "user": "add focus session",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: add focus session\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-21 15:26:35",
+            "importance": 0.3
+        },
+        {
+            "user": "add note working as freelancer",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: add note working as freelancer\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-21 15:27:17",
+            "importance": 0.3
+        },
+        {
+            "user": "add focus note working as freelancer",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: add focus note working as freelancer\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-21 15:27:27",
+            "importance": 0.3
+        },
+        {
+            "user": "show focus sessions",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: show focus sessions\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-21 15:27:56",
+            "importance": 0.3
+        },
+        {
+            "user": "save focus sessions as i like music",
+            "assistant": "I recognize this as 'play_music', but I do not know how to perform that action yet.",
+            "intent": "play_music",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-09-21 15:29:12",
+            "importance": 0.8
+        },
+        {
+            "user": "save focus session",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: save focus session\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-21 15:32:09",
+            "importance": 0.3
+        },
+        {
+            "user": "debug route save focus session",
+            "assistant": "Input: save focus session\nExact intent: None\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-21 15:32:21",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route add focus session",
+            "assistant": "Input: add focus session\nExact intent: None\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-21 15:32:34",
+            "importance": 0.1
+        },
+        {
+            "user": "add focus note yumemiru",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: add focus note yumemiru\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-21 15:34:11",
+            "importance": 0.3
+        },
+        {
+            "user": "add focus note nod krai",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: add focus note nod krai\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-21 15:36:45",
+            "importance": 0.3
+        },
+        {
+            "user": "focus note nod krai",
+            "assistant": "Focus mode is not active.",
+            "intent": "add_focus_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-21 15:37:03",
+            "importance": 0.6
+        },
+        {
+            "user": "focus session clean palace",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: focus session clean palace\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-21 15:37:47",
+            "importance": 0.3
+        },
+        {
+            "user": "focus sessions sweeping",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: focus sessions sweeping\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-21 15:38:25",
+            "importance": 0.3
+        },
+        {
+            "user": "focus stats sweep",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: focus stats sweep\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-21 15:39:12",
+            "importance": 0.3
+        },
+        {
+            "user": "focus stat sweep",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: focus stat sweep\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-21 15:39:19",
+            "importance": 0.3
+        },
+        {
+            "user": "focus dashboard",
+            "assistant": "Focus dashboard:\nStatus: inactive\nToday: 0 session(s), 0 seconds\nWeek: 0 session(s), 0 seconds\nGoal: 30 minutes\nGoal progress: 0%\nCurrent streak: 0 day(s)\nLongest streak: 3 day(s)",
+            "intent": "focus_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-21 15:40:10",
+            "importance": 0.6
+        },
+        {
+            "user": "set focus goal sweeping",
+            "assistant": "Focus goal saved: sweeping",
+            "intent": "set_focus_goal",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-21 15:40:54",
+            "importance": 0.6
+        },
+        {
+            "user": "work session summary",
+            "assistant": "Work session summary:\nTotal sessions: 32\nTotal focus time: 0 seconds\nSession notes: 10\nMost worked task: i like music",
+            "intent": "work_session_summary",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-21 15:41:02",
+            "importance": 0.6
+        },
+        {
+            "user": "show focus goa",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: show focus goa\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-21 15:41:20",
+            "importance": 0.3
+        },
+        {
+            "user": "show focus goal",
+            "assistant": "Your focus goal is sweeping.",
+            "intent": "show_focus_goal",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-21 15:41:25",
             "importance": 0.6
         }
     ],
