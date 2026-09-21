@@ -4456,6 +4456,17 @@ def handle_memory_intent(user_input, analysis):
             
         return "\n".join(lines)
     
+    if intent == "apply_focus_duration_backfill":
+        result = memory.apply_focus_duration_backfill()
+        
+        return "\n".join([
+            "Focus duration backfill finished.",
+            f"Total sessions: {result['total_sessions']}",
+            f"Updated durations: {result['updated']}",
+            f"Invalid timestamps skipped: {result['invalid_timestamps']}",
+            f"SQLite synced: {result['synced']}",
+        ])
+    
     if intent == "save_work_session_summary":
         result = memory.save_work_session_summary()
         

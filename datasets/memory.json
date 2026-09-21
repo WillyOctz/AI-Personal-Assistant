@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "preview_focus_duration_backfill",
+        "last_response_intent": "work_session_summary",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Focus duration backfill preview:\nTotal sessions: 32\nWould update: 32\nAlready correct: 0\nInvalid timestamps: 0\n\nExamples:\n- Session 1 | sweep | 0 -> 3 seconds\n- Session 2 | sweep | 0 -> 2 seconds\n- Session 3 | interview tomorrow | 0 -> 54 seconds\n- Session 4 | interview tomorrow | 0 -> 10 seconds\n- Session 5 | interview tomorrow | 0 -> 30 seconds\n- Session 6 | interview tomorrow | 0 -> 38 seconds\n- Session 7 | interview tomorrow | 0 -> 38 seconds\n- Session 8 | interview tomorrow | 0 -> 12 seconds\n- Session 9 | interview tomorrow | 0 -> 12 seconds\n- Session 10 | code today | 0 -> 17 seconds",
+        "last_response_text": "Work session summary:\nTotal sessions: 32\nTotal focus time: 641 hours 52 minutes\nSession notes: 10\nMost worked task: i like music",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -18290,6 +18290,36 @@
             "source": "rule",
             "timestamp": "2026-09-21 16:23:48",
             "importance": 0.6
+        },
+        {
+            "user": "apply focus duration backfill",
+            "assistant": "Focus duration backfill finished.\nTotal sessions: 32\nUpdated durations: 32\nInvalid timestamps skipped: 0\nSQLite synced: True",
+            "intent": "apply_focus_duration_backfill",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-21 16:43:06",
+            "importance": 0.6
+        },
+        {
+            "user": "v",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: v\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-21 16:43:13",
+            "importance": 0.3
+        },
+        {
+            "user": "work session summary",
+            "assistant": "Work session summary:\nTotal sessions: 32\nTotal focus time: 641 hours 52 minutes\nSession notes: 10\nMost worked task: i like music",
+            "intent": "work_session_summary",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-21 16:43:15",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -18319,28 +18349,28 @@
             "started_at": "2026-07-11 16:08:33",
             "ended_at": "2026-07-11 16:08:36",
             "duration": "3 seconds",
-            "duration_seconds": 0
+            "duration_seconds": 3
         },
         {
             "task": "sweep",
             "started_at": "2026-07-11 16:08:48",
             "ended_at": "2026-07-11 16:08:50",
             "duration": "2 seconds",
-            "duration_seconds": 0
+            "duration_seconds": 2
         },
         {
             "task": "interview tomorrow",
             "started_at": "2026-07-14 16:15:58",
             "ended_at": "2026-07-14 16:16:52",
             "duration": "54 seconds",
-            "duration_seconds": 0
+            "duration_seconds": 54
         },
         {
             "task": "interview tomorrow",
             "started_at": "2026-07-14 16:47:42",
             "ended_at": "2026-07-14 16:47:52",
             "duration": "10 seconds",
-            "duration_seconds": 0
+            "duration_seconds": 10
         },
         {
             "task": "interview tomorrow",
@@ -18351,7 +18381,7 @@
                 "learned focus note",
                 "fixed a bug"
             ],
-            "duration_seconds": 0
+            "duration_seconds": 30
         },
         {
             "task": "interview tomorrow",
@@ -18362,7 +18392,7 @@
                 "fixed bug",
                 "learned summary"
             ],
-            "duration_seconds": 0
+            "duration_seconds": 38
         },
         {
             "task": "interview tomorrow",
@@ -18373,7 +18403,7 @@
                 "fixed bug",
                 "learned summary"
             ],
-            "duration_seconds": 0
+            "duration_seconds": 38
         },
         {
             "task": "interview tomorrow",
@@ -18383,7 +18413,7 @@
             "notes": [
                 "completed reminder"
             ],
-            "duration_seconds": 0
+            "duration_seconds": 12
         },
         {
             "task": "interview tomorrow",
@@ -18393,7 +18423,7 @@
             "notes": [
                 "completed reminder"
             ],
-            "duration_seconds": 0
+            "duration_seconds": 12
         },
         {
             "task": "code today",
@@ -18401,7 +18431,7 @@
             "ended_at": "2026-07-16 16:39:07",
             "duration": "17 seconds",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 17
         },
         {
             "task": "code today",
@@ -18409,7 +18439,7 @@
             "ended_at": "2026-07-16 16:39:07",
             "duration": "17 seconds",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 17
         },
         {
             "task": "code today",
@@ -18419,7 +18449,7 @@
             "notes": [
                 "refactor check"
             ],
-            "duration_seconds": 0
+            "duration_seconds": 23
         },
         {
             "task": "code today",
@@ -18427,7 +18457,7 @@
             "ended_at": "2026-07-16 19:34:23",
             "duration": "2 seconds",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 2
         },
         {
             "task": "work toward your goal - to build best AI assistant",
@@ -18435,7 +18465,7 @@
             "ended_at": "2026-08-30 15:42:54",
             "duration": "641 hours 27 minutes",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 2309271
         },
         {
             "task": "work toward your goal - to build best AI assistant",
@@ -18443,7 +18473,7 @@
             "ended_at": "2026-08-30 15:56:53",
             "duration": "45 seconds",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 45
         },
         {
             "task": "i like music",
@@ -18451,7 +18481,7 @@
             "ended_at": "2026-08-30 16:25:23",
             "duration": "6 seconds",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 6
         },
         {
             "task": "i like music",
@@ -18459,7 +18489,7 @@
             "ended_at": "2026-08-30 16:25:56",
             "duration": "14 seconds",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 14
         },
         {
             "task": "i like music",
@@ -18467,7 +18497,7 @@
             "ended_at": "2026-08-30 18:02:17",
             "duration": "5 seconds",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 5
         },
         {
             "task": "i like music",
@@ -18475,7 +18505,7 @@
             "ended_at": "2026-08-30 18:02:32",
             "duration": "9 seconds",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 9
         },
         {
             "task": "i like music",
@@ -18483,7 +18513,7 @@
             "ended_at": "2026-08-30 18:02:53",
             "duration": "18 seconds",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 18
         },
         {
             "task": "i like music",
@@ -18491,7 +18521,7 @@
             "ended_at": "2026-08-31 15:21:08",
             "duration": "20 seconds",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 20
         },
         {
             "task": "i like music",
@@ -18499,7 +18529,7 @@
             "ended_at": "2026-08-31 15:23:49",
             "duration": "2 minutes",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 129
         },
         {
             "task": "i like music",
@@ -18507,7 +18537,7 @@
             "ended_at": "2026-08-31 16:11:28",
             "duration": "9 seconds",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 9
         },
         {
             "task": "i like music",
@@ -18515,7 +18545,7 @@
             "ended_at": "2026-08-31 16:26:54",
             "duration": "8 seconds",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 8
         },
         {
             "task": "i like music",
@@ -18523,7 +18553,7 @@
             "ended_at": "2026-08-31 16:27:04",
             "duration": "5 seconds",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 5
         },
         {
             "task": "i like music",
@@ -18533,7 +18563,7 @@
             "notes": [
                 "I stayed focused but slowed down near the end"
             ],
-            "duration_seconds": 0
+            "duration_seconds": 5
         },
         {
             "task": "i like music",
@@ -18541,7 +18571,7 @@
             "ended_at": "2026-09-01 18:57:05",
             "duration": "5 seconds",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 5
         },
         {
             "task": "i like music",
@@ -18549,7 +18579,7 @@
             "ended_at": "2026-09-01 19:19:17",
             "duration": "9 seconds",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 9
         },
         {
             "task": "i like music",
@@ -18557,7 +18587,7 @@
             "ended_at": "2026-09-01 19:31:04",
             "duration": "10 seconds",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 10
         },
         {
             "task": "continue my ai personal assistant",
@@ -18565,7 +18595,7 @@
             "ended_at": "2026-09-01 20:18:12",
             "duration": "12 seconds",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 12
         },
         {
             "task": "i like music",
@@ -18573,14 +18603,15 @@
             "ended_at": "2026-09-01 20:33:54",
             "duration": "15 minutes",
             "notes": [],
-            "duration_seconds": 0
+            "duration_seconds": 924
         },
         {
             "task": "i like music",
             "started_at": "2026-09-03 16:25:32",
             "ended_at": "2026-09-03 16:25:37",
             "duration": "5 seconds",
-            "notes": []
+            "notes": [],
+            "duration_seconds": 5
         }
     ],
     "app_registry": {

@@ -2068,6 +2068,40 @@ def preview_focus_duration_backfill():
         "invalid_timestamps": invalid_timestamps,
         "candidates": candidates,
     }
+    
+def apply_focus_duration_backfill():
+    data = load_memory()
+    sessions = data.get("focus_sessions", [])
+    
+    updated = 0
+    invalid_timestamps = 0
+    
+    for session in sessions:
+        calculated_seconds = calculate_saved_focus_session_seconds(session)
+        
+        if calculated_seconds is None:
+            invalid_timestamps += 1
+            continue
+        
+        current_seconds = session.get("duration_seconds")
+        
+        if (
+            current_seconds is None
+            or current_seconds == 0
+        ) and calculated_seconds > 0:
+            session["duration_seconds"] = calculated_seconds
+            updated += 1
+            
+    if updated:
+        save_memory(data)
+        sync_focus_sessions_to_sqlite()
+        
+    return {
+        "total_sessions": len(sessions),
+        "updated": updated,
+        "invalid_timestamps": invalid_timestamps,
+        "synced": updated > 0,
+    }
 
 def delete_focus_session(recent_index, limit=5):
     memory = load_memory()
