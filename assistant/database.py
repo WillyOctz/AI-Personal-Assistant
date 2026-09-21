@@ -1327,6 +1327,8 @@ def get_sqlite_migration_status():
         "app_registry_backups",
         "search_folders",
         "file_search_history",
+        "focus_sessions",
+        "response_feedback",
         "default_apps",
         "migration_runs",
     ]
@@ -1922,6 +1924,136 @@ def migrate_response_feedback_from_json():
     )
 
     return details
+
+def get_sqlite_response_feedback(limit=None):
+    initialize_database()
+    
+    query = """
+        SELECT
+            id,
+            position,
+            timestamp,
+            feedback,
+            last_intent,
+            last_group,
+            last_text,
+            migrated_at
+        FROM response_feedback
+    """
+    
+    parameters = ()
+
+    if limit is None:
+        query += " ORDER BY position"
+    else:
+        safe_limit = max(1, min(limit, 100))
+        query += """
+            ORDER BY position DESC
+            LIMIT ?
+        """
+        parameters = (safe_limit,)
+
+    with get_connection() as connection:
+        rows = connection.execute(
+            query,
+            parameters,
+        ).fetchall()
+
+    if limit is not None:
+        rows = list(reversed(rows))
+
+    return [
+        {
+            "id": row["id"],
+            "position": row["position"],
+            "timestamp": row["timestamp"],
+            "feedback": row["feedback"],
+            "last_intent": row["last_intent"],
+            "last_group": row["last_group"],
+            "last_text": row["last_text"],
+            "migrated_at": row["migrated_at"],
+        }
+        for row in rows
+    ]
+    
+def verify_response_feedback_migration():
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+        
+    json_items = memory_data.get("response_feedback", [])
+    sqlite_items = get_sqlite_response_feedback()
+
+    differences = []
+    total_items = max(
+        len(json_items),
+        len(sqlite_items),
+    )
+    
+    fields = [
+        "timestamp",
+        "feedback",
+        "last_intent",
+        "last_group",
+        "last_text",
+    ]
+
+    for index in range(total_items):
+        position = index + 1
+
+        json_item = (
+            json_items[index]
+            if index < len(json_items)
+            else None
+        )
+
+        sqlite_item = (
+            sqlite_items[index]
+            if index < len(sqlite_items)
+            else None
+        )
+
+        if json_item is None or sqlite_item is None:
+            differences.append({
+                "position": position,
+                "field": "record",
+                "json_value": json_item,
+                "sqlite_value": sqlite_item,
+            })
+            continue
+
+        if sqlite_item["position"] != position:
+            differences.append({
+                "position": position,
+                "field": "position",
+                "json_value": position,
+                "sqlite_value": sqlite_item["position"],
+            })
+
+        for field in fields:
+            if json_item.get(field) != sqlite_item[field]:
+                differences.append({
+                    "position": position,
+                    "field": field,
+                    "json_value": json_item.get(field),
+                    "sqlite_value": sqlite_item[field],
+                })
+
+    matches = not differences
+
+    result = {
+        "matches": matches,
+        "json_response_feedback_count": len(json_items),
+        "sqlite_response_feedback_count": len(sqlite_items),
+        "differences": differences,
+    }
+
+    record_migration(
+        "verify_response_feedback_migration",
+        "completed" if matches else "mismatch",
+        result,
+    )
+
+    return result
 
 def get_sqlite_focus_sessions(limit=None):
     initialize_database()
