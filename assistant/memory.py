@@ -2003,6 +2003,72 @@ def search_focus_sessions(query):
             
     return results
 
+def calculate_saved_focus_session_seconds(session):
+    started_at = session.get("started_at")
+    ended_at = session.get("ended_at")
+    
+    if not isinstance(started_at, str) or not isinstance(ended_at, str):
+        return None
+    
+    try:
+        start = datetime.strptime(
+            started_at,
+            "%Y-%m-%d %H:%M:%S"
+        )
+        end = datetime.strptime(
+            ended_at,
+            "%Y-%m-%d %H:%M:%S"
+        )
+    except ValueError:
+        return None
+    
+    seconds = int((end - start).total_seconds())
+    
+    if seconds < 0:
+        return None
+    
+    return seconds
+
+def preview_focus_duration_backfill():
+    data = load_memory()
+    sessions = data.get("focus_sessions", [])
+    
+    candidates = []
+    invalid_timestamps = 0
+    already_correct = 0
+    
+    for index, session in enumerate(sessions, start=1):
+        calculated_seconds = calculate_saved_focus_session_seconds(
+            session
+        )
+        
+        if calculated_seconds is None:
+            invalid_timestamps += 1
+            continue
+        
+        current_seconds = session.get("duration_seconds")
+        
+        if (
+            current_seconds is None
+            or current_seconds == 0
+        ) and calculated_seconds > 0:
+            candidates.append({
+                "index": index,
+                "task": session.get("task", "Unknown task"),
+                "old_seconds": current_seconds,
+                "new_seconds": calculated_seconds,
+            })
+        else:
+            already_correct += 1
+            
+    return {
+        "total_sessions": len(sessions),
+        "would_update": len(candidates),
+        "already_correct": already_correct,
+        "invalid_timestamps": invalid_timestamps,
+        "candidates": candidates,
+    }
+
 def delete_focus_session(recent_index, limit=5):
     memory = load_memory()
     sessions = memory["focus_sessions"]

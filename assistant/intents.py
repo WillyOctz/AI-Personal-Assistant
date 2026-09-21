@@ -442,6 +442,7 @@ MEMORY_INTENTS = {
     "search_focus_sessions",
     "delete_focus_session",
     "cleanup_focus_sessions",
+    "preview_focus_duration_backfill",
     "search_focus_notes",
     "weekly_focus_stats",
     "best_focus_day",
@@ -831,6 +832,11 @@ INTENT_PATTERNS = {
         "cleanup focus sessions",
         "clean focus sessions",
         "repair focus sessions",
+    ],
+    "preview_focus_duration_backfill": [
+        "preview focus duration backfill",
+        "preview focus duration repair",
+        "check focus durations",
     ],
     "weekly_focus_stats": [
         "weekly focus stats",

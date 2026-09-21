@@ -4430,6 +4430,32 @@ def handle_memory_intent(user_input, analysis):
 
         return "\n".join(lines)
     
+    if intent == "preview_focus_duration_backfill":
+        preview = memory.preview_focus_duration_backfill()
+        
+        lines = [
+            "Focus duration backfill preview:",
+            f"Total sessions: {preview['total_sessions']}",
+            f"Would update: {preview['would_update']}",
+            f"Already correct: {preview['already_correct']}",
+            f"Invalid timestamps: {preview['invalid_timestamps']}",
+        ]
+        
+        if not preview["candidates"]:
+            lines.append("No duration backfill is needed.")
+            return "\n".join(lines)
+        
+        lines.append("")
+        lines.append("Examples:")
+        
+        for item in preview["candidates"][:10]:
+            lines.append(
+                f"- Session {item['index']} | {item['task']} | "
+                f"{item['old_seconds']} -> {item['new_seconds']} seconds"
+            )
+            
+        return "\n".join(lines)
+    
     if intent == "save_work_session_summary":
         result = memory.save_work_session_summary()
         

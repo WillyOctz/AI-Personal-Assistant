@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_focus_goal",
+        "last_response_intent": "preview_focus_duration_backfill",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Your focus goal is sweeping.",
+        "last_response_text": "Focus duration backfill preview:\nTotal sessions: 32\nWould update: 32\nAlready correct: 0\nInvalid timestamps: 0\n\nExamples:\n- Session 1 | sweep | 0 -> 3 seconds\n- Session 2 | sweep | 0 -> 2 seconds\n- Session 3 | interview tomorrow | 0 -> 54 seconds\n- Session 4 | interview tomorrow | 0 -> 10 seconds\n- Session 5 | interview tomorrow | 0 -> 30 seconds\n- Session 6 | interview tomorrow | 0 -> 38 seconds\n- Session 7 | interview tomorrow | 0 -> 38 seconds\n- Session 8 | interview tomorrow | 0 -> 12 seconds\n- Session 9 | interview tomorrow | 0 -> 12 seconds\n- Session 10 | code today | 0 -> 17 seconds",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -18279,6 +18279,16 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-21 15:41:25",
+            "importance": 0.6
+        },
+        {
+            "user": "preview focus duration backfill",
+            "assistant": "Focus duration backfill preview:\nTotal sessions: 32\nWould update: 32\nAlready correct: 0\nInvalid timestamps: 0\n\nExamples:\n- Session 1 | sweep | 0 -> 3 seconds\n- Session 2 | sweep | 0 -> 2 seconds\n- Session 3 | interview tomorrow | 0 -> 54 seconds\n- Session 4 | interview tomorrow | 0 -> 10 seconds\n- Session 5 | interview tomorrow | 0 -> 30 seconds\n- Session 6 | interview tomorrow | 0 -> 38 seconds\n- Session 7 | interview tomorrow | 0 -> 38 seconds\n- Session 8 | interview tomorrow | 0 -> 12 seconds\n- Session 9 | interview tomorrow | 0 -> 12 seconds\n- Session 10 | code today | 0 -> 17 seconds",
+            "intent": "preview_focus_duration_backfill",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-21 16:23:48",
             "importance": 0.6
         }
     ],
