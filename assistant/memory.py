@@ -45,9 +45,22 @@ def add_response_feedback_note(note):
     
     save_memory(memory)
     
+def get_all_response_feedback():
+    sqlite_items = database.get_sqlite_response_feedback()
+    
+    return [
+        {
+            "timestamp": item["timestamp"],
+            "feedback": item["feedback"],
+            "last_intent": item["last_intent"],
+            "last_group": item["last_group"],
+            "last_text": item["last_text"],
+        }
+        for item in sqlite_items
+    ]
+    
 def get_response_feedback_stats():
-    memory = load_memory()
-    feedback_items = memory.get("response_feedback", [])
+    feedback_items = get_all_response_feedback()
     
     helpful = 0
     not_helpful = 0
@@ -66,10 +79,18 @@ def get_response_feedback_stats():
     }
     
 def get_recent_response_feedback(limit=5):
-    memory = load_memory()
-    feedback_items = memory.get("response_feedback", [])
+    sqlite_items = database.get_sqlite_response_feedback(limit)
     
-    return feedback_items[-limit:]
+    return [
+        {
+            "timestamp": item["timestamp"],
+            "feedback": item["feedback"],
+            "last_intent": item["last_intent"],
+            "last_group": item["last_group"],
+            "last_text": item["last_text"],
+        }
+        for item in sqlite_items
+    ]
 
 def get_response_feedback_notes(limit=5):
     memory = load_memory()
@@ -145,8 +166,7 @@ def clear_response_feedback():
     return removed_count
 
 def preview_clear_response_feedback():
-    memory = load_memory()
-    feedback_items = memory.get("response_feedback", [])
+    feedback_items = get_all_response_feedback()
     
     return {
         "total": len(feedback_items),
@@ -3095,8 +3115,7 @@ def cleanup_file_search_history(keep_latest=50):
     }
     
 def get_response_feedback_for_intent(intent_name):
-    memory = load_memory()
-    feedback_items = memory.get("response_feedback", [])
+    feedback_items = get_all_response_feedback()
     
     matches = []
     
@@ -3107,8 +3126,7 @@ def get_response_feedback_for_intent(intent_name):
     return matches
 
 def search_response_feedback(query):
-    memory = load_memory()
-    feedback_items = memory.get("response_feedback", [])
+    feedback_items = get_all_response_feedback()
     query = query.lower().strip()
     
     results = []
@@ -3127,8 +3145,7 @@ def search_response_feedback(query):
     return results
 
 def get_response_feedback_by_value(value):
-    memory = load_memory()
-    feedback_items = memory.get("response_feedback", [])
+    feedback_items = get_all_response_feedback()
     value = value.lower().strip()
     
     results = []
@@ -3140,8 +3157,7 @@ def get_response_feedback_by_value(value):
     return results
 
 def get_response_feedback_by_group(group):
-    memory = load_memory()
-    feedback_items = memory.get("response_feedback", [])
+    feedback_items = get_all_response_feedback()
     group = group.lower().strip()
     
     results = []
@@ -3153,8 +3169,7 @@ def get_response_feedback_by_group(group):
     return results
 
 def get_response_feedback_health():
-    memory = load_memory()
-    feedback_items = memory.get("response_feedback", [])
+    feedback_items = get_all_response_feedback()
     
     broken = 0
     missing_timestamp = 0
@@ -3194,8 +3209,7 @@ def get_response_feedback_health():
     }
 
 def get_problem_feedback_intents(limit=5):
-    memory = load_memory()
-    feedback_items = memory.get("response_feedback", [])
+    feedback_items = get_all_response_feedback()
     
     counts = {}
     
@@ -3218,8 +3232,7 @@ def get_problem_feedback_intents(limit=5):
     return sorted_counts[:limit]
 
 def get_helpful_feedback_intents(limit=5):
-    memory = load_memory()
-    feedback_items = memory.get("response_feedback", [])
+    feedback_items = get_all_response_feedback()
     
     counts = {}
     
