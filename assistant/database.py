@@ -221,6 +221,23 @@ def initialize_database():
         
         connection.execute(
             """
+            CREATE TABLE IF NOT EXISTS response_feedback (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                position INTEGER NOT NULL UNIQUE,
+                timestamp TEXT NOT NULL,
+                feedback TEXT NOT NULL CHECK (
+                    feedback IN ('helpful', 'not_helpful')
+                ),
+                last_intent TEXT,
+                last_group TEXT,
+                last_text TEXT,
+                migrated_at TEXT NOT NULL
+            )
+            """
+        )
+        
+        connection.execute(
+            """
             CREATE TABLE IF NOT EXISTS focus_sessions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 position INTEGER NOT NULL UNIQUE,
@@ -1801,6 +1818,105 @@ def migrate_focus_sessions_from_json():
 
     record_migration(
         "migrate_focus_sessions_from_json",
+        "completed",
+        details,
+    )
+
+    return details
+
+def migrate_response_feedback_from_json():
+    initialize_database()
+
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+
+    feedback_items = memory_data.get("response_feedback", [])
+
+    if not isinstance(feedback_items, list):
+        raise ValueError(
+            "memory.json response_feedback must be a JSON list."
+        )
+
+    migrated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+
+    for position, item in enumerate(feedback_items, start=1):
+        if not isinstance(item, dict):
+            raise ValueError(
+                f"Response feedback {position} must be an object."
+            )
+
+        timestamp = item.get("timestamp")
+        feedback = item.get("feedback")
+        last_intent = item.get("last_intent")
+        last_group = item.get("last_group")
+        last_text = item.get("last_text")
+
+        if not isinstance(timestamp, str) or not timestamp.strip():
+            raise ValueError(
+                f"Response feedback {position} timestamp must be text."
+            )
+
+        if feedback not in ["helpful", "not_helpful"]:
+            raise ValueError(
+                f"Response feedback {position} has an invalid value."
+            )
+
+        optional_fields = {
+            "last_intent": last_intent,
+            "last_group": last_group,
+            "last_text": last_text,
+        }
+
+        for field, value in optional_fields.items():
+            if value is not None and not isinstance(value, str):
+                raise ValueError(
+                    f"Response feedback {position} {field} "
+                    "must be text or None."
+                )
+
+        records.append(
+            (
+                position,
+                timestamp,
+                feedback,
+                last_intent,
+                last_group,
+                last_text,
+                migrated_at,
+            )
+        )
+
+    backup_file = create_memory_backup(
+        "memory_before_response_feedback_sqlite"
+    )
+
+    with get_connection() as connection:
+        connection.execute("DELETE FROM response_feedback")
+
+        connection.executemany(
+            """
+            INSERT INTO response_feedback (
+                position,
+                timestamp,
+                feedback,
+                last_intent,
+                last_group,
+                last_text,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            records,
+        )
+
+    details = {
+        "backup_file": str(backup_file),
+        "response_feedback_count": len(records),
+    }
+
+    record_migration(
+        "migrate_response_feedback_from_json",
         "completed",
         details,
     )
