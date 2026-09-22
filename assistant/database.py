@@ -1341,6 +1341,7 @@ def get_sqlite_migration_status():
         "file_search_history",
         "focus_sessions",
         "response_feedback",
+        "response_feedback_notes",
         "default_apps",
         "migration_runs",
     ]
@@ -2016,6 +2017,122 @@ def migrate_response_feedback_notes_from_json():
     )
 
     return details
+
+def get_sqlite_response_feedback_notes(limit=None):
+    initialize_database()
+
+    query = """
+        SELECT
+            id,
+            position,
+            timestamp,
+            note,
+            migrated_at
+        FROM response_feedback_notes
+    """
+
+    parameters = ()
+
+    if limit is None:
+        query += " ORDER BY position"
+    else:
+        safe_limit = max(1, min(limit, 100))
+        query += """
+            ORDER BY position DESC
+            LIMIT ?
+        """
+        parameters = (safe_limit,)
+
+    with get_connection() as connection:
+        rows = connection.execute(
+            query,
+            parameters,
+        ).fetchall()
+
+    if limit is not None:
+        rows = list(reversed(rows))
+
+    return [
+        {
+            "id": row["id"],
+            "position": row["position"],
+            "timestamp": row["timestamp"],
+            "note": row["note"],
+            "migrated_at": row["migrated_at"],
+        }
+        for row in rows
+    ]
+    
+def verify_response_feedback_notes_migration():
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+
+    json_notes = memory_data.get("response_feedback_notes", [])
+    sqlite_notes = get_sqlite_response_feedback_notes()
+
+    differences = []
+    total_items = max(
+        len(json_notes),
+        len(sqlite_notes),
+    )
+
+    for index in range(total_items):
+        position = index + 1
+
+        json_note = (
+            json_notes[index]
+            if index < len(json_notes)
+            else None
+        )
+
+        sqlite_note = (
+            sqlite_notes[index]
+            if index < len(sqlite_notes)
+            else None
+        )
+
+        if json_note is None or sqlite_note is None:
+            differences.append({
+                "position": position,
+                "field": "record",
+                "json_value": json_note,
+                "sqlite_value": sqlite_note,
+            })
+            continue
+
+        if sqlite_note["position"] != position:
+            differences.append({
+                "position": position,
+                "field": "position",
+                "json_value": position,
+                "sqlite_value": sqlite_note["position"],
+            })
+
+        for field in ["timestamp", "note"]:
+            if json_note.get(field) != sqlite_note[field]:
+                differences.append({
+                    "position": position,
+                    "field": field,
+                    "json_value": json_note.get(field),
+                    "sqlite_value": sqlite_note[field],
+                })
+
+    matches = not differences
+
+    result = {
+        "matches": matches,
+        "json_response_feedback_note_count": len(json_notes),
+        "sqlite_response_feedback_note_count": len(sqlite_notes),
+        "differences": differences,
+    }
+
+    record_migration(
+        "verify_response_feedback_notes_migration",
+        "completed" if matches else "mismatch",
+        result,
+    )
+
+    return result
 
 def get_sqlite_response_feedback(limit=None):
     initialize_database()
