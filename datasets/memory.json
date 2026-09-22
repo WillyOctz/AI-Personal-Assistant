@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "unknown",
-        "last_response_group": "unknown",
-        "last_response_source": "None",
-        "last_response_confidence": 0,
+        "last_response_intent": "show_feedback_notes",
+        "last_response_group": "chat",
+        "last_response_source": "rule",
+        "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I am not sure if that was a command or conversation yet.\nYou said: get problem feedback intents\nYou can rephrase it, or teach me with: teach message as intent_name",
+        "last_response_text": "Feedback notes:\n- 2026-08-10 18:05:09 | fine tuning feedback response\n- 2026-08-10 22:21:01 | sanity check\n- 2026-09-22 16:01:18 | that was good",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -18470,6 +18470,96 @@
             "source": "None",
             "timestamp": "2026-09-21 18:59:37",
             "importance": 0.3
+        },
+        {
+            "user": "show response feedback",
+            "assistant": "Response feedback stats:\nTotal: 8\nHelpful: 7\nNot helpful: 1",
+            "intent": "show_response_feedback_stats",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-22 15:57:19",
+            "importance": 0.3
+        },
+        {
+            "user": "that did not help",
+            "assistant": "Got it. I will remember that response did not help.",
+            "intent": "chat_response_not_helpful",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-22 15:57:32",
+            "importance": 0.3
+        },
+        {
+            "user": "show response feedback",
+            "assistant": "Response feedback stats:\nTotal: 9\nHelpful: 7\nNot helpful: 2",
+            "intent": "show_response_feedback_stats",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-22 15:57:38",
+            "importance": 0.3
+        },
+        {
+            "user": "show response feedback notes",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: show response feedback notes\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-22 15:58:24",
+            "importance": 0.3
+        },
+        {
+            "user": "response feedback note as hello",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: response feedback note as hello\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-22 15:59:52",
+            "importance": 0.3
+        },
+        {
+            "user": "debug route response feedback notes",
+            "assistant": "Input: response feedback notes\nExact intent: show_feedback_notes\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-22 16:00:04",
+            "importance": 0.1
+        },
+        {
+            "user": "response feedback notes",
+            "assistant": "Feedback notes:\n- 2026-08-10 18:05:09 | fine tuning feedback response\n- 2026-08-10 22:21:01 | sanity check",
+            "intent": "show_feedback_notes",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-22 16:00:16",
+            "importance": 0.3
+        },
+        {
+            "user": "feedback note that was good",
+            "assistant": "Saved feedback note: that was good",
+            "intent": "chat_feedback_note",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-22 16:01:19",
+            "importance": 0.3
+        },
+        {
+            "user": "response feedback notes",
+            "assistant": "Feedback notes:\n- 2026-08-10 18:05:09 | fine tuning feedback response\n- 2026-08-10 22:21:01 | sanity check\n- 2026-09-22 16:01:18 | that was good",
+            "intent": "show_feedback_notes",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-22 16:01:25",
+            "importance": 0.3
         }
     ],
     "summaries": [
@@ -19438,6 +19528,13 @@
             "last_intent": "show_response_feedback_stats",
             "last_group": "chat",
             "last_text": "Response feedback stats:\nTotal: 6\nHelpful: 5\nNot helpful: 1"
+        },
+        {
+            "timestamp": "2026-09-22 15:57:31",
+            "feedback": "not_helpful",
+            "last_intent": "show_response_feedback_stats",
+            "last_group": "chat",
+            "last_text": "Response feedback stats:\nTotal: 8\nHelpful: 7\nNot helpful: 1"
         }
     ],
     "response_feedback_notes": [
@@ -19448,6 +19545,10 @@
         {
             "timestamp": "2026-08-10 22:21:01",
             "note": "sanity check"
+        },
+        {
+            "timestamp": "2026-09-22 16:01:18",
+            "note": "that was good"
         }
     ],
     "work_session_summaries": [

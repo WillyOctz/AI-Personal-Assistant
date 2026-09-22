@@ -2134,6 +2134,119 @@ def verify_response_feedback_notes_migration():
 
     return result
 
+def add_sqlite_response_feedback_note(position, item):
+    initialize_database()
+
+    if not isinstance(position, int) or position < 1:
+        raise ValueError(
+            "Response feedback note position must be a positive integer."
+        )
+
+    if not isinstance(item, dict):
+        raise ValueError(
+            "Response feedback note must be an object."
+        )
+
+    timestamp = item.get("timestamp")
+    note = item.get("note")
+
+    if not isinstance(timestamp, str) or not timestamp.strip():
+        raise ValueError(
+            "Response feedback note timestamp must be text."
+        )
+
+    if not isinstance(note, str) or not note.strip():
+        raise ValueError(
+            "Response feedback note must be text."
+        )
+
+    with get_connection() as connection:
+        cursor = connection.execute(
+            """
+            INSERT INTO response_feedback_notes (
+                position,
+                timestamp,
+                note,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            (
+                position,
+                timestamp,
+                note,
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            ),
+        )
+
+    return cursor.lastrowid
+
+
+def sync_sqlite_response_feedback_notes_from_json():
+    initialize_database()
+
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+
+    notes = memory_data.get("response_feedback_notes", [])
+
+    if not isinstance(notes, list):
+        raise ValueError(
+            "memory.json response_feedback_notes "
+            "must be a JSON list."
+        )
+
+    synced_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+
+    for position, item in enumerate(notes, start=1):
+        if not isinstance(item, dict):
+            raise ValueError(
+                f"Response feedback note {position} must be an object."
+            )
+
+        timestamp = item.get("timestamp")
+        note = item.get("note")
+
+        if not isinstance(timestamp, str) or not timestamp.strip():
+            raise ValueError(
+                f"Response feedback note {position} timestamp "
+                "must be text."
+            )
+
+        if not isinstance(note, str) or not note.strip():
+            raise ValueError(
+                f"Response feedback note {position} note "
+                "must be text."
+            )
+
+        records.append(
+            (
+                position,
+                timestamp,
+                note,
+                synced_at,
+            )
+        )
+
+    with get_connection() as connection:
+        connection.execute("DELETE FROM response_feedback_notes")
+
+        connection.executemany(
+            """
+            INSERT INTO response_feedback_notes (
+                position,
+                timestamp,
+                note,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            records,
+        )
+
+    return len(records)
+
 def get_sqlite_response_feedback(limit=None):
     initialize_database()
     

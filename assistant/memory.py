@@ -38,12 +38,16 @@ def add_response_feedback(feedback):
 def add_response_feedback_note(note):
     memory = load_memory()
     
-    memory["response_feedback_notes"].append({
+    item = {
         "timestamp": current_timestamp(),
-        "note": note
-    })
+        "note": note,
+    }
     
+    memory["response_feedback_notes"].append(item)
     save_memory(memory)
+    
+    position = len(memory["response_feedback_notes"])
+    add_response_feedback_note_to_sqlite(position, item)
     
 def get_all_response_feedback():
     sqlite_items = database.get_sqlite_response_feedback()
@@ -121,6 +125,8 @@ def delete_response_feedback_note(recent_index, limit=5):
     note_to_delete = recent_notes[recent_index - 1]
     notes.remove(note_to_delete)
     save_memory(memory)
+    
+    sync_response_feedback_notes_to_sqlite()
     
     return {
         "deleted": True,
@@ -445,6 +451,27 @@ def sync_response_feedback_to_sqlite():
     except Exception as error:
         raise RuntimeError(
             "Response feedback was saved to memory.json "
+            "but could not sync to SQLite."
+        ) from error
+        
+def add_response_feedback_note_to_sqlite(position, item):
+    try:
+        return database.add_sqlite_response_feedback_note(
+            position,
+            item,
+        )
+    except Exception as error:
+        raise RuntimeError(
+           "Response feedback note was saved to memory.json "
+            "but could not sync to SQLite." 
+        ) from error
+        
+def sync_response_feedback_notes_to_sqlite():
+    try:
+        return database.sync_sqlite_response_feedback_notes_from_json()
+    except Exception as error:
+        raise RuntimeError(
+            "Response feedback notes were saved to memory.json "
             "but could not sync to SQLite."
         ) from error
         
