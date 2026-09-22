@@ -250,6 +250,24 @@ def initialize_database():
         
         connection.execute(
             """
+            CREATE TABLE IF NOT EXISTS history_events (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                position INTEGER NOT NULL UNIQUE,
+                user_input TEXT NOT NULL,
+                intent TEXT NOT NULL,
+                intent_group TEXT NOT NULL,
+                confidence REAL NOT NULL,
+                source TEXT NOT NULL,
+                result TEXT NOT NULL,
+                timestamp TEXT NOT NULL,
+                importance REAL,
+                migrated_at TEXT NOT NULL
+            )
+            """
+        )
+        
+        connection.execute(
+            """
             CREATE TABLE IF NOT EXISTS focus_sessions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 position INTEGER NOT NULL UNIQUE,
@@ -2012,6 +2030,126 @@ def migrate_response_feedback_notes_from_json():
 
     record_migration(
         "migrate_response_feedback_notes_from_json",
+        "completed",
+        details,
+    )
+
+    return details
+
+def migrate_history_events_from_json():
+    initialize_database()
+
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+
+    history = memory_data.get("history", [])
+
+    if not isinstance(history, list):
+        raise ValueError(
+            "memory.json history must be a JSON list."
+        )
+
+    migrated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+    missing_importance = 0
+
+    for position, event in enumerate(history, start=1):
+        if not isinstance(event, dict):
+            raise ValueError(
+                f"History event {position} must be an object."
+            )
+
+        user_input = event.get("user_input")
+        intent = event.get("intent")
+        intent_group = event.get("group")
+        confidence = event.get("confidence")
+        source = event.get("source")
+        result = event.get("result")
+        timestamp = event.get("timestamp")
+        importance = event.get("importance")
+
+        text_fields = {
+            "user_input": user_input,
+            "intent": intent,
+            "group": intent_group,
+            "source": source,
+            "result": result,
+            "timestamp": timestamp,
+        }
+
+        for field, value in text_fields.items():
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError(
+                    f"History event {position} {field} must be text."
+                )
+
+        if (
+            isinstance(confidence, bool)
+            or not isinstance(confidence, (int, float))
+        ):
+            raise ValueError(
+                f"History event {position} confidence must be numeric."
+            )
+
+        if importance is None:
+            missing_importance += 1
+        elif (
+            isinstance(importance, bool)
+            or not isinstance(importance, (int, float))
+        ):
+            raise ValueError(
+                f"History event {position} importance must be numeric."
+            )
+
+        records.append(
+            (
+                position,
+                user_input,
+                intent,
+                intent_group,
+                float(confidence),
+                source,
+                result,
+                timestamp,
+                float(importance) if importance is not None else None,
+                migrated_at,
+            )
+        )
+
+    backup_file = create_memory_backup(
+        "memory_before_history_events_sqlite"
+    )
+
+    with get_connection() as connection:
+        connection.execute("DELETE FROM history_events")
+
+        connection.executemany(
+            """
+            INSERT INTO history_events (
+                position,
+                user_input,
+                intent,
+                intent_group,
+                confidence,
+                source,
+                result,
+                timestamp,
+                importance,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            records,
+        )
+
+    details = {
+        "backup_file": str(backup_file),
+        "history_event_count": len(records),
+        "events_without_importance": missing_importance,
+    }
+
+    record_migration(
+        "migrate_history_events_from_json",
         "completed",
         details,
     )
