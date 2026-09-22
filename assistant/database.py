@@ -238,6 +238,18 @@ def initialize_database():
         
         connection.execute(
             """
+            CREATE TABLE IF NOT EXISTS response_feedback_notes (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                position INTEGER NOT NULL UNIQUE,
+                timestamp TEXT NOT NULL,
+                note TEXT NOT NULL,
+                migrated_at TEXT NOT NULL
+            )
+            """
+        )
+        
+        connection.execute(
+            """
             CREATE TABLE IF NOT EXISTS focus_sessions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 position INTEGER NOT NULL UNIQUE,
@@ -1919,6 +1931,86 @@ def migrate_response_feedback_from_json():
 
     record_migration(
         "migrate_response_feedback_from_json",
+        "completed",
+        details,
+    )
+
+    return details
+
+def migrate_response_feedback_notes_from_json():
+    initialize_database()
+
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+
+    notes = memory_data.get("response_feedback_notes", [])
+
+    if not isinstance(notes, list):
+        raise ValueError(
+            "memory.json response_feedback_notes "
+            "must be a JSON list."
+        )
+
+    migrated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+
+    for position, item in enumerate(notes, start=1):
+        if not isinstance(item, dict):
+            raise ValueError(
+                f"Response feedback note {position} must be an object."
+            )
+
+        timestamp = item.get("timestamp")
+        note = item.get("note")
+
+        if not isinstance(timestamp, str) or not timestamp.strip():
+            raise ValueError(
+                f"Response feedback note {position} timestamp "
+                "must be text."
+            )
+
+        if not isinstance(note, str) or not note.strip():
+            raise ValueError(
+                f"Response feedback note {position} note "
+                "must be text."
+            )
+
+        records.append(
+            (
+                position,
+                timestamp,
+                note,
+                migrated_at,
+            )
+        )
+
+    backup_file = create_memory_backup(
+        "memory_before_response_feedback_notes_sqlite"
+    )
+
+    with get_connection() as connection:
+        connection.execute("DELETE FROM response_feedback_notes")
+
+        connection.executemany(
+            """
+            INSERT INTO response_feedback_notes (
+                position,
+                timestamp,
+                note,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            records,
+        )
+
+    details = {
+        "backup_file": str(backup_file),
+        "response_feedback_note_count": len(records),
+    }
+
+    record_migration(
+        "migrate_response_feedback_notes_from_json",
         "completed",
         details,
     )
