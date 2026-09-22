@@ -97,10 +97,17 @@ def get_recent_response_feedback(limit=5):
     ]
 
 def get_response_feedback_notes(limit=5):
-    memory = load_memory()
-    notes = memory.get("response_feedback_notes", [])
+    sqlite_notes = database.get_sqlite_response_feedback_notes(
+        limit
+    )
     
-    return notes[-limit:]
+    return [
+        {
+            "timestamp": item["timestamp"],
+            "note": item["note"],
+        }
+        for item in sqlite_notes
+    ]
 
 def delete_response_feedback_note(recent_index, limit=5):
     memory = load_memory()

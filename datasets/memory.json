@@ -47,7 +47,7 @@
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Feedback notes:\n- 2026-08-10 18:05:09 | fine tuning feedback response\n- 2026-08-10 22:21:01 | sanity check\n- 2026-09-22 16:01:18 | that was good",
+        "last_response_text": "Feedback notes:\n- 2026-08-10 18:05:09 | fine tuning feedback response\n- 2026-09-22 16:01:18 | that was good",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -18560,6 +18560,36 @@
             "source": "rule",
             "timestamp": "2026-09-22 16:01:25",
             "importance": 0.3
+        },
+        {
+            "user": "show feedback notes",
+            "assistant": "Feedback notes:\n- 2026-08-10 18:05:09 | fine tuning feedback response\n- 2026-08-10 22:21:01 | sanity check\n- 2026-09-22 16:01:18 | that was good",
+            "intent": "show_feedback_notes",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-22 16:20:46",
+            "importance": 0.3
+        },
+        {
+            "user": "delete feedback note 2",
+            "assistant": "Deleted feedback note: sanity check",
+            "intent": "delete_feedback_note",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-22 16:22:22",
+            "importance": 0.3
+        },
+        {
+            "user": "show feedback notes",
+            "assistant": "Feedback notes:\n- 2026-08-10 18:05:09 | fine tuning feedback response\n- 2026-09-22 16:01:18 | that was good",
+            "intent": "show_feedback_notes",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-22 16:22:26",
+            "importance": 0.3
         }
     ],
     "summaries": [
@@ -19541,10 +19571,6 @@
         {
             "timestamp": "2026-08-10 18:05:09",
             "note": "fine tuning feedback response"
-        },
-        {
-            "timestamp": "2026-08-10 22:21:01",
-            "note": "sanity check"
         },
         {
             "timestamp": "2026-09-22 16:01:18",
