@@ -1010,8 +1010,21 @@ def add_history_event(event):
     add_history_event_to_sqlite(position, event)
     
 def get_history(limit=5):
-    memory = load_memory()
-    return memory["history"][-limit:]
+    sqlite_events = database.get_sqlite_history_events(limit)
+    
+    return [
+        {
+            "user_input": event["user_input"],
+            "intent": event["intent"],
+            "group": event["group"],
+            "confidence": event["confidence"],
+            "source": event["source"],
+            "result": event["result"],
+            "timestamp": event["timestamp"],
+            "importance": event["importance"],
+        }
+        for event in sqlite_events
+    ]
 
 def add_conversation_turn(turn):
     memory = load_memory()
