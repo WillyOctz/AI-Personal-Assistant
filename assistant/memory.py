@@ -1207,8 +1207,15 @@ def add_entity(entity_type, value):
     save_memory(memory)
     
 def get_entities(entity_type):
-    memory = load_memory()
-    return memory["entities"].get(entity_type, [])
+    if entity_type not in ["games", "apps"]:
+        return []
+
+    sqlite_entities = database.get_sqlite_entities(entity_type)
+
+    return [
+        item["value"]
+        for item in sqlite_entities
+    ]
 
 def add_focus_session(session):
     memory = load_memory()
