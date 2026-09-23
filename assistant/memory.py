@@ -1096,8 +1096,17 @@ def add_summary(summary):
     add_conversation_summary_to_sqlite(position, summary)
     
 def get_summaries(limit=5):
-    memory = load_memory()
-    return memory["summaries"][-limit:]
+    sqlite_summaries = database.get_sqlite_conversation_summaries(
+        limit
+    )
+
+    return [
+        {
+            "summary": item["summary"],
+            "timestamp": item["timestamp"],
+        }
+        for item in sqlite_summaries
+    ]
 
 def get_all_memory():
     return load_memory()
