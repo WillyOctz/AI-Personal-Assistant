@@ -2487,6 +2487,53 @@ def verify_conversation_summaries_migration():
 
     return result
 
+def add_sqlite_conversation_summary(position, item):
+    initialize_database()
+
+    if not isinstance(position, int) or position < 1:
+        raise ValueError(
+            "Conversation summary position must be a positive integer."
+        )
+
+    if not isinstance(item, dict):
+        raise ValueError(
+            "Conversation summary must be an object."
+        )
+
+    summary = item.get("summary")
+    timestamp = item.get("timestamp")
+
+    if not isinstance(summary, str) or not summary.strip():
+        raise ValueError(
+            "Conversation summary summary must be text."
+        )
+
+    if not isinstance(timestamp, str) or not timestamp.strip():
+        raise ValueError(
+            "Conversation summary timestamp must be text."
+        )
+
+    with get_connection() as connection:
+        cursor = connection.execute(
+            """
+            INSERT INTO conversation_summaries (
+                position,
+                summary,
+                timestamp,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            (
+                position,
+                summary,
+                timestamp,
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            ),
+        )
+
+    return cursor.lastrowid
+
 def get_sqlite_work_session_summaries(limit=None):
     initialize_database()
 

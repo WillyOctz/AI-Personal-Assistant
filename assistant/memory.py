@@ -549,6 +549,18 @@ def sync_work_session_summaries_to_sqlite():
             "but could not sync to SQLite."
         ) from error
         
+def add_conversation_summary_to_sqlite(position, item):
+    try:
+        return database.add_sqlite_conversation_summary(
+            position,
+            item,
+        )
+    except Exception as error:
+        raise RuntimeError(
+            "Conversation summary was saved to memory.json "
+            "but could not sync to SQLite."
+        ) from error
+        
 def add_note(note):
     memory = load_memory()
     memory["notes"].append(note)
@@ -1079,6 +1091,9 @@ def add_summary(summary):
     memory = load_memory()
     memory["summaries"].append(summary)
     save_memory(memory)
+    
+    position = len(memory["summaries"])
+    add_conversation_summary_to_sqlite(position, summary)
     
 def get_summaries(limit=5):
     memory = load_memory()

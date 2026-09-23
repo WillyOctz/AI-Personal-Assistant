@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_work_session_summaries",
+        "last_response_intent": "summarize_conversation",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Saved work session summaries:\n1. 2026-09-23 17:58:55 | 32 session(s) | 641 hours 52 minutes | top task: i like music",
+        "last_response_text": "Recent conversation had 10 turns. Intent counts: show_feedback_notes: 2, delete_feedback_note: 1, open_app: 1, show_history: 1, save_work_session_summary: 1, show_work_session_summaries: 2, search_work_session_summaries: 1, delete_work_session_summary: 1. Last user message was: show saved work summaries",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -18670,12 +18670,26 @@
             "source": "rule",
             "timestamp": "2026-09-23 18:22:23",
             "importance": 0.6
+        },
+        {
+            "user": "summarize conversation",
+            "assistant": "Recent conversation had 10 turns. Intent counts: show_feedback_notes: 2, delete_feedback_note: 1, open_app: 1, show_history: 1, save_work_session_summary: 1, show_work_session_summaries: 2, search_work_session_summaries: 1, delete_work_session_summary: 1. Last user message was: show saved work summaries",
+            "intent": "summarize_conversation",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-23 19:36:10",
+            "importance": 0.6
         }
     ],
     "summaries": [
         {
             "summary": "Recent conversation had 6 turns. Intent counts: greeting: 2, get_time: 2, show_conversation: 1, show_notes: 1. Last user message was: show notes",
             "timestamp": "2026-06-21 23:34:30"
+        },
+        {
+            "summary": "Recent conversation had 10 turns. Intent counts: show_feedback_notes: 2, delete_feedback_note: 1, open_app: 1, show_history: 1, save_work_session_summary: 1, show_work_session_summaries: 2, search_work_session_summaries: 1, delete_work_session_summary: 1. Last user message was: show saved work summaries",
+            "timestamp": "2026-09-23 19:36:09"
         }
     ],
     "archive": {
