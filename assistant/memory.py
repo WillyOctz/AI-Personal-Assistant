@@ -1524,8 +1524,7 @@ def save_work_session_summary():
     return item
 
 def search_work_session_summaries(query):
-    data = load_memory()
-    summaries = data.get("work_session_summaries", [])
+    summaries = get_all_work_session_summaries()
     query = query.lower().strip()
     
     results = []
@@ -1562,9 +1561,22 @@ def delete_work_session_summary(index):
     removed["index"] = index
     return removed
 
+def get_all_work_session_summaries():
+    sqlite_summaries = database.get_sqlite_work_session_summaries()
+    
+    return [
+        {
+            "timestamp": item["timestamp"],
+            "total_sessions": item["total_sessions"],
+            "total_seconds": item["total_seconds"],
+            "top_task": item["top_task"],
+            "notes_count": item["notes_count"],
+        }
+        for item in sqlite_summaries
+    ]
+
 def get_work_session_summaries():
-    data = load_memory()
-    return data.get("work_session_summaries", [])
+    return get_all_work_session_summaries()
 
 def get_today_work_review():
     sessions = get_all_focus_sessions()
