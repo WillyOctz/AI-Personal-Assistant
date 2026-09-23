@@ -1406,6 +1406,7 @@ def get_sqlite_migration_status():
         "history_events",
         "work_session_summaries",
         "conversation_summaries",
+        "entity_registry",
         "default_apps",
         "migration_runs",
     ]

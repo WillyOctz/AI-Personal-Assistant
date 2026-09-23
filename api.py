@@ -33,11 +33,30 @@ class MessageRequest(BaseModel):
     
 @app.get("/health")
 def health_check():
+    try:
+        database_status = get_database_status()
+        migration_status = get_sqlite_migration_status()
+    except Exception:
+        raise HTTPException(
+            status_code=503,
+            detail={
+                "ok": False,
+                "service": "nebula-api",
+                "database": {
+                    "ok": False,
+                },
+            },
+        )
+        
     return {
         "ok": True,
+        "service": "nebula-api",
         "assistant": "Nebula",
-        "database": get_database_status(),
-        "migration": get_sqlite_migration_status(),
+        "database": {
+            "ok": True,
+            "schema_version": database_status["schema_version"],
+            "tables": migration_status["row_counts"],
+        },
     }
     
 @app.get("/startup")
