@@ -2296,6 +2296,92 @@ def verify_history_events_migration():
 
     return result
 
+def add_sqlite_history_event(position, event):
+    initialize_database()
+
+    if not isinstance(position, int) or position < 1:
+        raise ValueError(
+            "History event position must be a positive integer."
+        )
+
+    if not isinstance(event, dict):
+        raise ValueError("History event must be an object.")
+
+    user_input = event.get("user_input")
+    intent = event.get("intent")
+    intent_group = event.get("group")
+    confidence = event.get("confidence")
+    source = event.get("source")
+    result = event.get("result")
+    timestamp = event.get("timestamp")
+    importance = event.get("importance")
+
+    text_fields = {
+        "user_input": user_input,
+        "intent": intent,
+        "group": intent_group,
+        "source": source,
+        "result": result,
+        "timestamp": timestamp,
+    }
+
+    for field, value in text_fields.items():
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError(
+                f"History event {field} must be text."
+            )
+
+    if (
+        isinstance(confidence, bool)
+        or not isinstance(confidence, (int, float))
+    ):
+        raise ValueError(
+            "History event confidence must be numeric."
+        )
+
+    if importance is not None and (
+        isinstance(importance, bool)
+        or not isinstance(importance, (int, float))
+    ):
+        raise ValueError(
+            "History event importance must be numeric."
+        )
+
+    with get_connection() as connection:
+        cursor = connection.execute(
+            """
+            INSERT INTO history_events (
+                position,
+                user_input,
+                intent,
+                intent_group,
+                confidence,
+                source,
+                result,
+                timestamp,
+                importance,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                position,
+                user_input,
+                intent,
+                intent_group,
+                float(confidence),
+                source,
+                result,
+                timestamp,
+                float(importance)
+                if importance is not None
+                else None,
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            ),
+        )
+
+    return cursor.lastrowid
+
 def get_sqlite_response_feedback_notes(limit=None):
     initialize_database()
 

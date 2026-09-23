@@ -482,6 +482,18 @@ def sync_response_feedback_notes_to_sqlite():
             "but could not sync to SQLite."
         ) from error
         
+def add_history_event_to_sqlite(position, event):
+    try:
+        return database.add_sqlite_history_event(
+            position,
+            event,
+        )
+    except Exception as error:
+        raise RuntimeError(
+            "History event was saved to memory.json "
+            "but could not sync to SQLite."
+        ) from error
+        
 def add_app_launch_to_sqlite(position, event):
     try:
         return database.add_sqlite_app_launch_event(
@@ -993,6 +1005,9 @@ def add_history_event(event):
     memory = load_memory()
     memory["history"].append(event)
     save_memory(memory)
+    
+    position = len(memory["history"])
+    add_history_event_to_sqlite(position, event)
     
 def get_history(limit=5):
     memory = load_memory()
