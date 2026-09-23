@@ -295,6 +295,22 @@ def initialize_database():
         
         connection.execute(
             """
+            CREATE TABLE IF NOT EXISTS entity_registry (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                entity_type TEXT NOT NULL CHECK (
+                    entity_type IN ('games', 'apps')
+                ),
+                position INTEGER NOT NULL,
+                value TEXT NOT NULL,
+                migrated_at TEXT NOT NULL,
+                UNIQUE (entity_type, position),
+                UNIQUE (entity_type, value)
+            )
+            """
+        )
+        
+        connection.execute(
+            """
             CREATE TABLE IF NOT EXISTS focus_sessions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 position INTEGER NOT NULL UNIQUE,
@@ -2365,6 +2381,84 @@ def migrate_conversation_summaries_from_json():
 
     record_migration(
         "migrate_conversation_summaries_from_json",
+        "completed",
+        details,
+    )
+
+    return details
+
+def migrate_entity_registry_from_json():
+    initialize_database()
+
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+
+    entities = memory_data.get("entities", {})
+
+    if not isinstance(entities, dict):
+        raise ValueError(
+            "memory.json entities must be a JSON object."
+        )
+
+    migrated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+    counts = {}
+
+    for entity_type in ["games", "apps"]:
+        values = entities.get(entity_type, [])
+
+        if not isinstance(values, list):
+            raise ValueError(
+                f"memory.json entities.{entity_type} "
+                "must be a JSON list."
+            )
+
+        counts[entity_type] = len(values)
+
+        for position, value in enumerate(values, start=1):
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError(
+                    f"Entity {entity_type} {position} must be text."
+                )
+
+            records.append(
+                (
+                    entity_type,
+                    position,
+                    value,
+                    migrated_at,
+                )
+            )
+
+    backup_file = create_memory_backup(
+        "memory_before_entity_registry_sqlite"
+    )
+
+    with get_connection() as connection:
+        connection.execute("DELETE FROM entity_registry")
+
+        connection.executemany(
+            """
+            INSERT INTO entity_registry (
+                entity_type,
+                position,
+                value,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            records,
+        )
+
+    details = {
+        "backup_file": str(backup_file),
+        "entity_count": len(records),
+        "games_count": counts["games"],
+        "apps_count": counts["apps"],
+    }
+
+    record_migration(
+        "migrate_entity_registry_from_json",
         "completed",
         details,
     )
