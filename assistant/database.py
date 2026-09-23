@@ -1376,6 +1376,7 @@ def get_sqlite_migration_status():
         "response_feedback",
         "response_feedback_notes",
         "history_events",
+        "work_session_summaries",
         "default_apps",
         "migration_runs",
     ]
@@ -2277,6 +2278,139 @@ def migrate_work_session_summaries_from_json():
     )
 
     return details
+
+def get_sqlite_work_session_summaries(limit=None):
+    initialize_database()
+
+    query = """
+        SELECT
+            id,
+            position,
+            timestamp,
+            total_sessions,
+            total_seconds,
+            top_task,
+            notes_count,
+            migrated_at
+        FROM work_session_summaries
+    """
+
+    parameters = ()
+
+    if limit is None:
+        query += " ORDER BY position"
+    else:
+        safe_limit = max(1, min(limit, 100))
+        query += """
+            ORDER BY position DESC
+            LIMIT ?
+        """
+        parameters = (safe_limit,)
+
+    with get_connection() as connection:
+        rows = connection.execute(
+            query,
+            parameters,
+        ).fetchall()
+
+    if limit is not None:
+        rows = list(reversed(rows))
+
+    return [
+        {
+            "id": row["id"],
+            "position": row["position"],
+            "timestamp": row["timestamp"],
+            "total_sessions": row["total_sessions"],
+            "total_seconds": row["total_seconds"],
+            "top_task": row["top_task"],
+            "notes_count": row["notes_count"],
+            "migrated_at": row["migrated_at"],
+        }
+        for row in rows
+    ]
+    
+def verify_work_session_summaries_migration():
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+
+    json_summaries = memory_data.get(
+        "work_session_summaries",
+        [],
+    )
+    sqlite_summaries = get_sqlite_work_session_summaries()
+
+    differences = []
+    total_items = max(
+        len(json_summaries),
+        len(sqlite_summaries),
+    )
+
+    fields = [
+        "timestamp",
+        "total_sessions",
+        "total_seconds",
+        "top_task",
+        "notes_count",
+    ]
+
+    for index in range(total_items):
+        position = index + 1
+
+        json_item = (
+            json_summaries[index]
+            if index < len(json_summaries)
+            else None
+        )
+
+        sqlite_item = (
+            sqlite_summaries[index]
+            if index < len(sqlite_summaries)
+            else None
+        )
+
+        if json_item is None or sqlite_item is None:
+            differences.append({
+                "position": position,
+                "field": "record",
+                "json_value": json_item,
+                "sqlite_value": sqlite_item,
+            })
+            continue
+
+        if sqlite_item["position"] != position:
+            differences.append({
+                "position": position,
+                "field": "position",
+                "json_value": position,
+                "sqlite_value": sqlite_item["position"],
+            })
+
+        for field in fields:
+            if json_item.get(field) != sqlite_item[field]:
+                differences.append({
+                    "position": position,
+                    "field": field,
+                    "json_value": json_item.get(field),
+                    "sqlite_value": sqlite_item[field],
+                })
+
+    matches = not differences
+
+    result = {
+        "matches": matches,
+        "json_work_session_summary_count": len(json_summaries),
+        "sqlite_work_session_summary_count": len(sqlite_summaries),
+        "differences": differences,
+    }
+
+    record_migration(
+        "verify_work_session_summaries_migration",
+        "completed" if matches else "mismatch",
+        result,
+    )
+
+    return result
 
 def get_sqlite_history_events(limit=None):
     initialize_database()
