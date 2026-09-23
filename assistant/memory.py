@@ -527,6 +527,28 @@ def sync_file_search_history_to_sqlite():
             "but could not sync to SQLite."
         ) from error
         
+def add_work_session_summary_to_sqlite(position, item):
+    try:
+        return database.add_sqlite_work_session_summary(
+            position,
+            item,
+        )
+    except Exception as error:
+        raise RuntimeError(
+            "Work session summary was saved to memory.json "
+            "but could not sync to SQLite."
+        ) from error
+
+
+def sync_work_session_summaries_to_sqlite():
+    try:
+        return database.sync_sqlite_work_session_summaries_from_json()
+    except Exception as error:
+        raise RuntimeError(
+            "Work session summaries were saved to memory.json "
+            "but could not sync to SQLite."
+        ) from error
+        
 def add_note(note):
     memory = load_memory()
     memory["notes"].append(note)
@@ -1496,6 +1518,9 @@ def save_work_session_summary():
     summaries.append(item)
     save_memory(data)
     
+    position = len(summaries)
+    add_work_session_summary_to_sqlite(position, item)
+    
     return item
 
 def search_work_session_summaries(query):
@@ -1531,6 +1556,8 @@ def delete_work_session_summary(index):
     
     removed = summaries.pop(position)
     save_memory(data)
+    
+    sync_work_session_summaries_to_sqlite()
     
     removed["index"] = index
     return removed

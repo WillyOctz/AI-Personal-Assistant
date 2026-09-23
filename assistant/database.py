@@ -2412,6 +2412,171 @@ def verify_work_session_summaries_migration():
 
     return result
 
+def add_sqlite_work_session_summary(position, item):
+    initialize_database()
+
+    if not isinstance(position, int) or position < 1:
+        raise ValueError(
+            "Work session summary position must be a positive integer."
+        )
+
+    if not isinstance(item, dict):
+        raise ValueError(
+            "Work session summary must be an object."
+        )
+
+    timestamp = item.get("timestamp")
+    total_sessions = item.get("total_sessions")
+    total_seconds = item.get("total_seconds")
+    top_task = item.get("top_task")
+    notes_count = item.get("notes_count")
+
+    if not isinstance(timestamp, str) or not timestamp.strip():
+        raise ValueError(
+            "Work session summary timestamp must be text."
+        )
+
+    integer_fields = {
+        "total_sessions": total_sessions,
+        "total_seconds": total_seconds,
+        "notes_count": notes_count,
+    }
+
+    for field, value in integer_fields.items():
+        if (
+            isinstance(value, bool)
+            or not isinstance(value, int)
+            or value < 0
+        ):
+            raise ValueError(
+                f"Work session summary {field} "
+                "must be a non-negative integer."
+            )
+
+    if top_task is not None and not isinstance(top_task, str):
+        raise ValueError(
+            "Work session summary top_task must be text or None."
+        )
+
+    with get_connection() as connection:
+        cursor = connection.execute(
+            """
+            INSERT INTO work_session_summaries (
+                position,
+                timestamp,
+                total_sessions,
+                total_seconds,
+                top_task,
+                notes_count,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                position,
+                timestamp,
+                total_sessions,
+                total_seconds,
+                top_task,
+                notes_count,
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            ),
+        )
+
+    return cursor.lastrowid
+
+
+def sync_sqlite_work_session_summaries_from_json():
+    initialize_database()
+
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+
+    summaries = memory_data.get("work_session_summaries", [])
+
+    if not isinstance(summaries, list):
+        raise ValueError(
+            "memory.json work_session_summaries "
+            "must be a JSON list."
+        )
+
+    synced_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+
+    for position, item in enumerate(summaries, start=1):
+        if not isinstance(item, dict):
+            raise ValueError(
+                f"Work session summary {position} must be an object."
+            )
+
+        timestamp = item.get("timestamp")
+        total_sessions = item.get("total_sessions")
+        total_seconds = item.get("total_seconds")
+        top_task = item.get("top_task")
+        notes_count = item.get("notes_count")
+
+        if not isinstance(timestamp, str) or not timestamp.strip():
+            raise ValueError(
+                f"Work session summary {position} timestamp "
+                "must be text."
+            )
+
+        integer_fields = {
+            "total_sessions": total_sessions,
+            "total_seconds": total_seconds,
+            "notes_count": notes_count,
+        }
+
+        for field, value in integer_fields.items():
+            if (
+                isinstance(value, bool)
+                or not isinstance(value, int)
+                or value < 0
+            ):
+                raise ValueError(
+                    f"Work session summary {position} {field} "
+                    "must be a non-negative integer."
+                )
+
+        if top_task is not None and not isinstance(top_task, str):
+            raise ValueError(
+                f"Work session summary {position} top_task "
+                "must be text or None."
+            )
+
+        records.append(
+            (
+                position,
+                timestamp,
+                total_sessions,
+                total_seconds,
+                top_task,
+                notes_count,
+                synced_at,
+            )
+        )
+
+    with get_connection() as connection:
+        connection.execute("DELETE FROM work_session_summaries")
+
+        connection.executemany(
+            """
+            INSERT INTO work_session_summaries (
+                position,
+                timestamp,
+                total_sessions,
+                total_seconds,
+                top_task,
+                notes_count,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            records,
+        )
+
+    return len(records)
+
 def get_sqlite_history_events(limit=None):
     initialize_database()
 
