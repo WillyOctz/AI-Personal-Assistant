@@ -2465,6 +2465,119 @@ def migrate_entity_registry_from_json():
 
     return details
 
+def get_sqlite_entities(entity_type):
+    initialize_database()
+
+    if entity_type not in ["games", "apps"]:
+        raise ValueError(
+            "Entity type must be 'games' or 'apps'."
+        )
+
+    with get_connection() as connection:
+        rows = connection.execute(
+            """
+            SELECT
+                id,
+                entity_type,
+                position,
+                value,
+                migrated_at
+            FROM entity_registry
+            WHERE entity_type = ?
+            ORDER BY position
+            """,
+            (entity_type,),
+        ).fetchall()
+
+    return [
+        {
+            "id": row["id"],
+            "entity_type": row["entity_type"],
+            "position": row["position"],
+            "value": row["value"],
+            "migrated_at": row["migrated_at"],
+        }
+        for row in rows
+    ]
+    
+def verify_entity_registry_migration():
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+
+    entities = memory_data.get("entities", {})
+    differences = []
+
+    for entity_type in ["games", "apps"]:
+        json_values = entities.get(entity_type, [])
+        sqlite_items = get_sqlite_entities(entity_type)
+
+        total_items = max(
+            len(json_values),
+            len(sqlite_items),
+        )
+
+        for index in range(total_items):
+            position = index + 1
+
+            json_value = (
+                json_values[index]
+                if index < len(json_values)
+                else None
+            )
+
+            sqlite_item = (
+                sqlite_items[index]
+                if index < len(sqlite_items)
+                else None
+            )
+
+            if json_value is None or sqlite_item is None:
+                differences.append({
+                    "entity_type": entity_type,
+                    "position": position,
+                    "field": "record",
+                    "json_value": json_value,
+                    "sqlite_value": sqlite_item,
+                })
+                continue
+
+            if sqlite_item["position"] != position:
+                differences.append({
+                    "entity_type": entity_type,
+                    "position": position,
+                    "field": "position",
+                    "json_value": position,
+                    "sqlite_value": sqlite_item["position"],
+                })
+
+            if json_value != sqlite_item["value"]:
+                differences.append({
+                    "entity_type": entity_type,
+                    "position": position,
+                    "field": "value",
+                    "json_value": json_value,
+                    "sqlite_value": sqlite_item["value"],
+                })
+
+    matches = not differences
+
+    result = {
+        "matches": matches,
+        "json_games_count": len(entities.get("games", [])),
+        "sqlite_games_count": len(get_sqlite_entities("games")),
+        "json_apps_count": len(entities.get("apps", [])),
+        "sqlite_apps_count": len(get_sqlite_entities("apps")),
+        "differences": differences,
+    }
+
+    record_migration(
+        "verify_entity_registry_migration",
+        "completed" if matches else "mismatch",
+        result,
+    )
+
+    return result
+
 def get_sqlite_conversation_summaries(limit=None):
     initialize_database()
 
