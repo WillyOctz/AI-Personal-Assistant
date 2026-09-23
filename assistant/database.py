@@ -283,6 +283,18 @@ def initialize_database():
         
         connection.execute(
             """
+            CREATE TABLE IF NOT EXISTS conversation_summaries (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                position INTEGER NOT NULL UNIQUE,
+                summary TEXT NOT NULL,
+                timestamp TEXT NOT NULL,
+                migrated_at TEXT NOT NULL
+            )
+            """
+        )
+        
+        connection.execute(
+            """
             CREATE TABLE IF NOT EXISTS focus_sessions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 position INTEGER NOT NULL UNIQUE,
@@ -2273,6 +2285,85 @@ def migrate_work_session_summaries_from_json():
 
     record_migration(
         "migrate_work_session_summaries_from_json",
+        "completed",
+        details,
+    )
+
+    return details
+
+def migrate_conversation_summaries_from_json():
+    initialize_database()
+
+    with open(MEMORY_FILE, "r") as file:
+        memory_data = json.load(file)
+
+    summaries = memory_data.get("summaries", [])
+
+    if not isinstance(summaries, list):
+        raise ValueError(
+            "memory.json summaries must be a JSON list."
+        )
+
+    migrated_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    records = []
+
+    for position, item in enumerate(summaries, start=1):
+        if not isinstance(item, dict):
+            raise ValueError(
+                f"Conversation summary {position} must be an object."
+            )
+
+        summary = item.get("summary")
+        timestamp = item.get("timestamp")
+
+        if not isinstance(summary, str) or not summary.strip():
+            raise ValueError(
+                f"Conversation summary {position} summary "
+                "must be text."
+            )
+
+        if not isinstance(timestamp, str) or not timestamp.strip():
+            raise ValueError(
+                f"Conversation summary {position} timestamp "
+                "must be text."
+            )
+
+        records.append(
+            (
+                position,
+                summary,
+                timestamp,
+                migrated_at,
+            )
+        )
+
+    backup_file = create_memory_backup(
+        "memory_before_conversation_summaries_sqlite"
+    )
+
+    with get_connection() as connection:
+        connection.execute("DELETE FROM conversation_summaries")
+
+        connection.executemany(
+            """
+            INSERT INTO conversation_summaries (
+                position,
+                summary,
+                timestamp,
+                migrated_at
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            records,
+        )
+
+    details = {
+        "backup_file": str(backup_file),
+        "conversation_summary_count": len(records),
+    }
+
+    record_migration(
+        "migrate_conversation_summaries_from_json",
         "completed",
         details,
     )
