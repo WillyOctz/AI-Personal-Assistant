@@ -35,6 +35,19 @@ class ChatResponse(BaseModel):
     input: str
     response: str
     
+class ConversationTurnResponse(BaseModel):
+    user: str
+    assistant: str | None = None
+    intent: str | None = None
+    group: str | None = None
+    confidence: float | None = None
+    source: str | None = None
+    timestamp: str | None = None
+    importance: float | None = None
+    
+class ConversationResponse(BaseModel):
+    turns: list[ConversationTurnResponse]
+    
 @app.get("/health")
 def health_check():
     try:
@@ -69,7 +82,7 @@ def startup_message():
         "message": get_startup_notification_message(),
     }
     
-@app.get("/conversation")
+@app.get("/conversation", response_model=ConversationResponse)
 def conversation_history(limit: int = 20):
     safe_limit = max(1, min(limit, 50))
     
