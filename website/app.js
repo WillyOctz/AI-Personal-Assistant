@@ -6,6 +6,8 @@ const status = document.getElementById("connection-status")
 const confirmationActions = document.getElementById("confirmation-actions")
 const confirmButton = document.getElementById("confirm-button")
 const cancelButton = document.getElementById("cancel-button")
+const reminderList = document.getElementById("reminder-list")
+const reminderCount = document.getElementById("reminder-count")
 
 function addMessage(role, text) {
     const message = document.createElement("article")
@@ -60,6 +62,66 @@ async function sendMessage(message) {
     }
 
     return data.response
+}
+
+function renderReminders(reminders) {
+    reminderList.replaceChildren()
+    reminderCount.textContent = String(reminders.length)
+
+    if (reminders.length === 0) {
+        const empty = document.createElement("p")
+        empty.classList.add("reminder-empty")
+        empty.textContent = "No reminders yet."
+        reminderList.appendChild(empty)
+        return
+    }
+
+    for (const reminder of reminders) {
+        const item = document.createElement("li")
+        const text = document.createElement("p")
+        const due = document.createElement("p")
+
+        item.classList.add("reminder-item")
+        text.classList.add("reminder-text")
+        due.classList.add("reminder-due")
+
+        text.textContent = reminder.text
+        due.textContent = reminder.due ? `Due: ${reminder.due}` : "No due date"
+
+        item.append(text, due)
+        reminderList.appendChild(item)
+    }
+}
+
+async function loadReminders() {
+    try {
+        if (!reminderList || !reminderCount) {
+            console.error("Reminder panel elements are missing from index.html.")
+            return
+        }
+
+        const res = await fetch("/reminders")
+
+        if (!res.ok) {
+            throw new Error("Reminder request failed.")
+        }
+
+        const data = await res.json()
+
+        if (!Array.isArray(data.reminders)) {
+            throw new Error("Invalid reminder response.")
+        }
+
+        renderReminders(data.reminders)
+    } catch (err) {
+        reminderList.replaceChildren()
+        reminderCount.textContent = "-"
+
+        const unavailable = document.createElement("p")
+        unavailable.classList.add("reminder-empty")
+        unavailable.textContent = "Reminders are unavailable."
+        reminderList.appendChild(unavailable)
+    }
 }
 
 async function loadConversation() {
@@ -152,6 +214,7 @@ form.addEventListener("submit", async (event) => {
         const res = await sendMessage(message);
         addMessage("assistant", res)
         confirmationActions.hidden = !needsConfirmation(res)
+        await loadReminders()
         status.textContent = "Connected"
     } catch (err) {
         addMessage("assistant", `Error: ${err.message}`)
@@ -180,6 +243,7 @@ async function initializeChat() {
     await loadHealth()
     await loadConversation()
     await loadStartupMessage()
+    await loadReminders()
 }
 
 initializeChat()

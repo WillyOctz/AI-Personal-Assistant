@@ -51,6 +51,13 @@ class ConversationResponse(BaseModel):
 class StartupResponse(BaseModel):
     message: str | None = None
     
+class ReminderResponse(BaseModel):
+    text: str
+    due: str | None = None
+    
+class ReminderListResponse(BaseModel):
+    reminders: list[ReminderResponse]
+    
 @app.get("/health")
 def health_check():
     try:
@@ -91,6 +98,12 @@ def conversation_history(limit: int = 20):
     
     return {
         "turns": memory.get_conversation(safe_limit),
+    }
+    
+@app.get("/reminders", response_model=ReminderListResponse)
+def reminder_list():
+    return {
+        "reminders": memory.get_reminders(),
     }
     
 @app.get("/", include_in_schema=False)

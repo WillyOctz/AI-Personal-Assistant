@@ -16,31 +16,43 @@
             <span id="connection-status" class="status">Local API</span>
         </header>
 
-        <section
-            id="messages"
-            class="messages"
-            aria-live="polite"
-            aria-label="Conversation"
-        >
-        </section>
+        <div class="workspace">
+            <section class="chat-panel">
+                <section
+                    id="messages"
+                    class="messages"
+                    aria-live="polite"
+                    aria-label="Conversation"
+                ></section>
 
-        <div id="confirmation-actions" class="confirmation-actions" hidden>
-            <button id="confirm-button" type="button">Yes</button>
-            <button id="cancel-button" class="cancel-button" type="button">No</button>
+                <div id="confirmation-actions" class="confirmation-actions" hidden>
+                    <button id="confirm-button" type="button">Yes</button>
+                    <button id="cancel-button" class="cancel-button" type="button">No</button>
+                </div>
+
+                <form id="chat-form" class="composer">
+                    <label class="sr-only" for="message-input">Message Nebula</label>
+                    <textarea
+                        id="message-input"
+                        name="message"
+                        rows="1"
+                        placeholder="Message Nebula"
+                        autocomplete="off"
+                        required
+                    >
+                    </textarea>
+                    <button id="send-button" type="submit">Send</button>
+                </form>
+            </section>
+
+            <aside class="reminder-panel" aria-label="Reminders">
+                <div class="panel-heading">
+                    <h2>Reminders</h2>
+                    <span id="reminder-count" class="reminder-count">0</span>
+                </div>
+                 <ul id="reminder-list" class="reminder-list"></ul>
+            </aside>
         </div>
-
-        <form id="chat-form" class="composer">
-            <label class="sr-only" for="message-input">Message Nebula</label>
-            <textarea
-                id="message-input"
-                name="message"
-                rows="1"
-                placeholder="Message Nebula"
-                autocomplete="off"
-                required
-            ></textarea>
-            <button id="send-button" type="submit">Send</button>
-        </form>
     </main>
 
     <script src="/static/app.js"></script>

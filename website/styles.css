@@ -148,6 +148,87 @@ button:disabled {
     clip: rect(0, 0, 0, 0);
 }
 
+.workspace {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 240px;
+    gap: 20px;
+}
+
+.chat-panel {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.reminder-panel {
+    overflow-y: auto;
+    padding-left: 20px;
+    border-left: 1px solid #cfd8dc;
+}
+
+.panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.panel-heading h2 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.reminder-count {
+    min-width: 24px;
+    padding: 3px 7px;
+    border-radius: 999px;
+    color: #0f766e;
+    background: #d8f0ed;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.reminder-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.reminder-item {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #d6dfe3;
+}
+
+.reminder-text,
+.reminder-due {
+    margin: 0;
+}
+
+.reminder-text {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.reminder-due {
+    margin-top: 4px;
+    color: #52616b;
+    font-size: 12px;
+}
+
+.reminder-empty {
+    margin: 0;
+    color: #52616b;
+    font-size: 14px;
+}
+
 @media (max-width: 600px) {
     .app-shell {
         padding: 16px;
@@ -160,5 +241,18 @@ button:disabled {
 
     .message {
         max-width: 94%;
+    }
+
+    .workspace {
+        grid-template-columns: 1fr;
+    }
+
+    .reminder-panel {
+        order: -1;
+        max-height: 220px;
+        padding-top: 16px;
+        padding-left: 0;
+        border-top: 1px solid #cfd8dc;
+        border-left: 0;
     }
 }

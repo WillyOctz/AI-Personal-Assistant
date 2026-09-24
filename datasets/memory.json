@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "greeting",
-        "last_response_group": "basic",
+        "last_response_intent": "show_reminders",
+        "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Hello, I am Nebula. What can I help you with?ehe~ I remember that your name is Carlos, your goal is to build best AI assistant, you like python.",
+        "last_response_text": "Your reminders:\n1. i like music | due: 2026-12-31\n2. continue my ai personal assistant | due: 2026-09-06",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -18770,6 +18770,36 @@
             "source": "rule",
             "timestamp": "2026-09-24 16:57:17",
             "importance": 0.2
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. i like music | due: 2026-12-31\n2. continue my ai personal assistant | due: 2026-09-06",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-24 18:13:45",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. i like music | due: 2026-12-31\n2. continue my ai personal assistant | due: 2026-09-06",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-24 18:16:17",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. i like music | due: 2026-12-31\n2. continue my ai personal assistant | due: 2026-09-06",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-24 18:25:31",
+            "importance": 0.6
         }
     ],
     "summaries": [
