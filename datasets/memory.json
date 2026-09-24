@@ -18740,6 +18740,36 @@
             "source": "rule",
             "timestamp": "2026-09-24 15:56:31",
             "importance": 0.2
+        },
+        {
+            "user": "hi",
+            "assistant": "Hello, I am Nebula. What can I help you with?ehe~ I remember that your name is Carlos, your goal is to build best AI assistant, you like python.",
+            "intent": "greeting",
+            "group": "basic",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-24 16:11:20",
+            "importance": 0.2
+        },
+        {
+            "user": "string",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: string\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-24 16:12:30",
+            "importance": 0.3
+        },
+        {
+            "user": "hi",
+            "assistant": "Hello, I am Nebula. What can I help you with?ehe~ I remember that your name is Carlos, your goal is to build best AI assistant, you like python.",
+            "intent": "greeting",
+            "group": "basic",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-24 16:57:17",
+            "importance": 0.2
         }
     ],
     "summaries": [

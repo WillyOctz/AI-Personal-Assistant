@@ -31,6 +31,10 @@ app.mount(
 class MessageRequest(BaseModel):
     message: str
     
+class ChatResponse(BaseModel):
+    input: str
+    response: str
+    
 @app.get("/health")
 def health_check():
     try:
@@ -77,7 +81,10 @@ def conversation_history(limit: int = 20):
 def home():
     return FileResponse(WEB_DIR / "index.html")
     
-@app.post("/chat")
+@app.post("/chat", response_model=ChatResponse, responses={
+    400: {"description": "Invalid message"},
+    500: {"description": "Nebula could not process the message"},
+})
 def chat(req: MessageRequest):
     message = req.message.strip()
     
@@ -87,9 +94,21 @@ def chat(req: MessageRequest):
             detail="Message cannot be empty.",
         )
         
-    res = get_response(message)
-    
+    try:
+        response = get_response(message)
+    except Exception as error:
+        raise HTTPException(
+            status_code=500,
+            detail="Nebula could not process that message.",
+        ) from error
+        
+    if not isinstance(response, str):
+        raise HTTPException(
+            status_code=500,
+            detail="Nebula returned an invalid response.",
+        )
+        
     return {
         "input": message,
-        "response": res, 
+        "response": response,
     }
