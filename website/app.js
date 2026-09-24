@@ -111,6 +111,26 @@ async function loadStartupMessage() {
     }
 }
 
+async function loadHealth() {
+    try {
+        const res = await fetch("/health")
+
+        if (!res.ok) {
+            throw new Error("Health check failed.")
+        }
+
+        const data = await res.json()
+
+        if (!data.ok || !data.database.ok) {
+            throw new Error("Nebula is unavailable.")
+        }
+
+        status.textContent = "Connected"
+    } catch (err) {
+        status.textContent = "Connection error"
+    }
+}
+
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -132,7 +152,7 @@ form.addEventListener("submit", async (event) => {
         const res = await sendMessage(message);
         addMessage("assistant", res)
         confirmationActions.hidden = !needsConfirmation(res)
-        status.textContent = "Local API"
+        status.textContent = "Connected"
     } catch (err) {
         addMessage("assistant", `Error: ${err.message}`)
         status.textContent = "Connection error"
@@ -157,6 +177,7 @@ cancelButton.addEventListener("click", () => {
 })
 
 async function initializeChat() {
+    await loadHealth()
     await loadConversation()
     await loadStartupMessage()
 }

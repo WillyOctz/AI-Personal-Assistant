@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_entities",
-        "last_response_group": "memory",
+        "last_response_intent": "greeting",
+        "last_response_group": "basic",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Games:\nstardew valley\nApps:\nNone",
+        "last_response_text": "Hello, I am Nebula. What can I help you with?ehe~ I remember that your name is Carlos, your goal is to build best AI assistant, you like python.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -18710,6 +18710,36 @@
             "source": "rule",
             "timestamp": "2026-09-23 20:36:08",
             "importance": 0.6
+        },
+        {
+            "user": "hello",
+            "assistant": "Hello, I am Nebula. What can I help you with?ehe~ I remember that your name is Carlos, your goal is to build best AI assistant, you like python.",
+            "intent": "greeting",
+            "group": "basic",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-24 15:52:01",
+            "importance": 0.2
+        },
+        {
+            "user": "well",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: well\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-24 15:54:11",
+            "importance": 0.3
+        },
+        {
+            "user": "hello",
+            "assistant": "Hello, I am Nebula. What can I help you with?ehe~ I remember that your name is Carlos, your goal is to build best AI assistant, you like python.",
+            "intent": "greeting",
+            "group": "basic",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-24 15:56:31",
+            "importance": 0.2
         }
     ],
     "summaries": [
