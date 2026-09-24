@@ -48,6 +48,9 @@ class ConversationTurnResponse(BaseModel):
 class ConversationResponse(BaseModel):
     turns: list[ConversationTurnResponse]
     
+class StartupResponse(BaseModel):
+    message: str | None = None
+    
 @app.get("/health")
 def health_check():
     try:
@@ -76,7 +79,7 @@ def health_check():
         },
     }
     
-@app.get("/startup")
+@app.get("/startup", response_model=StartupResponse)
 def startup_message():
     return {
         "message": get_startup_notification_message(),
