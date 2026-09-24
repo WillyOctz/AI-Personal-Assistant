@@ -80,17 +80,49 @@ function renderReminders(reminders) {
         const item = document.createElement("li")
         const text = document.createElement("p")
         const due = document.createElement("p")
+        const completeButton = document.createElement("button")
 
         item.classList.add("reminder-item")
         text.classList.add("reminder-text")
         due.classList.add("reminder-due")
+        completeButton.classList.add("complete-reminder")
+        completeButton.type = "button"
+        completeButton.textContent = "Done"
 
         text.textContent = reminder.text
         due.textContent = reminder.due ? `Due: ${reminder.due}` : "No due date"
+        completeButton.addEventListener("click", async() => {
+            completeButton.disabled = true
 
-        item.append(text, due)
+            try {
+                await completeReminder(reminder.position)
+                await loadReminders()
+            } catch (err) {
+                addMessage(
+                    "assistant",
+                    `I could not complete that reminder: ${err.message}`
+                )
+                completeButton.disabled = false
+            }
+        })
+
+        item.append(text, due, completeButton)
         reminderList.appendChild(item)
     }
+}
+
+async function completeReminder(position) {
+    const res = await fetch(`/reminders/${position}/complete`, {
+        method: "POST",
+    })
+
+    const data = await res.json()
+
+    if (!res.ok) {
+        throw new Error(data.detail || "Reminder could not be completed.")
+    }
+
+    return data
 }
 
 async function loadReminders() {

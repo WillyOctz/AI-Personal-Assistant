@@ -223,6 +223,15 @@ button:disabled {
     font-size: 12px;
 }
 
+.complete-reminder {
+    min-width: 0;
+    min-height: 32px;
+    margin-top: 10px;
+    padding: 6px 10px;
+    background: #166534;
+    font-size: 12px;
+}
+
 .reminder-empty {
     margin: 0;
     color: #52616b;

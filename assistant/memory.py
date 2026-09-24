@@ -729,6 +729,7 @@ def get_reminders():
     
     return [
         {
+            "position": reminder["position"],
             "text": reminder["text"],
             "due": reminder["due"],
         }

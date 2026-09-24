@@ -52,11 +52,16 @@ class StartupResponse(BaseModel):
     message: str | None = None
     
 class ReminderResponse(BaseModel):
+    position: int
     text: str
     due: str | None = None
     
 class ReminderListResponse(BaseModel):
     reminders: list[ReminderResponse]
+    
+class CompleteReminderResponse(BaseModel):
+    completed: bool
+    reminder: str | None = None
     
 @app.get("/health")
 def health_check():
@@ -104,6 +109,27 @@ def conversation_history(limit: int = 20):
 def reminder_list():
     return {
         "reminders": memory.get_reminders(),
+    }
+    
+@app.post(
+    "/reminders/{position}/complete",
+    response_model=CompleteReminderResponse,
+    responses={
+        404: {"description": "Reminder not found"}
+    },
+)
+def complete_reminder(position: int):
+    result = memory.complete_reminder(str(position))
+    
+    if not result["removed"]:
+        raise HTTPException(
+            status_code=404,
+            detail="Reminder not found.",
+        )
+        
+    return {
+        "completed": True,
+        "reminder": result["reminder"],
     }
     
 @app.get("/", include_in_schema=False)

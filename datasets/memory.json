@@ -23,16 +23,7 @@
         "mood": "tired",
         "focus_goal": "sweeping"
     },
-    "reminders": [
-        {
-            "text": "i like music",
-            "due": "2026-12-31"
-        },
-        {
-            "text": "continue my ai personal assistant",
-            "due": "2026-09-06"
-        }
-    ],
+    "reminders": [],
     "state": {
         "pending_confirmation": null,
         "pending_task": "i like music",
@@ -47,7 +38,7 @@
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Your reminders:\n1. i like music | due: 2026-12-31\n2. continue my ai personal assistant | due: 2026-09-06",
+        "last_response_text": "Your reminders:\n1. continue my ai personal assistant | due: 2026-09-06",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -826,6 +817,16 @@
             "result": "I understand you want to open chrome, but real app launching is not connected yet.",
             "timestamp": "2026-09-23 15:56:18",
             "importance": 0.8
+        },
+        {
+            "user_input": "remind me to gym next week",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "Reminder saved: gym next week",
+            "timestamp": "2026-09-24 19:54:18",
+            "importance": 1.0
         }
     ],
     "conversation": [
@@ -18800,6 +18801,56 @@
             "source": "rule",
             "timestamp": "2026-09-24 18:25:31",
             "importance": 0.6
+        },
+        {
+            "user": "add reminder test",
+            "assistant": "I am not sure if that was a command or conversation yet.\nYou said: add reminder test\nYou can rephrase it, or teach me with: teach message as intent_name",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "None",
+            "timestamp": "2026-09-24 19:53:34",
+            "importance": 0.3
+        },
+        {
+            "user": "remind me to gym next week",
+            "assistant": "Reminder saved: gym next week",
+            "intent": "set_reminder",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-09-24 19:54:18",
+            "importance": 1.0
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. continue my ai personal assistant | due: 2026-09-06\n2. gym next week",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-24 19:54:24",
+            "importance": 0.6
+        },
+        {
+            "user": "complete reminder gym next week",
+            "assistant": "Completed reminder: gym next week",
+            "intent": "complete_reminder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-24 19:55:29",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. continue my ai personal assistant | due: 2026-09-06",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-24 19:55:38",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -19802,7 +19853,8 @@
     ],
     "notified_reminders": [
         "2|continue my ai personal assistant|2026-09-06",
-        "1|i like music|2026-09-07"
+        "1|i like music|2026-09-07",
+        "1|continue my ai personal assistant|2026-09-06"
     ],
     "website_registry": {
         "python docs": {
