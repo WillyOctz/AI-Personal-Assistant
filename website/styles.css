@@ -193,6 +193,33 @@ button:disabled {
     text-align: center;
 }
 
+.reminder-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.reminder-text-input {
+    grid-column: 1 / -1;
+}
+
+.reminder-form input {
+    width: 100%;
+    min-height: 36px;
+    padding: 7px 9px;
+    border: 1px solid #9eabb1;
+    border-radius: 6px;
+    font: inherit;
+}
+
+.reminder-form button {
+    min-width: 0;
+    min-height: 36px;
+    padding: 7px 10px;
+    font-size: 12px;
+}
+
 .reminder-list {
     display: flex;
     flex-direction: column;

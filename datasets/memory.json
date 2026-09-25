@@ -23,7 +23,16 @@
         "mood": "tired",
         "focus_goal": "sweeping"
     },
-    "reminders": [],
+    "reminders": [
+        {
+            "text": "testing",
+            "due": "2026-09-29"
+        },
+        {
+            "text": "testing 2",
+            "due": "2026-09-30"
+        }
+    ],
     "state": {
         "pending_confirmation": null,
         "pending_task": "i like music",
@@ -38,7 +47,7 @@
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Your reminders:\n1. continue my ai personal assistant | due: 2026-09-06",
+        "last_response_text": "Your reminders:\n1. test reminder | due: 2026-09-30",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -18850,6 +18859,26 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-09-24 19:55:38",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. test reminder | due: 2026-09-30",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-25 16:00:59",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. test reminder | due: 2026-09-30",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-25 16:01:22",
             "importance": 0.6
         }
     ],

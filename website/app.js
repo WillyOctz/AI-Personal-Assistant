@@ -1,3 +1,4 @@
+// ID Element get from HTML
 const form = document.getElementById("chat-form")
 const input = document.getElementById("message-input")
 const messages = document.getElementById("messages")
@@ -8,6 +9,10 @@ const confirmButton = document.getElementById("confirm-button")
 const cancelButton = document.getElementById("cancel-button")
 const reminderList = document.getElementById("reminder-list")
 const reminderCount = document.getElementById("reminder-count")
+const reminderForm = document.getElementById("reminder-form")
+const reminderTextInput = document.getElementById("reminder-text-input")
+const reminderDueInput = document.getElementById("reminder-due-input")
+const addReminderButton = document.getElementById("add-reminder-button")
 
 function addMessage(role, text) {
     const message = document.createElement("article")
@@ -109,6 +114,27 @@ function renderReminders(reminders) {
         item.append(text, due, completeButton)
         reminderList.appendChild(item)
     }
+}
+
+async function createReminder(text, due) {
+    const res = await fetch("/reminders", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            text: text,
+            due: due || null,
+        }),
+    })
+
+    const data = await res.json()
+
+    if (!res.ok) {
+        throw new Error(data.detail || "Reminder could not be created.")
+    }
+
+    return data
 }
 
 async function completeReminder(position) {
@@ -224,6 +250,35 @@ async function loadHealth() {
         status.textContent = "Connection error"
     }
 }
+
+reminderForm.addEventListener("submit", async (event) => {
+    event.preventDefault()
+
+    const text = reminderTextInput.value.trim()
+    const due = reminderDueInput.value
+
+    if (!text) {
+        return
+    }
+
+    addReminderButton.disabled = true
+
+    try {
+        await createReminder(text, due)
+
+        reminderTextInput.value = ""
+        reminderDueInput.value = ""
+
+        await loadReminders()
+    } catch (err) {
+        addMessage(
+            "assistant",
+            `I could not add that reminder: ${err.message}`
+        )
+    } finally {
+        addReminderButton.disabled = false
+    }
+})
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();

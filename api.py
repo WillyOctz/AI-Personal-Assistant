@@ -63,6 +63,15 @@ class CompleteReminderResponse(BaseModel):
     completed: bool
     reminder: str | None = None
     
+class CreateReminderRequest(BaseModel):
+    text: str
+    due: str | None = None
+    
+class CreateReminderResponse(BaseModel):
+    created: bool
+    reminder: str
+    due: str | None = None
+    
 @app.get("/health")
 def health_check():
     try:
@@ -109,6 +118,36 @@ def conversation_history(limit: int = 20):
 def reminder_list():
     return {
         "reminders": memory.get_reminders(),
+    }
+    
+@app.post("/reminders", response_model=CreateReminderResponse,
+    responses={
+        400: {"description": "Invalid reminder"},
+        409: {"description": "Reminder already exists"},
+    },
+)
+def create_reminder(req: CreateReminderRequest):
+    text = req.text.strip()
+    due = req.due.strip() if req.due else None
+    
+    if not text:
+        raise HTTPException(
+            status_code=400,
+            detail="Reminder text cannot be empty.",
+        )
+        
+    result = memory.add_reminder(text, due)
+    
+    if not result["saved"]:
+        raise HTTPException(
+            status_code=409,
+            detail="That reminder already exists.",
+        )
+        
+    return {
+        "created": True,
+        "reminder": result["reminder"],
+        "due": result["due"],
     }
     
 @app.post(

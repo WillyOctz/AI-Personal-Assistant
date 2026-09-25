@@ -50,6 +50,25 @@
                     <h2>Reminders</h2>
                     <span id="reminder-count" class="reminder-count">0</span>
                 </div>
+                <form id="reminder-form" class="reminder-form">
+                    <label class="sr-only" for="reminder-text-input">Reminder text</label>
+                    <input
+                        id="reminder-text-input"
+                        class="reminder-text-input"
+                        type="text"
+                        placeholder="Add a reminder"
+                        required
+                    >
+
+                    <label class="sr-only" for="reminder-due-input">Due date</label>
+                    <input
+                        id="reminder-due-input"
+                        class="reminder-due-input"
+                        type="date"
+                    >
+
+                    <button id="add-reminder-button" type="submit">Add</button>
+                </form>
                  <ul id="reminder-list" class="reminder-list"></ul>
             </aside>
         </div>
