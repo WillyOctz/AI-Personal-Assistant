@@ -72,6 +72,17 @@ class CreateReminderResponse(BaseModel):
     reminder: str
     due: str | None = None
     
+class FocusSessionResponse(BaseModel):
+    task: str
+    started_at: str
+    ended_at: str
+    duration: str
+    duration_seconds: int | None = None
+    notes: list[str]
+    
+class FocusSessionListResponse(BaseModel):
+    sessions: list[FocusSessionResponse]
+    
 @app.get("/health")
 def health_check():
     try:
@@ -107,8 +118,8 @@ def startup_message():
     }
     
 @app.get("/conversation", response_model=ConversationResponse)
-def conversation_history(limit: int = 20):
-    safe_limit = max(1, min(limit, 50))
+def conversation_history(limit: int = 5):
+    safe_limit = max(1, min(limit, 10))
     
     return {
         "turns": memory.get_conversation(safe_limit),
@@ -169,6 +180,17 @@ def complete_reminder(position: int):
     return {
         "completed": True,
         "reminder": result["reminder"],
+    }
+    
+@app.get(
+    "/focus/sessions",
+    response_model=FocusSessionListResponse
+)
+def focus_session_list(limit: int = 5):
+    safe_limit = max(1, min(limit, 10))
+    
+    return {
+        "sessions": memory.get_focus_sessions(safe_limit),
     }
     
 @app.get("/", include_in_schema=False)

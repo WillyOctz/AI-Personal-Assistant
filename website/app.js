@@ -13,6 +13,7 @@ const reminderForm = document.getElementById("reminder-form")
 const reminderTextInput = document.getElementById("reminder-text-input")
 const reminderDueInput = document.getElementById("reminder-due-input")
 const addReminderButton = document.getElementById("add-reminder-button")
+const focusSessionList = document.getElementById("focus-session-list")
 
 function addMessage(role, text) {
     const message = document.createElement("article")
@@ -182,6 +183,65 @@ async function loadReminders() {
     }
 }
 
+function renderFocusSessions(sessions) {
+    focusSessionList.replaceChildren()
+
+    if (sessions.length === 0) {
+        const empty = document.createElement("p")
+        empty.classList.add("focus-session-empty")
+        empty.textContent = "No completed focus sessions yet."
+        focusSessionList.appendChild(empty)
+        return
+    }
+
+    for (const session of sessions) {
+        const item = document.createElement("li")
+        const task = document.createElement("p")
+        const duration = document.createElement("p")
+        const notes = document.createElement("p")
+
+        item.classList.add("focus-session-item")
+        task.classList.add("focus-session-task")
+        duration.classList.add("focus-session-meta")
+        notes.classList.add("focus-session-meta")
+
+        task.textContent = session.task
+        duration.textContent = `Duration: ${session.duration}`
+
+        const noteCount = Array.isArray(session.notes) ? session.notes.length : 0
+        notes.textContent = `Notes: ${noteCount}`
+
+        item.append(task, duration, notes)
+        focusSessionList.appendChild(item)
+
+    }
+}
+
+async function loadFocusSessions() {
+    try {
+        const res = await fetch("/focus/sessions?limit=5")
+
+        if (!res.ok) {
+            throw new Error("Focus session request failed.")
+        }
+
+        const data = await res.json()
+
+        if (!Array.isArray(data.sessions)) {
+            throw new Error("Invalid focus session response.")
+        }
+
+        renderFocusSessions(data.sessions)
+    } catch (err) {
+        focusSessionList.replaceChildren()
+
+        const unavailable = document.createElement("p")
+        unavailable.classList.add("focus-session-empty")
+        unavailable.textContent = "Focus sessions are unavailable."
+        focusSessionList.appendChild(unavailable)
+    }
+}
+
 async function loadConversation() {
     try {
         const res = await fetch("/conversation?limit=20")
@@ -302,6 +362,7 @@ form.addEventListener("submit", async (event) => {
         addMessage("assistant", res)
         confirmationActions.hidden = !needsConfirmation(res)
         await loadReminders()
+        await loadFocusSessions()
         status.textContent = "Connected"
     } catch (err) {
         addMessage("assistant", `Error: ${err.message}`)
@@ -331,6 +392,7 @@ async function initializeChat() {
     await loadConversation()
     await loadStartupMessage()
     await loadReminders()
+    await loadFocusSessions()
 }
 
 initializeChat()
