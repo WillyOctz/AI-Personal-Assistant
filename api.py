@@ -3,7 +3,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from assistant import memory
+from assistant import memory, focus
 
 from assistant.brain import (
     get_response,
@@ -82,6 +82,12 @@ class FocusSessionResponse(BaseModel):
     
 class FocusSessionListResponse(BaseModel):
     sessions: list[FocusSessionResponse]
+    
+class FocusStatusResponse(BaseModel):
+    active: bool
+    task: str | None = None
+    started_at: str | None = None
+    notes: list[str]
     
 @app.get("/health")
 def health_check():
@@ -191,6 +197,28 @@ def focus_session_list(limit: int = 5):
     
     return {
         "sessions": memory.get_focus_sessions(safe_limit),
+    }
+    
+@app.get(
+    "/focus/status",
+    response_model=FocusStatusResponse
+)
+def focus_status():
+    active = bool(focus.get_focus_mode())
+    
+    if not active:
+        return {
+            "active": False,
+            "task": None,
+            "started_at": None,
+            "notes": [],
+        }
+        
+    return {
+        "active": True,
+        "task": focus.get_focus_task(),
+        "started_at": focus.get_focus_started_at(),
+        "notes": focus.get_current_focus_notes(),
     }
     
 @app.get("/", include_in_schema=False)
