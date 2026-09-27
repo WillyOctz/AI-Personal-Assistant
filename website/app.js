@@ -14,6 +14,9 @@ const reminderTextInput = document.getElementById("reminder-text-input")
 const reminderDueInput = document.getElementById("reminder-due-input")
 const addReminderButton = document.getElementById("add-reminder-button")
 const focusSessionList = document.getElementById("focus-session-list")
+const focusStatus = document.getElementById("focus-status")
+const focusTask = document.getElementById("focus-task")
+const focusNoteCount = document.getElementById("focus-note-count")
 
 function addMessage(role, text) {
     const message = document.createElement("article")
@@ -180,6 +183,49 @@ async function loadReminders() {
         unavailable.classList.add("reminder-empty")
         unavailable.textContent = "Reminders are unavailable."
         reminderList.appendChild(unavailable)
+    }
+}
+
+function renderFocusStatus(focus) {
+    focusStatus.classList.toggle("is-active", focus.active)
+    focusStatus.textContent = focus.active ? "Active" : "Idle"
+
+    focusTask.hidden = !focus.active
+    focusNoteCount.hidden = !focus.active
+
+    if (!focus.active) {
+        focusTask.textContent = ""
+        focusNoteCount.textContent = ""
+        return
+    }
+
+    focusTask.textContent = focus.task || "Untitled focus task"
+
+    const noteCount = Array.isArray(focus.notes) ? focus.notes.length : 0
+
+    focusNoteCount.textContent = `Current notes: ${noteCount}`
+}
+
+async function loadFocusStatus() {
+    try {
+        const res = await fetch("/focus/status")
+
+        if (!res.ok) {
+            throw new Error("Focus status request failed.")
+        }
+
+        const data = await res.json()
+
+        if (typeof data.active !== "boolean") {
+            throw new Error("Invalid focus status response.")
+        }
+
+        renderFocusStatus(data)
+    } catch (err) {
+        focusStatus.classList.remove("is-active")
+        focusStatus.textContent = "Unavailable"
+        focusTask.hidden = true
+        focusNoteCount.hidden = true
     }
 }
 
@@ -362,6 +408,7 @@ form.addEventListener("submit", async (event) => {
         addMessage("assistant", res)
         confirmationActions.hidden = !needsConfirmation(res)
         await loadReminders()
+        await loadFocusStatus()
         await loadFocusSessions()
         status.textContent = "Connected"
     } catch (err) {
@@ -392,6 +439,7 @@ async function initializeChat() {
     await loadConversation()
     await loadStartupMessage()
     await loadReminders()
+    await loadFocusStatus()
     await loadFocusSessions()
 }
 

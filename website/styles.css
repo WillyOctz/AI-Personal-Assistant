@@ -265,6 +265,42 @@ button:disabled {
     font-size: 14px;
 }
 
+.active-focus-panel {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #cfd8dc;
+}
+
+.focus-status {
+    padding: 3px 7px;
+    border-radius: 999px;
+    color: #52616b;
+    background: #e2e8ec;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.focus-status.is-active {
+    color: #166534;
+    background: #d8f0ed;
+}
+
+.active-focus-task,
+.active-focus-meta {
+    margin: 0;
+}
+
+.active-focus-task {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.active-focus-meta {
+    margin-top: 4px;
+    color: #52616b;
+    font-size: 12px;
+}
+
 .focus-panel {
     margin-top: 24px;
     padding-top: 16px;

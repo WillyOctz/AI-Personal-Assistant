@@ -11,3 +11,4 @@
 {"input": "start game", "correct_intent": "play_game"}
 {"input": "start game", "correct_intent": "play_game"}
 {"input": "start", "correct_intent": "play_game"}
+{"input": "start focus session", "correct_intent": "play_game"}
