@@ -269,15 +269,25 @@ function renderApps(apps) {
         const item = document.createElement("li")
         const name = document.createElement("p")
         const permission = document.createElement("p")
+        const openButton = document.createElement("button")
 
         item.classList.add("app-item")
         name.classList.add("app-name")
         permission.classList.add("app-permission")
+        openButton.classList.add("open-app-button")
+        openButton.type = "button"
+        openButton.textContent = "Open"
+        openButton.disabled = !app.allowed
+        openButton.title = app.allowed ? `Ask Nebula to open ${app.name}` : "This app is not allowed for launching"
 
         name.textContent = app.name
         permission.textContent = app.allowed ? "Launch allowed" : "Launch not allowed"
+        openButton.addEventListener("click", () => {
+            input.value = `open ${app.name}`
+            form.requestSubmit()
+        })
 
-        item.append(name, permission)
+        item.append(name, permission, openButton)
         appList.appendChild(item)
     }
 }

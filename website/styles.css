@@ -314,6 +314,15 @@ button:disabled {
     font-size: 12px;
 }
 
+.open-app-button {
+    min-width: 0;
+    min-height: 32px;
+    margin-top: 10px;
+    padding: 6px 10px;
+    background: #1d4ed8;
+    font-size: 12px;
+}
+
 .active-focus-panel {
     margin-top: 24px;
     padding-top: 16px;
