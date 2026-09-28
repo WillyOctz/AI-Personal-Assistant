@@ -47,7 +47,7 @@
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Focus session summary:\nTask: i like music\nDuration: 15 minutes\nNotes: 0",
+        "last_response_text": "Focus session summary:\nTask: i like music\nDuration: 4 seconds\nNotes: 0",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -18970,6 +18970,26 @@
             "source": "rule",
             "timestamp": "2026-09-27 15:21:18",
             "importance": 0.6
+        },
+        {
+            "user": "start focus",
+            "assistant": "Focus mode started. Current focus: i like music",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-28 17:17:21",
+            "importance": 0.6
+        },
+        {
+            "user": "stop focus",
+            "assistant": "Focus session summary:\nTask: i like music\nDuration: 4 seconds\nNotes: 0",
+            "intent": "stop_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-28 17:17:25",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -19273,6 +19293,14 @@
             "ended_at": "2026-09-27 15:21:18",
             "duration": "15 minutes",
             "duration_seconds": 908,
+            "notes": []
+        },
+        {
+            "task": "i like music",
+            "started_at": "2026-09-28 17:17:20",
+            "ended_at": "2026-09-28 17:17:24",
+            "duration": "4 seconds",
+            "duration_seconds": 4,
             "notes": []
         }
     ],

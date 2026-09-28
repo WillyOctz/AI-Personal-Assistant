@@ -17,6 +17,8 @@ const focusSessionList = document.getElementById("focus-session-list")
 const focusStatus = document.getElementById("focus-status")
 const focusTask = document.getElementById("focus-task")
 const focusNoteCount = document.getElementById("focus-note-count")
+const startFocusButton = document.getElementById("start-focus-button")
+const stopFocusButton = document.getElementById("stop-focus-button")
 
 function addMessage(role, text) {
     const message = document.createElement("article")
@@ -71,6 +73,35 @@ async function sendMessage(message) {
     }
 
     return data.response
+}
+
+async function runFocusCommand(command) {
+    addMessage("user", command)
+    confirmationActions.hidden = true
+
+    setChatBusy(true)
+    startFocusButton.disabled = true
+    stopFocusButton.disabled = true
+    status.textContent = "Contemplating..."
+
+    try {
+        const response = await sendMessage(command)
+
+        addMessage("assistant", response)
+        confirmationActions.hidden = !needsConfirmation(response)
+
+        await loadReminders()
+        await loadFocusStatus()
+        await loadFocusSessions()
+
+        status.textContent = "Connected"
+    } catch (err) {
+        addMessage("assistant", `Error: ${err.message}`)
+        await loadFocusStatus()
+        status.textContent = "Connection error"
+    } finally {
+        setChatBusy(false)
+    }
 }
 
 function renderReminders(reminders) {
@@ -190,6 +221,9 @@ function renderFocusStatus(focus) {
     focusStatus.classList.toggle("is-active", focus.active)
     focusStatus.textContent = focus.active ? "Active" : "Idle"
 
+    startFocusButton.disabled = focus.active
+    stopFocusButton.disabled = !focus.active
+
     focusTask.hidden = !focus.active
     focusNoteCount.hidden = !focus.active
 
@@ -226,6 +260,8 @@ async function loadFocusStatus() {
         focusStatus.textContent = "Unavailable"
         focusTask.hidden = true
         focusNoteCount.hidden = true
+        startFocusButton.disabled = true
+        stopFocusButton.disabled = true
     }
 }
 
@@ -356,6 +392,14 @@ async function loadHealth() {
         status.textContent = "Connection error"
     }
 }
+
+startFocusButton.addEventListener("click", () => {
+    runFocusCommand("start focus")
+})
+
+stopFocusButton.addEventListener("click", () => {
+    runFocusCommand("stop focus")
+})
 
 reminderForm.addEventListener("submit", async (event) => {
     event.preventDefault()
