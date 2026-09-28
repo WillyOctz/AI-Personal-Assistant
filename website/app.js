@@ -26,6 +26,8 @@ const focusGoalText = document.getElementById("focus-goal-text")
 const focusProgressTrack = document.getElementById("focus-progress-track")
 const focusProgressFill = document.getElementById("focus-progress-fill")
 const focusGoalMeta = document.getElementById("focus-goal-meta")
+const appList = document.getElementById("app-list")
+const appCount = document.getElementById("app-count")
 
 function addMessage(role, text) {
     const message = document.createElement("article")
@@ -249,6 +251,61 @@ function renderFocusStatus(focus) {
     const noteCount = Array.isArray(focus.notes) ? focus.notes.length : 0
 
     focusNoteCount.textContent = `Current notes: ${noteCount}`
+}
+
+function renderApps(apps) {
+    appList.replaceChildren()
+    appCount.textContent = String(apps.length)
+
+    if (apps.length === 0) {
+        const empty = document.createElement("p")
+        empty.classList.add("app-empty")
+        empty.textContent = "No registered apps."
+        appList.appendChild(empty)
+        return
+    }
+
+    for (const app of apps) {
+        const item = document.createElement("li")
+        const name = document.createElement("p")
+        const permission = document.createElement("p")
+
+        item.classList.add("app-item")
+        name.classList.add("app-name")
+        permission.classList.add("app-permission")
+
+        name.textContent = app.name
+        permission.textContent = app.allowed ? "Launch allowed" : "Launch not allowed"
+
+        item.append(name, permission)
+        appList.appendChild(item)
+    }
+}
+
+async function loadApps() {
+    try {
+        const res = await fetch("/apps")
+
+        if (!res.ok) {
+            throw new Error("App registry request failed.")
+        }
+
+        const data = await res.json()
+
+        if (!Array.isArray(data.apps)) {
+            throw new Error("Invalid app registry response.")
+        }
+
+        renderApps(data.apps)
+    } catch (err) {
+        appList.replaceChildren()
+        appCount.textContent = "-"
+
+        const unavailable = document.createElement("p")
+        unavailable.classList.add("app-empty")
+        unavailable.textContent = "Registered apps are unavailable."
+        appList.appendChild(unavailable)
+    }
 }
 
 async function loadFocusStatus() {
@@ -531,6 +588,7 @@ form.addEventListener("submit", async (event) => {
         addMessage("assistant", res)
         confirmationActions.hidden = !needsConfirmation(res)
         await loadReminders()
+        await loadApps()
         await loadFocusStatus()
         await loadFocusGoalProgress()
         await loadFocusSessions()
@@ -563,6 +621,7 @@ async function initializeChat() {
     await loadConversation()
     await loadStartupMessage()
     await loadReminders()
+    await loadApps()
     await loadFocusStatus()
     await loadFocusGoalProgress()
     await loadFocusSessions()

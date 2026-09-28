@@ -94,6 +94,13 @@ class FocusGoalProgressResponse(BaseModel):
     progress: int | None = None
     today_focus: str | None = None
     
+class RegisteredAppResponse(BaseModel):
+    name: str
+    allowed: bool
+
+class RegisteredAppListResponse(BaseModel):
+    apps: list[RegisteredAppResponse]
+    
 @app.get("/health")
 def health_check():
     try:
@@ -241,6 +248,25 @@ def focus_goal_progress():
         }
         
     return summary
+
+@app.get(
+    "/apps",
+    response_model=RegisteredAppListResponse,
+)
+def registered_app_list():
+    registry = memory.get_app_registry()
+    
+    apps = [
+        {
+            "name": app["name"],
+            "allowed": app["allowed"],
+        }
+        for app in registry.values()
+    ]
+    
+    return {
+        "apps": apps,
+    }
     
 @app.get("/", include_in_schema=False)
 def home():
