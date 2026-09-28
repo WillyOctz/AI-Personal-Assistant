@@ -47,7 +47,7 @@
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Focus session summary:\nTask: i like music\nDuration: 4 seconds\nNotes: 0",
+        "last_response_text": "Focus session summary:\nTask: i like music\nDuration: 8 seconds\nNotes: 1\n- this will be easy",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -18990,6 +18990,46 @@
             "source": "rule",
             "timestamp": "2026-09-28 17:17:25",
             "importance": 0.6
+        },
+        {
+            "user": "focus note this will be easy",
+            "assistant": "Focus mode is not active.",
+            "intent": "add_focus_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-28 18:22:59",
+            "importance": 0.6
+        },
+        {
+            "user": "start focus",
+            "assistant": "Focus mode started. Current focus: i like music",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-28 18:23:03",
+            "importance": 0.6
+        },
+        {
+            "user": "focus note this will be easy",
+            "assistant": "Focus note added: this will be easy",
+            "intent": "add_focus_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-28 18:23:07",
+            "importance": 0.6
+        },
+        {
+            "user": "stop focus",
+            "assistant": "Focus session summary:\nTask: i like music\nDuration: 8 seconds\nNotes: 1\n- this will be easy",
+            "intent": "stop_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-28 18:23:11",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -19302,6 +19342,16 @@
             "duration": "4 seconds",
             "duration_seconds": 4,
             "notes": []
+        },
+        {
+            "task": "i like music",
+            "started_at": "2026-09-28 18:23:02",
+            "ended_at": "2026-09-28 18:23:10",
+            "duration": "8 seconds",
+            "duration_seconds": 8,
+            "notes": [
+                "this will be easy"
+            ]
         }
     ],
     "app_registry": {

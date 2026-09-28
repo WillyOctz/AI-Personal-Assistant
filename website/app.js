@@ -19,6 +19,9 @@ const focusTask = document.getElementById("focus-task")
 const focusNoteCount = document.getElementById("focus-note-count")
 const startFocusButton = document.getElementById("start-focus-button")
 const stopFocusButton = document.getElementById("stop-focus-button")
+const focusNoteForm = document.getElementById("focus-note-form")
+const focusNoteInput = document.getElementById("focus-note-input")
+const addFocusNoteButton = document.getElementById("add-focus-note-button")
 
 function addMessage(role, text) {
     const message = document.createElement("article")
@@ -227,9 +230,12 @@ function renderFocusStatus(focus) {
     focusTask.hidden = !focus.active
     focusNoteCount.hidden = !focus.active
 
+    focusNoteForm.hidden = !focus.active
+
     if (!focus.active) {
         focusTask.textContent = ""
         focusNoteCount.textContent = ""
+        focusNoteInput.value = ""
         return
     }
 
@@ -262,6 +268,7 @@ async function loadFocusStatus() {
         focusNoteCount.hidden = true
         startFocusButton.disabled = true
         stopFocusButton.disabled = true
+        focusNoteForm.hidden = true
     }
 }
 
@@ -392,6 +399,25 @@ async function loadHealth() {
         status.textContent = "Connection error"
     }
 }
+
+focusNoteForm.addEventListener("submit", async (event) => {
+    event.preventDefault()
+
+    const note = focusNoteInput.value.trim()
+
+    if (!note) {
+        return
+    }
+
+    addFocusNoteButton.disabled = true
+
+    try {
+        await runFocusCommand(`focus note ${note}`)
+        focusNoteInput.value = ""
+    } finally {
+        addFocusNoteButton.disabled = false
+    }
+})
 
 startFocusButton.addEventListener("click", () => {
     runFocusCommand("start focus")
