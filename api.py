@@ -89,6 +89,11 @@ class FocusStatusResponse(BaseModel):
     started_at: str | None = None
     notes: list[str]
     
+class FocusGoalProgressResponse(BaseModel):
+    goal: str | None = None
+    progress: int | None = None
+    today_focus: str | None = None
+    
 @app.get("/health")
 def health_check():
     try:
@@ -220,6 +225,22 @@ def focus_status():
         "started_at": focus.get_focus_started_at(),
         "notes": focus.get_current_focus_notes(),
     }
+    
+@app.get(
+    "/focus/goal-progress",
+    response_model=FocusGoalProgressResponse,
+)
+def focus_goal_progress():
+    summary = focus.get_focus_goal_progress_summary()
+    
+    if summary is None:
+        return {
+            "goal": None,
+            "progress": None,
+            "today_focus": None,
+        }
+        
+    return summary
     
 @app.get("/", include_in_schema=False)
 def home():

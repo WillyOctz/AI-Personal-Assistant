@@ -271,6 +271,43 @@ button:disabled {
     border-top: 1px solid #cfd8dc;
 }
 
+.focus-goal-panel {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #cfd8dc;
+}
+
+.focus-goal-text,
+.focus-goal-meta {
+    margin: 0;
+}
+
+.focus-goal-text {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.focus-goal-meta {
+    margin-top: 6px;
+    color: #52616b;
+    font-size: 12px;
+}
+
+.focus-progress-track {
+    height: 8px;
+    margin-top: 10px;
+    overflow: hidden;
+    border-radius: 4px;
+    background: #d6dfe3;
+}
+
+.focus-progress-fill {
+    width: 0;
+    height: 100%;
+    background: #0f766e;
+    transition: width 160ms ease;
+}
+
 .focus-status {
     padding: 3px 7px;
     border-radius: 999px;

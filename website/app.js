@@ -22,6 +22,10 @@ const stopFocusButton = document.getElementById("stop-focus-button")
 const focusNoteForm = document.getElementById("focus-note-form")
 const focusNoteInput = document.getElementById("focus-note-input")
 const addFocusNoteButton = document.getElementById("add-focus-note-button")
+const focusGoalText = document.getElementById("focus-goal-text")
+const focusProgressTrack = document.getElementById("focus-progress-track")
+const focusProgressFill = document.getElementById("focus-progress-fill")
+const focusGoalMeta = document.getElementById("focus-goal-meta")
 
 function addMessage(role, text) {
     const message = document.createElement("article")
@@ -95,6 +99,7 @@ async function runFocusCommand(command) {
 
         await loadReminders()
         await loadFocusStatus()
+        await loadFocusGoalProgress()
         await loadFocusSessions()
 
         status.textContent = "Connected"
@@ -269,6 +274,54 @@ async function loadFocusStatus() {
         startFocusButton.disabled = true
         stopFocusButton.disabled = true
         focusNoteForm.hidden = true
+    }
+}
+
+function renderFocusGoalProgress(goalProgress) {
+    const { goal, progress, today_focus: todayFocus } = goalProgress
+
+    if (!goal) {
+        focusGoalText.textContent = "No focus goal set."
+        focusGoalMeta.textContent = ""
+        focusProgressTrack.hidden = true
+        return
+    }
+
+    focusGoalText.textContent = `Goal: ${goal}`
+
+    if (
+        typeof progress !== "number"
+        || typeof todayFocus !== "string" 
+    ) {
+        focusGoalMeta.textContent =
+            "Use a duration goal, such as 30 minutes."
+        focusProgressTrack.hidden = true
+        return
+    }
+
+    const safeProgress = Math.max(0, Math.min(progress, 100))
+
+    focusProgressTrack.hidden = false
+    focusProgressFill.style.width = `${safeProgress}%`
+    focusProgressFill.setAttribute("aria-valuenow", String(safeProgress))
+    focusGoalMeta.textContent =
+        `Today: ${todayFocus} (${safeProgress}%)`
+}
+
+async function loadFocusGoalProgress() {
+    try {
+        const res = await fetch("/focus/goal-progress")
+
+        if (!res.ok) {
+            throw new Error("Focus goal request failed.")
+        }
+
+        const data = await res.json()
+        renderFocusGoalProgress(data)
+    } catch (err) {
+        focusGoalText.textContent = "Focus goal is unavailable."
+        focusGoalMeta.textContent = ""
+        focusProgressTrack.hidden = true
     }
 }
 
@@ -479,6 +532,7 @@ form.addEventListener("submit", async (event) => {
         confirmationActions.hidden = !needsConfirmation(res)
         await loadReminders()
         await loadFocusStatus()
+        await loadFocusGoalProgress()
         await loadFocusSessions()
         status.textContent = "Connected"
     } catch (err) {
@@ -510,6 +564,7 @@ async function initializeChat() {
     await loadStartupMessage()
     await loadReminders()
     await loadFocusStatus()
+    await loadFocusGoalProgress()
     await loadFocusSessions()
 }
 

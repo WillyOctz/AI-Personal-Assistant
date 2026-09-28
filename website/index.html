@@ -96,12 +96,32 @@
                     </form>
                 </section>
 
-                 <section class="focus-panel" aria-label="Recent focus sessions">
+                <section class="focus-goal-panel" aria-label="Focus goal progress">
+                    <div class="panel-heading">
+                        <h2>Today's Goal</h2>
+                    </div>
+
+                    <p id="focus-goal-text" class="focus-goal-text"></p>
+
+                    <div id="focus-progress-track" class="focus-progress-track" hidden>
+                        <div
+                            id="focus-progress-fill"
+                            class="focus-progress-fill"
+                            role="progressbar"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                        ></div>
+                    </div>
+
+                    <p id="focus-goal-meta" class="focus-goal-meta"></p>
+                </section>
+
+                <section class="focus-panel" aria-label="Recent focus sessions">
                     <div class="panel-heading">
                         <h2>Recent Focus</h2>
                     </div>
                     <ul id="focus-session-list" class="focus-session-list"></ul>
-                 </section>
+                </section>
             </aside>
         </div>
     </main>
