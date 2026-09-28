@@ -101,6 +101,14 @@ class RegisteredAppResponse(BaseModel):
 class RegisteredAppListResponse(BaseModel):
     apps: list[RegisteredAppResponse]
     
+class RegisteredWebsiteResponse(BaseModel):
+    name: str
+    url: str
+    allowed: bool
+
+class RegisteredWebsiteListResponse(BaseModel):
+    websites: list[RegisteredWebsiteResponse]
+    
 @app.get("/health")
 def health_check():
     try:
@@ -266,6 +274,26 @@ def registered_app_list():
     
     return {
         "apps": apps,
+    }
+    
+@app.get(
+    "/websites",
+    response_model=RegisteredWebsiteListResponse,
+)
+def registered_website_list():
+    registry = memory.get_website_registry()
+    
+    websites = [
+        {
+            "name": website["name"],
+            "url": website["url"],
+            "allowed": website["allowed"],
+        }
+        for website in registry.values()
+    ]
+    
+    return {
+        "websites": websites,
     }
     
 @app.get("/", include_in_schema=False)

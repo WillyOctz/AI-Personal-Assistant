@@ -28,6 +28,8 @@ const focusProgressFill = document.getElementById("focus-progress-fill")
 const focusGoalMeta = document.getElementById("focus-goal-meta")
 const appList = document.getElementById("app-list")
 const appCount = document.getElementById("app-count")
+const websiteList = document.getElementById("website-list")
+const websiteCount = document.getElementById("website-count")
 
 function addMessage(role, text) {
     const message = document.createElement("article")
@@ -224,6 +226,78 @@ async function loadReminders() {
         unavailable.classList.add("reminder-empty")
         unavailable.textContent = "Reminders are unavailable."
         reminderList.appendChild(unavailable)
+    }
+}
+
+function renderWebsites(websites) {
+    websiteList.replaceChildren()
+    websiteCount.textContent = String(websites.length)
+
+    if (websites.length === 0) {
+        const empty = document.createElement("p")
+        empty.classList.add("website-empty")
+        empty.textContent = "No registered websites."
+        websiteList.appendChild(empty)
+        return
+    }
+
+    for (const website of websites) {
+        const item = document.createElement("li")
+        const name = document.createElement("p")
+        const url = document.createElement("p")
+        const permission = document.createElement("p")
+        const openButton = document.createElement("button")
+
+        item.classList.add("website-item")
+        name.classList.add("website-name")
+        url.classList.add("website-url")
+        permission.classList.add("website-permission")
+        openButton.classList.add("open-website-button")
+
+        name.textContent = website.name
+        url.textContent = website.url
+        permission.textContent = website.allowed ? "Opening allowed" : "Opening not allowed"
+
+        openButton.type = "button"
+        openButton.textContent = "Open"
+        openButton.disabled = !website.allowed
+        openButton.title = website.allowed
+            ? `Ask Nebula to open ${website.name}`
+            : "This website is not allowed for opening"
+
+        openButton.addEventListener("click", () => {
+            input.value = `open website ${website.name}`
+            form.requestSubmit()
+        })
+
+        item.append(name, url, permission, openButton)
+        websiteList.appendChild(item)
+    }
+}
+
+async function loadWebsites() {
+    try {
+        const res = await fetch("/websites")
+
+        if (!res.ok) {
+            throw new Error("Website registry request failed.")
+        }
+
+        const data = await res.json()
+
+        if (!Array.isArray(data.websites)) {
+            throw new Error("Invalid website registry response.")
+        }
+
+        renderWebsites(data.websites)
+    } catch (err) {
+        websiteList.replaceChildren()
+        websiteCount.textContent = "-"
+
+        const unavailable = document.createElement("p")
+        unavailable.classList.add("website-empty")
+        unavailable.textContent = "Registered websites are unavailable."
+        websiteList.appendChild(unavailable)
     }
 }
 
@@ -599,6 +673,7 @@ form.addEventListener("submit", async (event) => {
         confirmationActions.hidden = !needsConfirmation(res)
         await loadReminders()
         await loadApps()
+        await loadWebsites()
         await loadFocusStatus()
         await loadFocusGoalProgress()
         await loadFocusSessions()
@@ -632,6 +707,7 @@ async function initializeChat() {
     await loadStartupMessage()
     await loadReminders()
     await loadApps()
+    await loadWebsites()
     await loadFocusStatus()
     await loadFocusGoalProgress()
     await loadFocusSessions()

@@ -271,6 +271,70 @@ button:disabled {
     border-top: 1px solid #cfd8dc;
 }
 
+.websites-panel {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #cfd8dc;
+}
+
+.website-count {
+    min-width: 24px;
+    padding: 3px 7px;
+    border-radius: 999px;
+    color: #9f1239;
+    background: #ffe4e6;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.website-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.website-item {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #d6dfe3;
+}
+
+.website-name,
+.website-url,
+.website-permission,
+.website-empty {
+    margin: 0;
+}
+
+.website-name {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.website-url,
+.website-permission,
+.website-empty {
+    margin-top: 4px;
+    color: #52616b;
+    font-size: 12px;
+}
+
+.website-url {
+    overflow-wrap: anywhere;
+}
+
+.open-website-button {
+    min-width: 0;
+    min-height: 32px;
+    margin-top: 10px;
+    padding: 6px 10px;
+    background: #9f1239;
+    font-size: 12px;
+}
+
 .app-count {
     min-width: 24px;
     padding: 3px 7px;

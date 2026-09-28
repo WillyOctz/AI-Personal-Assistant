@@ -42,12 +42,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "stop_focus",
-        "last_response_group": "memory",
+        "last_response_intent": "confirm_intent",
+        "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Focus session summary:\nTask: i like music\nDuration: 8 seconds\nNotes: 1\n- this will be easy",
+        "last_response_text": "Opening python docs.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": null,
         "last_memory_search_query": null,
@@ -19030,6 +19030,26 @@
             "source": "rule",
             "timestamp": "2026-09-28 18:23:11",
             "importance": 0.6
+        },
+        {
+            "user": "open website python docs",
+            "assistant": "I am ready to open python docs: https://docs.python.org/3/\nReply yes to open it or no to cancel.",
+            "intent": "open_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-28 20:37:25",
+            "importance": 0.6
+        },
+        {
+            "user": "yes",
+            "assistant": "Opening python docs.",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-09-28 20:37:30",
+            "importance": 0.1
         }
     ],
     "summaries": [
@@ -20085,6 +20105,12 @@
             "url": "https://github.com/",
             "result": "Opening github.",
             "timestamp": "2026-09-14 16:53:37"
+        },
+        {
+            "website_name": "python docs",
+            "url": "https://docs.python.org/3/",
+            "result": "Opening python docs.",
+            "timestamp": "2026-09-28 20:37:29"
         }
     ]
 }
