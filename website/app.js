@@ -31,6 +31,7 @@ const appCount = document.getElementById("app-count")
 const websiteList = document.getElementById("website-list")
 const websiteCount = document.getElementById("website-count")
 const profileFactList = document.getElementById("profile-fact-list")
+const automationStatusList = document.getElementById("automation-status-list")
 
 function addMessage(role, text) {
     const message = document.createElement("article")
@@ -288,6 +289,75 @@ async function loadProfile() {
         unavailable.classList.add("profile-empty")
         unavailable.textContent = "Profile is unavailable."
         profileFactList.appendChild(unavailable)
+    }
+}
+
+function addAutomationStatusRow(labelText, valueText) {
+    const row = document.createElement("div")
+    const label = document.createElement("dt")
+    const value = document.createElement("dd")
+
+    row.classList.add("automation-status-row")
+    label.classList.add("automation-status-label")
+    value.classList.add("automation-status-value")
+
+    label.textContent = labelText
+    value.textContent = valueText
+
+    row.append(label, value)
+    automationStatusList.appendChild(row)
+}
+
+function renderAutomationStatus(statusData) {
+    automationStatusList.replaceChildren()
+
+    const apps = statusData.apps
+    const websites = statusData.websites
+
+    addAutomationStatusRow(
+        "Apps",
+        `${apps.launching_enabled ? "Enabled" : "Disabled"} | ` +
+        `${apps.allowed_apps}/${apps.registered_apps} allowed | ` +
+        `${apps.confirmation_enabled ? "confirmation on" : "confirmation off"}`
+    )
+
+    addAutomationStatusRow(
+        "Websites",
+        `${websites.opening_enabled ? "Enabled" : "Disabled"} | ` +
+        `${websites.allowed_websites}/${websites.registered_websites} allowed`
+    )
+
+    if (websites.pending_website) {
+        addAutomationStatusRow(
+            "Pending Website",
+            websites.pending_website
+        )
+    }
+}
+
+async function loadAutomationStatus() {
+    try {
+        const response = await fetch("/automation/status")
+
+        if (!response.ok) {
+            throw new Error("Could not load automation status.")
+        }
+
+        const data = await response.json()
+
+        if (!data.apps || !data.websites) {
+            throw new Error("Automation status response is incomplete.")
+        }
+
+        renderAutomationStatus(data)
+    } catch (err) {
+        automationStatusList.replaceChildren()
+
+        const message = document.createElement("p")
+        message.classList.add("automation-status-empty")
+        message.textContent = "Automation status unavailable."
+
+        automationStatusList.appendChild(message)
     }
 }
 
@@ -737,6 +807,7 @@ form.addEventListener("submit", async (event) => {
         await loadApps()
         await loadWebsites()
         await loadProfile()
+        await loadAutomationStatus()
         await loadFocusStatus()
         await loadFocusGoalProgress()
         await loadFocusSessions()
@@ -772,6 +843,7 @@ async function initializeChat() {
     await loadApps()
     await loadWebsites()
     await loadProfile()
+    await loadAutomationStatus()
     await loadFocusStatus()
     await loadFocusGoalProgress()
     await loadFocusSessions()

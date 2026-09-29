@@ -3,7 +3,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from assistant import memory, focus
+from assistant import memory, focus, apps, websites
 
 from assistant.brain import (
     get_response,
@@ -111,6 +111,23 @@ class RegisteredWebsiteListResponse(BaseModel):
     
 class ProfileResponse(BaseModel):
     facts: dict[str, str]
+    
+class AppAutomationStatusResponse(BaseModel):
+    launching_enabled: bool
+    confirmation_enabled: bool
+    registered_apps: int
+    aliases: int
+    allowed_apps: int
+    
+class WebsiteAutomationStatusResponse(BaseModel):
+    opening_enabled: bool
+    registered_websites: int
+    allowed_websites: int
+    pending_website: str | None = None
+    
+class AutomationStatusResponse(BaseModel):
+    apps: AppAutomationStatusResponse
+    websites: WebsiteAutomationStatusResponse
     
 @app.get("/health")
 def health_check():
@@ -307,6 +324,31 @@ def profile():
     return {
       "facts": memory.get_profile(),
     }  
+    
+@app.get(
+    "/automation/status",
+    response_model=AutomationStatusResponse,
+)
+def automation_status():
+    app_status = apps.get_automation_status()
+    website_status = websites.get_website_automation_status()
+    
+    pending_website = website_status["pending_website"]
+    
+    return {
+        "apps": app_status,
+        "websites": {
+            "opening_enabled": website_status["opening_enabled"],
+            "registered_websites": website_status["registered_websites"],
+            "allowed_websites": website_status["allowed_websites"],
+            "pending_website": (
+                pending_website["name"]
+                if pending_website
+                else None
+            ),
+        },
+    }
+    
        
 @app.get("/", include_in_schema=False)
 def home():

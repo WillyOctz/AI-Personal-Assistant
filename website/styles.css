@@ -200,6 +200,49 @@ button:disabled {
     margin-bottom: 16px;
 }
 
+.automation-panel {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #cfd8dc;
+}
+
+.automation-status-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+}
+
+.automation-status-row {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 10px;
+    align-items: start;
+}
+
+.automation-status-label,
+.automation-status-value {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.automation-status-label {
+    color: #5b6870;
+    font-weight: 700;
+}
+
+.automation-status-value {
+    color: #1f2d33;
+    overflow-wrap: anywhere;
+}
+
+.automation-status-empty {
+    margin: 0;
+    color: #7a4a4a;
+    font-size: 12px;
+}
+
 .reminder-text-input {
     grid-column: 1 / -1;
 }
