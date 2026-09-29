@@ -271,6 +271,46 @@ button:disabled {
     border-top: 1px solid #cfd8dc;
 }
 
+.profile-panel {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #cfd8dc;
+}
+
+.profile-fact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+}
+
+.profile-fact {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 10px;
+}
+
+.profile-key,
+.profile-value,
+.profile-empty {
+    margin: 0;
+    font-size: 12px;
+}
+
+.profile-key {
+    color: #52616b;
+    text-transform: capitalize;
+}
+
+.profile-value {
+    overflow-wrap: anywhere;
+    font-weight: 700;
+}
+
+.profile-empty {
+    color: #52616b;
+}
+
 .websites-panel {
     margin-top: 24px;
     padding-top: 16px;

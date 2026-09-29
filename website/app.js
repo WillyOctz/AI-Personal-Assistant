@@ -30,6 +30,7 @@ const appList = document.getElementById("app-list")
 const appCount = document.getElementById("app-count")
 const websiteList = document.getElementById("website-list")
 const websiteCount = document.getElementById("website-count")
+const profileFactList = document.getElementById("profile-fact-list")
 
 function addMessage(role, text) {
     const message = document.createElement("article")
@@ -226,6 +227,67 @@ async function loadReminders() {
         unavailable.classList.add("reminder-empty")
         unavailable.textContent = "Reminders are unavailable."
         reminderList.appendChild(unavailable)
+    }
+}
+
+function formatProfileKey(key) {
+    return key.replaceAll("_", " ")
+}
+
+function renderProfile(facts) {
+    profileFactList.replaceChildren()
+
+    const entries = Object.entries(facts).sort(
+        ([firstKey], [secondKey]) => firstKey.localeCompare(secondKey)
+    )
+
+    if (entries.length === 0) {
+        const empty = document.createElement("p")
+        empty.classList.add("profile-empty")
+        empty.textContent = "No profile facts saved."
+        profileFactList.appendChild(empty)
+        return
+    }
+
+    for (const [key, value] of entries) {
+        const row = document.createElement("div")
+        const label = document.createElement("dt")
+        const detail = document.createElement("dd")
+
+        row.classList.add("profile-fact")
+        label.classList.add("profile-key")
+        detail.classList.add("profile-value")
+
+        label.textContent = formatProfileKey(key)
+        detail.textContent = value
+
+        row.append(label, detail)
+        profileFactList.appendChild(row)
+    }
+}
+
+async function loadProfile() {
+    try {
+        const res = await fetch("/profile")
+
+        if (!res.ok) {
+            throw new Error("Profile request failed.")
+        }
+
+        const data = await res.json()
+
+        if (!data.facts || typeof data.facts !== "object") {
+            throw new Error("Invalid profile response.")
+        }
+
+        renderProfile(data.facts)
+    } catch (err) {
+        profileFactList.replaceChildren()
+
+        const unavailable = document.createElement("p")
+        unavailable.classList.add("profile-empty")
+        unavailable.textContent = "Profile is unavailable."
+        profileFactList.appendChild(unavailable)
     }
 }
 
@@ -674,6 +736,7 @@ form.addEventListener("submit", async (event) => {
         await loadReminders()
         await loadApps()
         await loadWebsites()
+        await loadProfile()
         await loadFocusStatus()
         await loadFocusGoalProgress()
         await loadFocusSessions()
@@ -708,6 +771,7 @@ async function initializeChat() {
     await loadReminders()
     await loadApps()
     await loadWebsites()
+    await loadProfile()
     await loadFocusStatus()
     await loadFocusGoalProgress()
     await loadFocusSessions()

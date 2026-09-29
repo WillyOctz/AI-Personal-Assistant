@@ -109,6 +109,9 @@ class RegisteredWebsiteResponse(BaseModel):
 class RegisteredWebsiteListResponse(BaseModel):
     websites: list[RegisteredWebsiteResponse]
     
+class ProfileResponse(BaseModel):
+    facts: dict[str, str]
+    
 @app.get("/health")
 def health_check():
     try:
@@ -296,6 +299,15 @@ def registered_website_list():
         "websites": websites,
     }
     
+@app.get(
+    "/profile",
+    response_model=ProfileResponse,
+)
+def profile():
+    return {
+      "facts": memory.get_profile(),
+    }  
+       
 @app.get("/", include_in_schema=False)
 def home():
     return FileResponse(WEB_DIR / "index.html")
