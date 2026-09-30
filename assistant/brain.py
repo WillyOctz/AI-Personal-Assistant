@@ -6869,8 +6869,40 @@ def preview_action(user_input, analysis):
     
     return f"handle intent: {intent}"
 
+def build_llm_system_instruction():
+    instruction = personality.get_llm_system_instruction()
+    
+    profile = memory.get_profile()
+    topic = memory.get_state_value("current_topic")
+    
+    context_lines = []
+    
+    for key in [
+        "name",
+        "goal",
+        "favorite_language",
+        "mood",
+    ]:
+        value = profile.get(key)
+        
+        if value:
+            readable_key = key.replace("_", " ")
+            context_lines.append(
+                f"- {readable_key}: {value}"
+            )
+            
+    if topic:
+        context_lines.append(f"- current topic: {topic}")
+        
+    if not context_lines:
+        return instruction
+    
+    return (
+        instruction + "\n\n Known user context. Use it only when relevant:\n" + "\n".join(context_lines)
+    )
+
 def get_llm_fallback_response(user_input, analysis):
-    system_instruction = personality.get_llm_system_instruction()
+    system_instruction = build_llm_system_instruction()
     
     result = llm.get_gemini_response(
         user_input,
