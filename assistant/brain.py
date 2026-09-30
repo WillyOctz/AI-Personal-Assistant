@@ -6885,13 +6885,38 @@ def preview_action(user_input, analysis):
     
     return f"handle intent: {intent}"
 
-def build_llm_system_instruction():
+def get_relevant_llm_notes(user_input, limit=3, min_score=0.34):
+    scored_notes = []
+    
+    for note in memory.get_notes():
+        text = str(note).strip()
+        
+        if not text:
+            continue
+        
+        score = similarity_score(user_input, text)
+        
+        if score >= min_score:
+            scored_notes.append({
+                "text": text,
+                "score": score,
+            })
+            
+    scored_notes.sort(
+        key=lambda item: item["score"],
+        reverse=True,
+    )
+    
+    return scored_notes[:limit]
+
+def build_llm_system_instruction(user_input):
     instruction = personality.get_llm_system_instruction()
     
     profile = memory.get_profile()
     topic = memory.get_state_value("current_topic")
     
     context_lines = []
+    relevant_notes = get_relevant_llm_notes(user_input)
     
     for key in [
         "name",
@@ -6909,6 +6934,12 @@ def build_llm_system_instruction():
             
     if topic:
         context_lines.append(f"- current topic: {topic}")
+        
+    if relevant_notes:
+        context_lines.append("- relevant saved notes:")
+        
+        for note in relevant_notes:
+            context_lines.append(f"  - {note['text']}")
         
     if not context_lines:
         return instruction
@@ -6942,7 +6973,7 @@ def build_llm_conversation_prompt(user_input, limit=4):
     )
 
 def get_llm_fallback_response(user_input, analysis):
-    system_instruction = build_llm_system_instruction()
+    system_instruction = build_llm_system_instruction(user_input)
     prompt = build_llm_conversation_prompt(user_input)
     
     result = llm.get_gemini_response(
