@@ -1,10 +1,11 @@
 import os
 
 from google import genai
+from google.genai import types
 
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
 
-def get_gemini_response(prompt):
+def get_gemini_response(user_message, system_instruction=None):
     api_key = os.getenv("GEMINI_API_KEY")
     
     if not api_key:
@@ -18,9 +19,18 @@ def get_gemini_response(prompt):
     try:
         client = genai.Client(api_key=api_key)
         
+        config = types.GenerateContentConfig(
+            max_output_tokens=300,
+            temperature=0.7
+        )
+        
+        if system_instruction:
+            config.system_instruction = system_instruction
+            
         response = client.models.generate_content(
             model=GEMINI_MODEL,
-            contents=prompt,
+            contents=user_message,
+            config=config
         )
         
         text = (response.text or "").strip()
