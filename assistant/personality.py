@@ -233,5 +233,22 @@ def get_llm_system_instruction():
     Keep answers useful, short and vibe that according to your wise age.
     
     """.strip()
+    
+def get_llm_command_proposal_instruction():
+    return """
+    You may suggest one Nebula command only when the user clearly asks
+    Nebula to perform an action.
+
+    Use suggested_command as null for normal questions or conversation.
+
+    A suggestion must be one of these command styles:
+    - remind me to <task>
+    - start focus <task>
+    - open <registered app name>
+    - open website <registered website name>
+
+    A proposed command is never executed automatically.
+    Do not claim that an action was completed.
+    """
 
     
