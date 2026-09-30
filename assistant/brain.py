@@ -43,6 +43,7 @@ from assistant.trainer import (
 from datetime import datetime, timedelta
 from assistant import focus
 from assistant import websites
+from assistant import llm
 
 HIGH_CONFIDENCE = 0.75
 LOW_CONFIDENCE = 0.55
@@ -6868,6 +6869,25 @@ def preview_action(user_input, analysis):
     
     return f"handle intent: {intent}"
 
+def get_llm_fallback_response(user_input, analysis):
+    system_instruction = personality.get_llm_system_instruction()
+    
+    result = llm.get_gemini_response(
+        user_input,
+        system_instruction,
+    )
+    
+    if result["ok"]:
+        analysis["source"] = result["provider"]
+        return result["text"]
+    
+    topic = memory.get_state_value("current_topic")
+    
+    return personality.unknown_chat_response(
+        user_input,
+        topic,
+    )
+
 def get_response(user_input):
     analysis = analyze_intent(user_input)
     group = analysis["group"]
@@ -6888,8 +6908,10 @@ def get_response(user_input):
         response = handle_chat_intent(user_input, analysis)
     
     else:
-        topic = memory.get_state_value("current_topic")
-        response = personality.unknown_chat_response(user_input, topic)
+        response = get_llm_fallback_response(
+            user_input,
+            analysis,
+        )
         
     if analysis["intent"] not in ["chat_explain_last", "chat_repeat_last"]:
         memory.set_state_value("last_response_intent", analysis["intent"])
