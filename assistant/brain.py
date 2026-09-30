@@ -1448,6 +1448,18 @@ def get_current_focus_notes():
 def clear_current_focus_notes():
     return focus.clear_current_focus_notes()
 
+def has_play_game_evidence(user_input):
+    text = user_input.lower()
+    tokens = set(tokenize(text))
+    
+    if "game" in tokens or "gaming" in tokens:
+        return True
+    
+    known_games = set(KNOWN_GAMES)
+    known_games.update(memory.get_entities("games"))
+    
+    return find_known_entity(text, known_games) is not None
+
 def analyze_intent(user_input):
     text = user_input.lower()
     
@@ -1867,6 +1879,10 @@ def analyze_intent(user_input):
         return make_analysis("file_search_stats")
         
     model_intent, model_confidence, scores = predict_intent_with_model(user_input)
+    
+    if model_intent == "play_game":
+        if not has_play_game_evidence(user_input):
+            model_intent = None
     
     if model_intent:
         analysis = make_analysis(
@@ -6900,12 +6916,37 @@ def build_llm_system_instruction():
     return (
         instruction + "\n\n Known user context. Use it only when relevant:\n" + "\n".join(context_lines)
     )
+    
+def build_llm_conversation_prompt(user_input, limit=4):
+    turns = memory.get_conversation(limit)
+    
+    lines = []
+    
+    for turn in turns:
+        previous_user = str(turn.get("user") or "").strip()
+        previous_assistant = str(turn.get("assistant") or "").strip()
+        
+        if previous_user:
+            lines.append(f"User: {previous_user}")
+            
+        if previous_assistant:
+            lines.append(f"Nebula: {previous_assistant}")
+            
+    if not lines:
+        return user_input
+    
+    history = "\n".join(lines)
+    
+    return (
+        "Recent conversation:\n" + history + "\n\nCurrent user message:\n" + user_input
+    )
 
 def get_llm_fallback_response(user_input, analysis):
     system_instruction = build_llm_system_instruction()
+    prompt = build_llm_conversation_prompt(user_input)
     
     result = llm.get_gemini_response(
-        user_input,
+        prompt,
         system_instruction,
     )
     
