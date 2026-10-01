@@ -6974,16 +6974,32 @@ def build_llm_conversation_prompt(user_input, limit=4):
 
 def get_llm_fallback_response(user_input, analysis):
     system_instruction = build_llm_system_instruction(user_input)
+    
+    system_instruction += (
+        "\n\n"
+        + personality.get_llm_command_proposal_instruction()
+    )
+    
     prompt = build_llm_conversation_prompt(user_input)
     
-    result = llm.get_gemini_response(
+    result = llm.get_gemini_command_proposal(
         prompt,
         system_instruction,
     )
     
     if result["ok"]:
         analysis["source"] = result["provider"]
-        return result["text"]
+        
+        response = result["reply"]
+        suggested_command = result["suggested_command"]
+        
+        if suggested_command:
+            response += (
+                "\n\nSuggested command (not run): "
+                + suggested_command
+            )
+            
+        return response
     
     topic = memory.get_state_value("current_topic")
     
