@@ -2524,16 +2524,24 @@ def is_safe_llm_command(command):
     
     allowed_prefixes = [
         "remind me to ",
-        "start focus ",
+        "start focus",
         "open website ",
         "open ",
     ]
     
-    for prefix in allowed_prefixes:
-        if text.startswith(prefix):
-            return len(text) > len(prefix)
-        
-    return False
+    if not any(text.startswith(prefix) for prefix in allowed_prefixes):
+        return False
+    
+    analysis = analyze_intent(text)
+    
+    allowed_intents = {
+        "set_reminder",
+        "start_focus",
+        "open_app",
+        "open_website",
+    }
+    
+    return analysis["intent"] in allowed_intents
 
 def has_existing_pending_confirmation():
     pending_keys = [
