@@ -225,6 +225,9 @@ def ensure_memory_shape(memory):
     if "pending_confirmation" not in memory["state"]:
         memory["state"]["pending_confirmation"] = None
         
+    if "pending_llm_command" not in memory["state"]:
+        memory["state"]["pending_llm_command"] = None
+        
     if "archive" not in memory:
         memory["archive"] = {}
         

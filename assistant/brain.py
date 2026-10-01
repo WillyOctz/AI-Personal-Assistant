@@ -2506,6 +2506,49 @@ def get_pending_confirmation():
 
 def clear_pending_confirmation():
     memory.clear_state_value("pending_confirmation")
+    
+def set_pending_llm_command(command):
+    memory.set_state_value("pending_llm_command", command)
+    
+def get_pending_llm_command():
+    return memory.get_state_value("pending_llm_command")
+
+def clear_pending_llm_command():
+    memory.clear_state_value("pending_llm_command")
+    
+def is_safe_llm_command(command):
+    if not isinstance(command, str):
+        return False
+    
+    text = command.lower().strip()
+    
+    allowed_prefixes = [
+        "remind me to ",
+        "start focus ",
+        "open website ",
+        "open ",
+    ]
+    
+    for prefix in allowed_prefixes:
+        if text.startswith(prefix):
+            return len(text) > len(prefix)
+        
+    return False
+
+def has_existing_pending_confirmation():
+    pending_keys = [
+        "pending_confirmation",
+        "pending_app_launch",
+        "pending_website_open",
+        "pending_response_feedback_clear",
+        "pending_memory_result_delete",
+    ]
+    
+    for key in pending_keys:
+        if memory.get_state_value(key):
+            return True
+        
+    return False
 
 def handle_basic_intent(user_input, analysis):
     intent = analysis["intent"]
@@ -2564,6 +2607,13 @@ def handle_control_intent(user_input, analysis):
         if app_result:
             return app_result
         
+        pending_llm_command = get_pending_llm_command()
+        
+        if pending_llm_command:
+            clear_pending_llm_command()
+            
+            return get_response(pending_llm_command)
+        
         if not pending:
             return "There is nothing waiting for confirmation."
         
@@ -2601,6 +2651,13 @@ def handle_control_intent(user_input, analysis):
         
         if app_result:
             return app_result
+        
+        pending_llm_command = get_pending_llm_command()
+        
+        if pending_llm_command:
+            clear_pending_llm_command()
+            
+            return "Okay. I will not run that suggested command."
         
         if not pending:
             return "There is nothing waiting for rejection."
@@ -6994,10 +7051,20 @@ def get_llm_fallback_response(user_input, analysis):
         suggested_command = result["suggested_command"]
         
         if suggested_command:
-            response += (
-                "\n\nSuggested command (not run): "
-                + suggested_command
-            )
+            if is_safe_llm_command(suggested_command):
+                if has_existing_pending_confirmation():
+                    response += (
+                        "\n\nSuggested command (not run): "
+                        + suggested_command
+                    )
+                else:
+                    set_pending_llm_command(suggested_command)
+                    
+                    response += (
+                        "\n\nI can run this command: "
+                        + suggested_command
+                        + "\nReply yes to confirm or no to cancel."
+                    )
             
         return response
     
