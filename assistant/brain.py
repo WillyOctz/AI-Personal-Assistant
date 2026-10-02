@@ -7014,11 +7014,20 @@ def build_llm_system_instruction(user_input):
     )
     
 def build_llm_conversation_prompt(user_input, limit=4):
-    turns = memory.get_conversation(limit)
+    recent_turns = memory.get_conversation(10)
+    conversation_turns = []
     
+    for turn in recent_turns:
+        group = turn.get("group")
+        source = turn.get("source")
+        
+        if group == "chat" or source in ["gemini", "groq"]:
+            conversation_turns.append(turn)
+            
+    selected_turns = conversation_turns[-limit:]
     lines = []
     
-    for turn in turns:
+    for turn in selected_turns:
         previous_user = str(turn.get("user") or "").strip()
         previous_assistant = str(turn.get("assistant") or "").strip()
         
@@ -7031,10 +7040,11 @@ def build_llm_conversation_prompt(user_input, limit=4):
     if not lines:
         return user_input
     
-    history = "\n".join(lines)
-    
     return (
-        "Recent conversation:\n" + history + "\n\nCurrent user message:\n" + user_input
+        "Recent conversation:\n"
+        + "\n".join(lines)
+        + "\n\nCurrent user message:\n"
+        + user_input
     )
 
 def get_llm_fallback_response(user_input, analysis):
