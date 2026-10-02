@@ -5,6 +5,10 @@ from google.genai import types
 from pydantic import BaseModel
 
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
+GROQ_MODEL = os.getenv(
+    "GROQ_MODEL",
+    "openai/gpt-oss-120b"
+)
 
 class GeminiCommandProposal(BaseModel):
     reply: str
@@ -113,4 +117,67 @@ def get_gemini_command_proposal(user_message, system_instruction=None):
             "reply": "",
             "suggested_command": None,
             "error": str(error),
+        }
+        
+def get_groq_response(user_message, system_instruction=None):
+    api_key = os.getenv("GROQ_API_KEY")
+    
+    if not api_key:
+        return {
+            "ok": False,
+            "provider": "groq",
+            "text": "",
+            "error": "GROQ_API_KEY is not configured.",
+        }
+        
+    try:
+        from groq import Groq
+        
+        messages = []
+        
+        if system_instruction:
+            messages.append({
+                "role": "system", 
+                "content": system_instruction,
+            })
+            
+        messages.append({
+            "role": "user", 
+            "content": user_message,
+        })
+        
+        client = Groq(api_key=api_key)
+        
+        completion = client.chat.completions.create(
+            model=GROQ_MODEL,
+            messages=messages,
+            temperature=0.7,
+            max_completion_tokens=300,
+        )
+        
+        text = (
+            completion.choices[0].message.content or ""
+        ).strip()
+        
+        if not text:
+            return {
+               "ok": False,
+                "provider": "groq",
+                "text": "",
+                "error": "Groq returned an empty response.", 
+            }
+            
+        return {
+            "ok": True,
+            "provider": "groq",
+            "text": text,
+            "error": None,
+        }
+        
+    except Exception as err:
+        return {
+            "ok": False,
+            "provider": "groq",
+            "text": "",
+            "error": str(err),
         }
