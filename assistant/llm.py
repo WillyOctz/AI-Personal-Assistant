@@ -1,4 +1,5 @@
 import os
+import json
 
 from google import genai
 from google.genai import types
@@ -10,9 +11,26 @@ GROQ_MODEL = os.getenv(
     "openai/gpt-oss-120b"
 )
 
-class GeminiCommandProposal(BaseModel):
+class CommandProposal(BaseModel):
     reply: str
     suggested_command: str | None = None
+    
+GROQ_COMMAND_PROPOSAL_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "reply": {
+            "type": "string",
+        },
+        "suggested_command": {
+            "type": ["string", "null"],
+        },
+    },
+    "required": [
+        "reply",
+        "suggested_command",
+    ],
+    "additionalProperties": False,
+}
 
 def get_gemini_response(user_message, system_instruction=None):
     api_key = os.getenv("GEMINI_API_KEY")
@@ -86,7 +104,7 @@ def get_gemini_command_proposal(user_message, system_instruction=None):
             max_output_tokens=300,
             temperature=0.4,
             response_mime_type="application/json",
-            response_schema=GeminiCommandProposal,
+            response_schema=CommandProposal,
         )
         
         if system_instruction:
@@ -98,7 +116,7 @@ def get_gemini_command_proposal(user_message, system_instruction=None):
             config=config,
         )
         
-        proposal = GeminiCommandProposal.model_validate_json(
+        proposal = CommandProposal.model_validate_json(
             response.text
         )
         
@@ -180,4 +198,74 @@ def get_groq_response(user_message, system_instruction=None):
             "provider": "groq",
             "text": "",
             "error": str(err),
+        }
+        
+def get_groq_command_proposal(user_message, system_instruction=None):
+    api_key = os.getenv("GROQ_API_KEY")
+    
+    if not api_key:
+        return {
+            "ok": False,
+            "provider": "groq",
+            "reply": "",
+            "suggested_command": None,
+            "error": "GROQ_API_KEY is not configured.",
+        }
+        
+    try:
+        from groq import Groq
+        
+        messages = []
+        
+        if system_instruction:
+            messages.append({
+                "role": "system",
+                "content": system_instruction,
+            })
+            
+        messages.append({
+            "role": "user",
+            "content": user_message,
+        })
+        
+        client = Groq(api_key=api_key)
+        
+        completion = client.chat.completions.create(
+            model=GROQ_MODEL,
+            messages=messages,
+            temperature=0.4,
+            max_completion_tokens=300,
+            response_format={
+                "type": "json_schema",
+                "json_schema": {
+                    "name": "nebula_command_proposal",
+                    "strict": True,
+                    "schema": GROQ_COMMAND_PROPOSAL_SCHEMA,
+                },
+            },
+        )
+        
+        content = (
+            completion.choices[0].message.content or ""
+        ).strip()
+        
+        proposal = CommandProposal.model_validate(
+            json.loads(content)
+        )
+        
+        return {
+            "ok": True,
+            "provider": "groq",
+            "reply": proposal.reply.strip(),
+            "suggested_command": proposal.suggested_command,
+            "error": None,
+        }
+        
+    except Exception as error:
+        return {
+            "ok": False,
+            "provider": "groq",
+            "reply": "",
+            "suggested_command": None,
+            "error": str(error),
         }
