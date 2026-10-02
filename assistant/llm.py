@@ -269,3 +269,33 @@ def get_groq_command_proposal(user_message, system_instruction=None):
             "suggested_command": None,
             "error": str(error),
         }
+        
+def get_llm_command_proposal(user_message, system_instruction=None):
+    gemini_result = get_gemini_command_proposal(
+        user_message,
+        system_instruction,
+    )
+    
+    if gemini_result["ok"]:
+        return gemini_result
+    
+    groq_result = get_groq_command_proposal(
+        user_message,
+        system_instruction,
+    )
+    
+    if groq_result["ok"]:
+        return groq_result
+    
+    return {
+        "ok": False,
+        "provider": "none",
+        "reply": "",
+        "suggested_command": None,
+        "error": (
+            "Gemini failed: "
+            + gemini_result["error"]
+            + " | Groq failed: "
+            + groq_result["error"]
+        ),
+    }

@@ -7047,7 +7047,7 @@ def get_llm_fallback_response(user_input, analysis):
     
     prompt = build_llm_conversation_prompt(user_input)
     
-    result = llm.get_gemini_command_proposal(
+    result = llm.get_llm_command_proposal(
         prompt,
         system_instruction,
     )
