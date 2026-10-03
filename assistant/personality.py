@@ -243,7 +243,10 @@ def get_llm_command_proposal_instruction():
 
     A suggestion must be one of these command styles:
     - remind me to <task>
+    - remember <fact>
     - start focus 
+    - set focus goal <duration>
+    - focus note <note>
     - open <registered app name>
     - open website <registered website name>
 

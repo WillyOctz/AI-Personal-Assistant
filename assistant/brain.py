@@ -2524,6 +2524,9 @@ def is_safe_llm_command(command):
     
     allowed_prefixes = [
         "remind me to ",
+        "remember ",
+        "set focus goal ",
+        "focus note ",
         "start focus",
         "open website ",
         "open ",
@@ -2537,6 +2540,9 @@ def is_safe_llm_command(command):
     allowed_intents = {
         "set_reminder",
         "start_focus",
+        "remember_note",
+        "set_focus_goal",
+        "add_focus_note",
         "open_app",
         "open_website",
     }
