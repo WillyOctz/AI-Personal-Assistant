@@ -11,6 +11,13 @@ GROQ_MODEL = os.getenv(
     "openai/gpt-oss-120b"
 )
 
+GEMINI_EMBEDDING_MODEL = os.getenv(
+    "GEMINI_EMBEDDING_MODEL",
+    "gemini-embedding-001",
+)
+
+GEMINI_EMBEDDING_DIMENSIONS = 768
+
 class CommandProposal(BaseModel):
     reply: str
     suggested_command: str | None = None
@@ -299,3 +306,65 @@ def get_llm_command_proposal(user_message, system_instruction=None):
             + groq_result["error"]
         ),
     }
+    
+def get_gemini_embedding(text):
+    api_key = os.getenv("GEMINI_API_KEY")
+    clean_text = str(text or "").strip()
+    
+    if not api_key:
+        return {
+            "ok": False,
+            "provider": "gemini",
+            "vector": [],
+            "dimensions": 0,
+            "error": "GEMINI_API_KEY is not configured.",
+        }
+        
+    if not clean_text:
+        return {
+            "ok": False,
+            "provider": "gemini",
+            "vector": [],
+            "dimensions": 0,
+            "error": "Text cannot be empty.",
+        }
+        
+    try:
+        client = genai.Client(api_key=api_key)
+        
+        response = client.models.embed_content(
+            model=GEMINI_EMBEDDING_MODEL,
+            contents=clean_text,
+            config=types.EmbedContentConfig(
+                task_type="SEMANTIC_SIMILARITY",
+                output_dimensionality=GEMINI_EMBEDDING_DIMENSIONS,
+            ),
+        )
+        
+        if not response.embeddings:
+            return {
+                "ok": False,
+                "provider": "gemini",
+                "vector": [],
+                "dimensions": 0,
+                "error": "Gemini returned no embedding.",
+            }
+            
+        vector = list(response.embeddings[0].values)
+        
+        return {
+            "ok": True,
+            "provider": "gemini",
+            "vector": vector,
+            "dimensions": len(vector),
+            "error": None,
+        }
+    
+    except Exception as error:
+        return {
+            "ok": False,
+            "provider": "gemini",
+            "vector": [],
+            "dimensions": 0,
+            "error": str(error),
+        }
