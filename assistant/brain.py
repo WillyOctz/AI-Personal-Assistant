@@ -7095,6 +7095,12 @@ def get_llm_fallback_response(user_input, analysis):
 
 def get_response(user_input):
     analysis = analyze_intent(user_input)
+    if analysis["intent"] not in [
+        "confirm_intent",
+        "deny_intent",
+    ]:
+        clear_pending_llm_command()
+    
     group = analysis["group"]
     
     if group == "basic":
