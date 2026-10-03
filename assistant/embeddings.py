@@ -19,3 +19,33 @@ def cosine_similarity(vector_a, vector_b):
         return 0.0
     
     return dot_product / (magnitude_a * magnitude_b)
+
+def rank_embedding_matches(
+    query_vector,
+    candidates,
+    limit=5,
+    min_score=0.0,
+):
+    ranked_matches = []
+    
+    for candidate in candidates:
+        candidate_vector = candidate.get("vector", [])
+        
+        if not candidate_vector:
+            continue
+        
+        score = cosine_similarity(query_vector, candidate_vector)
+        
+        if score < min_score:
+            continue
+        
+        match = candidate.copy()
+        match["score"] = score
+        ranked_matches.append(match)
+        
+    ranked_matches.sort(
+        key=lambda match: match["score"],
+        reverse=True
+    )
+    
+    return ranked_matches[:limit]

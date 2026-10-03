@@ -1,21 +1,43 @@
 from assistant.llm import get_gemini_embedding
-from assistant.embeddings import cosine_similarity
+from assistant.embeddings import rank_embedding_matches
 
-query = get_gemini_embedding("I enjoy learning Python programming.")
-similar = get_gemini_embedding("I like studying Python code.")
-different = get_gemini_embedding("My reminder is to buy groceries.")
 
-print(query["ok"], similar["ok"], different["ok"])
+query_text = "Help me understand Python data structures."
 
-similarity_score = cosine_similarity(
-    query["vector"],
-    similar["vector"],
+candidate_texts = [
+    "How do Python dictionaries store key value pairs?",
+    "Explain Python lists and how to append items.",
+    "I need to buy groceries this afternoon.",
+    "My favorite game is Stardew Valley.",
+]
+
+query_result = get_gemini_embedding(query_text)
+
+if not query_result["ok"]:
+    raise RuntimeError(query_result["error"])
+
+candidates = []
+
+for text in candidate_texts:
+    embedding_result = get_gemini_embedding(text)
+
+    if not embedding_result["ok"]:
+        raise RuntimeError(embedding_result["error"])
+
+    candidates.append({
+        "text": text,
+        "vector": embedding_result["vector"],
+    })
+
+matches = rank_embedding_matches(
+    query_result["vector"],
+    candidates,
+    limit=4,
+    min_score=0.0,
 )
 
-different_score = cosine_similarity(
-    query["vector"],
-    different["vector"],
-)
-
-print("Similar:", round(similarity_score, 3))
-print("Different:", round(different_score, 3))
+for match in matches:
+    print(
+        f"{match['score']:.3f} | "
+        f"{match['text']}"
+    )
