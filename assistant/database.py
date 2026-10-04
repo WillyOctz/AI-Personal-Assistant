@@ -745,6 +745,125 @@ def delete_sqlite_note(text):
         )
         
     return cursor.rowcount > 0
+
+def upsert_memory_embedding(
+    source_type,
+    source_id,
+    content_hash,
+    model,
+    vector,
+):
+    initialize_database()
+    
+    clean_source_type = str(source_type).strip()
+    clean_source_id = str(source_id).strip()
+    clean_content_hash = str(content_hash).strip()
+    clean_model = str(model).strip()
+    
+    if not clean_source_type:
+        raise ValueError("Embedding source type cannot be empty.")
+
+    if not clean_source_id:
+        raise ValueError("Embedding source ID cannot be empty.")
+
+    if not clean_content_hash:
+        raise ValueError("Embedding content hash cannot be empty.")
+
+    if not clean_model:
+        raise ValueError("Embedding model cannot be empty.")
+
+    if not isinstance(vector, list) or not vector:
+        raise ValueError("Embedding vector must be a non-empty list.")
+
+    if not all(isinstance(value, (int, float)) for value in vector):
+        raise ValueError("Every embedding vector value must be numeric.")
+    
+    vector_json = json.dumps(vector)
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    with get_connection() as connection:
+        connection.execute(
+            """
+            INSERT INTO memory_embeddings (
+                source_type,
+                source_id,
+                content_hash,
+                model,
+                dimensions,
+                vector_json,
+                created_at,
+                updated_at
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(source_type, source_id, model)
+            DO UPDATE SET
+                content_hash = excluded.content_hash,
+                dimensions = excluded.dimensions,
+                vector_json = excluded.vector_json,
+                updated_at = excluded.updated_at
+            """,
+            (
+                clean_source_type,
+                clean_source_id,
+                clean_content_hash,
+                clean_model,
+                len(vector),
+                vector_json,
+                timestamp,
+                timestamp,
+            ),
+        )
+        
+    return get_memory_embedding(
+        clean_source_type,
+        clean_source_id,
+        clean_model,
+    )
+    
+def get_memory_embedding(
+    source_type, source_id, model
+):
+    initialize_database()
+    
+    with get_connection() as connection:
+        row = connection.execute(
+            """
+            SELECT 
+                id,
+                source_type,
+                source_id,
+                content_hash,
+                model,
+                dimensions,
+                vector_json,
+                created_at,
+                updated_at
+            FROM memory_embeddings
+            WHERE source_type = ?
+            AND source_id = ?
+            AND model = ?
+            """,
+            (
+                str(source_type).strip(),
+                str(source_id).strip(),
+                str(model).strip(),
+            ),
+        ).fetchone()
+        
+    if row is None:
+        return None
+    
+    return {
+        "id": row["id"],
+        "source_type": row["source_type"],
+        "source_id": row["source_id"],
+        "content_hash": row["content_hash"],
+        "model": row["model"],
+        "dimensions": row["dimensions"],
+        "vector": json.loads(row["vector_json"]),
+        "created_at": row["created_at"],
+        "updated_at": row["updated_at"],
+    }
     
 def verify_notes_migration():
     with open(MEMORY_FILE, "r") as file:

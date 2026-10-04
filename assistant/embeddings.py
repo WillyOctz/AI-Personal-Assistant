@@ -1,4 +1,5 @@
 from math import sqrt
+import hashlib
 
 def cosine_similarity(vector_a, vector_b):
     if not vector_a or not vector_b:
@@ -19,6 +20,13 @@ def cosine_similarity(vector_a, vector_b):
         return 0.0
     
     return dot_product / (magnitude_a * magnitude_b)
+
+def create_content_hash(text):
+    clean_text = str(text or "").strip()
+    
+    return hashlib.sha256(
+        clean_text.encode("utf-8")
+    ).hexdigest()
 
 def rank_embedding_matches(
     query_vector,
