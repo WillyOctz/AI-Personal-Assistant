@@ -72,6 +72,30 @@ def initialize_database():
         
         connection.execute(
             """
+            CREATE TABLE IF NOT EXISTS memory_embeddings (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                source_type TEXT NOT NULL,
+                source_id TEXT NOT NULL,
+                content_hash TEXT NOT NULL,
+                model TEXT NOT NULL,
+                dimensions INTEGER NOT NULL,
+                vector_json TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                UNIQUE(source_type, source_id, model)
+            )
+            """
+        )
+        
+        connection.execute(
+            """
+            CREATE INDEX IF NOT EXISTS idx_memory_embeddings_source
+            ON memory_embeddings (source_type, source_id)
+            """
+        )
+        
+        connection.execute(
+            """
             CREATE TABLE IF NOT EXISTS reminders (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 position INTEGER NOT NULL UNIQUE,
