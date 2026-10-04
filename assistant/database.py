@@ -709,6 +709,28 @@ def get_sqlite_notes():
         for row in rows
     ]
     
+def get_sqlite_note(note_id):
+    initialize_database()
+    
+    with get_connection() as connection:
+        row = connection.execute(
+            """
+            SELECT id, text, migrated_at
+            FROM notes
+            WHERE id = ?
+            """,
+            (int(note_id),),
+        ).fetchone()
+        
+    if row is None:
+        return None
+    
+    return {
+        "id": row["id"],
+        "text": row["text"],
+        "migrated_at": row["migrated_at"],
+    }
+    
 def add_sqlite_note(text):
     initialize_database()
     

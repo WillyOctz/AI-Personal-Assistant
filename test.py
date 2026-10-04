@@ -1,40 +1,18 @@
-from assistant import database
-from assistant.embeddings import create_content_hash
-from assistant.llm import (
-    GEMINI_EMBEDDING_MODEL,
-    get_gemini_embedding,
-)
+from assistant.semantic_memory import cache_note_embedding
 
-text = "Python dictionaries map keys to values."
 
-embedding_result = get_gemini_embedding(text)
+NOTE_ID = 20
 
-if not embedding_result["ok"]:
-    raise RuntimeError(embedding_result["error"])
-
-saved_embedding = database.upsert_memory_embedding(
-    source_type="test",
-    source_id="python-dictionaries",
-    content_hash=create_content_hash(text),
-    model=GEMINI_EMBEDDING_MODEL,
-    vector=embedding_result["vector"],
-)
-
-cached_embedding = database.get_memory_embedding(
-    source_type="test",
-    source_id="python-dictionaries",
-    model=GEMINI_EMBEDDING_MODEL,
-)
+result = cache_note_embedding(NOTE_ID)
 
 print({
-    "saved": saved_embedding is not None,
-    "cached": cached_embedding is not None,
-    "source_type": cached_embedding["source_type"],
-    "source_id": cached_embedding["source_id"],
-    "model": cached_embedding["model"],
-    "dimensions": cached_embedding["dimensions"],
-    "same_vector": (
-        cached_embedding["vector"]
-        == embedding_result["vector"]
+    "ok": result["ok"],
+    "status": result["status"],
+    "note_id": result["note_id"],
+    "dimensions": (
+        result["embedding"]["dimensions"]
+        if result["embedding"]
+        else None
     ),
+    "error": result["error"],
 })
