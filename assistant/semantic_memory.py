@@ -70,3 +70,43 @@ def cache_note_embedding(note_id):
         "embedding": saved_embedding,
         "error": None,
     }
+    
+def cache_note_embeddings(limit=None):
+    notes = database.get_sqlite_notes()
+    
+    if limit is not None:
+        safe_limit = max(1, int(limit))
+        notes = notes[:safe_limit]
+        
+    results = []
+    
+    for note in notes:
+        result = cache_note_embedding(note["id"])
+        
+        results.append({
+            "ok": result["ok"],
+            "note_id": note["id"],
+            "status": result["status"],
+            "error": result["error"],
+        })
+        
+    return {
+        "total": len(results),
+        "created": sum(
+            result["status"] == "created"
+            for result in results
+        ),
+        "cached": sum(
+            result["status"] == "cached"
+            for result in results
+        ),
+        "refreshed": sum(
+            result["status"] == "refreshed"
+            for result in results
+        ),
+        "failed": sum(
+            not result["ok"]
+            for result in results
+        ),
+        "results": results,
+    }

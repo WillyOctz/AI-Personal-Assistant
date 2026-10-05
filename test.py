@@ -1,18 +1,18 @@
-from assistant.semantic_memory import cache_note_embedding
+from assistant.semantic_memory import cache_note_embeddings
 
-
-NOTE_ID = 20
-
-result = cache_note_embedding(NOTE_ID)
+summary = cache_note_embeddings(limit=3)
 
 print({
-    "ok": result["ok"],
-    "status": result["status"],
-    "note_id": result["note_id"],
-    "dimensions": (
-        result["embedding"]["dimensions"]
-        if result["embedding"]
-        else None
-    ),
-    "error": result["error"],
+    "total": summary["total"],
+    "created": summary["created"],
+    "cached": summary["cached"],
+    "refreshed": summary["refreshed"],
+    "failed": summary["failed"],
 })
+
+for result in summary["results"]:
+    print(
+        f"{result['note_id']} | "
+        f"{result['status']} | "
+        f"{result['error']}"
+    )
