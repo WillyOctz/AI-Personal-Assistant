@@ -1586,6 +1586,9 @@ def analyze_intent(user_input):
     if match_exact_pattern(text, "preview_entity_conflicts"):
         return make_analysis("preview_entity_conflicts")
     
+    if match_prefix_pattern(text, "semantic_note_search"):
+        return make_analysis("semantic_note_search")
+    
     if match_prefix_pattern(text, "semantic_memory_search"):
         return make_analysis("semantic_memory_search")
     
@@ -4855,6 +4858,45 @@ def handle_memory_intent(user_input, analysis):
             f"Reason: {reason}\n"
             "Use: remind me to task_name"
         )
+        
+    if intent == "semantic_note_search":
+        query = user_input.replace(
+            "semantic notes ",
+            "",
+            1,
+        ).strip()
+        
+        if not query:
+            return "What should I search your saved notes for?"
+        
+        result = semantic_memory.semantic_search_cached_notes(
+            query=query,
+            limit=5,
+            min_score=LLM_NOTE_SEMANTIC_MIN_SCORE,
+        )
+        
+        if not result["ok"]:
+            return (
+                "I could not search cached semantic notes: "
+                + result["error"]
+            )
+            
+        if not result["matches"]:
+            return (
+                f"I could not find a saved note related to '{query}'."
+            )
+            
+        lines = [
+            "Semantic note matches:",
+        ]
+        
+        for match in result["matches"]:
+            lines.append(
+                f"{match['score']:.3f} | "
+                f"Note: {match['text']}"
+            )
+            
+        return "\n".join(lines)
         
     if intent == "semantic_memory_search":
         query = user_input.replace("semantic memory ", "", 1).strip()

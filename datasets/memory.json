@@ -51,15 +51,39 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "show_reminders",
+        "last_response_intent": "semantic_note_search",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Your reminders:\n1. testing | due: 2026-09-29\n2. testing 2 | due: 2026-09-30\n3. call my doctor | due: tomorrow\n4. review my project | due: tomorrow",
+        "last_response_text": "Semantic note matches:\n0.869 | Note: i want to learn AI\n0.854 | Note: profile goal to build best AI assistant\n0.794 | Note: game stardew valley\n0.782 | Note: app spotify\n0.772 | Note: i like to built",
         "pending_response_feedback_clear": null,
-        "last_memory_search_results": null,
-        "last_memory_search_query": null,
+        "last_memory_search_results": [
+            {
+                "type": "conversation",
+                "display": "Conversation: 2026-10-05 16:55:01 | You: semantic notes artificial intelligence",
+                "text": "semantic notes artificial intelligence Oh, my sweet, curious little star, keeping little memos of your dreams like this is such a wise habit. Since you are wanting to learn all about artificial intelligence, perhaps we can weave that right into your Python journey today, my Carlos. unknown",
+                "key": null,
+                "due": null,
+                "score": 0.3,
+                "similarity": 1.0,
+                "importance": 0.3,
+                "recency": 1.0,
+                "timestamp": "2026-10-05 16:55:01"
+            }
+        ],
+        "last_memory_search_query": {
+            "query": "artificial intelligence",
+            "type": null,
+            "limit": 5,
+            "min_score": 0.3,
+            "sort": "relevant",
+            "date_filter": null,
+            "date_value": null,
+            "date_start": null,
+            "date_end": null,
+            "archive_mode": "include"
+        },
         "last_debug_memory_search_query": null,
         "previous_memory_search_results": [
             {
@@ -19599,6 +19623,126 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-10-05 16:33:32",
+            "importance": 0.6
+        },
+        {
+            "user": "debug route semantic notes artificial intelligence",
+            "assistant": "Input: semantic notes artificial intelligence\nExact intent: None\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-05 16:54:47",
+            "importance": 0.1
+        },
+        {
+            "user": "semantic notes artificial intelligence",
+            "assistant": "Oh, my sweet, curious little star, keeping little memos of your dreams like this is such a wise habit. Since you are wanting to learn all about artificial intelligence, perhaps we can weave that right into your Python journey today, my Carlos.",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "gemini",
+            "timestamp": "2026-10-05 16:55:01",
+            "importance": 0.3
+        },
+        {
+            "user": "debug route semantic notes artificial intelligence",
+            "assistant": "Input: semantic notes artificial intelligence\nExact intent: None\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-05 16:55:11",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route semantic notes artificial intelligence",
+            "assistant": "Input: semantic notes artificial intelligence\nExact intent: None\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-05 16:56:43",
+            "importance": 0.1
+        },
+        {
+            "user": "edxit",
+            "assistant": "Oh, my sweet, clumsy little star, did your finger slip on the keys while typing? Just breathe and tell me what is on your mind, and we will sort it out together, my Carlos.",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "gemini",
+            "timestamp": "2026-10-05 16:57:24",
+            "importance": 0.3
+        },
+        {
+            "user": "debug route semantic notes artificial intelligence",
+            "assistant": "Input: semantic notes artificial intelligence\nExact intent: None\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-05 16:58:22",
+            "importance": 0.1
+        },
+        {
+            "user": "semantic memory artificial intelligence",
+            "assistant": "Memory search:\nQuery: artificial intelligence\nType: any\nLimit: 5\nMin score: 0.30\nSort: relevant\nArchive mode: include\n\n\n1. 0.30 | sim=1.00 | imp=0.30 | rec=1.00 | Conversation: 2026-10-05 16:55:01 | You: semantic notes artificial intelligence",
+            "intent": "semantic_memory_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-05 16:59:16",
+            "importance": 0.6
+        },
+        {
+            "user": "debug route semantic notes artificial intelligence",
+            "assistant": "Input: semantic notes artificial intelligence\nExact intent: None\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-05 16:59:25",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route semantic notes artificial intelligence",
+            "assistant": "Input: semantic notes artificial intelligence\nExact intent: None\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-05 17:01:24",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route semantic notes artificial intelligence",
+            "assistant": "Input: semantic notes artificial intelligence\nExact intent: None\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-05 17:06:20",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route semantic notes artificial intelligence",
+            "assistant": "Input: semantic notes artificial intelligence\nExact intent: None\nPrefix intent: semantic_note_search",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-05 17:11:00",
+            "importance": 0.1
+        },
+        {
+            "user": "semantic notes artificial intelligence",
+            "assistant": "Semantic note matches:\n0.869 | Note: i want to learn AI\n0.854 | Note: profile goal to build best AI assistant\n0.794 | Note: game stardew valley\n0.782 | Note: app spotify\n0.772 | Note: i like to built",
+            "intent": "semantic_note_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-05 17:11:36",
             "importance": 0.6
         }
     ],
