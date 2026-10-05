@@ -1,18 +1,26 @@
-from assistant.semantic_memory import cache_note_embeddings
+from assistant.semantic_memory import (
+    cache_note_embeddings,
+    semantic_search_cached_notes,
+)
 
-summary = cache_note_embeddings(limit=3)
+cache_note_embeddings(limit=3)
+
+result = semantic_search_cached_notes(
+    "I want to study artificial intelligence.",
+    limit=3,
+    min_score=0.0,
+)
 
 print({
-    "total": summary["total"],
-    "created": summary["created"],
-    "cached": summary["cached"],
-    "refreshed": summary["refreshed"],
-    "failed": summary["failed"],
+    "ok": result["ok"],
+    "cached_notes": result["cached_notes"],
+    "skipped_stale": result["skipped_stale"],
+    "error": result["error"],
 })
 
-for result in summary["results"]:
+for match in result["matches"]:
     print(
-        f"{result['note_id']} | "
-        f"{result['status']} | "
-        f"{result['error']}"
+        f"{match['score']:.3f} | "
+        f"{match['note_id']} | "
+        f"{match['text']}"
     )

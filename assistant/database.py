@@ -887,6 +887,48 @@ def get_memory_embedding(
         "updated_at": row["updated_at"],
     }
     
+def get_memory_embeddings(source_type, model):
+    initialize_database()
+    
+    with get_connection() as connection:
+        rows = connection.execute(
+            """
+            SELECT
+                id,
+                source_type,
+                source_id,
+                content_hash,
+                model,
+                dimensions,
+                vector_json,
+                created_at,
+                updated_at
+            FROM memory_embeddings
+            WHERE source_type = ?
+            AND model = ?
+            ORDER BY source_id
+            """,
+            (
+                str(source_type).strip(),
+                str(model).strip(),
+            ),
+        ).fetchall()
+        
+    return [
+        {
+            "id": row["id"],
+            "source_type": row["source_type"],
+            "source_id": row["source_id"],
+            "content_hash": row["content_hash"],
+            "model": row["model"],
+            "dimensions": row["dimensions"],
+            "vector": json.loads(row["vector_json"]),
+            "created_at": row["created_at"],
+            "updated_at": row["updated_at"],
+        }
+        for row in rows
+    ]
+    
 def verify_notes_migration():
     with open(MEMORY_FILE, "r") as file:
         memory_data = json.load(file)
