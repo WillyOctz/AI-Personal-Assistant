@@ -44,9 +44,11 @@ from datetime import datetime, timedelta
 from assistant import focus
 from assistant import websites
 from assistant import llm
+from assistant import semantic_memory
 
 HIGH_CONFIDENCE = 0.75
 LOW_CONFIDENCE = 0.55
+LLM_NOTE_SEMANTIC_MIN_SCORE = 0.55
 
 def current_timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -6957,6 +6959,21 @@ def preview_action(user_input, analysis):
     return f"handle intent: {intent}"
 
 def get_relevant_llm_notes(user_input, limit=3, min_score=0.34):
+    semantic_result = semantic_memory.semantic_search_cached_notes(
+        query=user_input,
+        limit=limit,
+        min_score=LLM_NOTE_SEMANTIC_MIN_SCORE,
+    )
+    
+    if semantic_result["ok"] and semantic_result["matches"]:
+        return [
+            {
+                "text": match["text"],
+                "score": match["score"],
+            }
+            for match in semantic_result["matches"]
+        ]
+        
     scored_notes = []
     
     for note in memory.get_notes():
@@ -6979,7 +6996,7 @@ def get_relevant_llm_notes(user_input, limit=3, min_score=0.34):
     )
     
     return scored_notes[:limit]
-
+    
 def build_llm_system_instruction(user_input):
     instruction = personality.get_llm_system_instruction()
     
