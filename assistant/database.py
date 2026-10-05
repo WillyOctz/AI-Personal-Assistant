@@ -929,6 +929,24 @@ def get_memory_embeddings(source_type, model):
         for row in rows
     ]
     
+def delete_memory_embeddings(source_type, source_id):
+    initialize_database()
+    
+    with get_connection() as connection:
+        cursor = connection.execute(
+            """
+            DELETE FROM memory_embeddings
+            WHERE source_type = ?
+            AND source_id = ?
+            """,
+            (
+                str(source_type).strip(),
+                str(source_id).strip(),
+            ),
+        )
+        
+    return cursor.rowcount
+    
 def verify_notes_migration():
     with open(MEMORY_FILE, "r") as file:
         memory_data = json.load(file)

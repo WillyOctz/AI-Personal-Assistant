@@ -569,7 +569,32 @@ def add_note(note):
     memory["notes"].append(note)
     save_memory(memory)
     
-    database.add_sqlite_note(note)
+    note_id = database.add_sqlite_note(note)
+    
+    try:
+        from assistant import semantic_memory
+        
+        embedding_result = semantic_memory.cache_note_embedding(
+            note_id
+        )
+        
+        embedding_summary = {
+            "ok": embedding_result["ok"],
+            "status": embedding_result["status"],
+            "error": embedding_result["error"],
+        }
+        
+    except Exception as error:
+        embedding_summary = {
+            "ok": False,
+            "status": "embedding_failed",
+            "error": str(error),
+        }
+        
+    return {
+        "note_id": note_id,
+        "embedding": embedding_summary,
+    }
     
 def get_notes():
     sqlite_notes = database.get_sqlite_notes()
@@ -589,6 +614,19 @@ def delete_note(note_text):
             "note": note_text
         }
         
+    sqlite_note = next(
+        (
+            note for note in database.get_sqlite_notes()
+            if note["text"] == note_text
+        ),
+        None,
+    )
+    
+    if sqlite_note is None:
+        raise RuntimeError(
+            "Note exists in memory.json but was not found in SQLite."
+        )
+        
     notes.remove(note_text)
     save_memory(memory)
     
@@ -596,12 +634,18 @@ def delete_note(note_text):
     
     if not sqlite_deleted:
         raise RuntimeError(
-            "Note was removed from memory.json but was not found in SQLite."
+            "Note was removed from memory.json but was not found in SQLite." 
         )
+        
+    deleted_embeddings = database.delete_memory_embeddings(
+        source_type="note",
+        source_id=sqlite_note["id"],
+    )
     
     return {
-        "deleted": True,
-        "note": note_text
+       "deleted": True,
+        "note": note_text,
+        "deleted_embeddings": deleted_embeddings, 
     }
 
 def set_profile_value(key, value):
