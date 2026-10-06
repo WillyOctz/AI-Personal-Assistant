@@ -142,6 +142,34 @@ def cache_note_embedding(note_id):
         "error": result["error"],
     }
     
+def cache_conversation_summary_embedding(summary_id):
+    summary = database.get_sqlite_conversation_summary(
+        summary_id
+    )
+    
+    if summary is None:
+        return {
+            "ok": False,
+            "status": "not_found",
+            "summary_id": summary_id,
+            "embedding": None,
+            "error": "Conversation summary was not found.",
+        }
+        
+    result = cache_text_embedding(
+        source_type=CONVERSATION_SUMMARY_SOURCE_TYPE,
+        source_id=summary["id"],
+        text=summary["summary"],
+    )
+    
+    return {
+        "ok": result["ok"],
+        "status": result["status"],
+        "summary_id": summary["id"],
+        "embedding": result["embedding"],
+        "error": result["error"],
+    }
+    
 def cache_note_embeddings(limit=None):
     notes = database.get_sqlite_notes()
     

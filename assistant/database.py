@@ -2898,6 +2898,35 @@ def get_sqlite_conversation_summaries(limit=None):
         for row in rows
     ]
     
+def get_sqlite_conversation_summary(summary_id):
+    initialize_database()
+    
+    with get_connection() as connection:
+        row = connection.execute(
+            """
+            SELECT
+                id,
+                position,
+                summary,
+                timestamp,
+                migrated_at
+            FROM conversation_summaries
+            WHERE id = ?
+            """,
+            (int(summary_id),),
+        ).fetchone()
+        
+    if row is None:
+        return None
+    
+    return {
+        "id": row["id"],
+        "position": row["position"],
+        "summary": row["summary"],
+        "timestamp": row["timestamp"],
+        "migrated_at": row["migrated_at"], 
+    }
+    
 def verify_conversation_summaries_migration():
     with open(MEMORY_FILE, "r") as file:
         memory_data = json.load(file)

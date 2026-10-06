@@ -1,18 +1,26 @@
 from assistant import database
-from assistant.semantic_memory import cache_note_embedding
+from assistant.semantic_memory import (
+    cache_conversation_summary_embedding,
+)
 
 
-notes = database.get_sqlite_notes()
+summaries = database.get_sqlite_conversation_summaries()
 
-if not notes:
-    raise RuntimeError("No SQLite notes exist to test.")
+if not summaries:
+    raise RuntimeError(
+        "No conversation summaries exist. "
+        "Run 'summarize conversation' first."
+    )
 
-result = cache_note_embedding(notes[0]["id"])
+latest_summary = summaries[-1]
+
+result = cache_conversation_summary_embedding(
+    latest_summary["id"]
+)
 
 print({
-    "ok": result["ok"],
+    "summary_id": result["summary_id"],
     "status": result["status"],
-    "note_id": result["note_id"],
     "dimensions": (
         result["embedding"]["dimensions"]
         if result["embedding"]
