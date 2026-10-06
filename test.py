@@ -1,19 +1,22 @@
-from uuid import uuid4
+from assistant import database
+from assistant.semantic_memory import cache_note_embedding
 
-from assistant import memory
 
+notes = database.get_sqlite_notes()
 
-note_text = f"embedding reuse test {uuid4().hex}"
+if not notes:
+    raise RuntimeError("No SQLite notes exist to test.")
 
-first = memory.add_note(note_text)
-second = memory.add_note(note_text)
+result = cache_note_embedding(notes[0]["id"])
 
 print({
-    "first_note_id": first["note_id"],
-    "first_status": first["embedding"]["status"],
-    "second_note_id": second["note_id"],
-    "second_status": second["embedding"]["status"],
+    "ok": result["ok"],
+    "status": result["status"],
+    "note_id": result["note_id"],
+    "dimensions": (
+        result["embedding"]["dimensions"]
+        if result["embedding"]
+        else None
+    ),
+    "error": result["error"],
 })
-
-memory.delete_note(note_text)
-memory.delete_note(note_text)

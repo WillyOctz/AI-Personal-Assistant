@@ -9,6 +9,112 @@ from assistant.llm import (
 )
 
 NOTE_SOURCE_TYPE = "note"
+CONVERSATION_SUMMARY_SOURCE_TYPE = "conversation_summary"
+
+def cache_text_embedding(source_type, source_id, text):
+    clean_source_type = str(source_type).strip()
+    clean_source_id = str(source_id).strip()
+    clean_text = str(text or "").strip()
+    
+    if not clean_source_type or not clean_source_id:
+        return {
+            "ok": False,
+            "status": "invalid_source",
+            "source_type": clean_source_type,
+            "source_id": clean_source_id,
+            "embedding": None,
+            "error": "Embedding source type and source ID are required.",
+        }
+        
+    if not clean_text:
+        return {
+            "ok": False,
+            "status": "invalid_text",
+            "source_type": clean_source_type,
+            "source_id": clean_source_id,
+            "embedding": None,
+            "error": "Embedding text cannot be empty.",
+        }
+        
+    content_hash = create_content_hash(clean_text)
+    
+    cached_embedding = database.get_memory_embedding(
+        source_type=clean_source_type,
+        source_id=clean_source_id,
+        model=GEMINI_EMBEDDING_MODEL,
+    )
+    
+    if (
+        cached_embedding is not None
+        and cached_embedding["content_hash"] == content_hash
+    ):
+        return {
+            "ok": True,
+            "status": "cached",
+            "source_type": clean_source_type,
+            "source_id": clean_source_id,
+            "embedding": cached_embedding,
+            "error": None,
+        }
+        
+    shared_embedding = (
+        database.get_memory_embedding_by_content_hash(
+            source_type=clean_source_type,
+            content_hash=content_hash,
+            model=GEMINI_EMBEDDING_MODEL,
+        )
+    )
+    
+    if shared_embedding is not None:
+        saved_embedding = database.upsert_memory_embedding(
+            source_type=clean_source_type,
+            source_id=clean_source_id,
+            content_hash=content_hash,
+            model=GEMINI_EMBEDDING_MODEL,
+            vector=shared_embedding["vector"],
+        )
+        
+        return {
+            "ok": True,
+            "status": "reused",
+            "source_type": clean_source_type,
+            "source_id": clean_source_id,
+            "embedding": saved_embedding,
+            "error": None,
+        }
+        
+    embedding_result = get_gemini_embedding(clean_text)
+    
+    if not embedding_result["ok"]:
+        return {
+            "ok": False,
+            "status": "embedding_failed",
+            "source_type": clean_source_type,
+            "source_id": clean_source_id,
+            "embedding": None,
+            "error": embedding_result["error"],
+        }
+        
+    saved_embedding = database.upsert_memory_embedding(
+        source_type=clean_source_type,
+        source_id=clean_source_id,
+        content_hash=content_hash,
+        model=GEMINI_EMBEDDING_MODEL,
+        vector=embedding_result["vector"],
+    )
+    
+    return {
+        "ok": True,
+        "status": (
+            "refreshed"
+            if cached_embedding is not None
+            else "created"
+        ),
+        "source_type": clean_source_type,
+        "source_id": clean_source_id,
+        "embedding": saved_embedding,
+        "error": None,
+    }
 
 def cache_note_embedding(note_id):
     note = database.get_sqlite_note(note_id)
@@ -22,81 +128,18 @@ def cache_note_embedding(note_id):
             "error": "Note was not found.",
         }
         
-    content_hash = create_content_hash(note["text"])
-    
-    cached_embedding = database.get_memory_embedding(
+    result = cache_text_embedding(
         source_type=NOTE_SOURCE_TYPE,
         source_id=note["id"],
-        model=GEMINI_EMBEDDING_MODEL,
+        text=note["text"],
     )
     
-    if (
-        cached_embedding is not None
-        and cached_embedding["content_hash"] == content_hash
-    ):
-        return {
-            "ok": True,
-            "status": "cached",
-            "note_id": note["id"],
-            "embedding": cached_embedding,
-            "error": None,
-        }
-        
-    shared_embedding = (
-        database.get_memory_embedding_by_content_hash(
-            source_type=NOTE_SOURCE_TYPE,
-            content_hash=content_hash,
-            model=GEMINI_EMBEDDING_MODEL,
-        )
-    )
-    
-    if shared_embedding is not None:
-        saved_embedding = database.upsert_memory_embedding(
-            source_type=NOTE_SOURCE_TYPE,
-            source_id=note["id"],
-            content_hash=content_hash,
-            model=GEMINI_EMBEDDING_MODEL,
-            vector=shared_embedding["vector"],
-        )
-        
-        return {
-            "ok": True,
-            "status": "reused",
-            "note_id": note["id"],
-            "embedding": saved_embedding,
-            "error": None,
-        }
-        
-    embedding_result = get_gemini_embedding(note["text"])
-    
-    if not embedding_result["ok"]:
-        return {
-            "ok": False,
-            "status": "embedding_failed",
-            "note_id": note["id"],
-            "embedding": None,
-            "error": embedding_result["error"],
-        }
-        
-    saved_embedding = database.upsert_memory_embedding(
-        source_type=NOTE_SOURCE_TYPE,
-        source_id=note["id"],
-        content_hash=content_hash,
-        model=GEMINI_EMBEDDING_MODEL,
-        vector=embedding_result["vector"],
-    )
-    
-    status = "created"
-    
-    if cached_embedding is not None:
-        status = "refreshed"
-        
     return {
-        "ok": True,
-        "status": status,
+        "ok": result["ok"],
+        "status": result["status"],
         "note_id": note["id"],
-        "embedding": saved_embedding,
-        "error": None,
+        "embedding": result["embedding"],
+        "error": result["error"],
     }
     
 def cache_note_embeddings(limit=None):
