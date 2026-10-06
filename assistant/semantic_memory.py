@@ -170,6 +170,52 @@ def cache_conversation_summary_embedding(summary_id):
         "error": result["error"],
     }
     
+def cache_conversation_summary_embeddings(limit=None):
+    summaries = database.get_sqlite_conversation_summaries()
+    
+    if limit is not None:
+        safe_limit = max(1, int(limit))
+        summaries = summaries[:safe_limit]
+        
+    results = []
+    
+    for summary in summaries:
+        result = cache_conversation_summary_embedding(
+            summary["id"]
+        )
+        
+        results.append({
+            "ok": result["ok"],
+            "summary_id": summary["id"],
+            "status": result["status"],
+            "error": result["error"],
+        })
+        
+    return {
+        "total": len(results),
+        "created": sum(
+            result["status"] == "created"
+            for result in results
+        ),
+        "reused": sum(
+            result["status"] == "reused"
+            for result in results
+        ),
+        "cached": sum(
+            result["status"] == "cached"
+            for result in results
+        ),
+        "refreshed": sum(
+            result["status"] == "refreshed"
+            for result in results
+        ),
+        "failed": sum(
+            not result["ok"]
+            for result in results
+        ),
+        "results": results,
+    }
+    
 def cache_note_embeddings(limit=None):
     notes = database.get_sqlite_notes()
     

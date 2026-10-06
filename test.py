@@ -1,30 +1,22 @@
-from assistant import database
 from assistant.semantic_memory import (
-    cache_conversation_summary_embedding,
+    cache_conversation_summary_embeddings,
 )
 
 
-summaries = database.get_sqlite_conversation_summaries()
-
-if not summaries:
-    raise RuntimeError(
-        "No conversation summaries exist. "
-        "Run 'summarize conversation' first."
-    )
-
-latest_summary = summaries[-1]
-
-result = cache_conversation_summary_embedding(
-    latest_summary["id"]
-)
+summary = cache_conversation_summary_embeddings()
 
 print({
-    "summary_id": result["summary_id"],
-    "status": result["status"],
-    "dimensions": (
-        result["embedding"]["dimensions"]
-        if result["embedding"]
-        else None
-    ),
-    "error": result["error"],
+    "total": summary["total"],
+    "created": summary["created"],
+    "reused": summary["reused"],
+    "cached": summary["cached"],
+    "refreshed": summary["refreshed"],
+    "failed": summary["failed"],
 })
+
+for result in summary["results"]:
+    print(
+        f"{result['summary_id']} | "
+        f"{result['status']} | "
+        f"{result['error']}"
+    )
