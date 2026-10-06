@@ -42,6 +42,31 @@ def cache_note_embedding(note_id):
             "error": None,
         }
         
+    shared_embedding = (
+        database.get_memory_embedding_by_content_hash(
+            source_type=NOTE_SOURCE_TYPE,
+            content_hash=content_hash,
+            model=GEMINI_EMBEDDING_MODEL,
+        )
+    )
+    
+    if shared_embedding is not None:
+        saved_embedding = database.upsert_memory_embedding(
+            source_type=NOTE_SOURCE_TYPE,
+            source_id=note["id"],
+            content_hash=content_hash,
+            model=GEMINI_EMBEDDING_MODEL,
+            vector=shared_embedding["vector"],
+        )
+        
+        return {
+            "ok": True,
+            "status": "reused",
+            "note_id": note["id"],
+            "embedding": saved_embedding,
+            "error": None,
+        }
+        
     embedding_result = get_gemini_embedding(note["text"])
     
     if not embedding_result["ok"]:
@@ -97,6 +122,10 @@ def cache_note_embeddings(limit=None):
         "total": len(results),
         "created": sum(
             result["status"] == "created"
+            for result in results
+        ),
+        "reused": sum(
+            result["status"] == "reused"
             for result in results
         ),
         "cached": sum(

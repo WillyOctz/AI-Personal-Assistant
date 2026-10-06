@@ -887,6 +887,55 @@ def get_memory_embedding(
         "updated_at": row["updated_at"],
     }
     
+def get_memory_embedding_by_content_hash(
+    source_type,
+    content_hash,
+    model,
+):
+    initialize_database()
+    
+    with get_connection() as connection:
+        row = connection.execute(
+            """
+            SELECT
+                id,
+                source_type,
+                source_id,
+                content_hash,
+                model,
+                dimensions,
+                vector_json,
+                created_at,
+                updated_at
+            FROM memory_embeddings
+            WHERE source_type = ?
+            AND content_hash = ?
+            AND model = ?
+            ORDER BY id DESC
+            LIMIT 1
+            """,
+            (
+                str(source_type).strip(),
+                str(content_hash).strip(),
+                str(model).strip(),
+            ),
+        ).fetchone()
+        
+    if row is None:
+        return None
+    
+    return {
+        "id": row["id"],
+        "source_type": row["source_type"],
+        "source_id": row["source_id"],
+        "content_hash": row["content_hash"],
+        "model": row["model"],
+        "dimensions": row["dimensions"],
+        "vector": json.loads(row["vector_json"]),
+        "created_at": row["created_at"],
+        "updated_at": row["updated_at"],
+    }
+    
 def get_memory_embeddings(source_type, model):
     initialize_database()
     
