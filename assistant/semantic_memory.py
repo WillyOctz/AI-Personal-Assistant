@@ -337,3 +337,85 @@ def semantic_search_cached_notes(
         "skipped_stale": skipped_stale,
         "error": None,
     }
+    
+def semantic_search_cached_conversation_summaries(
+    query,
+    limit=5,
+    min_score=0.0,
+):
+    clean_query = str(query or "").strip()
+    
+    if not clean_query:
+        return {
+            "ok": False,
+            "query": "",
+            "matches": [],
+            "cached_summaries": 0,
+            "skipped_stale": 0,
+            "error": "Search query cannot be empty.",
+        }
+        
+    query_result = get_gemini_embedding(clean_query)
+    
+    if not query_result["ok"]:
+        return {
+            "ok": False,
+            "query": clean_query,
+            "matches": [],
+            "cached_summaries": 0,
+            "skipped_stale": 0,
+            "error": query_result["error"],
+        }
+        
+    summaries_by_id = {
+        str(summary["id"]): summary
+        for summary in database.get_sqlite_conversation_summaries()
+    }
+    
+    cached_embeddings = database.get_memory_embeddings(
+        source_type=CONVERSATION_SUMMARY_SOURCE_TYPE,
+        model=GEMINI_EMBEDDING_MODEL,
+    )
+    
+    candidates = []
+    skipped_stale = 0
+    
+    for cached_embedding in cached_embeddings:
+        summary = summaries_by_id.get(
+            cached_embedding["source_id"]
+        )
+        
+        if summary is None:
+            continue
+        
+        current_hash = create_content_hash(summary["summary"])
+        
+        if cached_embedding["content_hash"] != current_hash:
+            skipped_stale += 1
+            continue
+        
+        candidates.append({
+            "summary_id": summary["id"],
+            "summary": summary["summary"],
+            "timestamp": summary["timestamp"],
+            "vector": cached_embedding["vector"],
+        })
+        
+    matches = rank_embedding_matches(
+        query_result["vector"],
+        candidates,
+        limit=max(1, int(limit)),
+        min_score=float(min_score),
+    )
+    
+    for match in matches:
+        match.pop("vector", None)
+        
+    return {
+        "ok": True,
+        "query": clean_query,
+        "matches": matches,
+        "cached_summaries": len(candidates),
+        "skipped_stale": skipped_stale,
+        "error": None,
+    }
