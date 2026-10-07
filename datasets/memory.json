@@ -51,12 +51,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "semantic_note_search",
+        "last_response_intent": "summarize_conversation",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Semantic note matches:\n0.869 | Note: i want to learn AI\n0.854 | Note: profile goal to build best AI assistant\n0.794 | Note: game stardew valley\n0.782 | Note: app spotify\n0.772 | Note: i like to built",
+        "last_response_text": "Recent conversation had 10 turns. Intent counts: debug_route: 7, unknown: 1, semantic_memory_search: 1, semantic_note_search: 1. Last user message was: semantic notes artificial intelligence",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [
             {
@@ -19744,6 +19744,16 @@
             "source": "rule",
             "timestamp": "2026-10-05 17:11:36",
             "importance": 0.6
+        },
+        {
+            "user": "summarize conversation",
+            "assistant": "Recent conversation had 10 turns. Intent counts: debug_route: 7, unknown: 1, semantic_memory_search: 1, semantic_note_search: 1. Last user message was: semantic notes artificial intelligence",
+            "intent": "summarize_conversation",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 17:13:14",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -19754,6 +19764,10 @@
         {
             "summary": "Recent conversation had 10 turns. Intent counts: show_feedback_notes: 2, delete_feedback_note: 1, open_app: 1, show_history: 1, save_work_session_summary: 1, show_work_session_summaries: 2, search_work_session_summaries: 1, delete_work_session_summary: 1. Last user message was: show saved work summaries",
             "timestamp": "2026-09-23 19:36:09"
+        },
+        {
+            "summary": "Recent conversation had 10 turns. Intent counts: debug_route: 7, unknown: 1, semantic_memory_search: 1, semantic_note_search: 1. Last user message was: semantic notes artificial intelligence",
+            "timestamp": "2026-10-07 17:13:12"
         }
     ],
     "archive": {

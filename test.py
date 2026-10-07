@@ -1,7 +1,5 @@
 from assistant import database
-from assistant.semantic_memory import (
-    semantic_search_cached_conversation_summaries,
-)
+from assistant.llm import GEMINI_EMBEDDING_MODEL
 
 
 summaries = database.get_sqlite_conversation_summaries()
@@ -9,24 +7,21 @@ summaries = database.get_sqlite_conversation_summaries()
 if not summaries:
     raise RuntimeError("No conversation summaries exist.")
 
-expected_summary = summaries[-1]
+latest_summary = summaries[-1]
 
-result = semantic_search_cached_conversation_summaries(
-    expected_summary["summary"],
-    limit=3,
-    min_score=0.0,
+cached_embedding = database.get_memory_embedding(
+    source_type="conversation_summary",
+    source_id=latest_summary["id"],
+    model=GEMINI_EMBEDDING_MODEL,
 )
 
 print({
-    "ok": result["ok"],
-    "expected_summary_id": expected_summary["id"],
-    "cached_summaries": result["cached_summaries"],
-    "error": result["error"],
+    "summary_id": latest_summary["id"],
+    "summary_saved": bool(latest_summary["summary"]),
+    "embedding_cached": cached_embedding is not None,
+    "dimensions": (
+        cached_embedding["dimensions"]
+        if cached_embedding
+        else None
+    ),
 })
-
-for match in result["matches"]:
-    print(
-        f"{match['score']:.3f} | "
-        f"{match['summary_id']} | "
-        f"{match['summary']}"
-    )

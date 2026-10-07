@@ -1141,7 +1141,37 @@ def add_summary(summary):
     save_memory(memory)
     
     position = len(memory["summaries"])
-    add_conversation_summary_to_sqlite(position, summary)
+    summary_id = add_conversation_summary_to_sqlite(
+        position,
+        summary,
+    )
+    
+    try:
+        from assistant import semantic_memory
+        
+        embedding_result = (
+            semantic_memory.cache_conversation_summary_embedding(
+                summary_id
+            )
+        )
+        
+        embedding_summary = {
+            "ok": embedding_result["ok"],
+            "status": embedding_result["status"],
+            "error": embedding_result["error"],
+        }
+        
+    except Exception as error:
+        embedding_summary = {
+            "ok": False,
+            "status": "embedding_failed",
+            "error": str(error),
+        }
+        
+    return {
+        "summary_id": summary_id,
+        "embedding": embedding_summary,
+    }
     
 def get_summaries(limit=5):
     sqlite_summaries = database.get_sqlite_conversation_summaries(
