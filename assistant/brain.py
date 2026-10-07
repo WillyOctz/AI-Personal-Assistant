@@ -1587,6 +1587,9 @@ def analyze_intent(user_input):
     if match_exact_pattern(text, "preview_entity_conflicts"):
         return make_analysis("preview_entity_conflicts")
     
+    if match_prefix_pattern(text, "semantic_summary_search"):
+        return make_analysis("semantic_summary_search")
+    
     if match_prefix_pattern(text, "semantic_note_search"):
         return make_analysis("semantic_note_search")
     
@@ -4859,6 +4862,51 @@ def handle_memory_intent(user_input, analysis):
             f"Reason: {reason}\n"
             "Use: remind me to task_name"
         )
+        
+    if intent == "semantic_summary_search":
+        query = user_input.replace(
+            "semantic summaries ",
+            "",
+            1,
+        ).strip()
+        
+        if not query:
+            return (
+                "What should I search your conversation summaries for?"
+            )
+            
+        result = (
+            semantic_memory.semantic_search_cached_conversation_summaries(
+                query=query,
+                limit=5,
+                min_score=LLM_SUMMARY_SEMANTIC_MIN_SCORE,
+            )
+        )
+        
+        if not result["ok"]:
+            return (
+                "I could not search cached conversation summaries: "
+                + result["error"]
+            )
+            
+        if not result["matches"]:
+            return (
+                "I could not find a conversation summary related to "
+                f"'{query}'."
+            )
+            
+        lines = [
+            "Semantic conversation summary matches:",
+        ]
+        
+        for match in result["matches"]:
+            lines.append(
+                f"{match['score']:.3f} | "
+                f"{match['timestamp']} | "
+                f"{match['summary']}"
+            )
+            
+        return "\n".join(lines)
         
     if intent == "semantic_note_search":
         query = user_input.replace(

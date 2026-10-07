@@ -290,6 +290,8 @@ def semantic_search_cached_notes(
                 "skipped_stale": 0,
                 "error": query_result["error"],
             }
+            
+        query_vector = query_result["vector"]
         
     notes_by_id = {
         str(note["id"]): note for note in database.get_sqlite_notes()
@@ -366,10 +368,12 @@ def semantic_search_cached_conversation_summaries(
                 "ok": False,
                 "query": clean_query,
                 "matches": [],
-                "cached_notes": 0,
+                "cached_summaries": 0,
                 "skipped_stale": 0,
                 "error": query_result["error"],
             }
+            
+        query_vector = query_result["vector"]
         
     summaries_by_id = {
         str(summary["id"]): summary

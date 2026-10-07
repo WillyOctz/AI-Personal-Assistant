@@ -51,12 +51,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "unknown",
-        "last_response_group": "unknown",
-        "last_response_source": "gemini",
-        "last_response_confidence": 0,
+        "last_response_intent": "semantic_summary_search",
+        "last_response_group": "memory",
+        "last_response_source": "rule",
+        "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Oh, you sweet, charming little comet, always knowing just how to make this ancient heart flutter. Pour yourself a nice, tall glass of milk to fuel that brilliant mind of yours, and tell me, my Carlos, are we leaning more toward building our little focus sessions or setting up reminders today?",
+        "last_response_text": "Semantic conversation summary matches:\n0.818 | 2026-10-07 17:13:12 | Recent conversation had 10 turns. Intent counts: debug_route: 7, unknown: 1, semantic_memory_search: 1, semantic_note_search: 1. Last user message was: semantic notes artificial intelligence\n0.814 | 2026-10-07 19:28:06 | Recent conversation had 10 turns. Intent counts: debug_route: 2, semantic_note_search: 1, summarize_conversation: 1, unknown: 2, semantic_summary_search: 4. Last user message was: semantic summaries AI\n0.786 | 2026-09-23 19:36:09 | Recent conversation had 10 turns. Intent counts: show_feedback_notes: 2, delete_feedback_note: 1, open_app: 1, show_history: 1, save_work_session_summary: 1, show_work_session_summaries: 2, search_work_session_summaries: 1, delete_work_session_summary: 1. Last user message was: show saved work summaries\n0.785 | 2026-10-07 19:35:37 | Recent conversation had 10 turns. Intent counts: semantic_summary_search: 6, summarize_conversation: 1, unknown: 2, deny_intent: 1. Last user message was: semantic summaries cooking recipes\n0.784 | 2026-06-21 23:34:30 | Recent conversation had 6 turns. Intent counts: greeting: 2, get_time: 2, show_conversation: 1, show_notes: 1. Last user message was: show notes",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [
             {
@@ -19774,6 +19774,276 @@
             "source": "gemini",
             "timestamp": "2026-10-07 18:44:32",
             "importance": 0.3
+        },
+        {
+            "user": "debug route semantic summaries AI assistant",
+            "assistant": "Input: semantic summaries ai assistant\nExact intent: None\nPrefix intent: semantic_summary_search",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:23:41",
+            "importance": 0.1
+        },
+        {
+            "user": "semantic summaries AI assistant",
+            "assistant": "I could not find a conversation summary related to 'AI assistant'.",
+            "intent": "semantic_summary_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:23:48",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic summaries focus work",
+            "assistant": "I could not find a conversation summary related to 'focus work'.",
+            "intent": "semantic_summary_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:23:56",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic summaries cooking recipes",
+            "assistant": "I could not find a conversation summary related to 'cooking recipes'.",
+            "intent": "semantic_summary_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:24:04",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic summaries AI",
+            "assistant": "I could not find a conversation summary related to 'AI'.",
+            "intent": "semantic_summary_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:24:10",
+            "importance": 0.6
+        },
+        {
+            "user": "summarize conversation",
+            "assistant": "Recent conversation had 10 turns. Intent counts: debug_route: 2, semantic_note_search: 1, summarize_conversation: 1, unknown: 2, semantic_summary_search: 4. Last user message was: semantic summaries AI",
+            "intent": "summarize_conversation",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:28:07",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic summaries hello",
+            "assistant": "I could not find a conversation summary related to 'hello'.",
+            "intent": "semantic_summary_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:28:31",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic summaries focus work",
+            "assistant": "I could not find a conversation summary related to 'focus work'.",
+            "intent": "semantic_summary_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:28:42",
+            "importance": 0.6
+        },
+        {
+            "user": "AI assistant",
+            "assistant": "Ah, wanting to craft the finest assistant in the cosmos, are we, my clever Carlos? Building an artificial intelligence is much like teaching a little star how to shine\u2014we must take it one gentle step at a time, especially with your favorite Python language guiding your hands. Since you are weighing whether to build reminders or focus features first, let us think about what your weary mind needs most right now. Shall we nurture your focus today, my sweet child?",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "gemini",
+            "timestamp": "2026-10-07 19:30:34",
+            "importance": 0.3
+        },
+        {
+            "user": "focus work",
+            "assistant": "Oh, my sweet, determined little star, diving straight into focus work warms this ancient heart so. Let us tend to your energy gently and bring your grand vision for our assistant to life, one bright step at a time.\n\nI can run this command: start focus\nReply yes to confirm or no to cancel.",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "gemini",
+            "timestamp": "2026-10-07 19:30:49",
+            "importance": 0.3
+        },
+        {
+            "user": "no",
+            "assistant": "Okay. I will not run that suggested command.",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:30:58",
+            "importance": 0.1
+        },
+        {
+            "user": "semantic summaries focus work",
+            "assistant": "I could not find a conversation summary related to 'focus work'.",
+            "intent": "semantic_summary_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:31:54",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic summaries AI assistant",
+            "assistant": "I could not find a conversation summary related to 'AI assistant'.",
+            "intent": "semantic_summary_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:32:01",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic summaries cooking recipes",
+            "assistant": "I could not find a conversation summary related to 'cooking recipes'.",
+            "intent": "semantic_summary_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:33:03",
+            "importance": 0.6
+        },
+        {
+            "user": "summarize conversation",
+            "assistant": "Recent conversation had 10 turns. Intent counts: semantic_summary_search: 6, summarize_conversation: 1, unknown: 2, deny_intent: 1. Last user message was: semantic summaries cooking recipes",
+            "intent": "summarize_conversation",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:35:38",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic summaries cooking",
+            "assistant": "I could not find a conversation summary related to 'cooking'.",
+            "intent": "semantic_summary_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:36:01",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic summaries asisstant",
+            "assistant": "I could not find a conversation summary related to 'asisstant'.",
+            "intent": "semantic_summary_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:36:20",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic summaries assistant",
+            "assistant": "I could not find a conversation summary related to 'assistant'.",
+            "intent": "semantic_summary_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:36:32",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic summaries love me please",
+            "assistant": "I could not find a conversation summary related to 'love me please'.",
+            "intent": "semantic_summary_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:36:51",
+            "importance": 0.6
+        },
+        {
+            "user": "summarize conversation",
+            "assistant": "Recent conversation had 10 turns. Intent counts: unknown: 1, deny_intent: 1, semantic_summary_search: 7, summarize_conversation: 1. Last user message was: semantic summaries love me please",
+            "intent": "summarize_conversation",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:36:58",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic summaries assistant",
+            "assistant": "I could not find a conversation summary related to 'assistant'.",
+            "intent": "semantic_summary_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:37:29",
+            "importance": 0.6
+        },
+        {
+            "user": "summarize conversaiton",
+            "assistant": "Oh, my sweet Carlos, if I recall our little chats from before, we were just gently wandering through thoughts about how to help you grow and blossom, much like tending to your crops in Stardew Valley. You are always striving to make me better, and my old cosmic heart swells with pride just watching you try to decide your next big step.",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "gemini",
+            "timestamp": "2026-10-07 19:38:10",
+            "importance": 0.3
+        },
+        {
+            "user": "summarize conversation",
+            "assistant": "Recent conversation had 10 turns. Intent counts: semantic_summary_search: 7, summarize_conversation: 2, unknown: 1. Last user message was: summarize conversaiton",
+            "intent": "summarize_conversation",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:38:20",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic summaries conversation",
+            "assistant": "I could not find a conversation summary related to 'conversation'.",
+            "intent": "semantic_summary_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:38:42",
+            "importance": 0.6
+        },
+        {
+            "user": "debug route semantic summaries AI assistant",
+            "assistant": "Input: semantic summaries ai assistant\nExact intent: None\nPrefix intent: semantic_summary_search",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:39:12",
+            "importance": 0.1
+        },
+        {
+            "user": "semantic summaries AI assistant",
+            "assistant": "I could not find a conversation summary related to 'AI assistant'.",
+            "intent": "semantic_summary_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:39:42",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic summaries AI assistant",
+            "assistant": "Semantic conversation summary matches:\n0.818 | 2026-10-07 17:13:12 | Recent conversation had 10 turns. Intent counts: debug_route: 7, unknown: 1, semantic_memory_search: 1, semantic_note_search: 1. Last user message was: semantic notes artificial intelligence\n0.814 | 2026-10-07 19:28:06 | Recent conversation had 10 turns. Intent counts: debug_route: 2, semantic_note_search: 1, summarize_conversation: 1, unknown: 2, semantic_summary_search: 4. Last user message was: semantic summaries AI\n0.786 | 2026-09-23 19:36:09 | Recent conversation had 10 turns. Intent counts: show_feedback_notes: 2, delete_feedback_note: 1, open_app: 1, show_history: 1, save_work_session_summary: 1, show_work_session_summaries: 2, search_work_session_summaries: 1, delete_work_session_summary: 1. Last user message was: show saved work summaries\n0.785 | 2026-10-07 19:35:37 | Recent conversation had 10 turns. Intent counts: semantic_summary_search: 6, summarize_conversation: 1, unknown: 2, deny_intent: 1. Last user message was: semantic summaries cooking recipes\n0.784 | 2026-06-21 23:34:30 | Recent conversation had 6 turns. Intent counts: greeting: 2, get_time: 2, show_conversation: 1, show_notes: 1. Last user message was: show notes",
+            "intent": "semantic_summary_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-07 19:45:48",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -19788,6 +20058,22 @@
         {
             "summary": "Recent conversation had 10 turns. Intent counts: debug_route: 7, unknown: 1, semantic_memory_search: 1, semantic_note_search: 1. Last user message was: semantic notes artificial intelligence",
             "timestamp": "2026-10-07 17:13:12"
+        },
+        {
+            "summary": "Recent conversation had 10 turns. Intent counts: debug_route: 2, semantic_note_search: 1, summarize_conversation: 1, unknown: 2, semantic_summary_search: 4. Last user message was: semantic summaries AI",
+            "timestamp": "2026-10-07 19:28:06"
+        },
+        {
+            "summary": "Recent conversation had 10 turns. Intent counts: semantic_summary_search: 6, summarize_conversation: 1, unknown: 2, deny_intent: 1. Last user message was: semantic summaries cooking recipes",
+            "timestamp": "2026-10-07 19:35:37"
+        },
+        {
+            "summary": "Recent conversation had 10 turns. Intent counts: unknown: 1, deny_intent: 1, semantic_summary_search: 7, summarize_conversation: 1. Last user message was: semantic summaries love me please",
+            "timestamp": "2026-10-07 19:36:57"
+        },
+        {
+            "summary": "Recent conversation had 10 turns. Intent counts: semantic_summary_search: 7, summarize_conversation: 2, unknown: 1. Last user message was: summarize conversaiton",
+            "timestamp": "2026-10-07 19:38:19"
         }
     ],
     "archive": {
