@@ -1,27 +1,26 @@
-from assistant import database
-from assistant.llm import GEMINI_EMBEDDING_MODEL
+from assistant.semantic_memory import (
+    get_semantic_context_matches,
+)
 
 
-summaries = database.get_sqlite_conversation_summaries()
-
-if not summaries:
-    raise RuntimeError("No conversation summaries exist.")
-
-latest_summary = summaries[-1]
-
-cached_embedding = database.get_memory_embedding(
-    source_type="conversation_summary",
-    source_id=latest_summary["id"],
-    model=GEMINI_EMBEDDING_MODEL,
+result = get_semantic_context_matches(
+    "What do you remember about how I am building my AI assistant?",
 )
 
 print({
-    "summary_id": latest_summary["id"],
-    "summary_saved": bool(latest_summary["summary"]),
-    "embedding_cached": cached_embedding is not None,
-    "dimensions": (
-        cached_embedding["dimensions"]
-        if cached_embedding
-        else None
-    ),
+    "ok": result["ok"],
+    "note_count": len(result["notes"]),
+    "summary_count": len(result["summaries"]),
+    "error": result["error"],
 })
+
+print("\nNotes:")
+for note in result["notes"]:
+    print(f"{note['score']:.3f} | {note['text']}")
+
+print("\nConversation summaries:")
+for summary in result["summaries"]:
+    print(
+        f"{summary['score']:.3f} | "
+        f"{summary['summary']}"
+    )

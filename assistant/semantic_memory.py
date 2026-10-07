@@ -264,6 +264,7 @@ def semantic_search_cached_notes(
     query,
     limit=5,
     min_score=0.0,
+    query_vector=None,
 ):
     clean_query = str(query or "").strip()
     
@@ -277,17 +278,18 @@ def semantic_search_cached_notes(
             "error": "Search query cannot be empty.",
         }
         
-    query_result = get_gemini_embedding(clean_query)
+    if query_vector is None:
+        query_result = get_gemini_embedding(clean_query)
     
-    if not query_result["ok"]:
-        return {
-            "ok": False,
-            "query": clean_query,
-            "matches": [],
-            "cached_notes": 0,
-            "skipped_stale": 0,
-            "error": query_result["error"],
-        }
+        if not query_result["ok"]:
+            return {
+                "ok": False,
+                "query": clean_query,
+                "matches": [],
+                "cached_notes": 0,
+                "skipped_stale": 0,
+                "error": query_result["error"],
+            }
         
     notes_by_id = {
         str(note["id"]): note for note in database.get_sqlite_notes()
@@ -320,7 +322,7 @@ def semantic_search_cached_notes(
         })
         
     matches = rank_embedding_matches(
-        query_result["vector"],
+        query_vector,
         candidates,
         limit=max(1, int(limit)),
         min_score=float(min_score),
@@ -342,6 +344,7 @@ def semantic_search_cached_conversation_summaries(
     query,
     limit=5,
     min_score=0.0,
+    query_vector=None,
 ):
     clean_query = str(query or "").strip()
     
@@ -355,17 +358,18 @@ def semantic_search_cached_conversation_summaries(
             "error": "Search query cannot be empty.",
         }
         
-    query_result = get_gemini_embedding(clean_query)
-    
-    if not query_result["ok"]:
-        return {
-            "ok": False,
-            "query": clean_query,
-            "matches": [],
-            "cached_summaries": 0,
-            "skipped_stale": 0,
-            "error": query_result["error"],
-        }
+    if query_vector is None:
+        query_result = get_gemini_embedding(clean_query)
+        
+        if not query_result["ok"]:
+            return {
+                "ok": False,
+                "query": clean_query,
+                "matches": [],
+                "cached_notes": 0,
+                "skipped_stale": 0,
+                "error": query_result["error"],
+            }
         
     summaries_by_id = {
         str(summary["id"]): summary
@@ -402,7 +406,7 @@ def semantic_search_cached_conversation_summaries(
         })
         
     matches = rank_embedding_matches(
-        query_result["vector"],
+        query_vector,
         candidates,
         limit=max(1, int(limit)),
         min_score=float(min_score),
@@ -418,4 +422,62 @@ def semantic_search_cached_conversation_summaries(
         "cached_summaries": len(candidates),
         "skipped_stale": skipped_stale,
         "error": None,
+    }
+    
+def get_semantic_context_matches(
+    query,
+    note_limit=3,
+    summary_limit=2,
+    note_min_score=0.55,
+    summary_min_score=0.55,
+):
+    clean_query = str(query or "").strip()
+    
+    if not clean_query:
+        return {
+            "ok": False,
+            "notes": [],
+            "summaries": [],
+            "error": "Search query cannot be empty.",
+        }
+        
+    query_result = get_gemini_embedding(clean_query)
+    
+    if not query_result["ok"]:
+        return {
+            "ok": False,
+            "notes": [],
+            "summaries": [],
+            "error": query_result["error"],
+        }
+        
+    query_vector = query_result["vector"]
+    
+    note_result = semantic_search_cached_notes(
+        query=clean_query,
+        limit=note_limit,
+        min_score=note_min_score,
+        query_vector=query_vector
+    )
+    
+    summary_result = (
+        semantic_search_cached_conversation_summaries(
+            query=clean_query,
+            limit=summary_limit,
+            min_score=summary_min_score,
+            query_vector=query_vector,
+        )
+    )
+    
+    return {
+        "ok": (
+            note_result["ok"]
+            and summary_result["ok"]
+        ),
+        "notes": note_result["matches"],
+        "summaries": summary_result["matches"],
+        "error": (
+            note_result["error"]
+            or summary_result["error"]
+        ),
     }
