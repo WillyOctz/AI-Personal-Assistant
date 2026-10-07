@@ -49,6 +49,7 @@ from assistant import semantic_memory
 HIGH_CONFIDENCE = 0.75
 LOW_CONFIDENCE = 0.55
 LLM_NOTE_SEMANTIC_MIN_SCORE = 0.55
+LLM_SUMMARY_SEMANTIC_MIN_SCORE = 0.55
 
 def current_timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -7038,6 +7039,74 @@ def get_relevant_llm_notes(user_input, limit=3, min_score=0.34):
     )
     
     return scored_notes[:limit]
+
+def get_lexical_llm_notes(
+    user_input,
+    limit=3,
+    min_score=0.34,
+):
+    scored_notes = []
+    
+    for note in memory.get_notes():
+        text = str(note).strip()
+        
+        if not text:
+            continue
+        
+        score = similarity_score(user_input, text)
+        
+        if score >= min_score:
+            scored_notes.append({
+                "text": text,
+                "score": score,
+            })
+            
+    scored_notes.sort(
+        key=lambda item: item["score"],
+        reverse=True,
+    )
+    
+    return scored_notes[:limit]
+
+def get_relevant_llm_context(user_input):
+    semantic_result = (
+        semantic_memory.get_semantic_context_matches(
+            query=user_input,
+            note_limit=3,
+            summary_limit=2,
+            note_min_score=LLM_NOTE_SEMANTIC_MIN_SCORE,
+            summary_min_score=LLM_SUMMARY_SEMANTIC_MIN_SCORE,
+        )
+    )
+    
+    relevant_notes = []
+    relevant_summaries = []
+    
+    if semantic_result["ok"]:
+        relevant_notes = [
+            {
+                "text": match["text"],
+                "score": match["score"],
+            }
+            for match in semantic_result["notes"]
+        ]
+        
+        relevant_summaries = [
+            {
+                "summary": match["summary"],
+                "timestamp": match["timestamp"],
+                "score": match["score"],
+            }
+            for match in semantic_result["summaries"]
+        ]
+        
+    if not relevant_notes:
+        relevant_notes = get_lexical_llm_notes(user_input)
+        
+    return {
+        "notes": relevant_notes,
+        "summaries": relevant_summaries,
+    }
     
 def build_llm_system_instruction(user_input):
     instruction = personality.get_llm_system_instruction()
@@ -7046,7 +7115,26 @@ def build_llm_system_instruction(user_input):
     topic = memory.get_state_value("current_topic")
     
     context_lines = []
-    relevant_notes = get_relevant_llm_notes(user_input)
+    relevant_context = get_relevant_llm_context(user_input)
+    relevant_notes = relevant_context["notes"]
+    relevant_summaries = relevant_context["summaries"]
+    
+    if relevant_notes:
+        context_lines.append("- relevant saved notes:")
+        
+        for note in relevant_notes:
+            context_lines.append(f"  - {note['text']}")
+            
+    if relevant_summaries:
+        context_lines.append(
+            "- relevant prior conversation summaries:"
+        )
+        
+        for summary in relevant_summaries:
+            context_lines.append(
+                f"  - {summary['timestamp']}: "
+                f"{summary['summary']}"
+            )
     
     for key in [
         "name",

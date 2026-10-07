@@ -1,26 +1,18 @@
-from assistant.semantic_memory import (
-    get_semantic_context_matches,
+from assistant.brain import get_relevant_llm_context
+
+
+result = get_relevant_llm_context(
+    "What have we discussed about building my AI assistant?"
 )
 
-
-result = get_semantic_context_matches(
-    "What do you remember about how I am building my AI assistant?",
-)
-
-print({
-    "ok": result["ok"],
-    "note_count": len(result["notes"]),
-    "summary_count": len(result["summaries"]),
-    "error": result["error"],
-})
-
-print("\nNotes:")
+print("Notes:")
 for note in result["notes"]:
     print(f"{note['score']:.3f} | {note['text']}")
 
-print("\nConversation summaries:")
+print("\nSummaries:")
 for summary in result["summaries"]:
     print(
         f"{summary['score']:.3f} | "
+        f"{summary['timestamp']} | "
         f"{summary['summary']}"
     )
