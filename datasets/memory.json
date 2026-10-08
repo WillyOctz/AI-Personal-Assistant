@@ -51,12 +51,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "semantic_summary_search",
+        "last_response_intent": "semantic_context_search",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Semantic conversation summary matches:\n0.818 | 2026-10-07 17:13:12 | Recent conversation had 10 turns. Intent counts: debug_route: 7, unknown: 1, semantic_memory_search: 1, semantic_note_search: 1. Last user message was: semantic notes artificial intelligence\n0.814 | 2026-10-07 19:28:06 | Recent conversation had 10 turns. Intent counts: debug_route: 2, semantic_note_search: 1, summarize_conversation: 1, unknown: 2, semantic_summary_search: 4. Last user message was: semantic summaries AI\n0.786 | 2026-09-23 19:36:09 | Recent conversation had 10 turns. Intent counts: show_feedback_notes: 2, delete_feedback_note: 1, open_app: 1, show_history: 1, save_work_session_summary: 1, show_work_session_summaries: 2, search_work_session_summaries: 1, delete_work_session_summary: 1. Last user message was: show saved work summaries\n0.785 | 2026-10-07 19:35:37 | Recent conversation had 10 turns. Intent counts: semantic_summary_search: 6, summarize_conversation: 1, unknown: 2, deny_intent: 1. Last user message was: semantic summaries cooking recipes\n0.784 | 2026-06-21 23:34:30 | Recent conversation had 6 turns. Intent counts: greeting: 2, get_time: 2, show_conversation: 1, show_notes: 1. Last user message was: show notes",
+        "last_response_text": "Semantic memory context:\nNotes:\n0.781 | i like to built\n0.772 | game stardew valley\n0.763 | i like doing training\nConversation summaries:\n0.799 | 2026-10-07 19:35:37 | Recent conversation had 10 turns. Intent counts: semantic_summary_search: 6, summarize_conversation: 1, unknown: 2, deny_intent: 1. Last user message was: semantic summaries cooking recipes\n0.717 | 2026-10-07 17:13:12 | Recent conversation had 10 turns. Intent counts: debug_route: 7, unknown: 1, semantic_memory_search: 1, semantic_note_search: 1. Last user message was: semantic notes artificial intelligence",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [
             {
@@ -20043,6 +20043,106 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-10-07 19:45:48",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic notes AI",
+            "assistant": "Semantic note matches:\n0.881 | Note: i want to learn AI\n0.853 | Note: profile goal to build best AI assistant\n0.804 | Note: game stardew valley\n0.792 | Note: app spotify\n0.780 | Note: i want to improve you",
+            "intent": "semantic_note_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-08 10:27:25",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic notes artificial intelligence",
+            "assistant": "Semantic note matches:\n0.869 | Note: i want to learn AI\n0.854 | Note: profile goal to build best AI assistant\n0.794 | Note: game stardew valley\n0.782 | Note: app spotify\n0.772 | Note: i like to built",
+            "intent": "semantic_note_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-08 10:27:31",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic summaries conversation",
+            "assistant": "Semantic conversation summary matches:\n0.844 | 2026-06-21 23:34:30 | Recent conversation had 6 turns. Intent counts: greeting: 2, get_time: 2, show_conversation: 1, show_notes: 1. Last user message was: show notes\n0.842 | 2026-10-07 19:38:19 | Recent conversation had 10 turns. Intent counts: semantic_summary_search: 7, summarize_conversation: 2, unknown: 1. Last user message was: summarize conversaiton\n0.841 | 2026-10-07 19:35:37 | Recent conversation had 10 turns. Intent counts: semantic_summary_search: 6, summarize_conversation: 1, unknown: 2, deny_intent: 1. Last user message was: semantic summaries cooking recipes\n0.840 | 2026-10-07 19:28:06 | Recent conversation had 10 turns. Intent counts: debug_route: 2, semantic_note_search: 1, summarize_conversation: 1, unknown: 2, semantic_summary_search: 4. Last user message was: semantic summaries AI\n0.840 | 2026-10-07 17:13:12 | Recent conversation had 10 turns. Intent counts: debug_route: 7, unknown: 1, semantic_memory_search: 1, semantic_note_search: 1. Last user message was: semantic notes artificial intelligence",
+            "intent": "semantic_summary_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-08 10:27:36",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Your reminders:\n1. testing | due: 2026-09-29\n2. testing 2 | due: 2026-09-30\n3. call my doctor | due: tomorrow\n4. review my project | due: tomorrow",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-08 10:31:15",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic notes artificial intelligence",
+            "assistant": "Semantic note matches:\n0.869 | Note: i want to learn AI\n0.854 | Note: profile goal to build best AI assistant\n0.794 | Note: game stardew valley\n0.782 | Note: app spotify\n0.772 | Note: i like to built",
+            "intent": "semantic_note_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-08 10:31:23",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic summaries conversation",
+            "assistant": "Semantic conversation summary matches:\n0.844 | 2026-06-21 23:34:30 | Recent conversation had 6 turns. Intent counts: greeting: 2, get_time: 2, show_conversation: 1, show_notes: 1. Last user message was: show notes\n0.842 | 2026-10-07 19:38:19 | Recent conversation had 10 turns. Intent counts: semantic_summary_search: 7, summarize_conversation: 2, unknown: 1. Last user message was: summarize conversaiton\n0.841 | 2026-10-07 19:35:37 | Recent conversation had 10 turns. Intent counts: semantic_summary_search: 6, summarize_conversation: 1, unknown: 2, deny_intent: 1. Last user message was: semantic summaries cooking recipes\n0.840 | 2026-10-07 19:28:06 | Recent conversation had 10 turns. Intent counts: debug_route: 2, semantic_note_search: 1, summarize_conversation: 1, unknown: 2, semantic_summary_search: 4. Last user message was: semantic summaries AI\n0.840 | 2026-10-07 17:13:12 | Recent conversation had 10 turns. Intent counts: debug_route: 7, unknown: 1, semantic_memory_search: 1, semantic_note_search: 1. Last user message was: semantic notes artificial intelligence",
+            "intent": "semantic_summary_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-08 10:31:28",
+            "importance": 0.6
+        },
+        {
+            "user": "debug route semantic context AI assistant",
+            "assistant": "Input: semantic context ai assistant\nExact intent: None\nPrefix intent: semantic_context_search",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-08 10:49:48",
+            "importance": 0.1
+        },
+        {
+            "user": "semantic context AI assistant",
+            "assistant": "Semantic memory context:\nNotes:\n0.875 | profile goal to build best AI assistant\n0.840 | i want to learn AI\n0.786 | app spotify\nConversation summaries:\n0.818 | 2026-10-07 17:13:12 | Recent conversation had 10 turns. Intent counts: debug_route: 7, unknown: 1, semantic_memory_search: 1, semantic_note_search: 1. Last user message was: semantic notes artificial intelligence\n0.814 | 2026-10-07 19:28:06 | Recent conversation had 10 turns. Intent counts: debug_route: 2, semantic_note_search: 1, summarize_conversation: 1, unknown: 2, semantic_summary_search: 4. Last user message was: semantic summaries AI",
+            "intent": "semantic_context_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-08 10:50:46",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic context conversation",
+            "assistant": "Semantic memory context:\nNotes:\n0.795 | game stardew valley\n0.774 | app spotify\n0.773 | i like coffee\nConversation summaries:\n0.844 | 2026-06-21 23:34:30 | Recent conversation had 6 turns. Intent counts: greeting: 2, get_time: 2, show_conversation: 1, show_notes: 1. Last user message was: show notes\n0.842 | 2026-10-07 19:38:19 | Recent conversation had 10 turns. Intent counts: semantic_summary_search: 7, summarize_conversation: 2, unknown: 1. Last user message was: summarize conversaiton",
+            "intent": "semantic_context_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-08 10:50:59",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic context cooking recipes",
+            "assistant": "Semantic memory context:\nNotes:\n0.781 | i like to built\n0.772 | game stardew valley\n0.763 | i like doing training\nConversation summaries:\n0.799 | 2026-10-07 19:35:37 | Recent conversation had 10 turns. Intent counts: semantic_summary_search: 6, summarize_conversation: 1, unknown: 2, deny_intent: 1. Last user message was: semantic summaries cooking recipes\n0.717 | 2026-10-07 17:13:12 | Recent conversation had 10 turns. Intent counts: debug_route: 7, unknown: 1, semantic_memory_search: 1, semantic_note_search: 1. Last user message was: semantic notes artificial intelligence",
+            "intent": "semantic_context_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-08 10:51:05",
             "importance": 0.6
         }
     ],

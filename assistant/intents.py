@@ -27,6 +27,7 @@ VALID_INTENTS = {
     "search_app_registry",
     "search_memory",
     "semantic_note_search",
+    "semantic_context_search",
     "semantic_summary_search",
     "semantic_memory_search",
     "debug_memory_search",
@@ -391,6 +392,7 @@ MEMORY_INTENTS = {
     "search_app_registry",
     "search_memory",
     "semantic_note_search",
+    "semantic_context_search",
     "semantic_summary_search",
     "semantic_memory_search",
     "memory_stats",
@@ -595,6 +597,7 @@ ACTION_INTENTS = {
 SEARCH_IGNORED_INTENTS = {
     "search_memory",
     "semantic_note_search",
+    "semantic_context_search",
     "semantic_summary_search",
     "semantic_memory_search",
     "debug_memory_search",
@@ -1607,6 +1610,9 @@ INTENT_PREFIXES = {
     "search_memory": [
         "search memory ",
     ],
+    "semantic_context_search": [
+        "semantic context ",
+    ],
     "semantic_summary_search": [
         "semantic summaries ",
     ],
@@ -2046,6 +2052,7 @@ PREFIX_INTENT_ORDER = [
     "remember_app_entity",
     "chat_remember_that",
     "remember_note",
+    "semantic_context_search",
     "semantic_summary_search",
     "semantic_note_search",
 

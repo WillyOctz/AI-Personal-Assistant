@@ -1587,6 +1587,9 @@ def analyze_intent(user_input):
     if match_exact_pattern(text, "preview_entity_conflicts"):
         return make_analysis("preview_entity_conflicts")
     
+    if match_prefix_pattern(text, "semantic_context_search"):
+        return make_analysis("semantic_context_search")
+    
     if match_prefix_pattern(text, "semantic_summary_search"):
         return make_analysis("semantic_summary_search")
     
@@ -4863,6 +4866,63 @@ def handle_memory_intent(user_input, analysis):
             "Use: remind me to task_name"
         )
         
+    if intent == "semantic_context_search":
+        query = user_input.replace(
+            "semantic context ",
+            "",
+            1,
+        ).strip()
+        
+        if not query:
+            return (
+                "What should I search your semantic memory context for?"
+            )
+            
+        result = semantic_memory.get_semantic_context_matches(
+            query=query,
+            note_limit=3,
+            summary_limit=2,
+            note_min_score=LLM_NOTE_SEMANTIC_MIN_SCORE,
+            summary_min_score=LLM_SUMMARY_SEMANTIC_MIN_SCORE,
+        )
+        
+        if not result["ok"]:
+            return (
+                "I could not search semantic memory context: "
+                + result["error"]
+            )
+            
+        if not result["notes"] and not result["summaries"]:
+            return (
+                f"I could not find semantic memory context related to "
+                f"'{query}'."
+            )
+            
+        lines = [
+            "Semantic memory context:",
+        ]
+        
+        if result["notes"]:
+            lines.append("Notes:")
+            
+            for note in result["notes"]:
+                lines.append(
+                    f"{note['score']:.3f} | "
+                    f"{note['text']}"
+                )
+                
+        if result["summaries"]:
+            lines.append("Conversation summaries:")
+            
+            for summary in result["summaries"]:
+                lines.append(
+                    f"{summary['score']:.3f} | "
+                    f"{summary['timestamp']} | "
+                    f"{summary['summary']}"
+                )
+                
+        return "\n".join(lines)
+        
     if intent == "semantic_summary_search":
         query = user_input.replace(
             "semantic summaries ",
@@ -7048,45 +7108,6 @@ def preview_action(user_input, analysis):
         return "play music"
     
     return f"handle intent: {intent}"
-
-def get_relevant_llm_notes(user_input, limit=3, min_score=0.34):
-    semantic_result = semantic_memory.semantic_search_cached_notes(
-        query=user_input,
-        limit=limit,
-        min_score=LLM_NOTE_SEMANTIC_MIN_SCORE,
-    )
-    
-    if semantic_result["ok"] and semantic_result["matches"]:
-        return [
-            {
-                "text": match["text"],
-                "score": match["score"],
-            }
-            for match in semantic_result["matches"]
-        ]
-        
-    scored_notes = []
-    
-    for note in memory.get_notes():
-        text = str(note).strip()
-        
-        if not text:
-            continue
-        
-        score = similarity_score(user_input, text)
-        
-        if score >= min_score:
-            scored_notes.append({
-                "text": text,
-                "score": score,
-            })
-            
-    scored_notes.sort(
-        key=lambda item: item["score"],
-        reverse=True,
-    )
-    
-    return scored_notes[:limit]
 
 def get_lexical_llm_notes(
     user_input,
