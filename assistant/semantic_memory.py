@@ -485,3 +485,77 @@ def get_semantic_context_matches(
             or summary_result["error"]
         ),
     }
+    
+def get_semantic_cache_status():
+    source_configs = [
+        {
+            "label": "notes",
+            "source_type": NOTE_SOURCE_TYPE,
+            "records": database.get_sqlite_notes(),
+            "text_key": "text",
+        },
+        {
+            "label": "conversation_summaries",
+            "source_type": CONVERSATION_SUMMARY_SOURCE_TYPE,
+            "records": (
+                database.get_sqlite_conversation_summaries()
+            ),
+            "text_key": "summary",
+        },
+    ]
+    
+    sources = {}
+    
+    for config in source_configs:
+        records_by_id = {
+            str(record["id"]): record for record in config["records"]
+        }
+        
+        embeddings = database.get_memory_embeddings(
+            source_type=config["source_type"],
+            model=GEMINI_EMBEDDING_MODEL,
+        )
+        
+        embeddings_by_source_id = {
+            embedding["source_id"]: embedding
+            for embedding in embeddings
+        }
+        
+        cached = 0
+        missing = 0
+        stale = 0
+        
+        for source_id, record in records_by_id.items():
+            embedding = embeddings_by_source_id.get(source_id)
+            
+            if embedding is None:
+                missing += 1
+                continue
+            
+            current_hash = create_content_hash(
+                record[config["text_key"]]
+            )
+            
+            if embedding["content_hash"] != current_hash:
+                stale += 1
+                continue
+            
+            cached += 1
+        
+        orphaned = sum(
+            embedding["source_id"] not in records_by_id
+            for embedding in embeddings
+        )
+        
+        sources[config["label"]] = {
+            "records": len(records_by_id),
+            "cached": cached,
+            "missing": missing,
+            "stale": stale,
+            "orphaned": orphaned,
+        }
+        
+    return {
+        "model": GEMINI_EMBEDDING_MODEL,
+        "sources": sources,
+    }

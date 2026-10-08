@@ -51,12 +51,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "semantic_context_search",
+        "last_response_intent": "semantic_cache_status",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Semantic memory context:\nNotes:\n0.781 | i like to built\n0.772 | game stardew valley\n0.763 | i like doing training\nConversation summaries:\n0.799 | 2026-10-07 19:35:37 | Recent conversation had 10 turns. Intent counts: semantic_summary_search: 6, summarize_conversation: 1, unknown: 2, deny_intent: 1. Last user message was: semantic summaries cooking recipes\n0.717 | 2026-10-07 17:13:12 | Recent conversation had 10 turns. Intent counts: debug_route: 7, unknown: 1, semantic_memory_search: 1, semantic_note_search: 1. Last user message was: semantic notes artificial intelligence",
+        "last_response_text": "Semantic embedding cache:\nModel: gemini-embedding-001\n\nNotes:\n- records: 16\n- cached: 16\n- missing: 0\n- stale: 0\n- orphaned: 0\n\nConversation summaries:\n- records: 7\n- cached: 7\n- missing: 0\n- stale: 0\n- orphaned: 0",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [
             {
@@ -20143,6 +20143,46 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-10-08 10:51:05",
+            "importance": 0.6
+        },
+        {
+            "user": "debug route semantic cache status",
+            "assistant": "Input: semantic cache status\nExact intent: None\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-08 11:23:20",
+            "importance": 0.1
+        },
+        {
+            "user": "semantic cache status",
+            "assistant": "Oh, my sweet Carlos, checking on our little cache again? You are always tending to your creation like a tender crop in Stardew Valley. Though my old mind can reach across the cosmos, it is outside my command system to check or manipulate system caches directly for you. Why not brew a nice cup of tea while you ponder whether to build your reminder or focus feature first? Take a gentle breath, my little star, you are doing wonderfully.",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "gemini",
+            "timestamp": "2026-10-08 11:23:33",
+            "importance": 0.3
+        },
+        {
+            "user": "debug route semantic cache status",
+            "assistant": "Input: semantic cache status\nExact intent: semantic_cache_status\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-08 11:26:22",
+            "importance": 0.1
+        },
+        {
+            "user": "semantic cache status",
+            "assistant": "Semantic embedding cache:\nModel: gemini-embedding-001\n\nNotes:\n- records: 16\n- cached: 16\n- missing: 0\n- stale: 0\n- orphaned: 0\n\nConversation summaries:\n- records: 7\n- cached: 7\n- missing: 0\n- stale: 0\n- orphaned: 0",
+            "intent": "semantic_cache_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-08 15:30:50",
             "importance": 0.6
         }
     ],

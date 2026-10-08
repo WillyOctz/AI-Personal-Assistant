@@ -1587,6 +1587,9 @@ def analyze_intent(user_input):
     if match_exact_pattern(text, "preview_entity_conflicts"):
         return make_analysis("preview_entity_conflicts")
     
+    if match_exact_pattern(text, "semantic_cache_status"):
+        return make_analysis("semantic_cache_status")
+    
     if match_prefix_pattern(text, "semantic_context_search"):
         return make_analysis("semantic_context_search")
     
@@ -4864,6 +4867,33 @@ def handle_memory_intent(user_input, analysis):
             "Suggested next step: make a plan.\n"
             f"Reason: {reason}\n"
             "Use: remind me to task_name"
+        )
+        
+    if intent == "semantic_cache_status":
+        status = semantic_memory.get_semantic_cache_status()
+        
+        notes = status["sources"]["notes"]
+        summaries = status["sources"][
+            "conversation_summaries"
+        ]
+        
+        return (
+            "Semantic embedding cache:\n"
+            f"Model: {status['model']}\n"
+            "\n"
+            "Notes:\n"
+            f"- records: {notes['records']}\n"
+            f"- cached: {notes['cached']}\n"
+            f"- missing: {notes['missing']}\n"
+            f"- stale: {notes['stale']}\n"
+            f"- orphaned: {notes['orphaned']}\n"
+            "\n"
+            "Conversation summaries:\n"
+            f"- records: {summaries['records']}\n"
+            f"- cached: {summaries['cached']}\n"
+            f"- missing: {summaries['missing']}\n"
+            f"- stale: {summaries['stale']}\n"
+            f"- orphaned: {summaries['orphaned']}"
         )
         
     if intent == "semantic_context_search":

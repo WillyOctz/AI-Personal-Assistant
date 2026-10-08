@@ -26,6 +26,7 @@ VALID_INTENTS = {
     "show_summaries",
     "search_app_registry",
     "search_memory",
+    "semantic_cache_status",
     "semantic_note_search",
     "semantic_context_search",
     "semantic_summary_search",
@@ -391,6 +392,7 @@ MEMORY_INTENTS = {
     "show_summaries",
     "search_app_registry",
     "search_memory",
+    "semantic_cache_status",
     "semantic_note_search",
     "semantic_context_search",
     "semantic_summary_search",
@@ -757,6 +759,10 @@ INTENT_PATTERNS = {
         "today briefing",
         "start my day",
         "brief me",
+    ],
+    "semantic_cache_status": [
+        "semantic cache status",
+        "show semantic cache status",
     ],
     "suggest_next_task": [
         "what should i do now",
