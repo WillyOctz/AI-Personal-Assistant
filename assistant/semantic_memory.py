@@ -559,3 +559,93 @@ def get_semantic_cache_status():
         "model": GEMINI_EMBEDDING_MODEL,
         "sources": sources,
     }
+    
+def repair_semantic_cache():
+    source_configs = [
+        {
+            "label": "notes",
+            "source_type": NOTE_SOURCE_TYPE,
+            "records": database.get_sqlite_notes(),
+            "text_key": "text",
+        },
+        {
+            "label": "conversation_summaries",
+            "source_type": CONVERSATION_SUMMARY_SOURCE_TYPE,
+            "records": (
+                database.get_sqlite_conversation_summaries()
+            ),
+            "text_key": "summary",
+        },
+    ]
+    
+    sources = {}
+    
+    for config in source_configs:
+        records_by_id = {
+            str(record["id"]): record
+            for record in config["records"]
+        }
+        
+        embeddings = database.get_memory_embeddings(
+            source_type=config["source_type"],
+            model=GEMINI_EMBEDDING_MODEL,
+        )
+        
+        embeddings_by_source_id = {
+            embedding["source_id"]: embedding
+            for embedding in embeddings
+        }
+        
+        repaired = 0
+        unchanged = 0
+        failed = 0
+        deleted_orphaned = 0
+        
+        for source_id, record in records_by_id.items():
+            embedding = embeddings_by_source_id.get(source_id)
+            
+            current_hash = create_content_hash(
+                record[config["text_key"]]
+            )
+            
+            is_current = (
+                embedding is not None
+                and embedding["content_hash"] == current_hash
+            )
+            
+            if is_current:
+                unchanged += 1
+                continue
+            
+            result = cache_text_embedding(
+                source_type=config["source_type"],
+                source_id=source_id,
+                text=record[config["text_key"]],
+            )
+            
+            if result["ok"]:
+                repaired += 1
+            else:
+                failed += 1
+                
+        for embedding in embeddings:
+            if embedding["source_id"] in records_by_id:
+                continue
+            
+            deleted_orphaned += database.delete_memory_embeddings(
+                source_type=config["source_type"],
+                source_id=embedding["source_id"],
+            )
+            
+        sources[config["label"]] = {
+            "records": len(records_by_id),
+            "repaired": repaired,
+            "unchanged": unchanged,
+            "failed": failed,
+            "deleted_orphaned": deleted_orphaned,
+        }
+        
+    return {
+        "model": GEMINI_EMBEDDING_MODEL,
+        "sources": sources,
+    }

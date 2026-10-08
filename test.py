@@ -1,18 +1,38 @@
-from assistant.brain import get_relevant_llm_context
+from assistant import database
+from assistant.llm import GEMINI_EMBEDDING_MODEL
+from assistant.semantic_memory import repair_semantic_cache
 
 
-result = get_relevant_llm_context(
-    "What have we discussed about building my AI assistant?"
+notes = database.get_sqlite_notes()
+
+if not notes:
+    raise RuntimeError("No SQLite notes exist.")
+
+note = notes[0]
+
+database.delete_memory_embeddings(
+    source_type="note",
+    source_id=note["id"],
 )
 
-print("Notes:")
-for note in result["notes"]:
-    print(f"{note['score']:.3f} | {note['text']}")
+before = database.get_memory_embedding(
+    source_type="note",
+    source_id=note["id"],
+    model=GEMINI_EMBEDDING_MODEL,
+)
 
-print("\nSummaries:")
-for summary in result["summaries"]:
-    print(
-        f"{summary['score']:.3f} | "
-        f"{summary['timestamp']} | "
-        f"{summary['summary']}"
-    )
+repair = repair_semantic_cache()
+
+after = database.get_memory_embedding(
+    source_type="note",
+    source_id=note["id"],
+    model=GEMINI_EMBEDDING_MODEL,
+)
+
+print({
+    "note_id": note["id"],
+    "cache_before_repair": before is not None,
+    "notes_repaired": repair["sources"]["notes"]["repaired"],
+    "notes_failed": repair["sources"]["notes"]["failed"],
+    "cache_after_repair": after is not None,
+})
