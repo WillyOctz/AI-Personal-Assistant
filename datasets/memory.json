@@ -20184,6 +20184,36 @@
             "source": "rule",
             "timestamp": "2026-10-08 15:30:50",
             "importance": 0.6
+        },
+        {
+            "user": "debug route repair semantic cache",
+            "assistant": "Input: repair semantic cache\nExact intent: repair_semantic_cache\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-08 17:33:51",
+            "importance": 0.1
+        },
+        {
+            "user": "repair semantic cache",
+            "assistant": "Semantic cache repair finished:\nModel: gemini-embedding-001\n\nNotes:\n- records: 16\n- repaired: 0\n- unchanged: 16\n- failed: 0\n- deleted orphaned: 0\n\nConversation summaries:\n- records: 7\n- repaired: 0\n- unchanged: 7\n- failed: 0\n- deleted orphaned: 0",
+            "intent": "repair_semantic_cache",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-08 17:33:56",
+            "importance": 0.6
+        },
+        {
+            "user": "semantic cache status",
+            "assistant": "Semantic embedding cache:\nModel: gemini-embedding-001\n\nNotes:\n- records: 16\n- cached: 16\n- missing: 0\n- stale: 0\n- orphaned: 0\n\nConversation summaries:\n- records: 7\n- cached: 7\n- missing: 0\n- stale: 0\n- orphaned: 0",
+            "intent": "semantic_cache_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-08 17:34:02",
+            "importance": 0.6
         }
     ],
     "summaries": [

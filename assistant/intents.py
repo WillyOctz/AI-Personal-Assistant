@@ -31,6 +31,7 @@ VALID_INTENTS = {
     "semantic_context_search",
     "semantic_summary_search",
     "semantic_memory_search",
+    "repair_semantic_cache",
     "debug_memory_search",
     "memory_stats",
     "preview_memory_cleanup",
@@ -397,6 +398,7 @@ MEMORY_INTENTS = {
     "semantic_context_search",
     "semantic_summary_search",
     "semantic_memory_search",
+    "repair_semantic_cache",
     "memory_stats",
     "preview_memory_cleanup",
     "archive_memory_cleanup",
@@ -763,6 +765,9 @@ INTENT_PATTERNS = {
     "semantic_cache_status": [
         "semantic cache status",
         "show semantic cache status",
+    ],
+    "repair_semantic_cache": [
+        "repair semantic cache",
     ],
     "suggest_next_task": [
         "what should i do now",

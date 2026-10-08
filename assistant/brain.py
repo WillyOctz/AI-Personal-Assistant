@@ -1590,6 +1590,9 @@ def analyze_intent(user_input):
     if match_exact_pattern(text, "semantic_cache_status"):
         return make_analysis("semantic_cache_status")
     
+    if match_exact_pattern(text, "repair_semantic_cache"):
+        return make_analysis("repair_semantic_cache")
+    
     if match_prefix_pattern(text, "semantic_context_search"):
         return make_analysis("semantic_context_search")
     
@@ -4894,6 +4897,34 @@ def handle_memory_intent(user_input, analysis):
             f"- missing: {summaries['missing']}\n"
             f"- stale: {summaries['stale']}\n"
             f"- orphaned: {summaries['orphaned']}"
+        )
+        
+    if intent == "repair_semantic_cache":
+        result = semantic_memory.repair_semantic_cache()
+        
+        notes = result["sources"]["notes"]
+        summaries = result["sources"][
+            "conversation_summaries"
+        ]
+        
+        return (
+            "Semantic cache repair finished:\n"
+            f"Model: {result['model']}\n"
+            "\n"
+            "Notes:\n"
+            f"- records: {notes['records']}\n"
+            f"- repaired: {notes['repaired']}\n"
+            f"- unchanged: {notes['unchanged']}\n"
+            f"- failed: {notes['failed']}\n"
+            f"- deleted orphaned: {notes['deleted_orphaned']}\n"
+            "\n"
+            "Conversation summaries:\n"
+            f"- records: {summaries['records']}\n"
+            f"- repaired: {summaries['repaired']}\n"
+            f"- unchanged: {summaries['unchanged']}\n"
+            f"- failed: {summaries['failed']}\n"
+            f"- deleted orphaned: "
+            f"{summaries['deleted_orphaned']}"
         )
         
     if intent == "semantic_context_search":
