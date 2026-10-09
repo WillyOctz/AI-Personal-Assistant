@@ -1,7 +1,31 @@
-from assistant.brain import truncate_llm_context_text
+from assistant import semantic_memory
+from assistant.brain import get_relevant_llm_context
 
 
-text = "A" * 200
+original_function = (
+    semantic_memory.get_semantic_context_matches
+)
 
-print(truncate_llm_context_text(text, 20))
-print(len(truncate_llm_context_text(text, 20)))
+
+def raise_semantic_error(*args, **kwargs):
+    raise RuntimeError("Temporary semantic test failure")
+
+
+semantic_memory.get_semantic_context_matches = (
+    raise_semantic_error
+)
+
+try:
+    result = get_relevant_llm_context(
+        "What have I said about artificial intelligence?"
+    )
+
+    print({
+        "notes": result["notes"],
+        "summaries": result["summaries"],
+    })
+
+finally:
+    semantic_memory.get_semantic_context_matches = (
+        original_function
+    )

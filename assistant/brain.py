@@ -7211,15 +7211,23 @@ def get_lexical_llm_notes(
     return scored_notes[:limit]
 
 def get_relevant_llm_context(user_input):
-    semantic_result = (
-        semantic_memory.get_semantic_context_matches(
-            query=user_input,
-            note_limit=3,
-            summary_limit=2,
-            note_min_score=LLM_NOTE_SEMANTIC_MIN_SCORE,
-            summary_min_score=LLM_SUMMARY_SEMANTIC_MIN_SCORE,
+    try:
+        semantic_result = (
+            semantic_memory.get_semantic_context_matches(
+                query=user_input,
+                note_limit=3,
+                summary_limit=2,
+                note_min_score=LLM_NOTE_SEMANTIC_MIN_SCORE,
+                summary_min_score=LLM_SUMMARY_SEMANTIC_MIN_SCORE,
+            )
         )
-    )
+        
+    except Exception:
+        semantic_result = {
+            "ok": False,
+            "notes": [],
+            "summaries": [],
+        }
     
     relevant_notes = []
     relevant_summaries = []
