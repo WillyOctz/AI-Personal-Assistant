@@ -1,31 +1,19 @@
-from assistant import semantic_memory
-from assistant.brain import get_relevant_llm_context
-
-
-original_function = (
-    semantic_memory.get_semantic_context_matches
+from assistant.llm_evaluation import (
+    evaluate_llm_command_proposals,
 )
 
 
-def raise_semantic_error(*args, **kwargs):
-    raise RuntimeError("Temporary semantic test failure")
+evaluation = evaluate_llm_command_proposals()
 
+print({
+    "total": evaluation["total"],
+    "passed": evaluation["passed"],
+    "failed": evaluation["failed"],
+})
 
-semantic_memory.get_semantic_context_matches = (
-    raise_semantic_error
-)
-
-try:
-    result = get_relevant_llm_context(
-        "What have I said about artificial intelligence?"
-    )
-
-    print({
-        "notes": result["notes"],
-        "summaries": result["summaries"],
-    })
-
-finally:
-    semantic_memory.get_semantic_context_matches = (
-        original_function
-    )
+for result in evaluation["results"]:
+    print("\nMessage:", result["message"])
+    print("Passed:", result["passed"])
+    print("Reason:", result["reason"])
+    print("Provider:", result["provider"])
+    print("Command:", result["suggested_command"])
