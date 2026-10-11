@@ -8,12 +8,18 @@ from assistant import memory, focus, apps, websites
 from assistant.brain import (
     get_response,
     get_startup_notification_message,
+    is_safe_llm_command,
 )
 
 from assistant.database import (
     get_database_status,
     get_sqlite_migration_status,
     initialize_database,
+)
+
+from assistant.llm_evaluation import (
+    evaluate_llm_command_proposals,
+    format_llm_evaluation_report,
 )
 
 app = FastAPI(title="Nebula API")
@@ -128,6 +134,21 @@ class WebsiteAutomationStatusResponse(BaseModel):
 class AutomationStatusResponse(BaseModel):
     apps: AppAutomationStatusResponse
     websites: WebsiteAutomationStatusResponse
+    
+class LLMEvaluationCaseResponse(BaseModel):
+    message: str
+    passed: bool
+    reason: str
+    provider: str | None = None
+    suggested_command: str | None = None
+    command_is_safe: bool | None = None
+    
+class LLMEvaluationResponse(BaseModel):
+    total: int
+    passed: int
+    failed: int
+    report: str
+    results: list[LLMEvaluationCaseResponse]
     
 @app.get("/health")
 def health_check():
@@ -349,6 +370,39 @@ def automation_status():
         },
     }
     
+@app.post(
+    "/evaluations/llm-command-proposals",
+    response_model=LLMEvaluationResponse,
+    responses={
+        500: {"description": "LLM evaluation could not run"},
+    },
+)
+def run_llm_command_proposal_evaluation(
+    limit: int | None = None
+):
+    safe_limit = None
+    
+    if limit is not None:
+        safe_limit = max(1, min(limit, 20))
+        
+    try:
+        evaluation = evaluate_llm_command_proposals(
+            limit=safe_limit,
+            command_validator=is_safe_llm_command,
+        )
+    except Exception as error:
+        raise HTTPException(
+            status_code=500,
+            detail="LLM command-proposal evaluation could not run.",
+        ) from error
+        
+    return {
+        "total": evaluation["total"],
+        "passed": evaluation["passed"],
+        "failed": evaluation["failed"],
+        "report": format_llm_evaluation_report(evaluation),
+        "results": evaluation["results"],
+    }
        
 @app.get("/", include_in_schema=False)
 def home():
