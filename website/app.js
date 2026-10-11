@@ -32,6 +32,15 @@ const websiteList = document.getElementById("website-list")
 const websiteCount = document.getElementById("website-count")
 const profileFactList = document.getElementById("profile-fact-list")
 const automationStatusList = document.getElementById("automation-status-list")
+const runLLMEvaluationButton = document.getElementById(
+    "run-llm-evaluation-button"
+)
+const llmEvaluationStatus = document.getElementById(
+    "llm-evaluation-status"
+)
+const llmEvaluationFailures = document.getElementById(
+    "llm-evaluation-failures"
+)
 
 function addMessage(role, text) {
     const message = document.createElement("article")
@@ -782,6 +791,79 @@ reminderForm.addEventListener("submit", async (event) => {
     }
 })
 
+function renderLLMEvaluation(evaluation) {
+    const { total, passed, failed, results } = evaluation
+
+    llmEvaluationStatus.textContent = 
+        `${passed}/${total} cases passed. ${failed} failed.`
+
+    llmEvaluationFailures.replaceChildren()
+
+    const failures = results.filter((result) => !result.passed)
+
+    if (failures.length === 0) {
+        llmEvaluationFailures.hidden = true
+        return
+    }
+
+    for (const failure of failures) {
+        const item = document.createElement("li")
+        const message = document.createElement("p")
+        const reason = document.createElement("p")
+
+        item.classList.add("llm-evaluation-failure")
+        message.classList.add("llm-evaluation-failure-message")
+        reason.classList.add("llm-evaluation-failure-reason")
+
+        message.textContent = failure.message
+        reason.textContent = failure.reason
+
+        item.append(message, reason)
+        llmEvaluationFailures.appendChild(item)
+    }
+
+    llmEvaluationFailures.hidden = false
+}
+
+async function runLLMEvaluation() {
+    runLLMEvaluationButton.disabled = true
+    llmEvaluationStatus.textContent = "Running evaluation..."
+    llmEvaluationFailures.hidden = true
+    status.textContent = "Evaluating..."
+
+    try {
+        const res = await fetch(
+            "/evaluations/llm-command-proposals",
+            {
+                method: "POST",
+            }
+        )
+
+        const data = await res.json()
+
+        if (!res.ok) {
+            throw new Error(
+                data.detail || "LLM evaluation could not run."
+            )
+        }
+
+        if (!Array.isArray(data.results)) {
+            throw new Error("Invalid LLM evaluation response.")
+        }
+
+        renderLLMEvaluation(data)
+        status.textContent = "Connected"
+    } catch (err) {
+        llmEvaluationStatus.textContent =
+            `Evaluation unavailable: ${err.message}`
+        llmEvaluationFailures.replaceChildren()
+        llmEvaluationFailures.hidden = true
+        status.textContent = "Connection error"
+    } finally {
+        runLLMEvaluationButton.disabled = false
+    }
+}
+
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -825,6 +907,10 @@ input.addEventListener("keydown", (event) => {
         event.preventDefault()
         form.requestSubmit()
     }
+})
+
+runLLMEvaluationButton.addEventListener("click", () => {
+    runLLMEvaluation()
 })
 
 confirmButton.addEventListener("click", () => {

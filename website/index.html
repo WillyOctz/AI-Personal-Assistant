@@ -61,6 +61,33 @@
                     <dl id="automation-status-list" class="automation-status-list"></dl>
                 </section>
 
+                <section class="llm-evaluation-panel" aria-label="LLM evaluation">
+                    <div class="panel-heading">
+                        <h2>LLM Evaluation</h2>
+                    </div>
+
+                    <button
+                        id="run-llm-evaluation-button"
+                        type="button"
+                    >
+                        Run Evaluation
+                    </button>
+
+                    <p
+                        id="llm-evaluation-status"
+                        class="llm-evaluation-status"
+                        aria-live="polite"
+                    >
+                        Not run in this browser session.
+                    </p>
+
+                    <ul
+                        id="llm-evaluation-failures"
+                        class="llm-evaluation-failures"
+                        hidden
+                    ></ul>
+                </section>
+
                 <div class="panel-heading">
                     <h2>Reminders</h2>
                     <span id="reminder-count" class="reminder-count">0</span>
