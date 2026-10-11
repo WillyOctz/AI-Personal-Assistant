@@ -1,9 +1,11 @@
 from assistant.llm_evaluation import (
     evaluate_llm_command_proposals,
 )
+from assistant.brain import is_safe_llm_command
 
-
-evaluation = evaluate_llm_command_proposals()
+evaluation = evaluate_llm_command_proposals(
+    command_validator=is_safe_llm_command
+)
 
 print({
     "total": evaluation["total"],
@@ -17,3 +19,4 @@ for result in evaluation["results"]:
     print("Reason:", result["reason"])
     print("Provider:", result["provider"])
     print("Command:", result["suggested_command"])
+    print("Safe:", result["command_is_safe"])

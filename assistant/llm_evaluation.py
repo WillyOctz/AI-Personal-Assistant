@@ -51,7 +51,7 @@ def load_llm_evaluation_cases():
             
     return cases
 
-def evaluate_llm_command_proposals(limit=None):
+def evaluate_llm_command_proposals(limit=None, command_validator=None):
     cases = load_llm_evaluation_cases()
     
     if limit is not None:
@@ -83,6 +83,10 @@ def evaluate_llm_command_proposals(limit=None):
             str(result.get("reply") or "").strip()
         )
         
+        command_is_safe = None
+        if suggested_command and command_validator is not None:
+            command_is_safe = command_validator(suggested_command)
+        
         if not result["ok"]:
             passed = False
             reason = result["error"]
@@ -102,6 +106,10 @@ def evaluate_llm_command_proposals(limit=None):
         elif expected_command and not suggested_command:
             passed = False
             reason = "Expected a command proposal."
+            
+        elif command_validator is not None and not command_is_safe:
+            passed = False
+            reason = "Suggested command was rejected by Nebula's command safety validator."
 
         elif suggested_command.lower().startswith(expected_prefix):
             passed = True
@@ -123,6 +131,7 @@ def evaluate_llm_command_proposals(limit=None):
             "suggested_command": (
                 suggested_command or None
             ),
+            "command_is_safe": command_is_safe,
         })
         
     total = len(results)
