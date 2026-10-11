@@ -143,3 +143,35 @@ def evaluate_llm_command_proposals(limit=None, command_validator=None):
         "failed": total - passed,
         "results": results,
     }
+    
+
+def format_llm_evaluation_report(evaluation):
+    lines = [
+        "LLM command-proposal evaluation",
+        f"Total: {evaluation['total']}",
+        f"Passed: {evaluation['passed']}",
+        f"Failed: {evaluation['failed']}",
+    ]
+    
+    failed_results = [
+        result
+        for result in evaluation["results"]
+        if not result["passed"]
+    ]
+    
+    if not failed_results:
+        lines.append("All evaluation cases passed.")
+        return "\n".join(lines)
+    
+    lines.append("")
+    lines.append("Failures:")
+    
+    for result in failed_results:
+        lines.append(f"- Message: {result['message']}")
+        lines.append(f"  Reason: {result['reason']}")
+        lines.append(
+            f"  Command: {result['suggested_command'] or 'None'}"
+        )
+        lines.append(f"  Safe: {result['command_is_safe']}")
+        
+    return "\n".join(lines)

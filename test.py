@@ -1,5 +1,6 @@
 from assistant.llm_evaluation import (
     evaluate_llm_command_proposals,
+    format_llm_evaluation_report,
 )
 from assistant.brain import is_safe_llm_command
 
@@ -7,16 +8,4 @@ evaluation = evaluate_llm_command_proposals(
     command_validator=is_safe_llm_command
 )
 
-print({
-    "total": evaluation["total"],
-    "passed": evaluation["passed"],
-    "failed": evaluation["failed"],
-})
-
-for result in evaluation["results"]:
-    print("\nMessage:", result["message"])
-    print("Passed:", result["passed"])
-    print("Reason:", result["reason"])
-    print("Provider:", result["provider"])
-    print("Command:", result["suggested_command"])
-    print("Safe:", result["command_is_safe"])
+print(format_llm_evaluation_report(evaluation))
