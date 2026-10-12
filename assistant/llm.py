@@ -18,6 +18,27 @@ GEMINI_EMBEDDING_MODEL = os.getenv(
 
 GEMINI_EMBEDDING_DIMENSIONS = 768
 
+def get_llm_provider_status():
+    gemini_configured = bool(
+        str(os.getenv("GEMINI_API_KEY") or "").strip()
+    )
+    groq_configured = bool(
+        str(os.getenv("GROQ_API_KEY") or "").strip()
+    )
+    
+    return {
+        "gemini": {
+            "configured": gemini_configured,
+            "model": GEMINI_MODEL,
+        },
+        "groq": {
+            "configured": groq_configured,
+            "model": GROQ_MODEL,
+        },
+        "chat_available": gemini_configured or groq_configured,
+        "embeddings_available": gemini_configured,
+    }
+
 class CommandProposal(BaseModel):
     reply: str
     suggested_command: str | None = None

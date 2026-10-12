@@ -3,7 +3,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from assistant import memory, focus, apps, websites
+from assistant import memory, focus, apps, websites, llm
 
 from assistant.brain import (
     get_response,
@@ -150,6 +150,16 @@ class LLMEvaluationResponse(BaseModel):
     report: str
     results: list[LLMEvaluationCaseResponse]
     
+class LLMProviderStatusItemResponse(BaseModel):
+    configured: bool
+    model: str
+    
+class LLMProviderStatusResponse(BaseModel):
+    gemini: LLMProviderStatusItemResponse
+    groq: LLMProviderStatusItemResponse
+    chat_available: bool
+    embeddings_available: bool
+    
 @app.get("/health")
 def health_check():
     try:
@@ -177,6 +187,13 @@ def health_check():
             "tables": migration_status["row_counts"],
         },
     }
+    
+@app.get(
+    "/llm/status",
+    response_model=LLMProviderStatusResponse,
+)
+def llm_provider_status():
+    return llm.get_llm_provider_status()
     
 @app.get("/startup", response_model=StartupResponse)
 def startup_message():

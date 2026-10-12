@@ -7396,6 +7396,8 @@ def get_llm_fallback_response(user_input, analysis):
             
         return response
     
+    analysis["source"] = "llm_unavailable"
+    
     topic = memory.get_state_value("current_topic")
     
     return personality.unknown_chat_response(
