@@ -58,6 +58,7 @@ def get_all_response_feedback():
             "feedback": item["feedback"],
             "last_intent": item["last_intent"],
             "last_group": item["last_group"],
+            "last_source": item["last_source"],
             "last_text": item["last_text"],
         }
         for item in sqlite_items
@@ -91,6 +92,7 @@ def get_recent_response_feedback(limit=5):
             "feedback": item["feedback"],
             "last_intent": item["last_intent"],
             "last_group": item["last_group"],
+            "last_source": item["last_source"],
             "last_text": item["last_text"],
         }
         for item in sqlite_items
@@ -3346,6 +3348,7 @@ def search_response_feedback(query):
             str(item.get("feedback", "")),
             str(item.get("last_intent", "")),
             str(item.get("last_group", "")),
+            str(item.get("last_source", "")),
             str(item.get("last_text", "")),
         ]).lower()
         

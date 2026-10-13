@@ -254,11 +254,27 @@ def initialize_database():
                 ),
                 last_intent TEXT,
                 last_group TEXT,
+                last_source TEXT,
                 last_text TEXT,
                 migrated_at TEXT NOT NULL
             )
             """
         )
+        
+        feedback_columns = {
+            row["name"]
+            for row in connection.execute(
+                "PRAGMA table_info(response_feedback)"
+            )
+        }
+        
+        if "last_source" not in feedback_columns:
+            connection.execute(
+                """
+                ALTER TABLE response_feedback
+                ADD COLUMN last_source TEXT
+                """
+            )
         
         connection.execute(
             """
@@ -3808,6 +3824,7 @@ def get_sqlite_response_feedback(limit=None):
             feedback,
             last_intent,
             last_group,
+            last_source,
             last_text,
             migrated_at
         FROM response_feedback
@@ -3842,6 +3859,7 @@ def get_sqlite_response_feedback(limit=None):
             "feedback": row["feedback"],
             "last_intent": row["last_intent"],
             "last_group": row["last_group"],
+            "last_source": row["last_source"],
             "last_text": row["last_text"],
             "migrated_at": row["migrated_at"],
         }
@@ -3865,6 +3883,7 @@ def verify_response_feedback_migration():
         "timestamp",
         "feedback",
         "last_intent",
+        "last_source",
         "last_group",
         "last_text",
     ]
@@ -3942,6 +3961,7 @@ def add_sqlite_response_feedback(position, item):
     feedback = item.get("feedback")
     last_intent = item.get("last_intent")
     last_group = item.get("last_group")
+    last_source = item.get("last_source")
     last_text = item.get("last_text")
     
     if not isinstance(timestamp, str) or not timestamp.strip():
@@ -3955,6 +3975,7 @@ def add_sqlite_response_feedback(position, item):
     optional_fields = {
         "last_intent": last_intent,
         "last_group": last_group,
+        "last_source": last_source,
         "last_text": last_text,
     }
     
@@ -3973,10 +3994,11 @@ def add_sqlite_response_feedback(position, item):
                 feedback,
                 last_intent,
                 last_group,
+                last_source,
                 last_text,
                 migrated_at
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 position,
@@ -3984,6 +4006,7 @@ def add_sqlite_response_feedback(position, item):
                 feedback,
                 last_intent,
                 last_group,
+                last_source,
                 last_text,
                 datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             ),
@@ -4015,6 +4038,7 @@ def sync_sqlite_response_feedback_from_json():
         feedback = item.get("feedback")
         last_intent = item.get("last_intent")
         last_group = item.get("last_group")
+        last_source = item.get("last_source")
         last_text = item.get("last_text")
 
         if not isinstance(timestamp, str) or not timestamp.strip():
@@ -4030,6 +4054,7 @@ def sync_sqlite_response_feedback_from_json():
         optional_fields = {
             "last_intent": last_intent,
             "last_group": last_group,
+            "last_source": last_source,
             "last_text": last_text,
         }
 
@@ -4047,6 +4072,7 @@ def sync_sqlite_response_feedback_from_json():
                 feedback,
                 last_intent,
                 last_group,
+                last_source,
                 last_text,
                 synced_at,
             )
@@ -4063,10 +4089,11 @@ def sync_sqlite_response_feedback_from_json():
                 feedback,
                 last_intent,
                 last_group,
+                last_source,
                 last_text,
                 migrated_at
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """,
             records,
         )
