@@ -41,6 +41,7 @@ const llmEvaluationStatus = document.getElementById(
 const llmEvaluationFailures = document.getElementById(
     "llm-evaluation-failures"
 )
+const llmStatusList = document.getElementById("llm-status-list")
 
 function addMessage(role, text) {
     const message = document.createElement("article")
@@ -864,6 +865,76 @@ async function runLLMEvaluation() {
     }
 }
 
+function addLLMStatusRow(labelText, valueText) {
+    const row = document.createElement("div")
+    const label = document.createElement("dt")
+    const value = document.createElement("dd")
+
+    row.classList.add("llm-status-row")
+    label.classList.add("llm-status-label")
+    value.classList.add("llm-status-value")
+
+    label.textContent = labelText
+    value.textContent = valueText
+
+    row.append(label, value)
+    llmStatusList.appendChild(row)
+}
+
+function renderLLMStatus(statusData) {
+    llmStatusList.replaceChildren()
+
+    addLLMStatusRow(
+        "Gemini",
+        statusData.gemini.configured
+            ? `Configured | ${statusData.gemini.model}`
+            : "Not configured"
+    )
+
+    addLLMStatusRow(
+        "Groq",
+        statusData.groq.configured
+            ? `Configured | ${statusData.groq.model}`
+            : "Not configured"
+    )
+
+    addLLMStatusRow(
+        "Chat",
+        statusData.chat_available ? "Available" : "Unavailable"
+    )
+
+    addLLMStatusRow(
+        "Embeddings",
+        statusData.embeddings_available ? "Available" : "Unavailable"
+    )
+}
+
+async function loadLLMStatus() {
+    try {
+        const res = await fetch("/llm/status")
+
+        if (!res.ok) {
+            throw new Error("LLM status request failed.")
+        }
+
+        const data = await res.json()
+
+        if (!data.gemini || !data.groq) {
+            throw new Error("Invalid LLM status response.")
+        }
+
+        renderLLMStatus(data)
+    } catch (err) {
+        llmStatusList.replaceChildren()
+
+        const unavailable = document.createElement("p")
+        unavailable.classList.add("llm-status-empty")
+        unavailable.textContent = "LLM status unavailable."
+
+        llmStatusList.appendChild(unavailable)
+    }
+}
+
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -933,6 +1004,7 @@ async function initializeChat() {
     await loadFocusStatus()
     await loadFocusGoalProgress()
     await loadFocusSessions()
+    await loadLLMStatus()
 }
 
 initializeChat()

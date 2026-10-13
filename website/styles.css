@@ -526,6 +526,47 @@ button:disabled {
     color: #9f1239;
 }
 
+.llm-status-panel {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #cfd8dc;
+}
+
+.llm-status-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+}
+
+.llm-status-row {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 10px;
+}
+
+.llm-status-label,
+.llm-status-value,
+.llm-status-empty {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.llm-status-label {
+    color: #52616b;
+    font-weight: 700;
+}
+
+.llm-status-value {
+    color: #1f2d33;
+    overflow-wrap: anywhere;
+}
+
+.llm-status-empty {
+    color: #7a4a4a;
+}
+
 .active-focus-panel {
     margin-top: 24px;
     padding-top: 16px;
