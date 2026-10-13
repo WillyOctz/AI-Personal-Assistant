@@ -252,6 +252,23 @@ def format_helpful_feedback_intents(results):
 
     return "\n".join(lines)
 
+def format_response_feedback_by_source(results):
+    if not results:
+        return "I do not have response feedback by source yet."
+    
+    lines = ["Response feedback by source:"]
+    
+    for item in results:
+        lines.append(
+            f"- {item['source']}: "
+            f"total {item['total']} | "
+            f"helpful {item['helpful']} | "
+            f"not helpful {item['not_helpful']} | "
+            f"helpful rate {item['helpful_rate']:.2f}"
+        )
+        
+    return "\n".join(lines)
+
 def format_response_feedback_cleanup(removed_count):
     return f"Response feedback cleanup finished. Removed {removed_count} broken item(s)."
 
@@ -487,6 +504,10 @@ def handle_chat_intent(user_input, analysis, memory, personality, current_timest
     if intent == "helpful_feedback_intents":
         results = memory.get_helpful_feedback_intents()
         return format_helpful_feedback_intents(results)
+    
+    if intent == "feedback_by_source":
+        results = memory.get_response_feedback_by_source()
+        return format_response_feedback_by_source(results)
 
     if intent == "chat_improvement_target":
         target = memory.get_response_improvement_target()

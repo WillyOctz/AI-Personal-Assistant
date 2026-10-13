@@ -175,6 +175,7 @@ VALID_INTENTS = {
     "response_feedback_health",
     "response_feedback_summary",
     "problem_feedback_intents",
+    "feedback_by_source",
     "helpful_feedback_intents",
     "chat_improvement_target",
     "chat_feedback_note",
@@ -371,6 +372,7 @@ CHAT_INTENTS = {
     "response_feedback_health",
     "response_feedback_summary",
     "problem_feedback_intents",
+    "feedback_by_source",
     "helpful_feedback_intents",
     "chat_improvement_target",
     "chat_feedback_note",
@@ -1142,6 +1144,11 @@ INTENT_PATTERNS = {
         "problem feedback intents",
         "bad feedback intents",
         "not helpful intents",
+    ],
+    "feedback_by_source": [
+        "feedback by source",
+        "response feedback by source",
+        "provider feedback",
     ],
     "helpful_feedback_intents": [
         "helpful feedback intents",

@@ -3467,6 +3467,42 @@ def get_helpful_feedback_intents(limit=5):
     
     return sorted_counts[:limit]
 
+def get_response_feedback_by_source():
+    feedback_items = get_all_response_feedback()
+    counts = {}
+    
+    for item in feedback_items:
+        source = item.get("last_source") or "unknown"
+        
+        if source not in counts:
+            counts[source] = {
+                "source": source,
+                "total": 0,
+                "helpful": 0,
+                "not_helpful": 0,
+            }
+            
+        counts[source]["total"] += 1
+        
+        if item.get("feedback") == "helpful":
+            counts[source]["helpful"] += 1
+            
+        if item.get("feedback") == "not_helpful":
+            counts[source]["not_helpful"] += 1
+            
+    results = []
+    
+    for item in counts.values():
+        item["helpful_rate"] = (
+            item["helpful"] / item["total"]
+        )
+        results.append(item)
+        
+    return sorted(
+        results,
+        key=lambda item: (-item["total"], item["source"])
+    )
+
 def get_response_improvement_target():
     problems = get_problem_feedback_intents(limit=1)
     
