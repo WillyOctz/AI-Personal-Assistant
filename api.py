@@ -160,6 +160,16 @@ class LLMProviderStatusResponse(BaseModel):
     chat_available: bool
     embeddings_available: bool
     
+class ResponseFeedbackSourceResponse(BaseModel):
+    source: str
+    total: int
+    helpful: int
+    not_helpful: int
+    helpful_rate: float
+    
+class ResponseFeedbackSourceListResponse(BaseModel):
+    sources: list[ResponseFeedbackSourceResponse]
+    
 @app.get("/health")
 def health_check():
     try:
@@ -194,6 +204,15 @@ def health_check():
 )
 def llm_provider_status():
     return llm.get_llm_provider_status()
+
+@app.get(
+    "/feedback/response-sources",
+    response_model=ResponseFeedbackSourceListResponse,
+)
+def response_feedback_sources():
+    return {
+        "sources": memory.get_response_feedback_by_source(),
+    }
     
 @app.get("/startup", response_model=StartupResponse)
 def startup_message():

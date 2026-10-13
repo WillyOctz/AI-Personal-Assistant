@@ -1,58 +1,63 @@
 from assistant import brain, llm, personality
 
-original_proposal_function = brain.llm.get_llm_command_proposal
-original_system_instruction = brain.build_llm_system_instruction
-original_conversation_prompt = brain.build_llm_conversation_prompt
+original_gemini_proposal = llm.get_gemini_command_proposal
 
 
-def forced_llm_outage(user_message, system_instruction=None):
+def forced_gemini_failure(user_message, system_instruction=None):
     return {
         "ok": False,
-        "provider": "none",
+        "provider": "gemini",
         "reply": "",
         "suggested_command": None,
-        "error": "Forced total provider outage.",
+        "error": "Forced Gemini failure for Groq command test.",
     }
-    
-outage_analysis = {
-    "intent": "unknown",
-    "group": "unknown",
-    "source": "rule",
-}
+
+
+proposal_instruction = (
+    personality.get_llm_system_instruction()
+    + "\n\n"
+    + personality.get_llm_command_proposal_instruction()
+)
 
 
 try:
-    brain.llm.get_llm_command_proposal = forced_llm_outage
+    llm.get_gemini_command_proposal = forced_gemini_failure
 
-    # Keep this test focused on the final response branch.
-    brain.build_llm_system_instruction = lambda user_input: "Test instruction."
-    brain.build_llm_conversation_prompt = lambda user_input: user_input
-
-    user_facing_response = brain.get_llm_fallback_response(
-        "Explain Python tuples.",
-        outage_analysis,
+    groq_command_result = llm.get_llm_command_proposal(
+        "Please remember that I prefer Python for my projects.",
+        proposal_instruction,
     )
 finally:
-    brain.llm.get_llm_command_proposal = original_proposal_function
-    brain.build_llm_system_instruction = original_system_instruction
-    brain.build_llm_conversation_prompt = original_conversation_prompt
+    llm.get_gemini_command_proposal = original_gemini_proposal
 
 
-if not isinstance(user_facing_response, str):
-    raise AssertionError("Nebula's outage response must be text.")
-
-if not user_facing_response.strip():
-    raise AssertionError("Nebula's outage response cannot be empty.")
-
-if outage_analysis["source"] != "llm_unavailable":
+if not groq_command_result["ok"]:
     raise AssertionError(
-        "Nebula must record the LLM outage as its response source."
+        f"Groq fallback failed: {groq_command_result['error']}"
     )
 
-if "Reply yes to confirm" in user_facing_response:
+if groq_command_result["provider"] != "groq":
     raise AssertionError(
-        "Nebula must not offer command confirmation during an outage."
+        "Expected Groq for the forced Gemini failure test."
     )
 
-print("\nUser-facing outage response:", user_facing_response)
-print("Outage source:", outage_analysis["source"])
+suggested_command = groq_command_result["suggested_command"]
+
+if not suggested_command:
+    raise AssertionError(
+        "Expected Groq to return a command proposal."
+    )
+
+if not suggested_command.lower().startswith("remember "):
+    raise AssertionError(
+        f"Expected a remember command, got: {suggested_command}"
+    )
+
+if not brain.is_safe_llm_command(suggested_command):
+    raise AssertionError(
+        f"Nebula rejected Groq's command: {suggested_command}"
+    )
+
+print("\nGroq command provider:", groq_command_result["provider"])
+print("Groq command:", suggested_command)
+print("Groq command safe:", True)
