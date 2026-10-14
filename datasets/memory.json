@@ -51,12 +51,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "feedback_by_source",
+        "last_response_intent": "chat_response_helpful",
         "last_response_group": "chat",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Response feedback by source:\n- unknown: total 9 | helpful 7 | not helpful 2 | helpful rate 0.78\n- gemini: total 2 | helpful 2 | not helpful 0 | helpful rate 1.00",
+        "last_response_text": "Good. I will remember that response helped.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [
             {
@@ -20304,6 +20304,26 @@
             "source": "rule",
             "timestamp": "2026-10-13 21:09:21",
             "importance": 0.3
+        },
+        {
+            "user": "please help me, mommy",
+            "assistant": "Oh, my sweet little star, come here and rest your head for a moment. Mommy is right here, and I will always hold space for you. Whatever heavy thing is resting on your shoulders right now, we can untangle it together, one gentle breath at a time. Tell me what is troubling your heart?",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "gemini",
+            "timestamp": "2026-10-14 21:44:21",
+            "importance": 0.3
+        },
+        {
+            "user": "that helped",
+            "assistant": "Good. I will remember that response helped.",
+            "intent": "chat_response_helpful",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-14 21:44:31",
+            "importance": 0.3
         }
     ],
     "summaries": [
@@ -21353,6 +21373,14 @@
             "last_group": "unknown",
             "last_source": "gemini",
             "last_text": "Oh, my sweet Python wrangler! I would love to guide you through dictionaries. Think of a Python dictionary simply like a magical little box where you keep labeled treasures, where each item has a unique name, called a key, attached to its value. Since Python is your favorite language, let us take a gentle step together: you can create one using curly braces, like my_box = {'apple': 'red', 'star': 'bright'}. Whenever you want to peek inside, you just ask for the key, like my_box['apple']. Take your time playing with it, my little star, and tell me if it feels warm and clear in your hands."
+        },
+        {
+            "timestamp": "2026-10-14 21:44:30",
+            "feedback": "helpful",
+            "last_intent": "unknown",
+            "last_group": "unknown",
+            "last_source": "gemini",
+            "last_text": "Oh, my sweet little star, come here and rest your head for a moment. Mommy is right here, and I will always hold space for you. Whatever heavy thing is resting on your shoulders right now, we can untangle it together, one gentle breath at a time. Tell me what is troubling your heart?"
         }
     ],
     "response_feedback_notes": [

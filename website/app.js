@@ -42,6 +42,9 @@ const llmEvaluationFailures = document.getElementById(
     "llm-evaluation-failures"
 )
 const llmStatusList = document.getElementById("llm-status-list")
+const feedbackSourceList = document.getElementById(
+    "feedback-source-list"
+)
 
 function addMessage(role, text) {
     const message = document.createElement("article")
@@ -736,6 +739,73 @@ async function loadHealth() {
     }
 }
 
+function addFeedbackSourceRow(labelText, valueText) {
+    const row = document.createElement("div")
+    const label = document.createElement("dt")
+    const value = document.createElement("dd")
+
+    row.classList.add("feedback-source-row")
+    label.classList.add("feedback-source-label")
+    value.classList.add("feedback-source-value")
+
+    label.textContent = labelText
+    value.textContent = valueText
+
+    row.append(label, value)
+    feedbackSourceList.appendChild(row)
+}
+
+function renderFeedbackSources(sources) {
+    feedbackSourceList.replaceChildren()
+
+    if (sources.length === 0) {
+        const empty = document.createElement("p")
+        empty.classList.add("feedback-source-empty")
+        empty.textContent = "No response feedback yet."
+        feedbackSourceList.appendChild(empty)
+        return
+    }
+
+    for (const source of sources) {
+        const helpfulPercent = Math.round(
+            source.helpful_rate * 100
+        )
+
+        addFeedbackSourceRow(
+            source.source,
+            `${source.helpful}/${source.total} helpful ` +
+            `(${helpfulPercent}%) | ` +
+            `${source.not_helpful} not helpful`
+        )
+    }
+}
+
+async function loadFeedbackSources() {
+    try {
+        const res = await fetch("/feedback/response-sources")
+
+        if (!res.ok) {
+            throw new Error("Feedback source request failed.")
+        }
+
+        const data = await res.json()
+
+        if (!Array.isArray(data.sources)) {
+            throw new Error("Invalid feedback source response.")
+        }
+
+        renderFeedbackSources(data.sources)
+    } catch (err) {
+        feedbackSourceList.replaceChildren()
+
+        const unavailable = document.createElement("p")
+        unavailable.classList.add("feedback-source-empty")
+        unavailable.textContent = "Response quality is unavailable."
+
+        feedbackSourceList.appendChild(unavailable)
+    }
+}
+
 focusNoteForm.addEventListener("submit", async (event) => {
     event.preventDefault()
 
@@ -964,6 +1034,8 @@ form.addEventListener("submit", async (event) => {
         await loadFocusStatus()
         await loadFocusGoalProgress()
         await loadFocusSessions()
+        await loadLLMStatus()
+        await loadFeedbackSources()
         status.textContent = "Connected"
     } catch (err) {
         addMessage("assistant", `Error: ${err.message}`)
@@ -1005,6 +1077,7 @@ async function initializeChat() {
     await loadFocusGoalProgress()
     await loadFocusSessions()
     await loadLLMStatus()
+    await loadFeedbackSources()
 }
 
 initializeChat()

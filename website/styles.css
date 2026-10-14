@@ -567,6 +567,47 @@ button:disabled {
     color: #7a4a4a;
 }
 
+.feedback-source-panel {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #cfd8dc;
+}
+
+.feedback-source-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+}
+
+.feedback-source-row {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 10px;
+}
+
+.feedback-source-label,
+.feedback-source-value,
+.feedback-source-empty {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.feedback-source-label {
+    color: #52616b;
+    font-weight: 700;
+}
+
+.feedback-source-value {
+    color: #1f2d33;
+    overflow-wrap: anywhere;
+}
+
+.feedback-source-empty {
+    color: #52616b;
+}
+
 .active-focus-panel {
     margin-top: 24px;
     padding-top: 16px;

@@ -39,8 +39,7 @@
                         placeholder="Message Nebula"
                         autocomplete="off"
                         required
-                    >
-                    </textarea>
+                    ></textarea>
                     <button id="send-button" type="submit">Send</button>
                 </form>
             </section>
@@ -94,6 +93,20 @@
                     </div>
 
                     <dl id="llm-status-list" class="llm-status-list"></dl>
+                </section>
+
+                <section
+                    class="feedback-source-panel"
+                    aria-label="Response feedback by source"
+                >
+                    <div class="panel-heading">
+                        <h2>Response Quality</h2>
+                    </div>
+
+                    <dl
+                        id="feedback-source-list"
+                        class="feedback-source-list"
+                    ></dl>
                 </section>
 
                 <div class="panel-heading">
