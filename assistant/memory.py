@@ -3515,6 +3515,30 @@ def get_response_improvement_target():
         "intent": intent_name,
         "not_helpful_count": count 
     }
+    
+def get_llm_response_improvement_target(
+    minimum_feedback=3,
+):
+    sources = get_response_feedback_by_source()
+    
+    provider_sources = [
+        item
+        for item in sources
+        if item["source"] in {"gemini", "groq"}
+        and item["total"] >= minimum_feedback
+    ]
+    
+    if not provider_sources:
+        return None
+    
+    return min(
+        provider_sources,
+        key=lambda item: (
+            item["helpful_rate"],
+            -item["not_helpful"],
+            item["source"],
+        ),
+    )
 
 
 

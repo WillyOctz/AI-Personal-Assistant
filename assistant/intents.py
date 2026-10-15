@@ -177,6 +177,7 @@ VALID_INTENTS = {
     "problem_feedback_intents",
     "feedback_by_source",
     "helpful_feedback_intents",
+    "chat_llm_improvement_target",
     "chat_improvement_target",
     "chat_feedback_note",
     "show_feedback_notes",
@@ -374,6 +375,7 @@ CHAT_INTENTS = {
     "problem_feedback_intents",
     "feedback_by_source",
     "helpful_feedback_intents",
+    "chat_llm_improvement_target",
     "chat_improvement_target",
     "chat_feedback_note",
     "show_feedback_notes",
@@ -1154,6 +1156,12 @@ INTENT_PATTERNS = {
         "helpful feedback intents",
         "good feedback intents",
         "positive feedback intents",
+    ],
+    "chat_llm_improvement_target": [
+        "what llm should you improve",
+        "what provider should you improve",
+        "llm improvement target",
+        "provider improvement target",
     ],
     "chat_improvement_target": [
         "what should you improve",

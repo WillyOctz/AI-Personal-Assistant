@@ -183,6 +183,23 @@ def respond_to_improvement_target(target):
         f"I should improve responses for {target['intent']} first. "
         f"It has {target['not_helpful_count']} not helpful feedback item(s)."
     )
+    
+def respond_to_llm_improvement_target(target):
+    if not target:
+        return (
+            "I do not have enough provider-specific feedback "
+            "to judge Gemini or Groq yet."
+        )
+        
+    helpful_percent = round(target["helpful_rate"] * 100)
+    
+    return (
+        f"I should review {target['source']} responses first. "
+        f"It has {target['total']} rated response(s): "
+        f"{target['helpful']} helpful and "
+        f"{target['not_helpful']} not helpful "
+        f"({helpful_percent}% helpful)."
+    )
 
 def summarize_response_feedback(stats):
     total = stats["total"]
