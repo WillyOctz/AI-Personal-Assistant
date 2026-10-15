@@ -184,7 +184,7 @@ def respond_to_improvement_target(target):
         f"It has {target['not_helpful_count']} not helpful feedback item(s)."
     )
     
-def respond_to_llm_improvement_target(target):
+def respond_to_llm_improvement_target(target, problem_intents):
     if not target:
         return (
             "I do not have enough provider-specific feedback "
@@ -193,14 +193,30 @@ def respond_to_llm_improvement_target(target):
         
     helpful_percent = round(target["helpful_rate"] * 100)
     
-    return (
-        f"I should review {target['source']} responses first. "
-        f"It has {target['total']} rated response(s): "
-        f"{target['helpful']} helpful and "
-        f"{target['not_helpful']} not helpful "
-        f"({helpful_percent}% helpful)."
-    )
-
+    lines = [
+        f"I should review {target['source']} responses first.",
+        (
+            f"It has {target['total']} rated response(s): "
+            f"{target['helpful']} helpful and "
+            f"{target['not_helpful']} not helpful "
+            f"({helpful_percent}% helpful)."
+        ),
+    ]
+    
+    if problem_intents:
+        areas = ", ".join(
+            f"{intent} ({count})"
+            for intent, count in problem_intents
+        )
+        lines.append(f"Most reported weak area(s): {areas}.")
+    else:
+        lines.append(
+            "There are no provider-specific not-helpful "
+            "ratings to narrow down yet."
+        )
+        
+    return " ".join(lines)
+    
 def summarize_response_feedback(stats):
     total = stats["total"]
     

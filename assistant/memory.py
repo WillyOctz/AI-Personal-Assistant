@@ -3540,7 +3540,32 @@ def get_llm_response_improvement_target(
         ),
     )
 
-
+def get_problem_feedback_intents_for_source(
+    source,
+    limit=3,
+):
+    feedback_items = get_all_response_feedback()
+    source_name = str(source or "").strip().lower()
+    counts = {}
+    
+    for item in feedback_items:
+        item_source = str(
+            item.get("last_source") or ""
+        ).strip().lower()
+        
+        if item_source != source_name:
+            continue
+        
+        if item.get("feedback") != "not_helpful":
+            continue
+        
+        intent = item.get("last_intent") or "unknown"
+        counts[intent] = counts.get(intent, 0) + 1
+        
+    return sorted(
+        counts.items(),
+        key=lambda item: (-item[1], item[0])
+    )[:limit]
 
 
 

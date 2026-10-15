@@ -515,7 +515,20 @@ def handle_chat_intent(user_input, analysis, memory, personality, current_timest
     
     if intent == "chat_llm_improvement_target":
         target = memory.get_llm_response_improvement_target()
-        return personality.respond_to_llm_improvement_target(target)
+        
+        problem_intents = []
+        
+        if target:
+            problem_intents = (
+                memory.get_problem_feedback_intents_for_source(
+                    target["source"]
+                )
+            )
+            
+        return personality.respond_to_llm_improvement_target(
+            target,
+            problem_intents,
+        )
 
     if intent == "show_feedback_notes":
         notes = memory.get_response_feedback_notes()
