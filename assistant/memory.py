@@ -60,6 +60,7 @@ def get_all_response_feedback():
             "last_group": item["last_group"],
             "last_source": item["last_source"],
             "last_text": item["last_text"],
+            "last_user_input": item["last_user_input"],
         }
         for item in sqlite_items
     ]
@@ -3350,6 +3351,7 @@ def search_response_feedback(query):
             str(item.get("last_group", "")),
             str(item.get("last_source", "")),
             str(item.get("last_text", "")),
+            str(item.get("last_user_input", "")),
         ]).lower()
         
         if query in combined:

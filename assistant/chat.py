@@ -295,7 +295,7 @@ def format_clear_response_feedback_result(removed_count):
 def format_feedback_note_saved(note):
     return f"Saved feedback note: {note}"
 
-def build_response_feedback(feedback_value, last_intent, last_group, last_source, last_text, timestamp):
+def build_response_feedback(feedback_value, last_intent, last_group, last_source,last_user_input, last_text, timestamp):
     return {
         "timestamp": timestamp,
         "feedback": feedback_value,
@@ -303,6 +303,7 @@ def build_response_feedback(feedback_value, last_intent, last_group, last_source
         "last_group": last_group,
         "last_source": last_source,
         "last_text": last_text,
+        "last_user_input": last_user_input,
     }
 
 
@@ -539,6 +540,7 @@ def handle_chat_intent(user_input, analysis, memory, personality, current_timest
         last_group = memory.get_state_value("last_response_group")
         last_text = memory.get_state_value("last_response_text")
         last_source = memory.get_state_value("last_response_source")
+        last_user_input = memory.get_state_value("last_response_user_input")
 
         feedback_value = "helpful" if intent == "chat_response_helpful" else "not_helpful"
 
@@ -548,6 +550,7 @@ def handle_chat_intent(user_input, analysis, memory, personality, current_timest
             last_group,
             last_source,
             last_text,
+            last_user_input,
             current_timestamp()
         )
 

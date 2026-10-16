@@ -253,6 +253,7 @@ def initialize_database():
                     feedback IN ('helpful', 'not_helpful')
                 ),
                 last_intent TEXT,
+                last_user_input TEXT,
                 last_group TEXT,
                 last_source TEXT,
                 last_text TEXT,
@@ -273,6 +274,14 @@ def initialize_database():
                 """
                 ALTER TABLE response_feedback
                 ADD COLUMN last_source TEXT
+                """
+            )
+            
+        if "last_user_input" not in feedback_columns:
+            connection.execute(
+                """
+                ALTER TABLE response_feedback
+                ADD COLUMN last_user_input TEXT
                 """
             )
         
