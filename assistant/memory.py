@@ -94,6 +94,7 @@ def get_recent_response_feedback(limit=5):
             "last_intent": item["last_intent"],
             "last_group": item["last_group"],
             "last_source": item["last_source"],
+            "last_user_input": item["last_user_input"],
             "last_text": item["last_text"],
         }
         for item in sqlite_items

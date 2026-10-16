@@ -2229,6 +2229,8 @@ def migrate_response_feedback_from_json():
         feedback = item.get("feedback")
         last_intent = item.get("last_intent")
         last_group = item.get("last_group")
+        last_source = item.get("last_source")
+        last_user_input = item.get("last_user_input")
         last_text = item.get("last_text")
 
         if not isinstance(timestamp, str) or not timestamp.strip():
@@ -2244,6 +2246,8 @@ def migrate_response_feedback_from_json():
         optional_fields = {
             "last_intent": last_intent,
             "last_group": last_group,
+            "last_source": last_source,
+            "last_user_input": last_user_input,
             "last_text": last_text,
         }
 
@@ -4013,7 +4017,7 @@ def add_sqlite_response_feedback(position, item):
                 last_text,
                 migrated_at
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 position,
@@ -4022,6 +4026,7 @@ def add_sqlite_response_feedback(position, item):
                 last_intent,
                 last_group,
                 last_source,
+                last_user_input,
                 last_text,
                 datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             ),
@@ -4112,7 +4117,7 @@ def sync_sqlite_response_feedback_from_json():
                 last_text,
                 migrated_at
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             records,
         )
