@@ -3541,6 +3541,48 @@ def get_llm_response_improvement_target(
             item["source"],
         ),
     )
+    
+def get_llm_feedback_review_candidates(limit=5):
+    feedback_items = get_all_response_feedback()
+    candidates = []
+    seen = set()
+    
+    for item in feedback_items:
+        if item.get("feedback") != "not_helpful":
+            continue
+        
+        source = str(item.get("last_source") or "").strip().lower()
+        
+        if source not in ("gemini", "groq"):
+            continue
+        
+        user_input = str(item.get("last_user_input") or "").strip()
+        response_text = str(item.get("last_text") or "").strip()
+        
+        if not user_input or not response_text:
+            continue
+        
+        key = (source, user_input, response_text)
+        
+        if key in seen:
+            continue
+        
+        seen.add(key)
+        
+        candidates.append({
+            "timestamp": item.get("timestamp"),
+            "source": source,
+            "intent": item.get("last_intent") or "unknown",
+            "user_input": user_input,
+            "response_text": response_text,
+        })
+        
+    candidates.sort(
+        key=lambda item: str(item.get("timestamp") or ""),
+        reverse=True,
+    )
+    
+    return candidates[:limit]
 
 def get_problem_feedback_intents_for_source(
     source,

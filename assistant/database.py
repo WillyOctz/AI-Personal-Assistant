@@ -3834,6 +3834,7 @@ def get_sqlite_response_feedback(limit=None):
             last_intent,
             last_group,
             last_source,
+            last_user_input,
             last_text,
             migrated_at
         FROM response_feedback
@@ -3869,6 +3870,7 @@ def get_sqlite_response_feedback(limit=None):
             "last_intent": row["last_intent"],
             "last_group": row["last_group"],
             "last_source": row["last_source"],
+            "last_user_input": row["last_user_input"],
             "last_text": row["last_text"],
             "migrated_at": row["migrated_at"],
         }
@@ -3894,6 +3896,7 @@ def verify_response_feedback_migration():
         "last_intent",
         "last_source",
         "last_group",
+        "last_user_input",
         "last_text",
     ]
 
@@ -3971,6 +3974,7 @@ def add_sqlite_response_feedback(position, item):
     last_intent = item.get("last_intent")
     last_group = item.get("last_group")
     last_source = item.get("last_source")
+    last_user_input = item.get("last_user_input")
     last_text = item.get("last_text")
     
     if not isinstance(timestamp, str) or not timestamp.strip():
@@ -3985,6 +3989,7 @@ def add_sqlite_response_feedback(position, item):
         "last_intent": last_intent,
         "last_group": last_group,
         "last_source": last_source,
+        "last_user_input": last_user_input,
         "last_text": last_text,
     }
     
@@ -4004,6 +4009,7 @@ def add_sqlite_response_feedback(position, item):
                 last_intent,
                 last_group,
                 last_source,
+                last_user_input,
                 last_text,
                 migrated_at
             )
@@ -4048,6 +4054,7 @@ def sync_sqlite_response_feedback_from_json():
         last_intent = item.get("last_intent")
         last_group = item.get("last_group")
         last_source = item.get("last_source")
+        last_user_input = item.get("last_user_input")
         last_text = item.get("last_text")
 
         if not isinstance(timestamp, str) or not timestamp.strip():
@@ -4064,6 +4071,7 @@ def sync_sqlite_response_feedback_from_json():
             "last_intent": last_intent,
             "last_group": last_group,
             "last_source": last_source,
+            "last_user_input": last_user_input,
             "last_text": last_text,
         }
 
@@ -4082,6 +4090,7 @@ def sync_sqlite_response_feedback_from_json():
                 last_intent,
                 last_group,
                 last_source,
+                last_user_input,
                 last_text,
                 synced_at,
             )
@@ -4099,6 +4108,7 @@ def sync_sqlite_response_feedback_from_json():
                 last_intent,
                 last_group,
                 last_source,
+                last_user_input,
                 last_text,
                 migrated_at
             )

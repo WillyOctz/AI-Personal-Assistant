@@ -51,12 +51,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "chat_response_not_helpful",
+        "last_response_intent": "review_llm_feedback_candidates",
         "last_response_group": "chat",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Got it. I will remember that response did not help.",
+        "last_response_text": "I do not have any not helpful LLM responses ready for review.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [
             {
@@ -150,7 +150,7 @@
         "pending_memory_result_delete": null,
         "pending_website_open": null,
         "pending_llm_command": null,
-        "last_response_user_input": "that did not help"
+        "last_response_user_input": "review llm feedback"
     },
     "history": [
         {
@@ -20454,6 +20454,36 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-10-16 15:53:38",
+            "importance": 0.3
+        },
+        {
+            "user": "review llm feedback",
+            "assistant": "I do not have any not helpful LLM responses ready for review.",
+            "intent": "review_llm_feedback_candidates",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-16 16:57:26",
+            "importance": 0.3
+        },
+        {
+            "user": "debug route review llm feedback",
+            "assistant": "Input: review llm feedback\nExact intent: review_llm_feedback_candidates\nPrefix intent: None",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-16 16:57:34",
+            "importance": 0.1
+        },
+        {
+            "user": "review llm feedback",
+            "assistant": "I do not have any not helpful LLM responses ready for review.",
+            "intent": "review_llm_feedback_candidates",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-16 16:58:38",
             "importance": 0.3
         }
     ],

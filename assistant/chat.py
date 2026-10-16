@@ -269,6 +269,22 @@ def format_response_feedback_by_source(results):
         
     return "\n".join(lines)
 
+def format_llm_feedback_review_candidates(candidates):
+    if not candidates:
+        return "I do not have any not helpful LLM responses ready for review."
+    
+    lines = ["LLM feedback review candidates:"]
+    
+    for number, item in enumerate(candidates, start=1):
+        lines.append(
+            f"\n{number}. {item['timestamp']} | "
+            f"{item['source']} | {item['intent']}"
+        )
+        lines.append(f"   User: {item['user_input']}")
+        lines.append(f"   Reply: {item['response_text']}")
+        
+    return "\n".join(lines)
+
 def format_response_feedback_cleanup(removed_count):
     return f"Response feedback cleanup finished. Removed {removed_count} broken item(s)."
 
@@ -514,6 +530,10 @@ def handle_chat_intent(user_input, analysis, memory, personality, current_timest
         target = memory.get_response_improvement_target()
         return personality.respond_to_improvement_target(target)
     
+    if intent == "review_llm_feedback_candidates":
+        candidates = memory.get_llm_feedback_review_candidates()
+        return format_llm_feedback_review_candidates(candidates)
+    
     if intent == "chat_llm_improvement_target":
         target = memory.get_llm_response_improvement_target()
         
@@ -549,8 +569,8 @@ def handle_chat_intent(user_input, analysis, memory, personality, current_timest
             last_intent,
             last_group,
             last_source,
-            last_text,
             last_user_input,
+            last_text,
             current_timestamp()
         )
 

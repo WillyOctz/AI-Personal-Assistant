@@ -285,6 +285,7 @@ VALID_INTENTS = {
     "website_open_history",
     "unregister_website",
     "search_websites",
+    "review_llm_feedback_candidates",
 }
 
 
@@ -380,6 +381,7 @@ CHAT_INTENTS = {
     "chat_feedback_note",
     "show_feedback_notes",
     "delete_feedback_note",
+    "review_llm_feedback_candidates",
 }
 
 
@@ -1071,6 +1073,12 @@ INTENT_PATTERNS = {
         "what are we working on",
         "what is the current topic",
         "current topic",
+    ],
+    "review_llm_feedback_candidates": [
+        "review llm feedback",
+        "review provider feedback",
+        "review bad llm responses",
+        "show llm feedback candidates",
     ],
     "chat_clear_topic": [
         "clear topic",
