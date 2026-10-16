@@ -286,6 +286,7 @@ VALID_INTENTS = {
     "unregister_website",
     "search_websites",
     "review_llm_feedback_candidates",
+    "save_llm_feedback_candidate",
 }
 
 
@@ -382,6 +383,7 @@ CHAT_INTENTS = {
     "show_feedback_notes",
     "delete_feedback_note",
     "review_llm_feedback_candidates",
+    "save_llm_feedback_candidate",
 }
 
 
@@ -1987,6 +1989,9 @@ INTENT_PREFIXES = {
         "dismiss notification ",
         "mute reminder notification ",
     ],
+    "save_llm_feedback_candidate": [
+        "save llm feedback candidate ",
+    ],
     "upcoming_reminders": [
         "upcoming reminders ",
         "show upcoming reminders ",
@@ -2134,6 +2139,7 @@ PREFIX_INTENT_ORDER = [
 
     "get_profile_fact",
     "calculate",
+    "save_llm_feedback_candidate",
 ]
 
 

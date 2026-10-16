@@ -1,3 +1,5 @@
+from assistant import llm_evaluation
+
 def parse_feeling_statement(user_input):
     text = user_input.lower().strip()
 
@@ -7,6 +9,38 @@ def parse_feeling_statement(user_input):
 
     return ""
 
+def parse_save_llm_feedback_candidate(user_input):
+    text = user_input.strip()
+    prefix = "save llm feedback candidate "
+    
+    if not text.lower().startswith(prefix):
+        return None, None, None
+    
+    remaining = text[len(prefix):].strip()
+    marker = " as "
+    marker_index = remaining.lower().find(marker)
+    
+    if marker_index == -1:
+        return None, None, None
+    
+    number_text = remaining[:marker_index].strip()
+    decision = remaining[marker_index + len(marker):].strip()
+    
+    if not number_text.isdigit():
+        return None, None, None
+    
+    if decision.lower() == "no command":
+        return int(number_text), False, ""
+    
+    command_prefix = "command "
+    
+    if decision.lower().startswith(command_prefix):
+        prefix_text = decision[len(command_prefix):].strip()
+        
+        if prefix_text:
+            return int(number_text), True, prefix_text
+        
+    return None, None, None
 
 def parse_chat_remember_that(user_input):
     text = user_input.lower().strip()
@@ -549,6 +583,46 @@ def handle_chat_intent(user_input, analysis, memory, personality, current_timest
         return personality.respond_to_llm_improvement_target(
             target,
             problem_intents,
+        )
+        
+    if intent == "save_llm_feedback_candidate":
+        candidate_number, expected_command, command_prefix = (
+            parse_save_llm_feedback_candidate(user_input)
+        )
+        
+        if candidate_number is None:
+            return (
+                "Use: save llm feedback candidate number as no command\n"
+                "Or: save llm feedback candidate number as command prefix"
+            )
+            
+        candidates = memory.get_llm_feedback_review_candidates()
+        
+        if candidate_number < 1 or candidate_number > len(candidates):
+            return "That review candidate number does not exist."
+        
+        candidate = candidates[candidate_number - 1]
+        
+        result = llm_evaluation.append_llm_evaluation_case(
+            candidate["user_input"],
+            expected_command,
+            command_prefix,
+        )
+        
+        if result["reason"] == "duplicate":
+            return "That message is already in the LLM evaluation dataset."
+
+        if not result["saved"]:
+            return "I could not save that evaluation case."
+
+        if expected_command:
+            return (
+                f"Saved candidate {candidate_number} as a command case.\n"
+                f"Expected prefix: {command_prefix}"
+            )
+            
+        return (
+            f"Saved candidate {candidate_number} as a no-command case."
         )
 
     if intent == "show_feedback_notes":

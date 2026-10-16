@@ -51,12 +51,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "review_llm_feedback_candidates",
+        "last_response_intent": "save_llm_feedback_candidate",
         "last_response_group": "chat",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I do not have any not helpful LLM responses ready for review.",
+        "last_response_text": "That review candidate number does not exist.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [
             {
@@ -150,7 +150,7 @@
         "pending_memory_result_delete": null,
         "pending_website_open": null,
         "pending_llm_command": null,
-        "last_response_user_input": "review llm feedback"
+        "last_response_user_input": "save llm feedback candidate 1 as command remind me to"
     },
     "history": [
         {
@@ -20484,6 +20484,36 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-10-16 16:58:38",
+            "importance": 0.3
+        },
+        {
+            "user": "review llm feedback",
+            "assistant": "I do not have any not helpful LLM responses ready for review.",
+            "intent": "review_llm_feedback_candidates",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-16 18:06:47",
+            "importance": 0.3
+        },
+        {
+            "user": "save llm feedback candidate 1 as no command",
+            "assistant": "That review candidate number does not exist.",
+            "intent": "save_llm_feedback_candidate",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-16 18:06:54",
+            "importance": 0.3
+        },
+        {
+            "user": "save llm feedback candidate 1 as command remind me to",
+            "assistant": "That review candidate number does not exist.",
+            "intent": "save_llm_feedback_candidate",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-16 18:07:04",
             "importance": 0.3
         }
     ],

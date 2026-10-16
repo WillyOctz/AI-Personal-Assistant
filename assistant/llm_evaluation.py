@@ -51,6 +51,58 @@ def load_llm_evaluation_cases():
             
     return cases
 
+def append_llm_evaluation_case(
+    message,
+    expected_command,
+    command_prefix="",
+):
+    message = str(message or "").strip()
+    command_prefix = str(command_prefix or "").strip().lower()
+    
+    if not message:
+        return {
+            "saved": False,
+            "reason": "missing_message",
+        }
+        
+    if not isinstance(expected_command, bool):
+        return {
+            "saved": False,
+            "reason": "invalid_expected_command",
+        }
+
+    if expected_command and not command_prefix:
+        return {
+            "saved": False,
+            "reason": "missing_command_prefix",
+        }
+
+    for case in load_llm_evaluation_cases():
+        existing_message = str(case.get("message") or "").strip()
+        
+        if existing_message.casefold() == message.casefold():
+            return {
+                "saved": False,
+                "reason": "duplicate",
+            }
+            
+    case = {
+        "message": message,
+        "expected_command": expected_command,
+    }
+    
+    if expected_command:
+        case["command_prefix"] = command_prefix
+        
+    with open(EVALUATION_FILE, "a") as file:
+        file.write(json.dumps(case) + "\n")
+        
+    return {
+        "saved": True,
+        "reason": "created",
+        "case": case,
+    }
+
 def evaluate_llm_command_proposals(limit=None, command_validator=None):
     cases = load_llm_evaluation_cases()
     
