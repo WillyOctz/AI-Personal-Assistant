@@ -170,6 +170,16 @@ class ResponseFeedbackSourceResponse(BaseModel):
 class ResponseFeedbackSourceListResponse(BaseModel):
     sources: list[ResponseFeedbackSourceResponse]
     
+class LLMFeedbackReviewCandidateResponse(BaseModel):
+    timestamp: str | None = None
+    source: str
+    intent: str
+    user_input: str
+    response_text: str
+    
+class LLMFeedbackReviewCandidateListResponse(BaseModel):
+    candidates: list[LLMFeedbackReviewCandidateResponse]
+    
 @app.get("/health")
 def health_check():
     try:
@@ -212,6 +222,19 @@ def llm_provider_status():
 def response_feedback_sources():
     return {
         "sources": memory.get_response_feedback_by_source(),
+    }
+    
+@app.get(
+    "/feedback/llm-review-candidates",
+    response_model=LLMFeedbackReviewCandidateListResponse,
+)
+def llm_feedback_review_candidates(limit: int = 5):
+    safe_limit = max(1, min(limit, 10))
+    
+    return {
+        "candidates": memory.get_llm_feedback_review_candidates(
+            safe_limit,
+        )
     }
     
 @app.get("/startup", response_model=StartupResponse)
