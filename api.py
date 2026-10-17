@@ -18,6 +18,7 @@ from assistant.database import (
 )
 
 from assistant.llm_evaluation import (
+    append_llm_evaluation_case,
     evaluate_llm_command_proposals,
     format_llm_evaluation_report,
 )
@@ -180,6 +181,15 @@ class LLMFeedbackReviewCandidateResponse(BaseModel):
 class LLMFeedbackReviewCandidateListResponse(BaseModel):
     candidates: list[LLMFeedbackReviewCandidateResponse]
     
+class SaveLLMFeedbackCandidateRequest(BaseModel):
+    expected_command: bool
+    command_prefix: str = ""
+
+
+class SaveLLMFeedbackCandidateResponse(BaseModel):
+    saved: bool
+    message: str
+    
 @app.get("/health")
 def health_check():
     try:
@@ -235,6 +245,71 @@ def llm_feedback_review_candidates(limit: int = 5):
         "candidates": memory.get_llm_feedback_review_candidates(
             safe_limit,
         )
+    }
+    
+@app.post(
+    "/feedback/llm-review-candidates/{candidate_number}/save",
+    response_model=SaveLLMFeedbackCandidateResponse,
+    responses={
+        400: {"description": "Invalid review decision"},
+        404: {"description": "Review candidate not found"},
+        409: {"description": "Evaluation case already exists"},
+    }
+)
+def save_llm_feedback_candidate(
+    candidate_number: int,
+    req: SaveLLMFeedbackCandidateRequest,
+):
+    candidates = memory.get_llm_feedback_review_candidates(limit=10)
+    
+    if candidate_number < 1 or candidate_number > len(candidates):
+        raise HTTPException(
+            status_code=404,
+            detail="That review candidate does not exist."
+        )
+        
+    command_prefix = req.command_prefix.strip()
+    
+    if req.expected_command and not command_prefix:
+        raise HTTPException(
+            status_code=400,
+            detail="A command case needs a command prefix.",
+        )
+        
+    candidate = candidates[candidate_number - 1]
+    
+    result = append_llm_evaluation_case(
+        candidate["user_input"],
+        req.expected_command,
+        command_prefix,
+    )
+    
+    if result["reason"] == "duplicate":
+        raise HTTPException(
+            status_code=409,
+            detail="That message is already in the evaluation dataset.",
+        )
+
+    if not result["saved"]:
+        raise HTTPException(
+            status_code=400,
+            detail="Nebula could not save that evaluation case.",
+        )
+    
+    if req.expected_command:
+        message = (
+            f"Saved candidate {candidate_number} as a command case "
+            f"with prefix: {command_prefix}"
+        )
+        
+    else:
+        message = (
+            f"Saved candidate {candidate_number} as a no-command case."
+        )
+        
+    return {
+        "saved": True,
+        "message": message,
     }
     
 @app.get("/startup", response_model=StartupResponse)

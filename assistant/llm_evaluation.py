@@ -95,58 +95,15 @@ def append_llm_evaluation_case(
         case["command_prefix"] = command_prefix
         
     with open(EVALUATION_FILE, "a") as file:
-        file.write(json.dumps(case) + "\n")
+        file.seek(0, 2)
         
-    return {
-        "saved": True,
-        "reason": "created",
-        "case": case,
-    }
-
-def append_llm_evaluation_case(
-    message,
-    expected_command,
-    command_prefix="",
-):
-    message = str(message or "").strip()
-    command_prefix = str(command_prefix or "").strip().lower()
-    
-    if not message:
-        return {
-            "saved": False,
-            "reason": "missing_message",
-        }
-        
-    if not isinstance(expected_command, bool):
-        return {
-            "saved": False,
-            "reason": "invalid_expected_command",
-        }
-
-    if expected_command and not command_prefix:
-        return {
-            "saved": False,
-            "reason": "missing_command_prefix",
-        }
-
-    for case in load_llm_evaluation_cases():
-        existing_message = str(case.get("message") or "").strip()
-        
-        if existing_message.casefold() == message.casefold():
-            return {
-                "saved": False,
-                "reason": "duplicate",
-            }
+        if file.tell() > 0:
+            file.seek(file.tell() - 1)
+            last_character = file.read(1)
             
-    case = {
-        "message": message,
-        "expected_command": expected_command,
-    }
-    
-    if expected_command:
-        case["command_prefix"] = command_prefix
-        
-    with open(EVALUATION_FILE, "a") as file:
+            if last_character != "\n":
+                file.write("\n")
+                
         file.write(json.dumps(case) + "\n")
         
     return {
