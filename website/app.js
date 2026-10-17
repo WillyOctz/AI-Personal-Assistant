@@ -45,6 +45,7 @@ const llmStatusList = document.getElementById("llm-status-list")
 const feedbackSourceList = document.getElementById(
     "feedback-source-list"
 )
+const feedbackCandidateList = document.getElementById("feedback-candidate-list")
 
 function addMessage(role, text) {
     const message = document.createElement("article")
@@ -806,6 +807,68 @@ async function loadFeedbackSources() {
     }
 }
 
+function renderFeedbackCandidates(candidates) {
+    feedbackCandidateList.replaceChildren()
+
+    if (candidates.length === 0) {
+        const empty = document.createElement("p")
+        empty.classList.add("feedback-candidate-empty")
+        empty.textContent = "No LLM responses need review yet."
+        feedbackCandidateList.appendChild(empty)
+        return
+    }
+
+    for (const candidate of candidates) {
+        const item = document.createElement("li")
+        const meta = document.createElement("p")
+        const prompt = document.createElement("p")
+        const reply = document.createElement("p")
+
+        item.classList.add("feedback-candidate-item")
+        meta.classList.add("feedback-candidate-meta")
+        prompt.classList.add("feedback-candidate-prompt")
+        reply.classList.add("feedback-candidate-reply")
+
+        meta.textContent =
+            `${candidate.source} | ${candidate.intent} | ` +
+            `${candidate.timestamp || "No timestamp"}`
+
+        prompt.textContent = `User: ${candidate.user_input}`
+        reply.textContent = `Reply: ${candidate.response_text}`
+
+        item.append(meta, prompt, reply)
+        feedbackCandidateList.appendChild(item)
+    }
+}
+
+async function loadFeedbackCandidates() {
+    try {
+        const res = await fetch(
+            "/feedback/llm-review-candidates?limit=5"
+        )
+
+        if (!res.ok) {
+            throw new Error("Feedback candidate request failed.")
+        }
+
+        const data = await res.json()
+
+        if (!Array.isArray(data.candidates)) {
+            throw new Error("Invalid feedback candidate response.")
+        }
+
+        renderFeedbackCandidates(data.candidates)
+    } catch (err) {
+        feedbackCandidateList.replaceChildren()
+
+        const unavailable = document.createElement("p")
+        unavailable.classList.add("feedback-candidate-empty")
+        unavailable.textContent = "Review candidates are unavailable."
+
+        feedbackCandidateList.appendChild(unavailable)
+    }
+}
+
 focusNoteForm.addEventListener("submit", async (event) => {
     event.preventDefault()
 
@@ -1036,6 +1099,7 @@ form.addEventListener("submit", async (event) => {
         await loadFocusSessions()
         await loadLLMStatus()
         await loadFeedbackSources()
+        await loadFeedbackCandidates()
         status.textContent = "Connected"
     } catch (err) {
         addMessage("assistant", `Error: ${err.message}`)
@@ -1078,6 +1142,7 @@ async function initializeChat() {
     await loadFocusSessions()
     await loadLLMStatus()
     await loadFeedbackSources()
+    await loadFeedbackCandidates()
 }
 
 initializeChat()
