@@ -46,6 +46,7 @@ const feedbackSourceList = document.getElementById(
     "feedback-source-list"
 )
 const feedbackCandidateList = document.getElementById("feedback-candidate-list")
+let isPollingReminderNotifications = false
 const feedbackCandidateStatus = document.getElementById(
     "feedback-candidate-status"
 )
@@ -723,6 +724,72 @@ async function loadStartupMessage() {
     }
 }
 
+function formatReminderNotification(data) {
+    const lines = [`Reminder notification: ${data.today}`]
+
+    if (data.overdue.length > 0) {
+        lines.push("", "Overdue:")
+
+        for (const reminder of data.overdue) {
+            lines.push(
+                `- ${reminder.index}. ${reminder.text} | ` +
+                `due: ${reminder.due}`
+            )
+        }
+    }
+
+    if (data.due.length > 0) {
+        lines.push("", "Due today:")
+
+        for (const reminder of data.due) {
+            lines.push(
+                `- ${reminder.index}. ${reminder.text} | ` +
+                `due: ${reminder.due}`
+            )
+        }
+    }
+
+    return lines.join("\n")
+}
+
+async function pollReminderNotifications() {
+    if (isPollingReminderNotifications) {
+        return
+    }
+
+    isPollingReminderNotifications = true
+
+    try {
+        const res = await fetch("/notifications/pending", {
+            method: "POST",
+        })
+
+        if (!res.ok) {
+            throw new Error("Reminder notification request failed.")
+        }
+
+        const data = await res.json()
+
+        if (
+            !Array.isArray(data.due) ||
+            !Array.isArray(data.overdue)
+        ) {
+            throw new Error("Invalid reminder notification response.")
+        }
+
+        if (data.due.length === 0 && data.overdue.length === 0) {
+            return
+        }
+
+        addMessage("assistant", formatReminderNotification(data))
+        await loadReminders()
+    } catch (err) {
+
+    } finally {
+        isPollingReminderNotifications = false
+    }
+}
+
 async function loadHealth() {
     try {
         const res = await fetch("/health")
@@ -1248,6 +1315,8 @@ async function initializeChat() {
     await loadLLMStatus()
     await loadFeedbackSources()
     await loadFeedbackCandidates()
+    await loadFeedbackCandidates()
 }
 
 initializeChat()
+window.setInterval(pollReminderNotifications, 60_000)
