@@ -50,6 +50,12 @@ let isPollingReminderNotifications = false
 const feedbackCandidateStatus = document.getElementById(
     "feedback-candidate-status"
 )
+const enableBrowserNotificationsButton = document.getElementById(
+    "enable-browser-notifications-button"
+)
+const browserNotificationStatus = document.getElementById(
+    "browser-notification-status"
+)
 
 function addMessage(role, text) {
     const message = document.createElement("article")
@@ -752,6 +758,70 @@ function formatReminderNotification(data) {
     return lines.join("\n")
 }
 
+function updateBrowserNotificationStatus() {
+    if (!("Notification" in window)) {
+        enableBrowserNotificationsButton.disabled = true
+        browserNotificationStatus.textContent = 
+            "Browser notifications are unavailable."
+        return
+    }
+
+    if (Notification.permission === "granted") {
+        enableBrowserNotificationsButton.disabled = true
+        browserNotificationStatus.textContent = 
+            "Browser notifications are enabled."
+        return
+    }
+
+    if (Notification.permission === "denied") {
+        enableBrowserNotificationsButton.disabled = true
+        browserNotificationStatus.textContent =
+            "Browser notifications were blocked."
+        return
+    }
+
+    enableBrowserNotificationsButton.disabled = false
+    browserNotificationStatus.textContent = 
+        "Browser notifications are not enabled."
+}
+
+async function enableBrowserNotifications() {
+    if (!("Notification" in window)) {
+        updateBrowserNotificationStatus()
+        return
+    }
+
+    enableBrowserNotificationsButton.disabled = true
+    
+    try {
+        await Notification.requestPermission()
+    } finally {
+        updateBrowserNotificationStatus()
+    }
+}
+
+function showBrowserReminderNotification(data) {
+    if (
+       !("Notification" in window) ||
+        Notification.permission !== "granted" 
+    ) {
+        return
+    }
+
+    const reminders = [...data.overdue, ...data.due]
+
+    if (reminders.length === 0) {
+        return
+    }
+
+    const body = reminders.map((reminder) => `${reminder.text} (${reminder.due})`)
+        .join("\n")
+
+    new Notification("Nebula reminder", {
+        body: body,
+    })
+}
+
 async function pollReminderNotifications() {
     if (isPollingReminderNotifications) {
         return
@@ -782,6 +852,7 @@ async function pollReminderNotifications() {
         }
 
         addMessage("assistant", formatReminderNotification(data))
+        showBrowserReminderNotification(data)
         await loadReminders()
     } catch (err) {
 
@@ -1060,6 +1131,10 @@ focusNoteForm.addEventListener("submit", async (event) => {
     }
 })
 
+enableBrowserNotificationsButton.addEventListener("click", () => {
+    enableBrowserNotifications()
+})
+
 startFocusButton.addEventListener("click", () => {
     runFocusCommand("start focus")
 })
@@ -1301,6 +1376,8 @@ cancelButton.addEventListener("click", () => {
 })
 
 async function initializeChat() {
+    updateBrowserNotificationStatus()
+
     await loadHealth()
     await loadConversation()
     await loadStartupMessage()
@@ -1315,8 +1392,7 @@ async function initializeChat() {
     await loadLLMStatus()
     await loadFeedbackSources()
     await loadFeedbackCandidates()
-    await loadFeedbackCandidates()
+    window.setInterval(pollReminderNotifications, 60_000)
 }
 
 initializeChat()
-window.setInterval(pollReminderNotifications, 60_000)
