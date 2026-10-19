@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 from datetime import datetime, timedelta
-from assistant import database
+from assistant import database, llm_evaluation
 
 MEMORY_FILE = Path("datasets/memory.json")
 
@@ -3548,6 +3548,11 @@ def get_llm_feedback_review_candidates(limit=5):
     candidates = []
     seen = set()
     
+    reviewed_messages = {
+        str(case.get("message") or "").strip().casefold()
+        for case in llm_evaluation.load_llm_evaluation_cases()
+    }
+    
     for item in feedback_items:
         if item.get("feedback") != "not_helpful":
             continue
@@ -3561,6 +3566,9 @@ def get_llm_feedback_review_candidates(limit=5):
         response_text = str(item.get("last_text") or "").strip()
         
         if not user_input or not response_text:
+            continue
+        
+        if user_input.casefold() in reviewed_messages:
             continue
         
         key = (source, user_input, response_text)

@@ -663,6 +663,31 @@ button:disabled {
     color: #52616b;
 }
 
+.feedback-candidate-status {
+    min-height: 18px;
+    margin: 0 0 8px;
+    color: #52616b;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.feedback-candidate-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.feedback-candidate-decision,
+.feedback-candidate-prefix {
+    flex: 1 1 150px;
+    min-width: 0;
+}
+
+.feedback-candidate-save {
+    flex: 0 0 auto;
+}
+
 .active-focus-panel {
     margin-top: 24px;
     padding-top: 16px;

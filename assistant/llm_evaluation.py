@@ -94,7 +94,7 @@ def append_llm_evaluation_case(
     if expected_command:
         case["command_prefix"] = command_prefix
         
-    with open(EVALUATION_FILE, "a") as file:
+    with open(EVALUATION_FILE, "a+") as file:
         file.seek(0, 2)
         
         if file.tell() > 0:

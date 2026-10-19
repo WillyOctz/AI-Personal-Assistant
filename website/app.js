@@ -46,6 +46,9 @@ const feedbackSourceList = document.getElementById(
     "feedback-source-list"
 )
 const feedbackCandidateList = document.getElementById("feedback-candidate-list")
+const feedbackCandidateStatus = document.getElementById(
+    "feedback-candidate-status"
+)
 
 function addMessage(role, text) {
     const message = document.createElement("article")
@@ -807,6 +810,34 @@ async function loadFeedbackSources() {
     }
 }
 
+async function saveFeedbackCandidate(
+    candidateNumber,
+    expectedCommand,
+    commandPrefix,
+) {
+    const res = await fetch(
+        `/feedback/llm-review-candidates/${candidateNumber}/save`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                expected_command: expectedCommand,
+                command_prefix: commandPrefix,
+            }),
+        }
+    )
+
+    const data = await res.json()
+
+    if (!res.ok) {
+        throw new Error(data.detail || "Could not save evaluation case.")
+    }
+
+    return data
+}
+
 function renderFeedbackCandidates(candidates) {
     feedbackCandidateList.replaceChildren()
 
@@ -818,7 +849,7 @@ function renderFeedbackCandidates(candidates) {
         return
     }
 
-    for (const candidate of candidates) {
+    for (const [index, candidate] of candidates.entries()) {
         const item = document.createElement("li")
         const meta = document.createElement("p")
         const prompt = document.createElement("p")
@@ -836,7 +867,81 @@ function renderFeedbackCandidates(candidates) {
         prompt.textContent = `User: ${candidate.user_input}`
         reply.textContent = `Reply: ${candidate.response_text}`
 
-        item.append(meta, prompt, reply)
+        const controls = document.createElement("div")
+        const decision = document.createElement("select")
+        const noCommandOption = document.createElement("option")
+        const commandOption = document.createElement("option")
+        const prefixInput = document.createElement("input")
+        const saveButton = document.createElement("button")
+
+        controls.classList.add("feedback-candidate-controls")
+        decision.classList.add("feedback-candidate-decision")
+        prefixInput.classList.add("feedback-candidate-prefix")
+        saveButton.classList.add("feedback-candidate-save")
+
+        noCommandOption.value = "no_command"
+        noCommandOption.textContent = "No command"
+
+        commandOption.value = "command"
+        commandOption.textContent = "Command expected"
+
+        decision.append(noCommandOption, commandOption)
+
+        prefixInput.type = "text"
+        prefixInput.placeholder = "Command prefix"
+        prefixInput.setAttribute(
+            "aria-label",
+            "Expected command prefix"
+        )
+        prefixInput.hidden = true
+
+        saveButton.type = "button"
+        saveButton.textContent = "Save"
+
+        decision.addEventListener("change", () => {
+            const needsPrefix = decision.value === "command"
+
+
+            prefixInput.hidden = !needsPrefix
+
+            if (!needsPrefix) {
+                prefixInput.value = ""
+            }
+        })
+
+        saveButton.addEventListener("click", async () => {
+            const expectedCommand = decision.value === "command"
+            const commandPrefix = prefixInput.value.trim()
+
+            if (expectedCommand && !commandPrefix) {
+                feedbackCandidateStatus.textContent =
+                    "A command case needs a command prefix."
+                prefixInput.focus()
+                return
+            }
+
+            saveButton.disabled = true
+            feedbackCandidateStatus.textContent = "Saving review decision..."
+
+            try {
+                const result = await saveFeedbackCandidate(
+                    index + 1,
+                    expectedCommand,
+                    commandPrefix,
+                )
+
+                feedbackCandidateStatus.textContent = result.message
+                await loadFeedbackCandidates()
+            } catch (err) {
+                feedbackCandidateStatus.textContent = err.message
+            } finally {
+                saveButton.disabled = false
+            }
+        })
+
+        controls.append(decision, prefixInput, saveButton)
+
+        item.append(meta, prompt, reply, controls)
         feedbackCandidateList.appendChild(item)
     }
 }
