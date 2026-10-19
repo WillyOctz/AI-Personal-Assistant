@@ -2210,6 +2210,21 @@ def mark_reminders_as_notified(items):
     
     return added
 
+def collect_due_reminder_notifications():
+    result = get_due_reminders()
+    
+    due = result["due"]
+    overdue = result["overdue"]
+    
+    marked_count = mark_reminders_as_notified(due + overdue)
+    
+    return {
+        "today": result["today"],
+        "due": due,
+        "overdue": overdue,
+        "marked_count": marked_count,
+    }
+
 def format_sqlite_focus_session(session):
     formatted = {
         "task": session["task"],

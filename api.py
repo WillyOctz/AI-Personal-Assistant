@@ -190,6 +190,18 @@ class SaveLLMFeedbackCandidateResponse(BaseModel):
     saved: bool
     message: str
     
+class ReminderNotificationItemResponse(BaseModel):
+    index: int
+    text: str
+    due: str
+
+
+class ReminderNotificationCheckResponse(BaseModel):
+    today: str
+    due: list[ReminderNotificationItemResponse]
+    overdue: list[ReminderNotificationItemResponse]
+    marked_count: int
+    
 @app.get("/health")
 def health_check():
     try:
@@ -381,6 +393,20 @@ def complete_reminder(position: int):
     return {
         "completed": True,
         "reminder": result["reminder"],
+    }
+    
+@app.post(
+    "/notifications/pending",
+    response_model=ReminderNotificationCheckResponse,
+)
+def collect_pending_reminder_notifications():
+    result = memory.collect_due_reminder_notifications()
+    
+    return {
+        "today": result["today"],
+        "due": result["due"],
+        "overdue": result["overdue"],
+        "marked_count": result["marked_count"],
     }
     
 @app.get(
