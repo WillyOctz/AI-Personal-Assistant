@@ -136,6 +136,26 @@ def open_website_url(website_name, url):
     except Exception:
         return f"I tried to open {website_name}, but something went wrong."
     
+def open_text_file(file_path):
+    path = Path(file_path)
+    
+    if not path.exists():
+        return {"ok": False, "reason": "not_found"}
+    
+    if not path.is_file():
+        return {"ok": False, "reason": "not_file"}
+    
+    if path.suffix.lower() not in TEXT_EXTENSIONS:
+        return {"ok": False, "reason": "not_text"}
+    
+    try:
+        subprocess.Popen(["notepad.exe", str(path)])
+        return {"ok": True, "reason": "opened"}
+    except FileNotFoundError:
+        return {"ok": False, "reason": "notepad_not_found"}
+    except OSError:
+        return {"ok": False, "reason": "open_error"}
+    
 #======================================================================
 ## File Search/Path Logic Functions
 #======================================================================
@@ -314,7 +334,8 @@ def get_file_info(folder_path, filename):
                     "path": str(item),
                     "type": item_type,
                     "size": stats.st_size,
-                    "modified": stats.st_mtime
+                    "modified": stats.st_mtime,
+                    "extension": item.suffix.lower()
                 }
             }
             

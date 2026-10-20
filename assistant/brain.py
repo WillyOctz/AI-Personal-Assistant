@@ -1,4 +1,4 @@
-from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around, open_website_url
+from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around, open_website_url, open_text_file, TEXT_EXTENSIONS
 from assistant import memory
 from assistant import chat
 from assistant import apps
@@ -572,6 +572,21 @@ def parse_preview_file_command(user_input):
             max_lines = int(parts[4])
             
     return folder_name, filename, max_lines
+
+def parse_open_file(user_input):
+    text = user_input.strip()
+    
+    if text.lower().startswith("open file "):
+        text = text[len("open file "):].strip()
+    else:
+        return "", ""
+    
+    parts = text.split(" ", 1)
+    
+    if len(parts) < 2:
+        return "", ""
+    
+    return parts[0].strip(), parts[1].strip()
 
 def parse_text_search_command(user_input):
     parts = user_input.split()
@@ -1167,6 +1182,18 @@ def clear_pending_task():
     
 def set_pending_app_launch(app_name, command):
     return apps.set_pending_app_launch(app_name, command)
+
+def set_pending_file_open(folder_name, filename):
+    memory.set_state_value("pending_file_open", {
+        "folder_name": folder_name,
+        "filename": filename,
+    })
+    
+def get_pending_file_open():
+    return memory.get_state_value("pending_file_open")
+
+def clear_pending_file_open():
+    memory.clear_state_value("pending_file_open")
     
 def get_pending_app_launch():
     return apps.get_pending_app_launch()
@@ -2537,6 +2564,50 @@ def get_pending_confirmation():
 def clear_pending_confirmation():
     memory.clear_state_value("pending_confirmation")
     
+def confirm_pending_file_open():
+    pending = get_pending_file_open()
+    
+    if not pending:
+        return None
+    
+    folder_path = memory.get_search_folder(pending["folder_name"])
+    
+    if not folder_path:
+        clear_pending_file_open()
+        return "Cancelled file opening because its registered folder no longer exists."
+    
+    result = get_file_info(folder_path, pending["filename"])
+    
+    if not result["ok"]:
+        clear_pending_file_open()
+        return "Cancelled file opening because the file is no longer available."
+    
+    file = result["file"]
+    open_result = open_text_file(file["path"])
+    
+    clear_pending_file_open()
+    
+    if not open_result["ok"]:
+        return f"I could not open {file['name']}: {open_result['reason']}"
+    
+    log_file_search(
+        "open_file",
+        pending["folder_name"],
+        pending["filename"],
+        file["path"],
+    )
+    
+    return f"Opening file: {file['path']}"
+
+def deny_pending_file_open():
+    pending = get_pending_file_open()
+    
+    if not pending:
+        return None
+    
+    clear_pending_file_open()
+    return f"Cancelled file opening: {pending['filename']}"
+    
 def set_pending_llm_command(command):
     memory.set_state_value("pending_llm_command", command)
     
@@ -2644,6 +2715,11 @@ def handle_control_intent(user_input, analysis):
         
         if website_result:
             return website_result
+        
+        file_result = confirm_pending_file_open()
+                
+        if file_result:
+            return file_result
         
         pending = get_pending_confirmation()
         app_result = apps.confirm_pending_app_launch(open_registered_app)
@@ -6787,6 +6863,38 @@ def handle_memory_intent(user_input, analysis):
         log_file_search("search_files", folder_name, query, f"{len(result['matches'])} match(es)")
             
         return "\n".join(lines)
+    
+    if intent == "open_file":
+        folder_name, filename = parse_open_file(user_input)
+        
+        if not folder_name or not filename:
+            return "Use this format: open file folder_name filename"
+        
+        folder_path = memory.get_search_folder(folder_name)
+        
+        if not folder_path:
+            return f"I could not find registered search folder: {folder_name}"
+
+        result = get_file_info(folder_path, filename)
+
+        if not result["ok"]:
+            return f"I could not find a safe file to open: {filename}"
+
+        file = result["file"]
+
+        if file["type"] != "file":
+            return f"That path is a folder, not a file: {file['name']}"
+
+        if file["extension"] not in TEXT_EXTENSIONS:
+            return f"I can only open text files for now: {file['name']}"
+
+        set_pending_file_open(folder_name, filename)
+
+        return (
+            f"I am ready to open this text file in Notepad:\n"
+            f"{file['path']}\n"
+            "Reply yes to open it or no to cancel."
+        )
     
     if intent == "file_info":
         folder_name, filename = parse_file_info(user_input)
