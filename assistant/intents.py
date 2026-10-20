@@ -285,6 +285,7 @@ VALID_INTENTS = {
     "website_open_history",
     "unregister_website",
     "search_websites",
+    "web_search",
     "review_llm_feedback_candidates",
     "save_llm_feedback_candidate",
 }
@@ -590,6 +591,7 @@ MEMORY_INTENTS = {
     "website_open_history",
     "unregister_website",
     "search_websites",
+    "web_search",
 }
 
 
@@ -2016,6 +2018,10 @@ INTENT_PREFIXES = {
     "search_websites": [
         "search websites ",
     ],
+    "web_search": [
+        "search web ",
+        "web search ",
+    ],
 }
 
 
@@ -2115,6 +2121,7 @@ PREFIX_INTENT_ORDER = [
     "register_website",
     "open_website",
     "search_websites",
+    "web_search",
     "unregister_website",
     "unregister_app",
     "register_app",

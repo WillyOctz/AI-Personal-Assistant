@@ -1,4 +1,4 @@
-from urllib.parse import urlparse
+from urllib.parse import urlparse, quote_plus
 from assistant import memory
 
 def handle_register_website(user_input):
@@ -38,6 +38,30 @@ def handle_search_websites(user_input):
         )
         
     return "\n".join(lines)
+
+def handle_web_search(user_input):
+    query = parse_web_search(user_input)
+    
+    if not query:
+        return "Use this format: search web query"
+    
+    if not memory.get_setting("real_website_opening", False):
+        return (
+            "Real website opening is disabled.\n"
+            "Use: enable website opening"
+        )
+        
+    url = "https://www.google.com/search?q=" + quote_plus(query)
+    
+    set_pending_website_open({
+        "name": "Google search",
+        "url": url,
+    })
+    
+    return (
+        f"I am ready to search Google for: {query}\n"
+        "Reply yes to open it or no to cancel."
+    )
 
 def handle_unregister_website(user_input):
     name = parse_unregister_website(user_input)
@@ -102,6 +126,15 @@ def parse_search_websites(user_input):
         return ""
     
     return text[len(prefix):].strip()
+
+def parse_web_search(user_input):
+    text = user_input.strip()
+    
+    for prefix in ["search web ", "web search "]:
+        if text.lower().startswith(prefix):
+            return text[len(prefix):].strip()
+        
+    return ""
 
 def is_safe_website_url(url):
     parsed = urlparse(url.strip())

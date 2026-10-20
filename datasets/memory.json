@@ -43,12 +43,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "chat_response_not_helpful",
-        "last_response_group": "chat",
+        "last_response_intent": "confirm_intent",
+        "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Got it. I will remember that response did not help.",
+        "last_response_text": "Opening Google search.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [
             {
@@ -142,7 +142,7 @@
         "pending_memory_result_delete": null,
         "pending_website_open": null,
         "pending_llm_command": null,
-        "last_response_user_input": "that did not help"
+        "last_response_user_input": "yes"
     },
     "history": [
         {
@@ -20677,6 +20677,36 @@
             "source": "rule",
             "timestamp": "2026-10-19 15:31:21",
             "importance": 0.3
+        },
+        {
+            "user": "enable website opening",
+            "assistant": "Real website opening enabled.",
+            "intent": "enable_website_opening",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-20 19:40:23",
+            "importance": 0.6
+        },
+        {
+            "user": "search web Python dictionaries",
+            "assistant": "I am ready to search Google for: Python dictionaries\nReply yes to open it or no to cancel.",
+            "intent": "web_search",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-20 19:40:36",
+            "importance": 0.6
+        },
+        {
+            "user": "yes",
+            "assistant": "Opening Google search.",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-20 19:40:42",
+            "importance": 0.1
         }
     ],
     "summaries": [
@@ -21884,6 +21914,12 @@
             "url": "https://docs.python.org/3/",
             "result": "Opening python docs.",
             "timestamp": "2026-09-28 20:37:29"
+        },
+        {
+            "website_name": "Google search",
+            "url": "https://www.google.com/search?q=Python+dictionaries",
+            "result": "Opening Google search.",
+            "timestamp": "2026-10-20 19:40:40"
         }
     ]
 }

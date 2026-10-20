@@ -6617,6 +6617,9 @@ def handle_memory_intent(user_input, analysis):
     if intent == "search_websites":
         return websites.handle_search_websites(user_input)
     
+    if intent == "web_search":
+        return websites.handle_web_search(user_input)
+    
     if intent == "show_website_registry":
         return websites.format_website_registry()
     
