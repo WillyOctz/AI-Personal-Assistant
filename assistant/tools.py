@@ -156,6 +156,23 @@ def open_text_file(file_path):
     except OSError:
         return {"ok": False, "reason": "open_error"}
     
+def open_folder_in_explorer(folder_path):
+    path = Path(folder_path)
+    
+    if not path.exists():
+        return {"ok": False, "reason": "not_found"}
+    
+    if not path.is_dir():
+        return {"ok": False, "reason": "not_directory"}
+    
+    try:
+        subprocess.Popen(["explorer.exe", str(path)])
+        return {"ok": True, "reason": "opened"}
+    except FileNotFoundError:
+        return {"ok": False, "reason": "explorer_not_found"}
+    except OSError:
+        return {"ok": False, "reason": "open_error"}
+    
 #======================================================================
 ## File Search/Path Logic Functions
 #======================================================================

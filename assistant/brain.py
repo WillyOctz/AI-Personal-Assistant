@@ -1,4 +1,4 @@
-from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around, open_website_url, open_text_file, TEXT_EXTENSIONS
+from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around, open_website_url, open_text_file, TEXT_EXTENSIONS, open_folder_in_explorer
 from assistant import memory
 from assistant import chat
 from assistant import apps
@@ -587,6 +587,14 @@ def parse_open_file(user_input):
         return "", ""
     
     return parts[0].strip(), parts[1].strip()
+
+def parse_open_folder(user_input):
+    text = user_input.strip()
+    
+    if text.lower().startswith("open folder "):
+        return text[len("open folder "):].strip()
+    
+    return ""
 
 def parse_text_search_command(user_input):
     parts = user_input.split()
@@ -1194,6 +1202,17 @@ def get_pending_file_open():
 
 def clear_pending_file_open():
     memory.clear_state_value("pending_file_open")
+    
+def set_pending_folder_open(folder_name):
+    memory.set_state_value("pending_folder_open", {
+        "folder_name": folder_name,
+    })
+    
+def get_pending_folder_open():
+    return memory.get_state_value("pending_folder_open")
+
+def clear_pending_folder_open():
+    memory.clear_state_value("pending_folder_open")
     
 def get_pending_app_launch():
     return apps.get_pending_app_launch()
@@ -2599,6 +2618,44 @@ def confirm_pending_file_open():
     
     return f"Opening file: {file['path']}"
 
+def confirm_pending_folder_open():
+    pending = get_pending_folder_open()
+    
+    if not pending:
+        return None
+    
+    folder_name = pending["folder_name"]
+    folder_path = memory.get_search_folder(folder_name)
+    
+    if not folder_path:
+        clear_pending_folder_open()
+        return "Cancelled folder opening because it is no longer registered."
+    
+    validation = validate_folder_path(folder_path)
+
+    if not validation["valid"]:
+        clear_pending_folder_open()
+        return f"Cancelled folder opening: {validation['reason']}"
+
+    result = open_folder_in_explorer(folder_path)
+    clear_pending_folder_open()
+
+    if not result["ok"]:
+        return f"I could not open folder {folder_name}: {result['reason']}"
+
+    log_file_search("open_folder", folder_name, "", folder_path)
+
+    return f"Opening folder: {folder_path}"
+
+def deny_pending_folder_open():
+    pending = get_pending_folder_open()
+    
+    if not pending:
+        return None
+    
+    clear_pending_folder_open()
+    return f"Cancelled folder opening: {pending['folder_name']}"
+
 def deny_pending_file_open():
     pending = get_pending_file_open()
     
@@ -2721,6 +2778,11 @@ def handle_control_intent(user_input, analysis):
         if file_result:
             return file_result
         
+        folder_result = confirm_pending_folder_open()
+        
+        if folder_result:
+            return folder_result
+        
         pending = get_pending_confirmation()
         app_result = apps.confirm_pending_app_launch(open_registered_app)
         
@@ -2765,6 +2827,16 @@ def handle_control_intent(user_input, analysis):
         
         if website_result:
             return website_result
+        
+        file_result = deny_pending_file_open()
+
+        if file_result:
+            return file_result
+        
+        folder_result = deny_pending_folder_open()
+
+        if folder_result:
+            return folder_result
                   
         pending = get_pending_confirmation()
         app_result = apps.deny_pending_app_launch()
@@ -6796,6 +6868,30 @@ def handle_memory_intent(user_input, analysis):
             lines.append(f"- {name}: {path}")
             
         return "\n".join(lines)
+    
+    if intent == "open_folder":
+        folder_name = parse_open_folder(user_input)
+        
+        if not folder_name:
+            return "Use this format: open folder folder_name"
+
+        folder_path = memory.get_search_folder(folder_name)
+
+        if not folder_path:
+            return f"I could not find registered search folder: {folder_name}"
+
+        validation = validate_folder_path(folder_path)
+
+        if not validation["valid"]:
+            return f"I could not open folder {folder_name}: {validation['reason']}"
+
+        set_pending_folder_open(folder_name)
+
+        return (
+            f"I am ready to open this registered folder:\n"
+            f"{folder_path}\n"
+            "Reply yes to open it or no to cancel."
+        )
     
     if intent == "list_folder_files":
         folder_name = parse_list_folder_files(user_input)

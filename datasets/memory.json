@@ -43,12 +43,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "open_file",
-        "last_response_group": "memory",
+        "last_response_intent": "deny_intent",
+        "last_response_group": "control",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "I could not find a safe file to open: .git/config",
+        "last_response_text": "Cancelled folder opening: restaurant_website",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [
             {
@@ -142,11 +142,9 @@
         "pending_memory_result_delete": null,
         "pending_website_open": null,
         "pending_llm_command": null,
-        "last_response_user_input": "open file assistant .git/config",
-        "pending_file_open": {
-            "folder_name": "assistant",
-            "filename": "README.MD"
-        }
+        "last_response_user_input": "no",
+        "pending_file_open": null,
+        "pending_folder_open": null
     },
     "history": [
         {
@@ -20771,6 +20769,146 @@
             "source": "rule",
             "timestamp": "2026-10-20 20:33:17",
             "importance": 0.6
+        },
+        {
+            "user": "debug route open folder assistant",
+            "assistant": "Input: open folder assistant\nExact intent: None\nPrefix intent: open_folder",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-20 21:17:01",
+            "importance": 0.1
+        },
+        {
+            "user": "open folder assistant",
+            "assistant": "I am ready to open this registered folder:\nC:\\Users\\User\\AI_Personal_Assistant\nReply yes to open it or no to cancel.",
+            "intent": "open_folder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-20 21:17:08",
+            "importance": 0.6
+        },
+        {
+            "user": "yes",
+            "assistant": "Opening file: C:\\Users\\User\\AI_Personal_Assistant\\README.MD",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-20 21:17:12",
+            "importance": 0.1
+        },
+        {
+            "user": "open folder assistant",
+            "assistant": "I am ready to open this registered folder:\nC:\\Users\\User\\AI_Personal_Assistant\nReply yes to open it or no to cancel.",
+            "intent": "open_folder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-20 21:17:30",
+            "importance": 0.6
+        },
+        {
+            "user": "no",
+            "assistant": "Cancelled folder opening: assistant",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-20 21:17:32",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route open folder assistant",
+            "assistant": "Input: open folder assistant\nExact intent: None\nPrefix intent: open_folder",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-20 21:20:26",
+            "importance": 0.1
+        },
+        {
+            "user": "open folder Favorites",
+            "assistant": "I could not find registered search folder: Favorites",
+            "intent": "open_folder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-20 21:21:01",
+            "importance": 0.6
+        },
+        {
+            "user": "open folder datasets",
+            "assistant": "I could not find registered search folder: datasets",
+            "intent": "open_folder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-20 21:21:13",
+            "importance": 0.6
+        },
+        {
+            "user": "open folder assistant",
+            "assistant": "I am ready to open this registered folder:\nC:\\Users\\User\\AI_Personal_Assistant\nReply yes to open it or no to cancel.",
+            "intent": "open_folder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-20 21:21:40",
+            "importance": 0.6
+        },
+        {
+            "user": "yes",
+            "assistant": "Opening folder: C:\\Users\\User\\AI_Personal_Assistant",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-20 21:21:47",
+            "importance": 0.1
+        },
+        {
+            "user": "open folder website",
+            "assistant": "I could not find registered search folder: website",
+            "intent": "open_folder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-20 21:22:01",
+            "importance": 0.6
+        },
+        {
+            "user": "open folder db",
+            "assistant": "I could not find registered search folder: db",
+            "intent": "open_folder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-20 21:22:36",
+            "importance": 0.6
+        },
+        {
+            "user": "open folder restaurant_website",
+            "assistant": "I am ready to open this registered folder:\nD:\\Restaurant_website\nReply yes to open it or no to cancel.",
+            "intent": "open_folder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-20 21:26:37",
+            "importance": 0.6
+        },
+        {
+            "user": "no",
+            "assistant": "Cancelled folder opening: restaurant_website",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-20 21:26:41",
+            "importance": 0.1
         }
     ],
     "summaries": [
@@ -21738,6 +21876,20 @@
             "query": "README.MD",
             "result": "C:\\Users\\User\\AI_Personal_Assistant\\README.MD",
             "timestamp": "2026-10-20 20:32:56"
+        },
+        {
+            "action": "open_file",
+            "folder": "assistant",
+            "query": "README.MD",
+            "result": "C:\\Users\\User\\AI_Personal_Assistant\\README.MD",
+            "timestamp": "2026-10-20 21:17:11"
+        },
+        {
+            "action": "open_folder",
+            "folder": "assistant",
+            "query": "",
+            "result": "C:\\Users\\User\\AI_Personal_Assistant",
+            "timestamp": "2026-10-20 21:21:46"
         }
     ],
     "response_feedback": [

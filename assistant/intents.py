@@ -289,6 +289,7 @@ VALID_INTENTS = {
     "review_llm_feedback_candidates",
     "save_llm_feedback_candidate",
     "open_file",
+    "open_folder",
 }
 
 
@@ -594,6 +595,7 @@ MEMORY_INTENTS = {
     "search_websites",
     "web_search",
     "open_file",
+    "open_folder",
 }
 
 
@@ -2027,6 +2029,9 @@ INTENT_PREFIXES = {
     "open_file": [
         "open file ",
     ],
+    "open_folder": [
+        "open folder ",
+    ],
 }
 
 
@@ -2094,6 +2099,7 @@ PREFIX_INTENT_ORDER = [
     "search_text_files",
     "search_files_by_name",
     "open_file",
+    "open_folder",
     "file_info",
     "preview_file",
     "list_folder_files",
