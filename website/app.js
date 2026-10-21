@@ -81,6 +81,11 @@ function needsConfirmation(res) {
     return res.toLowerCase().includes("reply yes")
 }
 
+function resizeComposer() {
+    input.style.height = "auto"
+    input.style.height = `${Math.min(input.scrollHeight, 160)}px`
+}
+
 function setChatBusy(isBusy) {
     sendButton.disabled = isBusy
     confirmButton.disabled = isBusy
@@ -1328,6 +1333,7 @@ form.addEventListener("submit", async (event) => {
     confirmationActions.hidden = true
 
     input.value = ""
+    resizeComposer()
     input.focus()
     setChatBusy(true)
     status.textContent = "Contemplating..."
@@ -1362,6 +1368,8 @@ input.addEventListener("keydown", (event) => {
         form.requestSubmit()
     }
 })
+
+input.addEventListener("input", resizeComposer)
 
 runLLMEvaluationButton.addEventListener("click", () => {
     runLLMEvaluation()

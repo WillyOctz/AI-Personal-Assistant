@@ -136,7 +136,7 @@ textarea {
     flex: 1;
     min-height: 44px;
     max-height: 160px;
-    resize: vertical;
+    resize: none;
     padding: 11px 12px;
     border: 1px solid #9eabb1;
     border-radius: 6px;
@@ -913,8 +913,7 @@ button:disabled {
     }
 
     .reminder-panel {
-        order: -1;
-        max-height: 220px;
+        max-height: none;
         padding-top: 16px;
         padding-left: 0;
         border-top: 1px solid #cfd8dc;
