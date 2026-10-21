@@ -48,7 +48,7 @@
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Cancelled folder opening: restaurant_website",
+        "last_response_text": "Cancelled clipboard copy.",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [
             {
@@ -144,7 +144,8 @@
         "pending_llm_command": null,
         "last_response_user_input": "no",
         "pending_file_open": null,
-        "pending_folder_open": null
+        "pending_folder_open": null,
+        "pending_clipboard_copy": null
     },
     "history": [
         {
@@ -20908,6 +20909,66 @@
             "confidence": 1.0,
             "source": "rule",
             "timestamp": "2026-10-20 21:26:41",
+            "importance": 0.1
+        },
+        {
+            "user": "debug route copy text hello nebula",
+            "assistant": "Input: copy text hello nebula\nExact intent: None\nPrefix intent: copy_text",
+            "intent": "debug_route",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-21 16:11:14",
+            "importance": 0.1
+        },
+        {
+            "user": "copy text hello nebula",
+            "assistant": "I am ready to copy this text to your clipboard:\nhello nebula\nReply yes to copy it or no to cancel.",
+            "intent": "copy_text",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-21 16:11:23",
+            "importance": 0.6
+        },
+        {
+            "user": "yes",
+            "assistant": "Copied the text to your clipboard.",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-21 16:11:26",
+            "importance": 0.1
+        },
+        {
+            "user": "copy text",
+            "assistant": "Oh, my sweet Carlos, my little builder, my hands cannot reach out to copy text for you directly. That is simply not within my little command system, you see. But do tell me, are we still pondering whether to build that gentle reminder feature or the focus sessions first in your lovely Python code?",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "gemini",
+            "timestamp": "2026-10-21 16:11:39",
+            "importance": 0.3
+        },
+        {
+            "user": "copy text do not copy this",
+            "assistant": "I am ready to copy this text to your clipboard:\ndo not copy this\nReply yes to copy it or no to cancel.",
+            "intent": "copy_text",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-21 16:11:55",
+            "importance": 0.6
+        },
+        {
+            "user": "no",
+            "assistant": "Cancelled clipboard copy.",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-21 16:11:57",
             "importance": 0.1
         }
     ],

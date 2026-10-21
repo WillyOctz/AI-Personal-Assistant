@@ -1,4 +1,4 @@
-from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around, open_website_url, open_text_file, TEXT_EXTENSIONS, open_folder_in_explorer
+from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around, open_website_url, open_text_file, TEXT_EXTENSIONS, open_folder_in_explorer, copy_text_to_clipboard
 from assistant import memory
 from assistant import chat
 from assistant import apps
@@ -595,6 +595,14 @@ def parse_open_folder(user_input):
         return text[len("open folder "):].strip()
     
     return ""
+
+def parse_copy_text(user_input):
+    text = user_input.strip()
+    
+    if not text.lower().startswith("copy text "):
+        return ""
+    
+    return text[len("copy text "):].strip()
 
 def parse_text_search_command(user_input):
     parts = user_input.split()
@@ -1219,6 +1227,17 @@ def get_pending_app_launch():
 
 def clear_pending_app_launch():
     return apps.clear_pending_app_launch()
+
+def set_pending_clipboard_copy(text):
+    memory.set_state_value("pending_clipboard_copy", {
+        "text":text,
+    })
+    
+def get_pending_clipboard_copy():
+    return memory.get_state_value("pending_clipboard_copy")
+
+def clear_pending_clipboard_copy():
+    memory.clear_state_value("pending_clipboard_copy")
 
 def set_pending_response_feedback_clear():
     memory.set_state_value("pending_response_feedback_clear", True)
@@ -2664,6 +2683,29 @@ def deny_pending_file_open():
     
     clear_pending_file_open()
     return f"Cancelled file opening: {pending['filename']}"
+
+def confirm_pending_clipboard_copy():
+    pending = get_pending_clipboard_copy()
+    
+    if not pending:
+        return None
+    
+    result = copy_text_to_clipboard(pending["text"])
+    clear_pending_clipboard_copy()
+    
+    if not result["ok"]:
+        return f"I could not copy the text: {result['reason']}"
+    
+    return "Copied the text to your clipboard."
+
+def deny_pending_clipboard_copy():
+    pending = get_pending_clipboard_copy()
+    
+    if not pending:
+        return None
+    
+    clear_pending_clipboard_copy()
+    return "Cancelled clipboard copy."
     
 def set_pending_llm_command(command):
     memory.set_state_value("pending_llm_command", command)
@@ -2783,6 +2825,11 @@ def handle_control_intent(user_input, analysis):
         if folder_result:
             return folder_result
         
+        clipboard_result = confirm_pending_clipboard_copy()
+
+        if clipboard_result:
+            return clipboard_result
+        
         pending = get_pending_confirmation()
         app_result = apps.confirm_pending_app_launch(open_registered_app)
         
@@ -2837,6 +2884,11 @@ def handle_control_intent(user_input, analysis):
 
         if folder_result:
             return folder_result
+        
+        clipboard_result = deny_pending_clipboard_copy()
+
+        if clipboard_result:
+            return clipboard_result
                   
         pending = get_pending_confirmation()
         app_result = apps.deny_pending_app_launch()
@@ -6868,6 +6920,23 @@ def handle_memory_intent(user_input, analysis):
             lines.append(f"- {name}: {path}")
             
         return "\n".join(lines)
+    
+    if intent == "copy_text":
+        text = parse_copy_text(user_input)
+        
+        if not text:
+            return "Use this format: copy text message"
+        
+        if len(text) > 2000:
+            return "That text is too long to copy at once."
+        
+        set_pending_clipboard_copy(text)
+        
+        return (
+            "I am ready to copy this text to your clipboard:\n"
+            f"{text}\n"
+            "Reply yes to copy it or no to cancel."
+        )
     
     if intent == "open_folder":
         folder_name = parse_open_folder(user_input)

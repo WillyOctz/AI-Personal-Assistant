@@ -6,6 +6,7 @@ import operator
 import subprocess
 import shlex
 import webbrowser
+import pyperclip
 
 ALLOWED_OPERATORS = {
     ast.Add: operator.add,
@@ -28,7 +29,7 @@ TEXT_EXTENSIONS = {
     ".js",
 }
 
-## Helper Methods
+## Helper Parse Methods
 #  -------------------------------------------------
 
 def parse_launch_command(command):
@@ -40,7 +41,7 @@ def parse_launch_command(command):
 def format_timestamp(timestamp):
     return datetime.fromtimestamp(timestamp).strftime("%Y-%m-%d %H:%M:%S")
 
-## Functions logic
+## Helper function
 #  -------------------------------------------------
 
 def safe_calculate(expression):
@@ -172,6 +173,25 @@ def open_folder_in_explorer(folder_path):
         return {"ok": False, "reason": "explorer_not_found"}
     except OSError:
         return {"ok": False, "reason": "open_error"}
+    
+def copy_text_to_clipboard(text):
+    if not isinstance(text, str) or not text.strip():
+        return {
+            "ok": False,
+            "reason": "empty_text",
+        }
+        
+    try:
+        pyperclip.copy(text)
+        return {
+            "ok": True,
+            "reason": "copied",
+        }
+    except pyperclip.PyperclipException:
+        return {
+            "ok": False,
+            "reason": "clipboard_unavailable",
+        }
     
 #======================================================================
 ## File Search/Path Logic Functions
