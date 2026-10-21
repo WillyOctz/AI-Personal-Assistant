@@ -16,8 +16,17 @@
             <span id="connection-status" class="status">Local API</span>
         </header>
 
+        <nav class="section-nav" aria-label="Workspace navigation">
+            <a href="#assistant-chat">Chat</a>
+            <a href="#profile">Profile</a>
+            <a href="#reminders">Reminders</a>
+            <a href="#focus">Focus</a>
+            <a href="#integrations">Tools</a>
+            <a href="#quality">Quality</a>
+        </nav>
+
         <div class="workspace">
-            <section class="chat-panel">
+            <section id="assistant-chat" class="chat-panel">
                 <section
                     id="messages"
                     class="messages"
@@ -45,7 +54,7 @@
             </section>
 
             <aside class="reminder-panel" aria-label="Reminders">
-                <section class="profile-panel" aria-label="Profile facts">
+                <section id="profile" class="profile-panel" aria-label="Profile facts">
                     <div class="panel-heading">
                         <h2>Profile</h2>
                     </div>
@@ -118,6 +127,7 @@
                 </section>
 
                 <section
+                    id="quality"
                     class="feedback-source-panel"
                     aria-label="Response feedback by source"
                 >
@@ -144,7 +154,7 @@
                     </div>
                 </section>
 
-                <div class="panel-heading">
+                <div id="reminders" class="panel-heading">
                     <h2>Reminders</h2>
                     <span id="reminder-count" class="reminder-count">0</span>
                 </div>
@@ -169,7 +179,7 @@
                 </form>
                  <ul id="reminder-list" class="reminder-list"></ul>
 
-                <section class="apps-panel" aria-label="Registered apps">
+                <section id="integrations" class="apps-panel" aria-label="Registered apps">
                     <div class="panel-heading">
                         <h2>Registered Apps</h2>
                         <span id="app-count" class="app-count">0</span>
@@ -185,7 +195,7 @@
                     <ul id="website-list" class="website-list"></ul>
                 </section>
                 
-                <section class="active-focus-panel" aria-label="Active focus session">
+                <section id="focus" class="active-focus-panel" aria-label="Active focus session">
                     <div class="panel-heading">
                         <h2>Active Focus</h2>
                         <span id="focus-status" class="focus-status">Idle</span>

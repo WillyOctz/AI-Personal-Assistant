@@ -32,6 +32,40 @@ body {
     border-bottom: 1px solid #cfd8dc;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+.section-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-bottom: 4px;
+}
+
+.section-nav a {
+    min-height: 34px;
+    padding: 7px 10px;
+    border: 1px solid #cfd8dc;
+    border-radius: 6px;
+    color: #1f2933;
+    background: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.45;
+    text-decoration: none;
+}
+
+.section-nav a:hover {
+    border-color: #0f766e;
+    color: #0f766e;
+}
+
+.section-nav a:focus-visible {
+    outline: 2px solid #0f766e;
+    outline-offset: 2px;
+}
+
 .eyebrow {
     margin: 0 0 4px;
     color: #0f766e;
@@ -885,5 +919,11 @@ button:disabled {
         padding-left: 0;
         border-top: 1px solid #cfd8dc;
         border-left: 0;
+    }
+
+    .section-nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 8px;
     }
 }
