@@ -722,6 +722,14 @@ INTENT_PATTERNS = {
         "what do you know about me",
         "my profile",
     ],
+    "get_time": [
+        "time",
+        "what time is it",
+        "what is the time",
+        "what's the time",
+        "current time",
+        "tell me the time",
+    ],
     "cleanup_entities": [
         "cleanup entities",
         "clean entities",

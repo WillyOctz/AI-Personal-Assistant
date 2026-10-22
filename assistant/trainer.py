@@ -208,7 +208,7 @@ def cleanup_dataset_backups(keep_latest=9):
             "removed": 0
         }
         
-    backups_to_remove = backups[keep_latest]
+    backups_to_remove = backups[keep_latest:]
     removed = 0
     
     for backup in backups_to_remove:
@@ -268,7 +268,7 @@ def get_dataset_intent_counts():
             if intent not in counts:
                 counts[intent] = 0
                 
-            counts[intent] = 1
+            counts[intent] = counts.get(intent, 0) + 1
             
     sorted_counts = sorted(counts.items(), key=lambda item: item[1], reverse=True)
     

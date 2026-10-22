@@ -45,6 +45,7 @@ from assistant import focus
 from assistant import websites
 from assistant import llm
 from assistant import semantic_memory
+import re
 
 HIGH_CONFIDENCE = 0.75
 LOW_CONFIDENCE = 0.55
@@ -62,6 +63,13 @@ def truncate_llm_context_text(text, max_chars):
         return clean_text
     
     return clean_text[:max_chars - 3].rstrip() + "..."
+
+def looks_like_math(text):
+    expression = extract_calculation_expression(text)
+    return (
+        bool(re.fullmatch(r"[\d\s.+\-*/()]+", expression))
+        and any(char.isdigit() for char in expression)
+    )
 
 def current_timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -698,15 +706,29 @@ def parse_reminder_search(user_input):
 def parse_reminder_details(user_input):
     reminder_text = extract_entity(user_input, "set_reminder")
     
+    time_part = None
+    day_word = None
+    
     if " at " in reminder_text:
-        text, due = reminder_text.split(" at ", 1)
-        return text.strip(), due.strip()
+        reminder_text, time_part = reminder_text.rsplit(" at ", 1)
+        reminder_text = reminder_text.strip()
+        time_part = time_part.strip()
+        
+    for word in ("today", "tomorrow"):
+        if reminder_text.endswith(f" {word}"):
+            reminder_text = reminder_text[:-len(word)].strip()
+            day_word = word
+            break
+        
+    if not day_word and not time_part:
+        return reminder_text, None
     
-    if " tomorrow" in reminder_text:
-        text = reminder_text.replace(" tomorrow", "", 1).strip()
-        return text, "tomorrow"
+    due = memory.normalize_due(day_word or "today")
     
-    return reminder_text, None
+    if time_part:
+        due = f"{due} {time_part}"
+        
+    return reminder_text, due
 
 def parse_edit_reminder(user_input):
     text = user_input.lower().strip()
@@ -1541,7 +1563,7 @@ def has_play_game_evidence(user_input):
     return find_known_entity(text, known_games) is not None
 
 def analyze_intent(user_input):
-    text = user_input.lower()
+    text = user_input.lower().strip().rstrip("?!. ")
     
     if match_exact_pattern(text, "complete_pending_task"):
         return make_analysis("complete_pending_task")
@@ -1563,7 +1585,16 @@ def analyze_intent(user_input):
     if exact_intent:
         return make_analysis(exact_intent)
     
+    if text.startswith("save memory result "):
+        if text.endswith(" as reminder"):
+            return make_analysis("save_memory_result_as_reminder")
+        if text.endswith(" as note"):
+            return make_analysis("save_memory_result_as_note")
+    
     prefix_intent = find_prefix_intent(text)
+    
+    if prefix_intent == "calculate" and not looks_like_math(text):
+        prefix_intent = None
     
     if prefix_intent:
         return make_analysis(prefix_intent)
@@ -1600,9 +1631,6 @@ def analyze_intent(user_input):
 
     if match_exact_pattern(text, "greeting"):
         return make_analysis("greeting")
-
-    if "time" in text:
-        return make_analysis("get_time")
     
     if match_prefix_pattern(text, "set_profile_fact"):
         return make_analysis("set_profile_fact")
@@ -2511,7 +2539,7 @@ def search_memory(query):
             results.append(f"Note: {note}")
             
     for reminder in memo["reminders"]:
-        if query in reminder.lower():
+        if query in memory.get_reminder_text(reminder):
             results.append(f"Reminder: {reminder}")
             
     for event in memo["history"]:
@@ -3759,7 +3787,6 @@ def handle_control_intent(user_input, analysis):
     return personality.unknown_response()       
 
 def handle_memory_intent(user_input, analysis):
-    global focus, apps
     intent = analysis["intent"]
     
     if intent == "remember_game_entity":
@@ -3945,7 +3972,7 @@ def handle_memory_intent(user_input, analysis):
     
     if intent == "show_entities":
         games = memory.get_entities("games")
-        apps = memory.get_entities("apps")
+        known_apps = memory.get_entities("apps")
         
         lines = []
         
@@ -3953,7 +3980,7 @@ def handle_memory_intent(user_input, analysis):
         lines.extend(games if games else ["None"])
         
         lines.append("Apps:")
-        lines.extend(apps if apps else ["None"])
+        lines.extend(known_apps if known_apps else ["None"])
         
         return "\n".join(lines)
     
@@ -4030,10 +4057,10 @@ def handle_memory_intent(user_input, analysis):
                 f"{index}. {session['task']} | {session['duration']} | {session['started_at']} -> {session['ended_at']}"
             )
             
-        notes = session.get("notes", [])
+            notes = session.get("notes", [])
         
-        for note in notes:
-            lines.append(f" note: {note}")
+            for note in notes:
+                lines.append(f" note: {note}")
             
         return "\n".join(lines)
     
@@ -4055,7 +4082,7 @@ def handle_memory_intent(user_input, analysis):
         goal = memory.get_profile_value("goal")
         
         today_results = memory.search_reminders_by_due("today")
-        overdue_results = memory.search_reminders_by_due("yesterday")
+        overdue_results = memory.search_reminders_by_due("overdue")
         
         focus_brief = get_first_reminder_text(today_results)
         
@@ -5921,7 +5948,7 @@ def handle_memory_intent(user_input, analysis):
         return "\n".join(lines)
     
     if intent == "overdue_reminders":
-        results = memory.search_reminders_by_due("yesterday")
+        results = memory.search_reminders_by_due("overdue")
         return format_reminder_results("Overdue reminders:", results)
     
     if intent == "reminder_dashboard":
@@ -5929,7 +5956,7 @@ def handle_memory_intent(user_input, analysis):
         
         today_count = count_reminders_by_due_label("today")
         tomorrow_count = count_reminders_by_due_label("tomorrow")
-        overdue_count = count_reminders_by_due_label("yesterday")
+        overdue_count = count_reminders_by_due_label("overdue")
         
         return (
             f"Reminder dashboard:\n"
@@ -6370,7 +6397,7 @@ def handle_memory_intent(user_input, analysis):
         return f"I could not find this reminder: {result['reminder']}"
     
     if intent == "suggest_next_task":
-        overdue_results  = memory.search_reminders_by_due("yesterday")
+        overdue_results  = memory.search_reminders_by_due("overdue")
         
         if overdue_results:
             first = overdue_results[0]
@@ -6752,7 +6779,7 @@ def handle_memory_intent(user_input, analysis):
         
         return (
             f"Settings:\n"
-            f"real_app_launching: {real_launching}"
+            f"real_app_launching: {real_launching}\n"
             f"confirm_app_launching: {confirm_launching}"
         )
         

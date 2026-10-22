@@ -139,7 +139,7 @@ def choose_focus_task():
     if pending_task:
         return pending_task
     
-    overdue_results = memory.search_reminders_by_due("yesterday")
+    overdue_results = memory.search_reminders_by_due("overdue")
     
     if overdue_results:
         return overdue_results[0]["reminder"]

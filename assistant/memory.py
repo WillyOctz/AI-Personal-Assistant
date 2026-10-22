@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from assistant import database, llm_evaluation
 
 MEMORY_FILE = Path("datasets/memory.json")
@@ -13,6 +13,28 @@ def normalize_entity_name(value):
 
 def normalize_reminder_text(value):
     return value.lower().strip()
+
+def normalize_due(due):
+    if due is None:
+        return None
+    
+    text = str(due).lower().strip()
+    
+    if not text:
+        return None
+    
+    today = datetime.now().date()
+    
+    if text == "today":
+        return str(today)
+    
+    if text == "tomorrow":
+        return str(today + timedelta(days=1))
+
+    if text == "yesterday":
+        return str(today - timedelta(days=1))
+    
+    return text
 
 def load_memory():
     if not MEMORY_FILE.exists():
@@ -850,7 +872,7 @@ def set_reminder_due(identifier, due):
 def make_reminder(text, due=None):
     return {
         "text": normalize_reminder_text(text),
-        "due": due
+        "due": normalize_due(due)
     }
     
 def migrate_reminders_to_dicts():
@@ -863,7 +885,7 @@ def migrate_reminders_to_dicts():
         if isinstance(reminder, dict):
             new_reminders.append({
                 "text": get_reminder_text(reminder),
-                "due": get_reminder_due(reminder)
+                "due": normalize_due(get_reminder_due(reminder))
             })
             continue
         
@@ -904,6 +926,13 @@ def get_reminder_stats():
         "first": get_reminder_text(reminders[0]),
         "last": get_reminder_text(reminders[-1])
     }
+    
+def remove_notified_keys_for_text(memory, text):
+    prefix = f"{text}|"
+    memory["notified_reminders"] = [
+        key for key in memory.get("notified_reminders", [])
+        if not key.startswith(prefix)
+    ]
 
 def complete_reminder(identifier):
     memory = load_memory()
@@ -929,6 +958,9 @@ def complete_reminder(identifier):
             }
             
         removed_reminder = reminders.pop(index)
+        removed_text = get_reminder_text(removed_reminder)
+        
+        remove_notified_keys_for_text(memory, removed_text)
         save_memory(memory)
         
         sync_reminders_to_sqlite()
@@ -936,7 +968,7 @@ def complete_reminder(identifier):
         return {
             "removed": True,
             "reason": "completed",
-            "reminder": get_reminder_text(removed_reminder)
+            "reminder": removed_text,
         }
         
     clean_identifier = normalize_reminder_text(identifier)
@@ -1067,7 +1099,9 @@ def search_reminders(query):
     return results
 
 def search_reminders_by_due(due_query):
+    due_query = normalize_due(due_query) if due_query else due_query
     due_query = due_query.lower().strip()
+    today = str(datetime.now().date())
     reminders = get_reminders()
     
     results = []
@@ -1078,7 +1112,15 @@ def search_reminders_by_due(due_query):
         if not due:
             continue
         
-        if due_query in due.lower():
+        due_text = str(due).lower()
+        
+        if due_query == "overdue":
+            due_day = get_due_day(due)
+            matched = due_day is not None and due_day < today
+        else:
+            matched = due_query in due_text
+        
+        if matched:
             results.append({
                 "index": index,
                 "reminder": get_reminder_text(reminder),
@@ -1287,6 +1329,8 @@ def add_entity(entity_type, value):
         memory["entities"][entity_type].append(clean_value)
         
     save_memory(memory)
+    
+    return clean_value
     
 def get_entities(entity_type):
     if entity_type not in ["games", "apps"]:
@@ -1944,6 +1988,18 @@ def get_work_next_step():
         "reason": "You have no pending reminders or completed sessions yet.",
     }
     
+def get_due_day(due):
+    if not due:
+        return None
+    
+    day = str(due).strip()[:10]
+    
+    try:
+        datetime.strptime(day, "%Y-%m-%d")
+        return day
+    except ValueError:
+        return None
+    
 def get_due_reminders():
     reminders = get_reminders()
     
@@ -1966,13 +2022,16 @@ def get_due_reminders():
         if not due_date:
             continue
         
-        due_day = str(due_date)[:10]
+        due_day = get_due_day(due_date)
+        
+        if not due_day:
+            continue
         
         item = {
             "index": index,
             "text": text,
             "due": due_date,
-            "notification_key": make_reminder_notification_key(index, reminder),
+            "notification_key": make_reminder_notification_key(reminder),
         }
         
         if item["notification_key"] in notified:
@@ -2085,7 +2144,7 @@ def snooze_reminder(identifier, due):
         reminders[index] = make_reminder(text, due)
         
         notified = data.get("notified_reminders", [])
-        prefix = f"{index + 1}|{text}|"
+        prefix = f"{text}|"
         data["notified_reminders"] = [
             key for key in notified
             if not key.startswith(prefix)
@@ -2154,7 +2213,7 @@ def dismiss_reminder_notification(identifier):
             "due": None,
         }
         
-    key = make_reminder_notification_key(index + 1, reminder)
+    key = make_reminder_notification_key(reminder)
     notified = data.setdefault("notified_reminders", [])
     
     if key in notified:
@@ -2186,7 +2245,7 @@ def get_notification_history():
 def make_reminder_notification_key(index, reminder):
     text = reminder.get("text", "")
     due = reminder.get("due", "")
-    return f"{index}|{text}|{due}"
+    return f"{text}|{due}"
 
 def mark_reminders_as_notified(items):
     data = load_memory()

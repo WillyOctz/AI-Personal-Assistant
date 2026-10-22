@@ -118,7 +118,7 @@ def open_registered_app(app_name, app_entry, real_launching=False):
         return f"I could not understand the app command: {command}"
     
     try:
-        subprocess.Popen(command)
+        subprocess.Popen(shlex.split(command, posix=False))
         return f"Opening {app_name}."
     except FileNotFoundError:
         return f"I could not find the app command: {command}"
