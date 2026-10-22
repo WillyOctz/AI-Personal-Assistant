@@ -1,4 +1,19 @@
+import random
+from datetime import datetime
+
 ASSISTANT_NAME = "Nebula"
+LEAD_INS = {
+    "set_reminder": ["There, little star. I tucked that away for you.",
+                     "Mm, I'll hold onto that for you, dear."],
+    "complete_reminder": ["One less weight on your shoulders.", "Well done, my dear."],
+    "start_focus": ["Come, let's settle in together. I'm right here."],
+    "stop_focus": ["That was a good stretch. Let's see how you did."],
+    "open_app": ["Of course, dear."],
+    "register_app": ["Noted. I'll remember where that lives."],
+    "search_files_by_name": ["Let me look around for you..."],
+    "daily_briefing": ["Gather round, here is your sky for today."],
+}
+ERROR_STATS = ("use this format", "i could not", "i do not", "that ", "no ", "what ")
 
 def greet():
     return f"Hello, I am {ASSISTANT_NAME}. What can I help you with?ehe~"
@@ -14,6 +29,16 @@ def memory_saved_response():
 
 def unknown_response():
     return "I do not understand that yet. You can teach me with: teach message as intent_name"
+
+def dress(intent, text, verbosity="normal"):
+    if verbosity == "minimal" or not text:
+        return text
+    if text.lower().startswith(ERROR_STATS) or len(text) > 600:
+        return text
+    options = LEAD_INS.get(intent)
+    if not options:
+        return text
+    return f"{random.choice(options)}\n{text}"
 
 def respond_to_feeling(feeling):
     feeling = feeling.lower().strip()

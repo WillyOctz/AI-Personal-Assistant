@@ -2242,7 +2242,7 @@ def get_notification_history():
     data = load_memory()
     return data.get("notified_reminders", [])
 
-def make_reminder_notification_key(index, reminder):
+def make_reminder_notification_key(reminder):
     text = reminder.get("text", "")
     due = reminder.get("due", "")
     return f"{text}|{due}"

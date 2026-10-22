@@ -7748,6 +7748,8 @@ def get_response(user_input):
         memory.set_state_value("last_response_user_input", user_input,)
         memory.set_state_value("last_response_text", response)
         
+    response = personality.dress(analysis["intent"], response, memory.get_setting("verbosity", "normal"))
+        
     log_conversation(user_input, response, analysis)
     return response
 
