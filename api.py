@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from assistant import memory, focus, apps, websites, llm
+from assistant.runtime import BRAIN_LOCK
 
 from assistant.brain import (
     get_response,
@@ -582,7 +583,8 @@ def chat(req: MessageRequest):
         )
         
     try:
-        response = get_response(message)
+        with BRAIN_LOCK:
+            response = get_response(message)
     except Exception as error:
         raise HTTPException(
             status_code=500,

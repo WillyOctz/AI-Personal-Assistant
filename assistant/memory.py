@@ -1,4 +1,5 @@
 import json
+import os, time
 from pathlib import Path
 from datetime import date, datetime, timedelta
 from assistant import database, llm_evaluation
@@ -378,9 +379,18 @@ def archive_conversation_turns(turns_to_archive):
 
 def save_memory(memory):
     MEMORY_FILE.parent.mkdir(exist_ok=True)
+    tmp = MEMORY_FILE.with_suffix(".json.tmp")
     
-    with open(MEMORY_FILE, "w") as file:
-        json.dump(memory, file, indent=4)
+    with open(tmp, "w", encoding="utf-8") as file:
+        json.dumps(memory, file, indent=4)
+        
+    for attempt in range(6):
+        try:
+            os.replace(tmp, MEMORY_FILE)
+            return
+        except PermissionError:
+            time.sleep(0.05)
+    raise PermissionError("Could not replace memory.json")
         
 def sync_reminders_to_sqlite():
     try:

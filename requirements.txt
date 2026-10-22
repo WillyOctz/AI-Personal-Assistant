@@ -3,3 +3,7 @@ uvicorn[standard]
 google-genai
 groq
 pyperclip
+pywebview
+pystray
+pillow
+keyboard
