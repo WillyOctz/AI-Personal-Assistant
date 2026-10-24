@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from assistant import memory, focus, apps, websites, llm
-from assistant.runtime import BRAIN_LOCK
+from assistant.runtime import BRAIN_LOCK, hooks
 
 from assistant.brain import (
     get_response,
@@ -291,11 +291,12 @@ def save_llm_feedback_candidate(
         
     candidate = candidates[candidate_number - 1]
     
-    result = append_llm_evaluation_case(
-        candidate["user_input"],
-        req.expected_command,
-        command_prefix,
-    )
+    with BRAIN_LOCK:
+        result = append_llm_evaluation_case(
+            candidate["user_input"],
+            req.expected_command,
+            command_prefix,
+        )
     
     if result["reason"] == "duplicate":
         raise HTTPException(
@@ -333,7 +334,7 @@ def startup_message():
     
 @app.get("/conversation", response_model=ConversationResponse)
 def conversation_history(limit: int = 5):
-    safe_limit = max(1, min(limit, 10))
+    safe_limit = max(1, min(limit, 20))
     
     return {
         "turns": memory.get_conversation(safe_limit),
@@ -361,7 +362,8 @@ def create_reminder(req: CreateReminderRequest):
             detail="Reminder text cannot be empty.",
         )
         
-    result = memory.add_reminder(text, due)
+    with BRAIN_LOCK: 
+        result = memory.add_reminder(text, due)
     
     if not result["saved"]:
         raise HTTPException(
@@ -383,7 +385,8 @@ def create_reminder(req: CreateReminderRequest):
     },
 )
 def complete_reminder(position: int):
-    result = memory.complete_reminder(str(position))
+    with BRAIN_LOCK:
+        result = memory.complete_reminder(str(position))
     
     if not result["removed"]:
         raise HTTPException(
@@ -401,7 +404,8 @@ def complete_reminder(position: int):
     response_model=ReminderNotificationCheckResponse,
 )
 def collect_pending_reminder_notifications():
-    result = memory.collect_due_reminder_notifications()
+    with BRAIN_LOCK:
+        result = memory.collect_due_reminder_notifications()
     
     return {
         "today": result["today"],
@@ -564,6 +568,15 @@ def run_llm_command_proposal_evaluation(
         "report": format_llm_evaluation_report(evaluation),
         "results": evaluation["results"],
     }
+    
+@app.get("/__control/show", include_in_schema=False)
+def control_show():
+    show = hooks.get("show")
+    
+    if show:
+        show()
+        
+    return {"ok": bool(show)}
        
 @app.get("/", include_in_schema=False)
 def home():

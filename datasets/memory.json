@@ -24,7 +24,12 @@
         "mood": "deciding whether to build a reminder feature or a focus feature first.",
         "focus_goal": "sweeping"
     },
-    "reminders": [],
+    "reminders": [
+        {
+            "text": "remind me to test",
+            "due": "2026-10-25"
+        }
+    ],
     "state": {
         "pending_confirmation": null,
         "pending_task": "i like music",

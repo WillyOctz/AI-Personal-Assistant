@@ -382,7 +382,7 @@ def save_memory(memory):
     tmp = MEMORY_FILE.with_suffix(".json.tmp")
     
     with open(tmp, "w", encoding="utf-8") as file:
-        json.dumps(memory, file, indent=4)
+        json.dump(memory, file, indent=4)
         
     for attempt in range(6):
         try:
