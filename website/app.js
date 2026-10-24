@@ -1383,6 +1383,19 @@ cancelButton.addEventListener("click", () => {
     sendConfirmation("no")
 })
 
+// Desktop-only behavior
+window.addEventListener("pywebviewready", () => {
+    // browser notifications replaced by toasts
+    const panel = document.querySelector(".browser-notification-panel")
+    if (panel) panel.hidden = true
+})
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && window.pywebview) {
+        window.pywebview.api.hide()
+    }
+})
+
 async function initializeChat() {
     updateBrowserNotificationStatus()
 
@@ -1404,3 +1417,4 @@ async function initializeChat() {
 }
 
 initializeChat()
+
