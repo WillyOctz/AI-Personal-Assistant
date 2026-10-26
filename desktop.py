@@ -185,8 +185,9 @@ def main():
         fastapi_app,
         host="127.0.0.1",
         port=port,
-        log_config=None,        # logging manually by us
+        log_config=None,        # logged manually
         access_log=False,
+        timeout_graceful_shutdown=2,
     )
     
     server = uvicorn.Server(config)

@@ -1,9 +1,9 @@
 from pathlib import Path
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from assistant import memory, focus, apps, websites, llm
+from assistant import memory, focus, apps, websites, llm, events
 from assistant.runtime import BRAIN_LOCK, hooks
 
 from assistant.brain import (
@@ -577,6 +577,13 @@ def control_show():
         show()
         
     return {"ok": bool(show)}
+
+@app.get("/events")
+def sse():
+    return StreamingResponse(
+        events.stream(), media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
        
 @app.get("/", include_in_schema=False)
 def home():
