@@ -46,7 +46,6 @@ const feedbackSourceList = document.getElementById(
     "feedback-source-list"
 )
 const feedbackCandidateList = document.getElementById("feedback-candidate-list")
-let isPollingReminderNotifications = false
 const feedbackCandidateStatus = document.getElementById(
     "feedback-candidate-status"
 )
@@ -95,6 +94,20 @@ function setChatBusy(isBusy) {
 function sendConfirmation(answer) {
     input.value = answer
     form.requestSubmit()
+}
+
+function connectEvents() {
+    const source = new EventSource("/events")
+
+    source.addEventListener("notify", (event) => {
+        const data = JSON.parse(event.data)
+        addMessage("assistant", data.text)
+        loadReminders()
+    })
+
+    source.addEventListener("reminders_changed", () => {
+        loadReminders()
+    })
 }
 
 async function sendMessage(message) {
@@ -827,45 +840,6 @@ function showBrowserReminderNotification(data) {
     })
 }
 
-async function pollReminderNotifications() {
-    if (isPollingReminderNotifications) {
-        return
-    }
-
-    isPollingReminderNotifications = true
-
-    try {
-        const res = await fetch("/notifications/pending", {
-            method: "POST",
-        })
-
-        if (!res.ok) {
-            throw new Error("Reminder notification request failed.")
-        }
-
-        const data = await res.json()
-
-        if (
-            !Array.isArray(data.due) ||
-            !Array.isArray(data.overdue)
-        ) {
-            throw new Error("Invalid reminder notification response.")
-        }
-
-        if (data.due.length === 0 && data.overdue.length === 0) {
-            return
-        }
-
-        addMessage("assistant", formatReminderNotification(data))
-        showBrowserReminderNotification(data)
-        await loadReminders()
-    } catch (err) {
-
-    } finally {
-        isPollingReminderNotifications = false
-    }
-}
-
 async function loadHealth() {
     try {
         const res = await fetch("/health")
@@ -1413,7 +1387,7 @@ async function initializeChat() {
     await loadLLMStatus()
     await loadFeedbackSources()
     await loadFeedbackCandidates()
-    window.setInterval(pollReminderNotifications, 60_000)
+    connectEvents()
 }
 
 initializeChat()

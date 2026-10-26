@@ -10,3 +10,9 @@
 2026-10-24 19:45:27,467 INFO uvicorn.error: Waiting for application startup.
 2026-10-24 19:45:27,468 INFO uvicorn.error: Application startup complete.
 2026-10-24 19:45:27,469 INFO uvicorn.error: Uvicorn running on http://127.0.0.1:50367 (Press CTRL+C to quit)
+2026-10-26 20:23:29,938 INFO uvicorn.error: Started server process [12928]
+2026-10-26 20:23:29,940 INFO uvicorn.error: Waiting for application startup.
+2026-10-26 20:23:29,941 INFO uvicorn.error: Application startup complete.
+2026-10-26 20:23:29,942 INFO uvicorn.error: Uvicorn running on http://127.0.0.1:64212 (Press CTRL+C to quit)
+2026-10-26 20:33:39,261 INFO uvicorn.error: Shutting down
+2026-10-26 20:33:39,371 INFO uvicorn.error: Waiting for background tasks to complete. (CTRL+C to force quit)

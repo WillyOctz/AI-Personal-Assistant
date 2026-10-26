@@ -26,8 +26,8 @@
     },
     "reminders": [
         {
-            "text": "remind me to test",
-            "due": "2026-10-25"
+            "text": "remind me to test project",
+            "due": "2026-10-27"
         }
     ],
     "state": {
@@ -21375,7 +21375,8 @@
     "settings": {
         "real_app_launching": true,
         "confirm_app_launching": true,
-        "real_website_opening": true
+        "real_website_opening": true,
+        "notifications_paused": false
     },
     "app_launches": [
         {
@@ -22202,7 +22203,8 @@
         "2|testing 2|2026-09-30",
         "1|testing 2|2026-09-30",
         "1|go to gym today|2026-10-19",
-        "2|do not forget to learn linux|2026-10-19"
+        "2|do not forget to learn linux|2026-10-19",
+        "remind me to test project|2026-10-26"
     ],
     "website_registry": {
         "python docs": {

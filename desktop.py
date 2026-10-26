@@ -11,6 +11,7 @@ import urllib.request
 from ctypes import wintypes
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
+from assistant import autostart, events, memory, notifier
 
 #-------ENVIRONMENT----------
 ROOT = (
@@ -56,6 +57,7 @@ window = None
 tray_icon = None
 server = None
 quitting = False
+_last_tray_state = None
 
 
 #--------------SINGLE INSTANCE---------------------
@@ -146,7 +148,29 @@ def quit_app(icon=None, item=None):
         tray_icon.stop()
     if server:
         server.should_exit = True
+    notifier.stop()
     window.destroy()
+    
+def tick():
+    global _last_tray_state
+    from assistant import focus
+    active = bool(focus.get_focus_mode())
+    paused = bool(memory.get_setting("notifications_paused", False))
+    state = (active, paused)
+    if tray_icon and state != _last_tray_state:
+        color = "#5beb7a" if active else ("#6b6f85" if paused else "#f74b4b")
+        tray_icon.icon = make_icon(color)
+        tray_icon.title = "Nebula - focusing" if active else ("Nebula - paused" if paused else "Nebula")
+        _last_tray_state = state
+        
+def toggle_autostart(icon, item):
+    autostart.disable() if autostart.is_enabled() else autostart.enable()
+    icon.update_menu()
+    
+def toggle_pause(icon ,item):
+    memory.set_setting("notifications_paused",not memory.get_setting("notifications_paused", False))
+    tick()
+    icon.update_menu()
     
     
 def build_tray():
@@ -155,14 +179,17 @@ def build_tray():
         "nebula", make_icon(), "Nebula",
         menu=pystray.Menu(
             pystray.MenuItem("Show / Hide", lambda icon, item: toggle_window(), default=True),
+            pystray.MenuItem("Pause notifications", toggle_pause,
+                             checked=lambda item: memory.get_setting("notifications_paused", False)),
+            pystray.MenuItem("Start with Windows", toggle_autostart,
+                             checked=lambda item: autostart.is_enabled()),
             pystray.MenuItem("Open logs folder", lambda icon, item: os.startfile(LOG_DIR)),
             pystray.Menu.SEPARATOR,
             pystray.MenuItem("Quit Nebula", quit_app),
         ),
     )
     tray_icon.run_detached()
-    
-    
+     
 #---------------------------MAIN------------------------------------
 def main():
     global window, server
@@ -202,8 +229,10 @@ def main():
         encoding="utf-8",
     )
     
-    hooks.update(show=show_window, hide=hide_window, toggle=toggle_window)
+    hooks.update(show=show_window, hide=hide_window, toggle=toggle_window, tick=tick)
     ui_state["visible"] = not args.background
+    
+    notifier.start()
     
     window = webview.create_window(
         "Nebula",
