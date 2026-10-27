@@ -311,4 +311,117 @@ A proposed command is never executed automatically.
 Do not claim that an action was completed.
 """
 
+TEMPLATES = {
+    "reminder.saved": {
+        "minimal": "Saved: {text}",
+        "normal": ["I've tucked it away: {text}.", "Remembered, dear: {text}."],
+        "chatty": ["There, little star. I've tucked '{text}' away, and I'll keep an eye on it for you."],
+    },
+    "reminder.saved_due": {
+        "minimal": "Saved: {text} ({due})",
+        "normal": ["Tucked away for {due}: {text}.", "I'll remind you about {text} on {due}."],
+        "chatty": ["There, little star. '{text}' is safe with me, and I'll remind you on {due}."],
+    },
+    "reminder.duplicate": {
+        "minimal": "Already saved: {text}",
+        "normal": ["You already asked me to hold that one: {text}."],
+        "chatty": ["Hmm, dear, I'm already holding '{text}' for you. No need to ask twice."],
+    },
+    "reminders.list": {
+        "minimal": "{n} reminder{s}.",
+        "normal": ["Here is what I'm holding for you ({n}).", "{n} thing{s} on my list for you, dear."],
+        "chatty": ["Come, let's look at what I'm holding for you, dear. There are {n}."],
+    },
+    "app.confirm": {
+        "minimal": "Open {app}?",
+        "normal": ["Shall I open {app} for you, dear?", "Open {app}? Just say the word."],
+        "chatty": ["Of course, dear. Shall I open {app} now?"],
+    },
+    "file.found": {
+        "minimal": "{n} result{s}.",
+        "normal": ["Here is what I found ({n}).", "I looked around, dear. {n} possible match{s}."],
+        "chatty": ["Let me show you, dear. I found {n} thing{s} in {folder} that look like '{query}'."],
+    },
+    "file.listed": {
+        "minimal": "{n} item{s} in {folder}.",
+        "normal": ["Here is what's inside {folder} ({n})."],
+        "chatty": ["Let's peek inside {folder} together, dear. {n} item{s}."],
+    },
+    "file.none": {
+        "minimal": "Nothing matched '{query}'.",
+        "normal": ["I looked through {folder} and found nothing like '{query}'. Another spelling, perhaps?"],
+        "chatty": ["I searched all of {folder}, dear, and nothing looked like '{query}'. Shall we try different words?"],
+    },
+    "file.revealed": {
+        "minimal": "Shown: {name}",
+        "normal": ["There it is, dear: {name}."],
+        "chatty": ["I've pointed Explorer right at {name} for you."],
+    },
+    "focus.start": {
+        "minimal": "Focus started: {task}",
+        "normal": ["Come, let's settle in together. Focusing on: {task}.", "I'm right here. Focus: {task}."],
+        "chatty": ["Come, let's settle in together, dear. Just {task} for now. I'm right here."],
+    },
+    "focus.stop": {
+        "minimal": "Focus ended: {duration}",
+        "normal": ["That was a good stretch: {duration} on {task}."],
+        "chatty": ["That was a good stretch, dear. {duration} on {task}. Be proud of that."],
+    },
+    "briefing.intro": {
+        "minimal": "{summary}",
+        "normal": ["{greeting}{name_part}. {summary}"],
+        "chatty": ["{greeting}{name_part}. Gather round, here is your sky for today. {summary}"],
+    },
+}
+
+class _Safe(dict):
+    def __missing__(self, key):
+        return ""
     
+def line(key, verbosity="normal", **kw):
+    entry = TEMPLATES.get(key)
+    
+    if not entry:
+        return ""
+    
+    if "n" in kw:
+        kw.setdefault("s", "" if kw["n"] == 1 else "s")
+        
+    options = entry.get(verbosity) or entry["normal"]
+    
+    if isinstance(options, list):
+        options = random.choice(options)
+        
+    return options.format_map(_Safe(kw)).strip()
+
+def daypart_greeting():
+    hour = datetime.now().hour
+    
+    if 5 <= hour < 12:
+        return "Good Morning"
+    if 12 <= hour < 17:
+        return "Good afternoon"
+    if 17 <= hour < 22:
+        return "Good evening"
+    
+    return "Still up?"
+
+
+
+SOFT_PREFIXES = [
+    ("i could not find", "I looked around, dear, but I could not find"),
+    ("i could not", "I tried, dear, but I could not"),
+    ("i do not have any", "I'm not holding any"),
+]
+
+def soften(text, verbosity="normal"):
+    if verbosity == "minimal" or not text:
+        return text
+    
+    lowered = text.lower()
+    
+    for prefix, replacement in SOFT_PREFIXES:
+        if lowered.startswith(prefix):
+            return replacement + text[len(prefix):]
+        
+    return text

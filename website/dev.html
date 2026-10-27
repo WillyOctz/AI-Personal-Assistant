@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nebula</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <main class="app-shell">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">Nebula</p>
+                <h1>Personal Assistant</h1>
+            </div>
+            <span id="connection-status" class="status">Local API</span>
+            <a href="/" style="font-size:13px;font-weight:700;color:#0f766e;text-decoration:none;">← Back to Nebula</a>
+        </header>
+
+        <nav class="section-nav" aria-label="Workspace navigation">
+            <a href="#assistant-chat">Chat</a>
+            <a href="#profile">Profile</a>
+            <a href="#reminders">Reminders</a>
+            <a href="#focus">Focus</a>
+            <a href="#integrations">Tools</a>
+            <a href="#quality">Quality</a>
+        </nav>
+
+        <div class="workspace">
+            <section id="assistant-chat" class="chat-panel">
+                <section
+                    id="messages"
+                    class="messages"
+                    aria-live="polite"
+                    aria-label="Conversation"
+                ></section>
+
+                <div id="confirmation-actions" class="confirmation-actions" hidden>
+                    <button id="confirm-button" type="button">Yes</button>
+                    <button id="cancel-button" class="cancel-button" type="button">No</button>
+                </div>
+
+                <form id="chat-form" class="composer">
+                    <label class="sr-only" for="message-input">Message Nebula</label>
+                    <textarea
+                        id="message-input"
+                        name="message"
+                        rows="1"
+                        placeholder="Message Nebula"
+                        autocomplete="off"
+                        required
+                    ></textarea>
+                    <button id="send-button" type="submit">Send</button>
+                </form>
+            </section>
+
+            <aside class="reminder-panel" aria-label="Reminders">
+                <section id="profile" class="profile-panel" aria-label="Profile facts">
+                    <div class="panel-heading">
+                        <h2>Profile</h2>
+                    </div>
+                    <dl id="profile-fact-list" class="profile-fact-list"></dl>
+                </section>
+
+                <section class="automation-panel" aria-label="Automation status">
+                    <div class="panel-heading">
+                        <h2>Automation</h2>
+                    </div>
+
+                    <dl id="automation-status-list" class="automation-status-list"></dl>
+                </section>
+
+                <section
+                    class="browser-notification-panel"
+                    aria-label="Browser notifications"
+                >
+                    <div class="panel-heading">
+                        <h2>Notifications</h2>
+                    </div>
+
+                    <button
+                        id="enable-browser-notifications-button"
+                        type="button"
+                    >
+                        Enable Browser Notifications
+                    </button>
+
+                    <p
+                        id="browser-notification-status"
+                        class="browser-notification-status"
+                        aria-live="polite"
+                    ></p>
+                </section>
+
+                <section class="llm-evaluation-panel" aria-label="LLM evaluation">
+                    <div class="panel-heading">
+                        <h2>LLM Evaluation</h2>
+                    </div>
+
+                    <button
+                        id="run-llm-evaluation-button"
+                        type="button"
+                    >
+                        Run Evaluation
+                    </button>
+
+                    <p
+                        id="llm-evaluation-status"
+                        class="llm-evaluation-status"
+                        aria-live="polite"
+                    >
+                        Not run in this browser session.
+                    </p>
+
+                    <ul
+                        id="llm-evaluation-failures"
+                        class="llm-evaluation-failures"
+                        hidden
+                    ></ul>
+                </section>
+
+                <section class="llm-status-panel" aria-label="LLM provider status">
+                    <div class="panel-heading">
+                        <h2>LLM Providers</h2>
+                    </div>
+
+                    <dl id="llm-status-list" class="llm-status-list"></dl>
+                </section>
+
+                <section
+                    id="quality"
+                    class="feedback-source-panel"
+                    aria-label="Response feedback by source"
+                >
+                    <div class="panel-heading">
+                        <h2>Response Quality</h2>
+                    </div>
+
+                    <dl
+                        id="feedback-source-list"
+                        class="feedback-source-list"
+                    ></dl>
+
+                    <div class="feedback-candidate-section">
+                        <h3>Review Candidates</h3>
+                        <p
+                            id="feedback-candidate-status"
+                            class="feedback-candidate-status"
+                            aria-live="polite"
+                        ></p>
+                        <ol
+                            id="feedback-candidate-list"
+                            class="feedback-candidate-list"
+                        ></ol>
+                    </div>
+                </section>
+
+                <div id="reminders" class="panel-heading">
+                    <h2>Reminders</h2>
+                    <span id="reminder-count" class="reminder-count">0</span>
+                </div>
+                <form id="reminder-form" class="reminder-form">
+                    <label class="sr-only" for="reminder-text-input">Reminder text</label>
+                    <input
+                        id="reminder-text-input"
+                        class="reminder-text-input"
+                        type="text"
+                        placeholder="Add a reminder"
+                        required
+                    >
+
+                    <label class="sr-only" for="reminder-due-input">Due date</label>
+                    <input
+                        id="reminder-due-input"
+                        class="reminder-due-input"
+                        type="date"
+                    >
+
+                    <button id="add-reminder-button" type="submit">Add</button>
+                </form>
+                 <ul id="reminder-list" class="reminder-list"></ul>
+
+                <section id="integrations" class="apps-panel" aria-label="Registered apps">
+                    <div class="panel-heading">
+                        <h2>Registered Apps</h2>
+                        <span id="app-count" class="app-count">0</span>
+                    </div>
+                    <ul id="app-list" class="app-list"></ul>
+                </section>
+
+                <section class="websites-panel" aria-label="Registered websites">
+                    <div class="panel-heading">
+                        <h2>Registered Websites</h2>
+                        <span id="website-count" class="website-count">0</span>
+                    </div>
+                    <ul id="website-list" class="website-list"></ul>
+                </section>
+                
+                <section id="focus" class="active-focus-panel" aria-label="Active focus session">
+                    <div class="panel-heading">
+                        <h2>Active Focus</h2>
+                        <span id="focus-status" class="focus-status">Idle</span>
+                    </div>
+                    <p id="focus-task" class="active-focus-task" hidden></p>
+                    <p id="focus-note-count" class="active-focus-meta" hidden></p>
+                    <div class="focus-actions">
+                        <button id="start-focus-button" type="button">Start</button>
+                        <button id="stop-focus-button" class="stop-focus-button" type="button">
+                            Stop
+                        </button>
+                    </div>
+                    <form id="focus-note-form" class="focus-note-form" hidden>
+                        <label class="sr-only" for="focus-note-input">Focus note</label>
+                        <input
+                            id="focus-note-input"
+                            type="text"
+                            placeholder="Add a focus note"
+                            required
+                        >
+                        <button id="add-focus-note-button" type="submit">Note</button>
+                    </form>
+                </section>
+
+                <section class="focus-goal-panel" aria-label="Focus goal progress">
+                    <div class="panel-heading">
+                        <h2>Today's Goal</h2>
+                    </div>
+
+                    <p id="focus-goal-text" class="focus-goal-text"></p>
+
+                    <div id="focus-progress-track" class="focus-progress-track" hidden>
+                        <div
+                            id="focus-progress-fill"
+                            class="focus-progress-fill"
+                            role="progressbar"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                        ></div>
+                    </div>
+
+                    <p id="focus-goal-meta" class="focus-goal-meta"></p>
+                </section>
+
+                <section class="focus-panel" aria-label="Recent focus sessions">
+                    <div class="panel-heading">
+                        <h2>Recent Focus</h2>
+                    </div>
+                    <ul id="focus-session-list" class="focus-session-list"></ul>
+                </section>
+            </aside>
+        </div>
+    </main>
+
+    <script src="/static/dev.js"></script>
+</body>
+</html>
