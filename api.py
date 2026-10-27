@@ -2,12 +2,17 @@ from pathlib import Path
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from typing import Any
+from datetime import date
 from assistant import memory, focus, apps, websites, llm, events
 from assistant.runtime import BRAIN_LOCK, hooks
 
+import logging
+
+from assistant.reply import Reply
 from assistant.brain import (
-    get_response,
+    get_reply,
     get_startup_notification_message,
     is_safe_llm_command,
 )
@@ -24,6 +29,7 @@ from assistant.llm_evaluation import (
     format_llm_evaluation_report,
 )
 
+log = logging.getLogger("nebula.api")
 app = FastAPI(title="Nebula API")
 initialize_database()
 
@@ -39,9 +45,23 @@ app.mount(
 class MessageRequest(BaseModel):
     message: str
     
+class ReplyAction(BaseModel):
+    label: str
+    style: str = "default"
+    type: str = "command"
+    command: str | None = None
+    value: str | None = None
+    
 class ChatResponse(BaseModel):
     input: str
-    response: str
+    response: str                    # full plain text (old clients, history, CLI)
+    say: str
+    detail: str = ""
+    kind: str = "text"
+    data: dict[str, Any] = Field(default_factory=dict)
+    actions: list[ReplyAction] = Field(default_factory=list)
+    needs_confirmation: bool = False
+    intent: str | None = None
     
 class ConversationTurnResponse(BaseModel):
     user: str
@@ -584,6 +604,31 @@ def sse():
         events.stream(), media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
     )
+    
+@app.get("/today")
+def today():
+    today_iso = date.today().isoformat()
+    reminders = []
+    
+    for item in memory.get_reminders():
+        due_day = memory.get_due_day(item["due"])
+        reminders.append({
+            **item,
+            "overdue": bool(due_day and due_day < today_iso),
+            "today": due_day == today_iso,
+        })
+        
+    return {
+        "reminders": reminders,
+        "focus": focus_status(),
+        "goal": focus_goal_progress(),
+        "apps": [a for a in registered_app_list()["apps"] if a["allowed"]],
+        "websites": [w for w in registered_website_list()["websites"] if w["allowed"]],
+    }
+    
+@app.get("/dev", include_in_schema=False)
+def dev_console():
+    return FileResponse(WEB_DIR / "dev.html")
        
 @app.get("/", include_in_schema=False)
 def home():
@@ -604,14 +649,15 @@ def chat(req: MessageRequest):
         
     try:
         with BRAIN_LOCK:
-            response = get_response(message)
+            reply = get_reply(message)
     except Exception as error:
+        log.exception("chat failed for message: %r", message)
         raise HTTPException(
             status_code=500,
             detail="Nebula could not process that message.",
         ) from error
         
-    if not isinstance(response, str):
+    if not isinstance(reply, Reply):
         raise HTTPException(
             status_code=500,
             detail="Nebula returned an invalid response.",
@@ -619,5 +665,12 @@ def chat(req: MessageRequest):
         
     return {
         "input": message,
-        "response": response,
+        "response": reply.full(),
+        "say": reply.say,
+        "detail": reply.detail,
+        "kind": reply.kind,
+        "data": reply.data,
+        "actions": reply.actions,
+        "needs_confirmation": reply.needs_confirmation,
+        "intent": reply.intent,
     }
