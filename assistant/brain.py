@@ -45,7 +45,9 @@ from assistant import focus
 from assistant import websites
 from assistant import llm
 from assistant import semantic_memory
+from assistant.reply import Reply, as_reply, button, copy_button
 import re
+import os
 
 HIGH_CONFIDENCE = 0.75
 LOW_CONFIDENCE = 0.55
@@ -73,6 +75,68 @@ def looks_like_math(text):
 
 def current_timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+CONFIRM_ACTIONS = [
+    button("Yes", "yes", style="primary"),
+    button("No", "no", style="ghost"),
+]
+
+def voice(key, **kw):
+    return personality.line(
+        key,
+        verbosity=memory.get_setting("verbosity", "normal"),
+        **kw,
+    )
+    
+def build_file_items(folder_name, folder_path, entries):
+    items = []
+    
+    for entry in entries:
+        full_path = entry.get("path") or os.path.join(folder_path, entry["name"])
+        
+        try:
+            rel = os.path.relpath(full_path, folder_path)
+        except ValueError:
+            rel = entry["name"]
+            
+        is_folder = entry["type"] == "folder"
+        is_text = os.path.splitext(entry["name"])[1].lower() in TEXT_EXTENSIONS
+        
+        actions = []
+        
+        if not is_folder and is_text:
+            actions.append(button("Open", f"open file {folder_name} {rel}", style="primary"))
+            
+        actions.append(button("Reveal", f"reveal file {folder_name} {rel}"))
+        actions.append(copy_button("Copy path", full_path))
+        
+        items.append({
+            "name": entry["name"],
+            "type": entry["type"],
+            "path": full_path,
+            "rel": rel,
+            "actions": actions,
+        })
+        
+    return items
+
+def extract_confirmation(reply):
+    if reply.needs_confirmation:
+        return
+    
+    if "reply yes" not in reply.full().lower():
+        return
+    
+    reply.needs_confirmation = True
+    
+    if reply.kind == "text" and not reply.detail:
+        lines = reply.say.split("\n")
+        keep = [item for item in lines if "reply yes" not in item.lower()]
+        ask = [item for item in lines if "reply yes" in item.lower()]
+        
+        if keep:
+            reply.say = "\n".join(keep).strip()
+            reply.detail = "\n".join(ask).strip()
 
 def resolve_memory_date_alias(date_next):
     today = datetime.now().date()
@@ -2869,7 +2933,7 @@ def handle_control_intent(user_input, analysis):
         if pending_llm_command:
             clear_pending_llm_command()
             
-            return get_response(pending_llm_command)
+            return get_reply(pending_llm_command)
         
         if not pending:
             return "There is nothing waiting for confirmation."
@@ -4083,39 +4147,70 @@ def handle_memory_intent(user_input, analysis):
         
         today_results = memory.search_reminders_by_due("today")
         overdue_results = memory.search_reminders_by_due("overdue")
+        focus_progress = get_focus_goal_progress_summary()
+        suggested = get_first_reminder_text(today_results) or (
+            f"work toward your goal - {goal}" if goal else None
+        )
         
-        focus_brief = get_first_reminder_text(today_results)
+        lines = [f"Good day, {name}." if name else "Good day."]
         
-        lines = []
-        
-        if name:
-            lines.append(f"Good day, {name}.")
-        else:
-            lines.append("Good day.")
-            
         if goal:
             lines.append(f"Goal: {goal}")
             
         lines.append(f"Reminders today: {len(today_results)}")
         lines.append(f"Overdue reminders: {len(overdue_results)}")
-        
-        focus_progress = get_focus_goal_progress_summary()
-        
+
         if focus_progress:
             lines.append(f"Focus goal: {focus_progress['goal']}")
-            
+
             if focus_progress["progress"] is not None:
                 lines.append(f"Focus progress: {focus_progress['progress']}%")
                 lines.append(f"Today's focus: {focus_progress['today_focus']}")
             else:
                 lines.append("Focus progress: unknown")
-        
-        if focus_brief:
-            lines.append(f"Suggested focus: {focus_brief}")
-        elif goal:
-            lines.append(f"Suggested focus: work toward your goal - {goal}")
-            
-        return "\n".join(lines)
+
+        if suggested:
+            lines.append(f"Suggested focus: {suggested}")
+
+        overdue_n, today_n = len(overdue_results), len(today_results)
+
+        if not overdue_n and not today_n:
+            summary = "Your sky is clear today."
+        else:
+            bits = []
+            if overdue_n:
+                bits.append(f"{overdue_n} overdue")
+            if today_n:
+                bits.append(f"{today_n} due today")
+            summary = ", ".join(bits) + "."
+
+        actions = []
+
+        if suggested:
+            actions.append(button("Start focus", "start focus", style="primary"))
+
+        if overdue_n or today_n:
+            actions.append(button("Show reminders", "show reminders", style="ghost"))
+
+        return Reply(
+            say=voice(
+                "briefing.intro",
+                greeting=personality.daypart_greeting(),
+                name_part=f", {name}" if name else "",
+                summary=summary,
+            ),
+            detail="\n".join(lines),
+            kind="briefing",
+            data={
+                "goal": goal,
+                "overdue": [{"text": r["reminder"], "due": r["due"]} for r in overdue_results],
+                "today": [{"text": r["reminder"], "due": r["due"]} for r in today_results],
+                "focus": focus_progress,
+                "suggested": suggested,
+            },
+            actions=actions,
+            styled=True,
+        )
     
     if intent == "start_work_session":
         briefing  = handle_memory_intent(
@@ -5934,18 +6029,36 @@ def handle_memory_intent(user_input, analysis):
         if not reminders:
             return "You have no reminders."
         
+        today = str(datetime.now().date())
+        tomorrow = str(datetime.now().date() + timedelta(days=1))
         lines = ["Your reminders:"]
+        items = []
         
         for index, reminder in enumerate(reminders, start=1):
             text = memory.get_reminder_text(reminder)
             due = memory.get_reminder_due(reminder)
+            due_day = memory.get_due_day(due)
             
-            if due:
-                lines.append(f"{index}. {text} | due: {due}")
-            else:
-                lines.append(f"{index}. {text}")
+            lines.append(f"{index}. {text} | due: {due}" if due else f"{index}. {text}")
             
-        return "\n".join(lines)
+            # text based commands
+            items.append({
+                "text": text,
+                "due": due,
+                "overdue": bool(due_day and due_day < today),
+                "actions": [
+                    button("Done", f"complete reminder {text}", style="primary"),
+                    button("Tomorrow", f"set reminder {text} due {tomorrow}"),
+                ],
+            })
+            
+        return Reply(
+            say=voice("reminders.list", n=len(items)),
+            detail="\n".join(lines),
+            kind="reminder_list",
+            data={"items": items},
+            styled=True,
+        )
     
     if intent == "overdue_reminders":
         results = memory.search_reminders_by_due("overdue")
@@ -6436,7 +6549,14 @@ def handle_memory_intent(user_input, analysis):
         focus.start_focus_mode(task)
         set_pending_task(task)
         
-        return f"Focus mode started. Current focus: {task}"
+        return Reply(
+            say=voice("focus.start", task=task),
+            detail=f"Focus mode started. Current focus: {task}",
+            kind="focus",
+            data={"task": task, "started_at": get_focus_started_at()},
+            actions=[button("Stop", "stop focus", style="danger")],
+            styled=True,
+        )
     
     if intent == "stop_focus":
         if not get_focus_mode():
@@ -6446,10 +6566,19 @@ def handle_memory_intent(user_input, analysis):
         started_at = stop_focus_mode()
         session_result = save_focus_session(task, started_at)
         
-        return format_focus_session_summary(
-            task,
-            session_result["duration"],
-            session_result["notes"]
+        return Reply(
+            say=voice("focus.stop", task=task, duration=session_result["duration"]),
+            detail=format_focus_session_summary(
+                task, session_result["duration"], session_result["notes"]
+            ),
+            kind="focus_summary",
+            data={
+                "task": task,
+                "duration": session_result["duration"],
+                "notes": session_result["notes"],
+            },
+            actions=[button("Today's focus", "today focus stats", style="ghost")],
+            styled=True,
         )
     
     if intent == "focus_status":
@@ -7417,9 +7546,22 @@ def handle_action_intent(user_input, analysis):
         if not reminder_text:
             return "What should I remind you about?"
         
-        result = create_reminder(reminder_text, due)
-        log_action(user_input, analysis, result)
-        return result
+        saved = memory.add_reminder(reminder_text, due)
+        
+        if not saved["saved"]:
+            say = voice("reminder.duplicate", text=saved["reminder"])
+            log_action(user_input, analysis, say)
+            return Reply(say=say, styled=True)
+        
+        key = "reminder.saved_due" if saved["due"] else "reminder.saved"
+        say = voice(key, text=saved["reminder"], due=saved["due"])
+        log_action(user_input, analysis, say)
+        
+        return Reply(
+            say=say,
+            actions=[button("Undo", f"complete reminder {saved['reminder']}", style="ghost")],
+            styled=True,
+        )
     
     if intent == "open_app":
         app_name = extract_entity(user_input, intent)
@@ -7427,9 +7569,24 @@ def handle_action_intent(user_input, analysis):
         if not app_name:
             return "What should i open?"
         
-        result = apps.handle_open_app(app_name, open_registered_app, open_app)
-            
+        result = apps.handle_open_app(app_name, open_registered_app, open_app)     
         log_action(user_input, analysis, result)
+        
+        pending = get_pending_app_launch()
+        
+        if pending and "reply yes" in result.lower():
+            return Reply(
+                say=voice("app.confirm", app=pending["app_name"]),
+                detail=result,
+                kind="confirm",
+                data={
+                    "title": f"Open {pending['app_name']}",
+                    "subtitle": pending["command"],
+                },
+                needs_confirmation=True,
+                styled=True,
+            )
+            
         return result
     
     if intent == "play_game":

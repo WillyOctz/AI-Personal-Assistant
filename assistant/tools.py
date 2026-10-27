@@ -704,3 +704,15 @@ def validate_folder_path(folder_path):
         "valid": True,
         "reason": "ok" 
     }
+    
+def reveal_in_explorer(path):
+    target = Path(path)
+    
+    if not target.exists():
+        return {"ok": False, "reason": "not_found"}
+    
+    try:
+        subprocess.Popen(f'explorer /select,"{target}"')
+        return {"ok": True, "reason": "revealed"}
+    except OSError:
+        return {"ok": False, "reason": "open_error"}

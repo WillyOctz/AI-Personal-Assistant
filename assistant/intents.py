@@ -291,6 +291,7 @@ VALID_INTENTS = {
     "open_file",
     "open_folder",
     "copy_text",
+    "reveal_file",
 }
 
 
@@ -598,6 +599,7 @@ MEMORY_INTENTS = {
     "open_file",
     "open_folder",
     "copy_text",
+    "reveal_file",
 }
 
 
@@ -2045,6 +2047,9 @@ INTENT_PREFIXES = {
     "copy_text": [
         "copy text ",
     ],
+    "reveal_file": [
+        "reveal file ",
+    ],
 }
 
 
@@ -2112,6 +2117,7 @@ PREFIX_INTENT_ORDER = [
     "search_text_files",
     "search_files_by_name",
     "open_file",
+    "reveal_file",
     "open_folder",
     "file_info",
     "copy_text",
