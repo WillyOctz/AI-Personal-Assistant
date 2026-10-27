@@ -4216,7 +4216,7 @@ def handle_memory_intent(user_input, analysis):
         briefing  = handle_memory_intent(
             "daily briefing",
             make_analysis("daily_briefing")
-        )
+        ).detail
         
         task = choose_focus_task()
         
@@ -7142,9 +7142,16 @@ def handle_memory_intent(user_input, analysis):
         for item in result["items"]:
             lines.append(f"- {item['type']}: {item['name']}")
         
-        log_file_search("list_files", folder_name, "", f"{len(result['items'])} item(s)")
-            
-        return "\n".join(lines)
+        items = build_file_items(folder_name, folder_path, result["items"])
+        log_file_search("list_files", folder_name, "", f"{len(items)} item(s)")
+        
+        return Reply(
+            say=voice("file.listed", n=len(items), folder=folder_name),
+            detail="\n".join(lines),
+            kind="file_list",
+            data={"folder": folder_name, "query": "", "items": items},
+            styled=True,
+        )
     
     if intent == "search_files_by_name":
         folder_name, query = parse_file_search(user_input)
@@ -7174,16 +7181,26 @@ def handle_memory_intent(user_input, analysis):
             return format_file_name_search_error(result["reason"],folder_name)
         
         if not result["matches"]:
-            return f"No files matched: {query}"
+            return Reply(
+                say=voice("file.none", folder=folder_name, query=query),
+                styled=True,
+            )
         
         lines = [f"Files matching {query}:"]
         
         for match in result["matches"]:
             lines.append(f"- {match['type']}: {match['path']}")
         
-        log_file_search("search_files", folder_name, query, f"{len(result['matches'])} match(es)")
-            
-        return "\n".join(lines)
+        items = build_file_items(folder_name, folder_path, result["matches"])
+        log_file_search("search_files", folder_name, query, f"{len(items)} match(es)")
+        
+        return Reply(
+            say=voice("file.found", n=len(items), folder=folder_name, query=query),
+            detail="\n".join(lines),
+            kind="file_list",
+            data={"folder": folder_name, "query": query, "items": items},
+            styled=True,
+        )
     
     if intent == "open_file":
         folder_name, filename = parse_open_file(user_input)
@@ -7261,6 +7278,34 @@ def handle_memory_intent(user_input, analysis):
             f"Size: {file['size']} bytes\n"
             f"Modified: {format_timestamp(file['modified'])}"
         )
+        
+    if intent == "reveal_file":
+        text = user_input.strip()[len("reveal file "):].strip()
+        parts = text.split(" ", 1)
+        
+        if len(parts) < 2 or not parts[1].strip():
+            return "Use this format: reveal file folder_name filename"
+        
+        folder_name, filename = parts[0].strip(), parts[1].strip()
+        folder_path = memory.get_search_folder(folder_name)
+        
+        if not folder_path:
+            return f"I could not find registered search folder: {folder_name}"
+        
+        found = get_file_info(folder_path, filename)
+        
+        if not found["ok"]:
+            return f"I could not find a safe path to reveal: {filename}"
+        
+        target = found["file"]["path"]
+        revealed = reveal_in_explore(target)
+        
+        if not revealed["ok"]:
+            return f"I could not reveal {found['file']['name']}: {revealed['reason']}"
+
+        log_file_search("reveal_file", folder_name, filename, target)
+
+        return Reply(say=voice("file.revealed", name=found["file"]["name"]), styled=True)
         
     if intent == "preview_file":
         parsed = parse_preview_file_command(user_input)
@@ -7865,7 +7910,7 @@ def get_llm_fallback_response(user_input, analysis):
         topic,
     )
 
-def get_response(user_input):
+def get_reply(user_input):
     analysis = analyze_intent(user_input)
     if analysis["intent"] not in [
         "confirm_intent",
@@ -7896,19 +7941,37 @@ def get_response(user_input):
             analysis,
         )
         
+    reply = as_reply(response, fallback=personality.unknown_response())
+    extract_confirmation(reply)
+    
+    verbosity = memory.get_setting("verbosity", "normal")
+        
     if analysis["intent"] not in ["chat_explain_last", "chat_repeat_last"]:
         memory.set_state_value("last_response_intent", analysis["intent"])
         memory.set_state_value("last_response_group", analysis["group"])
         memory.set_state_value("last_response_source", analysis["source"])
         memory.set_state_value("last_response_confidence", analysis["confidence"])
         memory.set_state_value("last_response_scores", analysis.get("scores"))
-        memory.set_state_value("last_response_user_input", user_input,)
-        memory.set_state_value("last_response_text", response)
+        memory.set_state_value("last_response_user_input", user_input)
+        memory.set_state_value("last_response_text", reply.full())
         
-    response = personality.dress(analysis["intent"], response, memory.get_setting("verbosity", "normal"))
+    if not reply.styled:
+        reply.say = personality.dress(
+            analysis["intent"],
+            personality.soften(reply.say, verbosity),
+            verbosity,
+        )
         
-    log_conversation(user_input, response, analysis)
-    return response
+    if reply.needs_confirmation and not reply.actions:
+        reply.actions = [dict(item) for item in CONFIRM_ACTIONS]
+        
+    reply.intent = analysis["intent"]
+    log_conversation(user_input, reply.full(), analysis)
+    
+    return reply
+
+def get_response(user_input):
+    return get_reply(user_input).full()
 
 def get_startup_notification_message():
     result = memory.get_due_reminders()
