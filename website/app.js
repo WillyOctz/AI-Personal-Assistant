@@ -325,3 +325,236 @@ async function send(text, { echo = true} = {}) {
         input.focus()
     }
 }
+
+/* -------------------------TODAY DRAWER--------------------------- */
+function renderFocusBlock(focus, goal) {
+    const active = Boolean(focus && focus.active)
+
+    focusLine.textContent = active
+        ? `Focusing on: ${focus.task || "untitled task"}`
+        : "Not focusing."
+    focusStart.hidden = active
+    focusStop.hidden = !active
+    noteForm.hidden = !active
+
+    if (goal && goal.goal) {
+        const hasProgress = typeof goal.progress === "number"
+        goalLine.hidden = false
+        goalLine.textContent = hasProgress
+            ? `Goal: ${goal.goal} · today ${goal.today_focus} (${goal.progress}%)`
+            : `Goal: ${goal.goal}`
+        goalProgress.hidden = !hasProgress
+        if (hasProgress) goalFill.style.width = `${Math.max(0, Math.min(100, goal.progress))}%`
+    } else {
+        goalLine.hidden = true
+        goalProgress.hidden = true
+    }
+}
+
+function renderReminderBlock(reminders) {
+    reminderListEl.replaceChildren()
+
+    if (!reminders.length) {
+        reminderListEl.appendChild(el("li", "muted", "Nothing waiting on you."))
+        return
+    }
+
+    for (const r of reminders) {
+        const li = el("li", r.overdue ? "rem-item overdue" : "rem-item")
+        const main = el("div", "rem-main")
+        main.appendChild(el("span", "rem-text", r.text))
+        main.appendChild(el("small", "muted", r.due ? `Due ${r.due}` : "No due date"))
+
+        const done = el("button", "btn primary", "Done")
+        done.type = "button"
+        done.addEventListener("click", async () => {
+            done.disabled = true
+            try {
+                await api(`/reminders/${r.position}/complete`, { method: "POST" })
+            } catch (err) {
+                addAssistantText(`I could not complete that reminder: ${err.message}`)
+            }
+            refreshToday()
+        })
+
+        li.append(main, done)
+        reminderListEl.appendChild(li)
+    }
+}
+
+function chip(label, command) {
+    const b = el("button", "chip", label)
+    b.type = "button"
+    b.addEventListener("click", () => send(command))
+    return b
+}
+
+function renderLaunchBlock(apps, websites) {
+    launchChips.replaceChildren()
+
+    for (const a of apps) launchChips.appendChild(chip(a.name, `open ${a.name}`))
+    for (const w of websites) launchChips.appendChild(chip(`🌐 ${w.name}`, `open website ${w.name}`))
+
+    launchBlock.hidden = launchChips.children.length === 0
+}
+
+function renderToday(t) {
+    const reminders = t.reminders || []
+    const overdue = reminders.filter((r) => r.overdue).length
+    const active = Boolean(t.focus && t.focus.active)
+
+    const parts = [`${reminders.length} reminder${reminders.length === 1 ? "" : "s"}`]
+    if (overdue) parts.push(`${overdue} overdue`)
+    parts.push(active ? "focusing" : "idle")
+    todaySummary.textContent = parts.join(" . ")
+
+    orb.dataset.state = active ? "focus" : overdue ? "alert" : "idle"
+
+    renderFocusBlock(t.focus, t.goal)
+    renderReminderBlock(reminders)
+    renderLaunchBlock(t.apps || [], t.websites || [])
+}
+
+async function refreshToday() {
+    try {
+        renderToday(await api("/today"))
+        if (!busy) setStatus("Connected")
+    } catch (_) {
+        setStatus("Connection error", "offline")
+    }
+}
+
+
+/* --------------------------------HISTORY + PUSH EVENTS--------------------------------- */
+async function loadHistory() {
+    try {
+        const data = await api("/conversation?limit=10")
+        const turns = data.turns || []
+
+        if (!turns.length) {
+            addAssistantText("Hi! What can i help you with?")
+            return
+        }
+
+        for (const turn of turns) {
+            addUser(turn.user)
+            if (turn.assistant) addAssistantText(turn.assistant)
+        }
+
+        const last = turns[turns.length - 1]
+
+        if (last.assistant && last.assistant.toLowerCase().includes("reply yes")) {
+            messagesEl.lastElementChild.appendChild(renderActions(CONFIRM_ACTIONS))
+        }
+    } catch (_) {
+        addAssistantText("I could not load our recent conversation.")
+    }
+}
+
+function connectEvents() {
+    const source = new EventSource("/events")
+
+    source.addEventListener("notify", (event) => {
+        const data = JSON.parse(event.data)
+        addAssistantText(data.text).classList.add("notice")
+        refreshToday()
+    })
+
+    source.addEventListener("reminders_changed", refreshToday)
+    source.addEventListener("today_changed", refreshToday)
+}
+
+
+/* -----------------------------WIRING----------------------------- */
+form.addEventListener("submit", (event) => {
+    event.preventDefault()
+
+    const text = input.value.trim()
+    if (!text || busy) return
+
+    sent.push(text)
+    sentIndex = sent.length
+    input.value = ""
+    resizeComposer()
+    send(text)
+})
+
+function recall(step) {
+    const next = sentIndex + step
+    if (!sent.length || next < 0 || next > sent.length) return false
+
+    sentIndex = next
+    input.value = sent[sentIndex] || ""
+    resizeComposer()
+    return true
+}
+
+input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault()
+        form.requestSubmit()
+    } else if (event.key === "ArrowUp" && (input.value === "" || input.value === sent[sentIndex])) {
+        if (recall(-1)) event.preventDefault()
+    } else if (event.key === "ArrowDown" && input.value === sent[sentIndex]) {
+        if (recall(1)) event.preventDefault()
+    }
+})
+
+input.addEventListener("input", resizeComposer)
+
+todayToggle.addEventListener("click", () => {
+    const opening = todayPanel.hidden
+    todayPanel.hidden = !opening
+    todayToggle.setAttribute("aria-expanded", String(opening))
+})
+
+focusStart.addEventListener("click", () => send("start focus"))
+focusStop.addEventListener("click", () => send("stop focus"))
+
+noteForm.addEventListener("submit", (event) => {
+    event.preventDefault()
+    const note = noteInput.value.trim()
+    if (!note) return
+    noteInput.value = ""
+    send(`focus note ${note}`)
+})
+
+reminderForm.addEventListener("submit", async (event) => {
+    event.preventDefault()
+
+    const text = reminderText.value.trim()
+    if(!text) return
+
+    try {
+        await api("/reminders", {
+            method: "POST",
+            body: JSON.stringify({ text, due: reminderDue.value || null }),
+        })
+        reminderText.value = ""
+        reminderDue.value = ""
+        refreshToday()
+    } catch (err) {
+        addAssistantText(`I could not add that reminder: ${err.message}`)
+    }
+})
+
+document.querySelectorAll("[data-cmd]").forEach((button) => {
+    button.addEventListener("click", () => send(button.dataset.cmd))
+})
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && window.pywebview) window.pywebview.api.hide()
+})
+
+window.addEventListener("focus", refreshToday)
+document.addEventListener("visibilitychange", () => { if (!document.hidden) refreshToday() })
+
+async function init() {
+    resizeComposer()
+    await refreshToday()
+    await loadHistory()
+    connectEvents()
+    input.focus()
+}
+
+init()
