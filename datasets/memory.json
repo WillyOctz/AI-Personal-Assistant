@@ -26,8 +26,8 @@
     },
     "reminders": [
         {
-            "text": "remind me to test project",
-            "due": "2026-10-27"
+            "text": "remind me to stretch",
+            "due": "2026-10-30"
         }
     ],
     "state": {
@@ -39,12 +39,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "deny_intent",
-        "last_response_group": "control",
+        "last_response_intent": "stop_focus",
+        "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "Cancelled app launch: notepad",
+        "last_response_text": "That was a good stretch, dear. 13 seconds on i like music. Be proud of that.\nFocus session summary:\nTask: i like music\nDuration: 13 seconds\nNotes: 0",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [
             {
@@ -138,7 +138,7 @@
         "pending_memory_result_delete": null,
         "pending_website_open": null,
         "pending_llm_command": null,
-        "last_response_user_input": "no",
+        "last_response_user_input": "stop focus",
         "pending_file_open": null,
         "pending_folder_open": null,
         "pending_clipboard_copy": null
@@ -961,6 +961,16 @@
             "source": "model",
             "result": "I am ready to open notepad using command: notepad.\nReply yes to launch or no to cancel.",
             "timestamp": "2026-10-22 17:07:56",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open google chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I am ready to open google chrome using command: chrome.\nReply yes to launch or no to cancel.",
+            "timestamp": "2026-10-29 19:30:11",
             "importance": 0.8
         }
     ],
@@ -21006,6 +21016,156 @@
             "source": "rule",
             "timestamp": "2026-10-22 17:08:25",
             "importance": 0.1
+        },
+        {
+            "user": "focus dashboard",
+            "assistant": "Focus dashboard:\nStatus: inactive\nToday: 0 session(s), 0 seconds\nWeek: 0 session(s), 0 seconds\nGoal: sweeping\nGoal progress: unknown\nCurrent streak: 0 day(s)\nLongest streak: 3 day(s)",
+            "intent": "focus_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-29 18:05:57",
+            "importance": 0.6
+        },
+        {
+            "user": "daily briefing",
+            "assistant": "Good evening, Carlos. Your sky is clear today.\nGood day, Carlos.\nGoal: to build best AI assistant\nReminders today: 0\nOverdue reminders: 0\nFocus goal: sweeping\nFocus progress: unknown\nSuggested focus: work toward your goal - to build best AI assistant",
+            "intent": "daily_briefing",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-29 19:10:48",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "You have no reminders.",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-29 19:10:54",
+            "importance": 0.6
+        },
+        {
+            "user": "daily briefing",
+            "assistant": "Good evening, Carlos. Your sky is clear today.\nGood day, Carlos.\nGoal: to build best AI assistant\nReminders today: 0\nOverdue reminders: 0\nFocus goal: sweeping\nFocus progress: unknown\nSuggested focus: work toward your goal - to build best AI assistant",
+            "intent": "daily_briefing",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-29 19:25:09",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "You have no reminders.",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-29 19:25:28",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Here is what I'm holding for you (1).\nYour reminders:\n1. remind me to stretch | due: 2026-10-29",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-29 19:25:58",
+            "importance": 0.6
+        },
+        {
+            "user": "complete reminder remind me to stretch",
+            "assistant": "Well done, my dear.\nCompleted reminder: remind me to stretch",
+            "intent": "complete_reminder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-29 19:26:59",
+            "importance": 0.6
+        },
+        {
+            "user": "show reminders",
+            "assistant": "Come, let's look at what I'm holding for you, dear. There are 1.\nYour reminders:\n1. remind me to stretch | due: 2026-10-29",
+            "intent": "show_reminders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-29 19:27:26",
+            "importance": 0.6
+        },
+        {
+            "user": "set reminder remind me to stretch due 2026-10-30",
+            "assistant": "Updated reminder due date: remind me to stretch | due: 2026-10-30",
+            "intent": "set_reminder_due",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-29 19:27:30",
+            "importance": 0.6
+        },
+        {
+            "user": "register search folder proj as C:\\path\\to\\project",
+            "assistant": "Registered search folder: proj -> C:\\path\\to\\project",
+            "intent": "register_search_folder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-29 19:29:11",
+            "importance": 0.6
+        },
+        {
+            "user": "search files proj main",
+            "assistant": "Let me look around for you...\nSearch folder does not exist: proj",
+            "intent": "search_files_by_name",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-29 19:29:35",
+            "importance": 0.6
+        },
+        {
+            "user": "open google chrome",
+            "assistant": "Of course, dear. Shall I open google chrome now?\nI am ready to open google chrome using command: chrome.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-10-29 19:30:12",
+            "importance": 0.8
+        },
+        {
+            "user": "yes",
+            "assistant": "I looked around, dear, but I could not find the app command: chrome",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-29 19:30:19",
+            "importance": 0.1
+        },
+        {
+            "user": "start focus",
+            "assistant": "Come, let's settle in together, dear. Just i like music for now. I'm right here.\nFocus mode started. Current focus: i like music",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-29 19:30:29",
+            "importance": 0.6
+        },
+        {
+            "user": "stop focus",
+            "assistant": "That was a good stretch, dear. 13 seconds on i like music. Be proud of that.\nFocus session summary:\nTask: i like music\nDuration: 13 seconds\nNotes: 0",
+            "intent": "stop_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-10-29 19:30:43",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -21348,6 +21508,14 @@
             "notes": [
                 "this will be easy"
             ]
+        },
+        {
+            "task": "i like music",
+            "started_at": "2026-10-29 19:30:29",
+            "ended_at": "2026-10-29 19:30:42",
+            "duration": "13 seconds",
+            "duration_seconds": 13,
+            "notes": []
         }
     ],
     "app_registry": {
@@ -21376,7 +21544,8 @@
         "real_app_launching": true,
         "confirm_app_launching": true,
         "real_website_opening": true,
-        "notifications_paused": false
+        "notifications_paused": false,
+        "verbosity": "chatty"
     },
     "app_launches": [
         {
@@ -21474,6 +21643,12 @@
             "command": "notepad",
             "result": "Opening notepad.",
             "timestamp": "2026-07-27 16:46:13"
+        },
+        {
+            "app_name": "google chrome",
+            "command": "chrome",
+            "result": "I could not find the app command: chrome",
+            "timestamp": "2026-10-29 19:30:18"
         }
     ],
     "app_aliases": {
@@ -21664,7 +21839,8 @@
     ],
     "search_folders": {
         "assistant": "C:\\Users\\User\\AI_Personal_Assistant",
-        "restaurant_website": "D:\\Restaurant_website"
+        "restaurant_website": "D:\\Restaurant_website",
+        "proj": "C:\\path\\to\\project"
     },
     "file_search_history": [
         {
@@ -22204,7 +22380,7 @@
         "1|testing 2|2026-09-30",
         "1|go to gym today|2026-10-19",
         "2|do not forget to learn linux|2026-10-19",
-        "remind me to test project|2026-10-26"
+        "remind me to stretch|2026-10-29"
     ],
     "website_registry": {
         "python docs": {

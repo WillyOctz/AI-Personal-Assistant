@@ -39,7 +39,7 @@ let sentIndex = 0
 function el(tag, className, text) {
     const node = document.createElement(tag)
     if (className) node.className = className
-    if (text !== undefined && text !== null) node.textContext = text
+    if (text !== undefined && text !== null) node.textContent = text
     return node
 }
 
@@ -175,7 +175,7 @@ function renderBriefing(d) {
 
     if (d.goal) card.appendChild(el("p", "card-line", `Goal: ${d.goal}`))
 
-    addSelection(card, "Overdue", d.overdue, true)
+    addSection(card, "Overdue", d.overdue, true)
     addSection(card, "Today", d.today, false)
 
     if (d.focus && d.focus.goal) {

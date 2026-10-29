@@ -10,7 +10,7 @@ def copy_button(label, value, style="ghost"):
 @dataclass
 class Reply:
     say: str    # short nebula voiced line
-    detil: str = ""    # ClI, logs and fallback
+    detail: str = ""    # ClI, logs and fallback
     kind: str = "text"  # types of responses 
     data: dict = field(default_factory=dict)   # payload 
     actions: list = field(default_factory=list)

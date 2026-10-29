@@ -589,7 +589,7 @@ def run_llm_command_proposal_evaluation(
         "results": evaluation["results"],
     }
     
-@app.get("/__control/show", include_in_schema=False)
+@app.post("/__control/show", include_in_schema=False)
 def control_show():
     show = hooks.get("show")
     

@@ -8,3 +8,4 @@ pystray
 pillow
 keyboard
 windows-toasts
+pytest

@@ -11,7 +11,7 @@ import urllib.request
 from ctypes import wintypes
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
-from assistant import autostart, events, memory, notifier
+
 
 #-------ENVIRONMENT----------
 ROOT = (
@@ -20,6 +20,8 @@ ROOT = (
 )
 os.chdir(ROOT)
 sys.path.insert(0, str(ROOT))
+
+from assistant import autostart, events, memory, notifier
 
 LOG_DIR = ROOT / "logs"
 LOG_DIR.mkdir(exist_ok=True)
@@ -37,7 +39,7 @@ logging.basicConfig(
 )
 if sys.stdout is None:
     sys.stdout = open(os.devnull, "w")
-if sys.stdout is None:
+if sys.stderr is None:
     sys.stderr = open(os.devnull, "w")
 log = logging.getLogger("nebula.desktop")
 
@@ -103,6 +105,7 @@ def show_window():
     window.show()
     window.restore()
     place_window()
+    ui_state["visible"] = True
     try:
         window.evaluate_js("document.getElementById('message-input')?.focus()")
     except Exception:
@@ -171,7 +174,19 @@ def toggle_pause(icon ,item):
     memory.set_setting("notifications_paused",not memory.get_setting("notifications_paused", False))
     tick()
     icon.update_menu()
-    
+
+def set_verbosity(level):
+    def _set(icon, item):
+        memory.set_setting("verbosity", level)
+        icon.update_menu()
+    return _set
+
+def verbosity_is(level):
+    return lambda item: memory.get_setting("verbosity", "normal") == level
+
+def open_dev_console(icon=None, item=None):
+    show_window()
+    window.evaluate_js("window.location.href = '/dev'")
     
 def build_tray():
     global tray_icon
@@ -179,10 +194,16 @@ def build_tray():
         "nebula", make_icon(), "Nebula",
         menu=pystray.Menu(
             pystray.MenuItem("Show / Hide", lambda icon, item: toggle_window(), default=True),
+            pystray.MenuItem("Voice", pystray.Menu(
+                pystray.MenuItem("Minimal", set_verbosity("minimal"), checked=verbosity_is("minimal"), radio=True),
+                pystray.MenuItem("Normal", set_verbosity("normal"), checked=verbosity_is("normal"), radio=True),
+                pystray.MenuItem("Chatty", set_verbosity("chatty"), checked=verbosity_is("chatty"), radio=True),
+            )),
             pystray.MenuItem("Pause notifications", toggle_pause,
                              checked=lambda item: memory.get_setting("notifications_paused", False)),
             pystray.MenuItem("Start with Windows", toggle_autostart,
                              checked=lambda item: autostart.is_enabled()),
+            pystray.MenuItem("Dev console", open_dev_console),
             pystray.MenuItem("Open logs folder", lambda icon, item: os.startfile(LOG_DIR)),
             pystray.Menu.SEPARATOR,
             pystray.MenuItem("Quit Nebula", quit_app),
