@@ -9,3 +9,5 @@ pillow
 keyboard
 windows-toasts
 pytest
+pypdf
+rapidfuzz

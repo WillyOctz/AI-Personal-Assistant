@@ -15,6 +15,8 @@ def get_connection():
     
     connection = sqlite3.connect(DATABASE_FILE)
     connection.row_factory = sqlite3.Row
+    connection.execute("PRAGMA journal_mode=WAL")    
+    connection.execute("PRAGMA synchronous=NORMAL")
     
     return connection
 
