@@ -332,3 +332,360 @@ def _read_text(path, ext):
     
     return text[:MAX_CONTENT_CHARS]
 
+def index_contents(should_stop=None, time_budget=300):
+    """Read new/changed files into FTS. Returns how many were done and how many remain."""
+    init_file_index()
+    
+    if not FTS_OK:
+        return {"indexed": 0, "remaining": 0}
+    
+    placeholders = ",".join("?" * len(CONTENT_EXTS))
+    where = (
+        f"is_dir = 0 AND cloud = 0 AND size <= ? AND ext IN ({placeholders}) "
+        "AND (indexed_mtime IS NULL OR indexed_mtime < mtime)"
+    )
+    params = (MAX_CONTENT_BYTES, *sorted(CONTENT_EXTS))
+    deadline = time.time() + time_budget
+    done = 0
+    
+    while time.time() < deadline and not (should_stop and should_stop()):
+        with _db() as conn:
+            rows = conn.execute(
+                f"SELECT id, path, name, ext, mtime FROM file_index WHERE {where} LIMIT 300",
+                params,
+            ).fetchall()
+            
+            if not rows:
+                break
+            
+            for row in rows:
+                text = "" if SENSITIVE.search(row["name"]) else _read_text(row["path"])
+                
+                conn.execute("DELETE FROM file_fts WHERE rowid = ?", (row["id"],))
+                
+                if text.strip():
+                    conn.execute(
+                        "INSERT INTO file_fts (rowid, content) VALUES (?, ?)",
+                        (row["id"], text),
+                    )
+                    
+                # mark as processed even when empty/unreadable
+                conn.execute(
+                    "UPDATE file_index SET indexed_mtime = ? WHERE id = ?",
+                    (row["mtime"], row["id"]),
+                )
+                done += 1
+                
+    with _db() as conn:
+        remaining = conn.execute(
+            f"SELECT COUNT(*) AS c FROM file_index WHERE {where}", params
+        ).fetchone()["c"]
+        
+    return {"indexed": done, "remaining": remaining}
+
+
+_STOP_FTS = {"the", "a", "an", "about", "of", "in", "on", "my", "and", "or", "to", "for", "is"}
+
+def search_content(query, limit=8):
+    init_file_index()
+    
+    if not FTS_OK:
+        return []
+    
+    tokens = [t for t in re.findall(r"\w+", (query or "").lower()) if t not in _STOP_FTS]
+    
+    if not tokens:
+        return []
+    
+    match = " ".join(f'"{t}"' for t in tokens[:-1])
+    last = f'"{tokens[-1]}"*'
+    match = f"{match} {last}".strip()
+    
+    try:
+        with _db() as conn:
+            rows = conn.execute(
+                """SELECT f.root, f.path, f.name, f.is_dir, f.mtime,
+                          snippet(file_fts, 0, '[', ']', '…', 14) AS snip
+                   FROM file_fts JOIN file_index f ON f.id = file_fts.rowid
+                   WHERE file_fts MATCH ? ORDER BY rank LIMIT ?""",
+                   (match, limit),
+            ).fetchall()
+            
+    except sqlite3.OperationalError:
+        return []
+    
+    return [dict(row) for row in rows]
+
+# ----------------------------------Name Search (RAM cache + rapidfuzz)-------------------------
+_cache = {"items": [], "keys": [], "projects": {}, "dirty": True}
+_cache_lock = threading.Lock()
+
+def invalidate_cache():
+    _cache["dirty"] = True
+    
+def _ensure_cache():
+    if not _cache["dirty"]:
+        return
+    
+    init_file_index()
+    
+    with _db() as conn:
+        rows = conn.execute(
+            "SELECT root, path, name, ext, is_dir, mtime FROM file_index"
+        ).fetchall()
+        project_ids = {r["path"]: r["id"] for r in conn.execute("SELECT id, path FROM projects")}
+        
+    items, keys = [], []
+    
+    for row in rows:
+        parent = os.path.dirname(row["path"])
+        near = os.path.basename(parent)
+        far = os.path.basename(os.path.dirname(parent))
+        
+        keys.append(f"{row['name']} {near} {far}".lower())
+        items.append((row["root"], row["path"], row["name"], row["ext"], row["is_dir"], row["mtime"]))
+        
+    with _cache_lock:
+        _cache.update(items=items, keys=keys, projects=project_ids, dirty=False)
+        
+
+_syn_cache = {"mtime": None, "map": {}}
+
+def _synonyms():
+    """This will be using the datasets: datasets/locate_synonym.json"""
+    try:
+        mtime = SYNONYMS_FILE.stat().st_mtime
+    except OSError:
+        return {}
+    
+    if _syn_cache["mtime"] == mtime:
+        return _syn_cache["map"]
+    
+    try:
+        raw = json.loads(SYNONYMS_FILE.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    
+    mapping = {}
+    
+    for key, alts in raw.items():
+        for alt in alts:
+            mapping.setdefault(key.lower(), []).append(alt.lower())
+            
+            if " " not in alt:
+                mapping.setdefault(alt.lower(), []).append(key.lower())
+                
+    _syn_cache.update(mtime=mtime, map=mapping)
+    return mapping
+
+def _variants(tokens):
+    syn, variants = _synonyms(), [tokens]
+    
+    for i, token in enumerate(tokens):
+        for alt in syn.get(token, []):
+            variants.append(tokens[:i] + alt.split() + tokens[i + 1:])
+            
+    return variants[:5]
+
+def find(query, limit=8):
+    """fuzzy search by names, recent files, project root and word-hits"""
+    spec = parse_name_query(query)
+    _ensure_cache()
+    
+    with _cache_lock:
+        items, keys, projects = _cache["items"], _cache["keys"], _cache["projects"]
+        
+    def passes(item):
+        _, path, _, ext, is_dir = item
+        
+        if spec["kind"] == "folder" and not is_dir:
+            return False
+        if spec["kind"] == "file" and is_dir:
+            return False
+        if spec["kind"] == "project" and path not in projects:
+            return False
+        if spec["exts"] and ext not in spec["exts"]:
+            return False
+        return True
+    
+    idx = [i for i, item in enumerate(items) if passes(item)]
+    
+    if not spec["tokens"]:
+        if not (spec["exts"] or spec["kind"]):
+            return []
+        
+        idx.sort(key=lambda i: items[i][5], reverse=True)
+        picked = {i: 60.0 for i in idx[:limit]}
+    else:
+        choices = [keys[i] for i in idx]
+        picked = {}
+        
+        for tokens in _variants(spec["tokens"]):
+            text = " ".join(tokens)
+            
+            for _, score, pos in process.extract(
+                text, choices, scorer=fuzz.WRatio, limit=limit * 5, score_cutoff=MIN_MATCH
+            ):
+                i = idx[pos]
+                picked[i] = max(picked.get(i, 0), score)
+                
+    now = time.time()
+    recency_weight = 30 if spec["recent"] else 10
+    text = " ".join(spec["tokens"])
+    ranked = []
+    
+    for i, match in picked.items():
+        root, path, name, ext, is_dir, mtime = items[i]
+        bonus = 0.0
+        
+        if spec["tokens"] and all(t in keys[i] for t in spec["tokens"]):
+            bonus += 12
+            
+        if os.path.splitext(name)[0].lower() == text:
+            bonus += 15
+            
+        age_days = max(0.0, (now - mtime) / 86400)
+        bonus += recency_weight * 0.5 ** (age_days / 45)
+        
+        if path in projects:
+            bonus += 4
+            
+        ranked.append(
+            {
+                "root": root, "path": path, "name": name, "is_dir": is_dir, "mtime": mtime,
+                "match": match, "score": match + bonus, "project_id": projects.get(path),
+            }
+        )
+        
+    ranked.sort(key=lambda row: row["score"], reverse=True)
+    return ranked[:limit]
+
+
+#------------------------------Projects-----------------------------
+_RECENT_SQL = "ORDER BY MAX(last_activity, COALESCE(last_opened, 0)) DESC"
+
+def list_projects(limit=8):
+    init_file_index()
+    
+    with _db() as conn:
+        rows = conn.execute(f"SELECT * FROM projects {_RECENT_SQL} LIMIT ?", (limit,)).fetchall()
+        
+    return [dict(row) for row in rows]
+
+def recent_projects(limit=5):
+    return [{"id": p["id"], "name": p["name"]} for p in list_projects]
+
+def get_project(project_id):
+    init_file_index()
+
+    with _db() as conn:
+        row = conn.execute("SELECT * FROM projects WHERE id = ?", (int(project_id),)).fetchone()
+
+    return dict(row) if row else None
+
+
+def last_project():
+    projects = list_projects(1)
+    return projects[0] if projects else None
+
+
+def find_project(name):
+    projects = list_projects(500)
+    low = (name or "").lower().strip()
+
+    if not low or not projects:
+        return None
+
+    for project in projects:
+        if project["name"].lower() == low:
+            return project
+
+    hit = process.extractOne(low, [p["name"].lower() for p in projects],
+                             scorer=fuzz.WRatio, score_cutoff=65)
+
+    return projects[hit[2]] if hit else None
+
+
+def is_known_project(path):
+    init_file_index()
+
+    with _db() as conn:
+        return conn.execute("SELECT 1 FROM projects WHERE path = ?", (path,)).fetchone() is not None
+
+
+def mark_project_opened(path):
+    with _db() as conn:
+        conn.execute("UPDATE projects SET last_opened = ? WHERE path = ?", (time.time(), path))
+
+
+def set_project_note(path, note):
+    """Used by the 'handoff note' feature in the next phase."""
+    with _db() as conn:
+        conn.execute("UPDATE projects SET note = ? WHERE path = ?", (note, path))
+
+
+def project_recent_files(path, limit=5):
+    init_file_index()
+    prefix = path.rstrip("\\/") + os.sep
+
+    with _db() as conn:
+        rows = conn.execute(
+            """SELECT root, path, name, mtime FROM file_index
+               WHERE is_dir = 0 AND substr(path, 1, ?) = ?
+               ORDER BY mtime DESC LIMIT ?""",
+            (len(prefix), prefix, limit),
+        ).fetchall()
+
+    return [dict(row) for row in rows]
+
+# ---------------------Status/Helpers---------------------------
+def stats():
+    init_file_index()
+    
+    with _db() as conn:
+        def count(sql):
+            return conn.execute(sql).fetchone()["c"]
+        
+        return {
+            "files": count("SELECT COUNT(*) AS c FROM file_index WHERE is_dir = 0"),
+            "folders": count("SELECT COUNT(*) AS c FROM file_index WHERE is_dir = 1"),
+            "projects": count("SELECT COUNT(*) AS c FROM projects"),
+            "content_done": count(
+                "SELECT COUNT(*) AS c FROM file_index WHERE is_dir = 0 AND indexed_mtime IS NOT NULL"
+            ),
+            "roots": [r["root"] for r in conn.execute("SELECT DISTINCT root FROM file_index")],
+            "fts": FTS_OK,
+        }
+        
+def humanize_age(ts):
+    if not ts:
+        return "never"
+    
+    seconds = max(0, time.time() - ts)
+
+    if seconds < 90:
+        return "just now"
+
+    minutes = seconds / 60
+
+    if minutes < 60:
+        return f"{int(minutes)} min ago"
+
+    hours = minutes / 60
+
+    if hours < 24:
+        n = int(hours)
+        return f"{n} hour{'s' if n != 1 else ''} ago"
+
+    days = hours / 24
+
+    if days < 14:
+        n = int(days)
+        return f"{n} day{'s' if n != 1 else ''} ago"
+
+    if days < 60:
+        return f"{int(days / 7)} weeks ago"
+
+    return f"{int(days / 30)} months ago"
+    
+    
