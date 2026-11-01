@@ -6,6 +6,9 @@ def button(label, command, style="default"):
 def copy_button(label, value, style="ghost"):
     return {"label": label, "type": "copy", "value": value, "style": style}
 
+def api_button(label, name, style="default"):
+    return {"label": label, "type": "api", "value": name, "style": style}
+
 
 @dataclass
 class Reply:

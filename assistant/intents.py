@@ -292,6 +292,15 @@ VALID_INTENTS = {
     "open_folder",
     "copy_text",
     "reveal_file",
+    "locate_item",
+    "search_file_content",
+    "show_projects",
+    "open_project",
+    "resume_project",
+    "start_focus_task",
+    "reindex_files",
+    "index_status",
+    "set_editor",
 }
 
 
@@ -600,6 +609,15 @@ MEMORY_INTENTS = {
     "open_folder",
     "copy_text",
     "reveal_file",
+    "locate_item",
+    "search_file_content",
+    "show_projects",
+    "open_project",
+    "resume_project",
+    "start_focus_task",
+    "reindex_files",
+    "index_status",
+    "set_editor",
 }
 
 
@@ -1623,6 +1641,22 @@ INTENT_PATTERNS = {
         "show website open history",
         "recent website opens",
     ],
+    "show_projects": [
+        "show projects", "my projects", "recent projects", "list projects",
+    ],
+    "open_project": [
+        "open last project", "open my last project", "open latest project",
+    ],
+    "resume_project": [
+        "where was i", "where did i leave off", "what was i working on",
+        "resume last project", "pick up where i left off",
+    ],
+    "reindex_files": [
+        "reindex files", "rescan files", "update file index", "scan files",
+    ],
+    "index_status": [
+        "index status", "file index status",
+    ],
 }
 
 
@@ -2050,6 +2084,20 @@ INTENT_PREFIXES = {
     "reveal_file": [
         "reveal file ",
     ],
+    "open_project": [
+        "open project ",
+    ],
+    "resume_project": [
+        "resume project ",
+        "continue project ",
+    ],
+    "start_focus_task": [
+        "start focus on ",
+        "focus on ",
+    ],
+    "set_editor": [
+        "set editor ",
+    ],
 }
 
 
@@ -2117,6 +2165,10 @@ PREFIX_INTENT_ORDER = [
     "search_text_files",
     "search_files_by_name",
     "open_file",
+    "open_project",
+    "resume_project",
+    "start_focus_task",
+    "set_editor",
     "reveal_file",
     "open_folder",
     "file_info",

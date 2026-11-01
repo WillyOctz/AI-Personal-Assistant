@@ -372,6 +372,86 @@ TEMPLATES = {
         "normal": ["{greeting}{name_part}. {summary}"],
         "chatty": ["{greeting}{name_part}. Gather round, here is your sky for today. {summary}"],
     },
+    "locate.found": {
+        "minimal": "{n} result{s}.",
+        "normal": ["Here is what I found for '{query}' ({n}).", "I looked around, dear. {n} possible result{s}."],
+        "chatty": ["Come, let me show you. I found {n} thing{s} that look like '{query}'."],
+    },
+    "locate.top": {
+        "minimal": "Found: {name}",
+        "normal": ["I think this is the one, dear: {name}.", "That should be it: {name}."],
+        "chatty": ["Mm, I believe this is what you were looking for, little star: {name}."],
+    },
+    "locate.none": {
+        "minimal": "Nothing like '{query}'.",
+        "normal": ["I looked everywhere and found nothing like '{query}'. Is it in a folder I haven't read yet?"],
+        "chatty": ["I searched every corner, dear, and nothing looked like '{query}'. Perhaps show me another folder?"],
+    },
+    "locate.setup": {
+        "minimal": "No folders registered yet.",
+        "normal": ["I don't know where to look yet, dear. Show me a folder and I'll learn it."],
+        "chatty": ["Oh, little star, I haven't been shown any folders yet. Point me at one and I'll learn every corner of it."],
+    },
+    "locate.building": {
+        "minimal": "Still indexing.",
+        "normal": ["I'm still reading your folders, dear. Ask me again in a minute."],
+        "chatty": ["I'm still reading through your folders, little star. Give me a moment, then ask again."],
+    },
+    "content.found": {
+        "minimal": "{n} mention{s}.",
+        "normal": ["You wrote about '{query}' in {n} place{s}, dear."],
+        "chatty": ["I remember, dear. You wrote about '{query}' in {n} place{s}. Look."],
+    },
+    "content.none": {
+        "minimal": "No text matched '{query}'.",
+        "normal": ["I couldn't find '{query}' written anywhere I've read."],
+        "chatty": ["I searched everything I've read, dear, and '{query}' isn't written down anywhere."],
+    },
+    "project.list": {
+        "minimal": "{n} project{s}.",
+        "normal": ["Here are your projects, newest first ({n})."],
+        "chatty": ["Here are the stars you've been tending, dear. {n} project{s}."],
+    },
+    "project.none": {
+        "minimal": "No projects found.",
+        "normal": ["I haven't found any projects yet. Register the folder that holds them."],
+        "chatty": ["I haven't spotted any projects yet, dear. Show me the folder that holds them."],
+    },
+    "project.notfound": {
+        "minimal": "No project '{query}'.",
+        "normal": ["I couldn't find a project like '{query}', dear."],
+        "chatty": ["Hmm, no project looks like '{query}' to me, dear."],
+    },
+    "project.confirm": {
+        "minimal": "Open {project}?",
+        "normal": ["Shall I open {project} in {target}, dear?"],
+        "chatty": ["Of course, dear. Shall I open {project} in {target} now?"],
+    },
+    "project.opened": {
+        "minimal": "Opened {project}.",
+        "normal": ["There you go, dear: {project} in {target}."],
+        "chatty": ["Opened {project} in {target} for you. Go on, I'm right here."],
+    },
+    "project.resume": {
+        "minimal": "{project} ({age})",
+        "normal": ["You last touched {project} {age}{file_part}. Shall we pick it up?"],
+        "chatty": ["Welcome back, little star. You last touched {project} {age}{file_part}. Shall we pick it up together?"],
+    },
+    "index.started": {
+        "minimal": "Reading folders.",
+        "normal": ["Let me read through your folders, dear. I'll tell you when I'm done."],
+        "chatty": ["Give me a moment, little star. I'm reading through all your folders."],
+    },
+    "index.done": {
+        "minimal": "Indexed {files} items, {n} project{s}.",
+        "normal": ["I've read your folders: {files} items and {n} project{s}."],
+        "chatty": ["All done, dear. I know {files} items now, and {n} project{s} to tend."],
+    },
+    "index.added": {
+        "minimal": "Added {name}.",
+        "normal": ["I'll start reading {name} now, dear."],
+        "chatty": ["Lovely. I'll start reading {name} now and learn every corner of it."],
+    },
 }
 
 class _Safe(dict):

@@ -7,6 +7,7 @@ import subprocess
 import shlex
 import webbrowser
 import pyperclip
+import shutil
 
 ALLOWED_OPERATORS = {
     ast.Add: operator.add,
@@ -136,6 +137,21 @@ def open_website_url(website_name, url):
     
     except Exception:
         return f"I tried to open {website_name}, but something went wrong."
+    
+def open_in_editor(path, editor="code"):
+    resolved = shutil.which(editor)
+    
+    if not resolved:
+        return {"ok": False, "reason": f"editor_not_found:{editor}"}
+    
+    try:
+        subprocess.Popen(
+            [resolved, str(path)],
+            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+        )
+        return {"ok": True, "reason": "opened"}
+    except OSError:
+        return {"ok": False, "reason": "open_error"}
     
 def open_text_file(file_path):
     path = Path(file_path)
