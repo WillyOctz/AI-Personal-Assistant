@@ -11,3 +11,4 @@ windows-toasts
 pytest
 pypdf
 rapidfuzz
+watchdog

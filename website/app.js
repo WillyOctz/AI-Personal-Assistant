@@ -134,6 +134,15 @@ async function runAction(a, button, row) {
         return
     }
 
+    if (a.type === "api") {
+        const fn = window.pywebview && window.pywebview.api && window.pywebview.api[a.value]
+
+        if (fn) fn()
+        else flash(button, "Desktop only")
+
+        return
+    }
+
     if (busy) return
 
     if (a.command === "yes" || a.command === "no") {
@@ -192,25 +201,76 @@ function renderBriefing(d) {
     return card
 }
 
-function renderFileList(d) {
-    const card = el("div", "card")
-
-    for (const item of d.items || []) {
+function fileRows(items, parent) {
+    for (const item of items || []) {
         const row = el("div", "file-row")
         const icon = item.type === "folder" ? "📁" : "📄"
 
         row.appendChild(el("span", "file-name", `${icon} ${item.name}`))
 
-        const path = el("p", "file-path", item.rel)
+        const path = el("p", "file-path", item.meta ? `${item.rel} · ${item.meta}` : item.rel)
         path.title = item.path
         row.appendChild(path)
 
         if (item.actions && item.actions.length) row.appendChild(renderActions(item.actions))
 
+        parent.appendChild(row)
+    }
+}
+
+function renderFileList(d) {
+    const card = el("div", "card")
+    fileRows(d.items, card)
+    return card
+}
+
+function renderProjectList(d) {
+    const card = el("div", "card")
+
+    for (const p of d.items || []) {
+        const row = el("div", "file-row")
+        row.appendChild(el("span", "file-name", `📂 ${p.name}`))
+
+        const meta = el("p", "file-path", `${p.marker || "project"} · ${p.age}`)
+        meta.title = p.path
+        row.appendChild(meta)
+
+        if (p.actions && p.actions.length) row.appendChild(renderActions(p.actions))
         card.appendChild(row)
     }
 
     return card
+}
+
+function renderResume(d){
+    const card = el("div", "card")
+
+    card.appendChild(el("p", "card-line strong", `📂 ${d.name}`))
+    card.appendChild(el("p", "muted", `Last activity ${d.age}`))
+
+    if (d.note) card.appendChild(el("p", "card-line", `Note to self: ${d.note}`))
+
+    if (d.last_focus) {
+        card.appendChild(el("p", "card-line",
+            `Last focus: ${d.last_focus.duration} · ${d.last_focus.ended}`))
+    }
+
+    if (d.files && d.files.length) {
+        card.appendChild(el("h4", "card-title", "Recently touched"))
+        fileRows(d.files, card)
+    }
+
+    return card
+}
+
+function renderLaunchBlock(apps, websites, projects) {
+    launchChips.replaceChildren()
+
+    for (const a of apps) launchChips.appendChild(chip(a.name, `open ${a.name}`))
+    for (const w of websites) launchChips.appendChild(chip(`🌐 ${w.name}`, `open website ${w.name}`))
+    for (const p of projects) launchChips.appendChild(chip(`📂 ${p.name}`, `resume project #${p.id}`))
+
+    launchBlock.hidden = launchChips.children.length === 0
 }
 
 function renderReminderList(d) {
@@ -268,6 +328,8 @@ function renderConfirm(d) {
 const RENDERERS = {
     briefing: renderBriefing,
     file_list: renderFileList,
+    project_list: renderProjectList,
+    resume: renderResume,
     reminder_list: renderReminderList,
     focus: renderFocus,
     focus_summary: renderFocusSummary,
@@ -412,7 +474,7 @@ function renderToday(t) {
 
     renderFocusBlock(t.focus, t.goal)
     renderReminderBlock(reminders)
-    renderLaunchBlock(t.apps || [], t.websites || [])
+    renderLaunchBlock(t.apps || [], t.websites || [], t.projects || [])
 }
 
 async function refreshToday() {

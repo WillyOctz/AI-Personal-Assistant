@@ -34,7 +34,7 @@ def _clean(q):
     return re.sub(r"\s+", " ", q).strip(" ?!.,;:'\"")
 
 def parse_locate_query(text):
-    raw = {text or ""}.strip()
+    raw = (text or "").strip()
     
     if not raw:
         return None

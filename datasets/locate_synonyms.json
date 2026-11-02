@@ -1,0 +1,6 @@
+{
+  "cv": ["resume", "curriculum vitae"],
+  "thesis": ["dissertation", "capstone"],
+  "invoice": ["receipt", "bill"],
+  "pic": ["photo", "picture"]
+}

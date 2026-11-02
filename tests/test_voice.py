@@ -6,6 +6,8 @@ SAMPLE = dict(
     text="stretch", due="2026-11-01", app="Chrome", n=2, folder="docs",
     query="notes", name="a.txt", task="essay", duration="5 minutes",
     greeting="Good morning", name_part=", Ann", summary="1 overdue.",
+    project="nebula", target="VS Code", age="2 hours ago", file_part=", working on brain.py",
+    files=120,
 )
 
 

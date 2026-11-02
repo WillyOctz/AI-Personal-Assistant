@@ -22,7 +22,7 @@ ROOT = (
 os.chdir(ROOT)
 sys.path.insert(0, str(ROOT))
 
-from assistant import autostart, events, indexer, memory, notifier, personality
+from assistant import autostart, events, indexer, memory, notifier, personality, watcher
 
 LOG_DIR = ROOT / "logs"
 LOG_DIR.mkdir(exist_ok=True)
@@ -301,6 +301,7 @@ def main():
     
     notifier.start()
     indexer.start()
+    watcher.start()
     
     window = webview.create_window(
         "Nebula",
