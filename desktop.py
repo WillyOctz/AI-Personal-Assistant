@@ -6,6 +6,7 @@ import logging
 import os
 import socket
 import sys
+import re
 import time
 import urllib.request
 from ctypes import wintypes
@@ -21,7 +22,7 @@ ROOT = (
 os.chdir(ROOT)
 sys.path.insert(0, str(ROOT))
 
-from assistant import autostart, events, memory, notifier
+from assistant import autostart, events, indexer, memory, notifier, personality
 
 LOG_DIR = ROOT / "logs"
 LOG_DIR.mkdir(exist_ok=True)
@@ -50,7 +51,7 @@ import webview
 from PIL import Image, ImageDraw
 
 from assistant.guard import SESSION_TOKEN, make_guard
-from assistant.runtime import hooks, ui_state
+from assistant.runtime import hooks, ui_state, BRAIN_LOCK
 
 HOTKEY = "ctrl+alt+space"
 WIN_W, WIN_H = 420, 680
@@ -120,9 +121,53 @@ def hide_window():
 def toggle_window():
     hide_window() if ui_state["visible"] else show_window()
     
+def add_folder(icon=None, item=None):
+    """Native folder picker -> register -> scan. Callable from tray and from the UI button."""
+    def work():
+        try:
+            show_window()
+            dialog = webview.FileDialog.FOLDER if hasattr(webview, "FileDialog") else webview.FOLDER_DIALOG
+            chosen = window.create_file_dialog(dialog)
+            
+            if not chosen:
+                return
+            
+            path = chosen[0] if isinstance(chosen, (list, tuple)) else chosen
+            
+            with BRAIN_LOCK:
+                folders = memory.get_search_folders()
+                
+                if any(os.path.normcase(p) == os.path.normcase(path) for p in folders.values()):
+                    events.publish("notify", {"text": "I already know that folder, dear."})
+                    return
+                
+                base = re.sub(r"[^a-z0-9_\-]+", "_", Path(path).name.lower()).strip("_") or "folder"
+                name, n = base, 2
+                
+                while name in folders:
+                    name, n = f"{base}_{n}", n + 1
+                    
+                memory.add_search_folder(name, path)
+                
+            indexer.request_scan(announce=True)
+            events.publish(
+                "notify", {"text": personality.line(
+                "index.added", verbosity=memory.get_setting("verbosity", "normal"), name=name)}
+            )
+        except Exception:
+            log.exception("add_folder failed")
+            
+    threading.Thread(target=work, daemon=True, name="add-folder").start()
+    
+def rescan_files(icon=None, item=None):
+    indexer.request_scan(announce=True)
+    
 class JsApi:
     def hide(self):
         hide_window()
+        
+    def add_folder(self):
+        add_folder()
         
 def on_closing():
     if quitting:
@@ -138,7 +183,6 @@ def make_icon(color="#7c5cff", size=64):
     draw.ellipse((6, 6, size - 6, size - 6), fill=color)
     draw.ellipse((18, 16, 34, 32), fill=(255, 255, 255, 110))
     return image
-
 
 def quit_app(icon=None, item=None):
     global quitting
@@ -207,6 +251,8 @@ def build_tray():
             pystray.MenuItem("Open logs folder", lambda icon, item: os.startfile(LOG_DIR)),
             pystray.Menu.SEPARATOR,
             pystray.MenuItem("Quit Nebula", quit_app),
+            pystray.MenuItem("Add folder…", add_folder),
+            pystray.MenuItem("Re-scan files", rescan_files),
         ),
     )
     tray_icon.run_detached()
@@ -254,6 +300,7 @@ def main():
     ui_state["visible"] = not args.background
     
     notifier.start()
+    indexer.start()
     
     window = webview.create_window(
         "Nebula",

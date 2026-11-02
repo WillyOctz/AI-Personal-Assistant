@@ -1,4 +1,4 @@
-from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around, open_website_url, open_text_file, TEXT_EXTENSIONS, open_folder_in_explorer, copy_text_to_clipboard
+from assistant.tools import get_time, create_reminder, open_app, play_game, safe_calculate, open_registered_app, list_folder_items, search_files_by_name, get_file_info, format_timestamp, preview_text_file, search_text_in_files, validate_folder_path, preview_text_file_range, preview_text_file_around, open_website_url, open_text_file, TEXT_EXTENSIONS, open_folder_in_explorer, copy_text_to_clipboard, open_in_editor, reveal_in_explorer
 from assistant import memory
 from assistant import chat
 from assistant import apps
@@ -45,8 +45,11 @@ from assistant import focus
 from assistant import websites
 from assistant import llm
 from assistant import semantic_memory
-from assistant.reply import Reply, as_reply, button, copy_button
+from assistant import file_index, indexer
+from assistant.locate_parser import parse_locate_query
+from assistant.reply import Reply, as_reply, button, copy_button, api_button
 import re
+import shutil
 import os
 
 HIGH_CONFIDENCE = 0.75
@@ -1649,6 +1652,13 @@ def analyze_intent(user_input):
     if exact_intent:
         return make_analysis(exact_intent)
     
+    locate = parse_locate_query(user_input)
+    
+    if locate:
+        return make_analysis(
+            "locate_item" if locate["kind"] == "name" else "search_file_content"
+        )
+    
     if text.startswith("save memory result "):
         if text.endswith(" as reminder"):
             return make_analysis("save_memory_result_as_reminder")
@@ -2505,6 +2515,149 @@ def calculate_recency(timestamp):
     
     return 0.4
 
+def build_index_items(rows):
+    folders = memory.get_search_folder()
+    items = []
+    
+    for row in rows:
+        root_path = folders.get(row["root"])
+        
+        if not root_path:
+            continue
+        
+        entry = {
+            "name": row["name"],
+            "type": "folder" if row["is_dir"] else "file",
+            "path": row["path"],
+        }
+        
+        item = build_file_items(row["root"], root_path, [entry])[0]
+        item["meta"] = row.get("snip") or file_index.humanize_age(row["mtime"])
+        
+        pid = row.get("project_id")
+        
+        if pid:
+            item["action"] = [
+                button("Resume", f"resume project #{pid}", style="primary"),
+                button("Editor", f"open project #{pid} in editor"),
+                button("Reveal", f"reveal file {row['root']} {item['rel']}"),
+                copy_button("Copy path", row["path"]),
+            ]
+            
+        items.append(item)
+        
+    return items
+
+def build_project_item(project):
+    pid = project["id"]
+    last = max(project["last_activity"] or 0, project["last_opened"] or 0)
+
+    return {
+        "id": pid,
+        "name": project["name"],
+        "path": project["path"],
+        "marker": project["marker"],
+        "age": file_index.humanize_age(last),
+        "actions": [
+            button("Resume", f"resume project #{pid}", style="primary"),
+            button("Open", f"open project #{pid}"),
+            button("Editor", f"open project #{pid} in editor"),
+            copy_button("Copy path", project["path"]),
+        ],
+    }
+
+
+def parse_project_ref(user_input, prefixes):
+    """-> (reference text, mode). 'open project #3 in editor' -> ('#3', 'editor')."""
+    text = user_input.strip()
+    low = text.lower()
+    ref = ""
+
+    for prefix in prefixes:
+        if low.startswith(prefix):
+            ref = text[len(prefix):].strip()
+            break
+
+    mode = "folder"
+
+    if ref.lower().endswith(" in editor"):
+        mode = "editor"
+        ref = ref[:-len(" in editor")].strip()
+
+    return ref, mode
+
+
+def resolve_project(ref):
+    ref = (ref or "").strip()
+
+    if not ref or ref.lower() in ("last", "latest"):
+        return file_index.last_project()
+
+    if ref.startswith("#") and ref[1:].isdigit():
+        return file_index.get_project(int(ref[1:]))
+
+    return file_index.find_project(ref)
+
+
+def set_pending_project_open(name, path, mode):
+    memory.set_state_value("pending_project_open", {"name": name, "path": path, "mode": mode})
+
+
+def get_pending_project_open():
+    return memory.get_state_value("pending_project_open")
+
+
+def clear_pending_project_open():
+    memory.clear_state_value("pending_project_open")
+
+
+def perform_project_open(name, path, mode):
+    # Re-validate at execution time: the folder must still exist AND still be an indexed project
+    if not os.path.isdir(path) or not file_index.is_known_project(path):
+        return f"I could not open {name}: that folder is no longer in my index."
+
+    if mode == "editor":
+        editor = memory.get_setting("editor_command", "code")
+        result = open_in_editor(path, editor)
+        target = editor
+    else:
+        result = open_folder_in_explorer(path)
+        target = "Explorer"
+
+    if not result["ok"]:
+        if result["reason"].startswith("editor_not_found"):
+            return (
+                f"I could not find the editor command '{editor}'.\n"
+                "Use: set editor your_command   (for example: set editor code)"
+            )
+
+        return f"I could not open {name}: {result['reason']}"
+
+    file_index.mark_project_opened(path)
+    log_file_search("open_project", name, mode, path)
+
+    return Reply(say=voice("project.opened", project=name, target=target), styled=True)
+
+
+def confirm_pending_project_open():
+    pending = get_pending_project_open()
+
+    if not pending:
+        return None
+
+    clear_pending_project_open()
+    return perform_project_open(pending["name"], pending["path"], pending["mode"])
+
+
+def deny_pending_project_open():
+    pending = get_pending_project_open()
+
+    if not pending:
+        return None
+
+    clear_pending_project_open()
+    return f"Cancelled opening project: {pending['name']}"
+
 def format_duration_since(timestamp):
     return focus.format_duration_since(timestamp)
 
@@ -2848,6 +3001,7 @@ def has_existing_pending_confirmation():
         "pending_website_open",
         "pending_response_feedback_clear",
         "pending_memory_result_delete",
+        "pending_project_open",
     ]
     
     for key in pending_keys:
@@ -2922,6 +3076,11 @@ def handle_control_intent(user_input, analysis):
         if clipboard_result:
             return clipboard_result
         
+        project_result = confirm_pending_project_open()
+        
+        if project_result:
+            return project_result
+        
         pending = get_pending_confirmation()
         app_result = apps.confirm_pending_app_launch(open_registered_app)
         
@@ -2981,6 +3140,11 @@ def handle_control_intent(user_input, analysis):
 
         if clipboard_result:
             return clipboard_result
+        
+        project_result = deny_pending_project_open()
+        
+        if project_result:
+            return project_result
                   
         pending = get_pending_confirmation()
         app_result = apps.deny_pending_app_launch()
@@ -7061,6 +7225,7 @@ def handle_memory_intent(user_input, analysis):
             return "Use this format: register search folder name as path"
         
         folder = memory.add_search_folder(name, path)
+        indexer.request_scan(announce=True)
         
         return f"Registered search folder: {folder['name']} -> {folder['path']}"
     
@@ -7298,7 +7463,7 @@ def handle_memory_intent(user_input, analysis):
             return f"I could not find a safe path to reveal: {filename}"
         
         target = found["file"]["path"]
-        revealed = reveal_in_explore(target)
+        revealed = reveal_in_explorer(target)
         
         if not revealed["ok"]:
             return f"I could not reveal {found['file']['name']}: {revealed['reason']}"
@@ -7306,6 +7471,258 @@ def handle_memory_intent(user_input, analysis):
         log_file_search("reveal_file", folder_name, filename, target)
 
         return Reply(say=voice("file.revealed", name=found["file"]["name"]), styled=True)
+    
+    if intent == "locate_film":
+        info = parse_locate_query(user_input)
+        
+        if not info:
+            return "What should I look for?"
+        
+        query = info["query"]
+        
+        if not memory.get_search_folders():
+            return Reply(
+                say=voice("locate.setup"),
+                actions=[api_button("Add a folder", "add_folder", style="primary")],
+                styled=True,
+            )
+            
+        rows = file_index.find(query, limit=8)
+        
+        if not info["personal"]:
+            rows = [row for row in rows if row["match"] >= 88]
+            
+        if not rows:
+            stats = file_index.stats()
+            
+            if stats["files"] == 0 and indexer.status["running"]:
+                return Reply(say=voice("locate.building"), styled=True)
+            
+            if not info["personal"]:
+                return get_llm_fallback_response(user_input, analysis)
+            
+            return Reply(say=voice("locate.none", query=query), styled=True)
+        
+        confident = (
+            len(rows) == 1
+            or (rows[0]["match"] >= 85 and rows[0]["score"] - rows[1]["score"] >= 15)
+        )
+        
+        if confident:
+            rows = rows[:3]
+            
+        items = build_index_items(rows)
+        
+        if not items:
+            return Reply(say=voice("locate.none", query=query), styled=True)
+        
+        lines = {f"- {item['type']}: {item['path']}" for item in items}
+        log_file_search("locate", "all", query, f"{len(items)} match(es)")
+        
+        say = (
+            voice("locate.top", name=items[0]["name"])
+            if confident
+            else voice("locate.found", n=len(items), query=query)
+        )
+        
+        return Reply(
+            say=say,
+            detail="\n".join(lines),
+            kind="file_list",
+            data={"folder": "all", "query": query, "items": items},
+            styled=True,
+        )
+        
+    if intent == "search_file_content":
+        info = parse_locate_query(user_input)
+        
+        if not info:
+            return "What should I search for inside your files?"
+        
+        query = info["query"]
+        
+        if not file_index.stats()["fts"]:
+            return "Content search needs SQLite FTS5, which this Python build doesn't have."
+        
+        rows = file_index.search_content(query, limit=8)
+        items = build_index_items(rows)
+        
+        if not items:
+            return Reply(say=voice("content.none", query=query), styled=True)
+        
+        lines = [f"- {item['path']}" for item in items]
+        log_file_search("search_content", "all", query, f"{len(items)} match(es)")
+        
+        return Reply(
+            say=voice("content.found", n=len(items), query=query),
+            detail="\n".join(lines),
+            kind="file_list",
+            data={"folder": "all", "query": query, "items": items},
+            styled=True,
+        )
+        
+    if intent == "show_projects":
+        projects = file_index.list_projects(limit=8)
+        
+        if not projects:
+            return Reply(say=voice("project.none"), styled=True)
+        
+        items = [build_project_item(p) for p in projects]
+        lines = [f"- {i['name']} ({i['age']}): {i['path']}" for i in items]
+        
+        return Reply(
+            say=voice("project.list", n=len(items)),
+            detail="\n".join(lines),
+            kind="project_list",
+            data={"items": items},
+            styled=True,
+        )
+        
+    if intent == "open_project":
+        ref, mode = parse_project_ref(user_input, ["open project "])
+        project = resolve_project(ref)
+        
+        if not project:
+            return Reply(say=voice("project.notfound", query=ref or "a project"), styled=True)
+        
+        name, path = project["name"], project["path"]
+        target = memory.get_setting("editor_command", "code") if mode == "editor" else "Explorer"
+        
+        if not memory.get_setting("confirm_project_open", True):
+            return perform_project_open(name, path, mode)
+        
+        set_pending_project_open(name, path, mode)
+        
+        return Reply(
+            say=voice("project.confirm", project=name, target=target),
+            detail=f"{path}\nReply yes to open it or no to cancel.",
+            kind="confirm",
+            data={"title": f"Open {name}", "subtitle": f"{target} · {path}"},
+            needs_confirmation=True,
+            styled=True,
+        )
+        
+    if intent == "resume_project":
+        ref, _ = parse_project_ref(user_input, ["resume project ", "continue project "])
+        project = resolve_project(ref)
+        
+        if not project:
+            return Reply(say=voice("project.notfound", query=ref or "a project"), styled=True)
+        
+        root_path = memory.get_search_folders().get(project["root"])
+        recent = file_index.project_recent_files(project["path"], limit=5)
+        files = []
+        
+        if root_path and recent:
+            entries = [{"name": r["name"], "type": "file", "path": r["path"]} for r in recent]
+            files = build_file_items(project["root"], root_path, entries)
+            
+            for item, row in zip(files, recent):
+                item["meta"] = file_index.humanize_age(row["mtime"])
+                
+        last_focus = None
+        needle = project["name"].lower()
+        
+        for session in reversed(memory.get_all_focus_sessions()):
+            if needle in str(session.get("task", "")).lower():
+                last_focus = {
+                    "task": session["task"],
+                    "duration": session["duration"],
+                    "ended": file_index.humanize_age(
+                        focus.parse_timestamp(session["ended_at"]).timestamp()
+                        if focus.parse_timestamp(session["ended_at"]) else 0
+                    ),
+                }
+                break
+            
+        last_ts = max(project["last_activity"] or 0, project["last_opened"] or 0)
+        age = file_index.humanize_age(last_ts)
+        file_part = f", working on {recent[0]['name']}" if recent else ""
+        pid = project["id"]
+        
+        detail = [f"{project['name']} ({age})", project["path"]]
+        detail += [f"- {r['name']} ({file_index.humanize_age(r['mtime'])})" for r in recent]
+        
+        return Reply(
+            say=voice("project.resume", project=project["name"], age=age, file_part=file_part),
+            detail="\n".join(detail),
+            kind="resume",
+            data={
+                "name": project["name"],
+                "path": project["path"],
+                "age": age,
+                "note": project.get("note") or "",
+                "last_focus": last_focus,
+                "files": files,
+            },
+            actions=[
+                button("Open in editor", f"open project #{pid} in editor", style="primary"),
+                button("Open folder", f"open project #{pid}"),
+                button("Start focus", f"start focus on {project['name']}"),
+            ],
+            styled=True,
+        )
+        
+    if intent == "start_focus_task":
+        task = user_input.strip()
+        
+        for prefix in ("start focus on ", "focus on "):
+            if task.lower().startswith(prefix):
+                task = task[len(prefix):].strip()
+                break
+            
+        if not task:
+            return "What should we focus on?"
+        
+        if get_focus_mode():
+            return f"Focus mode is already active.\nCurrent focus: {get_focus_task()}"
+        
+        focus.start_focus_mode(task)
+        set_pending_task(task)
+        
+        return Reply(
+            say=voice("focus.start", task=task),
+            detail=f"Focus mode started. Current focus: {task}",
+            kind="focus",
+            data={"task": task, "started_at": get_focus_started_at()},
+            actions=[button("Stop", "stop focus", style="danger")],
+            styled=True,
+        )
+        
+    if intent == "reindex_files":
+        indexer.request_scan(announce=True)
+        return Reply(say=voice("index.started"), styled=True)
+    
+    if intent == "index_status":
+        stats = file_index.stats()
+        run = indexer.status
+        last = run.get("last_end")
+        
+        lines = [
+            "File index:",
+            f"Folders registered: {len(memory.get_search_folders())}",
+            f"Files: {stats['files']}",
+            f"Folders: {stats['folders']}",
+            f"Projects: {stats['projects']}",
+            f"Files read for content search: {stats['content_done']}",
+            f"Content search available: {stats['fts']}",
+            f"Scanning now: {run['phase'] if run['running'] else 'no'}",
+            f"Last scan: {file_index.humanize_age(last) if last else 'not yet'}",
+        ]
+        
+        return "\n".join(lines)
+    
+    if intent == "set_editor":
+        command = user_input.strip()[len("set editor "):].strip()
+        
+        if not command:
+            return "Use this format: set editor code"
+        
+        if not shutil.which(command):
+            return f"I could not find '{command}' on your PATH."
+        
+        memory.set_setting("editor_command", command)
+        return f"Editor saved: {command}"
         
     if intent == "preview_file":
         parsed = parse_preview_file_command(user_input)
@@ -7410,6 +7827,7 @@ def handle_memory_intent(user_input, analysis):
             return "Use this format: update search folder name as path"
         
         result = memory.update_search_folder(name, path)
+        indexer.request_scan(announce=True)
         
         if not result["updated"]:
             return f"I could not find registered search folder: {result['name']}"
