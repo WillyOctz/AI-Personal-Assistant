@@ -1,10 +1,24 @@
 import json
 import os, time
+import threading
 from pathlib import Path
 from datetime import date, datetime, timedelta
 from assistant import database, llm_evaluation
 
 MEMORY_FILE = Path("datasets/memory.json")
+
+
+# One lock for every read and write of memory.json inside this process.
+_FILE_LOCK = threading.RLock() # RLock so a function that already holds it can call load/save again.
+_CACHE = {"stamp": None, "text": None} 
+
+
+def _file_stamp():
+    try:
+        stat = MEMORY_FILE.stat()
+        return (stat.st_mtime_ns, stat.st_size)
+    except OSError:
+        return None
 
 def current_timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -38,13 +52,34 @@ def normalize_due(due):
     return text
 
 def load_memory():
-    if not MEMORY_FILE.exists():
-        return ensure_memory_shape({})
-        
-    with open(MEMORY_FILE, "r") as file:
-        memory = json.load(file)
-    
-    return ensure_memory_shape(memory)
+    with _FILE_LOCK:
+        if not MEMORY_FILE.exists():
+            return ensure_memory_shape({})
+
+        stamp = _file_stamp()
+
+        # Re-read from disk only when the file actually changed
+        if _CACHE["text"] is None or _CACHE["stamp"] != stamp:
+            last_error = None
+
+            for attempt in range(8):
+                try:
+                    with open(MEMORY_FILE, "r", encoding="utf-8") as file:
+                        _CACHE["text"] = file.read()
+                    _CACHE["stamp"] = stamp
+                    last_error = None
+                    break
+                except (PermissionError, OSError) as error:
+                    last_error = error
+                    time.sleep(0.05 * (attempt + 1))     # antivirus/indexers can hold it briefly
+
+            if last_error is not None:
+                if _CACHE["text"] is None:
+                    raise last_error
+                # fall back to the last good copy rather than crash a background thread
+
+        # Parse fresh every call so callers can mutate the dict safely
+        return ensure_memory_shape(json.loads(_CACHE["text"]))
 
 def add_response_feedback(feedback):
     memory = load_memory()
@@ -378,19 +413,24 @@ def archive_conversation_turns(turns_to_archive):
     return len(archived_turns)
 
 def save_memory(memory):
-    MEMORY_FILE.parent.mkdir(exist_ok=True)
-    tmp = MEMORY_FILE.with_suffix(".json.tmp")
-    
-    with open(tmp, "w", encoding="utf-8") as file:
-        json.dump(memory, file, indent=4)
-        
-    for attempt in range(6):
-        try:
-            os.replace(tmp, MEMORY_FILE)
-            return
-        except PermissionError:
-            time.sleep(0.05)
-    raise PermissionError("Could not replace memory.json")
+    with _FILE_LOCK:
+        MEMORY_FILE.parent.mkdir(exist_ok=True)
+        tmp = MEMORY_FILE.with_suffix(".json.tmp")
+        text = json.dumps(memory, indent=4)
+
+        with open(tmp, "w", encoding="utf-8") as file:
+            file.write(text)
+
+        for attempt in range(10):
+            try:
+                os.replace(tmp, MEMORY_FILE)
+                _CACHE["text"] = text                     
+                _CACHE["stamp"] = _file_stamp()
+                return
+            except PermissionError:
+                time.sleep(0.05 * (attempt + 1))
+
+        raise PermissionError("Could not replace memory.json")
         
 def sync_reminders_to_sqlite():
     try:

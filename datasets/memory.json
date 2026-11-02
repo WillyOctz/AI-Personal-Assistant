@@ -39,12 +39,12 @@
         "focus_notes": [],
         "pending_app_launch": null,
         "current_topic": null,
-        "last_response_intent": "stop_focus",
+        "last_response_intent": "validate_search_folders",
         "last_response_group": "memory",
         "last_response_source": "rule",
         "last_response_confidence": 1.0,
         "last_response_scores": {},
-        "last_response_text": "That was a good stretch, dear. 13 seconds on i like music. Be proud of that.\nFocus session summary:\nTask: i like music\nDuration: 13 seconds\nNotes: 0",
+        "last_response_text": "Search folder validation:\n- assistant: ok\n- restaurant_website: ok",
         "pending_response_feedback_clear": null,
         "last_memory_search_results": [
             {
@@ -138,7 +138,7 @@
         "pending_memory_result_delete": null,
         "pending_website_open": null,
         "pending_llm_command": null,
-        "last_response_user_input": "stop focus",
+        "last_response_user_input": "validate search folders",
         "pending_file_open": null,
         "pending_folder_open": null,
         "pending_clipboard_copy": null
@@ -21166,6 +21166,36 @@
             "source": "rule",
             "timestamp": "2026-10-29 19:30:43",
             "importance": 0.6
+        },
+        {
+            "user": "validate search folders",
+            "assistant": "Search folder validation:\n- assistant: ok\n- restaurant_website: ok\n- proj: not_found | C:\\path\\to\\project",
+            "intent": "validate_search_folders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-02 19:41:57",
+            "importance": 0.6
+        },
+        {
+            "user": "unregister search folder proj",
+            "assistant": "Unregistered search folder: proj -> C:\\path\\to\\project",
+            "intent": "unregister_search_folder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-02 19:42:29",
+            "importance": 0.6
+        },
+        {
+            "user": "validate search folders",
+            "assistant": "Search folder validation:\n- assistant: ok\n- restaurant_website: ok",
+            "intent": "validate_search_folders",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-02 19:42:37",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -21839,8 +21869,7 @@
     ],
     "search_folders": {
         "assistant": "C:\\Users\\User\\AI_Personal_Assistant",
-        "restaurant_website": "D:\\Restaurant_website",
-        "proj": "C:\\path\\to\\project"
+        "restaurant_website": "D:\\Restaurant_website"
     },
     "file_search_history": [
         {
@@ -22380,7 +22409,8 @@
         "1|testing 2|2026-09-30",
         "1|go to gym today|2026-10-19",
         "2|do not forget to learn linux|2026-10-19",
-        "remind me to stretch|2026-10-29"
+        "remind me to stretch|2026-10-29",
+        "remind me to stretch|2026-10-30"
     ],
     "website_registry": {
         "python docs": {

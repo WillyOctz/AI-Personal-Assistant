@@ -1,4 +1,6 @@
 import threading
+import logging
+import os
 
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
