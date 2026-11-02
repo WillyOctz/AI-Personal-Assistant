@@ -2516,7 +2516,7 @@ def calculate_recency(timestamp):
     return 0.4
 
 def build_index_items(rows):
-    folders = memory.get_search_folder()
+    folders = memory.get_search_folders()
     items = []
     
     for row in rows:
@@ -2537,7 +2537,7 @@ def build_index_items(rows):
         pid = row.get("project_id")
         
         if pid:
-            item["action"] = [
+            item["actions"] = [
                 button("Resume", f"resume project #{pid}", style="primary"),
                 button("Editor", f"open project #{pid} in editor"),
                 button("Reveal", f"reveal file {row['root']} {item['rel']}"),
@@ -7472,7 +7472,7 @@ def handle_memory_intent(user_input, analysis):
 
         return Reply(say=voice("file.revealed", name=found["file"]["name"]), styled=True)
     
-    if intent == "locate_film":
+    if intent == "locate_item":
         info = parse_locate_query(user_input)
         
         if not info:
@@ -7516,7 +7516,7 @@ def handle_memory_intent(user_input, analysis):
         if not items:
             return Reply(say=voice("locate.none", query=query), styled=True)
         
-        lines = {f"- {item['type']}: {item['path']}" for item in items}
+        lines = [f"- {item['type']}: {item['path']}" for item in items]
         log_file_search("locate", "all", query, f"{len(items)} match(es)")
         
         say = (

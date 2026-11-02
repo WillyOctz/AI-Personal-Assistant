@@ -196,7 +196,7 @@ def scan_root(root_name, root_path, should_stop=None):
             except OSError:
                 continue
             
-            marker = _find_marker({entry.name.lower} for entry in entries)
+            marker = _find_marker({entry.name.lower() for entry in entries})
             
             if marker:
                 project = current
@@ -241,7 +241,7 @@ def scan_root(root_name, root_path, should_stop=None):
                 batch.append((root_name, entry.path, name, ext, int(is_dir), size, stat.st_mtime, started, cloud))
                 items += 1
                 
-            if len(batch) >= 200:
+            if len(batch) >= 2000:
                 flush()
                 
             if items >= MAX_ITEMS_PER_ROOT:
@@ -264,16 +264,16 @@ def scan_root(root_name, root_path, should_stop=None):
                     root_name, path, os.path.basename(path) or path, info["marker"], last_activity, started,
                 ))
                 
-                if FTS_OK:
-                    conn.execute(
-                        "DELETE FROM file_fts WHERE rowid IN "
-                        "(SELECT id FROM file_index WHERE root = ? AND seen < ?)",
-                        (root_name, started),
-                    )
+            if FTS_OK:
+                conn.execute(
+                    "DELETE FROM file_fts WHERE rowid IN "
+                    "(SELECT id FROM file_index WHERE root = ? AND seen < ?)",
+                    (root_name, started),
+                )
                     
-                conn.execute("DELETE FROM file_index WHERE root = ? AND seen < ?", (root_name, started))
-                conn.execute("DELETE FROM projects WHERE root = ? AND seen < ?", (root_name, started))
-                conn.commit()
+            conn.execute("DELETE FROM file_index WHERE root = ? AND seen < ?", (root_name, started))
+            conn.execute("DELETE FROM projects WHERE root = ? AND seen < ?", (root_name, started))
+            conn.commit()
                 
     finally:
         conn.close()
@@ -359,7 +359,7 @@ def index_contents(should_stop=None, time_budget=300):
                 break
             
             for row in rows:
-                text = "" if SENSITIVE.search(row["name"]) else _read_text(row["path"])
+                text = "" if SENSITIVE.search(row["name"]) else _read_text(row["path"], row["ext"])
                 
                 conn.execute("DELETE FROM file_fts WHERE rowid = ?", (row["id"],))
                 
@@ -496,7 +496,7 @@ def find(query, limit=8):
         items, keys, projects = _cache["items"], _cache["keys"], _cache["projects"]
         
     def passes(item):
-        _, path, _, ext, is_dir = item
+        _, path, _, ext, is_dir, _ = item
         
         if spec["kind"] == "folder" and not is_dir:
             return False
@@ -573,7 +573,7 @@ def list_projects(limit=8):
     return [dict(row) for row in rows]
 
 def recent_projects(limit=5):
-    return [{"id": p["id"], "name": p["name"]} for p in list_projects]
+    return [{"id": p["id"], "name": p["name"]} for p in list_projects(limit)]
 
 def get_project(project_id):
     init_file_index()

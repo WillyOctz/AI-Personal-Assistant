@@ -3,6 +3,7 @@ import json
 import shutil
 from datetime import datetime
 from pathlib import Path
+import time
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATABASE_FILE = PROJECT_ROOT / "db" / "nebula.db"
@@ -10,10 +11,21 @@ MEMORY_FILE = PROJECT_ROOT / "datasets" / "memory.json"
 BACKUP_DIR = PROJECT_ROOT / "datasets" / "backups"
 SCHEMA_VERSION = 1
 
+def read_memory_json():
+    last = None
+    for attempt in range(8):
+        try:
+            with open(MEMORY_FILE, "r", encoding="utf-8") as file:
+                return json.load(file)
+        except (PermissionError, json.JSONDecodeError) as error:
+            last = error
+            time.sleep(0.05 * (attempt + 1))
+    raise last
+
 def get_connection():
     DATABASE_FILE.parent.mkdir(exist_ok=True)
     
-    connection = sqlite3.connect(DATABASE_FILE)
+    connection = sqlite3.connect(DATABASE_FILE, timeout=15)
     connection.row_factory = sqlite3.Row
     connection.execute("PRAGMA journal_mode=WAL")    
     connection.execute("PRAGMA synchronous=NORMAL")
@@ -484,7 +496,7 @@ def prepare_memory_migration():
     initialize_database()
     
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     if not isinstance(memory_data, dict):
         raise ValueError("memory.json must contain a JSON object.")
@@ -507,7 +519,7 @@ def prepare_memory_migration():
 
 def migrate_profile_from_json():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     profile = memory_data.get("profile", {})
     
@@ -622,7 +634,7 @@ def delete_sqlite_profile_fact(key):
     
 def verify_profile_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     json_profile = memory_data.get("profile", {})
     sqlite_profile = get_sqlite_profile()
@@ -672,7 +684,7 @@ def migrate_notes_from_json():
     initialize_database()
     
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     notes = memory_data.get("notes", [])
     
@@ -1025,7 +1037,7 @@ def delete_memory_embeddings(source_type, source_id):
     
 def verify_notes_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     json_notes = memory_data.get("notes", [])
     sqlite_rows = get_sqlite_notes()
@@ -1081,7 +1093,7 @@ def migrate_reminders_from_json():
     initialize_database()
     
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     reminders = memory_data.get("reminders", [])
     
@@ -1186,7 +1198,7 @@ def get_sqlite_reminders():
     
 def verify_reminders_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     json_reminders = memory_data.get("reminders", [])
     sqlite_reminders = get_sqlite_reminders()
@@ -1273,7 +1285,7 @@ def sync_sqlite_reminders_from_json():
     initialize_database()
     
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     reminders = memory_data.get("reminders", [])
     
@@ -1338,7 +1350,7 @@ def migrate_conversation_from_json():
     initialize_database()
     
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     conversation = memory_data.get("conversation", [])
     
@@ -1534,7 +1546,7 @@ def sync_sqlite_conversation_from_json():
     initialize_database()
     
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     conversation = memory_data.get("conversation", [])
     
@@ -1605,7 +1617,7 @@ def sync_sqlite_conversation_from_json():
     
 def verify_conversation_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     json_conversation = memory_data.get("conversation", [])
     sqlite_conversation = get_sqlite_conversation()
@@ -1750,7 +1762,7 @@ def sync_sqlite_website_registry_from_json():
     initialize_database()
     
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     registry = memory_data.get("website_registry", {})
     
@@ -1825,7 +1837,7 @@ def sync_sqlite_website_registry_from_json():
     
 def verify_website_registry_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     json_registry = memory_data.get("website_registry", {})
     sqlite_websites = get_sqlite_website_registry()
@@ -1907,7 +1919,7 @@ def migrate_website_registry_from_json():
     initialize_database()
     
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     registry = memory_data.get("website_registry", {})
     
@@ -1999,7 +2011,7 @@ def migrate_app_registry_from_json():
     initialize_database()
     
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     registry = memory_data.get("app_registry", {})
     
@@ -2091,7 +2103,7 @@ def migrate_focus_sessions_from_json():
     initialize_database()
 
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     sessions = memory_data.get("focus_sessions", [])
 
@@ -2209,7 +2221,7 @@ def migrate_response_feedback_from_json():
     initialize_database()
 
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     feedback_items = memory_data.get("response_feedback", [])
 
@@ -2312,7 +2324,7 @@ def migrate_response_feedback_notes_from_json():
     initialize_database()
 
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     notes = memory_data.get("response_feedback_notes", [])
 
@@ -2392,7 +2404,7 @@ def migrate_history_events_from_json():
     initialize_database()
 
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     history = memory_data.get("history", [])
 
@@ -2512,7 +2524,7 @@ def migrate_work_session_summaries_from_json():
     initialize_database()
 
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     summaries = memory_data.get("work_session_summaries", [])
 
@@ -2618,7 +2630,7 @@ def migrate_conversation_summaries_from_json():
     initialize_database()
 
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     summaries = memory_data.get("summaries", [])
 
@@ -2697,7 +2709,7 @@ def migrate_entity_registry_from_json():
     initialize_database()
 
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     entities = memory_data.get("entities", {})
 
@@ -2808,7 +2820,7 @@ def get_sqlite_entities(entity_type):
     
 def verify_entity_registry_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     entities = memory_data.get("entities", {})
     differences = []
@@ -2960,7 +2972,7 @@ def get_sqlite_conversation_summary(summary_id):
     
 def verify_conversation_summaries_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     json_summaries = memory_data.get("summaries", [])
     sqlite_summaries = get_sqlite_conversation_summaries()
@@ -3129,7 +3141,7 @@ def get_sqlite_work_session_summaries(limit=None):
     
 def verify_work_session_summaries_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     json_summaries = memory_data.get(
         "work_session_summaries",
@@ -3287,7 +3299,7 @@ def sync_sqlite_work_session_summaries_from_json():
     initialize_database()
 
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     summaries = memory_data.get("work_session_summaries", [])
 
@@ -3433,7 +3445,7 @@ def get_sqlite_history_events(limit=None):
     
 def verify_history_events_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     json_history = memory_data.get("history", [])
     sqlite_history = get_sqlite_history_events()
@@ -3646,7 +3658,7 @@ def get_sqlite_response_feedback_notes(limit=None):
     
 def verify_response_feedback_notes_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     json_notes = memory_data.get("response_feedback_notes", [])
     sqlite_notes = get_sqlite_response_feedback_notes()
@@ -3767,7 +3779,7 @@ def sync_sqlite_response_feedback_notes_from_json():
     initialize_database()
 
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     notes = memory_data.get("response_feedback_notes", [])
 
@@ -3885,7 +3897,7 @@ def get_sqlite_response_feedback(limit=None):
     
 def verify_response_feedback_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     json_items = memory_data.get("response_feedback", [])
     sqlite_items = get_sqlite_response_feedback()
@@ -4038,7 +4050,7 @@ def sync_sqlite_response_feedback_from_json():
     initialize_database()
 
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     feedback_items = memory_data.get("response_feedback", [])
 
@@ -4181,7 +4193,7 @@ def get_sqlite_focus_sessions(limit=None):
     
 def verify_focus_sessions_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     json_sessions = memory_data.get("focus_sessions", [])
     sqlite_sessions = get_sqlite_focus_sessions()
@@ -4268,7 +4280,7 @@ def sync_sqlite_focus_sessions_from_json():
     initialize_database()
 
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     sessions = memory_data.get("focus_sessions", [])
 
@@ -4395,7 +4407,7 @@ def sync_sqlite_app_registry_from_json():
     initialize_database()
     
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     registry = memory_data.get("app_registry", {})
     
@@ -4470,7 +4482,7 @@ def sync_sqlite_app_registry_from_json():
     
 def verify_app_registry_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     json_registry = memory_data.get("app_registry", {})
     sqlite_apps = get_sqlite_app_registry()
@@ -4552,7 +4564,7 @@ def migrate_app_registry_backups_from_json():
     initialize_database()
     
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     backups = memory_data.get("app_registry_backups", [])
     
@@ -4677,7 +4689,7 @@ def sync_sqlite_app_registry_backups_from_json():
     initialize_database()
 
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     backups = memory_data.get("app_registry_backups", [])
 
@@ -4753,7 +4765,7 @@ def sync_sqlite_app_registry_backups_from_json():
     
 def verify_app_registry_backups_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     json_backups = memory_data.get("app_registry_backups", [])
     sqlite_backups = get_sqlite_app_registry_backups()
@@ -4863,7 +4875,7 @@ def migrate_website_open_history_from_json():
     initialize_database()
     
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     website_opens = memory_data.get("website_opens", [])
     
@@ -5046,7 +5058,7 @@ def add_sqlite_website_open_event(position, event):
     
 def verify_website_open_history_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     json_events = memory_data.get("website_opens", [])
     sqlite_events = get_sqlite_website_open_history()
@@ -5126,7 +5138,7 @@ def migrate_app_launch_history_from_json():
     initialize_database()
     
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     app_launches = memory_data.get("app_launches", [])
     
@@ -5311,7 +5323,7 @@ def migrate_app_aliases_from_json():
     initialize_database()
     
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     aliases = memory_data.get("app_aliases", {})
     
@@ -5411,7 +5423,7 @@ def sync_sqlite_app_aliases_from_json():
     initialize_database()
     
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     aliases = memory_data.get("app_aliases", {})
     
@@ -5466,7 +5478,7 @@ def sync_sqlite_app_aliases_from_json():
     
 def verify_app_aliases_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     json_aliases = memory_data.get("app_aliases", {})
     sqlite_aliases = get_sqlite_app_aliases()
@@ -5539,7 +5551,7 @@ def verify_app_aliases_migration():
  
 def verify_app_launch_history_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     json_events = memory_data.get("app_launches", [])
     sqlite_events = get_sqlite_app_launch_history()
@@ -5619,7 +5631,7 @@ def migrate_default_apps_from_json():
     initialize_database()
     
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     defaults = memory_data.get("default_apps", {})
     
@@ -5691,7 +5703,7 @@ def migrate_search_folders_from_json():
     initialize_database()
 
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     folders = memory_data.get("search_folders", {})
 
@@ -5792,7 +5804,7 @@ def sync_sqlite_search_folders_from_json():
     initialize_database()
 
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     folders = memory_data.get("search_folders", {})
 
@@ -5847,7 +5859,7 @@ def sync_sqlite_search_folders_from_json():
     
 def verify_search_folders_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     json_folders = memory_data.get("search_folders", {})
     sqlite_folders = get_sqlite_search_folders()
@@ -5922,7 +5934,7 @@ def migrate_file_search_history_from_json():
     initialize_database()
 
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
 
     history = memory_data.get("file_search_history", [])
 
@@ -6115,7 +6127,7 @@ def sync_sqlite_file_search_history_from_json():
     initialize_database()
     
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     history = memory_data.get("file_search_history", [])
     
@@ -6182,7 +6194,7 @@ def sync_sqlite_file_search_history_from_json():
     
 def verify_file_search_history_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     json_history = memory_data.get("file_search_history", [])
     sqlite_history = get_sqlite_file_search_history()
@@ -6291,7 +6303,7 @@ def sync_sqlite_default_apps_from_json():
     initialize_database()
     
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     defaults = memory_data.get("default_apps", {})
     
@@ -6346,7 +6358,7 @@ def sync_sqlite_default_apps_from_json():
     
 def verify_default_apps_migration():
     with open(MEMORY_FILE, "r") as file:
-        memory_data = json.load(file)
+        memory_data = read_memory_json()
         
     json_defaults = memory_data.get("default_apps", {})
     sqlite_defaults = get_sqlite_default_apps()
