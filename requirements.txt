@@ -12,3 +12,4 @@ pytest
 pypdf
 rapidfuzz
 watchdog
+psutil
