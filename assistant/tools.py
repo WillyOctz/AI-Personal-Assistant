@@ -2,6 +2,7 @@ from datetime import datetime
 from assistant.memory import add_reminder
 from pathlib import Path
 import ast
+import os
 import operator
 import subprocess
 import shlex
@@ -215,12 +216,13 @@ def copy_text_to_clipboard(text):
     
 IGNORED_FILE_FOLDERS = {".git", "__pycache__", "node_modules", ".venv", "venv"}
 
-def is_inside_ignored_folder(path):
-    for part in path.parts:
-        if part in IGNORED_FILE_FOLDERS:
-            return True
-        
-    return False
+def is_inside_ignored_folder(path, base=None):
+    try:
+        parts = path.relative_to(base).parts if base else path.parts
+    except ValueError:
+        return True
+    
+    return any(part in IGNORED_FILE_FOLDERS for part in parts)
 
 def is_safe_child_path(base_path, target_path):
     try:
@@ -230,6 +232,52 @@ def is_safe_child_path(base_path, target_path):
         return target_path == base_path or base_path in target_path.parents
     except:
         return False
+    
+def iter_visible_items(base):
+    # os walks to not prune descends into .git or .venv
+    for root, dirs, files in os.walk(base):
+        dirs[:] = [name for name in dirs if name not in IGNORED_FILE_FOLDERS]
+        
+    for name in dirs + files:
+        yield Path(root) / name
+        
+def find_file_in_folder(folder_path, filename):
+    """One shared helper for every file reading helper functions"""
+    base = Path(folder_path)
+    
+    if not base.exists():
+        return {"ok": False, "reason": "folder_not_found", "path": None}
+    
+    if not base.is_dir():
+        return {"ok": False, "reason": "not_directory", "path": None}
+    
+    base = base.resolve()
+    direct = base / filename
+    
+    # blocks incoherent path and return absolute filenames 
+    if not is_safe_child_path(base, direct):
+        return {"ok": False, "reason": "unsafe_path", "path": None}
+    
+    direct = direct.resolve()
+    
+    if is_inside_ignored_folder(direct, base):
+        return {"ok": False, "reason": "ignored_folder", "path": None}
+    
+    if direct.exists():
+        return {"ok": True, "reason": "ok", "path": direct}
+    
+    wanted = filename.lower().strip()
+    
+    for item in iter_visible_items(base):
+        if item.name.lower() != wanted:
+            continue
+        
+        if not is_safe_child_path(base, item):
+            continue
+        
+        return {"ok": True, "reason": "ok", "path": item}
+    
+    return {"ok": False, "reason": "file_not_found", "path": None}
 
 def list_folder_items(folder_path, limit=20):
     path = Path(folder_path)
@@ -290,24 +338,17 @@ def search_files_by_name(folder_path, query, extension=None, limit=20):
     query = query.lower().strip()
     matches = []
     
-    for item in path.rglob("*"):
-        if is_inside_ignored_folder(item):
-            continue
+    for item in iter_visible_items(path):
+        is_folder = item.is_dir()
         
-        if extension and item.is_file():
-            if item.suffix.lower() != extension:
-                continue
-            
-        if extension and item.is_dir():
+        if extension and (is_folder or item.suffix.lower() != extension):
             continue
         
         if query in item.name.lower():
-            item_type = "folder" if item.is_dir() else "file"
-            
             matches.append({
                 "name": item.name,
                 "path": str(item),
-                "type": item_type
+                "type": "folder" if is_folder else "file"
             })
             
             if len(matches) >= limit:
@@ -316,321 +357,123 @@ def search_files_by_name(folder_path, query, extension=None, limit=20):
     return {
         "ok": True,
         "reason": "ok",
-        "matches": matches 
+        "matches": matches
     }
     
 def get_file_info(folder_path, filename):
-    path = Path(folder_path)
+    found = find_file_in_folder(folder_path, filename)
     
-    if not path.exists():
+    if not found["ok"]:
         return {
             "ok": False,
-            "reason": "folder_not_found",
+            "reason": found["reason"],
             "file": None
         }
-        
-    if not path.is_dir():
-        return {
-            "ok": False,
-            "reason": "not_directory",
-            "file": None 
-        }
-        
-    direct_path = path / filename
 
-    if not is_safe_child_path(path, direct_path):
+    path = found["path"]
+
+    if not path.is_file():
         return {
             "ok": False,
-            "reason": "unsafe_path",
+            "reason": "not_file",
             "file": None
         }
-        
-    if is_inside_ignored_folder(direct_path):
-        return {
-            "ok": False,
-            "reason": "ignored_folder",
-            "file": None 
-        }
 
-    if direct_path.exists():
-        stat = direct_path.stat()
-        item_type = "folder" if direct_path.is_dir() else "file"
+    stat = path.stat()
 
-        return {
-            "ok": True,
-            "reason": "ok",
-            "file": {
-                "name": direct_path.name,
-                "path": str(direct_path),
-                "size": stat.st_size,
-                "type": item_type,
-                "modified": stat.st_mtime,
-                "extension": direct_path.suffix.lower()
-            }
-        }
-        
-    filename = filename.lower().strip()
-    
-    for item in path.rglob("*"):
-        if is_inside_ignored_folder(item):
-            continue
-        
-        if item.name.lower() == filename:
-            stats = item.stat()
-            item_type = "folder" if item.is_dir() else "file"
-            
-            return {
-                "ok": True,
-                "reason": "ok",
-                "file": {
-                    "name": item.name,
-                    "path": str(item),
-                    "type": item_type,
-                    "size": stats.st_size,
-                    "modified": stats.st_mtime,
-                    "extension": item.suffix.lower()
-                }
-            }
-            
     return {
-        "ok": False,
-        "reason": "file_not_found",
-        "file": None
+        "ok": True,
+        "reason": "ok",
+        "file": {
+            "name": path.name,
+            "path": str(path),
+            "size": stat.st_size,
+            "type": "file",
+            "modified": stat.st_mtime,
+            "extension": path.suffix.lower()
+        }
     }
     
 def preview_text_file(folder_path, filename, max_lines=20):
-    path = Path(folder_path)
-    
-    if not path.exists():
-        return {
-           "ok": False,
-            "reason": "folder_not_found",
-            "lines": [] 
-        }
-        
-    if not path.is_dir():
+    found = find_file_in_folder(folder_path, filename)
+
+    if not found["ok"]:
         return {
             "ok": False,
-            "reason": "not_directory",
+            "reason": found["reason"],
             "lines": []
         }
-        
-    direct_path = path / filename
-    if not is_safe_child_path(path, direct_path):
-        return {
-            "ok": False,
-            "reason": "unsafe_path",
-            "lines": [] 
-        }
-        
-    if is_inside_ignored_folder(direct_path):
-        return {
-            "ok": False,
-            "reason": "ignored_folder",
-            "lines": []
-        }
-    
-    if direct_path.exists():
-        if not direct_path.is_file():
-            return {
-                "ok": False,
-                "reason": "not_file",
-                "lines": [] 
-            }
-            
-        if direct_path.suffix.lower() not in TEXT_EXTENSIONS:
-            return {
-                "ok": False,
-                "reason": "not_text",
-                "lines": [] 
-            }
-            
-        lines = []
-        
-        try:
-            with open(direct_path, "r", encoding="utf-8") as file:
-                for line_number, line in enumerate(file, start=1):
-                    if line_number > max_lines:
-                        break
-                    
-                    lines.append(line.rstrip())
-        except:
-            return {
-               "ok": False,
-                "reason": "read_error",
-                "lines": [] 
-            }
-            
-        return {
-            "ok": True,
-            "reason": "ok",
-            "path": str(direct_path),
-            "lines": lines 
-        }
-        
-    filename = filename.lower().strip()
-    
-    for item in path.rglob("*"):
-        if is_inside_ignored_folder(item):
-            continue
-        
-        if item.name.lower() == filename:
-            if not item.is_file():
-                return {
-                    "ok": False,
-                    "reason": "not_file",
-                    "lines": []
-                }
-                
-            if item.suffix.lower() not in TEXT_EXTENSIONS:
-                return {
-                   "ok": False,
-                    "reason": "not_text",
-                    "lines": [] 
-                }
-                
-            lines = []
-            
-            try:
-                with open(item, "r", encoding="utf-8") as file:
-                    for index, line in enumerate(file):
-                        if index >= max_lines:
-                            break
-                        
-                        lines.append(line.rstrip("\n"))
-                        
-                return {
-                    "ok": True,
-                    "reason": "ok",
-                    "path": str(item),
-                    "lines": lines 
-                }
-            except UnicodeDecodeError:
-                return {
-                   "ok": False,
-                    "reason": "decode_error",
-                    "lines": [] 
-                }
-                
+
+    path = found["path"]
+
+    if not path.is_file():
+        return {"ok": False, "reason": "not_file", "lines": []}
+
+    if path.suffix.lower() not in TEXT_EXTENSIONS:
+        return {"ok": False, "reason": "not_text", "lines": []}
+
+    lines = []
+
+    try:
+        with open(path, "r", encoding="utf-8") as file:
+            for line_number, line in enumerate(file, start=1):
+                if line_number > max_lines:
+                    break
+
+                lines.append(line.rstrip())
+    except UnicodeDecodeError:
+        return {"ok": False, "reason": "decode_error", "lines": []}
+    except OSError:
+        return {"ok": False, "reason": "read_error", "lines": []}
+
     return {
-        "ok": False,
-        "reason": "file_not_found",
-        "lines": []
+        "ok": True,
+        "reason": "ok",
+        "path": str(path),
+        "lines": lines
     }
     
 def preview_text_file_range(folder_path, filename, start_line, end_line):
-    path = Path(folder_path)
-    
-    if not path.exists():
+    found = find_file_in_folder(folder_path, filename)
+
+    if not found["ok"]:
         return {
             "ok": False,
-            "reason": "folder_not_found",
-            "lines": [] 
+            "reason": found["reason"],
+            "lines": []
         }
-        
-    if not path.is_dir():
-        return {
-            "ok": False,
-            "reason": "not_directory",
-            "lines": [] 
-        }
-        
-    direct_path = path / filename
 
-    if direct_path.exists():
-        if not direct_path.is_file():
-            return {
-                "ok": False,
-                "reason": "not_file",
-                "lines": []
-            }
+    path = found["path"]
 
-        if direct_path.suffix.lower() not in TEXT_EXTENSIONS:
-            return {
-                "ok": False,
-                "reason": "not_text",
-                "lines": []
-            }
+    if not path.is_file():
+        return {"ok": False, "reason": "not_file", "lines": []}
 
-        lines = []
+    if path.suffix.lower() not in TEXT_EXTENSIONS:
+        return {"ok": False, "reason": "not_text", "lines": []}
 
-        try:
-            with open(direct_path, "r", encoding="utf-8") as file:
-                for line_number, line in enumerate(file, start=1):
-                    if start_line <= line_number <= end_line:
-                        lines.append({
-                            "number": line_number,
-                            "text": line.rstrip()
-                        })
+    lines = []
 
-                    if line_number > end_line:
-                        break
-        except:
-            return {
-                "ok": False,
-                "reason": "read_error",
-                "lines": []
-            }
+    try:
+        with open(path, "r", encoding="utf-8") as file:
+            for line_number, line in enumerate(file, start=1):
+                if start_line <= line_number <= end_line:
+                    lines.append({
+                        "number": line_number,
+                        "text": line.rstrip()
+                    })
 
-        return {
-            "ok": True,
-            "reason": "ok",
-            "path": str(direct_path),
-            "lines": lines
-        }
-        
-    filename = filename.lower().strip()
-    
-    for item in path.rglob("*"):
-        if is_inside_ignored_folder(item):
-            continue
-        
-        if item.name.lower() == filename:
-            if not item.is_file():
-                return {
-                    "ok": False,
-                    "reason": "not_file",
-                    "lines": [] 
-                }
-                
-            if item.suffix.lower() not in TEXT_EXTENSIONS:
-                return {
-                    "ok": False,
-                    "reason": "not_text",
-                    "lines": []
-                }
-                
-            lines = []
-            
-            try:
-                with open(item, "r", encoding="utf-8") as file:
-                    for line_number, line in enumerate(file, start=1):
-                        if start_line <= line_number <= end_line:
-                            lines.append({
-                                "number": line_number,
-                                "text": line.rstrip() 
-                            })
-                            
-                        if line_number > end_line:
-                            break
-            except:
-                return {
-                    "ok": False,
-                    "reason": "read_error",
-                    "lines": []
-                }
-                
-            return {
-                "ok": True,
-                "reason": "ok",
-                "path": str(item),
-                "lines": lines 
-            }
-    
+                if line_number > end_line:
+                    break
+    except UnicodeDecodeError:
+        return {"ok": False, "reason": "decode_error", "lines": []}
+    except OSError:
+        return {"ok": False, "reason": "read_error", "lines": []}
+
     return {
-        "ok": False,
-        "reason": "file_not_found",
-        "lines": []
+        "ok": True,
+        "reason": "ok",
+        "path": str(path),
+        "lines": lines
     }
     
 def preview_text_file_around(folder_path, filename, center_line, radius=5):
@@ -662,16 +505,12 @@ def search_text_in_files(folder_path, query, extension=None, limit=20):
     query = query.lower().strip()
     matches = []
     
-    for item in path.rglob("*"):
-        if is_inside_ignored_folder(item):
-            continue
-        
+    for item in iter_visible_items(path):
         if not item.is_file():
             continue
-        
-        if extension:
-            if item.suffix.lower() != extension:
-                continue
+         
+        if extension and item.suffix.lower() != extension:
+            continue
         
         if item.suffix.lower() not in TEXT_EXTENSIONS:
             continue
@@ -688,11 +527,11 @@ def search_text_in_files(folder_path, query, extension=None, limit=20):
                         
                         if len(matches) >= limit:
                             return {
-                               "ok": True,
+                                "ok": True,
                                 "reason": "ok",
-                                "matches": matches 
+                                "matches": matches
                             }
-        except UnicodeDecodeError:
+        except (UnicodeDecodeError, OSError):
             continue
         
     return {
