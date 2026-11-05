@@ -5,7 +5,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import Any
 from datetime import date
-from assistant import memory, focus, apps, websites, llm, events, file_index, indexer
+from assistant import memory, focus, apps, websites, llm, events, file_index, indexer, monitor
 from assistant.runtime import BRAIN_LOCK, hooks
 
 import logging
@@ -616,6 +616,7 @@ def today():
             **item,
             "overdue": bool(due_day and due_day < today_iso),
             "today": due_day == today_iso,
+            "activity": monitor.today_summary(),
         })
         
     return {

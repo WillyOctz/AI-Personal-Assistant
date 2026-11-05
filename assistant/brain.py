@@ -48,6 +48,8 @@ from assistant import semantic_memory
 from assistant import file_index, indexer
 from assistant.locate_parser import parse_locate_query
 from assistant.reply import Reply, as_reply, button, copy_button, api_button
+from assistant import companion, monitor
+from assistant.reply import Reply, as_reply, button, copy_button, api_button, prefill_button
 import re
 import shutil
 import os
@@ -6729,6 +6731,11 @@ def handle_memory_intent(user_input, analysis):
         task = get_focus_task()
         started_at = stop_focus_mode()
         session_result = save_focus_session(task, started_at)
+        project = companion.offer_handoff(task, started_at)
+        actions = [button("Today's focus", "today focus stats", style="ghost")]
+        
+        if project:
+            actions.insert(0, prefill_button("Leave a note", "handoff note ", style="primary"))
         
         return Reply(
             say=voice("focus.stop", task=task, duration=session_result["duration"]),
@@ -6741,7 +6748,7 @@ def handle_memory_intent(user_input, analysis):
                 "duration": session_result["duration"],
                 "notes": session_result["notes"],
             },
-            actions=[button("Today's focus", "today focus stats", style="ghost")],
+            actions=actions,
             styled=True,
         )
     
@@ -7723,6 +7730,58 @@ def handle_memory_intent(user_input, analysis):
         
         memory.set_setting("editor_command", command)
         return f"Editor saved: {command}"
+    
+    if intent == "companion_status":
+        return companion.status_next()
+    
+    if intent == "companion_snooze":
+        return companion.snooze_nudges()
+    
+    if intent == "companion_setting":
+        body = user_input.strip()[len("set companion "):].strip()
+        parts = body.split(None, 1)
+        
+        if len(parts) < 2:
+            return "Use this format: set companion setting value\n" + companion.settings_help()
+        
+        return companion.apply_setting(parts[0], parts[1])[1]
+    
+    if intent == "activity_recap":
+        days = 7 if "week" in user_input.lower() else 1
+        data = companion.build_recap(days)
+        
+        if not data["total"] and not data["focus"]["sessions"]:
+            return companion.no_data_message()
+        
+        verbosity = memory.get_setting("verbosity", "normal")
+        say = companion.recap_line(data, verbosity, memory.get_setting("recap_llm", True))
+        
+        return Reply(say=say, detail=companion.recap_text(data), kind="recap", data=data, styled=True)
+    
+    if intent == "forget_activity":
+        arg = user_input.strip()[len("forget activity"):].strip().lower()
+        
+        if arg not in ("today", "all"):
+            return (
+                "This deletes what I've noticed about your activity.\n"
+                "Use: forget activity today     or     forget activity all"
+            )
+            
+        deleted = monitor.forget(everything=(arg == "all"))
+        return f"Forgot {deleted} activity record(s)."
+    
+    if intent == "handoff_note":
+        text = user_input.strip()[len("handoff note "):].strip()
+        if not text:
+            return "Use this format: handoff note what future-you should know"
+        
+        result = companion.set_handoff(text)
+        
+        if result is None:
+            return Reply(say=voice("handoff.none"), styled=True)
+        
+        key = "handoff.cleared" if result["cleared"] else "handoff.saved"
+        return Reply(say=voice(key, project=result["project"]), styled=True)
         
     if intent == "preview_file":
         parsed = parse_preview_file_command(user_input)

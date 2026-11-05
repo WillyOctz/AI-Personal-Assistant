@@ -22,7 +22,7 @@ ROOT = (
 os.chdir(ROOT)
 sys.path.insert(0, str(ROOT))
 
-from assistant import autostart, events, indexer, memory, notifier, personality, watcher
+from assistant import autostart, companion, events, indexer, memory, monitor, notifier, personality
 
 LOG_DIR = ROOT / "logs"
 LOG_DIR.mkdir(exist_ok=True)
@@ -198,6 +198,16 @@ def quit_app(icon=None, item=None):
     notifier.stop()
     window.destroy()
     
+def safe(fn):
+    """Wrap a tray callback so a transient error can't kill the tray thread."""
+    def wrapper(item):
+        try:
+            return bool(fn(item))
+        except Exception:
+            log.exception("tray state check failed")
+            return False
+    return wrapper
+    
 def tick():
     global _last_tray_state
     from assistant import focus
@@ -217,6 +227,28 @@ def toggle_autostart(icon, item):
 def toggle_pause(icon ,item):
     memory.set_setting("notifications_paused",not memory.get_setting("notifications_paused", False))
     tick()
+    icon.update_menu()
+    
+def toggle_monitor(icon, item):
+    enable = not memory.get_setting("monitor_enabled", False)
+
+    with BRAIN_LOCK:
+        memory.set_setting("monitor_enabled", enable)
+
+    monitor.refresh()
+
+    if enable:
+        show_window()                                   # make sure you actually read the privacy note
+        events.publish("notify", {"text": companion.PRIVACY_TEXT, "actions": []})
+
+    icon.update_menu()
+
+
+def toggle_nudges(icon, item):
+    with BRAIN_LOCK:
+        memory.set_setting("nudges_enabled", not memory.get_setting("nudges_enabled", True))
+
+    monitor.refresh()
     icon.update_menu()
 
 def set_verbosity(level):
@@ -245,6 +277,10 @@ def build_tray():
             )),
             pystray.MenuItem("Pause notifications", toggle_pause,
                              checked=lambda item: memory.get_setting("notifications_paused", False)),
+            pystray.MenuItem("Track activity", toggle_monitor,
+                             checked=safe(lambda item: memory.get_setting("monitor_enabled", False))),
+            pystray.MenuItem("Gentle nudges", toggle_nudges,
+                             checked=safe(lambda item: memory.get_setting("nudges_enabled", True))),
             pystray.MenuItem("Start with Windows", toggle_autostart,
                              checked=lambda item: autostart.is_enabled()),
             pystray.MenuItem("Dev console", open_dev_console),
@@ -301,7 +337,7 @@ def main():
     
     notifier.start()
     indexer.start()
-    watcher.start()
+    monitor.start()
     
     window = webview.create_window(
         "Nebula",
