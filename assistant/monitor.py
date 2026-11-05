@@ -162,7 +162,7 @@ def build_matchers(projects):
         
         out.append((len(name), re.compile(rf"(?<![\w]){re.escape(name)}(?![\w])"), p["id"], p["name"]))
         
-    out.sort(key=lambda item: item[0])
+    out.sort(key=lambda item: -item[0])
     return out
 
 def match_project(app, title, matchers):
