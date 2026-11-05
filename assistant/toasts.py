@@ -19,6 +19,7 @@ TITLES = {
     "due": ["It's time, dear.", "A small reminder from me."],
     "overdue": ["This one slipped by, dear.", "Still waiting on this one."],
 }
+ALLOWED_COMMANDS = ("resume project #", "start focus", "daily recap")
 
 def _on_activated(args):
     params = parse_qs(getattr(args, "arguments", "")or "")
@@ -35,6 +36,16 @@ def _on_activated(args):
             with BRAIN_LOCK:
                 memory.set_reminder_due(text, tomorrow)
             events.publish("reminders_changed")
+        elif action == "cmd":
+            command = params.get("c", [""])[0]
+            
+            if command.lower().startswith(ALLOWED_COMMANDS):
+                if hooks.get("show"):
+                    hooks["show"]()
+                events.publish("run_command", {"command": command})
+        elif action == "snooze":
+            from assistant import companion
+            companion.snooze_nudges()
         elif hooks.get("show"):
             hooks["show"]()
     except Exception:
@@ -60,3 +71,8 @@ def reminder_toast(kind, item, verbosity="normal"):
     
 def summary_toast(count):
     _show("Nebula", f"{count} reminders need you.", [("Open Nebula", {"a": "open"})])
+    
+def nudge_toast(title, body, commands=()):
+    buttons = [(label, {"a": "cmd", "c": cmd}) for label, cmd in list(commands)[:2]]
+    buttons.append(("Not now", {"a": "snooze"}))
+    _show(title, body[:200], buttons)

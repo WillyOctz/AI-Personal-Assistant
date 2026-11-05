@@ -452,6 +452,46 @@ TEMPLATES = {
         "normal": ["I'll start reading {name} now, dear."],
         "chatty": ["Lovely. I'll start reading {name} now and learn every corner of it."],
     },
+    "resume.nudge": {
+        "minimal": "Back to {project}?",
+        "normal": ["Welcome back, dear. Last time you were in {project}{file_part}.{note_part} Shall we pick it up?"],
+        "chatty": ["Welcome back, little star. Last time you were in {project}{file_part}.{note_part} Shall we pick it up together?"],
+    },
+    "nudge.break": {
+        "minimal": "Break time ({minutes} min).",
+        "normal": ["You've worked {minutes} minutes straight, dear. Water, a stretch, then we continue."],
+        "chatty": ["Little star, {minutes} minutes without a pause. Stand up, drink some water, and I'll be right here when you're back."],
+    },
+    "nudge.distraction": {
+        "minimal": "Back to {task}?",
+        "normal": ["You've been in {apps} for about {minutes} minutes. Gently, back to {task}?"],
+        "chatty": ["Mm, dear, {apps} has had you for about {minutes} minutes. Shall we turn back to {task}?"],
+    },
+    "nudge.suggest": {
+        "minimal": "Focus on {project}?",
+        "normal": ["You've been in {project} for {minutes} minutes. Shall I keep you company with a focus session?"],
+        "chatty": ["I've watched you tend {project} for {minutes} minutes, little star. Shall we make it a proper focus session together?"],
+    },
+    "handoff.saved": {
+        "minimal": "Note saved for {project}.",
+        "normal": ["I'll keep that safe for future you: {project}."],
+        "chatty": ["Tucked away for future you, dear. It'll be waiting in {project}."],
+    },
+    "handoff.cleared": {
+        "minimal": "Note cleared.",
+        "normal": ["Cleared the note on {project}."],
+        "chatty": ["All clear, dear. {project} has no note now."],
+    },
+    "handoff.none": {
+        "minimal": "No project for that note.",
+        "normal": ["I'm not sure which project that note is for, dear. Work in it or focus on it first."],
+        "chatty": ["Hmm, little star, I can't tell which project this belongs to. Open it or start a focus on it first."],
+    },
+    "recap.intro": {
+        "minimal": "{label}: {total} active.",
+        "normal": ["{when} you spent {total} at your desk, dear.{top_part}"],
+        "chatty": ["{when} you gave {total} to your work, little star.{top_part} Be proud of that."],
+    },
 }
 
 class _Safe(dict):

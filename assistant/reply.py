@@ -9,6 +9,9 @@ def copy_button(label, value, style="ghost"):
 def api_button(label, name, style="default"):
     return {"label": label, "type": "api", "value": name, "style": style}
 
+def prefill_button(label, text, style="default"):
+    """Fills the composer with `text` so the user can finish typing it."""
+    return {"label": label, "type": "prefill", "value": text, "style": style}
 
 @dataclass
 class Reply:

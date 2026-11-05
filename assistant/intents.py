@@ -301,6 +301,12 @@ VALID_INTENTS = {
     "reindex_files",
     "index_status",
     "set_editor",
+    "companion_status",
+    "companion_setting",
+    "companion_snooze",
+    "activity_recap",
+    "forget_activity",
+    "handoff_note",
 }
 
 
@@ -618,6 +624,12 @@ MEMORY_INTENTS = {
     "reindex_files",
     "index_status",
     "set_editor",
+    "companion_status",
+    "companion_setting",
+    "companion_snooze",
+    "activity_recap",
+    "forget_activity",
+    "handoff_note",
 }
 
 
@@ -1657,6 +1669,19 @@ INTENT_PATTERNS = {
     "index_status": [
         "index status", "file index status",
     ],
+    "companion_status": [
+        "companion status", "activity status", "what are you tracking", "what do you track",
+    ],
+    "companion_snooze": [
+        "companion snooze", "snooze nudges",
+    ],
+    "activity_recap": [
+        "recap", "daily recap", "starlight recap", "recap my day", "where did my time go",
+        "weekly recap", "recap my week",
+    ],
+    "forget_activity": [
+        "forget activity",
+    ],
 }
 
 
@@ -2098,6 +2123,15 @@ INTENT_PREFIXES = {
     "set_editor": [
         "set editor ",
     ],
+    "companion_setting": [
+        "set companion ",
+    ],
+    "forget_activity": [
+        "forget activity ",
+    ],
+    "handoff_note": [
+        "handoff note ",
+    ],
 }
 
 
@@ -2169,6 +2203,9 @@ PREFIX_INTENT_ORDER = [
     "resume_project",
     "start_focus_task",
     "set_editor",
+    "companion_setting",
+    "forget_activity",
+    "handoff_note",
     "reveal_file",
     "open_folder",
     "file_info",
