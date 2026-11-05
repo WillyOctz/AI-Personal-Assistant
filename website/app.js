@@ -25,6 +25,8 @@ const reminderText = $("reminder-text")
 const reminderDue = $("reminder-due")
 const launchBlock = $("launch-block")
 const launchChips = $("launch-chips")
+const activityBlock = $("activity-block")
+const activityList = $("activity-list")
 
 const CONFIRM_ACTIONS = [
     { label: "Yes", type: "command", command: "yes", style: "primary" },
@@ -131,6 +133,13 @@ async function runAction(a, button, row) {
         } catch (_) {
             flash(button, "Can't copy")
         }
+        return
+    }
+
+    if (a.type === "prefill") {
+        input.value = a.value || ""
+        resizeComposer()
+        input.focus()
         return
     }
 
@@ -263,6 +272,37 @@ function renderResume(d){
     return card
 }
 
+function renderRecap(d) {
+    const card = el("div", "card")
+    card.appendChild(el("p", "card-line strong", `${d.label}: ${d.total_text} active`))
+
+    const section = (title, rows) => {
+        if (!rows || !rows.length) return
+        card.appendChild(el("h4", "card-title", title))
+
+        for (const r of rows) {
+            const row = el("div", "recap-row")
+            const line = el("div", "act-row")
+            line.appendChild(el("span", "", r.name))
+            line.appendChild(el("small", "", r.text))
+            row.appendChild(line)
+            row.appendChild(progressBar(r.pct))
+            card.appendChild(row)
+        }
+    }
+
+    section("Projects", d.projects)
+    section("Apps", d.apps)
+
+    if (d.focus && d.focus.sessions) {
+        card.appendChild(el("p", "card-line", `Focus: ${d.focus.sessions} session(s), ${d.focus.text}`))
+    }
+
+    for (const note of d.notes || []) card.appendChild(el("p", "muted", `• ${note}`))
+
+    return card
+}
+
 function renderLaunchBlock(apps, websites, projects) {
     launchChips.replaceChildren()
 
@@ -334,6 +374,7 @@ const RENDERERS = {
     focus: renderFocus,
     focus_summary: renderFocusSummary,
     confirm: renderConfirm,
+    recap: renderRecap,
 }
 
 function renderReply(reply) {
@@ -460,6 +501,28 @@ function renderLaunchBlock(apps, websites) {
     launchBlock.hidden = launchChips.children.length === 0
 }
 
+function renderActivity(a) {
+    activityList.replaceChildren()
+
+    if (!a || !a.total_seconds) {
+        activityBlock.hidden = true
+        return
+    }
+
+    activityBlock.hidden = false
+
+    const add = (label, text, strong) => {
+        const li = el("li", "act-row")
+        li.appendChild(el("span", "", label))
+        li.appendChild(el(strong ? "span" : "small", "", text))
+        activityList.appendChild(li)
+    }
+
+    add("Active", a.total_text, true)
+    for (const p of a.projects || []) add(`📂 ${p.name}`, p.text)
+    for (const x of (a.apps || []).slice(0, 2)) add(x.name, x.text)
+}
+
 function renderToday(t) {
     const reminders = t.reminders || []
     const overdue = reminders.filter((r) => r.overdue).length
@@ -518,8 +581,17 @@ function connectEvents() {
 
     source.addEventListener("notify", (event) => {
         const data = JSON.parse(event.data)
-        addAssistantText(data.text).classList.add("notice")
+        const m = addAssistantText(data.text)
+        m.classList.add("notice")
+
+        if (data.actions && data.actions.length) m.appendChild(renderActions(data.actions))
+
         refreshToday()
+    })
+
+    source.addEventListener("run_command", (event) => {
+        const data = JSON.parse(event.data)
+        if (data.command) send(data.command)
     })
 
     source.addEventListener("reminders_changed", refreshToday)

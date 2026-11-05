@@ -8,6 +8,8 @@ SAMPLE = dict(
     greeting="Good morning", name_part=", Ann", summary="1 overdue.",
     project="nebula", target="VS Code", age="2 hours ago", file_part=", working on brain.py",
     files=120,
+    minutes=50, apps="Chrome", note_part=' You left yourself a note: "fix login"',
+    when="Today", label="Today", total="2h 10m", top_part=" Most of it in nebula."
 )
 
 
