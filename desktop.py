@@ -112,12 +112,10 @@ def show_window():
     except Exception:
         pass
     
-    
 def hide_window():
     window.hide()
     ui_state["visible"] = False
     
-
 def toggle_window():
     hide_window() if ui_state["visible"] else show_window()
     

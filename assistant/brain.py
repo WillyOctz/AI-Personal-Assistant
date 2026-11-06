@@ -7732,7 +7732,7 @@ def handle_memory_intent(user_input, analysis):
         return f"Editor saved: {command}"
     
     if intent == "companion_status":
-        return companion.status_next()
+        return companion.status_text()
     
     if intent == "companion_snooze":
         return companion.snooze_nudges()

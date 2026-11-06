@@ -367,14 +367,13 @@ def _loop():
                     
                 if now - last_prune > 6 * 3600:
                     prune(cfg["retention_days"])
-                    last_prune = None
+                    last_prune = now
                     
             else:
                 _pause()
                 
         except Exception:
-            log.exception("monitor loop error")
-            
+            log.exception("monitor loop error")    
     
     try:
         _close(time.time())
