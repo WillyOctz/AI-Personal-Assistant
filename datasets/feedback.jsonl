@@ -6,9 +6,5 @@
 {"input": "gaming", "correct_intent": "play_game"}
 {"input": "play game", "correct_intent": "play_game"}
 {"input": "gaming", "correct_intent": "play_game"}
-{"input": "playing", "correct_intent": "minecraft"}
 {"input": "playing game", "correct_intent": "play_game"}
 {"input": "start game", "correct_intent": "play_game"}
-{"input": "start game", "correct_intent": "play_game"}
-{"input": "start", "correct_intent": "play_game"}
-{"input": "start focus session", "correct_intent": "play_game"}

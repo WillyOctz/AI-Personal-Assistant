@@ -21948,6 +21948,26 @@
             "source": "rule",
             "timestamp": "2026-11-07 16:22:51",
             "importance": 0.6
+        },
+        {
+            "user": "dataset conflicts",
+            "assistant": "I did not find conflicting dataset examples.",
+            "intent": "dataset_conflicts",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-07 16:59:07",
+            "importance": 0.1
+        },
+        {
+            "user": "dataset unknown intents",
+            "assistant": "Dataset unknown intents:\n- examples record 1: unknown | can you order pizza for me\n- examples record 2: unknown | can you do push ups for me?",
+            "intent": "dataset_unknown_intents",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-07 16:59:16",
+            "importance": 0.1
         }
     ],
     "summaries": [

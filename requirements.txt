@@ -13,3 +13,5 @@ pypdf
 rapidfuzz
 watchdog
 psutil
+fastembed
+numpy
