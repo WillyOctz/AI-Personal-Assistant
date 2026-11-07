@@ -6838,3 +6838,9 @@ AttributeError: module 'assistant.companion' has no attribute 'status_next'. Did
 2026-11-06 16:12:15,535 INFO httpx: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent "HTTP/1.1 200 OK"
 2026-11-06 16:46:26,966 INFO uvicorn.error: Shutting down
 2026-11-06 16:46:27,074 INFO uvicorn.error: Waiting for background tasks to complete. (CTRL+C to force quit)
+2026-11-07 16:17:37,002 INFO uvicorn.error: Started server process [11384]
+2026-11-07 16:17:37,003 INFO uvicorn.error: Waiting for application startup.
+2026-11-07 16:17:37,004 INFO uvicorn.error: Application startup complete.
+2026-11-07 16:17:37,004 INFO uvicorn.error: Uvicorn running on http://127.0.0.1:60765 (Press CTRL+C to quit)
+2026-11-07 16:27:12,211 INFO uvicorn.error: Shutting down
+2026-11-07 16:27:12,322 INFO uvicorn.error: Waiting for background tasks to complete. (CTRL+C to force quit)

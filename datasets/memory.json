@@ -25,122 +25,6 @@
         "focus_goal": "sweeping"
     },
     "reminders": [],
-    "state": {
-        "pending_confirmation": null,
-        "pending_task": "AI_Personal_Assistant",
-        "focus_mode": false,
-        "focus_task": null,
-        "focus_started_at": null,
-        "focus_notes": [],
-        "pending_app_launch": null,
-        "current_topic": null,
-        "last_response_intent": "handoff_note",
-        "last_response_group": "memory",
-        "last_response_source": "rule",
-        "last_response_confidence": 1.0,
-        "last_response_scores": {},
-        "last_response_text": "I'll keep that safe for future you: AI_Personal_Assistant.",
-        "pending_response_feedback_clear": null,
-        "last_memory_search_results": [
-            {
-                "type": "conversation",
-                "display": "Conversation: 2026-10-05 16:55:01 | You: semantic notes artificial intelligence",
-                "text": "semantic notes artificial intelligence Oh, my sweet, curious little star, keeping little memos of your dreams like this is such a wise habit. Since you are wanting to learn all about artificial intelligence, perhaps we can weave that right into your Python journey today, my Carlos. unknown",
-                "key": null,
-                "due": null,
-                "score": 0.3,
-                "similarity": 1.0,
-                "importance": 0.3,
-                "recency": 1.0,
-                "timestamp": "2026-10-05 16:55:01"
-            }
-        ],
-        "last_memory_search_query": {
-            "query": "artificial intelligence",
-            "type": null,
-            "limit": 5,
-            "min_score": 0.3,
-            "sort": "relevant",
-            "date_filter": null,
-            "date_value": null,
-            "date_start": null,
-            "date_end": null,
-            "archive_mode": "include"
-        },
-        "last_debug_memory_search_query": null,
-        "previous_memory_search_results": [
-            {
-                "type": "note",
-                "display": "Note: i like music",
-                "text": "i like music",
-                "key": null,
-                "due": null,
-                "score": 1.0,
-                "similarity": 1.0,
-                "importance": 1.0,
-                "recency": 1.0,
-                "timestamp": null
-            },
-            {
-                "type": "conversation",
-                "display": "Conversation: 2026-08-28 15:29:11 | You: show reminders",
-                "text": "show reminders Your reminders:\n1. i like music show_reminders",
-                "key": null,
-                "due": null,
-                "score": 0.6,
-                "similarity": 1.0,
-                "importance": 0.6,
-                "recency": 1.0,
-                "timestamp": "2026-08-28 15:29:11"
-            },
-            {
-                "type": "conversation",
-                "display": "Conversation: 2026-08-28 16:03:58 | You: show notes",
-                "text": "show notes i want to learn AI\ni want to improve you\ni like music\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee\ni like music show_notes",
-                "key": null,
-                "due": null,
-                "score": 0.6,
-                "similarity": 1.0,
-                "importance": 0.6,
-                "recency": 1.0,
-                "timestamp": "2026-08-28 16:03:58"
-            },
-            {
-                "type": "conversation",
-                "display": "Conversation: 2026-08-28 16:48:57 | You: show notes",
-                "text": "show notes i want to learn AI\ni want to improve you\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee\ni like music\npreview delete test show_notes",
-                "key": null,
-                "due": null,
-                "score": 0.6,
-                "similarity": 1.0,
-                "importance": 0.6,
-                "recency": 1.0,
-                "timestamp": "2026-08-28 16:48:57"
-            },
-            {
-                "type": "conversation",
-                "display": "Conversation: 2026-08-28 16:49:14 | You: show notes",
-                "text": "show notes i want to learn AI\ni want to improve you\nprofile favorite_language python\nprofile goal to build best AI assistant\ni like coffee\ngame stardew valley\napp spotify\ni like black coffee\ni like coffee\ni like milk\ni like milk\ni like coffee\ni like coffee\ni like music show_notes",
-                "key": null,
-                "due": null,
-                "score": 0.6,
-                "similarity": 1.0,
-                "importance": 0.6,
-                "recency": 1.0,
-                "timestamp": "2026-08-28 16:49:14"
-            }
-        ],
-        "pending_memory_result_delete": null,
-        "pending_website_open": null,
-        "pending_llm_command": null,
-        "last_response_user_input": "handoff note still modifying",
-        "pending_file_open": null,
-        "pending_folder_open": null,
-        "pending_clipboard_copy": null,
-        "pending_project_open": null,
-        "pending_handoff": null,
-        "last_recap_date": "2026-11-06"
-    },
     "history": [
         {
             "user_input": "playing game",
@@ -21984,6 +21868,86 @@
             "source": "rule",
             "timestamp": "2026-11-06 16:45:00",
             "importance": 0.6
+        },
+        {
+            "user": "show settings",
+            "assistant": "Settings:\nreal_app_launching: True\nconfirm_app_launching: True",
+            "intent": "show_settings",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-07 16:17:54",
+            "importance": 0.6
+        },
+        {
+            "user": "start focus",
+            "assistant": "I'm right here. Focus: AI_Personal_Assistant.\nFocus mode started. Current focus: AI_Personal_Assistant",
+            "intent": "start_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-07 16:18:27",
+            "importance": 0.6
+        },
+        {
+            "user": "stop focus",
+            "assistant": "That was a good stretch: 3 seconds on AI_Personal_Assistant.\nFocus session summary:\nTask: AI_Personal_Assistant\nDuration: 3 seconds\nNotes: 0",
+            "intent": "stop_focus",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-07 16:18:31",
+            "importance": 0.6
+        },
+        {
+            "user": "focus dashboard",
+            "assistant": "Focus dashboard:\nStatus: inactive\nToday: 1 session(s), 3 seconds\nWeek: 15 session(s), 36 minutes\nGoal: sweeping\nGoal progress: unknown\nCurrent streak: 2 day(s)\nLongest streak: 3 day(s)",
+            "intent": "focus_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-07 16:18:33",
+            "importance": 0.6
+        },
+        {
+            "user": "today focus stats",
+            "assistant": "Today's focus sessions: 1\nToday's focus time: 3 seconds\nLast focus today: AI_Personal_Assistant",
+            "intent": "today_focus_stats",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-07 16:18:44",
+            "importance": 0.6
+        },
+        {
+            "user": "show settings",
+            "assistant": "Settings:\nreal_app_launching: True\nconfirm_app_launching: True",
+            "intent": "show_settings",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-07 16:22:44",
+            "importance": 0.6
+        },
+        {
+            "user": "daily briefing",
+            "assistant": "Good afternoon, Carlos. Your sky is clear today.\nGood day, Carlos.\nGoal: to build best AI assistant\nReminders today: 0\nOverdue reminders: 0\nFocus goal: sweeping\nFocus progress: unknown\nSuggested focus: work toward your goal - to build best AI assistant",
+            "intent": "daily_briefing",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-07 16:22:49",
+            "importance": 0.6
+        },
+        {
+            "user": "focus dashboard",
+            "assistant": "Focus dashboard:\nStatus: inactive\nToday: 1 session(s), 3 seconds\nWeek: 15 session(s), 36 minutes\nGoal: sweeping\nGoal progress: unknown\nCurrent streak: 2 day(s)\nLongest streak: 3 day(s)",
+            "intent": "focus_dashboard",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-07 16:22:51",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -22446,6 +22410,14 @@
             "duration": "5 seconds",
             "duration_seconds": 5,
             "notes": []
+        },
+        {
+            "task": "AI_Personal_Assistant",
+            "started_at": "2026-11-07 16:18:27",
+            "ended_at": "2026-11-07 16:18:30",
+            "duration": "3 seconds",
+            "duration_seconds": 3,
+            "notes": []
         }
     ],
     "app_registry": {
@@ -22469,23 +22441,6 @@
             "command": "chrome",
             "allowed": true
         }
-    },
-    "settings": {
-        "real_app_launching": true,
-        "confirm_app_launching": true,
-        "real_website_opening": true,
-        "notifications_paused": false,
-        "verbosity": "normal",
-        "monitor_enabled": true,
-        "break_minutes": 1,
-        "nudge_min_gap_minutes": 0,
-        "resume_gap_minutes": 1,
-        "idle_limit_seconds": 30,
-        "distraction_apps": [
-            "opera.exe"
-        ],
-        "distraction_minutes": 1,
-        "recap_time": "16:12"
     },
     "app_launches": [
         {

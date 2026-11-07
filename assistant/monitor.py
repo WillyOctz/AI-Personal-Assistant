@@ -197,8 +197,7 @@ def _get_matchers(now):
 
 # --------------------Config-----------------------------
 def load_config():
-    data = memory.load_memory()
-    s, st = data["settings"], data["state"]
+    s, st = memory.get_all_settings(), memory.get_all_state()
     
     started = None
     

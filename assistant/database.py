@@ -11,6 +11,8 @@ MEMORY_FILE = PROJECT_ROOT / "datasets" / "memory.json"
 BACKUP_DIR = PROJECT_ROOT / "datasets" / "backups"
 SCHEMA_VERSION = 1
 
+_kv_ready = False
+
 def read_memory_json():
     last = None
     for attempt in range(8):
@@ -21,6 +23,58 @@ def read_memory_json():
             last = error
             time.sleep(0.05 * (attempt + 1))
     raise last
+
+def _kv_connection():
+    global _kv_ready
+    conn = get_connection()
+    
+    if not _kv_ready:
+        conn.execute(
+            """CREATE TABLE IF NOT EXISTS kv (
+                scope TEXT NOT NULL,
+                key TEXT NOT NULL,
+                value TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                PRIMARY KEY (scope, key)
+            )"""
+        )
+        conn.commit()
+        _kv_ready = True
+        
+    return conn
+
+def kv_load_all():
+    conn = _kv_connection()
+    
+    try:
+        rows = conn.execute("SELECT scope, key, value FROM kv").fetchall()
+    finally:
+        conn.close()
+        
+    data = {"state": {}, "settings": {}, "meta": {}}
+    
+    for row in rows:
+        data.setdefault(row["scope"], {})[row["key"]] = json.loads(row["value"])
+        
+    return data
+
+def kv_set(scope, key, value):
+    kv_set_many(scope, {key: value})
+    
+def kv_set_many(scope, items):
+    stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    conn = _kv_connection()
+    
+    try:
+        conn.executemany(
+            """INSERT INTO kv (scope, key, value, updated_at) VALUES (?, ?, ?, ?)
+               ON CONFLICT(scope, key) DO UPDATE SET
+                   value = excluded.value, updated_at = excluded.updated_at""",
+            [(scope, str(k), json.dumps(v), stamp) for k, v in items.items()],
+        )
+        conn.commit()
+    finally:
+        conn.close()
 
 def get_connection():
     DATABASE_FILE.parent.mkdir(exist_ok=True)

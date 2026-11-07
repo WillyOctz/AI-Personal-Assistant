@@ -1,4 +1,6 @@
 import json
+import copy
+import shutil
 import os, time
 import threading
 from pathlib import Path
@@ -11,6 +13,8 @@ MEMORY_FILE = Path("datasets/memory.json")
 # One lock for every read and write of memory.json inside this process.
 _FILE_LOCK = threading.RLock() # RLock so a function that already holds it can call load/save again.
 _CACHE = {"stamp": None, "text": None} 
+_KV = None
+_KV_LOCK = threading.RLock()
 
 
 def _file_stamp():
@@ -54,7 +58,7 @@ def normalize_due(due):
 def load_memory():
     with _FILE_LOCK:
         if not MEMORY_FILE.exists():
-            return ensure_memory_shape({})
+            return _with_kv(ensure_memory_shape({}))
 
         stamp = _file_stamp()
 
@@ -79,7 +83,7 @@ def load_memory():
                 # fall back to the last good copy rather than crash a background thread
 
         # Parse fresh every call so callers can mutate the dict safely
-        return ensure_memory_shape(json.loads(_CACHE["text"]))
+        return _with_kv(ensure_memory_shape(json.loads(_CACHE["text"])))
 
 def add_response_feedback(feedback):
     memory = load_memory()
@@ -249,18 +253,16 @@ def preview_clear_response_feedback():
     }
     
 def set_state_value(key, value):
-    memory = load_memory()
-    memory["state"][key] = value
-    save_memory(memory)
+    with _KV_LOCK:
+        database.kv_set("state", key, value)
+        _kv()["state"][key] = copy.deepcopy(value)
     
 def get_state_value(key):
-    memory = load_memory()
-    return memory["state"].get(key)
+    with _KV_LOCK:
+        return copy.deepcopy(_kv()["state"].get(key))
 
 def clear_state_value(key):
-    memory = load_memory()
-    memory["state"][key] = None
-    save_memory(memory)
+    set_state_value(key, None)
 
 def ensure_memory_shape(memory):
     if "notes" not in memory:
@@ -416,7 +418,8 @@ def save_memory(memory):
     with _FILE_LOCK:
         MEMORY_FILE.parent.mkdir(exist_ok=True)
         tmp = MEMORY_FILE.with_suffix(".json.tmp")
-        text = json.dumps(memory, indent=4)
+        to_write = {k: v for k, v in memory.items() if k not in ("state", "settings")}
+        text = json.dumps(to_write, indent=4)
 
         with open(tmp, "w", encoding="utf-8") as file:
             file.write(text)
@@ -3000,13 +3003,13 @@ def search_app_registry(query):
     return results
 
 def get_setting(key, default=None):
-    memory = load_memory()
-    return memory["settings"].get(key, default)
+    with _KV_LOCK:
+        return copy.deepcopy(_kv()["settings"].get(key, default))
 
 def set_setting(key, value):
-    memory = load_memory()
-    memory["settings"][key] = value
-    save_memory(memory)
+    with _KV_LOCK:
+        database.kv_set("settings", key, value)
+        _kv()["settings"][key] = copy.deepcopy(value)
     
 def set_app_allowed(name, allowed):
     memory = load_memory()
@@ -3743,6 +3746,60 @@ def get_problem_feedback_intents_for_source(
         counts.items(),
         key=lambda item: (-item[1], item[0])
     )[:limit]
+    
+def _migrate_kv_from_json(data):
+    """One time to copy state/settings from memory.json to SQLite"""
+    state, settings = {}, {}
+    
+    if MEMORY_FILE.exists():
+        try:
+            raw = json.loads(MEMORY_FILE.read_text(encoding="utf-8"))
+            state = raw.get("state", {}) or {}
+            settings = raw.get("settings", {}) or {}
+            
+            backup_dir = MEMORY_FILE.parent / "backups"
+            backup_dir.mkdir(exist_ok=True)
+            stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            shutil.copy2(MEMORY_FILE, backup_dir / f"memory_before_kv_{stamp}.json")
+            
+        except (OSError, ValueError):
+            pass
+        
+    database.kv_set_many("state", state)
+    database.kv_set_many("settings", settings)
+    database.kv_set("meta", "migrated_from_json", True)
+    
+    data["state"], data["settings"] = dict(state), dict(settings)
+    data["meta"]["migrated_from_json"] = True
+    
+def _kv():
+    global _KV
+    
+    with _KV_LOCK:
+        if _KV is None:
+            data = database.kv_load_all()
+            
+            if "migrated_from_json" not in data["meta"]:
+                _migrate_kv_from_json(data)
+                
+            _KV = data
+            
+        return _KV
+    
+def get_all_state():
+    with _KV_LOCK:
+        return copy.deepcopy(_kv()["state"])
+    
+def get_all_settings():
+    with _KV_LOCK:
+        return copy.deepcopy(_kv()["settings"])
+    
+def _with_kv(memory):
+    """Overlay SQLite state/settings so code reading memory['state'] keeps working."""
+    kv = get_all_state(), get_all_settings()
+    memory["state"].update(kv[0])
+    memory["settings"].update(kv[1])
+    return memory
 
 
 
