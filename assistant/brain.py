@@ -42,6 +42,7 @@ from assistant.trainer import (
 )
 from datetime import datetime, timedelta
 from assistant import focus
+from assistant import intent_model, persona_rag, retrieval, file_vectors
 from assistant import websites
 from assistant import llm
 from assistant import semantic_memory
@@ -2077,8 +2078,14 @@ def analyze_intent(user_input):
     if match_exact_pattern(text, "file_search_stats"):
         return make_analysis("file_search_stats")
         
-    model_intent, model_confidence, scores = predict_intent_with_model(user_input)
+    prediction = intent_model.predict(user_input)
     
+    if prediction is None:
+        model_intent, model_confidence, scores = predict_intent_with_model(user_input)
+        
+    else:
+        model_intent, model_confidence, scores = prediction
+   
     if model_intent == "play_game":
         if not has_play_game_evidence(user_input):
             model_intent = None
