@@ -23,6 +23,15 @@ def _file_stamp():
         return (stat.st_mtime_ns, stat.st_size)
     except OSError:
         return None
+    
+def _embed_in_background(fn, item_id):
+    def work():
+        try:
+            fn(item_id)
+        except Exception:
+            pass
+        
+    threading.Thread(target=work, daemon=True, name="embed-cache").start()
 
 def current_timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -649,31 +658,13 @@ def add_note(note):
     save_memory(memory)
     
     note_id = database.add_sqlite_note(note)
-    
-    try:
-        from assistant import semantic_memory
+
+    from assistant import semantic_memory
         
-        embedding_result = semantic_memory.cache_note_embedding(
-            note_id
-        )
+    _embed_in_background(semantic_memory.cache_note_embedding, note_id)
         
-        embedding_summary = {
-            "ok": embedding_result["ok"],
-            "status": embedding_result["status"],
-            "error": embedding_result["error"],
-        }
-        
-    except Exception as error:
-        embedding_summary = {
-            "ok": False,
-            "status": "embedding_failed",
-            "error": str(error),
-        }
-        
-    return {
-        "note_id": note_id,
-        "embedding": embedding_summary,
-    }
+    return {"note_id": note_id,
+            "embedding": {"ok": True, "status": "queued", "error": None}}
     
 def get_notes():
     sqlite_notes = database.get_sqlite_notes()
@@ -1245,32 +1236,11 @@ def add_summary(summary):
         summary,
     )
     
-    try:
-        from assistant import semantic_memory
-        
-        embedding_result = (
-            semantic_memory.cache_conversation_summary_embedding(
-                summary_id
-            )
-        )
-        
-        embedding_summary = {
-            "ok": embedding_result["ok"],
-            "status": embedding_result["status"],
-            "error": embedding_result["error"],
-        }
-        
-    except Exception as error:
-        embedding_summary = {
-            "ok": False,
-            "status": "embedding_failed",
-            "error": str(error),
-        }
-        
-    return {
-        "summary_id": summary_id,
-        "embedding": embedding_summary,
-    }
+    from assistant import semantic_memory
+    _embed_in_background(semantic_memory.cache_conversation_summary_embedding, summary_id)
+    
+    return {"summary_id": summary_id,
+            "embedding": {"ok": True, "status": "queued", "error": None}}    
     
 def get_summaries(limit=5):
     sqlite_summaries = database.get_sqlite_conversation_summaries(

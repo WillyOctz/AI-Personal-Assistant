@@ -8201,43 +8201,24 @@ def get_lexical_llm_notes(
 
 def get_relevant_llm_context(user_input):
     try:
-        semantic_result = (
-            semantic_memory.get_semantic_context_matches(
-                query=user_input,
-                note_limit=3,
-                summary_limit=2,
-                note_min_score=LLM_NOTE_SEMANTIC_MIN_SCORE,
-                summary_min_score=LLM_SUMMARY_SEMANTIC_MIN_SCORE,
-            )
+        result = retrieval.hybrid_context(
+            user_input,
+            note_limit=3,
+            summary_limit=2,
+            note_min=LLM_NOTE_SEMANTIC_MIN_SCORE,
+            summary_min=LLM_SUMMARY_SEMANTIC_MIN_SCORE,
         )
         
     except Exception:
-        semantic_result = {
-            "ok": False,
-            "notes": [],
-            "summaries": [],
-        }
+        result = {"ok": False, "notes": [], "summaries": []}
     
-    relevant_notes = []
-    relevant_summaries = []
-    
-    if semantic_result["ok"]:
-        relevant_notes = [
-            {
-                "text": match["text"],
-                "score": match["score"],
-            }
-            for match in semantic_result["notes"]
-        ]
-        
-        relevant_summaries = [
-            {
-                "summary": match["summary"],
-                "timestamp": match["timestamp"],
-                "score": match["score"],
-            }
-            for match in semantic_result["summaries"]
-        ]
+    relevant_notes = [
+        {"text": m["text"], "score": m.get("score") or 0.0} for m in result["notes"]
+    ]
+    relevant_summaries = [
+        {"summary": m["summary"], "timestamp": m["timestamp"], "score": m.get("score") or 0.0}
+        for m in result["summaries"]
+    ]
         
     if not relevant_notes:
         relevant_notes = get_lexical_llm_notes(user_input)

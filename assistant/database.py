@@ -1029,6 +1029,21 @@ def get_memory_embedding_by_content_hash(
         "updated_at": row["updated_at"],
     }
     
+def get_memory_embeddings_signature(source_type, model):
+    initialize_database()
+    
+    with get_connection() as connection:
+        row = connection.execute(
+            """
+            SELECT COUNT(*) AS n, MAX(updated_at) AS u, MAX(id) AS m
+            FROM memory_embeddings
+            WHERE source_type = ? AND model = ?
+            """,
+            (str(source_type).strip(), str(model).strip()),
+        ).fetchone()
+        
+    return (row["n"], row["u"], row["m"])
+    
 def get_memory_embeddings(source_type, model):
     initialize_database()
     
