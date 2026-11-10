@@ -8036,10 +8036,25 @@ def handle_chat_intent(user_input, analysis):
     intent = analysis["intent"]
     global memory, chat
     
+    SMALL_TALK = {
+        "chat_thanks": ["thanks"],
+        "chat_goodbye": ["goodbye"],
+        "chat_identity": ["identity"],
+        "chat_capabilities": ["capabilities"],
+    }
+    
     handled = chat.handle_chat_intent(user_input, analysis, memory, personality, current_timestamp)
     
     if handled is not None:
         return handled
+    
+    contexts = SMALL_TALK.get(intent)
+    
+    if contexts and memory.get_setting("verbosity", "normal") != "minimal":
+        line = persona_rag.small_talk(user_input, contexts)
+        
+        if line:
+            return line
     
     if intent == "chat_explain_last":
         last_intent = memory.get_state_value("last_response_intent")
@@ -8230,6 +8245,11 @@ def get_relevant_llm_context(user_input):
     
 def build_llm_system_instruction(user_input):
     instruction = personality.get_llm_system_instruction()
+    
+    style = persona_rag.style_block(user_input)
+    
+    if style:
+        instruction += "\n\n" + style
     
     profile = memory.get_profile()
     topic = memory.get_state_value("current_topic")
