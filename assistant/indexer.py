@@ -2,7 +2,7 @@ import logging
 import threading
 import time
 
-from assistant import events, file_index, memory, personality
+from assistant import events, file_index, memory, personality, file_vectors
 
 log = logging.getLogger("nebula.indexer")
 
@@ -50,6 +50,14 @@ def run_scan_once(announce=False):
         if memory.get_setting("index_content", True) and not _stop.is_set():
             status["phase"] = "contents"
             remaining = file_index.index_contents(should_stop=_stop.is_set)["remaining"]
+            
+        if memory.get_setting("index_vectors", True) and not _stop.is_set():
+            status["phase"] = "vectors"
+            
+            try:
+                remaining = max(remaining, file_vectors.index_vectors(should_stop=_stop.is_set)["remaining"])
+            except Exception:
+                log.exception("vector indexing failed")
             
         file_index.invalidate_cache()
         events.publish("today_changed")

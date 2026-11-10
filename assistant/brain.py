@@ -7555,10 +7555,15 @@ def handle_memory_intent(user_input, analysis):
         
         query = info["query"]
         
-        if not file_index.stats()["fts"]:
-            return "Content search needs SQLite FTS5, which this Python build doesn't have."
+        fts_rows = file_index.search_content(query, limit=8) if file_index.stats()["fts"] else []
         
-        rows = file_index.search_content(query, limit=8)
+        try:
+            vec_rows = file_vectors.search(query, limit=8)
+        except Exception:
+            vec_rows = []
+            
+        rows = file_vectors.fuse(fts_rows, vec_rows, limit=8)
+        
         items = build_index_items(rows)
         
         if not items:
