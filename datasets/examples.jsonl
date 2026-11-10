@@ -1,22 +1,15 @@
 {"input": "can you order pizza for me", "intent": "unknown"}
 {"input": "can you do push ups for me?", "intent": "unknown"}
 {"input": "play music", "intent": "play_music"}
-{"input": "play music", "intent": "play_music"}
 {"input": "please play some music", "intent": "play_music"}
 {"input": "please play music", "intent": "play_music"}
 {"input": "please remind me to study", "intent": "set_reminder"}
 {"input": "please open chrome", "intent": "open_app"}
 {"input": "let's start the music", "intent": "play_music"}
-{"input": "play music", "intent": "play_music"}
 {"input": "start music", "intent": "play_music"}
 {"input": "gaming", "intent": "play_game"}
 {"input": "let's play game", "intent": "play_game"}
 {"input": "please play game", "intent": "play_game"}
-{"input": "please play music", "intent": "play_music"}
-{"input": "start music", "intent": "play_music"}
-{"input": "play music", "intent": "play_music"}
-{"input": "play music", "intent": "play_music"}
-{"input": "start music", "intent": "play_music"}
 {"input": "play game", "intent": "play_game"}
 {"input": "where is my thesis", "intent": "locate_item"}
 {"input": "where did i put the budget sheet", "intent": "locate_item"}

@@ -1,0 +1,37 @@
+{"input": "can you order pizza for me", "intent": "unknown"}
+{"input": "can you do push ups for me?", "intent": "unknown"}
+{"input": "play music", "intent": "play_music"}
+{"input": "play music", "intent": "play_music"}
+{"input": "please play some music", "intent": "play_music"}
+{"input": "please play music", "intent": "play_music"}
+{"input": "please remind me to study", "intent": "set_reminder"}
+{"input": "please open chrome", "intent": "open_app"}
+{"input": "let's start the music", "intent": "play_music"}
+{"input": "play music", "intent": "play_music"}
+{"input": "start music", "intent": "play_music"}
+{"input": "gaming", "intent": "play_game"}
+{"input": "let's play game", "intent": "play_game"}
+{"input": "please play game", "intent": "play_game"}
+{"input": "please play music", "intent": "play_music"}
+{"input": "start music", "intent": "play_music"}
+{"input": "play music", "intent": "play_music"}
+{"input": "play music", "intent": "play_music"}
+{"input": "start music", "intent": "play_music"}
+{"input": "play game", "intent": "play_game"}
+{"input": "where is my thesis", "intent": "locate_item"}
+{"input": "where did i put the budget sheet", "intent": "locate_item"}
+{"input": "mommy where did i save my resume pdf", "intent": "locate_item"}
+{"input": "find my latest screenshot", "intent": "locate_item"}
+{"input": "locate the invoice folder", "intent": "locate_item"}
+{"input": "where did i write about the login bug", "intent": "search_file_content"}
+{"input": "find text database migration", "intent": "search_file_content"}
+{"input": "show projects", "intent": "show_projects"}
+{"input": "what projects do i have", "intent": "show_projects"}
+{"input": "where was i", "intent": "resume_project"}
+{"input": "where did i leave off", "intent": "resume_project"}
+{"input": "resume project nebula", "intent": "resume_project"}
+{"input": "open project nebula", "intent": "open_project"}
+{"input": "open my last project", "intent": "open_project"}
+{"input": "focus on essay draft", "intent": "start_focus_task"}
+{"input": "rescan files", "intent": "reindex_files"}
+{"input": "index status", "intent": "index_status"}
