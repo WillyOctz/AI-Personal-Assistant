@@ -8351,6 +8351,21 @@ def build_llm_conversation_prompt(user_input, limit=4):
         + "\n\nCurrent user message:\n"
         + user_input
     )
+    
+def offline_note_answer(user_input):
+    """answer from saved notes when LLM is unreachable"""
+    notes = [{"id": str(i), "text": text} for i, text in enumerate(memory.get_notes())]
+    
+    if not notes:
+        return None
+    
+    hits = retrieval.hybrid_rank(user_input, notes, {}, limit=2)
+    
+    if not hits:
+        return None
+    
+    lines = "\n".join(f"- {hit['text']}" for hit in hits)
+    return f"I can't reach my thoughts right now, dear, but I remember this:\n{lines}"
 
 def get_llm_fallback_response(user_input, analysis):
     system_instruction = build_llm_system_instruction(user_input)
@@ -8392,6 +8407,11 @@ def get_llm_fallback_response(user_input, analysis):
         return response
     
     analysis["source"] = "llm_unavailable"
+    
+    recalled = offline_note_answer(user_input)
+    
+    if recalled:
+        return recalled
     
     topic = memory.get_state_value("current_topic")
     

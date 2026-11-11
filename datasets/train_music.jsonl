@@ -1,0 +1,7 @@
+{"input": "play some music", "intent": "play_music"}
+{"input": "play me some music", "intent": "play_music"}
+{"input": "put on a song", "intent": "play_music"}
+{"input": "play something relaxing", "intent": "play_music"}
+{"input": "play some tunes", "intent": "play_music"}
+{"input": "i want to listen to music", "intent": "play_music"}
+{"input": "play a playlist", "intent": "play_music"}

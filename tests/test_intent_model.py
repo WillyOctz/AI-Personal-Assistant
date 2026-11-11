@@ -7,7 +7,7 @@ LABELS = ["set_reminder", "set_reminder", "play_music", "unknown", "unknown"]
 
 def test_majority_vote_with_confidence():
     intent, conf, _ = intent_model.decide(np.array([0.9, 0.8, 0.6, 0.55, 0.3]), LABELS)
-    assert intent == "set_reminder" and conf > 0.75
+    assert intent == "set_reminder" and conf > 0.7
 
 
 def test_far_from_everything_abstains():

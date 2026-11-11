@@ -28,3 +28,9 @@
 {"input": "focus on essay draft", "intent": "start_focus_task"}
 {"input": "rescan files", "intent": "reindex_files"}
 {"input": "index status", "intent": "index_status"}
+{"input": "gimme my briefing", "intent": "daily_briefing"}
+{"input": "gimme the briefing", "intent": "daily_briefing"}
+{"input": "gimme my day", "intent": "daily_briefing"}
+{"input": "what's on my plate today", "intent": "daily_briefing"}
+{"input": "what's my day like", "intent": "daily_briefing"}
+{"input": "lemme see my day", "intent": "daily_briefing"}

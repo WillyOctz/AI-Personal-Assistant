@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+.env
+
+# Models and generated indexes (large, can be rebuilt/downloaded)
+db/models/
+db/*.npz
+db/*.db
+db/*.db-shm
+db/*.db-wal
+
+# Local database and logs
+db/*.db
+db/*.db-shm
+db/*.db-wal
+logs/

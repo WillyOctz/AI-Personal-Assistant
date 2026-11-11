@@ -16,6 +16,7 @@
         "i like music",
         "i like doing training",
         "i like to built",
+        "i like black coffee",
         "i like black coffee"
     ],
     "profile": {
@@ -22179,6 +22180,56 @@
             "source": "rule",
             "timestamp": "2026-11-10 19:15:33",
             "importance": 0.6
+        },
+        {
+            "user": "gimme my briefing",
+            "assistant": "Come sit by me, Carlos. You are charting such a vast and beautiful course with your ambitions, and I am always here to help you navigate through the stardust.",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "gemini",
+            "timestamp": "2026-11-11 15:50:37",
+            "importance": 0.3
+        },
+        {
+            "user": "gimme the briefing",
+            "assistant": "Come sit close, my sweet Carlos. You have been pondering whether to build that gentle reminder feature or your focus feature first for your assistant. Take a deep breath, trust your intuition, and let us tackle one little step at a time today.",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "gemini",
+            "timestamp": "2026-11-11 15:51:13",
+            "importance": 0.3
+        },
+        {
+            "user": "remember that i like black coffee",
+            "assistant": "I will remember that i like black coffee.",
+            "intent": "chat_remember_that",
+            "group": "chat",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-11 15:52:24",
+            "importance": 0.3
+        },
+        {
+            "user": "what did i like?",
+            "assistant": "Oh, my sweet Carlos, you enjoy your milk, and just a moment ago you reminded me that you also love a good black coffee to keep your bright mind warm. Let us keep that close to your heart today.",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "gemini",
+            "timestamp": "2026-11-11 15:52:38",
+            "importance": 0.3
+        },
+        {
+            "user": "what did i like?",
+            "assistant": "I can't reach my thoughts right now, dear, but I remember this:\n- i like coffee\n- i like to built",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "llm_unavailable",
+            "timestamp": "2026-11-11 15:52:59",
+            "importance": 0.3
         }
     ],
     "summaries": [
