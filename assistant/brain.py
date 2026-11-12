@@ -45,6 +45,10 @@ from assistant import focus
 from assistant import intent_model, persona_rag, retrieval, file_vectors
 from assistant import websites
 from assistant import llm
+from assistant.shared import (
+    current_timestamp, voice, log_file_search,
+    build_file_items, build_index_items, build_project_item,
+)
 from assistant import semantic_memory
 from assistant import file_index, indexer
 from assistant.locate_parser import parse_locate_query
@@ -79,52 +83,10 @@ def looks_like_math(text):
         and any(char.isdigit() for char in expression)
     )
 
-def current_timestamp():
-    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
 CONFIRM_ACTIONS = [
     button("Yes", "yes", style="primary"),
     button("No", "no", style="ghost"),
 ]
-
-def voice(key, **kw):
-    return personality.line(
-        key,
-        verbosity=memory.get_setting("verbosity", "normal"),
-        **kw,
-    )
-    
-def build_file_items(folder_name, folder_path, entries):
-    items = []
-    
-    for entry in entries:
-        full_path = entry.get("path") or os.path.join(folder_path, entry["name"])
-        
-        try:
-            rel = os.path.relpath(full_path, folder_path)
-        except ValueError:
-            rel = entry["name"]
-            
-        is_folder = entry["type"] == "folder"
-        is_text = os.path.splitext(entry["name"])[1].lower() in TEXT_EXTENSIONS
-        
-        actions = []
-        
-        if not is_folder and is_text:
-            actions.append(button("Open", f"open file {folder_name} {rel}", style="primary"))
-            
-        actions.append(button("Reveal", f"reveal file {folder_name} {rel}"))
-        actions.append(copy_button("Copy path", full_path))
-        
-        items.append({
-            "name": entry["name"],
-            "type": entry["type"],
-            "path": full_path,
-            "rel": rel,
-            "actions": actions,
-        })
-        
-    return items
 
 def extract_confirmation(reply):
     if reply.needs_confirmation:
@@ -158,17 +120,6 @@ def resolve_memory_date_alias(date_next):
 
 def log_app_launch(app_name, command, result):
     return apps.log_app_launch(app_name, command, result)
-
-def log_file_search(action, folder_name, query, result_summary):
-    event = {
-        "action": action,
-        "folder": folder_name,
-        "query": query,
-        "result": result_summary,
-        "timestamp": current_timestamp()
-    }
-    
-    memory.add_file_search_event(event)
     
 def save_last_memory_search_results(results):
     saved_results = []
@@ -2523,58 +2474,6 @@ def calculate_recency(timestamp):
         return 0.6
     
     return 0.4
-
-def build_index_items(rows):
-    folders = memory.get_search_folders()
-    items = []
-    
-    for row in rows:
-        root_path = folders.get(row["root"])
-        
-        if not root_path:
-            continue
-        
-        entry = {
-            "name": row["name"],
-            "type": "folder" if row["is_dir"] else "file",
-            "path": row["path"],
-        }
-        
-        item = build_file_items(row["root"], root_path, [entry])[0]
-        item["meta"] = row.get("snip") or file_index.humanize_age(row["mtime"])
-        
-        pid = row.get("project_id")
-        
-        if pid:
-            item["actions"] = [
-                button("Resume", f"resume project #{pid}", style="primary"),
-                button("Editor", f"open project #{pid} in editor"),
-                button("Reveal", f"reveal file {row['root']} {item['rel']}"),
-                copy_button("Copy path", row["path"]),
-            ]
-            
-        items.append(item)
-        
-    return items
-
-def build_project_item(project):
-    pid = project["id"]
-    last = max(project["last_activity"] or 0, project["last_opened"] or 0)
-
-    return {
-        "id": pid,
-        "name": project["name"],
-        "path": project["path"],
-        "marker": project["marker"],
-        "age": file_index.humanize_age(last),
-        "actions": [
-            button("Resume", f"resume project #{pid}", style="primary"),
-            button("Open", f"open project #{pid}"),
-            button("Editor", f"open project #{pid} in editor"),
-            copy_button("Copy path", project["path"]),
-        ],
-    }
-
 
 def parse_project_ref(user_input, prefixes):
     """-> (reference text, mode). 'open project #3 in editor' -> ('#3', 'editor')."""
