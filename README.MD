@@ -146,3 +146,6 @@ datasets/
 
 - Authentication, encrypted configuration, scheduled background reminders, and remote access
 - Cloud deployment only after the local assistant is stable
+
+
+## (WILL BE UPDATED FOR DOCUMENTATION LATER ON!😀)
