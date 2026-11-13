@@ -4,6 +4,7 @@ from assistant import chat
 from assistant import apps
 from assistant import personality
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS, MEMORY_TYPE_ALIASES
+registry.sync_into_intents()
 from assistant.trainer import (
     save_feedback, 
     find_best_match, 
@@ -42,6 +43,7 @@ from assistant.trainer import (
 )
 from datetime import datetime, timedelta
 from assistant import focus
+from assistant import registry, handlers
 from assistant import intent_model, persona_rag, retrieval, file_vectors
 from assistant import websites
 from assistant import llm
@@ -1608,6 +1610,13 @@ def analyze_intent(user_input):
     
     locate = parse_locate_query(user_input)
     
+    hit = registry.match(text)
+    
+    if hit:
+        analysis = make_analysis(hit[0])
+        analysis["matched"] = hit[1]
+        return analysis
+    
     if locate:
         return make_analysis(
             "locate_item" if locate["kind"] == "name" else "search_file_content"
@@ -2576,6 +2585,11 @@ def calculate_duration_seconds(started_at, ended_at):
     return focus.calculate_duration_seconds(started_at, ended_at)
 
 def get_intent_group(intent):
+    registered = registry.COMMANDS.get(intent)
+    
+    if registered:
+        return registered.group
+    
     if intent in CONTROL_INTENTS:
         return "control"
     
@@ -2912,7 +2926,7 @@ def has_existing_pending_confirmation():
         "pending_project_open",
     ]
     
-    for key in pending_keys:
+    for key in pending_keys + registry.pending_keys():
         if memory.get_state_value(key):
             return True
         
@@ -2953,6 +2967,11 @@ def handle_control_intent(user_input, analysis):
         return f"I already knew that '{example_input}' means '{correct_intent}'"
     
     if intent == "confirm_intent":
+        handled = registry.run_confirm(True)
+        
+        if handled is not registry.NOT_HANDLED:
+            return handled
+        
         if get_pending_response_feedback_clear():
             removed_count = memory.clear_response_feedback()
             clear_pending_response_feedback_clear()
@@ -3019,6 +3038,11 @@ def handle_control_intent(user_input, analysis):
         return handle_action_intent(original_input, confirmed_analysis)
             
     if intent == "deny_intent":  
+        handled = registry.run_confirm(True)
+                
+        if handled is not registry.NOT_HANDLED:
+            return handled
+        
         if get_pending_response_feedback_clear():
             clear_pending_response_feedback_clear()
             return "Okay. Response feedback was not cleared."
@@ -7641,58 +7665,6 @@ def handle_memory_intent(user_input, analysis):
         
         memory.set_setting("editor_command", command)
         return f"Editor saved: {command}"
-    
-    if intent == "companion_status":
-        return companion.status_text()
-    
-    if intent == "companion_snooze":
-        return companion.snooze_nudges()
-    
-    if intent == "companion_setting":
-        body = user_input.strip()[len("set companion "):].strip()
-        parts = body.split(None, 1)
-        
-        if len(parts) < 2:
-            return "Use this format: set companion setting value\n" + companion.settings_help()
-        
-        return companion.apply_setting(parts[0], parts[1])[1]
-    
-    if intent == "activity_recap":
-        days = 7 if "week" in user_input.lower() else 1
-        data = companion.build_recap(days)
-        
-        if not data["total"] and not data["focus"]["sessions"]:
-            return companion.no_data_message()
-        
-        verbosity = memory.get_setting("verbosity", "normal")
-        say = companion.recap_line(data, verbosity, memory.get_setting("recap_llm", True))
-        
-        return Reply(say=say, detail=companion.recap_text(data), kind="recap", data=data, styled=True)
-    
-    if intent == "forget_activity":
-        arg = user_input.strip()[len("forget activity"):].strip().lower()
-        
-        if arg not in ("today", "all"):
-            return (
-                "This deletes what I've noticed about your activity.\n"
-                "Use: forget activity today     or     forget activity all"
-            )
-            
-        deleted = monitor.forget(everything=(arg == "all"))
-        return f"Forgot {deleted} activity record(s)."
-    
-    if intent == "handoff_note":
-        text = user_input.strip()[len("handoff note "):].strip()
-        if not text:
-            return "Use this format: handoff note what future-you should know"
-        
-        result = companion.set_handoff(text)
-        
-        if result is None:
-            return Reply(say=voice("handoff.none"), styled=True)
-        
-        key = "handoff.cleared" if result["cleared"] else "handoff.saved"
-        return Reply(say=voice(key, project=result["project"]), styled=True)
         
     if intent == "preview_file":
         parsed = parse_preview_file_command(user_input)
@@ -8328,8 +8300,12 @@ def get_reply(user_input):
         clear_pending_llm_command()
     
     group = analysis["group"]
+    result = registry.dispatch(analysis["intent"], user_input, analysis)
     
-    if group == "basic":
+    if result is not registry.NOT_HANDLED:
+        response = result
+        
+    elif group == "basic":
         response = handle_basic_intent(user_input, analysis)
     
     elif group == "control":

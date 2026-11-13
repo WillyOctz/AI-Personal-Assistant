@@ -492,6 +492,51 @@ TEMPLATES = {
         "normal": ["{when} you spent {total} at your desk, dear.{top_part}"],
         "chatty": ["{when} you gave {total} to your work, little star.{top_part} Be proud of that."],
     },
+    "path.opened": {
+        "minimal": "Opened {name}.",
+        "normal": ["There you go, dear: {name}.", "Opening {name} for you."],
+        "chatty": ["Opened {name} for you, little star. Go on, I'm right here."],
+    },
+    "path.confirm": {
+        "minimal": "Open {name}?",
+        "normal": ["Shall I open {name}, dear?"],
+        "chatty": ["Of course, dear. Shall I open {name} now?"],
+    },
+    "path.notfound": {
+        "minimal": "No shortcut '{query}'.",
+        "normal": ["I don't know a place called '{query}' yet, dear. Pin it and I'll remember."],
+        "chatty": ["Hmm, little star, '{query}' isn't one of my pinned places. Show me the folder and I'll keep it close."],
+    },
+    "pin.saved": {
+        "minimal": "Pinned {name}.",
+        "normal": ["Pinned {name}. Just say 'open {name}' any time."],
+        "chatty": ["Pinned, little star. '{name}' is one word away now."],
+    },
+    "pin.updated": {
+        "minimal": "Updated {name}.",
+        "normal": ["Updated {name}, dear. It points to the new place now."],
+        "chatty": ["Moved '{name}' for you, dear. Same word, new place."],
+    },
+    "pin.removed": {
+        "minimal": "Unpinned {name}.",
+        "normal": ["Forgot {name}, dear. The folder itself is untouched."],
+        "chatty": ["Let it go, dear. '{name}' is forgotten, but the folder is safe."],
+    },
+    "pin.none": {
+        "minimal": "No pins yet.",
+        "normal": ["No pinned places yet, dear. Pin one and it's one word away."],
+        "chatty": ["Nothing pinned yet, little star. Point me at a folder you visit a lot."],
+    },
+    "pin.listed": {
+        "minimal": "{n} place{s}.",
+        "normal": ["Here are your quick places ({n})."],
+        "chatty": ["Here are the places you keep close, dear. {n} of them."],
+    },
+    "help.intro": {
+        "minimal": "Commands:",
+        "normal": ["Here is what I can do, dear."],
+        "chatty": ["Come, little star. Here is everything I can do for you."],
+    },
 }
 
 class _Safe(dict):
