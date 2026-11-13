@@ -6,7 +6,7 @@ __pycache__/
 venv/
 .env
 
-# Models and generated indexes (large, can be rebuilt/downloaded)
+# Models and generated indexes
 db/models/
 db/*.npz
 db/*.db
