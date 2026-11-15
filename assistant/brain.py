@@ -3038,7 +3038,7 @@ def handle_control_intent(user_input, analysis):
         return handle_action_intent(original_input, confirmed_analysis)
             
     if intent == "deny_intent":  
-        handled = registry.run_confirm(True)
+        handled = registry.run_confirm(False)
                 
         if handled is not registry.NOT_HANDLED:
             return handled

@@ -493,15 +493,6 @@ function chip(label, command) {
     return b
 }
 
-function renderLaunchBlock(apps, websites) {
-    launchChips.replaceChildren()
-
-    for (const a of apps) launchChips.appendChild(chip(a.name, `open ${a.name}`))
-    for (const w of websites) launchChips.appendChild(chip(`🌐 ${w.name}`, `open website ${w.name}`))
-
-    launchBlock.hidden = launchChips.children.length === 0
-}
-
 function renderActivity(a) {
     activityList.replaceChildren()
 

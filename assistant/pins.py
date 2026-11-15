@@ -78,7 +78,7 @@ def _csidl(code):
     return ""
 
 def special_folders():
-    home = os.path.expanduser("-")
+    home = os.path.expanduser("~")
     candidates = {
         "desktop": _csidl(0x10), "documents": _csidl(0x05), "pictures": _csidl(0x27),
         "music": _csidl(0x0D), "videos": _csidl(0x0E),
@@ -109,6 +109,9 @@ def add_pin(name, path):
         return {"ok": False, "reason": "invalid"}
     
     full = os.path.abspath(os.path.expandvars(os.path.expanduser(raw)))
+    
+    if os.path.isfile(full) and os.path.splitext(full)[1].lower() in BLOCKED_EXT:
+        return {"ok": False, "reason": "blocked_type"}
     
     if not os.path.exists(full):
         return {"ok": False, "reason": "not_found"}

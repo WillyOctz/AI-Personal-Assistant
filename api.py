@@ -613,10 +613,10 @@ def today():
     for item in memory.get_reminders():
         due_day = memory.get_due_day(item["due"])
         reminders.append({
+            "activity": monitor.today_summary(),
             **item,
             "overdue": bool(due_day and due_day < today_iso),
             "today": due_day == today_iso,
-            "activity": monitor.today_summary(),
         })
         
     return {

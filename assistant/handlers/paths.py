@@ -72,7 +72,7 @@ def open_path(ctx):
 def _confirmed(pending):
     current = pins.resolve(pending["name"])
     
-    if not current or os.path.normcase(current["path"]):
+    if not current or os.path.normcase(current["path"]) != os.path.normcase(pending["path"]):
         return "That shortcut changed, so I cancelled."
 
     return _perform(current)
@@ -96,6 +96,9 @@ def _split_as(rest):
 def pin_patch(ctx):
     path, name = _split_as(ctx.rest("pin folder ", "pin file ", "pin path ", "pin "))
     result = pins.add_pin(name, path)
+    
+    if result["reason"] == "blocked_type":
+        return "I don't pin programs or shortcuts, dear. Use: register app name as <command>"
     
     if not result["ok"]:
         if result["reason"] == "not_found":

@@ -238,8 +238,8 @@ def iter_visible_items(base):
     for root, dirs, files in os.walk(base):
         dirs[:] = [name for name in dirs if name not in IGNORED_FILE_FOLDERS]
         
-    for name in dirs + files:
-        yield Path(root) / name
+        for name in dirs + files:
+            yield Path(root) / name
         
 def find_file_in_folder(folder_path, filename):
     """One shared helper for every file reading helper functions"""

@@ -272,7 +272,7 @@ def _step(cfg):
     if _last_tick and now - _last_tick > POLL * 6 and _seg:
         _close(_last_tick)
         
-    _last_trick = now
+    _last_tick = now
     
     idle = idle_seconds()
     window = active_window() if idle < cfg["idle_limit"] else None
@@ -372,7 +372,9 @@ def _loop():
                 _pause()
                 
         except Exception:
-            log.exception("monitor loop error")    
+            log.exception("monitor loop error")  
+            
+    _wake.wait(POLL)  
     
     try:
         _close(time.time())
