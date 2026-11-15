@@ -168,3 +168,5 @@ def help_lines():
     for c in COMMANDS.values():
         if c.help and not c.dev:
             groups.setdefault(c.group, []).append(c.help)
+            
+    return groups

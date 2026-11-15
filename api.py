@@ -5,7 +5,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import Any
 from datetime import date
-from assistant import memory, focus, apps, websites, llm, events, file_index, indexer, monitor
+from assistant import memory, focus, apps, websites, llm, events, file_index, indexer, monitor, pins
 from assistant.runtime import BRAIN_LOCK, hooks
 
 import logging
@@ -626,6 +626,7 @@ def today():
         "apps": [a for a in registered_app_list()["apps"] if a["allowed"]],
         "websites": [w for w in registered_website_list()["websites"] if w["allowed"]],
         "projects": file_index.recent_projects(5),
+        "paths": pins.quick(6),
     }
     
 @app.get("/index/status")

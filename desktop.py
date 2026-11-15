@@ -22,7 +22,7 @@ ROOT = (
 os.chdir(ROOT)
 sys.path.insert(0, str(ROOT))
 
-from assistant import autostart, companion, events, indexer, memory, monitor, notifier, personality
+from assistant import autostart, companion, events, indexer, memory, monitor, notifier, personality, pins
 
 LOG_DIR = ROOT / "logs"
 LOG_DIR.mkdir(exist_ok=True)
@@ -157,6 +157,37 @@ def add_folder(icon=None, item=None):
             
     threading.Thread(target=work, daemon=True, name="add-folder").start()
     
+def pin_folder(icon=None, item=None):
+    def work():
+        try:
+            show_window()
+            dialog = webview.FileDialog.FOLDER if hasattr(webview, "FileDialog") else webview.FOLDER_DIALOG
+            chosen = window.create_file_dialog(dialog)
+            
+            if not chosen:
+                return
+            
+            path = chosen[0] if isinstance(chosen, (list, tuple)) else chosen
+            result = pins.add_pin("", path)
+            
+            if not result["ok"]:
+                events.publish("notify", {"text": "I couldn't pin that, dear."})
+                return
+            
+            name = result["pin"]["name"]
+            events.publish(
+                "notify", {
+                "text": personality.line("pin.saved", verbosity=memory.get_setting("verbosity", "normal"), name=name),
+                "actions": [{"label": "Open it", "type": "command", "command": f"open pin {name}", "style": "primary"}]
+                }
+            )
+            events.publish("today_changed")
+            
+        except Exception:
+            log.exception("pin_folder failed")
+            
+    threading.Thread(target=work, daemon=True, name="pin-folder").start()
+    
 def rescan_files(icon=None, item=None):
     indexer.request_scan(announce=True)
     
@@ -166,6 +197,9 @@ class JsApi:
         
     def add_folder(self):
         add_folder()
+        
+    def pin_folder(self):
+        pin_folder()
         
 def on_closing():
     if quitting:
@@ -286,6 +320,7 @@ def build_tray():
             pystray.Menu.SEPARATOR,
             pystray.MenuItem("Quit Nebula", quit_app),
             pystray.MenuItem("Add folder…", add_folder),
+            pystray.MenuItem("Pin folder…", pin_folder),
             pystray.MenuItem("Re-scan files", rescan_files),
         ),
     )

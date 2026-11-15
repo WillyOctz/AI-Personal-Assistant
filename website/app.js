@@ -303,9 +303,10 @@ function renderRecap(d) {
     return card
 }
 
-function renderLaunchBlock(apps, websites, projects) {
+function renderLaunchBlock(apps, websites, projects, paths) {
     launchChips.replaceChildren()
 
+    for (const p of paths) launchChips.appendChild(chip(`📌 ${p.name}`, `open pin ${p.name}`))
     for (const a of apps) launchChips.appendChild(chip(a.name, `open ${a.name}`))
     for (const w of websites) launchChips.appendChild(chip(`🌐 ${w.name}`, `open website ${w.name}`))
     for (const p of projects) launchChips.appendChild(chip(`📂 ${p.name}`, `resume project #${p.id}`))
@@ -537,7 +538,7 @@ function renderToday(t) {
 
     renderFocusBlock(t.focus, t.goal)
     renderReminderBlock(reminders)
-    renderLaunchBlock(t.apps || [], t.websites || [], t.projects || [])
+    renderLaunchBlock(t.apps || [], t.websites || [], t.projects || [], t.paths || [])
 }
 
 async function refreshToday() {

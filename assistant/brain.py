@@ -3,6 +3,7 @@ from assistant import memory
 from assistant import chat
 from assistant import apps
 from assistant import personality
+from assistant import handlers, registry
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS, MEMORY_TYPE_ALIASES
 registry.sync_into_intents()
 from assistant.trainer import (
@@ -43,7 +44,6 @@ from assistant.trainer import (
 )
 from datetime import datetime, timedelta
 from assistant import focus
-from assistant import registry, handlers
 from assistant import intent_model, persona_rag, retrieval, file_vectors
 from assistant import websites
 from assistant import llm

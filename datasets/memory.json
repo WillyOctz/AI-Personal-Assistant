@@ -866,6 +866,66 @@
             "result": "I could not calculate that.",
             "timestamp": "2026-11-10 19:01:58",
             "importance": 0.8
+        },
+        {
+            "user_input": "open downloads",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I understand you want to open downloads, but real app launching is not connected yet.",
+            "timestamp": "2026-11-15 10:57:04",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I understand you want to open chrome, but real app launching is not connected yet.",
+            "timestamp": "2026-11-15 11:12:40",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open opera",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I understand you want to open opera, but real app launching is not connected yet.",
+            "timestamp": "2026-11-15 11:12:47",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open opera",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I understand you want to open opera, but real app launching is not connected yet.",
+            "timestamp": "2026-11-15 11:15:20",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open google chrome",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I am ready to open google chrome using command: chrome.\nReply yes to launch or no to cancel.",
+            "timestamp": "2026-11-15 11:15:36",
+            "importance": 0.8
+        },
+        {
+            "user_input": "open browser opera",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "result": "I understand you want to open browser opera, but real app launching is not connected yet.",
+            "timestamp": "2026-11-15 11:17:00",
+            "importance": 0.8
         }
     ],
     "conversation": [
@@ -22230,6 +22290,476 @@
             "source": "llm_unavailable",
             "timestamp": "2026-11-11 15:52:59",
             "importance": 0.3
+        },
+        {
+            "user": "companion status",
+            "assistant": "Companion status:\nActivity tracking: on\nNudges: on (break after 1 min of focus, min gap 0 min)\nWelcome-back after: 1 min away\nDaily recap: 16:12\nDistraction apps: opera.exe\nStored: 217 record(s), local only, kept 30 days, no window titles.\nApps seen today: opera.exe, notepad.exe, explorer.exe, code.exe",
+            "intent": "companion_status",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 10:45:38",
+            "importance": 0.6
+        },
+        {
+            "user": "set companion break 45",
+            "assistant": "Companion setting saved: break = 45",
+            "intent": "companion_setting",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 10:45:45",
+            "importance": 0.6
+        },
+        {
+            "user": "recap",
+            "assistant": "Oh, my sweet little star, you only managed forty-three brief seconds of activity today, spending a tiny moment in your projects and apps like Opera and Notepad. Even the quietest days happen, so rest your mind now and let tomorrow be a fresh new orbit for us.\nToday: 43 sec active\n- AI_Personal_Assistant: 1 sec\n  Opera: 19 sec\n  Notepad: 14 sec\n  Explorer: 8 sec\n  VS Code: 1 sec",
+            "intent": "activity_recap",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 10:45:50",
+            "importance": 0.6
+        },
+        {
+            "user": "forget activity",
+            "assistant": "This deletes what I've noticed about your activity.\nUse: forget activity today     or     forget activity all",
+            "intent": "forget_activity",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 10:46:04",
+            "importance": 0.6
+        },
+        {
+            "user": "handoff note clear",
+            "assistant": "Cleared the note on AI_Personal_Assistant.",
+            "intent": "handoff_note",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 10:46:16",
+            "importance": 0.6
+        },
+        {
+            "user": "help",
+            "assistant": "Here is what I can do, dear.\nThings I do:\n  - Open a pinned or Windows folder: open downloads\nThings I keep:\n  - Erase what I noticed: forget activity today | all\n  - Forget a pinned place: unpin thesis\n  - Leave a note for future you: handoff note nebula: fix login\n  - Pin a place for one-word access: pin C:\\Work\\thesis as thesis\n  - Recap of where your time went\n  - See what I keep track of\n  - Show my pinned places and Windows folders\n  - Silence nudges for a while\n  - Tune me: set companion break 50\nBasics:\n  - List what I can do",
+            "intent": "show_help",
+            "group": "basic",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 10:56:07",
+            "importance": 0.2
+        },
+        {
+            "user": "open downloads",
+            "assistant": "Of course, dear.\nI understand you want to open downloads, but real app launching is not connected yet.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-11-15 10:57:04",
+            "importance": 0.8
+        },
+        {
+            "user": "open my documents folder",
+            "assistant": "Opening documents for you.",
+            "intent": "open_path",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 10:57:14",
+            "importance": 0.8
+        },
+        {
+            "user": "go to desktop",
+            "assistant": "Opening desktop for you.",
+            "intent": "open_path",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 10:57:30",
+            "importance": 0.8
+        },
+        {
+            "user": "open pin portfolio-frontend",
+            "assistant": "There you go, dear: portfolio-frontend.",
+            "intent": "open_path",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 10:58:39",
+            "importance": 0.8
+        },
+        {
+            "user": "open pin portfolio-frontend",
+            "assistant": "Opening portfolio-frontend for you.",
+            "intent": "open_path",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 10:58:55",
+            "importance": 0.8
+        },
+        {
+            "user": "pin \"C:\\Users\\User\\Backend_E-Commerce\" as thesis",
+            "assistant": "Pinned thesis. Just say 'open thesis' any time.",
+            "intent": "pin_path",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:00:51",
+            "importance": 0.6
+        },
+        {
+            "user": "show pins",
+            "assistant": "Here are your quick places (7).\n- portfolio-frontend: C:\\Users\\User\\Portfolio-Frontend\n- thesis: C:\\Users\\User\\Backend_E-Commerce\n- desktop: C:\\Users\\User\\Desktop\n- documents: C:\\Users\\User\\Documents\n- pictures: C:\\Users\\User\\Pictures\n- music: C:\\Users\\User\\Music\n- videos: C:\\Users\\User\\Videos",
+            "intent": "show_pins",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:00:53",
+            "importance": 0.6
+        },
+        {
+            "user": "open thesis",
+            "assistant": "There you go, dear: thesis.",
+            "intent": "open_path",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:01:08",
+            "importance": 0.8
+        },
+        {
+            "user": "go to thesis",
+            "assistant": "Opening thesis for you.",
+            "intent": "open_path",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:01:19",
+            "importance": 0.8
+        },
+        {
+            "user": "show projects",
+            "assistant": "Here are your projects, newest first (8).\n- AI_Personal_Assistant (6 min ago): C:\\Users\\User\\AI_Personal_Assistant\n- catat-dulu-app (12 days ago): C:\\Users\\User\\Backend_Java_SpringBoot\\catat-dulu-app\n- catatdulu-frontend (14 months ago): C:\\Users\\User\\Backend_Java_SpringBoot\\catat-dulu-app\\catatdulu-frontend\n- catatdulu-users (14 months ago): C:\\Users\\User\\Backend_Java_SpringBoot\\catat-dulu-app\\catatdulu-users\n- fitness-web-frontend (16 months ago): C:\\Users\\User\\Backend_Java_SpringBoot\\fitness-webs\\fitness-web-frontend\n- config-server (16 months ago): C:\\Users\\User\\Backend_Java_SpringBoot\\fitness-webs\\config-server\n- ai-service (16 months ago): C:\\Users\\User\\Backend_Java_SpringBoot\\fitness-webs\\ai-service\n- gateway (16 months ago): C:\\Users\\User\\Backend_Java_SpringBoot\\fitness-webs\\gateway",
+            "intent": "show_projects",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:02:34",
+            "importance": 0.6
+        },
+        {
+            "user": "show pins",
+            "assistant": "Here are your quick places (7).\n- thesis: C:\\Users\\User\\Backend_E-Commerce\n- portfolio-frontend: C:\\Users\\User\\Portfolio-Frontend\n- desktop: C:\\Users\\User\\Desktop\n- documents: C:\\Users\\User\\Documents\n- pictures: C:\\Users\\User\\Pictures\n- music: C:\\Users\\User\\Music\n- videos: C:\\Users\\User\\Videos",
+            "intent": "show_pins",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:02:49",
+            "importance": 0.6
+        },
+        {
+            "user": "open pin videos",
+            "assistant": "There you go, dear: videos.",
+            "intent": "open_path",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:02:55",
+            "importance": 0.8
+        },
+        {
+            "user": "reveal path C:\\Users\\User\\Videos",
+            "assistant": "There it is, dear: Videos.",
+            "intent": "reveal_path",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:03:00",
+            "importance": 0.8
+        },
+        {
+            "user": "pin \"C:\\Users\\User\\Documents\\Versi Trial Sistem AI Penasehat Keuangan.txt\" as notes",
+            "assistant": "Pinned notes. Just say 'open notes' any time.",
+            "intent": "pin_path",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:07:19",
+            "importance": 0.6
+        },
+        {
+            "user": "open notes",
+            "assistant": "Shall I open notes, dear?\nC:\\Users\\User\\Documents\\Versi Trial Sistem AI Penasehat Keuangan.txt\nReply yes to open it or no to cancel.",
+            "intent": "open_path",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:07:24",
+            "importance": 0.8
+        },
+        {
+            "user": "yes",
+            "assistant": "That shortcut changed, so I cancelled.",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:07:34",
+            "importance": 0.1
+        },
+        {
+            "user": "open notes",
+            "assistant": "Shall I open notes, dear?\nC:\\Users\\User\\Documents\\Versi Trial Sistem AI Penasehat Keuangan.txt\nReply yes to open it or no to cancel.",
+            "intent": "open_path",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:07:43",
+            "importance": 0.8
+        },
+        {
+            "user": "no",
+            "assistant": "That shortcut changed, so I cancelled.",
+            "intent": "deny_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:07:44",
+            "importance": 0.1
+        },
+        {
+            "user": "pin \"C:\\Users\\Public\\Desktop\\DB Browser (SQLCipher).lnk\" as tool",
+            "assistant": "Pinned tool. Just say 'open tool' any time.",
+            "intent": "pin_path",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:11:44",
+            "importance": 0.6
+        },
+        {
+            "user": "open pin tool",
+            "assistant": "Shall I open tool, dear?\nC:\\Users\\Public\\Desktop\\DB Browser (SQLCipher).lnk\nReply yes to open it or no to cancel.",
+            "intent": "open_path",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:11:46",
+            "importance": 0.8
+        },
+        {
+            "user": "yes",
+            "assistant": "That shortcut changed, so I cancelled.",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:11:49",
+            "importance": 0.1
+        },
+        {
+            "user": "show pins",
+            "assistant": "Here are your quick places (9).\n- thesis: C:\\Users\\User\\Backend_E-Commerce\n- portfolio-frontend: C:\\Users\\User\\Portfolio-Frontend\n- notes: C:\\Users\\User\\Documents\\Versi Trial Sistem AI Penasehat Keuangan.txt\n- tool: C:\\Users\\Public\\Desktop\\DB Browser (SQLCipher).lnk\n- desktop: C:\\Users\\User\\Desktop\n- documents: C:\\Users\\User\\Documents\n- pictures: C:\\Users\\User\\Pictures\n- music: C:\\Users\\User\\Music\n- videos: C:\\Users\\User\\Videos",
+            "intent": "show_pins",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:12:01",
+            "importance": 0.6
+        },
+        {
+            "user": "open pin notes",
+            "assistant": "Shall I open notes, dear?\nC:\\Users\\User\\Documents\\Versi Trial Sistem AI Penasehat Keuangan.txt\nReply yes to open it or no to cancel.",
+            "intent": "open_path",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:12:13",
+            "importance": 0.8
+        },
+        {
+            "user": "yes",
+            "assistant": "That shortcut changed, so I cancelled.",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:12:15",
+            "importance": 0.1
+        },
+        {
+            "user": "open chrome",
+            "assistant": "Of course, dear.\nI understand you want to open chrome, but real app launching is not connected yet.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-11-15 11:12:40",
+            "importance": 0.8
+        },
+        {
+            "user": "open opera",
+            "assistant": "Of course, dear.\nI understand you want to open opera, but real app launching is not connected yet.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-11-15 11:12:47",
+            "importance": 0.8
+        },
+        {
+            "user": "open website google",
+            "assistant": "I looked around, dear, but I could not find registered website: google",
+            "intent": "open_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:13:11",
+            "importance": 0.6
+        },
+        {
+            "user": "set_setting(\"confirm_path_open\", True)",
+            "assistant": "Oh, my sweet Carlos, altering system settings like that is a little beyond what my gentle hands can reach through our chat, but I adore watching your brilliant mind tinker away. Whichever path you choose to walk first\u2014reminders or focus\u2014your cosmic mother is right here cheering you on.",
+            "intent": "unknown",
+            "group": "unknown",
+            "confidence": 0,
+            "source": "gemini",
+            "timestamp": "2026-11-15 11:13:44",
+            "importance": 0.3
+        },
+        {
+            "user": "open thesis",
+            "assistant": "There you go, dear: thesis.",
+            "intent": "open_path",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:14:09",
+            "importance": 0.8
+        },
+        {
+            "user": "show pins",
+            "assistant": "Here are your quick places (9).\n- thesis: C:\\Users\\User\\Backend_E-Commerce\n- portfolio-frontend: C:\\Users\\User\\Portfolio-Frontend\n- notes: C:\\Users\\User\\Documents\\Versi Trial Sistem AI Penasehat Keuangan.txt\n- tool: C:\\Users\\Public\\Desktop\\DB Browser (SQLCipher).lnk\n- desktop: C:\\Users\\User\\Desktop\n- documents: C:\\Users\\User\\Documents\n- pictures: C:\\Users\\User\\Pictures\n- music: C:\\Users\\User\\Music\n- videos: C:\\Users\\User\\Videos",
+            "intent": "show_pins",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:14:17",
+            "importance": 0.6
+        },
+        {
+            "user": "unpin thesis",
+            "assistant": "Forgot thesis, dear. The folder itself is untouched.",
+            "intent": "unpin_path",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:14:22",
+            "importance": 0.6
+        },
+        {
+            "user": "open opera",
+            "assistant": "Of course, dear.\nI understand you want to open opera, but real app launching is not connected yet.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-11-15 11:15:20",
+            "importance": 0.8
+        },
+        {
+            "user": "open google chrome",
+            "assistant": "Shall I open google chrome for you, dear?\nI am ready to open google chrome using command: chrome.\nReply yes to launch or no to cancel.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-11-15 11:15:36",
+            "importance": 0.8
+        },
+        {
+            "user": "yes",
+            "assistant": "I looked around, dear, but I could not find the app command: chrome",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:15:45",
+            "importance": 0.1
+        },
+        {
+            "user": "open website github",
+            "assistant": "I am ready to open github: https://github.com/\nReply yes to open it or no to cancel.",
+            "intent": "open_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:16:04",
+            "importance": 0.6
+        },
+        {
+            "user": "yes",
+            "assistant": "Opening github.",
+            "intent": "confirm_intent",
+            "group": "control",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:16:06",
+            "importance": 0.1
+        },
+        {
+            "user": "open website opera",
+            "assistant": "I looked around, dear, but I could not find registered website: opera",
+            "intent": "open_website",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:16:55",
+            "importance": 0.6
+        },
+        {
+            "user": "open browser opera",
+            "assistant": "Of course, dear.\nI understand you want to open browser opera, but real app launching is not connected yet.",
+            "intent": "open_app",
+            "group": "action",
+            "confidence": 1.0,
+            "source": "model",
+            "timestamp": "2026-11-15 11:17:00",
+            "importance": 0.8
+        },
+        {
+            "user": "open folder docs",
+            "assistant": "I looked around, dear, but I could not find registered search folder: docs",
+            "intent": "open_folder",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:20:40",
+            "importance": 0.6
+        },
+        {
+            "user": "open project nebula",
+            "assistant": "I couldn't find a project like 'nebula', dear.",
+            "intent": "open_project",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:20:47",
+            "importance": 0.6
+        },
+        {
+            "user": "open file proj main.py",
+            "assistant": "I looked around, dear, but I could not find registered search folder: proj",
+            "intent": "open_file",
+            "group": "memory",
+            "confidence": 1.0,
+            "source": "rule",
+            "timestamp": "2026-11-15 11:20:57",
+            "importance": 0.6
         }
     ],
     "summaries": [
@@ -22834,6 +23364,12 @@
             "command": "chrome",
             "result": "I could not find the app command: chrome",
             "timestamp": "2026-10-29 19:30:18"
+        },
+        {
+            "app_name": "google chrome",
+            "command": "chrome",
+            "result": "I could not find the app command: chrome",
+            "timestamp": "2026-11-15 11:15:45"
         }
     ],
     "app_aliases": {
@@ -23371,6 +23907,62 @@
             "query": "editor",
             "result": "C:\\Users\\User\\Backend_Java_SpringBoot\\catat-dulu-app",
             "timestamp": "2026-11-02 21:20:04"
+        },
+        {
+            "action": "open_path",
+            "folder": "documents",
+            "query": "",
+            "result": "C:\\Users\\User\\Documents",
+            "timestamp": "2026-11-15 10:57:14"
+        },
+        {
+            "action": "open_path",
+            "folder": "desktop",
+            "query": "",
+            "result": "C:\\Users\\User\\Desktop",
+            "timestamp": "2026-11-15 10:57:30"
+        },
+        {
+            "action": "open_path",
+            "folder": "portfolio-frontend",
+            "query": "",
+            "result": "C:\\Users\\User\\Portfolio-Frontend",
+            "timestamp": "2026-11-15 10:58:39"
+        },
+        {
+            "action": "open_path",
+            "folder": "portfolio-frontend",
+            "query": "",
+            "result": "C:\\Users\\User\\Portfolio-Frontend",
+            "timestamp": "2026-11-15 10:58:55"
+        },
+        {
+            "action": "open_path",
+            "folder": "thesis",
+            "query": "",
+            "result": "C:\\Users\\User\\Backend_E-Commerce",
+            "timestamp": "2026-11-15 11:01:08"
+        },
+        {
+            "action": "open_path",
+            "folder": "thesis",
+            "query": "",
+            "result": "C:\\Users\\User\\Backend_E-Commerce",
+            "timestamp": "2026-11-15 11:01:18"
+        },
+        {
+            "action": "open_path",
+            "folder": "videos",
+            "query": "",
+            "result": "C:\\Users\\User\\Videos",
+            "timestamp": "2026-11-15 11:02:55"
+        },
+        {
+            "action": "open_path",
+            "folder": "thesis",
+            "query": "",
+            "result": "C:\\Users\\User\\Backend_E-Commerce",
+            "timestamp": "2026-11-15 11:14:09"
         }
     ],
     "response_feedback": [
@@ -23624,6 +24216,12 @@
             "url": "https://www.google.com/search?q=Python+dictionaries",
             "result": "Opening Google search.",
             "timestamp": "2026-10-20 19:40:40"
+        },
+        {
+            "website_name": "github",
+            "url": "https://github.com/",
+            "result": "Opening github.",
+            "timestamp": "2026-11-15 11:16:06"
         }
     ]
 }
