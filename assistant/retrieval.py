@@ -90,7 +90,7 @@ _dense = {}
 _dense_lock = threading.Lock()
 
 def _matrix(source_type):
-    sig = database.get_memory_embedding(source_type, GEMINI_EMBEDDING_MODEL)
+    sig = database.get_memory_embeddings_signature(source_type, GEMINI_EMBEDDING_MODEL)
     
     with _dense_lock:
         cached = _dense.get(source_type)
@@ -133,31 +133,44 @@ def _dense_scores(source_type, docs, qvec):
         
     return scores
 
-def hybrid_context(query, note_limit=3, summary_limit=2, note_min=0.55, summary_min=0.55):
-    clean = str(query or "").strip()
-    
-    if not clean:
-        return {"ok": False, "notes": [], "summaries": [], "dense": False}
-    
-    qvec = None
-    
+def _query_vector(text):
     try:
-        result = get_gemini_embedding(clean)
-        
+        result = get_gemini_embedding(text)
         if result["ok"]:
-            qvec = np.array(result["vector"], dtype="float32")
-            qvec = qvec / (np.linalg.norm(qvec) or 1.0)
+            v = np.array(result["vector"], dtype="float32")
+            return v / (np.linalg.norm(v) or 1.0)
     except Exception:
         log.exception("query embedding failed; lexical retrieval only")
-        
+    return None
+
+def search(kind, query, docs, limit=5, min_dense=0.55, use_dense=True):
+    qvec = _query_vector(query) if (use_dense and docs) else None
+    try:
+        dense = _dense_scores(kind, docs, qvec)
+    except Exception:
+        log.exception("dense scoring failed; lexical only")
+        dense = {}
+    return hybrid_rank(query, docs, dense, limit, min_dense)
+
+def hybrid_context(query, note_limit=3, summary_limit=2, note_min=0.55, summary_min=0.55):
+    clean = str(query or "").strip()
+    if not clean:
+        return {"ok": False, "notes": [], "summaries": [], "dense": False}
+
+    qvec = _query_vector(clean)
+
+    def dense(kind, docs):
+        try:
+            return _dense_scores(kind, docs, qvec)
+        except Exception:
+            log.exception("dense scoring failed")
+            return {}
+
     notes = [{"id": str(n["id"]), "text": n["text"]} for n in database.get_sqlite_notes()]
-    summaries = [{"id": str(s["id"]), "text": s["summary"], "summary": s["summary"],
-                  "timestamp": s["timestamp"]} for s in database.get_sqlite_conversation_summaries()]
-    
+    summaries = [{"id": str(s["id"]), "text": s["summary"], "summary": s["summary"], "timestamp": s["timestamp"]}
+                 for s in database.get_sqlite_conversation_summaries()]
     return {
-        "ok": True,
-        "dense": qvec is not None,
-        "notes": hybrid_rank(clean, notes, _dense_scores("note", notes, qvec), note_limit, note_min),
-        "summaries": hybrid_rank(clean, summaries, _dense_scores("conversation_summary", summaries, qvec),
-                                 summary_limit, summary_min),
+        "ok": True, "dense": qvec is not None,
+        "notes": hybrid_rank(clean, notes, dense("note", notes), note_limit, note_min),
+        "summaries": hybrid_rank(clean, summaries, dense("conversation_summary", summaries), summary_limit, summary_min),
     }

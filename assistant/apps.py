@@ -1,5 +1,7 @@
 from datetime import datetime
 from assistant import memory
+from rapidfuzz import fuzz, process
+from assistant.reply import Reply, button, prefill_button
 
 def current_timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -221,6 +223,52 @@ def log_app_launch(app_name, command, result):
     }
     
     memory.add_app_launch(event)
+    
+def _open_candidates(name, limit=3, cutoff=68):
+    pool = []                                           
+    for n in memory.get_app_registry():
+        pool.append((n, "app", f"open {n}", n))
+    for alias, target in memory.get_app_aliases().items():
+        pool.append((alias, "app", f"open {target}", target))
+    for w in memory.get_website_registry():
+        pool.append((w, "website", f"open website {w}", None))
+    try:
+        from assistant import pins
+        for p in pins.list_pins():
+            pool.append((p["name"], "pin", f"open pin {p['name']}", None))
+    except Exception:
+        pass
+    if not pool:
+        return []
+    hits = process.extract(memory.normalize_entity_name(name), [p[0] for p in pool],
+                           scorer=fuzz.WRatio, limit=limit, score_cutoff=cutoff)
+    return [pool[pos] for _, _, pos in hits]
+
+
+def explain_unknown_open(app_name):
+    near = _open_candidates(app_name)
+
+    if near:
+        actions, lines = [], []
+        for label, kind, cmd, target in near:
+            actions.append(button(f"{label} ({kind})", cmd, style="primary" if not actions else "default"))
+            lines.append(f"- {cmd}")
+        top = near[0]
+        if top[1] == "app" and top[0] != memory.normalize_entity_name(app_name):
+            actions.append(button(f"Remember '{app_name}'", f"alias app {app_name} as {top[3]}", style="ghost"))
+        return Reply(say=f"I don't have '{app_name}' registered, dear. Did you mean one of these?",
+                     detail="\n".join(lines), actions=actions, styled=True)
+
+    return Reply(
+        say=f"I don't have anything called '{app_name}' yet.",
+        detail=(f"Teach me where it lives:\n"
+                f"  register app {app_name} as <full path to the .exe>\n"
+                f"  allow app {app_name}\n"
+                f"or, for a website:\n"
+                f"  register website {app_name} as https://..."),
+        actions=[prefill_button("Register it", f"register app {app_name} as ", style="primary")],
+        styled=True,
+    )
     
 ## =========================================================================
 ## -------------------Format Debug/Preview Handlers for apps----------------

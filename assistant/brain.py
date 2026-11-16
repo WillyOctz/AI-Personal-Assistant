@@ -66,7 +66,7 @@ LOW_CONFIDENCE = 0.55
 LLM_NOTE_SEMANTIC_MIN_SCORE = 0.55
 LLM_SUMMARY_SEMANTIC_MIN_SCORE = 0.55
 LLM_NOTE_CONTEXT_MAX_CHARS = 180
-LLM_SUMMARY_CONTEXT_MAX_CHARS = 320
+LLM_SUMMARY_CONTEXT_MAX_CHARS = 600
 
 def truncate_llm_context_text(text, max_chars):
     clean_text = " ".join(
@@ -2611,8 +2611,11 @@ def extract_after_keyword(user_input, keywords):
     text = user_input.lower()
     
     for keyword in keywords:
-        if keyword in text:
-            return text.split(keyword, 1)[1].strip()
+        text = user_input.lower()
+        for keyword in keywords:
+            m = re.search(rf"\b{re.escape(keyword)}\b", text)
+            if m:
+                return text[m.end():].strip()
         
     return ""
 
@@ -7990,6 +7993,11 @@ def handle_action_intent(user_input, analysis):
             return "What should i open?"
         
         result = apps.handle_open_app(app_name, open_registered_app, open_app)     
+        
+        if isinstance(result, Reply):
+            log_action(user_input, analysis, result.full())
+            return result
+        
         log_action(user_input, analysis, result)
         
         pending = get_pending_app_launch()
@@ -8239,6 +8247,10 @@ def offline_note_answer(user_input):
     return f"I can't reach my thoughts right now, dear, but I remember this:\n{lines}"
 
 def get_llm_fallback_response(user_input, analysis):
+    if re.match(r"^\w+\(.*\)$", user_input.strip()):
+        return ("That looks like code, dear, and I never run code. "
+            "For preferences use: set setting <name> <value>   (say 'settings' to list them).")
+    
     system_instruction = build_llm_system_instruction(user_input)
     
     system_instruction += (
