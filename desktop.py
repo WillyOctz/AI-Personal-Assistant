@@ -22,7 +22,7 @@ ROOT = (
 os.chdir(ROOT)
 sys.path.insert(0, str(ROOT))
 
-from assistant import autostart, companion, events, indexer, memory, monitor, notifier, personality, pins
+from assistant import autostart, companion, events, indexer, memory, monitor, notifier, personality, pins, convo_worker
 
 LOG_DIR = ROOT / "logs"
 LOG_DIR.mkdir(exist_ok=True)
@@ -228,6 +228,7 @@ def quit_app(icon=None, item=None):
     if server:
         server.should_exit = True
     notifier.stop()
+    convo_worker.stop()
     window.destroy()
     
 def safe(fn):
@@ -371,6 +372,7 @@ def main():
     notifier.start()
     indexer.start()
     monitor.start()
+    convo_worker.start()
     
     window = webview.create_window(
         "Nebula",

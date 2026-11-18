@@ -11,6 +11,18 @@ GROQ_MODEL = os.getenv(
     "openai/gpt-oss-120b"
 )
 
+SESSION_SUMMARY_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "summary": {"type": "string"},
+        "decisions": {"type": "array", "items": {"type": "string"}},
+        "topics": {"type": "array", "items": {"type": "string"}},
+        "open_items": {"type": "array", "items": {"type": "string"}},
+    },
+    "required": ["summary", "decisions", "topics", "open_items"],
+    "additionalProperties": False,
+}
+
 GEMINI_EMBEDDING_MODEL = os.getenv(
     "GEMINI_EMBEDDING_MODEL",
     "gemini-embedding-001",
@@ -42,6 +54,12 @@ def get_llm_provider_status():
 class CommandProposal(BaseModel):
     reply: str
     suggested_command: str | None = None
+    
+class SessionSummary(BaseModel):
+    summary: str
+    decisions: list[str]
+    topics: list[str]
+    open_items: list[str]
     
 GROQ_COMMAND_PROPOSAL_SCHEMA = {
     "type": "object",
@@ -327,6 +345,44 @@ def get_llm_command_proposal(user_message, system_instruction=None):
             + groq_result["error"]
         ),
     }
+    
+def get_llm_session_summary(transcript, system_instruction):
+    errors = []
+    
+    api_key = os.getenv("GEMINI_API_KEY")
+    if api_key:
+        try:
+            client = genai.Client(api_key=api_key)
+            response = client.models.generate_content(
+                model=GEMINI_MODEL, contents=transcript,
+                config=types.GenerateContentConfig(
+                    max_output_tokens=1200, temperature=0.2, system_instruction=system_instruction,
+                    response_mime_type="application/json", response_schema=SessionSummary,
+                )
+            )
+            data = SessionSummary.model_validate_json(response.text).model_dump()
+            return {"ok": True, "provider": "gemini", "data": data, "error": None}
+        except Exception as err:
+            errors.append(f"gemini: {err}")
+            
+    api_key = os.getenv("GROQ_API_KEY")
+    if api_key:
+        try:
+            from groq import Groq
+            completion = Groq(api_key=api_key).chat.completions.create(
+                model=GROQ_MODEL, temperature=0.2, max_completion_tokens=1200,
+                messages=[{"role": "system", "content": system_instruction},
+                          {"role": "user", "content": transcript}],
+                response_format={"type": "json_schema",
+                                 "json_schema": {"name": "nebula_session_summary", "strict": True,
+                                                 "schema": SESSION_SUMMARY_SCHEMA}},
+            )
+            data = SessionSummary.model_validate(json.loads(completion.choices[0].message.content)).model_dump()
+            return {"ok": True, "provider": "groq", "data": data, "error": None}
+        except Exception as error:
+            errors.append(f"groq: {error}")
+
+    return {"ok": False, "provider": "none", "data": None, "error": " | ".join(errors) or "no provider configured"}
     
 def get_gemini_embedding(text):
     api_key = os.getenv("GEMINI_API_KEY")
