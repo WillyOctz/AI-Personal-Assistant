@@ -8344,13 +8344,12 @@ def get_reply(user_input):
     verbosity = memory.get_setting("verbosity", "normal")
         
     if analysis["intent"] not in ["chat_explain_last", "chat_repeat_last"]:
-        memory.set_state_value("last_response_intent", analysis["intent"])
-        memory.set_state_value("last_response_group", analysis["group"])
-        memory.set_state_value("last_response_source", analysis["source"])
-        memory.set_state_value("last_response_confidence", analysis["confidence"])
-        memory.set_state_value("last_response_scores", analysis.get("scores"))
-        memory.set_state_value("last_response_user_input", user_input)
-        memory.set_state_value("last_response_text", reply.full())
+        memory.set_state_many({
+            "last_response_intent": analysis["intent"], "last_response_group": analysis["group"],
+            "last_response_source": analysis["source"], "last_response_confidence": analysis["confidence"],
+            "last_response_scores": analysis.get("scores"), "last_response_user_input": user_input,
+            "last_response_text": reply.full(),
+        })
         
     if not reply.styled:
         reply.say = personality.dress(

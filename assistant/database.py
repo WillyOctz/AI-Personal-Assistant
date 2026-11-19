@@ -12,6 +12,7 @@ BACKUP_DIR = PROJECT_ROOT / "datasets" / "backups"
 SCHEMA_VERSION = 1
 
 _kv_ready = False
+_db_ready = False
 
 def read_memory_json():
     last = None
@@ -86,7 +87,7 @@ def get_connection():
     
     return connection
 
-def initialize_database():
+def _initialize_database_impl():
     with get_connection() as connection:
         connection.execute(
             """
@@ -458,6 +459,13 @@ def initialize_database():
             raise RuntimeError(
                 "Database schema version does not match this code."
             )
+            
+def initialize_database():
+    global _db_ready
+    if _db_ready:
+        return
+    _initialize_database_impl()
+    _db_ready = True
             
 def get_database_status():
     with get_connection() as connection:

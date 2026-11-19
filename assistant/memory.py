@@ -265,6 +265,13 @@ def set_state_value(key, value):
     with _KV_LOCK:
         database.kv_set("state", key, value)
         _kv()["state"][key] = copy.deepcopy(value)
+        
+def set_state_many(values):
+    with _KV_LOCK:
+        database.kv_set_many("state", values)
+        kv = _kv()["state"]
+        for key, value in values.items():
+            kv[key] = copy.deepcopy(value)
     
 def get_state_value(key):
     with _KV_LOCK:
@@ -1174,17 +1181,11 @@ def search_reminders_by_due(due_query):
     return results
 
 def add_history_event(event):
-    memory = load_memory()
-    memory["history"].append(event)
-    save_memory(memory)
-    
-    position = len(memory["history"])
-    add_history_event_to_sqlite(position, event)
+    from assistant import convo_store
+    convo_store.add_history(event)
     
 def get_history(limit=5):
-    sqlite_events = database.get_sqlite_history_events(limit)
-    
-    return [
+    return [ {
         {
             "user_input": event["user_input"],
             "intent": event["intent"],
@@ -1195,65 +1196,31 @@ def get_history(limit=5):
             "timestamp": event["timestamp"],
             "importance": event["importance"],
         }
-        for event in sqlite_events
-    ]
+    } for event in database.get_sqlite_history_events(limit)]
 
 def add_conversation_turn(turn):
-    memory = load_memory()
-    memory["conversation"].append(turn)
-    save_memory(memory)
+    from assistant import convo_store, convo_worker, settings_spec
+    result = convo_store.add_turn(turn, settings_spec.get("session_gap_minutes") * 60)
+    if result["closed_session"]:
+        convo_worker.wake()
+    return result
     
-    database.add_sqlite_conversation_turn(
-        len(memory["conversation"]),
-        turn,
-    )
-    
-def get_conversation(limit=5):
-    sqlite_turns = database.get_sqlite_conversation(limit)
-    
-    return [
-        {
-            "user": turn["user"],
-            "assistant": turn["assistant"],
-            "intent": turn["intent"],
-            "group": turn["group"],
-            "confidence": turn["confidence"],
-            "source": turn["source"],
-            "timestamp": turn["timestamp"],
-            "importance": turn["importance"],
-        }
-        for turn in sqlite_turns
-    ]
+def get_conversation(limit=5, include_archived=False):
+    from assistant import convo_store
+    return convo_store.turns(limit, archived=include_archived)
 
 def add_summary(summary):
-    memory = load_memory()
-    memory["summaries"].append(summary)
-    save_memory(memory)
-    
-    position = len(memory["summaries"])
-    summary_id = add_conversation_summary_to_sqlite(
-        position,
-        summary,
-    )
-    
+    from assistant import convo_store
+    sid = convo_store.save_summary({"summary": summary["summary"]}, kind="manual", origin="manual",
+                                   timestamp=summary.get("timestamp"))
     from assistant import semantic_memory
-    _embed_in_background(semantic_memory.cache_conversation_summary_embedding, summary_id)
-    
-    return {"summary_id": summary_id,
-            "embedding": {"ok": True, "status": "queued", "error": None}}    
+    _embed_in_background(semantic_memory.cache_conversation_summary_embedding, sid)
+    return {"summary_id": sid, "embedding": {"ok": True, "status": "queued", "error": None}}    
     
 def get_summaries(limit=5):
-    sqlite_summaries = database.get_sqlite_conversation_summaries(
-        limit
-    )
-
-    return [
-        {
-            "summary": item["summary"],
-            "timestamp": item["timestamp"],
-        }
-        for item in sqlite_summaries
-    ]
+    from assistant import convo_store
+    items = convo_store.summaries(limit=limit)[::-1]
+    return [{"id": s["id"], "summary": s["summary"], "timestamp": s["timestamp"]} for s in items]
 
 def get_all_memory():
     return load_memory()
