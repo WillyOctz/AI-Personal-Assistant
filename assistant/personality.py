@@ -537,6 +537,26 @@ TEMPLATES = {
         "normal": ["Here is what I can do, dear."],
         "chatty": ["Come, little star. Here is everything I can do for you."],
     },
+    "decision.found": {
+        "minimal": "{n} decision{s} about '{query}'.",
+        "normal": ["Here is what we settled about '{query}', dear ({n})."],
+        "chatty": ["Mm, I remember, little star. This is what we settled about '{query}'. {n} thing{s}."],
+    },
+    "decision.none": {
+        "minimal": "No decision about '{query}'.",
+        "normal": ["I haven't written down a decision about '{query}', dear."],
+        "chatty": ["I looked through everything we've talked about, little star, and we never settled '{query}'."],
+    },
+    "decision.latest": {
+        "minimal": "Latest decisions.",
+        "normal": ["Here are the last things we settled, dear."],
+        "chatty": ["Come, little star. These are the last things we settled together."],
+    },
+    "decision.logged": {
+        "minimal": "Decision saved.",
+        "normal": ["Written down, dear: {text}."],
+        "chatty": ["Tucked away, little star. I'll remember we settled: {text}."],
+    },
 }
 
 class _Safe(dict):
