@@ -41,7 +41,8 @@ def _now():
     return time.time()
 
 def _stamp(ts=None):
-    return datetime.fromtimestamp(ts if ts is not None else _now()).strftime("%Y-%m-%d %H:%M:%S")
+    ts = ts if ts is not None else _now()
+    return datetime.fromtimestamp(max(ts, 86400)).strftime("%Y-%m-%d %H:%M:%S")
 
 def _parse(text):
     try:

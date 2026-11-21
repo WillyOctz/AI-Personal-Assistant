@@ -11,8 +11,8 @@ MEMORY_FILE = PROJECT_ROOT / "datasets" / "memory.json"
 BACKUP_DIR = PROJECT_ROOT / "datasets" / "backups"
 SCHEMA_VERSION = 1
 
-_kv_ready = False
-_db_ready = False
+_kv_ready = None
+_db_ready = None
 
 def read_memory_json():
     last = None
@@ -29,7 +29,7 @@ def _kv_connection():
     global _kv_ready
     conn = get_connection()
     
-    if not _kv_ready:
+    if _kv_ready != str(DATABASE_FILE):
         conn.execute(
             """CREATE TABLE IF NOT EXISTS kv (
                 scope TEXT NOT NULL,
@@ -40,7 +40,7 @@ def _kv_connection():
             )"""
         )
         conn.commit()
-        _kv_ready = True
+        _kv_ready = str(DATABASE_FILE)
         
     return conn
 
@@ -462,10 +462,10 @@ def _initialize_database_impl():
             
 def initialize_database():
     global _db_ready
-    if _db_ready:
+    if _db_ready == str(DATABASE_FILE):
         return
     _initialize_database_impl()
-    _db_ready = True
+    _db_ready = str(DATABASE_FILE)
             
 def get_database_status():
     with get_connection() as connection:
