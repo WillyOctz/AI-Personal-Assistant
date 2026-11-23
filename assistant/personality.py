@@ -557,6 +557,21 @@ TEMPLATES = {
         "normal": ["Written down, dear: {text}."],
         "chatty": ["Tucked away, little star. I'll remember we settled: {text}."],
     },
+    "mood.positive": {
+        "minimal": "Good to hear.",
+        "normal": ["I'm glad you're feeling {mood}, dear.", "Lovely. {mood} is a good way to be."],
+        "chatty": ["Oh, I'm so glad, little star. {mood} suits you. Shall we use that energy on something?"],
+    },
+    "mood.negative": {
+        "minimal": "Noted: {mood}.",
+        "normal": ["I hear you, dear. We'll keep today gentle while you're {mood}."],
+        "chatty": ["Oh, little star. {mood}... Let's go slowly, one small thing at a time."],
+    },
+    "mood.asked_back": {
+        "minimal": "I'm well.",
+        "normal": ["I'm well too, thank you for asking."],
+        "chatty": ["As for me, calm as an old nebula. Thank you for asking."],
+    },
 }
 
 class _Safe(dict):
