@@ -1,0 +1,12 @@
+{"text": "i am fine, thank you", "intent": "self_statement"}
+{"text": "I'm so tired", "intent": "self_statement"}
+{"text": "i feel tired", "intent": "self_statement"}
+{"text": "i am learning python", "intent": "chat_topic_statement"}
+{"text": "i am stuck", "intent": "chat_stuck"}
+{"text": "i am going to the store", "not_intent": "self_statement"}
+{"text": "go to sleep", "not_intent": "open_path"}
+{"text": "what did we decide about sqlite", "intent": "recall_decision"}
+{"text": "where is my thesis", "intent": "locate_item"}
+{"text": "open website google", "intent": "open_website"}
+{"text": "set setting confirm path open on", "intent": "change_setting"}
+{"text": "show reminders", "intent": "show_reminders"}

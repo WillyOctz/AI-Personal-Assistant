@@ -46,6 +46,7 @@ from datetime import datetime, timedelta
 from assistant import focus
 from assistant import intent_model, persona_rag, retrieval, file_vectors
 from assistant import websites
+from assistant import phrase_note
 from assistant import llm
 from assistant.shared import (
     current_timestamp, voice, log_file_search,
@@ -8317,6 +8318,7 @@ def get_llm_fallback_response(user_input, analysis):
 
 def get_reply(user_input):
     analysis = analyze_intent(user_input)
+    phrase_note.record(user_input, analysis)
     if analysis["intent"] not in [
         "confirm_intent",
         "deny_intent",

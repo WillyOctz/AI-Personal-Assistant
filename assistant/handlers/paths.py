@@ -1,7 +1,7 @@
 import os
 import re
 
-from assistant import events, memory, pins
+from assistant import events, memory, pins, phrase_note
 from assistant.registry import command, confirmable
 from assistant.reply import Reply, api_button, button, copy_button
 from assistant.shared import log_file_search, voice
@@ -12,6 +12,9 @@ _LEGACY_OPEN = ("file ", "folder ", "website ", "project ", "app ")
 
 # -----------------------open path/folders through lookup (can be update with confidence score)--------------------
 def _wants_path(text):
+    for lead in ("go to ", "jump to "):
+        if text.startswith(lead):
+            return pins.resolve(text[len(lead):].strip()) is not None
     if not text.startswith("open "):
         return False
     
@@ -41,7 +44,7 @@ def _perform(target):
     log_file_search("open_path", target["name"], "", target["path"])
     return Reply(say=voice("path.opened", name=target["name"]), styled=True)
 
-@command("open_path", "action", prefixes=("open pin "), matcher=_wants_path,
+@command("open_path", "action", prefixes=("open pin ",), matcher=_wants_path,
          help="Open a pinned or Windows folder: open downloads")
 def open_path(ctx):
     name = ctx.rest("open pin ", "go to ", "jump to ", "open ")
@@ -175,3 +178,13 @@ def reveal_path(ctx):
         return f"I could not reveal that: {result['reason']}"
     
     return Reply(say=voice("file.revealed", name=os.path.basename(path.rstrip("\\/")) or path), styled=True)
+
+# -------------------------------Read phrase note path-------------------------------------
+@command("review_phrases", "control", patterns=("review phrases", "unrouted phrases"),
+         help="See what I didn't understand lately")
+def review_phrases(ctx):
+    items = phrase_note.recent()
+    if not items:
+        return "Nothing fell through lately."
+    return "Phrases that fell through (add good ones to routing_cases.jsonl):\n" + \
+           "\n".join(f"- {i['text']}   [{i['intent']} {i['conf']}]" for i in items)

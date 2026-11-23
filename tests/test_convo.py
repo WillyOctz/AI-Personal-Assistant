@@ -2,6 +2,7 @@ import pytest
 from assistant import convo_store, convo_worker, database, memory, retrieval, semantic_memory
 from assistant.handlers import recall_cmds
 
+
 @pytest.fixture
 def db(tmp_path, monkeypatch):
     monkeypatch.setattr(database, "DATABASE_FILE", tmp_path / "t.db")
@@ -12,6 +13,7 @@ def db(tmp_path, monkeypatch):
     clock = {"t": 1_800_000_000.0}
     monkeypatch.setattr(convo_store, "_now", lambda: clock["t"])
     return clock
+
 
 def turn(text, intent="chat_need_help", group="chat", source="gemini"):
     return {"user": text, "assistant": "ok", "intent": intent, "group": group, "source": source,
