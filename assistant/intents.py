@@ -1899,11 +1899,6 @@ INTENT_PREFIXES = {
     "preview_file_range": [
         "preview file range ",
     ],
-    "chat_feeling_statement": [
-        "i feel ",
-        "i am feeling ",
-        "i am ",
-    ],
     "chat_topic_statement": [
         "i am learning ",
         "i'm learning ",

@@ -1,4 +1,4 @@
-from assistant import llm_evaluation
+from assistant import llm_evaluation, statements
 
 def parse_feeling_statement(user_input):
     text = user_input.lower().strip()
@@ -396,7 +396,7 @@ def handle_chat_intent(user_input, analysis, memory, personality, current_timest
     intent = analysis["intent"]
 
     if intent == "chat_how_are_you":
-        mood = memory.get_profile_value("mood")
+        mood = statements.current_mood()
         goal = memory.get_profile_value("goal")
 
         lines = ["I am doing alright."]
@@ -454,11 +454,12 @@ def handle_chat_intent(user_input, analysis, memory, personality, current_timest
 
         if not fact:
             return "What should I remember?"
+        
+        info = statements.classify(fact)
 
-        if fact.startswith("i am "):
-            mood = fact.replace("i am ", "", 1).strip()
-            memory.set_profile_value("mood", mood)
-            return format_mood_saved(mood)
+        if info and info["kind"] == "mood":
+            statements.save_mood(info["mood"])
+            return format_mood_saved(info["mood"])
 
         if fact.startswith("i like "):
             memory.add_note(fact)

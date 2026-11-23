@@ -41,7 +41,7 @@ def _perform(target):
     log_file_search("open_path", target["name"], "", target["path"])
     return Reply(say=voice("path.opened", name=target["name"]), styled=True)
 
-@command("open_path", "action", prefixes=("open pin ", "go to ", "jump to "), matcher=_wants_path,
+@command("open_path", "action", prefixes=("open pin "), matcher=_wants_path,
          help="Open a pinned or Windows folder: open downloads")
 def open_path(ctx):
     name = ctx.rest("open pin ", "go to ", "jump to ", "open ")

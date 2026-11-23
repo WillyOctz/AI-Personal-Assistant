@@ -90,6 +90,10 @@ CONFIRM_ACTIONS = [
     button("No", "no", style="ghost"),
 ]
 
+YES_MANY_RESPOND = {"yes please", "yes, please", "sure", "go ahead", "ok", "okay",
+                    "do it", "please do", "sounds good", "confirm", "yes", "yeah", "yep", "correct"}
+NO_MANY_RESPOND = {"no thanks", "no thank you", "never mind", "nevermind", "cancel", "no", "nope", "wrong"}
+
 def extract_confirmation(reply):
     if reply.needs_confirmation:
         return
@@ -1016,13 +1020,13 @@ def parse_recall_source(user_input):
     text = user_input.lower()
     
     if text.startswith("recall notes about "):
-        return "note", user_input.replace("recall notes about ", "", 1).strip()
+        return "note", strip_prefix(user_input, "recall notes about ")
 
     if text.startswith("recall history about "):
-        return "history", user_input.replace("recall history about ", "", 1).strip()
+        return "history", strip_prefix(user_input, "recall history about ")
 
     if text.startswith("recall archive about "):
-        return "archive_summary", user_input.replace("recall archive about ", "", 1).strip()
+        return "archive_summary", strip_prefix(user_input, "recall archive about ")
     
     return None, ""
 
@@ -1050,7 +1054,7 @@ def parse_profile_question(user_input):
     return normalize_profile_key(key)
 
 def parse_profile_fact(user_input):
-    text = user_input.replace("remember profile ", "", 1).strip()
+    text = strip_prefix(user_input, "remember profile ")
     
     parts = text.split(" ", 1)
     
@@ -1489,6 +1493,14 @@ def parse_feedback_intent_query(user_input):
         return text.replace("feedback for ",  "", 1).strip()
     
     return ""
+
+def strip_prefix(user_input, *prefixes):
+    text = user_input.strip()
+    for prefix in prefixes:
+        new_text, count = re.subn("^" + re.escape(prefix), "", text, count=1, flags=re.IGNORECASE)
+        if count:
+            return new_text.strip()
+    return text
     
 def build_focus_stats_for_task(query):
     return focus.build_focus_stats_for_task(query)
@@ -1597,10 +1609,10 @@ def analyze_intent(user_input):
     if match_exact_pattern(text, "show_pending_task"):
         return make_analysis("show_pending_task")
     
-    if text in ["yes", "yeah", "yep", "correct"]:
+    if text in YES_MANY_RESPOND:
         return make_analysis("confirm_intent")
     
-    if text in ["no", "nope", "wrong"]:
+    if text in NO_MANY_RESPOND:
         return make_analysis("deny_intent")
     
     exact_intent = find_exact_intent(text)
@@ -2927,6 +2939,10 @@ def has_existing_pending_confirmation():
         "pending_response_feedback_clear",
         "pending_memory_result_delete",
         "pending_project_open",
+        "pending_file_open",
+        "pending_folder_open",
+        "pending_clipboard_copy",
+        "pending_llm_command"
     ]
     
     for key in pending_keys + registry.pending_keys():
@@ -2956,7 +2972,7 @@ def stop_focus_if_task_completed(completed_task):
 
 def handle_control_intent(user_input, analysis):
     intent = analysis["intent"]
-    teaching_text = user_input.replace("teach ", "", 1)
+    teaching_text = strip_prefix(user_input, "teach ")
 
     if intent == "teach_intent":
         if " as " not in teaching_text:
@@ -3103,7 +3119,7 @@ def handle_control_intent(user_input, analysis):
         return f"Okay. Teach me the correct intent with: teach {original_input} as intent_name"
     
     if intent == "debug_route":
-        query = user_input.replace("debug route ", "", 1).strip().lower()
+        query = strip_prefix(user_input, "debug route ")
             
         exact_intent = find_exact_intent(query)
         prefix_intent = find_prefix_intent(query)
@@ -3115,7 +3131,7 @@ def handle_control_intent(user_input, analysis):
         )
 
     if intent == "debug_memory_search":
-        query = user_input.replace("debug memory ", "", 1).strip()
+        query = strip_prefix(user_input, "debug memory ")
         query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode = parse_memory_query_with_type(query)
         
         if not query:
@@ -3222,7 +3238,7 @@ def handle_control_intent(user_input, analysis):
         )
 
     if intent == "debug_model":
-        query = user_input.replace("debug model ", "", 1).strip()
+        query = strip_prefix(user_input, "debug model ")
         predicted_intent, confidence, scores = predict_intent_with_model(query)
         prediction_group = get_intent_group(predicted_intent)
         
@@ -3335,7 +3351,7 @@ def handle_control_intent(user_input, analysis):
         return f"Okay, I skipped this suggested task for now: {pending_task}"
     
     if intent == "debug_entity":
-        query = user_input.replace("debug entity ", "", 1).strip()
+        query = strip_prefix(user_input, "debug entity ")
         
         if not query:
             return "What entity extraction should I debug?"
@@ -3953,7 +3969,7 @@ def handle_memory_intent(user_input, analysis):
     intent = analysis["intent"]
     
     if intent == "remember_game_entity":
-        game = user_input.replace("remember game ", "", 1).strip().lower()
+        game = strip_prefix(user_input, "remember game ")
         
         if not game:
             return "Which game should I remember?"
@@ -3996,7 +4012,7 @@ def handle_memory_intent(user_input, analysis):
         return f"Resolved {result['old']} as {result['new']} in {entity_type}."
     
     if intent == "remember_app_entity":
-        app = user_input.replace("remember app ", "", 1).strip().lower()
+        app = strip_prefix(user_input, "remember app ")
         
         if not app:
             return "Which app should I remember?"
@@ -4129,7 +4145,15 @@ def handle_memory_intent(user_input, analysis):
         )
     
     if intent == "remember_note":
-        note = user_input.replace("remember ", "", 1)
+        note = strip_prefix(user_input, "remember ")
+        note2 = strip_prefix(note, "that ")
+        
+        if note2.lower().startswith("to "):
+            task = note2[:3].strip()
+            memory.add_note(task)
+            set_pending_llm_command(f"remind me to {task}")
+            return f"Saved as a note. Want a reminder for \"{task}\" too? Reply yes to set it."
+        
         memory.add_note(note)
         return "i remembered that."
     
@@ -5361,11 +5385,7 @@ def handle_memory_intent(user_input, analysis):
         )
         
     if intent == "semantic_context_search":
-        query = user_input.replace(
-            "semantic context ",
-            "",
-            1,
-        ).strip()
+        query = strip_prefix(user_input, "semantic context ")
         
         if not query:
             return (
@@ -5418,11 +5438,7 @@ def handle_memory_intent(user_input, analysis):
         return "\n".join(lines)
         
     if intent == "semantic_summary_search":
-        query = user_input.replace(
-            "semantic summaries ",
-            "",
-            1,
-        ).strip()
+        query = strip_prefix(user_input, "semantic summaries ")
         
         if not query:
             return (
@@ -5463,11 +5479,7 @@ def handle_memory_intent(user_input, analysis):
         return "\n".join(lines)
         
     if intent == "semantic_note_search":
-        query = user_input.replace(
-            "semantic notes ",
-            "",
-            1,
-        ).strip()
+        query = strip_prefix(user_input, "semantic notes ")
         
         if not query:
             return "What should I search your saved notes for?"
@@ -5502,7 +5514,7 @@ def handle_memory_intent(user_input, analysis):
         return "\n".join(lines)
         
     if intent == "semantic_memory_search":
-        query = user_input.replace("semantic memory ", "", 1).strip()
+        query = strip_prefix(user_input, "semantic memory ")
         query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode = parse_memory_query_with_type(query)
                 
         if limit is None:
@@ -6179,7 +6191,7 @@ def handle_memory_intent(user_input, analysis):
         )
     
     if intent == "search_memory":
-        query = user_input.replace("search memory ", "", 1).strip()
+        query = strip_prefix(user_input, "search memory ")
         
         if not query:
             return "What should I search memory for?"
@@ -6307,7 +6319,7 @@ def handle_memory_intent(user_input, analysis):
         return build_archive_summay_preview()
         
     if intent == "search_archive":
-        query = user_input.replace("search archive ", "", 1).strip()
+        query = strip_prefix(user_input, "search archive ")
         
         if not query:
             return "What should I search the archive for?"
@@ -6340,7 +6352,7 @@ def handle_memory_intent(user_input, analysis):
         return f"Pruned {removed_count} archived conversation turns. Archive summaries were kept."
     
     if intent == "recall_memory":
-        query = user_input.replace("what do you remember about ", "", 1).strip()
+        query = strip_prefix(user_input, "what do you remember about ")
 
         query, memory_type, limit, min_score, sort_mode, date_filter, date_value, date_start, date_end, archive_mode = parse_memory_query_with_type(query)
         
@@ -6435,7 +6447,7 @@ def handle_memory_intent(user_input, analysis):
         return "\n".join(lines)
         
     if intent == "set_name":
-        name = user_input.replace("my name is ", "", 1)
+        name = strip_prefix(user_input, "my name is ")
         memory.set_profile_value("name", name)
         return f"Got it. i will remember your name is {name}."
     
