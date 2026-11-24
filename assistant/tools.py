@@ -9,6 +9,8 @@ import shlex
 import webbrowser
 import pyperclip
 import shutil
+import re 
+import winreg
 
 ALLOWED_OPERATORS = {
     ast.Add: operator.add,
@@ -30,6 +32,8 @@ TEXT_EXTENSIONS = {
     ".css",
     ".js",
 }
+
+_URI = re.compile(r"^[a-z][a-z0-9+.\-]+:", re.I)
 
 ## Helper Parse Methods
 #  -------------------------------------------------
@@ -114,19 +118,28 @@ def open_registered_app(app_name, app_entry, real_launching=False):
     if not real_launching:
         return f"Real app launching is disabled. I would open {app_name} using command: {command}"
     
-    parsed_command = parse_launch_command(command)
-    
-    if not parsed_command:
+    target, args = split_command(command)
+    if not target:
         return f"I could not understand the app command: {command}"
     
+    resolved = resolve_executable(target) or target
+    kwargs = {}
+    if args:
+        kwargs["arguments"] = args
+    if os.path.isabs(resolved) and os.path.isfile(resolved):
+        kwargs["cwd"] = os.path.dirname(resolved)
+        
     try:
-        subprocess.Popen(shlex.split(command, posix=False))
-        return f"Opening {app_name}."
+        os.startfile(resolved, **kwargs)
+        return f"Opening {app_name}"
     except FileNotFoundError:
-        return f"I could not find the app command: {command}"
-    except:
-        return f"I tried to open {app_name}, but something went wrong."
-    
+        return (f"I could not find the app command: {command}\n"
+                f"Fix it with: update app {app_name} as <full path to the .exe>")
+    except OSError as error:
+        if getattr(error, "winerror", None) == 740:
+            return f"{app_name} needs administrator rights, and I never elevate programs. Start it yourself once, dear."
+        return f"I tried to open {app_name}, but Windows said: {error.strerror or error}"
+        
 def open_website_url(website_name, url):
     try:
         opened = webbrowser.open(url, new=2)
@@ -190,6 +203,39 @@ def open_folder_in_explorer(folder_path):
         return {"ok": False, "reason": "explorer_not_found"}
     except OSError:
         return {"ok": False, "reason": "open_error"}
+    
+def app_paths_lookup(name):
+    exe = name if name.lower().endswith(".exe") else name + ".exe"
+    for hive in (winreg.HKEY_CURRENT_USER, winreg.HKEY_LOCAL_MACHINE):
+        try:
+            with winreg.OpenKey(hive, rf"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{exe}") as key:
+                return winreg.QueryValueEx(key, "")[0].strip('"')
+        except OSError:
+            continue
+    return None
+
+def split_command(command):
+    command = os.path.expandvars(os.path.expanduser((command or "").strip()))
+    if command.startswith('"'):
+        end = command.find('"', 1)
+        if end != -1:
+            return command[1:end], command[end + 1:].strip()
+    if _URI.match(command) or os.path.exists(command):
+        return command, ""
+    parts = command.split(" ")
+    for i in range(len(parts), 0, -1):
+        candidate = " ".join(parts[i:])
+        if os.path.exists(candidate) or shutil.which(candidate):
+            return candidate, " ".join(parts[i:])
+    first, _, rest = command.partition(" ")
+    return first, rest
+
+def resolve_executable(target):
+    if _URI.match(target):
+        return target
+    if os.path.exists(target):
+        return target
+    return shutil.which(target) or app_paths_lookup(target)
     
 def copy_text_to_clipboard(text):
     if not isinstance(text, str) or not text.strip():

@@ -1649,6 +1649,10 @@ def analyze_intent(user_input):
     if prefix_intent:
         return make_analysis(prefix_intent)
     
+    open_match = re.match(r"^(?:please\s+)?(?:open|launch|run|start)\s+(?!file |folder |website |project |pin )(.+)$", text)
+    if open_match and apps.find_app(open_match.group(1)):
+        return make_analysis("open_app")             
+    
     if match_prefix_pattern(text, "debug_memory_search"):
         return make_analysis("debug_memory_search")
     
@@ -2643,7 +2647,7 @@ def extract_calculation_expression(user_input):
 
 def extract_entity(user_input, intent):
     if intent == "open_app":
-        return extract_after_keyword(user_input, ["open", "launch", "start"])
+        return extract_after_keyword(user_input, ["open", "launch", "start", "run"])
     
     if intent == "play_game":
         return extract_after_keyword(user_input, ["play", "launch", "start"])

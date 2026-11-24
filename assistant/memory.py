@@ -2915,14 +2915,21 @@ def update_app_registry_entry(name, command):
             "app": clean_name
         }
         
-    memory["app_registry"][clean_name]["command"] = clean_command
+    #memory["app_registry"][clean_name]["command"] = clean_command
+    
+    entry = memory["app_registry"][clean_name]
+    changed = entry["command"] != clean_command
+    entry["command"] = clean_command
+    if changed:
+        entry["allowed"] = False
     save_memory(memory)
     
     sync_app_registry_to_sqlite()
     
     return {
         "updated": True,
-        "app": memory["app_registry"][clean_name]
+        "app": memory["app_registry"][clean_name],
+        "Re-allow it": "allow app {name}",
     }
     
 def search_app_registry(query):

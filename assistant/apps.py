@@ -191,6 +191,10 @@ def resolve_app_name_for_open(app_name):
         final_name = alias_result
         
     app_entry = memory.get_app_registry_entry(final_name)
+    if app_entry is None:
+        near = find_app(final_name)
+        if near:
+            final_name, app_entry = near, memory.get_app_registry_entry(near)
     
     return {
        "input": app_name,
@@ -733,6 +737,20 @@ def handle_repair_app_cleanup():
 ## =========================================================================
 ## -------------------App Opening Logic for apps----------------
 ## =========================================================================
+
+def find_app(name, cutoff=85):
+    clean = memory.normalize_entity_name(name)
+    resolved = memory.resolve_app_alias(clean)
+    
+    if memory.get_app_registry_entry(resolved):
+        return resolved
+    registry = memory.get_app_registry()
+    aliases = memory.get_app_aliases()
+    pool = list(registry) + list(aliases)
+    hit = process.extractOne(clean, pool, scorer=fuzz.WRatio, score_cutoff=cutoff) if pool else None
+    if not hit:
+        return None
+    return aliases.get(hit[0], hit[0])
 
 def handle_open_app(app_name, open_registered_app, fallback_open_app):
     resolution = resolve_app_name_for_open(app_name)
