@@ -23566,6 +23566,12 @@
             "command": "chrome",
             "result": "I could not find the app command: chrome",
             "timestamp": "2026-11-15 12:11:37"
+        },
+        {
+            "app_name": "google chrome",
+            "command": "chrome",
+            "result": "Opening google chrome",
+            "timestamp": "2026-11-25 10:14:06"
         }
     ],
     "app_aliases": {
