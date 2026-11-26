@@ -171,3 +171,259 @@ def scan(roots=None, should_stop=None):
         _cache["dirty"] = True
         
     return {"found": total, "stopped": stopped}
+
+def _loop():
+    _stop.wait(FIRST_DELAY)
+    while not _stop.is_set():
+        try:
+            last = memory.get_state_value("exe_index_at") or 0
+            due = time.time() - last >= S.get("app_index_hours") * 3600
+            if S.get("app_search_enabled") and (_force.is_set() or due or not index_ready()):
+                _force.clear()
+                scan(should_stop=_stop.is_set)
+        except Exception:
+            log.exception("app index scan failed")
+        _wake.wait(1800)
+        _wake.clear()
+        
+def start():
+    global _thread
+    if _thread and _thread.is_alive():
+        return
+    
+    _stop.clear()
+    _thread = threading.Thread(target=_loop, daemon=True, name="app-index")
+    _thread.start()
+    
+def stop():
+    _stop.set()
+    _wake.set()
+    
+def request_scan():
+    _force.set()
+    _wake.set()
+    
+# ----------------------------------Lookup---------------------------------------------
+def clean_query(text):
+    q = re.sub(r"\.exe$", "", (text or "").lower().strip())
+    q = re.sub(r"^(?:the|my)\s+", "", q)
+    return re.sub(r"\s+", " ", q).strip()
+
+def _name_score(q, name):
+    if name == q:
+        return 100
+    if len(q) >= 3 and name.startswith(q):
+        return 93
+    return 0
+
+def classify(path):
+    p = os.path.normcase(os.path.abspath(path))
+    stem = os.path.splitext(os.path.basename(p))[0]
+    if stem in BLOCKED_STEMS:
+        return "blocked"
+    win = os.path.normcase(os.environ.get("SystemRoot", "C:\\Windows"))
+    home = os.path.normcase(os.path.expanduser("-"))
+    users = os.path.normcase(os.path.join(os.path.splitdrive(p)[0] + "\\" + "users"))
+    programdata = os.path.normcase(os.environ.get("ProgramData", "C:\\ProgramData"))
+    parent = os.path.dirname(p)
+    if parent == os.path.normcase(os.path.splitdrive(p)[0] + "\\"):
+        return "protected"
+    if p.startswith(win + "\\") or p.startswith(programdata + "\\") or "\\$recycle.bin\\" in p:
+        if "\\microsoft\\windows\\start menu\\" not in p:
+            return "protected"
+    if p.startswith(users + "\\") and not p.startswith(home + "\\"):
+        return "protected"
+    if any(part in p for part in RISKY_PARTS):
+        return "risky"
+    pf = [os.path.normcase(os.environ.get(k, "")) for k in ("ProgramFiles", "ProgramFiles(x86)")]
+    local = os.path.normcase(os.path.join(os.environ.get("LOCALAPPDATA", ""), "Programs"))
+    if any(x and p.startswith(x + "\\") for x in pf) or (local and p.startswith(local + "\\")):
+        return "trusted"
+    if "\\microsoft\\windows\\start menu\\" in p:
+        return "trusted"
+    return "standard"
+
+def _start_menu():
+    if time.time() - _sm["at"] > 120:
+        _sm.update(at=time.time(), items=app_discovery.start_menu_programs())
+    return _sm["items"]
+
+def _add(cands, path, name, source, match, depth=0, mtime=0.0):
+    if not os.isfile(path):
+        return
+    tier = classify(path)
+    if tier == "blocked" or (tier == "protected" and not S.get("app_search_protected")):
+        return
+    age_days = max(0.0, (time.time() - mtime) / 86400) if mtime else 9999
+    score = match + SOURCE_BONUS[source] + TIER_BONUS[tier] - depth + 5 * 0.5 ** (age_days / 180)
+    item = {"name": name, "path": path, "source": source, "tier": tier, "match": match, "score": score}
+    if name not in cands or score > cands[name]["score"]:
+        cands[name] = item
+        
+def find(query, limit=3):
+    q = clean_query(query)
+    if not q:
+        return {"status": "none", "candidates": []}
+    if q in BLOCKED_STEMS:
+        return {"status": "blocked", "name": q, "candidates": []}
+    
+    cands = {}
+    for name, path in _start_menu().items():
+        score = _name_score(q, name)
+        if score:
+            _add(cands, path, name, "start menu", score)
+    if re.fullmatch(r"[\w .\-+]+", q):
+        hit = tools.app_paths_lookup(q)
+        if hit:
+            _add(cands, hit, q, "app paths", 100)
+    which = shutil.which(q)
+    if which:
+        _add(cands, which, q, "PATH", 100)
+        
+    rows = _rows()
+    exact = [(r, _name_score(q, r["name"])) for r in rows if _name_score(q, r["name"])]
+    if not exact and len(q) >= 4:
+        names = [r["name"] for r in rows]
+        exact = [(rows[pos], score) for _, score, pos in process.extract(q, names, scorer=fuzz.WRatio, limit=8, score_cutoff=90)]
+    for r, score in exact:
+        _add(cands, r["path"], r["name"], "index", score, r["depth"], r["mtime"])
+        
+    ordered = sorted(cands.values(), key=lambda c: -c["score"])[:limit]
+    if ordered:
+        return {"status": "ok", "candidates": ordered}
+    if not index_ready() or status["running"]:
+        return {"status": "indexing", "candidates": []}
+    return {"status": "none", "candidates": []}
+
+def looks_installed(query):
+    found = find(query, limit=1)
+    return found["status"] == "ok" and found["candidates"][0]["match"] >= 93
+
+
+# ----------------------------------------------Offer/Approve----------------------------------------------
+def _fresh(pending):
+    return pending and time.time() - pending.get("at", 0) < PENDING_TTL
+
+def _ask(c):
+    st = os.stat(c["path"])
+    pending = {"name": c["name"], "path": c["path"], "tier": c["tier"], "source": c["source"],
+               "size": st.st_size, "mtime": st.st_mtime, "at": time.time(),
+               "strict": c["tier"] in ("risky", "protected")}
+    memory.set_state_value("pending_found_app", pending)
+    where = f"{c['path']}\nFound via: {c['source']}"
+    if not pending["strict"]:
+        return Reply(say=f"I found {c['name']} on your PC, dear. Shall I open it?",
+                     detail=f"{where}\nReply yes to open it or no to cancel.", kind="confirm",
+                     data={"title": f"Open {c['name']}", "subtitle": c["path"]},
+                     needs_confirmation=True, styled=True)
+    return Reply(
+        say=f"I found {c['name']}, but it is in {WHY[c['tier']]}. I need a stronger approval for that.",
+        detail=f"{where}\nPress the button, or type: allow opening {c['name']}",
+        actions=[button(f"Allow opening {c['name']}", f"allow opening {c['name']}", style="danger"),
+        button("Cancel", "no", style="ghost")], styled=True
+    )
+    
+def offer(query):
+    if not S.get("app_search_enabled"):
+        return None
+    found = find(query)
+    if found["status"] == "blocked":
+        return Reply(
+            say=f"I never open '{found['name']}' from a search, dear.",
+            detail="Shells and system tools must be registered by you: register app NAME as <path>",
+            styled=True
+        )
+    if found["status"] == "indexing":
+        if not index_ready():
+            request_scan()
+        return Reply(
+            say="I'm still reading your drives to learn where programs live, dear.",
+            detail="Ask again in a minute. Start Menu programs work already: add app <name>", styled=True
+        )
+    if found["status"] != "ok":
+        return None
+    if not memory.get_setting("real_app_launching", False):
+        top = found["candidates"][0]
+        return Reply(say=f"I found {top['name']} at {top['path']}, but app launching is off.",
+                     detail="Say 'enable app launching' and ask again.", styled=True)
+    cands = found["candidates"]
+    if len(cands) == 1 or cands[0]["score"] - cands[1]["score"] >= 10:
+        return _ask(cands[0])
+    memory.set_state_value("found_app_choices", cands)
+    return Reply(say="I found a few, dear. Which one?",
+                 detail="\n".join(f"- {c['name']}: {c['path']}" for c in cands),
+                 actions=[button(c["name"], f"use found app {i}") for i, c in enumerate(cands, start=1)],
+                 styled=True)
+    
+def choose(arg):
+    choices = memory.get_state_value("found_app_choices") or []
+    if not arg.isdigit() or not 1 <= int(arg) <= len(choices):
+        return "That choice is no longer available. Ask me to open it again."
+    memory.clear_state_value("found_app_choices")
+    return _ask(choices[int(arg) - 1])
+
+def _launch(pending):
+    path = pending["path"]
+    if not _fresh(pending):
+        return "That offer expired, so I cancelled. Ask me again."
+    if not os.path.isfile(path) or classify(path) == "blocked":
+        return "That program is gone or no longer allowed, so I cancelled."
+    st = os.stat(path)
+    if (st.st_size, int(st.st_mtime)) != (pending["size"], int(pending["mtime"])):
+        return "That file changed since I found it, so I cancelled."
+    if not memory.get_setting("real_app_launching", False):
+        return "App launching is off. Say 'enable app launching' first."
+    result = tools.open_registered_app(pending["name"], {"command": f'"{path}"'}, True)
+    from assistant import apps
+    apps.log_app_launch(pending["name"], path, result)
+    memory.set_state_value("last_found_app", pending)
+    actions = []
+    if pending["tier"] in ("trusted", "standard") and result.startswith("Opening"):
+        actions = [button("Remember it", "remember found app", style="primary")]
+    return Reply(say=result, actions=actions, styled=True)
+
+def _confirmed(pending):
+    if pending.get("strict"):
+        memory.set_state_value("pending_found_app", pending)
+        return Reply(say="That location needs a stronger yes, dear.",
+                    detail=f"Type: allow opening {pending['name']}",
+                    actions=[button("Allow opening " + pending["name"], f"allow opening {pending['name']}",
+                    style="danger")], styled=True)
+    return _launch(pending)
+
+confirmable("pending_found_app", _confirmed, lambda p: f"Okay, I won't open {p['name']}.")
+
+def approve(name):
+    pending = memory.get_state_value("pending_found_app")
+    if not pending:
+        return "Nothing is waiting for approval."
+    if clean_query(name) != pending["name"].lower():
+        return f"That doesn't match what I'm holding: {pending['name']}."
+    memory.clear_state_value("pending_found_app")
+    return _launch(pending)
+
+def remember():
+    last = memory.get_state_value("last_found_app")
+    if not last:
+        return "I don't have a recently opened program to remember."
+    if last["tier"] not in ("trusted", "standard"):
+        return ("I don't remember programs from protected or download-type places, dear. "
+                "Register it yourself: register app NAME as <path>")
+    if memory.get_app_registry_entry(last["name"]):
+        return f"{last['name']} is already registered. Use: update app {last['name']} as <path>"
+    memory.add_app_registry_entry(last["name"], f'"{last["path"]}"')
+    memory.set_app_allowed(last["name"], True)
+    memory.clear_state_value("last_found_app")
+    return f"Remembered. From now on 'open {last['name']}' opens it directly."
+
+def status_text():
+    rows = _rows()
+    last = memory.get_state_value("exe_index_at")
+    return "\n".join([
+        "Program search:",
+        f"Enabled: {S.get('app_search_enabled')}   protected places offered: {S.get('app_search_protected')}",
+        f"Indexed programs: {len(rows)}",
+        f"Scanning now: {'yes (' + str(status['found']) + ' so far)' if status['running'] else 'no'}",
+        f"Last scan: {time.strftime('%Y-%m-%d %H:%M', time.localtime(last)) if last else 'not yet'}",
+        f"Drives: {', '.join(fixed_drives()) or 'none'}",
+    ])

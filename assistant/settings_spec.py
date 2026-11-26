@@ -18,6 +18,9 @@ SPEC = {
     "convo_archive_days":  ("Conversation memory", "int", 14,  (1, 365),   "Archive summarised turns older than this"),
     "convo_delete_days":   ("Conversation memory", "int", 90,  (7, 3650),  "Delete archived turns older than this"),
     "history_keep_days":   ("Conversation memory", "int", 90,  (7, 3650),  "Keep the action history this long"),
+    "app_search_enabled":   ("Apps", "bool", True,  None, "Search this PC for programs I don't have registered"),
+    "app_search_protected": ("Apps", "bool", True,  None, "Also offer programs in Windows/system places (typed approval)"),
+    "app_index_hours":      ("Apps", "int",  24, (1, 168), "Hours between background scans for programs"),
 }
 
 def get(key):
