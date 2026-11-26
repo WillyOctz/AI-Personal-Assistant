@@ -10,3 +10,6 @@
 {"text": "open website google", "intent": "open_website"}
 {"text": "set setting confirm path open on", "intent": "change_setting"}
 {"text": "show reminders", "intent": "show_reminders"}
+{"text": "allow opening opera", "intent": "allow_opening"}
+{"text": "scan apps", "intent": "scan_apps"}
+{"text": "remember found app", "intent": "remember_found_app"}

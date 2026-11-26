@@ -146,7 +146,7 @@ def scan(roots=None, should_stop=None):
                             continue
                         if in_win and not (low == win and lname == "system32"):
                             continue 
-                        stack.append((e.path. depth + 1))
+                        stack.append((e.path, depth + 1))
                     elif lname.endswith(".exe"):
                         stem = lname[:-4]
                         if stem in BLOCKED_STEMS or SKIP_FILE.search(stem):
@@ -222,7 +222,7 @@ def classify(path):
     if stem in BLOCKED_STEMS:
         return "blocked"
     win = os.path.normcase(os.environ.get("SystemRoot", "C:\\Windows"))
-    home = os.path.normcase(os.path.expanduser("-"))
+    home = os.path.normcase(os.path.expanduser("~"))
     users = os.path.normcase(os.path.join(os.path.splitdrive(p)[0] + "\\" + "users"))
     programdata = os.path.normcase(os.environ.get("ProgramData", "C:\\ProgramData"))
     parent = os.path.dirname(p)
@@ -249,7 +249,7 @@ def _start_menu():
     return _sm["items"]
 
 def _add(cands, path, name, source, match, depth=0, mtime=0.0):
-    if not os.isfile(path):
+    if not os.path.isfile(path):
         return
     tier = classify(path)
     if tier == "blocked" or (tier == "protected" and not S.get("app_search_protected")):

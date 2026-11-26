@@ -224,7 +224,7 @@ def split_command(command):
         return command, ""
     parts = command.split(" ")
     for i in range(len(parts), 0, -1):
-        candidate = " ".join(parts[i:])
+        candidate = " ".join(parts[:i])
         if os.path.exists(candidate) or shutil.which(candidate):
             return candidate, " ".join(parts[i:])
     first, _, rest = command.partition(" ")

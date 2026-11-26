@@ -23450,6 +23450,11 @@
             "name": "google chrome",
             "command": "chrome",
             "allowed": true
+        },
+        "opera gx browser": {
+            "name": "opera gx browser",
+            "command": "\"C:\\Users\\User\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Opera GX Browser.lnk\"",
+            "allowed": true
         }
     },
     "app_launches": [
@@ -23572,6 +23577,42 @@
             "command": "chrome",
             "result": "Opening google chrome",
             "timestamp": "2026-11-25 10:14:06"
+        },
+        {
+            "app_name": "opera gx browser",
+            "command": "C:\\Users\\User\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Opera GX Browser.lnk",
+            "result": "Opening opera gx browser",
+            "timestamp": "2026-11-26 20:36:42"
+        },
+        {
+            "app_name": "opera gx browser",
+            "command": "\"C:\\Users\\User\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Opera GX Browser.lnk\"",
+            "result": "Opening opera gx browser",
+            "timestamp": "2026-11-26 20:37:24"
+        },
+        {
+            "app_name": "google chrome",
+            "command": "chrome",
+            "result": "Opening google chrome",
+            "timestamp": "2026-11-26 20:37:34"
+        },
+        {
+            "app_name": "sayakamynaughtymilfneighbor",
+            "command": "D:\\A Games\\Sayaka Milf Neighbor\\SayakaMyNaughtyMilfNeighbor-V0.86-pc\\SayakaMyNaughtyMilfNeighbor.exe",
+            "result": "Opening sayakamynaughtymilfneighbor",
+            "timestamp": "2026-11-26 20:38:27"
+        },
+        {
+            "app_name": "opera gx browser",
+            "command": "\"C:\\Users\\User\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Opera GX Browser.lnk\"",
+            "result": "Real app launching is disabled. I would open opera gx browser using command: \"C:\\Users\\User\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Opera GX Browser.lnk\"",
+            "timestamp": "2026-11-26 20:39:40"
+        },
+        {
+            "app_name": "google chrome",
+            "command": "chrome",
+            "result": "Real app launching is disabled. I would open google chrome using command: chrome",
+            "timestamp": "2026-11-26 21:50:17"
         }
     ],
     "app_aliases": {
