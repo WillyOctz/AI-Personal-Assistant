@@ -4,6 +4,7 @@ from assistant import chat
 from assistant import apps
 from assistant import personality
 from assistant import handlers, registry
+from assistant import app_finder
 from assistant.intents import VALID_INTENTS, SEARCH_IGNORED_INTENTS, MEMORY_INTENTS, MEMORY_TYPE_PRIORITY, ACTION_INTENTS, CONTROL_INTENTS, INTENT_PATTERNS, INTENT_PREFIXES, PROFILE_KEY_ALIASES, KNOWN_GAMES, KNOWN_APPS, PREFIX_INTENT_ORDER, CHAT_INTENTS, MEMORY_TYPE_ALIASES
 registry.sync_into_intents()
 from assistant.trainer import (
@@ -1650,8 +1651,12 @@ def analyze_intent(user_input):
         return make_analysis(prefix_intent)
     
     open_match = re.match(r"^(?:please\s+)?(?:open|launch|run|start)\s+(?!file |folder |website |project |pin )(.+)$", text)
-    if open_match and apps.find_app(open_match.group(1)):
-        return make_analysis("open_app")             
+    if open_match:
+        target = open_match.group(1)
+        if apps.find_app(target):
+            return make_analysis("open_app")
+        if not memory.get_website_registry_entry(target) and app_finder.looks_installed(target):
+            return make_analysis("open_app")
     
     if match_prefix_pattern(text, "debug_memory_search"):
         return make_analysis("debug_memory_search")

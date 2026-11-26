@@ -22,7 +22,7 @@ ROOT = (
 os.chdir(ROOT)
 sys.path.insert(0, str(ROOT))
 
-from assistant import autostart, companion, events, indexer, memory, monitor, notifier, personality, pins, convo_worker
+from assistant import autostart, companion, events, indexer, memory, monitor, notifier, personality, pins, convo_worker, app_finder
 
 LOG_DIR = ROOT / "logs"
 LOG_DIR.mkdir(exist_ok=True)
@@ -228,6 +228,7 @@ def quit_app(icon=None, item=None):
     if server:
         server.should_exit = True
     notifier.stop()
+    app_finder.stop()
     convo_worker.stop()
     window.destroy()
     
@@ -371,6 +372,7 @@ def main():
     
     notifier.start()
     indexer.start()
+    app_finder.start()
     monitor.start()
     convo_worker.start()
     

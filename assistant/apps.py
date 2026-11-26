@@ -757,6 +757,10 @@ def handle_open_app(app_name, open_registered_app, fallback_open_app):
     app_entry = resolution["app_entry"]
 
     if not app_entry:
+        from assistant import app_finder
+        found = app_finder.offer(app_name)
+        if found is not None:
+            return found
         return fallback_open_app(app_name)
 
     real_launching = memory.get_setting("real_app_launching", False)
