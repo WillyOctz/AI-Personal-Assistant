@@ -5,13 +5,19 @@ import re
 import shutil
 import threading
 import time
+import numpy as np
 
+from datetime import datetime
+from pathlib import Path
 from rapidfuzz import fuzz, process
 
 from assistant import app_discovery, memory, settings_spec as S, tools
 from assistant.database import get_connection
 from assistant.registry import confirmable
-from assistant.reply import Reply, button
+from assistant import app_discovery, file_index, local_embed, memory, pins, settings_spec as S, tools
+from assistant import launch_rank as R
+from assistant.intents import KNOWN_GAMES
+from assistant.reply import Reply, button, copy_button
 
 log = logging.getLogger("nebula.pathfinder")
 
@@ -35,8 +41,6 @@ BLOCKED_STEMS = {
     "wevtutil", "psexec", "installutil", "msbuild", "forfiles", "runas", "at",
 }
 RISKY_PARTS = ("\\downloads\\", "\\temp\\", "\\tmp\\", "\\desktop\\", "\\users\\public\\")
-SOURCE_BONUS = {"start menu": 15, "app paths": 15, "PATH": 10, "index": 0}
-TIER_BONUS = {"trusted": 8, "standard": 0, "risky": -25, "protected": -15}
 WHY = {
     "trusted": "an installed program",
     "standard": "a folder that isn't a standard install location",
@@ -44,15 +48,21 @@ WHY = {
     "protected": "a protected place (Windows, a drive root or shared system data)",
 }
 
+VEC_FILE = Path("db/exe_vectors.npz")
+SOURCE_BONUS = {"registered": 6, "start menu": 4, "app paths": 4, "PATH": 3, "index": 0}
+TIER_RANK = {"trusted": 3, "standard": 0, "risky": -8, "protected": -6}
+
 
 status = {"running": False, "last_start": None, "last_end": None, "found": 0}
 _stop, _wake, _force = threading.Event(), threading.Event(), threading.Event()
 _thread = None
 _ready = False
 _lock = threading.Lock()
-_cache = {"rows": [], "dirty": True}
+_cache = {"rows": [], "names": set(), "names_list": [], "dirty": True}
 _sm = {"at": 0.0, "items": {}}
-
+_vec = {"X": None, "rows": []}
+_usage = {"at": 0.0, "map": {}}
+_memo = {"key": None, "at": 0.0, "val": None}
 
 # ------------------------------Storage---------------------------------
 def _init():
@@ -73,21 +83,68 @@ def _init():
             conn.close()
         _ready = True
         
+def _games():
+    return {g.lower() for g in memory.get_entities("games")} | {g.lower() for g in KNOWN_GAMES}
+        
 def _rows():
     if _cache["dirty"]:
         _init()
+        games = _games()
         conn = get_connection()
         try:
-            _cache["rows"] = [dict(r) for r in conn.execute("SELECT path, name, depth, mtime FROM exe_index")]
+            rows = [dict(r) for r in conn.execute("SELECT path, name, depth, mtime FROM exe_index")]
         finally:
             conn.close()
-        _cache["dirty"] = False
+        for r in rows:
+            r["kind"] = R.kind_of(r["path"], r["name"], games)
+        _cache.update(rows=rows, names={r["name"] for r in rows}, names_list=[r["name"] for r in rows], dirty=False)
     return _cache["rows"]
 
 def index_ready():
     return bool(_rows())
 
 # --------------------------------------Scan------------------------------------------
+def _doc(r):
+    return f"{r['name']}. {r['kind']}. {os.path.basename(os.path.dirname(r['path']))}"
+
+def build_vectors(should_stop=None, cap=40000):
+    if not local_embed.available():
+        return
+    rows = _rows()
+    uniq = {}
+    for r in rows:
+        uniq.setdefault(_doc(r), r)
+    texts = list(uniq)[:cap]
+    cached = {}
+    if VEC_FILE.exists():
+        try:
+            data = np.load(VEC_FILE, allow_pickle=False)
+            if str(data["model"]) == local_embed.MODEL_NAME:
+                cached = dict(zip(data["texts"].tolist(), data["X"]))
+        except Exception:
+            log.exception("program vector cache unreadable; rebuilding")
+            
+    missing = [t for t in texts if t not in cached]
+    for i in range(0, len(missing), 64):
+        if should_stop and should_stop():
+            break
+        chunk = missing[i:i + 64]
+        cached.update(zip(chunk, local_embed.embed(chunk)))
+        time.sleep(0.02)
+    if cached:
+        VEC_FILE.parent.mkdir(parents=True, exist_ok=True)
+        np.savez(VEC_FILE, X=np.stack(list(cached.values())), texts=np.array(list(cached)),
+                 model=np.array(local_embed.MODEL_NAME))
+    ready = [t for t in texts if t in cached]
+    if ready:
+        _vec.update(X=np.stack([cached[t] for t in ready]), rows=[uniq[t] for t in ready])
+        
+def _semantic(text, limit=15, floor=0.03):
+    if _vec["X"] is None or not local_embed.is_ready():
+        return []
+    sims = _vec["X"] @ local_embed.embed([text])[0]
+    return [(_vec["rows"][i], float(sims[i])) for i in np.argsort(-sims)[:limit] if sims[i] >= floor]
+
 def fixed_drives():
     mask = ctypes.windll.kernel32.GetLogicalDrives()
     out = []
@@ -142,7 +199,7 @@ def scan(roots=None, should_stop=None):
                     if is_dir:
                         if lname in SKIP_DIRS or depth >= MAX_DEPTH:
                             continue
-                        if getattr(st, "st_file_attributes", 0) & 0x400:  
+                        if getattr(st, "st_file_attributes", 0) & 0x400 and not _is_real_dir(e.path):  
                             continue
                         if in_win and not (low == win and lname == "system32"):
                             continue 
@@ -176,11 +233,16 @@ def _loop():
     _stop.wait(FIRST_DELAY)
     while not _stop.is_set():
         try:
+            scanned = False
             last = memory.get_state_value("exe_index_at") or 0
             due = time.time() - last >= S.get("app_index_hours") * 3600
             if S.get("app_search_enabled") and (_force.is_set() or due or not index_ready()):
                 _force.clear()
                 scan(should_stop=_stop.is_set)
+                scanned = True
+            if (S.get("app_search_enabled") and S.get("app_search_semantic")
+                    and (scanned or _vec["X"] is None) and index_ready()):
+                build_vectors(should_stop=_stop.is_set)
         except Exception:
             log.exception("app index scan failed")
         _wake.wait(1800)
@@ -209,12 +271,35 @@ def clean_query(text):
     q = re.sub(r"^(?:the|my)\s+", "", q)
     return re.sub(r"\s+", " ", q).strip()
 
+def _is_real_dir(path):
+    try:
+        return os.path.normcase(os.path.realpath(path)) == os.path.normcase(os.path.abspath(path))
+    except OSError:
+        return False
+
 def _name_score(q, name):
     if name == q:
         return 100
     if len(q) >= 3 and name.startswith(q):
         return 93
     return 0
+
+def _ts(text):
+    try:
+        return datetime.strptime(text, "%Y-%m-%d %H:%M:%S").timestamp()
+    except (TypeError, ValueError):
+        return 0.0
+
+def _usage_map():
+    if time.time() - _usage["at"] > 60:
+        counts = {}
+        for ev in memory.get_app_launches(limit=None):
+            target, _ = tools.split_command(ev["command"])
+            key = os.path.normcase(target)
+            n, last = counts.get(key, (0, 0.0))
+            counts[key] = (n + 1, max(last, _ts(ev["timestamp"])))
+        _usage.update(at=time.time(), map=counts)
+    return _usage["map"]
 
 def classify(path):
     p = os.path.normcase(os.path.abspath(path))
@@ -255,7 +340,7 @@ def _add(cands, path, name, source, match, depth=0, mtime=0.0):
     if tier == "blocked" or (tier == "protected" and not S.get("app_search_protected")):
         return
     age_days = max(0.0, (time.time() - mtime) / 86400) if mtime else 9999
-    score = match + SOURCE_BONUS[source] + TIER_BONUS[tier] - depth + 5 * 0.5 ** (age_days / 180)
+    score = match + SOURCE_BONUS[source] + TIER_RANK[tier] - depth + 5 * 0.5 ** (age_days / 180)
     item = {"name": name, "path": path, "source": source, "tier": tier, "match": match, "score": score}
     if name not in cands or score > cands[name]["score"]:
         cands[name] = item
@@ -376,6 +461,7 @@ def _launch(pending):
     result = tools.open_registered_app(pending["name"], {"command": f'"{path}"'}, True)
     from assistant import apps
     apps.log_app_launch(pending["name"], path, result)
+    _usage["at"] = 0.0
     memory.set_state_value("last_found_app", pending)
     actions = []
     if pending["tier"] in ("trusted", "standard") and result.startswith("Opening"):

@@ -8014,7 +8014,7 @@ def handle_action_intent(user_input, analysis):
         if not app_name:
             return "What should i open?"
         
-        result = apps.handle_open_app(app_name, open_registered_app, open_app)     
+        result = apps.handle_open_app(app_name, open_registered_app, apps.explain_unknown_open)     
         
         if isinstance(result, Reply):
             log_action(user_input, analysis, result.full())
